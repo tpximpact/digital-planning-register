@@ -1,7 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation"
-import data from "../../../subdomains.json"
+import {getApplicationsByCouncil} from "../../server/index"
+import { useEffect, useState } from "react";
 
 
 // Our types for the site data
@@ -12,16 +13,26 @@ export interface Props {
 }
 
 export default function Home() {
-    const params = useParams();
-    const tenant = params.subdomain;
-    const tenantData = data.filter(el => el.subdomain === tenant)[0]
+  const [data, setData] = useState([])
+  const params = useParams();
+
+  useEffect(() => {
+    async function callData(){
+      const council = params.subdomain;
+      const response = await getApplicationsByCouncil(council)
+      setData(response.data)
+    }
+    callData()
+  }, [params.subdomain])
+
+
   return (
     <>
-      <h1>
-        {tenantData.name}
-      </h1>
-      <p>description: {tenantData.description}</p>
-      <p>subdomain: {tenantData.subdomain}</p>
+{data?.map((application: any) => (
+  <>
+    <p style={{padding: "5px", fontWeight: 'bold'}}>description: <span style={{fontWeight: 'normal'}}>{application?.description}</span></p>
+  </>
+))}
     </>
   )
 }

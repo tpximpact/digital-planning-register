@@ -1,1 +1,1 @@
-[{ "subdomain": "test1", "name": "This is Site 1", "description": "Custom domain 1" }, { "subdomain": "test2","name": "This is Site 2", "description": "Custom domain 2" }]
+[{ "subdomain": "camden", "name": "This is Camden", "description": "Custom domain 1", "customDomain": "custom-domaina-1.com" }, { "subdomain": "lambeth","name": "This is Lambeth", "description": "Custom domain 2" }, {"subdomain": "southwark", "name": "This is Southwark", "description": "Custom domain 3"}]

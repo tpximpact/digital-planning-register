@@ -1,4 +1,5 @@
 // middleware.js
+"use server"
 import { NextResponse } from 'next/server';
 import subdomains from '../subdomains.json';
 
@@ -9,7 +10,7 @@ export const config = {
 };
 
 export default async function middleware(req:any) {
-  console.log('middlaware');
+
   const url = req.nextUrl;
   const hostname = req.headers.get("host");
 
