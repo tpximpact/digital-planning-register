@@ -24,14 +24,16 @@ export default function Home() {
   return (
     <Suspense fallback={<Loading />}>
     <main style={{overflowX: 'auto'}}>
-      <div>
-        <input />
+      <section className="search-application-content">
+        <div>
+        <input placeholder="Search by application reference number"/>
         <button>Search</button>
         <Link href="">Advanced search</Link>
+        </div>
         <div>
           <button>Filters</button>
         </div>
-      </div>
+      </section>
       <table className="landing-table-content">
         <tbody>
         <tr>
