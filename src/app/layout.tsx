@@ -2,7 +2,6 @@ import "./globals.css";
 import "@/styles/app.scss";
 import Header from "@/components/header";
 import Menu from "@/components/menu";
-// ADD HEAD FROM NEXT
 
 export default function RootLayout({
   children,

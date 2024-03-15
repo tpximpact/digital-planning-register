@@ -1,47 +1,64 @@
 "use client"
-import { useEffect, useState } from "react";
-import styles from "./page.module.css";
+import { Suspense, useEffect, useState } from "react";
+import moment from "moment";
 import {getApplicationsByCouncil} from "../app/server"
+import Link from "next/link";
+import {SortIcon} from '../../public/icons'
 
+function Loading() {
+  return <h2>🌀 Loading...</h2>;
+}
 
-const tableHead = ['Reference Number', 'Address', 'Description', 'Application Type', 'Date Submited', 'Status']
+export const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
 export default function Home() {
   const [data, setData] = useState([])
 
   useEffect(() => {
     (async() => {
       const response = await getApplicationsByCouncil();
-      console.log(response.data)
       setData(response.data);
     })
     ()
   }, [])
 
   return (
-    <main >
-      <table>
+    <Suspense fallback={<Loading />}>
+    <main style={{overflowX: 'auto'}}>
+      <div>
+        <input />
+        <button>Search</button>
+        <Link href="">Advanced search</Link>
+        <div>
+          <button>Filters</button>
+        </div>
+      </div>
+      <table className="landing-table-content">
+        <tbody>
         <tr>
       {
         tableHead.map((thead, index) => (
-          <th key={index}>{thead} <button>Up</button> <button>Down</button></th>
+          <th key={index}><p>{thead.name} {thead.icon && <span><SortIcon/></span>}</p></th>
         ))
       }
+     
+
       </tr>
       {
         data?.map((application: any, index : any) => (
           <tr key={index} >
-          <td>{application.reference}</td>
+          <td><Link href="/">{application.reference}</Link></td>
           <td>{application.site.address_1}</td>
           <td style={{maxWidth: "40rem"}}>{application.description}</td>
           <td>{application.application_type}</td>
-          <td>{application.received_date
-}</td>
+          <td>{`${moment(application.received_date).format("MM-DD-YYYY")}`}</td>
           <td>{application.status}</td>
           </tr>
         ))
       
       }
+      </tbody>
       </table>
     </main>
+    </Suspense>
   );
 }
