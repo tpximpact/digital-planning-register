@@ -7,7 +7,6 @@ export async function getApplicationsByCouncil(page: number, resultsPerPage: num
     'Authorization': `Bearer ${process.env.southwark_api_key}`
   }
 });
-console.log(data)
  return data.json()
 }
 
