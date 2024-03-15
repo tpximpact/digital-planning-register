@@ -1,46 +1,52 @@
 "use client"
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
-import {getApplicationsByCouncil} from "../app/server";
+import {getApplicationsByCouncil, getApplicationById} from "../server";
 import Link from "next/link";
 import {SortIcon} from '../../public/icons';
+import {Data} from "../../util/type"
 
-function Loading() {
-  return <h2>🌀 Loading...</h2>;
-}
 const resultsPerPage = 10
 export const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
 export default function Home() {
-  const [data, setData] = useState([])
-  const [metaData, setMetaData] = useState<any>({})
+  const [data, setData] = useState<Data[]>([])
+  const [metaData, setMetaData] = useState<any>(undefined)
+  const [idReference, setIdReference] = useState<number>(0)
 
   useEffect(() => {
     (async() => {
       const response = await getApplicationsByCouncil(1, resultsPerPage);
-      console.log(response)
       setData(response.data);
       setMetaData(response.metadata)
+      console.log({response})
     })
     ()
   }, [])
 
 async function handlePageClick(event: any) {
-  console.log('click', event.selected)
   const response = await getApplicationsByCouncil(event.selected + 1, resultsPerPage);
-      console.log(response)
       setData(response.data);
 }
+
+// in the future it should change to byReferenceNumber
+async function searchById(event: any) {
+  event.preventDefault()
+  const data = await getApplicationById(idReference)
+  setData([data] as Data[])
+  setMetaData(undefined)
+}
   return (
-    <Suspense fallback={<Loading />}>
     <main style={{overflowX: 'auto'}}>
       {
         data.length > 0 &&
       
       <><section className="search-application-content">
             <div>
-              <input placeholder="Search by application reference number" />
-              <button>Search</button>
+              <form>
+                <input placeholder="Search by application reference number" onChange={(e: any) => setIdReference(e.target.value)}/>
+                <button onClick={(event) => searchById(event)}>Search</button>
+              </form>
               <Link href="">Advanced search</Link>
             </div>
             <div>
@@ -58,17 +64,20 @@ async function handlePageClick(event: any) {
                 </tr>
                 {data?.map((application: any, index: any) => (
                   <tr key={index}>
-                    <td><Link href="/">{application.reference}</Link></td>
-                    <td>{application.site.address_1}</td>
-                    <td style={{ maxWidth: "40rem" }}>{application.description}</td>
-                    <td>{application.application_type}</td>
-                    <td>{`${moment(application.received_date).format("MM-DD-YYYY")}`}</td>
-                    <td>{application.status}</td>
+                    <td><Link href="/">{application?.reference}</Link></td>
+                    <td>{application?.site?.address_1}</td>
+                    <td style={{ maxWidth: "40rem" }}>{application?.description}</td>
+                    <td>{application?.application_type}</td>
+                    <td>{`${moment(application?.received_date).format("MM-DD-YYYY")}`}</td>
+                    <td>{application?.status}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <section className="pagination-section">
+              {
+                metaData?.total_pages > 1 && (
+              <>
               Page 
               <ReactPaginate
                 breakLabel="..."
@@ -89,9 +98,12 @@ async function handlePageClick(event: any) {
                 containerClassName="pagination"
                 activeClassName="active-page"
                 renderOnZeroPageCount={null} />
+                </>
+                )
+                }
             </section></>
+            
       }
     </main>
-    </Suspense>
   );
 }
