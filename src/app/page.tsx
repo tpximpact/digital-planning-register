@@ -46,7 +46,8 @@ async function handlePageClick(event: any) {
             <div>
               <button>Filters</button>
             </div>
-          </section><table className="landing-table-content">
+          </section>
+          <table className="landing-table-content">
               <tbody>
                 <tr>
                   {tableHead.map((thead, index) => (

@@ -1,7 +1,10 @@
+.landing-table-content {
+    max-width: fit-content;
+}
 .landing-table-content tr td{
     padding: 10px;
     text-align: left;
-    width: fit-content;
+    max-width: max-content;
 }
 
 .landing-table-content th{
@@ -12,7 +15,10 @@
 .landing-table-content a{
     color: #1D70B8;
     text-decoration: underline;
+    display: block;
+    max-width: 150px;
     word-break: break-all;
+    
 }
 
 .landing-table-content p{
