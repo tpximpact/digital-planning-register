@@ -1,0 +1,29 @@
+.landing-table-content tr td{
+    padding: 10px;
+    text-align: left;
+    width: fit-content;
+}
+
+.landing-table-content th{
+    padding: 10px;
+    text-align: left;
+}
+
+.landing-table-content a{
+    color: #1D70B8;
+    text-decoration: underline;
+}
+
+.landing-table-content p{
+    display: flex;
+    align-items: center;
+    width: min-content;
+}
+
+.landing-table-content span{
+    margin-left: 5px;
+}
+
+.landing-table-content :nth-child(4) p {
+    min-width: max-content ;
+}
