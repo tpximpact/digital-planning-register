@@ -12,6 +12,7 @@
 .landing-table-content a{
     color: #1D70B8;
     text-decoration: underline;
+    word-break: break-all;
 }
 
 .landing-table-content p{
@@ -58,4 +59,37 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.pagination-section {
+width: fit-content;
+display: flex;
+align-items: center;
+margin-top: 20px;
+padding: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  min-width: 15rem;
+}
+
+.active-page {
+  font-weight: 700;
+  color: black !important;
+  text-decoration: none !important;
+//   padding: 5px 15px;
+//   margin: 10px;
+}
+
+.page-item {
+  list-style-type: none;
+  color: #1d70b8;
+  text-decoration: underline;
+  cursor: pointer;
+  display: flex;
+}
+.page-link {
+  padding: 10px 18px;
 }
