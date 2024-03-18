@@ -64,7 +64,7 @@ async function searchById(event: any) {
                 </tr>
                 {data?.map((application: any, index: any) => (
                   <tr key={index}>
-                    <td><Link href="/">{application?.reference}</Link></td>
+                    <td><Link href={`/${application?.id}`}>{application?.reference}</Link></td>
                     <td>{application?.site?.address_1}</td>
                     <td style={{ maxWidth: "40rem" }}>{application?.description}</td>
                     <td>{application?.application_type}</td>
