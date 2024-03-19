@@ -32,7 +32,7 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Date Submitted</h2>
-                <p className="govuk-body">{moment(received_date).format("MM-DD-YYYY")}</p>
+                <p className="govuk-body">{moment(received_date).format("DD MMM YYYY")}</p>
             </div>
          </div>
         <div className="govuk-grid-row">
@@ -49,11 +49,11 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Decision Date</h2>
-                <p className="govuk-body">{moment(determination_date).format("MM-DD-YYYY")}</p>
+                <p className="govuk-body">{moment(determination_date).format("DD MMM YYYY")}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Consultation open until</h2>
-                <p className="govuk-body">{moment(consultation?.end_date).format("MM-DD-YYYY")}</p>
+                <p className="govuk-body">{moment(consultation?.end_date).format("DD MMM YYYY")}</p>
             </div>
             </div>
         </div>
