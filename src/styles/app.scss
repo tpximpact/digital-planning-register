@@ -6,4 +6,11 @@ $govuk-font-family: Arial, Helvetica, sans-serif;
 
 $govuk-assets-path: 'public/assets/';
 
+.govuk-table__cell {
+    border-bottom: none;
+}
+
+.govuk-table__row:hover {
+    background-color: lightgrey;
+}
 
