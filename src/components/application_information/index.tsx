@@ -17,12 +17,12 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-one-quarter" >
                     <h2 className="govuk-heading-s">Reference Number</h2>
-                    <p className="govuk-body">{reference_in_full}</p>
+                    <p className="govuk-body" role="application-reference">{reference_in_full}</p>
                 </div>
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Application Type</h2>
-                <p className="govuk-body">{application_type?.replace(/_/g, " ")}</p>
+                <p className="govuk-body" role="application-type">{application_type?.replace(/_/g, " ")}</p>
             </div>
 
              <div className="govuk-grid-column-one-quarter">
@@ -44,7 +44,7 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
             </div>
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Status</h2>
-                 <p className="govuk-tag--blue govuk-body" style={{maxWidth: "fit-content", padding: "2px 10px"}}>{status?.replace(/_/g, " ")}</p>
+                 <p className="govuk-tag--blue govuk-body" role="application-status" style={{maxWidth: "fit-content", padding: "2px 10px"}}>{status?.replace(/_/g, " ")}</p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">

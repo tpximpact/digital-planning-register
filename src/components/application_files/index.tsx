@@ -10,7 +10,7 @@ const ApplicationFile = ({documents}: Data) => {
         {
     documents && documents?.length > 0 && (
 
-                    <><h2 className="govuk-heading-l">Files</h2><p className="govuk-body">To find out more detailed information, please read the following document(s) provided by the applicant.</p><div style={{ display: 'flex', gap: '50px', flexWrap: 'wrap' }}>
+                    <><h2 className="govuk-heading-l">Files</h2><p className="govuk-body documents-containers">To find out more detailed information, please read the following document(s) provided by the applicant.</p><div style={{ display: 'flex', gap: '50px', flexWrap: 'wrap' }}>
                         {documents.map((document: any, index: any) => (
                             <div key={index} style={{ display: 'flex', gap: '0 15px' }}>
                                 <Image src={file} alt="File" width={130} height={160} />

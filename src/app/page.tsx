@@ -8,7 +8,7 @@ import {SortIcon} from '../../public/icons';
 import {Data} from "../../util/type"
 
 const resultsPerPage = 10
-export const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
+const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
 export default function Home() {
   const [data, setData] = useState<Data[]>([])
   const [metaData, setMetaData] = useState<any>(undefined)
