@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
-import {getApplicationsByCouncil, getApplicationById} from "../server";
+import {getApplicationsByCouncil, getApplicationById} from "../actions";
 import Link from "next/link";
 import {NextIcon, PreviewIcon} from '../../public/icons';
 import {Data} from "../../util/type"
