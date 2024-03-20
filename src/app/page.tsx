@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import moment from "moment";
+import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import {getApplicationsByCouncil, getApplicationById} from "../server";
 import Link from "next/link";
@@ -61,7 +61,7 @@ async function searchById(event: any) {
                     <td className="govuk-table__cell">{application?.site?.address_1}, {application?.site?.postcode}</td>
                     <td className="govuk-table__cell" style={{ maxWidth: "40rem" }}>{application?.description}</td>
                     <td className="govuk-table__cell">{application?.application_type.replace(/_/g, " ")}</td>
-                    <td className="govuk-table__cell">{`${moment(application?.received_date).format("MM-DD-YYYY")}`}</td>
+                    <td className="govuk-table__cell">{`${format(new Date(application?.received_date), 'dd-MM-yyyy')}`}</td>
                     <td className="govuk-table__cell">{application?.status.replace(/_/g, " ")}</td>
                   </tr>
                 ))}
