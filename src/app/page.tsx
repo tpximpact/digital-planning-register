@@ -4,8 +4,9 @@ import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import {getApplicationsByCouncil, getApplicationById} from "../server";
 import Link from "next/link";
-import {SortIcon} from '../../public/icons';
+import {NextIcon, PreviewIcon} from '../../public/icons';
 import {Data} from "../../util/type"
+import Form from "@/components/form";
 
 const resultsPerPage = 10
 const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
@@ -41,35 +42,27 @@ async function searchById(event: any) {
       {
         data.length > 0 &&
       
-      <><section className="search-application-content">
-            <div>
-              <form>
-                <input placeholder="Search by application reference number" onChange={(e: any) => setIdReference(e.target.value)}/>
-                <button onClick={(event) => searchById(event)}>Search</button>
-              </form>
-              <Link href="">Advanced search</Link>
-            </div>
-            <div>
-              <button>Filters</button>
-            </div>
-          </section>
-          <table className="landing-table-content">
+      <>
+      <Form searchById={(event: any) => searchById(event)} setIdReference={setIdReference}/>
+          <table className="landing-table-content govuk-table">
               <tbody>
                 <tr>
                   {tableHead.map((thead, index) => (
-                    <th key={index}><p>{thead.name} {thead.icon && <span><SortIcon /></span>}</p></th>
+                    <th key={index} className="govuk-table__head"><p>{thead.name} 
+                    {/* {thead.icon && <span><SortIcon /></span>} */}
+                    </p></th>
                   ))}
 
 
                 </tr>
                 {data?.map((application: any, index: any) => (
-                  <tr key={index}>
-                    <td><Link href={`/${application?.id}`}>{application?.reference}</Link></td>
-                    <td>{application?.site?.address_1}</td>
-                    <td style={{ maxWidth: "40rem" }}>{application?.description}</td>
-                    <td>{application?.application_type}</td>
-                    <td>{`${format(new Date(application?.received_date), "dd-MM-yyyy")}`}</td>
-                    <td>{application?.status}</td>
+                  <tr key={index} className="govuk-table__row">
+                    <td className="govuk-table__cell"><Link href="/">{application?.reference}</Link></td>
+                    <td className="govuk-table__cell">{application?.site?.address_1}, {application?.site?.postcode}</td>
+                    <td className="govuk-table__cell" style={{ maxWidth: "40rem" }}>{application?.description}</td>
+                    <td className="govuk-table__cell">{application?.application_type.replace(/_/g, " ")}</td>
+                    <td className="govuk-table__cell">{`${format(new Date(application?.received_date), 'dd-MM-yyyy')}`}</td>
+                    <td className="govuk-table__cell">{application?.status.replace(/_/g, " ")}</td>
                   </tr>
                 ))}
               </tbody>
@@ -78,15 +71,14 @@ async function searchById(event: any) {
               {
                 metaData?.total_pages > 1 && (
               <>
-              Page 
               <ReactPaginate
                 breakLabel="..."
-                // nextLabel={<NextIcon />}
+                nextLabel={<NextIcon />}
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={4}
                 marginPagesDisplayed={1}
                 pageCount={metaData?.total_pages}
-                // previousLabel={<PreviewIcon />}
+                previousLabel={<PreviewIcon />}
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
                 previousClassName="page-item"
