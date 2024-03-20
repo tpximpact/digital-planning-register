@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import moment from "moment";
+import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import {getApplicationsByCouncil, getApplicationById} from "../server";
 import Link from "next/link";
@@ -68,7 +68,7 @@ async function searchById(event: any) {
                     <td>{application?.site?.address_1}</td>
                     <td style={{ maxWidth: "40rem" }}>{application?.description}</td>
                     <td>{application?.application_type}</td>
-                    <td>{`${moment(application?.received_date).format("MM-DD-YYYY")}`}</td>
+                    <td>{`${format(new Date(application?.received_date), "dd-MM-yyyy")}`}</td>
                     <td>{application?.status}</td>
                   </tr>
                 ))}

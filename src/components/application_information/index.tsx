@@ -1,7 +1,7 @@
 import { Data } from "../../../util/type";
 import Image from "next/image";
 import locationplan from "../../../public/images/locationplan.png"
-import moment from "moment";
+import { format } from "date-fns";
 
 
 const ApplicationInformation = ({reference_in_full, application_type, site, received_date, result_flag, determination_date, status, consultation} : Data) => {
@@ -32,7 +32,7 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Date Submitted</h2>
-                <p className="govuk-body">{moment(received_date).format("DD MMM YYYY")}</p>
+                <p className="govuk-body">{format(new Date(received_date as string), 'DD MMM YYYY')}</p>
             </div>
          </div>
         <div className="govuk-grid-row">
@@ -49,11 +49,11 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Decision Date</h2>
-                <p className="govuk-body">{moment(determination_date).format("DD MMM YYYY")}</p>
+                <p className="govuk-body">{format(new Date(determination_date as string), "DD MMM YYYY")}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Consultation open until</h2>
-                <p className="govuk-body">{moment(consultation?.end_date).format("DD MMM YYYY")}</p>
+                <p className="govuk-body">{format(new Date(consultation?.end_date as string), "DD MMM YYYY")}</p>
             </div>
             </div>
         </div>
