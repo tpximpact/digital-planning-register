@@ -16,7 +16,6 @@ const ApplicationInformation = ({
   const feature = boundary_geojson?.features?.[0];
   const coordinates = feature?.geometry?.coordinates;
 
-  console.log("coordinates", coordinates);
   return (
     <>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">

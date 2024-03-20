@@ -19,15 +19,19 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({
   geojsonColor = "#ff0000",
-  geojsonBuffer = "68",
+  geojsonBuffer = "25",
   hideResetControl = true,
   // staticMode = true,
   osVectorTilesApiKey = "",
   geojsonData = ""
 }) => {
   useEffect(() => {
-    const map = document.querySelector("my-map");
+    const map = document.querySelector("my-map") as HTMLElement;
     if (map) {
+      map.style.width = "450px";
+      map.style.height = "350px";
+      map.style.display = "table-cell";
+      map.style.padding = "15px";
       map.addEventListener("ready", (event) => {
         console.log("map ready");
       });
