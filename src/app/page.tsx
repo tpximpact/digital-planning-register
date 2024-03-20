@@ -57,7 +57,7 @@ async function searchById(event: any) {
                 </tr>
                 {data?.map((application: any, index: any) => (
                   <tr key={index} className="govuk-table__row">
-                    <td className="govuk-table__cell"><Link href="/">{application?.reference}</Link></td>
+                    <td className="govuk-table__cell"><Link href={`/${application?.id}`}>{application?.reference}</Link></td>
                     <td className="govuk-table__cell">{application?.site?.address_1}, {application?.site?.postcode}</td>
                     <td className="govuk-table__cell" style={{ maxWidth: "40rem" }}>{application?.description}</td>
                     <td className="govuk-table__cell">{application?.application_type.replace(/_/g, " ")}</td>

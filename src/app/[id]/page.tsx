@@ -27,13 +27,18 @@ const Application = () => {
     return(
         <div>
 <BackLink href="/"/>
-<ApplicationInformation {...data}/>
+{
+    data && <>
+    <ApplicationInformation {...data}/>
 {/* <ApplicationLocation /> */}
 <ApplicationDetails {...data}/>
 
 {/* <ApplicationPeople {...data}/> */}
 <ApplicationFile {...data}/>
 {/* <ApplicationConstraints /> */}
+    </>
+}
+
         </div>
     )
 }
