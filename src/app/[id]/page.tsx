@@ -1,4 +1,4 @@
-import {getApplicationById} from "../../server/index";
+import {getApplicationById} from "../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
