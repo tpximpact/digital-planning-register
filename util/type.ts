@@ -19,14 +19,26 @@ export type Data = {
   applicant_first_name?: string;
   applicant_last_name?: string;
   documents?: Document[];
-  boundary_geojson?: {
-    type: string;
-    features: Array<{
-      type: string;
-      geometry: {
-        type: string;
-        coordinates: number[][][];
-      };
-    }>;
-  };
+  boundary_geojson?: BoundaryGeojson;
 };
+
+type BoundaryGeojson =
+  | {
+      type: "Feature";
+      geometry: {
+        type: "Polygon" | "MultiPolygon";
+        coordinates: number[][][] | number[][][][];
+      };
+      properties?: any;
+    }
+  | {
+      type: "FeatureCollection";
+      features: Array<{
+        type: "Feature";
+        geometry: {
+          type: "Polygon" | "MultiPolygon";
+          coordinates: number[][][] | number[][][][];
+        };
+        properties?: any;
+      }>;
+    };

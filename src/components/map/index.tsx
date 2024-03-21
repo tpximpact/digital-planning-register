@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 
 declare global {
@@ -19,7 +20,7 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({
   geojsonColor = "#ff0000",
-  geojsonBuffer = "25",
+  geojsonBuffer = "85",
   hideResetControl = true,
   // staticMode = true,
   osVectorTilesApiKey = "",
@@ -32,9 +33,6 @@ const Map: React.FC<MapProps> = ({
       map.style.height = "350px";
       map.style.display = "table-cell";
       map.style.padding = "15px";
-      map.addEventListener("ready", (event) => {
-        console.log("map ready");
-      });
 
       map.addEventListener("areaChange", (event: Event) => {
         console.debug({ area: (event as CustomEvent).detail });
