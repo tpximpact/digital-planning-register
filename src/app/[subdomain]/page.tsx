@@ -10,7 +10,7 @@ import Form from "@/components/form";
 import { useParams } from "next/navigation";
 
 const resultsPerPage = 10
-export const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
+const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
 export default function Home() {
   const params = useParams();
   const [data, setData] = useState<Data[]>([])

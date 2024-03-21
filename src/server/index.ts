@@ -9,7 +9,7 @@ if(council === 'camden') {data = await fetch(`${process.env.NEXT_PUBLIC_BOPS_API
   headers: {
     'Authorization': `Bearer ${process.env[apiKey]}`
   }})
- } else { data = await fetch(`https://${council}${process.env.NEXT_PUBLIC_BOPS_API}planning_applications?page=${page}&maxresults=${resultsPerPage}`, {
+ } else { data = await fetch(`https://${council}${process.env.NEXT_PUBLIC_BOPS_API_MULTI_TENANT}planning_applications?page=${page}&maxresults=${resultsPerPage}`, {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${process.env[apiKey]}`
@@ -24,7 +24,7 @@ if(council === 'camden') {data = await fetch(`${process.env.NEXT_PUBLIC_BOPS_API
 export async function getApplicationById(id:number, council: string) {
 
   const apiKey = council + '_api_key'
-  const data = await fetch(`https://${council}${process.env.NEXT_PUBLIC_BOPS_API}planning_applications/${id}`, {
+  const data = await fetch(`https://${council}${process.env.NEXT_PUBLIC_BOPS_API_MULTI_TENANT}planning_applications/${id}`, {
       method: 'GET',
       headers: {
     'Authorization': `Bearer ${process.env[apiKey]}`
