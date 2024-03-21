@@ -97,10 +97,12 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Consultation open until</h2>
               <p className="govuk-body">
-                {format(
-                  new Date(consultation?.end_date as string),
-                  "dd MMM yyyy"
-                )}
+                {consultation?.end_date
+                  ? format(
+                      new Date(consultation?.end_date as string),
+                      "dd MMM yyyy"
+                    )
+                  : "Date not available"}
               </p>
             </div>
           </div>
