@@ -59,7 +59,9 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Date Submitted</h2>
               <p className="govuk-body">
-                {format(new Date(received_date as string), "dd MMM yyyy")}
+                {received_date
+                  ? format(new Date(received_date as string), "dd MMM yyyy")
+                  : "Date not available"}
               </p>
             </div>
           </div>
