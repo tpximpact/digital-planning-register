@@ -4,7 +4,7 @@ export async function getApplicationsByCouncil(council: string | string[], page:
 const apiKey = council + '_api_key'
 let data: any;
 
-if(council === 'camden') {data = await fetch(`${process.env.NEXT_PUBLIC_BOPS_API_DUMMY}`, {
+if(council === 'lambeth') {data = await fetch(`${process.env.NEXT_PUBLIC_BOPS_API_DUMMY}`, {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${process.env[apiKey]}`

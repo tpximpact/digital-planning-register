@@ -17,7 +17,7 @@ export default function Home() {
   const [metaData, setMetaData] = useState<any>(undefined)
   const [idReference, setIdReference] = useState<number>(0)
   const council = params.subdomain
-
+console.log({params})
   useEffect(() => {
     
     (async() => {
