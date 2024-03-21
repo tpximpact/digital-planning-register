@@ -28,7 +28,6 @@ const ApplicationInformation = ({
       coordinates = features[0].geometry?.coordinates;
     }
   }
-  console.log("coordinates", coordinates);
   return (
     <>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
