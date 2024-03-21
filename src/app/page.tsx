@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
-import {getApplicationsByCouncil, getApplicationById} from "../server";
+import {getApplicationsByCouncil, getApplicationById} from "../actions";
 import Link from "next/link";
 import {NextIcon, PreviewIcon} from '../../public/icons';
 import {Data} from "../../util/type"
 import Form from "@/components/form";
 
 const resultsPerPage = 10
-export const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
+const tableHead = [{name: 'Reference Number', icon: true}, {name: 'Address', icon: false}, {name:'Description', icon: false}, {name: 'Application Type', icon: true}, {name:'Date Submited', icon: true}, {name:'Status', icon: true}]
 export default function Home() {
   const [data, setData] = useState<Data[]>([])
   const [metaData, setMetaData] = useState<any>(undefined)
@@ -57,7 +57,7 @@ async function searchById(event: any) {
                 </tr>
                 {data?.map((application: any, index: any) => (
                   <tr key={index} className="govuk-table__row">
-                    <td className="govuk-table__cell"><Link href="/">{application?.reference}</Link></td>
+                    <td className="govuk-table__cell"><Link href={`/${application?.id}`}>{application?.reference}</Link></td>
                     <td className="govuk-table__cell">{application?.site?.address_1}, {application?.site?.postcode}</td>
                     <td className="govuk-table__cell" style={{ maxWidth: "40rem" }}>{application?.description}</td>
                     <td className="govuk-table__cell">{application?.application_type.replace(/_/g, " ")}</td>
