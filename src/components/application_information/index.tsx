@@ -32,7 +32,7 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Date Submitted</h2>
-                <p className="govuk-body">{received_date ? format(new Date(received_date as string), 'dd MMM yyyy') : 'N/A'}</p>
+                <p className="govuk-body">{received_date ? format(new Date(received_date as string), 'dd MMM yyyy') : 'Date not available'}</p>
             </div>
          </div>
         <div className="govuk-grid-row">
@@ -49,11 +49,11 @@ const ApplicationInformation = ({reference_in_full, application_type, site, rece
 
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Decision Date</h2>
-                <p className="govuk-body">{determination_date ? format(new Date(determination_date as string), "dd MMM yyyy") : 'N/A'}</p>
+                <p className="govuk-body">{determination_date ? format(new Date(determination_date as string), "dd MMM yyyy") : 'Date not available'}</p>
             </div>
             <div className="govuk-grid-column-one-quarter">
                 <h2 className="govuk-heading-s">Consultation open until</h2>
-                <p className="govuk-body">{consultation?.end_date ? format(new Date(consultation?.end_date as string), "dd MMM yyyy") : 'N/A'}</p>
+                <p className="govuk-body">{consultation?.end_date ? format(new Date(consultation?.end_date as string), "dd MMM yyyy") : 'Date not available'}</p>
             </div>
             </div>
         </div>
