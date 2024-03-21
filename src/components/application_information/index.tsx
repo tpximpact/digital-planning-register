@@ -31,7 +31,10 @@ const ApplicationInformation = ({
   return (
     <>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-quarter map-container">
+        <div
+          className="govuk-grid-column-one-quarter map-container"
+          style={{ width: "450px", height: "350px" }}
+        >
           {geometryType && coordinates && (
             <Map
               geojsonData={JSON.stringify({

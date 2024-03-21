@@ -3,7 +3,7 @@ export default function Head() {
     <>
       <script
         src="https://cdn.jsdelivr.net/npm/@opensystemslab/map"
-        defer
+        async
       ></script>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
