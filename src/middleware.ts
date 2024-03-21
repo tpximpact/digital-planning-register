@@ -15,7 +15,7 @@ export default async function middleware(req:any) {
   const hostname = req.headers.get("host");
 
   // Se define una lista de dominios permitidos (incluyendo localhost y el dominio real)
-  const allowedDomains = ["localhost:3000", "council-public-index.com"];
+  const allowedDomains = ["localhost:3000", "council-public-index.vercel.app", "camden-public-index.vercel.app", "southwark-public-index.vercel.app"];
 
   // Verificamos si el hostname actual está en la lista de dominios permitidos
   const isAllowedDomain = allowedDomains.some(domain => hostname.includes(domain));
