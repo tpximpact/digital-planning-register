@@ -1,0 +1,17 @@
+$govuk-font-family: Arial, Helvetica, sans-serif;
+
+@import "node_modules/govuk-frontend/dist/govuk/all";
+@import "./layout.scss";
+@import "./landing.scss";
+@import "./components.scss";
+
+$govuk-assets-path: 'public/assets/';
+
+.govuk-table__cell {
+    border-bottom: none;
+}
+
+.govuk-table__row:hover {
+    background-color: lightgrey;
+}
+

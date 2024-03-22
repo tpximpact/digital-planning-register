@@ -1,0 +1,46 @@
+.layout {
+    padding: 20px;
+}
+
+.govuk-header__container {
+    border-bottom: none;
+    margin-left: 10px;
+    font-weight: bold;
+    }
+    
+.govuk-header {
+        border-bottom: 5px solid #1D70B8;
+        height: 50px;
+    }
+    
+.govuk-header__logo {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+.govuk-header__logotype {
+        font-size: 24px;
+        height: 32px;
+        width: 22.3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+.container-menu {
+     height: 50px; 
+     background-color: #DCE2E7; 
+     display: flex; 
+     align-items: center;
+     border-bottom: 2px solid darkgrey;
+}
+
+.container-menu a {
+    color: #1D70B8;
+    padding: 14px;
+    font-weight: bold;
+}
+
+.container-menu a:focus {
+    border-bottom: 2px solid #1D70B8;
+}
