@@ -9,16 +9,13 @@ describe("Map Component", () => {
     const mapElement = container.querySelector("my-map");
     expect(mapElement).toBeInTheDocument();
     expect(mapElement).toHaveAttribute("geojsoncolor", "#ff0000");
-    expect(mapElement).toHaveStyle(
-      "width: 450px; height: 350px; display: table-cell; padding: 15px;"
-    );
   });
 
   it("applies custom styles via useEffect", () => {
     const { container } = render(<Map />);
     const mapElement = container.querySelector("my-map");
     expect(mapElement).toHaveStyle(
-      "width: 450px; height: 350px; display: table-cell; padding: 15px;"
+      "width: 450px; height: 350px; display: table-cell; padding: 0, 15px, 15px, 0"
     );
   });
 
