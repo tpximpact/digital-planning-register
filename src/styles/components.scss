@@ -1,0 +1,57 @@
+.backlink {
+  border: none;
+  background-color: white;
+}
+.backlink:hover {
+  cursor: pointer;
+}
+
+.application-content-info {
+display: flex;
+flex-direction: column;
+}
+
+.application-info-grid {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+grid-template-rows: 1fr 1fr;
+}
+
+.boundary-map {
+    border: 2px solid black;
+    width: 130px;
+    text-align: center;
+    padding: 10px;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    gap: 10px
+}
+
+.application-info-grid p {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.application-info-grid span {
+    font-weight: bold;
+    padding: 0 0 5px;
+}
+
+.application-info-grid :nth-child(2n) {
+grid-row: 1;
+}
+
+.application-info-grid :nth-child(2n+3) {
+grid-row: 2;
+}
+
+.application-content-button {
+    padding: 20px 0;
+    display: flex;
+    max-width: 60rem;
+    justify-content: space-between;
+}
+
+.grid-row-extra-bottom-margin {
+    margin-bottom:2rem;
+}
