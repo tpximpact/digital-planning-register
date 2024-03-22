@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-1" # region of the user account
+  region = "eu-west-1"
 }
 
 # Creating an ECR Repository
@@ -22,7 +22,6 @@ resource "aws_ecs_cluster" "council-public-index-cluster" {
   name = "council-public-index-cluster"
 }
 
-# main.tf
 resource "aws_iam_role" "ecsTaskExecutionRole" {
   name               = "ecsTaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
@@ -78,19 +77,17 @@ resource "aws_default_vpc" "default_vpc" {
 
 # Provide references to your default subnets
 resource "aws_default_subnet" "default_subnet_a" {
-  # Use your own region here but reference to subnet 1a
   availability_zone = "eu-west-1a"
 }
 
 resource "aws_default_subnet" "default_subnet_b" {
-  # Use your own region here but reference to subnet 1b
   availability_zone = "eu-west-1b"
 }
 
 resource "aws_alb" "application_load_balancer" {
   name               = "council-public-index-lb"
   load_balancer_type = "application"
-  subnets = [ # Referencing the default subnets
+  subnets = [
     "${aws_default_subnet.default_subnet_a.id}",
     "${aws_default_subnet.default_subnet_b.id}"
   ]
@@ -103,7 +100,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow traffic in from all sources
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -119,36 +116,36 @@ resource "aws_lb_target_group" "target_group" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = aws_default_vpc.default_vpc.id # default VPC
+  vpc_id      = aws_default_vpc.default_vpc.id
 }
 
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn = aws_alb.application_load_balancer.arn #  load balancer
+  load_balancer_arn = aws_alb.application_load_balancer.arn
   port              = "80"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn # target group
+    target_group_arn = aws_lb_target_group.target_group.arn
   }
 }
 
 resource "aws_ecs_service" "app_service" {
-  name            = "council-public-index-service"                        # Name the service
-  cluster         = aws_ecs_cluster.council-public-index-cluster.id       # Reference the created Cluster
-  task_definition = aws_ecs_task_definition.council-public-index-task.arn # Reference the task that the service will spin up
+  name            = "council-public-index-service"
+  cluster         = aws_ecs_cluster.council-public-index-cluster.id
+  task_definition = aws_ecs_task_definition.council-public-index-task.arn
   launch_type     = "FARGATE"
-  desired_count   = 3 # Set up the number of containers to 3
+  desired_count   = 3
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn # Reference the target group
-    container_name   = "council-public-index-container"     # Specify the container name
-    container_port   = 3000                                 # Specify the container port
+    target_group_arn = aws_lb_target_group.target_group.arn
+    container_name   = "council-public-index-container"
+    container_port   = 3000
   }
 
   network_configuration {
     subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
-    assign_public_ip = true                                                # Provide the containers with public IPs
-    security_groups  = ["${aws_security_group.service_security_group.id}"] # Set up the security group
+    assign_public_ip = true
+    security_groups  = ["${aws_security_group.service_security_group.id}"]
   }
 }
 
