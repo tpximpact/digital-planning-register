@@ -30,7 +30,10 @@ const ApplicationInformation = ({
   }
   return (
     <>
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
+      <div
+        className="govuk-grid-row grid-row-extra-bottom-margin"
+        style={{ display: "flex" }}
+      >
         <div
           className="govuk-grid-column-one-quarter map-container"
           style={{ width: "450px", height: "350px" }}

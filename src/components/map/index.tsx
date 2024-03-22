@@ -32,7 +32,7 @@ const Map: React.FC<MapProps> = ({
       map.style.width = "450px";
       map.style.height = "350px";
       map.style.display = "table-cell";
-      map.style.padding = "15px";
+      map.style.padding = "0, 15px, 15px 0";
 
       map.addEventListener("areaChange", (event: Event) => {
         console.debug({ area: (event as CustomEvent).detail });
