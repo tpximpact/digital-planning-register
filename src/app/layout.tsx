@@ -8,18 +8,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    if (typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     const govUk = require("govuk-frontend");
     govUk.initAll();
   }
   return (
     <html lang="en">
-      <body >
+      <body>
         <Header />
         <Menu />
-      <div className="layout">
-        {children}
-      </div>
+        <div className="layout">{children}</div>
       </body>
     </html>
   );
