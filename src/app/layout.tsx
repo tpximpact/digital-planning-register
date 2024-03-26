@@ -5,7 +5,7 @@ import Menu from "@/components/menu";
 import Head from "@/components/head";
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {

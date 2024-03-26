@@ -1,14 +1,16 @@
-import { Data } from "../../../util/type"
+import { Data } from "../../../util/type";
 
-const ApplicationDetails = ({description}: Data) => {
-    return(
-        <>
-        <h2 className="govuk-heading-l">Application</h2>
+const ApplicationDetails = ({ description }: Data) => {
+  return (
+    <>
+      <h2 className="govuk-heading-l">Application</h2>
 
-        <h3 className="govuk-heading-m">Description</h3>
-        <p className="govuk-body" role="application-description">{description }</p>
-    {/* Uncomment when real data available */}
-{/* <div className="govuk-grid-row">   
+      <h3 className="govuk-heading-m">Description</h3>
+      <p className="govuk-body" role="application-description">
+        {description}
+      </p>
+      {/* Uncomment when real data available */}
+      {/* <div className="govuk-grid-row">   
   <div className="govuk-grid-column-one-third">
     <h3 className="govuk-heading-s">Project type</h3>
     <p className="govuk-body">Alter a building</p>
@@ -36,13 +38,13 @@ const ApplicationDetails = ({description}: Data) => {
     <p className="govuk-body">Bicycles: 1 off street <br/> Car: 1 on street</p>
   </div>
 </div> */}
-  {/* Not clear if we are having on MVP */}
-  {/* <h2 className="govuk-heading-l">Related Applications</h2>
+      {/* Not clear if we are having on MVP */}
+      {/* <h2 className="govuk-heading-l">Related Applications</h2>
   <ul className="govuk-list govuk-list--bullet grid-row-extra-bottom-margin">
     <li><a href="#" className="govuk-link govuk-link--no-visited-state">Pre-application - 2024/0452/C</a></li>
     <li><a href="#" className="govuk-link govuk-link--no-visited-state">Conditions of construction - 2024/0685/A</a></li>
   </ul> */}
-        </>
-    )
-}
-export default ApplicationDetails
+    </>
+  );
+};
+export default ApplicationDetails;

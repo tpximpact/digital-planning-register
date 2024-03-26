@@ -11,7 +11,7 @@ const ApplicationInformation = ({
   determination_date,
   status,
   consultation,
-  boundary_geojson
+  boundary_geojson,
 }: Data) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -44,8 +44,8 @@ const ApplicationInformation = ({
                 type: "Feature",
                 geometry: {
                   type: geometryType,
-                  coordinates
-                }
+                  coordinates,
+                },
               })}
             />
           )}
@@ -118,7 +118,7 @@ const ApplicationInformation = ({
                 {consultation?.end_date
                   ? format(
                       new Date(consultation?.end_date as string),
-                      "dd MMM yyyy"
+                      "dd MMM yyyy",
                     )
                   : "Date not available"}
               </p>
@@ -133,7 +133,7 @@ const ApplicationInformation = ({
           style={{
             maxWidth: "50rem",
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <a

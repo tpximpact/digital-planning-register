@@ -12,7 +12,7 @@ describe("Render ApplicationInformation", () => {
     application_type: "planning_application",
     site: {
       address_1: "40, TEST ROAD",
-      postcode: "AB1 CD2"
+      postcode: "AB1 CD2",
     },
     received_date: "2024-03-18T00:00:00.000+00:00",
     result_flag: null,
@@ -28,22 +28,22 @@ describe("Render ApplicationInformation", () => {
             [0, 0],
             [1, 1],
             [1, 0],
-            [0, 0]
-          ]
-        ]
-      }
-    }
+            [0, 0],
+          ],
+        ],
+      },
+    },
   };
 
   it("should render correctly with Polygon geometry", () => {
     render(<ApplicationInformation {...mockData} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockData.reference_in_full
-      })
+        Name: mockData.reference_in_full,
+      }),
     );
     expect(
-      screen.getByRole("application-type", { Name: mockData.application_type })
+      screen.getByRole("application-type", { Name: mockData.application_type }),
     );
     expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
@@ -63,32 +63,32 @@ describe("Render ApplicationInformation", () => {
                 [0, 0],
                 [1, 1],
                 [1, 0],
-                [0, 0]
-              ]
+                [0, 0],
+              ],
             ],
             [
               [
                 [2, 2],
                 [3, 3],
                 [3, 2],
-                [2, 2]
-              ]
-            ]
-          ]
-        }
-      }
+                [2, 2],
+              ],
+            ],
+          ],
+        },
+      },
     };
 
     render(<ApplicationInformation {...mockDataWithMultiPolygon} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockDataWithMultiPolygon.reference_in_full
-      })
+        Name: mockDataWithMultiPolygon.reference_in_full,
+      }),
     );
     expect(
       screen.getByRole("application-type", {
-        Name: mockDataWithMultiPolygon.application_type
-      })
+        Name: mockDataWithMultiPolygon.application_type,
+      }),
     );
     expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
@@ -110,10 +110,10 @@ describe("Render ApplicationInformation", () => {
                   [0, 0],
                   [1, 1],
                   [1, 0],
-                  [0, 0]
-                ]
-              ]
-            }
+                  [0, 0],
+                ],
+              ],
+            },
           },
           {
             type: "Feature",
@@ -124,25 +124,25 @@ describe("Render ApplicationInformation", () => {
                   [2, 2],
                   [3, 3],
                   [3, 2],
-                  [2, 2]
-                ]
-              ]
-            }
-          }
-        ]
-      }
+                  [2, 2],
+                ],
+              ],
+            },
+          },
+        ],
+      },
     };
 
     render(<ApplicationInformation {...mockDataWithFeatureCollection} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockDataWithFeatureCollection.reference_in_full
-      })
+        Name: mockDataWithFeatureCollection.reference_in_full,
+      }),
     );
     expect(
       screen.getByRole("application-type", {
-        Name: mockDataWithFeatureCollection.application_type
-      })
+        Name: mockDataWithFeatureCollection.application_type,
+      }),
     );
     expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");

@@ -8,8 +8,8 @@ import nextJest from 'next/jest.js'
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
-})
+  dir: "./",
+});
 
 const config = {
   // All imported modules in your tests should be mocked automatically
@@ -202,4 +202,4 @@ const config = {
   // watchman: true,
 };
 
-export default createJestConfig(config)
+export default createJestConfig(config);

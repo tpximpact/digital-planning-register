@@ -15,7 +15,7 @@ describe("Map Component", () => {
     const { container } = render(<Map />);
     const mapElement = container.querySelector("my-map");
     expect(mapElement).toHaveStyle(
-      "width: 450px; height: 350px; display: table-cell; padding: 0, 15px, 15px, 0"
+      "width: 450px; height: 350px; display: table-cell; padding: 0, 15px, 15px, 0",
     );
   });
 
@@ -28,15 +28,15 @@ describe("Map Component", () => {
       fireEvent(
         mapElement,
         new CustomEvent("areaChange", {
-          detail: { someAreaValue: "testValue" }
-        })
+          detail: { someAreaValue: "testValue" },
+        }),
       );
     } else {
       fail("Expected <my-map> element to be present in the document.");
     }
     expect(mockAreaChangeHandler).toHaveBeenCalled();
     expect(mockAreaChangeHandler).toHaveBeenCalledWith(
-      expect.objectContaining({ detail: { someAreaValue: "testValue" } })
+      expect.objectContaining({ detail: { someAreaValue: "testValue" } }),
     );
   });
 
@@ -49,15 +49,15 @@ describe("Map Component", () => {
       fireEvent(
         mapElement,
         new CustomEvent("geojsonChange", {
-          detail: { someGeojsonValue: "testValue" }
-        })
+          detail: { someGeojsonValue: "testValue" },
+        }),
       );
     } else {
       fail("Expected <my-map> element to be present in the document.");
     }
     expect(mockGeojsonChangeHandler).toHaveBeenCalled();
     expect(mockGeojsonChangeHandler).toHaveBeenCalledWith(
-      expect.objectContaining({ detail: { someGeojsonValue: "testValue" } })
+      expect.objectContaining({ detail: { someGeojsonValue: "testValue" } }),
     );
   });
 });

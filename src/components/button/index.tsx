@@ -1,10 +1,8 @@
-export const BackLink = ({
-href,
-}: {
-  href: string
-}) => {
+export const BackLink = ({ href }: { href: string }) => {
   return (
-    <a href={href}className="govuk-back-link">Back</a>
+    <a href={href} className="govuk-back-link">
+      Back
+    </a>
   );
 };
 
