@@ -1,6 +1,5 @@
 import { Data } from "../../../util/type";
-import Image from "next/image";
-import locationplan from "../../../public/images/locationplan.png";
+import Map from "../map";
 import { format } from "date-fns";
 
 const ApplicationInformation = ({
@@ -12,17 +11,44 @@ const ApplicationInformation = ({
   determination_date,
   status,
   consultation,
+  boundary_geojson,
 }: Data) => {
+  const boundaryGeojson = boundary_geojson;
+
+  let geometryType: "Polygon" | "MultiPolygon" | undefined;
+  let coordinates: number[][][] | number[][][][] | undefined;
+
+  if (boundaryGeojson?.type === "Feature") {
+    geometryType = boundaryGeojson.geometry?.type;
+    coordinates = boundaryGeojson.geometry?.coordinates;
+  } else if (boundaryGeojson?.type === "FeatureCollection") {
+    const features = boundaryGeojson.features;
+    if (features && features.length > 0) {
+      geometryType = features[0].geometry?.type;
+      coordinates = features[0].geometry?.coordinates;
+    }
+  }
   return (
     <>
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-quarter">
-          <Image
-            src={locationplan}
-            alt="Boundary map"
-            width={250}
-            height={200}
-          />
+      <div
+        className="govuk-grid-row grid-row-extra-bottom-margin"
+        style={{ display: "flex" }}
+      >
+        <div
+          className="govuk-grid-column-one-quarter map-container"
+          style={{ width: "450px", height: "350px" }}
+        >
+          {geometryType && coordinates && (
+            <Map
+              geojsonData={JSON.stringify({
+                type: "Feature",
+                geometry: {
+                  type: geometryType,
+                  coordinates,
+                },
+              })}
+            />
+          )}
         </div>
 
         <div className="govuk-grid-column-three-quarters">
@@ -83,12 +109,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Decision Date</h2>
               <p className="govuk-body">
-                {determination_date
-                  ? format(
-                      new Date(determination_date as string),
-                      "dd MMM yyyy",
-                    )
-                  : "Date not available"}
+                {format(new Date(determination_date as string), "dd MMM yyyy")}
               </p>
             </div>
             <div className="govuk-grid-column-one-quarter">

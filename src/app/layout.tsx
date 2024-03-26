@@ -2,6 +2,7 @@ import "./globals.css";
 import "@/styles/app.scss";
 import Header from "@/components/header";
 import Menu from "@/components/menu";
+import Head from "@/components/head";
 
 export default function RootLayout({
   children,
@@ -14,6 +15,7 @@ export default function RootLayout({
   }
   return (
     <html lang="en">
+      <Head />
       <body>
         <Header />
         <Menu />
