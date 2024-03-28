@@ -8,18 +8,18 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-1"
+  region = var.region
 }
 
 # Creating an ECR Repository
 resource "aws_ecr_repository" "council-public-index-ecr-repo" {
-  name         = "council-public-index-ecr-repo"
+  name         = "${var.app_name}-ecr-repo"
   force_delete = true
 }
 
 # Creating an ECS cluster
 resource "aws_ecs_cluster" "council-public-index-cluster" {
-  name = "council-public-index-cluster"
+  name = "${var.app_name}-cluster"
 }
 
 resource "aws_iam_role" "ecsTaskExecutionRole" {
@@ -66,10 +66,10 @@ resource "aws_ecs_task_definition" "council-public-index-task" {
   memory                   = 512
   cpu                      = 256
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
-  runtime_platform {
-    operating_system_family = "LINUX"
-    cpu_architecture        = "ARM64"
-  }
+  # runtime_platform {
+  #   operating_system_family = "LINUX"
+  #   cpu_architecture        = "ARM64"
+  # }
 }
 # Provide a reference to your default VPC
 resource "aws_default_vpc" "default_vpc" {
@@ -134,7 +134,7 @@ resource "aws_ecs_service" "app_service" {
   cluster         = aws_ecs_cluster.council-public-index-cluster.id
   task_definition = aws_ecs_task_definition.council-public-index-task.arn
   launch_type     = "FARGATE"
-  desired_count   = 3
+  desired_count   = 2
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
@@ -169,3 +169,20 @@ resource "aws_security_group" "service_security_group" {
 output "app_url" {
   value = aws_alb.application_load_balancer.dns_name
 }
+
+# creates wildcard domain *.dsn.uk and points to the load balancer so that we can use x.dsn.uk y.dsn.uk etc
+# resource "aws_route53_zone" "dsn" {
+#   name = "dsn.uk"
+# }
+
+# resource "aws_route53_record" "wildcard" {
+#   zone_id = aws_route53_zone.dsn.zone_id
+#   name    = "*.dsn.uk"
+#   type    = "A"
+
+#   alias {
+#     name                   = aws_alb.application_load_balancer.dns_name
+#     zone_id                = aws_alb.application_load_balancer.zone_id
+#     evaluate_target_health = true
+#   }
+# }
