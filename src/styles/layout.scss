@@ -1,5 +1,5 @@
 .layout {
-    padding: 20px;
+    padding: 40px;
 }
 
 .govuk-header__container {
@@ -28,11 +28,11 @@
     }
 
 .container-menu {
-     height: 50px; 
-     background-color: #DCE2E7; 
      display: flex; 
      align-items: center;
-     border-bottom: 2px solid darkgrey;
+     background-color: #f3f2f1;
+     border-bottom: 1px solid #b1b4b6;
+    margin-left: auto;
 }
 
 .container-menu a {
@@ -42,5 +42,5 @@
 }
 
 .container-menu a:focus {
-    border-bottom: 2px solid #1D70B8;
+    border-bottom: 3px solid #1D70B8;
 }
