@@ -44,7 +44,6 @@
 .search-application-content input{
     padding: 10px;
     height: 47px;
-    // width: 380px;
 }
 
 .search-application-content button{
@@ -57,14 +56,6 @@
     color: #1D70B8;
     text-decoration: underline;
 }
-
-// .search-application-content div:nth-child(1){
-//     padding: 5px 10px 20px;
-//     width: 700px;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-// }
 
 .pagination-section {
 width: fit-content;
@@ -117,6 +108,17 @@ padding: 10px;
 .search-bar-buttons {
     margin-top: 30px;
 }
+
+.responsive-table-row h2 {
+    display:none;
+}
+.responsive-table-row.responsive-table-header,
+.responsive-table-row.responsive-table-header h2  {
+    display:flex;
+}
+.responsive-table-header:hover {
+    background-color:govuk-colour("light-grey");
+}
 .responsive-table-row {
     padding-top:20px;
     margin:0 0 0 0;
@@ -126,15 +128,24 @@ padding: 10px;
     width:100%;
 }
 
-@media (min-width: 1020px) {
-    .item:nth-of-type(n + 2) h2 {
+@media (min-width: 1190px) {
+    .item:nth-of-type(n) h2 {
       display:none;
     }
     .item:hover {
         background-color:govuk-colour("light-grey");
     }
 }
-@media (max-width: 1020px) {
+@media (max-width: 1190px) {
+    .responsive-table-row:nth-child(odd):hover {
+        background-color:white;
+    }
+    .responsive-table-row.responsive-table-header {
+        display: none;
+    }
+    .item:nth-of-type(n) h2 {
+      display:block;
+    }
     .item:nth-of-type(even) {
         background-color:govuk-colour("light-grey");
     }
@@ -149,5 +160,45 @@ padding: 10px;
     .responsive-cell h2, 
     .responsive-cell p {
         width:50%;
+    }
+}
+
+@media (max-width: 40.0625em) {
+    .responsive-cell {
+        width:100%!important;
+        display:block;
+    }
+    .responsive-cell h2, 
+    .responsive-cell p {
+        width:100%;
+    }
+}
+
+// Navigation restyle
+.govuk-header__navigation {
+    background-color:govuk-colour("light-grey");
+    border-bottom: 1px solid #b1b4b6;
+    margin:10px 0 0 0;
+}
+
+.govuk-header__navigation-item {
+    box-sizing: border-box;
+    height: 3.125rem;
+    padding: 0 15px;
+    line-height: 50px;
+    border:none;
+}
+
+.nav-link,
+.nav-link:visited {
+    color: #1d70b8 !important;
+    font-weight: 700;
+    font-size: 1.1875rem!important;
+    margin: 15px 0;
+}
+
+@media (min-width: 48.0625em) {
+    .govuk-header__navigation-item.current-item {
+        border-bottom: 4px solid #1d70b8;
     }
 }

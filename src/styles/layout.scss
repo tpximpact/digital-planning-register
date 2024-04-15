@@ -1,31 +1,55 @@
 .layout {
-    padding: 40px;
+    padding: 20px 0;
 }
+.menu {
+    display: none;
+}
+.govuk-width-container {
+    max-width: 90%;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  @supports (margin: max(calc(0px))) {
+    .govuk-width-container {
+      margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
+      margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
+    }
+  }
 
-.govuk-header__container {
-    border-bottom: none;
-    margin-left: 10px;
-    font-weight: bold;
+  @media (min-width: 40.0625em) {
+    .govuk-width-container {
+      margin-right: 30px;
+      margin-left: 30px;
     }
-    
-.govuk-header {
-        border-bottom: 5px solid #1D70B8;
-        height: 50px;
+    @supports (margin: max(calc(0px))) {
+      .govuk-width-container {
+        margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
+        margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
+      }
     }
-    
-.govuk-header__logo {
-        width: 100%;
-        margin-top: 10px;
+  }
+  
+  @media (min-width: 1020px) {
+    .govuk-width-container {
+      margin-right: auto;
+      margin-left: auto;
     }
-    
-.govuk-header__logotype {
-        font-size: 24px;
-        height: 32px;
-        width: 22.3rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
+    .govuk-width-container {
+      margin-right: auto;
+      margin-left: auto;
     }
+    @supports (margin: max(calc(0px))) {
+      .govuk-width-container {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+  }
+  @media (max-width: 1020px) {
+        .menu {
+        display: block;
+    }
+  }
 
 .container-menu {
      display: flex; 
@@ -43,4 +67,8 @@
 
 .container-menu a:focus {
     border-bottom: 3px solid #1D70B8;
+}
+
+.icon {
+  display: flex; gap: 15px; align-items: center
 }

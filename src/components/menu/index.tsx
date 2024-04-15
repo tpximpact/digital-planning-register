@@ -1,10 +1,18 @@
 import Link from "next/link";
 const Menu = () => {
   return (
-    <div className="container-menu" role="menu">
-      <Link href="/">Application Search</Link>
-      <Link href="/">Map view</Link>
-    </div>
+    <nav aria-label="Menu" className="govuk-header__navigation">
+      <ul
+        id="navigation"
+        className="govuk-header__navigation-list govuk-width-container"
+      >
+        <li className="govuk-header__navigation-item current-item">
+          <Link className="govuk-header__link nav-link" href="/">
+            Application search
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 };
 

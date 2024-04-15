@@ -7,6 +7,7 @@ import Link from "next/link";
 import { NextIcon, PreviewIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
+import DesktopHeader from "@/components/desktop-header";
 
 const resultsPerPage = 10;
 
@@ -30,6 +31,7 @@ export default function Home() {
       resultsPerPage,
     );
     setData(response.data);
+    setMetaData(response.metadata);
   }
 
   // in the future it should change to byReferenceNumber
@@ -39,24 +41,28 @@ export default function Home() {
     setData([data] as Data[]);
     setMetaData(undefined);
   }
+
+  const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
+  const next = metaData?.page === 54 ? "" : <NextIcon />;
   return (
-    <main style={{ overflowX: "auto" }}>
+    <main style={{ overflowX: "auto" }} className="govuk-width-container">
       {data.length > 0 && (
         <>
           <Form
             searchById={(event: any) => searchById(event)}
             setIdReference={setIdReference}
           />
-          <div className="govuk-grid-row responsive-table-row responsive-table-header">
+          <DesktopHeader />
+          <div className="govuk-grid-row responsive-table-row">
             {data.map((application: any, index: number) => (
               <div key={index} className="item">
                 <div className="govuk-grid-column-one-quarter">
                   <div className="govuk-grid-column-one-half responsive-cell">
                     <h2 className="govuk-heading-s">Application Reference</h2>
-                    <p className="govuk-body">
-                      <a href={`/${application?.id}`} className="govuk-link">
+                    <p className="govuk-body test">
+                      <Link href={`/${application?.id}`} className="govuk-link">
                         {application.reference_in_full}
-                      </a>
+                      </Link>
                     </p>
                   </div>
                   <div className="govuk-grid-column-one-half responsive-cell">
@@ -100,12 +106,12 @@ export default function Home() {
               <>
                 <ReactPaginate
                   breakLabel="..."
-                  nextLabel={<NextIcon />}
+                  nextLabel={next}
                   onPageChange={handlePageClick}
                   pageRangeDisplayed={4}
                   marginPagesDisplayed={1}
                   pageCount={metaData?.total_pages}
-                  previousLabel={<PreviewIcon />}
+                  previousLabel={preview}
                   pageClassName="page-item"
                   pageLinkClassName="page-link"
                   previousClassName="page-item"
