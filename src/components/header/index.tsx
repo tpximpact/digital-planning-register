@@ -34,9 +34,13 @@ const Header = () => {
           </Link>
         </div>
         <div className="govuk-header__content">
-          <a href="/" className="govuk-header__link govuk-header__service-name">
+          <Link
+            href="/"
+            className="govuk-header__link govuk-header__service-name"
+            role="link"
+          >
             Planning Index
-          </a>
+          </Link>
           <button
             onClick={() => setIsOpenMenu(!isOpenMenu)}
             type="button"

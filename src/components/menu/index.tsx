@@ -7,7 +7,7 @@ const Menu = () => {
         className="govuk-header__navigation-list govuk-width-container"
       >
         <li className="govuk-header__navigation-item current-item">
-          <Link className="govuk-header__link nav-link" href="/">
+          <Link className="govuk-header__link nav-link" href="/" role="link">
             Application search
           </Link>
         </li>
