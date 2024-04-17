@@ -45,7 +45,7 @@ export default function Home() {
   const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
   const next = metaData?.page === 54 ? "" : <NextIcon />;
   return (
-    <main style={{ overflowX: "auto" }} className="govuk-width-container">
+    <main className="govuk-width-container">
       {data.length > 0 && (
         <>
           <Form
@@ -88,7 +88,7 @@ export default function Home() {
                 <div className="govuk-grid-column-one-quarter">
                   <div className="govuk-grid-column-one-half responsive-cell">
                     <h2 className="govuk-heading-s">Date submitted</h2>
-                    <p className="govuk-body">{`${format(new Date(application?.received_date), "dd MMM yyyy")}`}</p>
+                    <p className="govuk-body">{`${format(new Date(application?.created_at), "dd MMM yyyy")}`}</p>
                   </div>
                   <div className="govuk-grid-column-one-half responsive-cell">
                     <h2 className="govuk-heading-s">Status</h2>
