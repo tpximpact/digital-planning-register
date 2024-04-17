@@ -7,16 +7,10 @@ import Link from "next/link";
 import { NextIcon, PreviewIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
+import DesktopHeader from "@/components/desktop-header";
 
 const resultsPerPage = 10;
-const tableHead = [
-  { name: "Reference Number", icon: true },
-  { name: "Address", icon: false },
-  { name: "Description", icon: false },
-  { name: "Application Type", icon: true },
-  { name: "Date Submited", icon: true },
-  { name: "Status", icon: true },
-];
+
 export default function Home() {
   const [data, setData] = useState<Data[]>([]);
   const [metaData, setMetaData] = useState<any>(undefined);
@@ -37,6 +31,7 @@ export default function Home() {
       resultsPerPage,
     );
     setData(response.data);
+    setMetaData(response.metadata);
   }
 
   // in the future it should change to byReferenceNumber
@@ -46,65 +41,77 @@ export default function Home() {
     setData([data] as Data[]);
     setMetaData(undefined);
   }
+
+  const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
+  const next = metaData?.page === 54 ? "" : <NextIcon />;
   return (
-    <main style={{ overflowX: "auto" }}>
+    <main className="govuk-width-container">
       {data.length > 0 && (
         <>
           <Form
             searchById={(event: any) => searchById(event)}
             setIdReference={setIdReference}
           />
-          <table className="landing-table-content govuk-table">
-            <tbody>
-              <tr>
-                {tableHead.map((thead, index) => (
-                  <th key={index} className="govuk-table__head">
-                    <p>
-                      {thead.name}
-                      {/* {thead.icon && <span><SortIcon /></span>} */}
+          <DesktopHeader />
+          <div className="govuk-grid-row responsive-table-row">
+            {data.map((application: any, index: number) => (
+              <div key={index} className="item">
+                <div className="govuk-grid-column-one-quarter">
+                  <div className="govuk-grid-column-one-half responsive-cell">
+                    <h2 className="govuk-heading-s">Application Reference</h2>
+                    <p className="govuk-body test">
+                      <Link href={`/${application?.id}`} className="govuk-link">
+                        {application.reference_in_full}
+                      </Link>
                     </p>
-                  </th>
-                ))}
-              </tr>
-              {data?.map((application: any, index: any) => (
-                <tr key={index} className="govuk-table__row">
-                  <td className="govuk-table__cell">
-                    <Link href={`/${application?.id}`}>
-                      {application?.reference}
-                    </Link>
-                  </td>
-                  <td className="govuk-table__cell">
-                    {application?.site?.address_1},{" "}
-                    {application?.site?.postcode}
-                  </td>
-                  <td
-                    className="govuk-table__cell"
-                    style={{ maxWidth: "40rem" }}
-                  >
-                    {application?.description}
-                  </td>
-                  <td className="govuk-table__cell">
-                    {application?.application_type.replace(/_/g, " ")}
-                  </td>
-                  <td className="govuk-table__cell">{`${format(new Date(application?.received_date), "dd-MM-yyyy")}`}</td>
-                  <td className="govuk-table__cell">
-                    {application?.status.replace(/_/g, " ")}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                  <div className="govuk-grid-column-one-half responsive-cell">
+                    <h2 className="govuk-heading-s">Address</h2>
+                    <p className="govuk-body">
+                      {application?.site?.address_1},{" "}
+                      {application?.site?.postcode}
+                    </p>
+                  </div>
+                </div>
+                <div className="govuk-grid-column-one-half">
+                  <div className="govuk-grid-column-two-thirds responsive-cell">
+                    <h2 className="govuk-heading-s">Description</h2>
+                    <p className="govuk-body">{application.description}</p>
+                  </div>
+                  <div className="govuk-grid-column-one-third responsive-cell">
+                    <h2 className="govuk-heading-s">Application type</h2>
+                    <p className="govuk-body">
+                      {application?.application_type?.replace(/_/g, " ")}
+                    </p>
+                  </div>
+                </div>
+                <div className="govuk-grid-column-one-quarter">
+                  <div className="govuk-grid-column-one-half responsive-cell">
+                    <h2 className="govuk-heading-s">Date submitted</h2>
+                    <p className="govuk-body">{`${format(new Date(application?.created_at), "dd MMM yyyy")}`}</p>
+                  </div>
+                  <div className="govuk-grid-column-one-half responsive-cell">
+                    <h2 className="govuk-heading-s">Status</h2>
+                    <p className="govuk-body">
+                      {application?.status.replace(/_/g, " ")}
+                    </p>
+                  </div>
+                </div>
+                <div className="govuk-grid-row responsive-table-row"></div>
+              </div>
+            ))}
+          </div>
           <section className="pagination-section">
             {metaData?.total_pages > 1 && (
               <>
                 <ReactPaginate
                   breakLabel="..."
-                  nextLabel={<NextIcon />}
+                  nextLabel={next}
                   onPageChange={handlePageClick}
                   pageRangeDisplayed={4}
                   marginPagesDisplayed={1}
                   pageCount={metaData?.total_pages}
-                  previousLabel={<PreviewIcon />}
+                  previousLabel={preview}
                   pageClassName="page-item"
                   pageLinkClassName="page-link"
                   previousClassName="page-item"
