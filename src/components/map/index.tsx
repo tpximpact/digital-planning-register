@@ -29,8 +29,8 @@ const Map: React.FC<MapProps> = ({
   useEffect(() => {
     const map = document.querySelector("my-map") as HTMLElement;
     if (map) {
-      map.style.width = "450px";
-      map.style.height = "350px";
+      map.style.width = "28rem";
+      map.style.height = "14rem";
       map.style.display = "table-cell";
       map.style.padding = "0, 15px, 15px 0";
 

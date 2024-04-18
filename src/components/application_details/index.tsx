@@ -5,10 +5,6 @@ const ApplicationDetails = ({ description }: Data) => {
     <>
       <h2 className="govuk-heading-l">Application</h2>
 
-      <h3 className="govuk-heading-m">Description</h3>
-      <p className="govuk-body" role="application-description">
-        {description}
-      </p>
       {/* Uncomment when real data available */}
       {/* <div className="govuk-grid-row">   
   <div className="govuk-grid-column-one-third">

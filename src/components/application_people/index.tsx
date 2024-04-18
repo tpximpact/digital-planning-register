@@ -9,6 +9,7 @@ const ApplicationPeople = ({
   return (
     <>
       <h2 className="govuk-heading-l">People</h2>
+
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
           <h3 className="govuk-heading-m">Applicant</h3>
@@ -16,11 +17,12 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="applicant-name">
+              <p className="govuk-body">
                 {applicant_first_name} {applicant_last_name}
               </p>
             </div>
           </div>
+
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Type</h4>
@@ -45,9 +47,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">
-                19 Road Street, Placeton, Cityville, PO5 7CO
-              </p>
+              <p className="govuk-body">19 Road Street, Placeton, Cityville, PO5 7CO</p>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="agent-name">
+              <p className="govuk-body">
                 {agent_first_name} {agent_last_name}
               </p>
             </div>
@@ -77,32 +77,6 @@ const ApplicationPeople = ({
               <p className="govuk-body">
                 19 Road Street, Placeton, Cityville, PO5 7CO
               </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Owner</h3>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">Joanne Doe</p>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">
-                91 Road Street, Placeton, Cityville, PO5 7CO
-              </p>
-            </div>
-          </div>
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Notice given</h4>
-              <p className="govuk-body">01/02/2024</p>
             </div>
           </div>
         </div>

@@ -19,16 +19,14 @@ async function Application({ params }: Params) {
   const data = await getApplicationById(parseFloat(id as string));
 
   return (
-    <div>
+    <div className="govuk-width-container">
       <BackLink href="/" />
       {data && (
         <>
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
-          <ApplicationDetails {...data} />
-
-          {/* <ApplicationPeople {...data}/> */}
           <ApplicationFile {...data} />
+          <ApplicationPeople {...data} />
           {/* <ApplicationConstraints /> */}
         </>
       )}
