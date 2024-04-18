@@ -2,7 +2,18 @@ import Image from "next/image";
 import file from "../../../public/images/file-icon-default.svg";
 import { Data } from "../../../util/type";
 
-const ApplicationFile = ({ documents }: Data) => {
+interface ApplicationFileProps extends Data {
+  id: string;
+  showViewAllButton?: boolean;
+  documentsLimit?: number;
+}
+
+const ApplicationFile = ({
+  documents,
+  id,
+  showViewAllButton = true,
+  documentsLimit
+}: ApplicationFileProps) => {
   const formatTag = (tag: any) => {
     if (tag.includes(".")) {
       const parts = tag.split(".");
@@ -22,6 +33,10 @@ const ApplicationFile = ({ documents }: Data) => {
         .join(" ");
     }
   };
+  const displayedDocuments = documentsLimit
+    ? documents?.slice(0, documentsLimit) ?? []
+    : documents ?? [];
+
   return (
     <>
       <h2 className="govuk-heading-l">Documents</h2>
@@ -32,8 +47,8 @@ const ApplicationFile = ({ documents }: Data) => {
       {documents && documents.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            {documents.slice(0, 6).map((document: any, index: any) => (
-              <div key={index} className="govuk-grid-column-one-third">
+            {displayedDocuments.map((document) => (
+              <div key={document.id} className="govuk-grid-column-one-third">
                 <div className="govuk-grid-column-one-third">
                   <Image
                     src={file}
@@ -49,12 +64,14 @@ const ApplicationFile = ({ documents }: Data) => {
                       href={document?.url}
                       className="govuk-link govuk-link--no-visited-state"
                     >
-                      {document.tags.map(formatTag).join(", ")}
+                      {document?.tags?.map(formatTag).join(", ")}
                     </a>
                   </p>
                   <p className="govuk-hint">
                     uploaded{" "}
-                    {new Date(document.created_at).toLocaleDateString("en-GB")}
+                    {new Date(document?.created_at ?? "").toLocaleDateString(
+                      "en-GB"
+                    )}
                   </p>
                   <p className="govuk-hint">
                     This file may not be suitable for users of assistive
@@ -64,23 +81,25 @@ const ApplicationFile = ({ documents }: Data) => {
               </div>
             ))}
           </div>
-          {documents.length > 6 && (
-            <div className="govuk-grid-row grid-row-extra-bottom-margin">
-              <div className="govuk-grid-column-full">
-                <p className="govuk-hint">
-                  Showing 6 of {documents.length} documents
-                </p>
-                <a
-                  href={"#"}
-                  role="button"
-                  className="govuk-button govuk-button--primary"
-                  data-module="govuk-button"
-                >
-                  Show all {documents.length} documents
-                </a>
+          {showViewAllButton &&
+            documentsLimit &&
+            documents.length > documentsLimit && (
+              <div className="govuk-grid-row grid-row-extra-bottom-margin">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-hint">
+                    Showing 6 of {documents.length} documents
+                  </p>
+                  <a
+                    href={`/${id}/documents`}
+                    role="button"
+                    className="govuk-button govuk-button--primary"
+                    data-module="govuk-button"
+                  >
+                    Show all {documents.length} documents
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </>
       ) : (
         <p className="govuk-hint">

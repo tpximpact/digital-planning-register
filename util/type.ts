@@ -1,6 +1,9 @@
 export type Document = {
   url?: string;
   applicant_description?: string;
+  tags?: string[];
+  created_at?: string;
+  id?: number;
 };
 
 export type Data = {
