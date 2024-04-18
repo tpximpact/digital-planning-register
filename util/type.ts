@@ -3,7 +3,7 @@ export type Document = {
   applicant_description?: string;
   tags?: string[];
   created_at?: string;
-  id?: number;
+  numbers?: string;
 };
 
 export type Data = {

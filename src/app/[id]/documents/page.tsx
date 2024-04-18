@@ -21,19 +21,17 @@ async function Documents({ params }: Params) {
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Reference</h2>
-              <p>{data.reference}</p>
+              <p className="govuk-body">{data.reference_in_full}</p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Address</h2>
-              <div>
+              <div className="govuk-body">
                 {data.site?.address_1 && <p>{data.site.address_1}</p>}
                 {data.site?.address_2 && <p>{data.site.address_2}</p>}
-                <p>
-                  {data.site?.town && `${data.site.town}, `}
-                  {data.site?.county && `${data.site.county}, `}
-                  {data.site?.postcode}
-                </p>
+                {data.site?.town && `${data.site.town}, `}
+                {data.site?.county && `${data.site.county}, `}
+                {data.site?.postcode}
               </div>
             </div>
           </div>

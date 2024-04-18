@@ -12,7 +12,7 @@ const ApplicationFile = ({
   documents,
   id,
   showViewAllButton = true,
-  documentsLimit
+  documentsLimit,
 }: ApplicationFileProps) => {
   const formatTag = (tag: any) => {
     if (tag.includes(".")) {
@@ -23,7 +23,7 @@ const ApplicationFile = ({
           part
             .split(/(?=[A-Z])/)
             .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")
+            .join(" "),
         )
         .join(" ");
     } else {
@@ -48,7 +48,10 @@ const ApplicationFile = ({
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
             {displayedDocuments.map((document) => (
-              <div key={document.id} className="govuk-grid-column-one-third">
+              <div
+                key={document?.numbers}
+                className="govuk-grid-column-one-third"
+              >
                 <div className="govuk-grid-column-one-third">
                   <Image
                     src={file}
@@ -70,7 +73,12 @@ const ApplicationFile = ({
                   <p className="govuk-hint">
                     uploaded{" "}
                     {new Date(document?.created_at ?? "").toLocaleDateString(
-                      "en-GB"
+                      "en-GB",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      },
                     )}
                   </p>
                   <p className="govuk-hint">
@@ -102,9 +110,13 @@ const ApplicationFile = ({
             )}
         </>
       ) : (
-        <p className="govuk-hint">
-          <em>No documents have been published at this time.</em>
-        </p>
+        <div className="govuk-grid-row grid-row-extra-bottom-margin">
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <p className="govuk-hint">
+              <em>No documents have been published at this time.</em>
+            </p>
+          </div>
+        </div>
       )}
     </>
   );
