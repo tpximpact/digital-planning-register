@@ -22,13 +22,13 @@ async function Application({ params }: Params) {
     <div className="govuk-width-container">
       <BackLink href="/" />
       {data && (
-        <>
+        <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
           <ApplicationFile {...data} />
           <ApplicationPeople {...data} />
           {/* <ApplicationConstraints /> */}
-        </>
+        </div>
       )}
     </div>
   );
