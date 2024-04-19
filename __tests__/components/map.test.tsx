@@ -9,6 +9,7 @@ describe("Map Component", () => {
     const mapElement = container.querySelector("my-map");
     expect(mapElement).toBeInTheDocument();
     expect(mapElement).toHaveAttribute("geojsoncolor", "#ff0000");
+    expect(mapElement).toHaveAttribute("showScale", "true");
   });
 
   it("applies custom styles via useEffect", () => {
