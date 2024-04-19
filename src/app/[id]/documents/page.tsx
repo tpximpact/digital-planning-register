@@ -1,6 +1,11 @@
+"use client";
+import { useEffect, useState } from "react";
 import { getApplicationById } from "@/actions";
 import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
+import ReactPaginate from "react-paginate";
+import { NextIcon, PreviewIcon } from "../../../../public/icons";
+import { Data } from "../../../../util/type";
 
 type Id = {
   id: string;
@@ -9,10 +14,43 @@ type Params = {
   params: Id;
 };
 
-async function Documents({ params }: Params) {
-  const { id } = params;
-  const data = await getApplicationById(parseFloat(id as string));
+const resultsPerPage = 10;
 
+export default function Documents({ params }: Params) {
+  const { id } = params;
+  const [data, setData] = useState<any>(undefined);
+  const [metaData, setMetaData] = useState<any>(undefined);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const response = await getApplicationById(parseFloat(id as string));
+      setData(response);
+      setMetaData(response.metadata);
+      console.log({ response });
+    })();
+  }, [id]);
+
+  const indexOfLastDocument = (currentPage + 1) * resultsPerPage;
+  const indexOfFirstDocument = indexOfLastDocument - resultsPerPage;
+  const currentDocuments = data?.documents?.slice(
+    indexOfFirstDocument,
+    indexOfLastDocument,
+  );
+
+  const handlePageClick = (event: any) => {
+    setCurrentPage(event.selected);
+  };
+
+  const shouldShowPagination = data?.documents?.length > resultsPerPage;
+
+  const preview = currentPage === 0 ? "" : <PreviewIcon />;
+  const next =
+    currentPage === Math.ceil(data?.documents?.length / resultsPerPage) - 1 ? (
+      ""
+    ) : (
+      <NextIcon />
+    );
   return (
     <div>
       <BackLink href="/" />
@@ -35,11 +73,38 @@ async function Documents({ params }: Params) {
               </div>
             </div>
           </div>
-          <ApplicationFile {...data} id={id} showViewAllButton={false} />
+          <ApplicationFile
+            {...data}
+            id={id}
+            showViewAllButton={false}
+            documents={currentDocuments}
+          />
+          {shouldShowPagination && (
+            <div className="pagination-section">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel={next}
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={1}
+                pageCount={Math.ceil(data?.documents?.length / resultsPerPage)}
+                previousLabel={preview}
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active-page"
+                renderOnZeroPageCount={null}
+              />
+            </div>
+          )}
         </>
       )}
     </div>
   );
 }
-
-export default Documents;
