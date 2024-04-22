@@ -94,3 +94,31 @@
         width:100%;
     }
 }
+
+// Documents
+.file-icon {
+  width: 100%;
+  height: auto;
+  max-width: 100px;
+}
+.file-table {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 1090px) {
+  .file-table .govuk-grid-column-one-third-from-desktop {
+    width: 50%;
+  }
+}
+@media (max-width: 40.0625em) {
+  .file-icon {
+    margin: 3rem 0 1rem 0;
+    display: block;
+  }
+  .file-table {
+    display: block;
+  }
+  .file-table .govuk-grid-column-one-third-from-desktop {
+    width: 100%;
+  }
+}

@@ -1,40 +1,60 @@
-import Image from "next/image";
-import file from "../../../public/images/file.jpg";
-import { Data } from "../../../util/type";
+import { ApplicationDocument, Data } from "../../../util/type";
+import DocumentCard from "../document_card";
+import { formatTag } from "../../../util/formatTag";
 
-const ApplicationFile = ({ documents }: Data) => {
+interface ApplicationFileProps extends Data {
+  documents: ApplicationDocument[];
+  id: string;
+  showViewAllButton?: boolean;
+  maxDisplayDocuments?: number;
+}
+
+const ApplicationFile = ({
+  documents,
+  id,
+  showViewAllButton = true,
+  maxDisplayDocuments,
+}: ApplicationFileProps) => {
+  const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
+
   return (
     <div className="grid-row-extra-bottom-margin documents-container">
       <h2 className="govuk-heading-l">Documents</h2>
-      <p className="govuk-body">
+      <p className="govuk-body documents-containers">
         To find out more detailed information, please read the following
         document(s) provided by the applicant.
       </p>
-      {documents && documents?.length > 0 ? (
+      {documents && documents.length > 0 ? (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            <div className="govuk-grid-column-one-third-from-desktop">
-              <div className="govuk-grid-column-one-third">
-                <Image src="/public/images/file.jpg" alt="File" />
-              </div>
-
-              <div className="govuk-grid-column-two-thirds">
-                <p className="govuk-body">
-                  <a
-                    href="#"
-                    className="govuk-link govuk-link--no-visited-state"
-                  >
-                    Application form
-                  </a>
-                </p>
-                <p className="govuk-hint">PDF, 8.94 MB, 62 pages</p>
-                <p className="govuk-hint">
-                  This file may not be suitable for users of assistive
-                  technology.
-                </p>
-              </div>
-            </div>
+          <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
+            {displayedDocuments.map((document) => (
+              <DocumentCard
+                key={document?.numbers}
+                document={document}
+                formatTag={formatTag}
+              />
+            ))}
           </div>
+          {showViewAllButton &&
+            maxDisplayDocuments &&
+            documents.length > maxDisplayDocuments && (
+              <div className="govuk-grid-row grid-row-extra-bottom-margin">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-hint">
+                    Showing {maxDisplayDocuments} of {documents.length}{" "}
+                    documents
+                  </p>
+                  <a
+                    href={`/${id}/documents`}
+                    role="button"
+                    className="govuk-button govuk-button--primary"
+                    data-module="govuk-button"
+                  >
+                    Show all {documents.length} documents
+                  </a>
+                </div>
+              </div>
+            )}
         </>
       ) : (
         <div className="govuk-grid-row grid-row-extra-bottom-margin">

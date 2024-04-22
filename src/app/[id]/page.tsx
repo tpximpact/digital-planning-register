@@ -25,7 +25,9 @@ async function Application({ params }: Params) {
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
-          <ApplicationFile {...data} />
+          {/* <ApplicationDetails {...data} /> */}
+
+          <ApplicationFile {...data} id={id} maxDisplayDocuments={3} />
           <ApplicationPeople {...data} />
           {/* <ApplicationConstraints /> */}
         </div>

@@ -14,18 +14,18 @@ interface MapProps {
   geojsonColor?: string;
   geojsonBuffer?: string;
   hideResetControl?: boolean;
-  // staticMode?: boolean;
   osVectorTilesApiKey?: string;
   geojsonData?: string;
+  showScale?: boolean;
 }
 
 const Map: React.FC<MapProps> = ({
   geojsonColor = "#ff0000",
   geojsonBuffer = "85",
   hideResetControl = true,
-  // staticMode = true,
   osVectorTilesApiKey = "",
   geojsonData = "",
+  showScale = true,
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
@@ -53,9 +53,9 @@ const Map: React.FC<MapProps> = ({
         geojsonColor={geojsonColor}
         geojsonBuffer={geojsonBuffer}
         hideResetControl={hideResetControl}
-        // staticMode={staticMode}
         osVectorTilesApiKey={osVectorTilesApiKey}
         geojsonData={geojsonData}
+        showScale={showScale}
       />
       <style jsx>{`
         my-map {
