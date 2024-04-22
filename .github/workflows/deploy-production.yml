@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-deploy-staging:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/wip-heroku'
     steps:
       - uses: docker/setup-buildx-action@v3
 
