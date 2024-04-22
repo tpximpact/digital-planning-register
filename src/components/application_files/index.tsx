@@ -1,7 +1,9 @@
-import { Data } from "../../../util/type";
+import { ApplicationDocument, Data } from "../../../util/type";
 import DocumentCard from "../document_card";
+import { formatTag } from "../../../util/formatTag";
 
 interface ApplicationFileProps extends Data {
+  documents: ApplicationDocument[];
   id: string;
   showViewAllButton?: boolean;
   documentsLimit?: number;
@@ -13,25 +15,6 @@ const ApplicationFile = ({
   showViewAllButton = true,
   documentsLimit,
 }: ApplicationFileProps) => {
-  const formatTag = (tag: any) => {
-    if (tag.includes(".")) {
-      const parts = tag.split(".");
-      const lastPart = parts.pop();
-      return [lastPart, parts.join(" ")]
-        .map((part) =>
-          part
-            .split(/(?=[A-Z])/)
-            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" "),
-        )
-        .join(" ");
-    } else {
-      return tag
-        .split(/(?=[A-Z])/)
-        .map((part: any) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ");
-    }
-  };
   const displayedDocuments = documentsLimit
     ? documents?.slice(0, documentsLimit) ?? []
     : documents ?? [];
