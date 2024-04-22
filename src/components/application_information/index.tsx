@@ -32,11 +32,8 @@ const ApplicationInformation = ({
   }
   return (
     <div>
-      <div
-        className="govuk-grid-row grid-row-extra-bottom-margin"
-        style={{ display: "flex" }}
-      >
-        <div className="govuk-grid-column-one-quarter map-container">
+      <div className="govuk-grid-row grid-row-extra-bottom-margin">
+        <div className="govuk-grid-column-one-quarter app-map">
           {geometryType && coordinates && (
             <Map
               geojsonData={JSON.stringify({
@@ -49,11 +46,11 @@ const ApplicationInformation = ({
             />
           )}
         </div>
-        <div className="govuk-grid-column-three-quarters">
+        <div className="govuk-grid-column-three-quarters key-info">
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Reference</h2>
-              <p className="govuk-body">{reference_in_full}</p>
+              <p>{reference_in_full}</p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">
@@ -67,38 +64,8 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Address</h2>
               <p className="govuk-body">
-                {site?.address_1}, {site?.postcode},
-                {/* {% if data.application_array[data['app_id']].site.address_2|length %}
-            {{data.application_array[data['app_id']].site.address_2}}, 
-          {% endif %}
-          {% if data.application_array[data['app_id']].town|length %}
-            {{data.application_array[data['app_id']].town}}, 
-          {% endif %}
-          {{ data.application_array[data['app_id']].site.postcode }} */}
+                {site?.address_1}, {site?.postcode}{" "}
               </p>
-            </div>
-
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Date Submitted</h2>
-              <p className="govuk-body">
-                {received_date
-                  ? format(new Date(received_date as string), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Decision</h2>
-              {result_flag && (
-                <p
-                  className="govuk-tag--yellow govuk-body"
-                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-                >
-                  {firstLetterUppercase(result_flag)}
-                </p>
-              )}
             </div>
 
             <div className="govuk-grid-column-one-quarter">
@@ -112,15 +79,14 @@ const ApplicationInformation = ({
                 </p>
               )}
             </div>
-
             <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Decision Date</h2>
+              <h2 className="govuk-heading-s">Date Submitted</h2>
               <p className="govuk-body">
-                {" "}
-                {format(new Date(determination_date as string), "dd MMM yyyy")}
+                {received_date
+                  ? format(new Date(received_date as string), "dd MMM yyyy")
+                  : "Date not available"}
               </p>
             </div>
-
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Consultation open until</h2>
               <p className="govuk-body">
@@ -129,8 +95,27 @@ const ApplicationInformation = ({
                       new Date(consultation?.end_date as string),
                       "dd MMM yyyy",
                     )
-                  : "Date not available"}
+                  : "Date not available"}{" "}
               </p>
+            </div>
+
+            <div className="govuk-grid-column-one-quarter">
+              <h2 className="govuk-heading-s">Decision Date</h2>
+              <p>
+                {format(new Date(determination_date as string), "dd MMM yyyy")}
+              </p>
+            </div>
+
+            <div className="govuk-grid-column-one-quarter">
+              <h2 className="govuk-heading-s">Decision</h2>
+              {result_flag && (
+                <p
+                  className="govuk-tag--yellow govuk-body"
+                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+                >
+                  {firstLetterUppercase(result_flag)}
+                </p>
+              )}
             </div>
           </div>
         </div>

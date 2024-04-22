@@ -4,7 +4,7 @@ import { Data } from "../../../util/type";
 
 const ApplicationFile = ({ documents }: Data) => {
   return (
-    <>
+    <div className="grid-row-extra-bottom-margin documents-container">
       <h2 className="govuk-heading-l">Documents</h2>
       <p className="govuk-body">
         To find out more detailed information, please read the following
@@ -37,13 +37,15 @@ const ApplicationFile = ({ documents }: Data) => {
           </div>
         </>
       ) : (
-        <div className="govuk-grid-row govuk-grid-column-two-thirds">
-          <p className="govuk-hint">
-            <em>No documents have been published at this time.</em>
-          </p>
+        <div className="govuk-grid-row grid-row-extra-bottom-margin">
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <p className="govuk-hint">
+              <em>No documents have been published at this time.</em>
+            </p>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

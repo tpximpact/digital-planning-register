@@ -7,7 +7,7 @@ const ApplicationPeople = ({
   agent_last_name,
 }: Data) => {
   return (
-    <>
+    <div className="">
       <h2 className="govuk-heading-l">People</h2>
 
       <div className="govuk-grid-row">
@@ -81,7 +81,7 @@ const ApplicationPeople = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
