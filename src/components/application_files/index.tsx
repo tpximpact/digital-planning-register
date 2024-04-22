@@ -13,11 +13,9 @@ const ApplicationFile = ({
   documents,
   id,
   showViewAllButton = true,
-  maxDisplayDouments,
+  maxDisplayDouments = 6,
 }: ApplicationFileProps) => {
-  const displayedDocuments = maxDisplayDouments
-    ? documents?.slice(0, maxDisplayDouments) ?? []
-    : documents ?? [];
+  const displayedDocuments = documents?.slice(0, maxDisplayDouments) ?? [];
 
   return (
     <>
@@ -43,7 +41,7 @@ const ApplicationFile = ({
               <div className="govuk-grid-row grid-row-extra-bottom-margin">
                 <div className="govuk-grid-column-full">
                   <p className="govuk-hint">
-                    Showing 6 of {documents.length} documents
+                    Showing {maxDisplayDouments} of {documents.length} documents
                   </p>
                   <a
                     href={`/${id}/documents`}
