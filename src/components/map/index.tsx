@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import { useWindowWidth } from "@react-hook/window-size";
 
 declare global {
   namespace JSX {
@@ -26,11 +27,12 @@ const Map: React.FC<MapProps> = ({
   osVectorTilesApiKey = "",
   geojsonData = "",
 }) => {
+  const onlyWidth = useWindowWidth();
   useEffect(() => {
     const map = document.querySelector("my-map") as HTMLElement;
     if (map) {
       map.style.width = "28rem";
-      map.style.height = "14rem";
+      map.style.height = onlyWidth <= 1090 ? "20rem" : "14rem";
       map.style.display = "table-cell";
       map.style.padding = "0, 15px, 15px 0";
 
@@ -42,7 +44,7 @@ const Map: React.FC<MapProps> = ({
         console.debug({ geojson: (event as CustomEvent).detail });
       });
     }
-  }, []);
+  }, [onlyWidth]);
 
   return (
     <div>
