@@ -100,3 +100,56 @@
     width: 100%;
   }
 }
+
+// Comments
+.comment {
+  border-left: 5px solid govuk-colour("mid-grey");
+  margin-left: 15px;
+}
+.comment-container {
+  max-height: 25rem;
+  overflow: hidden;
+}
+label.comment-expander {
+  color: govuk-colour("blue");
+  margin-top: 2em;
+  display: block;
+  position: relative;
+}
+label.comment-expander::before {
+  content: "...";
+  display: block;
+  position: absolute;
+  color: govuk-colour("black");
+  top: -2rem;
+  font-size: 19px;
+}
+input[type="checkbox"].show-comment:checked ~ .comment-expander::before {
+  display: none;
+}
+input[type="checkbox"].show-comment {
+  display: none;
+}
+input[type="checkbox"].show-comment:checked + .comment-container {
+  max-height: 100000rem;
+  padding-bottom: 0;
+}
+input[type="checkbox"].show-comment:checked + .comment-container::after {
+  content: "";
+}
+input[type="checkbox"].show-comment:checked ~ .comment-expander {
+  margin-top: 0;
+}
+input[type="checkbox"].show-comment:checked
+  ~ .comment-expander
+  > .read-comment {
+  display: none;
+}
+input[type="checkbox"].show-comment ~ .comment-expander > .hide-comment {
+  display: none;
+}
+input[type="checkbox"].show-comment:checked
+  ~ .comment-expander
+  > .hide-comment {
+  display: inline;
+}

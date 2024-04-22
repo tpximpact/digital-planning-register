@@ -6,6 +6,8 @@ import ApplicationDetails from "@/components/application_details";
 import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
+import ApplicationConsulteeComments from "@/components/application_consultee_comments";
+import ApplicationPublishedComments from "@/components/application_published_comments";
 
 type Id = {
   id: string;
@@ -29,6 +31,19 @@ async function Application({ params }: Params) {
 
           {/* <ApplicationPeople {...data}/> */}
           <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
+          <ApplicationConsulteeComments
+            {...data}
+            id={id}
+            maxDisplayComments={1}
+            showViewAllButton={true}
+          />
+          <ApplicationPublishedComments
+            {...data}
+            id={id}
+            maxDisplayComments={1}
+            showViewAllButton={true}
+          />
+
           {/* <ApplicationConstraints /> */}
         </>
       )}
