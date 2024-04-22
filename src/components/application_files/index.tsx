@@ -6,16 +6,16 @@ interface ApplicationFileProps extends Data {
   documents: ApplicationDocument[];
   id: string;
   showViewAllButton?: boolean;
-  maxDisplayDouments?: number;
+  maxDisplayDocuments?: number;
 }
 
 const ApplicationFile = ({
   documents,
   id,
   showViewAllButton = true,
-  maxDisplayDouments,
+  maxDisplayDocuments,
 }: ApplicationFileProps) => {
-  const displayedDocuments = documents?.slice(0, maxDisplayDouments) ?? [];
+  const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
 
   return (
     <>
@@ -36,12 +36,13 @@ const ApplicationFile = ({
             ))}
           </div>
           {showViewAllButton &&
-            maxDisplayDouments &&
-            documents.length > maxDisplayDouments && (
+            maxDisplayDocuments &&
+            documents.length > maxDisplayDocuments && (
               <div className="govuk-grid-row grid-row-extra-bottom-margin">
                 <div className="govuk-grid-column-full">
                   <p className="govuk-hint">
-                    Showing {maxDisplayDouments} of {documents.length} documents
+                    Showing {maxDisplayDocuments} of {documents.length}{" "}
+                    documents
                   </p>
                   <a
                     href={`/${id}/documents`}

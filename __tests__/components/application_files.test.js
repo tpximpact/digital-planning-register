@@ -54,7 +54,7 @@ describe("ApplicationFile", () => {
         id="123"
         documents={mockDocuments}
         showViewAllButton={true}
-        maxDisplayDouments={1}
+        maxDisplayDocuments={1}
       />,
     );
 
