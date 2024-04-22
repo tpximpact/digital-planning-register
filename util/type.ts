@@ -1,6 +1,9 @@
-export type Document = {
+export type ApplicationDocument = {
   url?: string;
   applicant_description?: string;
+  tags?: string[];
+  created_at?: string;
+  numbers?: string;
 };
 
 export type Data = {
@@ -18,7 +21,7 @@ export type Data = {
   agent_last_name?: string;
   applicant_first_name?: string;
   applicant_last_name?: string;
-  documents?: Document[];
+  documents?: ApplicationDocument[];
   boundary_geojson?: BoundaryGeojson;
 };
 

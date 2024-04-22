@@ -1,40 +1,69 @@
-import Image from "next/image";
-import file from "../../../public/images/file.jpg";
-import { Data } from "../../../util/type";
+import { ApplicationDocument, Data } from "../../../util/type";
+import DocumentCard from "../document_card";
+import { formatTag } from "../../../util/formatTag";
 
-const ApplicationFile = ({ documents }: Data) => {
+interface ApplicationFileProps extends Data {
+  documents: ApplicationDocument[];
+  id: string;
+  showViewAllButton?: boolean;
+  maxDisplayDocuments?: number;
+}
+
+const ApplicationFile = ({
+  documents,
+  id,
+  showViewAllButton = true,
+  maxDisplayDocuments,
+}: ApplicationFileProps) => {
+  const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
+
   return (
     <>
-      {documents && documents?.length > 0 && (
+      <h2 className="govuk-heading-l">Documents</h2>
+      <p className="govuk-body documents-containers">
+        To find out more detailed information, please read the following
+        document(s) provided by the applicant.
+      </p>
+      {documents && documents.length > 0 ? (
         <>
-          <h2 className="govuk-heading-l">Files</h2>
-          <p className="govuk-body documents-containers">
-            To find out more detailed information, please read the following
-            document(s) provided by the applicant.
-          </p>
-          <div style={{ display: "flex", gap: "50px", flexWrap: "wrap" }}>
-            {documents.map((document: any, index: any) => (
-              <div key={index} style={{ display: "flex", gap: "0 15px" }}>
-                <Image src={file} alt="File" width={130} height={160} />
-                <div className="" style={{ maxWidth: "20rem" }}>
-                  <p className="govuk-body">
-                    <a
-                      href={document?.url}
-                      className="govuk-link govuk-link--no-visited-state"
-                    >
-                      {document.applicant_description}
-                    </a>
-                  </p>
-                  <p className="govuk-hint">PDF, 8.94 MB, 62 pages</p>
-                  <p className="govuk-hint">
-                    This file may not be suitable for users of assistive
-                    technology.
-                  </p>
-                </div>
-              </div>
+          <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
+            {displayedDocuments.map((document) => (
+              <DocumentCard
+                key={document?.numbers}
+                document={document}
+                formatTag={formatTag}
+              />
             ))}
           </div>
+          {showViewAllButton &&
+            maxDisplayDocuments &&
+            documents.length > maxDisplayDocuments && (
+              <div className="govuk-grid-row grid-row-extra-bottom-margin">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-hint">
+                    Showing {maxDisplayDocuments} of {documents.length}{" "}
+                    documents
+                  </p>
+                  <a
+                    href={`/${id}/documents`}
+                    role="button"
+                    className="govuk-button govuk-button--primary"
+                    data-module="govuk-button"
+                  >
+                    Show all {documents.length} documents
+                  </a>
+                </div>
+              </div>
+            )}
         </>
+      ) : (
+        <div className="govuk-grid-row grid-row-extra-bottom-margin">
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <p className="govuk-hint">
+              <em>No documents have been published at this time.</em>
+            </p>
+          </div>
+        </div>
       )}
     </>
   );
