@@ -17,7 +17,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">
+              <p className="govuk-body" role="applicant-name">
                 {applicant_first_name} {applicant_last_name}
               </p>
             </div>
@@ -47,7 +47,9 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">19 Road Street, Placeton, Cityville, PO5 7CO</p>
+              <p className="govuk-body">
+                19 Road Street, Placeton, Cityville, PO5 7CO
+              </p>
             </div>
           </div>
         </div>
@@ -58,7 +60,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">
+              <p className="govuk-body" role="agent-name">
                 {agent_first_name} {agent_last_name}
               </p>
             </div>

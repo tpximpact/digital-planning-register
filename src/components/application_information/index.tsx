@@ -50,12 +50,14 @@ const ApplicationInformation = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Reference</h2>
-              <p>{reference_in_full}</p>
+              <p className="govuk-body" role="application-reference">
+                {reference_in_full}
+              </p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Type</h2>
-              <p className="govuk-body">
+              <p className="govuk-body" role="application-type">
                 {application_type &&
                   firstLetterUppercase(application_type?.replace(/_/g, " "))}
               </p>
@@ -73,6 +75,7 @@ const ApplicationInformation = ({
               {status && (
                 <p
                   className="govuk-tag--blue govuk-body"
+                  role="application-status"
                   style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                 >
                   {firstLetterUppercase(status?.replace(/_/g, " "))}
@@ -122,7 +125,9 @@ const ApplicationInformation = ({
       </div>
 
       <h2 className="govuk-heading-l">Description</h2>
-      <p className="govuk-body">{description}</p>
+      <p className="govuk-body" role="application-description">
+        {description}
+      </p>
     </div>
   );
 };
