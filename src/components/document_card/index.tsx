@@ -1,4 +1,3 @@
-// components/DocumentCard.tsx
 import Image from "next/image";
 import file from "../../../public/images/file-icon-default.svg";
 

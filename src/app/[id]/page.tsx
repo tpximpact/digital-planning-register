@@ -28,7 +28,7 @@ async function Application({ params }: Params) {
           <ApplicationDetails {...data} />
 
           {/* <ApplicationPeople {...data}/> */}
-          <ApplicationFile {...data} id={id} documentsLimit={6} />
+          <ApplicationFile {...data} id={id} maxDisplayDouments={6} />
           {/* <ApplicationConstraints /> */}
         </>
       )}
