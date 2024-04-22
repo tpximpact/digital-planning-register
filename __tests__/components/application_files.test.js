@@ -42,7 +42,7 @@ const mockDocuments = [
   {
     numbers: "7",
     url: "https://example.com/document7",
-    tags: ["tag.test"],
+    tags: ["tag.invalid"],
     created_at: "2023-06-08T11:00:00Z",
   },
 ];
@@ -54,7 +54,7 @@ describe("ApplicationFile", () => {
         id="123"
         documents={mockDocuments}
         showViewAllButton={true}
-        maxDisplayDocuments={1}
+        maxDisplayDocuments={6}
       />,
     );
 
@@ -66,6 +66,7 @@ describe("ApplicationFile", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Showing 6 of 7 documents")).toBeInTheDocument();
     expect(screen.getByText("Show all 7 documents")).toBeInTheDocument();
+    expect(screen.queryByText("Invalid")).not.toBeInTheDocument();
   });
 
   test("renders the component without documents", () => {

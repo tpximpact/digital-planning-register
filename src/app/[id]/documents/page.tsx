@@ -6,8 +6,6 @@ import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
 
-const resultsPerPage = 10;
-
 export default function Documents({
   params: { id },
 }: {
@@ -15,6 +13,7 @@ export default function Documents({
 }) {
   const [data, setData] = useState<any>(undefined);
   const [currentPage, setCurrentPage] = useState(0);
+  const maxDisplayDocuments = 10;
 
   useEffect(() => {
     (async () => {
@@ -23,8 +22,8 @@ export default function Documents({
     })();
   }, [id]);
 
-  const indexOfLastDocument = (currentPage + 1) * resultsPerPage;
-  const indexOfFirstDocument = indexOfLastDocument - resultsPerPage;
+  const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
+  const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
   const currentDocuments = data?.documents?.slice(
     indexOfFirstDocument,
     indexOfLastDocument,
@@ -34,11 +33,12 @@ export default function Documents({
     setCurrentPage(event.selected);
   };
 
-  const showPagination = data?.documents?.length > resultsPerPage;
+  const showPagination = data?.documents?.length > maxDisplayDocuments;
 
   const preview = currentPage === 0 ? "" : <PreviewIcon />;
   const next =
-    currentPage === Math.ceil(data?.documents?.length / resultsPerPage) - 1 ? (
+    currentPage ===
+    Math.ceil(data?.documents?.length / maxDisplayDocuments) - 1 ? (
       ""
     ) : (
       <NextIcon />
@@ -70,6 +70,7 @@ export default function Documents({
             id={id}
             showViewAllButton={false}
             documents={currentDocuments}
+            maxDisplayDocuments={maxDisplayDocuments}
           />
           {showPagination && (
             <div className="pagination-section">
@@ -79,7 +80,9 @@ export default function Documents({
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={1}
-                pageCount={Math.ceil(data?.documents?.length / resultsPerPage)}
+                pageCount={Math.ceil(
+                  data?.documents?.length / maxDisplayDocuments,
+                )}
                 previousLabel={preview}
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
