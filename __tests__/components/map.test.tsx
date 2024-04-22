@@ -3,6 +3,10 @@ import "@testing-library/jest-dom";
 
 import Map from "@/components/map";
 
+jest.mock("@react-hook/window-size", () => ({
+  useWindowWidth: jest.fn(),
+}));
+
 describe("Map Component", () => {
   it("renders correctly with default props", () => {
     const { container } = render(<Map />);
