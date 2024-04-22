@@ -13,7 +13,7 @@ const ApplicationFile = ({
   documents,
   id,
   showViewAllButton = true,
-  maxDisplayDouments = 6,
+  maxDisplayDouments,
 }: ApplicationFileProps) => {
   const displayedDocuments = documents?.slice(0, maxDisplayDouments) ?? [];
 
