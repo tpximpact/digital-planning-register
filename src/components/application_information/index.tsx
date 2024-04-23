@@ -104,7 +104,7 @@ const ApplicationInformation = ({
 
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Decision Date</h2>
-              <p>
+              <p className="govuk-body">
                 {format(new Date(determination_date as string), "dd MMM yyyy")}
               </p>
             </div>
