@@ -9,13 +9,16 @@ const Header = () => {
   const onlyWidth = useWindowWidth();
 
   useEffect(() => {
-    onlyWidth >= 1020 ? setIsOpenMenu(true) : setIsOpenMenu(false);
+    onlyWidth >= 769 ? setIsOpenMenu(true) : setIsOpenMenu(false);
   }, [onlyWidth]);
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
         <div className="govuk-header__logo">
-          <Link href="/">
+          <Link
+            href="/"
+            className="govuk-header__link govuk-header__link--homepage"
+          >
             <svg
               focusable="false"
               role="img"
