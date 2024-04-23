@@ -34,13 +34,13 @@ async function Application({ params }: Params) {
           <ApplicationConsulteeComments
             {...data}
             id={id}
-            maxDisplayComments={1}
+            maxDisplayComments={3}
             showViewAllButton={true}
           />
           <ApplicationPublishedComments
             {...data}
             id={id}
-            maxDisplayComments={1}
+            maxDisplayComments={3}
             showViewAllButton={true}
           />
 

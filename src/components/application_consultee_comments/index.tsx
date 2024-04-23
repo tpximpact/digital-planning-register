@@ -22,7 +22,7 @@ const ApplicationConsulteeComments = ({
       <h2 className="govuk-heading-l">Specialist Comments</h2>
       {consultee_comments && consultee_comments.length > 0 ? (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
+          <div className="govuk-grid-row grid-row-extra-bottom-margin">
             {displayedComments.map((comment, index) => (
               <CommentCard key={index} comment={comment} />
             ))}

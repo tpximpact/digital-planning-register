@@ -5,14 +5,14 @@ import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
-import ApplicationConsulteeComment from "@/components/application_consultee_comments";
+import ApplicationConsulteeComments from "@/components/application_consultee_comments";
 
 export default function ConsulteeComments({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const [data, setData] = useState<any>(undefined);
+  const [data, setData] = useState<any>();
   const [currentPage, setCurrentPage] = useState(0);
   const maxDisplayComments = 10;
 
@@ -25,25 +25,26 @@ export default function ConsulteeComments({
 
   const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
   const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
-  const currentComments = data?.consultee_comments?.slice(
-    indexOfFirstComment,
-    indexOfLastComment,
-  );
+  const currentComments =
+    data?.consultee_comments?.slice(indexOfFirstComment, indexOfLastComment) ??
+    [];
 
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
   };
 
-  const showPagination = data?.consultee_comments?.length > maxDisplayComments;
-
+  const showPagination =
+    (data?.consultee_comments?.length ?? 0) > maxDisplayComments;
   const preview = currentPage === 0 ? "" : <PreviewIcon />;
   const next =
     currentPage ===
-    Math.ceil(data?.consultee_comments?.length / maxDisplayComments) - 1 ? (
+    Math.ceil((data?.consultee_comments?.length ?? 0) / maxDisplayComments) -
+      1 ? (
       ""
     ) : (
       <NextIcon />
     );
+
   return (
     <div>
       <BackLink href="/" />
@@ -66,12 +67,11 @@ export default function ConsulteeComments({
               </div>
             </div>
           </div>
-          <ApplicationConsulteeComment
-            {...data}
-            id={id}
+          <ApplicationConsulteeComments
+            id={data.id}
             showViewAllButton={false}
-            comments={currentComments}
-            maxDisplayComments={maxDisplayComments}
+            consultee_comments={currentComments}
+            maxDisplayComments={10}
           />
           {showPagination && (
             <div className="pagination-section">
@@ -82,7 +82,7 @@ export default function ConsulteeComments({
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={1}
                 pageCount={Math.ceil(
-                  data?.consultee_comments?.length / maxDisplayComments,
+                  (data?.consultee_comments?.length ?? 0) / maxDisplayComments,
                 )}
                 previousLabel={preview}
                 pageClassName="page-item"
