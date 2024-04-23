@@ -27,7 +27,7 @@ async function Application({ params }: Params) {
           {/* <ApplicationLocation /> */}
           {/* <ApplicationDetails {...data} /> */}
 
-          <ApplicationFile {...data} id={id} maxDisplayDocuments={3} />
+          <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
           <ApplicationPeople {...data} />
           {/* <ApplicationConstraints /> */}
         </div>
