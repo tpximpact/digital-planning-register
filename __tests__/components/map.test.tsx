@@ -3,6 +3,10 @@ import "@testing-library/jest-dom";
 
 import Map from "@/components/map";
 
+jest.mock("@react-hook/window-size", () => ({
+  useWindowWidth: jest.fn(),
+}));
+
 describe("Map Component", () => {
   it("renders correctly with default props", () => {
     const { container } = render(<Map />);
@@ -16,7 +20,7 @@ describe("Map Component", () => {
     const { container } = render(<Map />);
     const mapElement = container.querySelector("my-map");
     expect(mapElement).toHaveStyle(
-      "width: 450px; height: 350px; display: table-cell; padding: 0, 15px, 15px, 0",
+      "width: 28rem; height: 14rem; display: table-cell; padding: 0, 15px, 15px, 0",
     );
   });
 

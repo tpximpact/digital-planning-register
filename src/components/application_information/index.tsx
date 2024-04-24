@@ -1,6 +1,7 @@
 import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
+import { firstLetterUppercase } from "../../help/index";
 
 const ApplicationInformation = ({
   reference_in_full,
@@ -12,6 +13,7 @@ const ApplicationInformation = ({
   status,
   consultation,
   boundary_geojson,
+  description,
 }: Data) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -29,15 +31,9 @@ const ApplicationInformation = ({
     }
   }
   return (
-    <>
-      <div
-        className="govuk-grid-row grid-row-extra-bottom-margin"
-        style={{ display: "flex" }}
-      >
-        <div
-          className="govuk-grid-column-one-quarter map-container"
-          style={{ width: "450px", height: "350px" }}
-        >
+    <div>
+      <div className="govuk-grid-row grid-row-extra-bottom-margin">
+        <div className="govuk-grid-column-one-quarter app-map">
           {geometryType && coordinates && (
             <Map
               geojsonData={JSON.stringify({
@@ -50,11 +46,10 @@ const ApplicationInformation = ({
             />
           )}
         </div>
-
-        <div className="govuk-grid-column-three-quarters">
+        <div className="govuk-grid-column-three-quarters key-info">
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Reference Number</h2>
+              <h2 className="govuk-heading-s">Application Reference</h2>
               <p className="govuk-body" role="application-reference">
                 {reference_in_full}
               </p>
@@ -63,53 +58,36 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Type</h2>
               <p className="govuk-body" role="application-type">
-                {application_type?.replace(/_/g, " ")}
+                {application_type &&
+                  firstLetterUppercase(application_type?.replace(/_/g, " "))}
               </p>
             </div>
 
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Address</h2>
               <p className="govuk-body">
-                {site?.address_1}, {site?.postcode}
+                {site?.address_1}, {site?.postcode}{" "}
               </p>
             </div>
 
+            <div className="govuk-grid-column-one-quarter">
+              <h2 className="govuk-heading-s">Status</h2>
+              {status && (
+                <p
+                  className="govuk-tag--blue govuk-body"
+                  role="application-status"
+                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+                >
+                  {firstLetterUppercase(status?.replace(/_/g, " "))}
+                </p>
+              )}
+            </div>
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Date Submitted</h2>
               <p className="govuk-body">
                 {received_date
                   ? format(new Date(received_date as string), "dd MMM yyyy")
                   : "Date not available"}
-              </p>
-            </div>
-          </div>
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Decision</h2>
-              {result_flag && (
-                <p
-                  className="govuk-tag--yellow govuk-body"
-                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-                >
-                  {result_flag}
-                </p>
-              )}
-            </div>
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Status</h2>
-              <p
-                className="govuk-tag--blue govuk-body"
-                role="application-status"
-                style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-              >
-                {status?.replace(/_/g, " ")}
-              </p>
-            </div>
-
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Decision Date</h2>
-              <p className="govuk-body">
-                {format(new Date(determination_date as string), "dd MMM yyyy")}
               </p>
             </div>
             <div className="govuk-grid-column-one-quarter">
@@ -120,49 +98,37 @@ const ApplicationInformation = ({
                       new Date(consultation?.end_date as string),
                       "dd MMM yyyy",
                     )
-                  : "Date not available"}
+                  : "Date not available"}{" "}
               </p>
+            </div>
+
+            <div className="govuk-grid-column-one-quarter">
+              <h2 className="govuk-heading-s">Decision Date</h2>
+              <p className="govuk-body">
+                {format(new Date(determination_date as string), "dd MMM yyyy")}
+              </p>
+            </div>
+
+            <div className="govuk-grid-column-one-quarter">
+              <h2 className="govuk-heading-s">Decision</h2>
+              {result_flag && (
+                <p
+                  className="govuk-tag--yellow govuk-body"
+                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+                >
+                  {firstLetterUppercase(result_flag)}
+                </p>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="govuk-grid-row  grid-row-extra-bottom-margin">
-        <div
-          className="govuk-grid-column-full"
-          style={{
-            maxWidth: "50rem",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <a
-            href="/"
-            role="button"
-            className="govuk-button govuk-button--secondary button-extra-right-margin"
-            data-module="govuk-button"
-          >
-            View on map
-          </a>
-          <a
-            href="/"
-            role="button"
-            className="govuk-button govuk-button--secondary button-extra-right-margin"
-            data-module="govuk-button"
-          >
-            View the Digital Site Notice
-          </a>
-          <a
-            href="/"
-            role="button"
-            className="govuk-button govuk-button--secondary"
-            data-module="govuk-button"
-          >
-            View the submitted application
-          </a>
-        </div>
-      </div>
-    </>
+      <h2 className="govuk-heading-l">Description</h2>
+      <p className="govuk-body" role="application-description">
+        {description}
+      </p>
+    </div>
   );
 };
 

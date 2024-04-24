@@ -19,6 +19,7 @@ describe("Render ApplicationInformation", () => {
     determination_date: "2024-03-19",
     status: "not_started",
     consultation: { end_date: "2024-04-08" },
+    description: "Simple description",
     boundary_geojson: {
       type: "Feature",
       geometry: {
@@ -48,6 +49,12 @@ describe("Render ApplicationInformation", () => {
     expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("application-description", {
+        Name: mockData.description,
+      }),
+    );
   });
 
   it("should render correctly with MultiPolygon geometry", () => {

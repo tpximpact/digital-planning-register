@@ -7,8 +7,9 @@ const ApplicationPeople = ({
   agent_last_name,
 }: Data) => {
   return (
-    <>
+    <div className="">
       <h2 className="govuk-heading-l">People</h2>
+
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
           <h3 className="govuk-heading-m">Applicant</h3>
@@ -21,6 +22,7 @@ const ApplicationPeople = ({
               </p>
             </div>
           </div>
+
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Type</h4>
@@ -80,34 +82,8 @@ const ApplicationPeople = ({
             </div>
           </div>
         </div>
-
-        <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Owner</h3>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">Joanne Doe</p>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">
-                91 Road Street, Placeton, Cityville, PO5 7CO
-              </p>
-            </div>
-          </div>
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Notice given</h4>
-              <p className="govuk-body">01/02/2024</p>
-            </div>
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

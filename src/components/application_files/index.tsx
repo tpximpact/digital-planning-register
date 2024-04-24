@@ -18,7 +18,7 @@ const ApplicationFile = ({
   const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
 
   return (
-    <>
+    <div className="grid-row-extra-bottom-margin documents-container">
       <h2 className="govuk-heading-l">Documents</h2>
       <p className="govuk-body documents-containers">
         To find out more detailed information, please read the following
@@ -65,7 +65,7 @@ const ApplicationFile = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

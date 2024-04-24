@@ -20,15 +20,14 @@ async function Application({ params }: Params) {
   const data = await getApplicationById(parseFloat(id as string));
 
   return (
-    <div>
+    <div className="govuk-width-container">
       <BackLink href="/" />
       {data && (
-        <>
+        <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
-          <ApplicationDetails {...data} />
+          {/* <ApplicationDetails {...data} /> */}
 
-          {/* <ApplicationPeople {...data}/> */}
           <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
           <ApplicationComments
             {...data}
@@ -48,7 +47,7 @@ async function Application({ params }: Params) {
             comments={data.published_comments}
           />
           {/* <ApplicationConstraints /> */}
-        </>
+        </div>
       )}
     </div>
   );
