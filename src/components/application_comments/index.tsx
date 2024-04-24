@@ -1,26 +1,38 @@
+// /path/to/ApplicationComments.tsx
 import { ApplicationComment, Data } from "../../../util/type";
-
 import CommentCard from "../comment_card";
 
-interface ApplicationConsulteeCommentsProps extends Data {
-  consultee_comments: ApplicationComment[];
+interface ApplicationCommentsProps extends Data {
+  comments?: ApplicationComment[];
   id: string;
+  type: "consultee" | "published";
   maxDisplayComments?: number;
   showViewAllButton?: boolean;
 }
-const ApplicationConsulteeComments = ({
-  consultee_comments,
+
+const ApplicationComments = ({
+  comments = [],
   id,
+  type,
   maxDisplayComments,
   showViewAllButton = true,
-}: ApplicationConsulteeCommentsProps) => {
-  const displayedComments = consultee_comments
-    ? consultee_comments.slice(0, maxDisplayComments)
-    : [];
+}: ApplicationCommentsProps) => {
+  const displayedComments = comments.slice(
+    0,
+    maxDisplayComments ?? comments.length,
+  );
+  const commentTypeLabel =
+    type === "consultee" ? "professional consultee" : "neighbour";
+  const noCommentsMessage =
+    type === "consultee"
+      ? "No comments from specialists have been published at this time."
+      : "No comments from the public have been published at this time.";
   return (
     <>
-      <h2 className="govuk-heading-l">Specialist Comments</h2>
-      {consultee_comments && consultee_comments.length > 0 ? (
+      <h2 className="govuk-heading-l">
+        {type === "consultee" ? "Specialist Comments" : "Published Comments"}
+      </h2>
+      {comments.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
             {displayedComments.map((comment, index) => (
@@ -29,21 +41,19 @@ const ApplicationConsulteeComments = ({
           </div>
           {showViewAllButton &&
             maxDisplayComments &&
-            consultee_comments.length > maxDisplayComments && (
+            comments.length > maxDisplayComments && (
               <div className="govuk-grid-row grid-row-extra-bottom-margin">
                 <div className="govuk-grid-column-full">
                   <p className="govuk-hint">
-                    Showing {maxDisplayComments} of {consultee_comments.length}{" "}
-                    comments
+                    Showing {maxDisplayComments} of {comments.length} comments
                   </p>
                   <a
-                    href={`/${id}/consultee_comments`}
+                    href={`/${id}/${type}_comments`}
                     role="button"
                     className="govuk-button govuk-button--primary"
                     data-module="govuk-button"
                   >
-                    Show all {consultee_comments.length} professional consultee
-                    comments
+                    Show all {comments.length} {commentTypeLabel} comments
                   </a>
                 </div>
               </div>
@@ -53,9 +63,7 @@ const ApplicationConsulteeComments = ({
         <div className="govuk-grid-row grid-row-extra-bottom-margin">
           <div className="govuk-grid-column-one-third-from-desktop">
             <p className="govuk-hint">
-              <em>
-                No comments from specialists have been published at this time.
-              </em>
+              <em>{noCommentsMessage}</em>
             </p>
           </div>
         </div>
@@ -64,4 +72,4 @@ const ApplicationConsulteeComments = ({
   );
 };
 
-export default ApplicationConsulteeComments;
+export default ApplicationComments;

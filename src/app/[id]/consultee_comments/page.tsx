@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getApplicationById } from "@/actions";
-import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
-import ApplicationConsulteeComments from "@/components/application_consultee_comments";
+import ApplicationComments from "@/components/application_comments";
 
 export default function ConsulteeComments({
   params: { id },
@@ -67,11 +66,13 @@ export default function ConsulteeComments({
               </div>
             </div>
           </div>
-          <ApplicationConsulteeComments
-            id={data.id}
-            showViewAllButton={false}
-            consultee_comments={currentComments}
+          <ApplicationComments
+            {...data}
+            id={id}
             maxDisplayComments={10}
+            showViewAllButton={true}
+            type="consultee"
+            comments={currentComments}
           />
           {showPagination && (
             <div className="pagination-section">

@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getApplicationById } from "@/actions";
-import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
-import ApplicationPublishedComments from "@/components/application_published_comments";
+import ApplicationComments from "@/components/application_comments";
 
 export default function PublishedComments({
   params: { id },
@@ -67,11 +66,13 @@ export default function PublishedComments({
               </div>
             </div>
           </div>
-          <ApplicationPublishedComments
-            id={data.id}
-            showViewAllButton={false}
-            published_comments={currentComments}
+          <ApplicationComments
+            {...data}
+            id={id}
             maxDisplayComments={10}
+            showViewAllButton={true}
+            type="published"
+            comments={currentComments}
           />
           {showPagination && (
             <div className="pagination-section">
