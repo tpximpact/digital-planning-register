@@ -48,7 +48,7 @@ const ApplicationComments = ({
                     Showing {maxDisplayComments} of {comments.length} comments
                   </p>
                   <a
-                    href={`/${id}/${type}_comments`}
+                    href={`/${id}/comments?type=${type}`}
                     role="button"
                     className="govuk-button govuk-button--primary"
                     data-module="govuk-button"

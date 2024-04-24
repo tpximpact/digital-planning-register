@@ -6,10 +6,12 @@ import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
 import ApplicationComments from "@/components/application_comments";
 
-export default function PublishedComments({
+export default function Comments({
   params: { id },
+  searchParams,
 }: {
   params: { id: string };
+  searchParams?: { type?: string };
 }) {
   const [data, setData] = useState<any>();
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,23 +24,26 @@ export default function PublishedComments({
     })();
   }, [id]);
 
+  const type = searchParams?.type ?? "published";
+  const commentsType = type === "consultee" ? "consultee" : "published";
+  const comments =
+    commentsType === "consultee"
+      ? data?.consultee_comments
+      : data?.published_comments;
   const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
   const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
   const currentComments =
-    data?.published_comments?.slice(indexOfFirstComment, indexOfLastComment) ??
-    [];
+    comments?.slice(indexOfFirstComment, indexOfLastComment) ?? [];
 
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
   };
 
-  const showPagination =
-    (data?.published_comments?.length ?? 0) > maxDisplayComments;
+  const showPagination = (comments?.length ?? 0) > maxDisplayComments;
   const preview = currentPage === 0 ? "" : <PreviewIcon />;
   const next =
     currentPage ===
-    Math.ceil((data?.published_comments?.length ?? 0) / maxDisplayComments) -
-      1 ? (
+    Math.ceil((comments?.length ?? 0) / maxDisplayComments) - 1 ? (
       ""
     ) : (
       <NextIcon />
@@ -70,8 +75,8 @@ export default function PublishedComments({
             {...data}
             id={id}
             maxDisplayComments={10}
-            showViewAllButton={true}
-            type="published"
+            showViewAllButton={false}
+            type={type}
             comments={currentComments}
           />
           {showPagination && (
@@ -83,7 +88,7 @@ export default function PublishedComments({
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={1}
                 pageCount={Math.ceil(
-                  (data?.published_comments?.length ?? 0) / maxDisplayComments,
+                  (comments?.length ?? 0) / maxDisplayComments,
                 )}
                 previousLabel={preview}
                 pageClassName="page-item"
