@@ -1,0 +1,88 @@
+// ApplicationComments.test.tsx
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import ApplicationComments from "@/components/application_comments";
+import { mockData } from "../mockData";
+import "@testing-library/jest-dom";
+
+describe("ApplicationComments", () => {
+  it("renders consultee comments correctly", () => {
+    render(
+      <ApplicationComments
+        {...mockData}
+        id={mockData.id}
+        type="consultee"
+        maxDisplayComments={10}
+        showViewAllButton={true}
+        comments={mockData.consultee_comments}
+      />,
+    );
+
+    expect(screen.getByText("Specialist Comments")).toBeInTheDocument();
+    expect(screen.getByText("This is the first comment.")).toBeInTheDocument();
+    expect(
+      screen.getByText("I have some concerns about the proposed plan."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Showing 10 of 20 comments")).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 20 professional consultee comments"),
+    ).toBeInTheDocument();
+  });
+
+  it("renders published comments correctly", () => {
+    render(
+      <ApplicationComments
+        {...mockData}
+        id={mockData.id}
+        type="published"
+        maxDisplayComments={10}
+        showViewAllButton={true}
+        comments={mockData.published_comments}
+      />,
+    );
+
+    expect(screen.getByText("Published Comments")).toBeInTheDocument();
+    expect(screen.getByText("This is the first comment.")).toBeInTheDocument();
+    expect(
+      screen.getByText("I have some concerns about the proposed plan."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Showing 10 of 55 comments")).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 55 neighbour comments"),
+    ).toBeInTheDocument();
+  });
+
+  it("renders no comments message for consultee comments", () => {
+    render(
+      <ApplicationComments
+        {...mockData}
+        comments={[]}
+        id={mockData.id}
+        type="consultee"
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        "No comments from specialists have been published at this time.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders no comments message for published comments", () => {
+    render(
+      <ApplicationComments
+        {...mockData}
+        comments={[]}
+        id={mockData.id}
+        type="published"
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        "No comments from the public have been published at this time.",
+      ),
+    ).toBeInTheDocument();
+  });
+});
