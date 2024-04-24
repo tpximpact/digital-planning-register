@@ -1,9 +1,15 @@
-export const CommentCard = ({ comment }: { comment: any }) => {
+export const CommentCard = ({
+  comment,
+  commentNumber,
+}: {
+  comment: any;
+  commentNumber: any;
+}) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-full comment">
         <div className="comment-container">
-          <h3 className="govuk-heading-m">Comment #104</h3>
+          <h3 className="govuk-heading-m"> Comment #{commentNumber}</h3>
           <p className="govuk-body">
             <em>
               Published{" "}

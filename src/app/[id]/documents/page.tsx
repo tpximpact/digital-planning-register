@@ -5,6 +5,7 @@ import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviewIcon } from "../../../../public/icons";
+import ApplicationHeader from "@/components/application_header";
 
 export default function Documents({
   params: { id },
@@ -48,23 +49,10 @@ export default function Documents({
       <BackLink href="/" />
       {data && (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Application Reference</h2>
-              <p className="govuk-body">{data.reference_in_full}</p>
-            </div>
-
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Address</h2>
-              <div className="govuk-body">
-                {data.site?.address_1 && <p>{data.site.address_1}</p>}
-                {data.site?.address_2 && <p>{data.site.address_2}</p>}
-                {data.site?.town && `${data.site.town}, `}
-                {data.site?.county && `${data.site.county}, `}
-                {data.site?.postcode}
-              </div>
-            </div>
-          </div>
+          <ApplicationHeader
+            reference={data.reference_in_full}
+            address={data.site}
+          />
           <ApplicationFile
             {...data}
             id={id}

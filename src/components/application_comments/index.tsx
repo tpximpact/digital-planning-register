@@ -27,6 +27,12 @@ const ApplicationComments = ({
     type === "consultee"
       ? "No comments from specialists have been published at this time."
       : "No comments from the public have been published at this time.";
+
+  const sortedComments = displayedComments.sort((a, b) => {
+    const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
+    const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
+    return dateB - dateA;
+  });
   return (
     <>
       <h2 className="govuk-heading-l">
@@ -35,8 +41,12 @@ const ApplicationComments = ({
       {comments.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            {displayedComments.map((comment, index) => (
-              <CommentCard key={index} comment={comment} />
+            {sortedComments.map((comment, index) => (
+              <CommentCard
+                key={index}
+                comment={comment}
+                commentNumber={index + 1}
+              />
             ))}
           </div>
           {showViewAllButton &&
