@@ -30,7 +30,7 @@ const ApplicationComments = ({
   return (
     <>
       <h2 className="govuk-heading-l">
-        {type === "consultee" ? "Specialist Comments" : "Published Comments"}
+        {type === "consultee" ? "Specialist Comments" : "Public Comments"}
       </h2>
       {comments.length > 0 ? (
         <>

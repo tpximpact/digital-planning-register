@@ -32,8 +32,10 @@ export default function Comments({
       : data?.published_comments;
   const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
   const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
-  const currentComments =
-    comments?.slice(indexOfFirstComment, indexOfLastComment) ?? [];
+  const currentComments = comments?.slice(
+    indexOfFirstComment,
+    indexOfLastComment,
+  );
 
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
@@ -42,8 +44,7 @@ export default function Comments({
   const showPagination = (comments?.length ?? 0) > maxDisplayComments;
   const preview = currentPage === 0 ? "" : <PreviewIcon />;
   const next =
-    currentPage ===
-    Math.ceil((comments?.length ?? 0) / maxDisplayComments) - 1 ? (
+    currentPage === Math.ceil(comments?.length / maxDisplayComments) - 1 ? (
       ""
     ) : (
       <NextIcon />
@@ -85,7 +86,7 @@ export default function Comments({
                 breakLabel="..."
                 nextLabel={next}
                 onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={4}
                 marginPagesDisplayed={1}
                 pageCount={Math.ceil(
                   (comments?.length ?? 0) / maxDisplayComments,

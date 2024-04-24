@@ -7,14 +7,7 @@ export const CommentCard = ({ comment }: { comment: any }) => {
           <p className="govuk-body">
             <em>
               Published{" "}
-              {new Date(comment?.received_at ?? "").toLocaleDateString(
-                "en-GB",
-                {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                },
-              )}
+              {new Date(comment?.received_at ?? "").toLocaleDateString("en-GB")}
             </em>
           </p>
           {comment?.summary_tag?.length > 0 && (

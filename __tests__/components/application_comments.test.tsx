@@ -1,6 +1,6 @@
 // ApplicationComments.test.tsx
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import ApplicationComments from "@/components/application_comments";
 import { mockData } from "../mockData";
 import "@testing-library/jest-dom";
@@ -41,7 +41,7 @@ describe("ApplicationComments", () => {
       />,
     );
 
-    expect(screen.getByText("Published Comments")).toBeInTheDocument();
+    expect(screen.getByText("Public Comments")).toBeInTheDocument();
     expect(screen.getByText("This is the first comment.")).toBeInTheDocument();
     expect(
       screen.getByText("I have some concerns about the proposed plan."),
