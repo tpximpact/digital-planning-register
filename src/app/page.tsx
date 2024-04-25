@@ -8,7 +8,7 @@ import { NextIcon, PreviewIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
 import DesktopHeader from "@/components/desktop-header";
-import NoResult from "./no-results/page";
+import NoResult from "../components/no-results";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const resultsPerPage = 10;

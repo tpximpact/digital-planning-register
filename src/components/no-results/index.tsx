@@ -4,7 +4,9 @@ const NoResult = () => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
-        <h2 className="govuk-heading-s">No applications match your search</h2>
+        <h2 className="govuk-heading-s" role="title">
+          No applications match your search
+        </h2>
         <p className="govuk-body">
           You can try searching again, or{" "}
           <Link href="/" className="govuk-link govuk-link--no-visited-state">
