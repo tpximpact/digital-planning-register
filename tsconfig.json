@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "__tests__/**/*",
-    "jest.config.mjs"
+    "jest.config.mjs",
+    "__mockData__"
   ],
   "exclude": ["node_modules"]
 }

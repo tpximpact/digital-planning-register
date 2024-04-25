@@ -4,7 +4,7 @@ import { getApplicationById } from "@/actions";
 import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
-import { NextIcon, PreviewIcon } from "../../../../public/icons";
+import { NextIcon, PreviousIcon } from "../../../../public/icons";
 import ApplicationHeader from "@/components/application_header";
 
 export default function Documents({
@@ -36,7 +36,7 @@ export default function Documents({
 
   const showPagination = data?.documents?.length > maxDisplayDocuments;
 
-  const preview = currentPage === 0 ? "" : <PreviewIcon />;
+  const preview = currentPage === 0 ? "" : <PreviousIcon />;
   const next =
     currentPage ===
     Math.ceil(data?.documents?.length / maxDisplayDocuments) - 1 ? (

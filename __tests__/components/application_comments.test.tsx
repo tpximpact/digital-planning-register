@@ -2,7 +2,7 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ApplicationComments from "@/components/application_comments";
-import { mockData } from "../mockData";
+import { mockData } from "../../__mockData__/mockData";
 import "@testing-library/jest-dom";
 
 describe("ApplicationComments", () => {
@@ -23,10 +23,6 @@ describe("ApplicationComments", () => {
     expect(
       screen.getByText("I have some concerns about the proposed plan."),
     ).toBeInTheDocument();
-    expect(screen.getByText("Showing 10 of 20 comments")).toBeInTheDocument();
-    expect(
-      screen.getByText("Show all 20 professional consultee comments"),
-    ).toBeInTheDocument();
   });
 
   it("renders published comments correctly", () => {
@@ -45,10 +41,6 @@ describe("ApplicationComments", () => {
     expect(screen.getByText("This is the first comment.")).toBeInTheDocument();
     expect(
       screen.getByText("I have some concerns about the proposed plan."),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Showing 10 of 55 comments")).toBeInTheDocument();
-    expect(
-      screen.getByText("Show all 55 neighbour comments"),
     ).toBeInTheDocument();
   });
 

@@ -38,7 +38,7 @@ export const NextIcon = () => {
   );
 };
 
-export const PreviewIcon = () => {
+export const PreviousIcon = () => {
   return (
     <div className="icon">
       <svg
@@ -53,7 +53,7 @@ export const PreviewIcon = () => {
           fill="#505A5F"
         />
       </svg>
-      <p>Preview</p>
+      <p>Previous</p>
     </div>
   );
 };

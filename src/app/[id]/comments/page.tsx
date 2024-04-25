@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getApplicationById } from "@/actions";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
-import { NextIcon, PreviewIcon } from "../../../../public/icons";
+import { NextIcon, PreviousIcon } from "../../../../public/icons";
 import ApplicationComments from "@/components/application_comments";
 import ApplicationHeader from "@/components/application_header";
 
@@ -55,7 +55,7 @@ export default function Comments({
   };
 
   const showPagination = (comments?.length ?? 0) > maxDisplayComments;
-  const preview = currentPage === 0 ? "" : <PreviewIcon />;
+  const preview = currentPage === 0 ? "" : <PreviousIcon />;
   const next =
     currentPage === Math.ceil(comments?.length / maxDisplayComments) - 1 ? (
       ""
