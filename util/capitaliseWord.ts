@@ -1,4 +1,4 @@
-export function firstLetterUppercase(value: string) {
+export function capitaliseWord(value: string) {
   const lowercaseValue = value.toLowerCase();
   const words = lowercaseValue.split(" ");
   const capitalisedWords = words.map((word) => {

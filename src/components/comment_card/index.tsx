@@ -1,4 +1,4 @@
-import { firstLetterUppercase } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 import React, { useState, useEffect, useRef } from "react";
 import { ApplicationComment } from "../../../util/type";
 
@@ -55,7 +55,7 @@ export const CommentCard = ({
                   Sentiment towards this application
                 </h4>
                 <p className="govuk-body">
-                  {firstLetterUppercase(comment.summary_tag)}
+                  {capitaliseWord(comment.summary_tag)}
                 </p>
               </div>
             )}

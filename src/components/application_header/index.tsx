@@ -1,5 +1,5 @@
 import React from "react";
-import { firstLetterUppercase } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 
 export const ApplicationHeader = ({
   reference,
@@ -17,9 +17,9 @@ export const ApplicationHeader = ({
       <div className="govuk-grid-column-one-quarter">
         <h2 className="govuk-heading-s">Address</h2>
         <div className="govuk-body">
-          {address.address_1 && `${firstLetterUppercase(address.address_1)}, `}
-          {address.address_2 && `${firstLetterUppercase(address.address_2)}, `}
-          {address.town && `${firstLetterUppercase(address.town)}, `}
+          {address.address_1 && `${capitaliseWord(address.address_1)}, `}
+          {address.address_2 && `${capitaliseWord(address.address_2)}, `}
+          {address.town && `${capitaliseWord(address.town)}, `}
           {address.postcode}
         </div>
       </div>
