@@ -1,5 +1,5 @@
 import React from "react";
-import { firstLetterUppercase } from "@/help";
+import { firstLetterUppercase } from "../../../util/capitaliseWord";
 
 export const ApplicationHeader = ({
   reference,

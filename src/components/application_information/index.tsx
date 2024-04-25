@@ -1,7 +1,7 @@
 import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
-import { firstLetterUppercase } from "../../help/index";
+import { firstLetterUppercase } from "../../../util/capitaliseWord";
 
 const ApplicationInformation = ({
   reference_in_full,

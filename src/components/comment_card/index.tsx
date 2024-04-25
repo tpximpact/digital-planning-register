@@ -1,4 +1,4 @@
-import { firstLetterUppercase } from "@/help";
+import { firstLetterUppercase } from "../../../util/capitaliseWord";
 import React, { useState, useEffect, useRef } from "react";
 import { ApplicationComment } from "../../../util/type";
 
