@@ -8,11 +8,12 @@ import { NextIcon, PreviewIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
 import DesktopHeader from "@/components/desktop-header";
+import NoResult from "./no-results/page";
 
 const resultsPerPage = 10;
 
 export default function Home() {
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[] | undefined>([]);
   const [metaData, setMetaData] = useState<any>(undefined);
   const [idReference, setIdReference] = useState<number>(0);
 
@@ -38,20 +39,27 @@ export default function Home() {
   async function searchById(event: any) {
     event.preventDefault();
     const data = await getApplicationById(idReference);
-    setData([data] as Data[]);
-    setMetaData(undefined);
+
+    if (!data.error) {
+      setData([data] as Data[]);
+      setMetaData(undefined);
+    } else {
+      setData(undefined);
+      console.log("no data");
+    }
   }
 
   const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
   const next = metaData?.page === 54 ? "" : <NextIcon />;
+
   return (
     <main className="govuk-width-container">
-      {data.length > 0 && (
+      <Form
+        searchById={(event: any) => searchById(event)}
+        setIdReference={setIdReference}
+      />
+      {data && data?.length > 0 && (
         <>
-          <Form
-            searchById={(event: any) => searchById(event)}
-            setIdReference={setIdReference}
-          />
           <DesktopHeader />
           <div className="govuk-grid-row responsive-table-row">
             {data.map((application: any, index: number) => (
@@ -129,6 +137,7 @@ export default function Home() {
           </section>
         </>
       )}
+      {data === undefined && <NoResult />}
     </main>
   );
 }
