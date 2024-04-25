@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import { getApplicationsByCouncil, getApplicationById } from "../actions";
@@ -8,6 +8,7 @@ import { NextIcon, PreviewIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
 import DesktopHeader from "@/components/desktop-header";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const resultsPerPage = 10;
 
@@ -15,15 +16,34 @@ export default function Home() {
   const [data, setData] = useState<Data[]>([]);
   const [metaData, setMetaData] = useState<any>(undefined);
   const [idReference, setIdReference] = useState<number>(0);
+  const [selectedPage, setSelectedPage] = useState(0);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   useEffect(() => {
     (async () => {
-      const response = await getApplicationsByCouncil(1, resultsPerPage);
+      const params = searchParams.get("page");
+      const pageParams: any = params ? parseInt(params) : 1;
+      const response = await getApplicationsByCouncil(
+        pageParams,
+        resultsPerPage,
+      );
+      setSelectedPage(pageParams - 1);
       setData(response.data);
       setMetaData(response.metadata);
-      console.log({ response });
     })();
-  }, []);
+  }, [pathname, searchParams]);
 
   async function handlePageClick(event: any) {
     const response = await getApplicationsByCouncil(
@@ -32,6 +52,12 @@ export default function Home() {
     );
     setData(response.data);
     setMetaData(response.metadata);
+    setSelectedPage(event.selected);
+    router.push(
+      pathname +
+        "?" +
+        createQueryString("page", (event.selected + 1).toString()),
+    );
   }
 
   // in the future it should change to byReferenceNumber
@@ -122,6 +148,7 @@ export default function Home() {
                   breakLinkClassName="page-link"
                   containerClassName="pagination"
                   activeClassName="active-page"
+                  forcePage={selectedPage}
                   renderOnZeroPageCount={null}
                 />
               </>
