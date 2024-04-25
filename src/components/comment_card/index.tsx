@@ -1,12 +1,31 @@
 import { firstLetterUppercase } from "@/help";
+import React, { useState, useEffect, useRef } from "react";
+import { ApplicationComment } from "../../../util/type";
 
 export const CommentCard = ({
   comment,
   commentNumber,
 }: {
-  comment: any;
-  commentNumber: any;
+  comment: ApplicationComment;
+  commentNumber: number;
 }) => {
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const commentContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      const current = commentContainerRef.current;
+      if (current) {
+        setIsOverflowing(current.scrollHeight > current.clientHeight);
+      }
+    };
+
+    checkOverflow();
+    // Re-check when window resizes
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [comment]);
+
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-full comment">
@@ -15,8 +34,9 @@ export const CommentCard = ({
           id={`show-comment-${commentNumber}`}
           name={`show-comment-${commentNumber}`}
           className="show-comment"
+          style={{ display: "none" }}
         />
-        <div className="comment-container">
+        <div ref={commentContainerRef} className="comment-container">
           <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
           <p className="govuk-body">
             <em>
@@ -24,13 +44,13 @@ export const CommentCard = ({
               {new Date(comment?.received_at ?? "").toLocaleDateString("en-GB")}
             </em>
           </p>
-          {comment?.summary_tag?.length > 0 && (
+          {comment.summary_tag && (
             <div>
               <h4 className="govuk-heading-s">
                 Sentiment towards this application
               </h4>
               <p className="govuk-body">
-                {firstLetterUppercase(comment?.summary_tag)}
+                {firstLetterUppercase(comment.summary_tag)}
               </p>
             </div>
           )}
@@ -39,13 +59,15 @@ export const CommentCard = ({
             <p className="govuk-body">{comment?.comment}</p>
           </div>
         </div>
-        <label
-          className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
-          htmlFor={`show-comment-${commentNumber}`}
-        >
-          <span className="read-comment">Read the rest of</span>{" "}
-          <span className="hide-comment">Minimise</span> this comment
-        </label>
+        {isOverflowing && (
+          <label
+            className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+            htmlFor={`show-comment-${commentNumber}`}
+          >
+            <span className="read-comment">Read the rest of</span>{" "}
+            <span className="hide-comment">Minimise</span> this comment
+          </label>
+        )}
       </div>
     </div>
   );
