@@ -19,10 +19,14 @@ export default function Comments({
   const maxDisplayComments = 10;
 
   useEffect(() => {
-    (async () => {
-      const response = await getApplicationById(parseFloat(id as string));
-      setData(response);
-    })();
+    const fetchData = async () => {
+      const applicationData = await getApplicationById(
+        parseFloat(id as string),
+      );
+      setData(applicationData);
+    };
+
+    fetchData();
   }, [id]);
 
   const type = searchParams?.type ?? "published";
@@ -32,13 +36,20 @@ export default function Comments({
       ? data?.consultee_comments
       : data?.published_comments;
 
+  const sortedComments = comments?.sort((a: any, b: any) => {
+    const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
+    const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
+    return dateB - dateA;
+  });
+
+  const totalComments = sortedComments?.length ?? 0;
+
   const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
   const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
-  const currentComments = comments?.slice(
+  const currentComments = sortedComments?.slice(
     indexOfFirstComment,
     indexOfLastComment,
   );
-
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
   };
@@ -51,9 +62,10 @@ export default function Comments({
     ) : (
       <NextIcon />
     );
+
   return (
     <div>
-      <BackLink href="/" />
+      <BackLink href={`/${id}`} />
       {data && (
         <>
           <ApplicationHeader
@@ -67,6 +79,8 @@ export default function Comments({
             showViewAllButton={false}
             type={type}
             comments={currentComments}
+            totalComments={totalComments}
+            currentPage={currentPage}
           />
           {showPagination && (
             <div className="pagination-section">

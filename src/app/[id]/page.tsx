@@ -9,6 +9,7 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { useEffect, useState } from "react";
+import { ApplicationComment } from "../../../util/type";
 
 type Id = {
   id: string;
@@ -32,6 +33,17 @@ export default function Application({ params }: Params) {
     fetchData();
   }, [id]);
 
+  const sortComments = (comments: ApplicationComment[] = []) => {
+    return comments.sort((a, b) => {
+      const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
+      const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
+      return dateB - dateA;
+    });
+  };
+
+  const consulteeComments = sortComments(data?.consultee_comments);
+  const publishedComments = sortComments(data?.published_comments);
+
   return (
     <div className="govuk-width-container">
       <BackLink href="/" />
@@ -48,7 +60,9 @@ export default function Application({ params }: Params) {
             maxDisplayComments={3}
             showViewAllButton={true}
             type="consultee"
-            comments={data.consultee_comments}
+            comments={consulteeComments}
+            currentPage={0}
+            totalComments={consulteeComments.length}
           />
 
           <ApplicationComments
@@ -57,7 +71,9 @@ export default function Application({ params }: Params) {
             maxDisplayComments={3}
             showViewAllButton={true}
             type="published"
-            comments={data.published_comments}
+            comments={publishedComments}
+            currentPage={0}
+            totalComments={publishedComments.length}
           />
           {/* <ApplicationConstraints /> */}
         </div>

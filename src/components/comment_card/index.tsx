@@ -10,8 +10,14 @@ export const CommentCard = ({
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-full comment">
+        <input
+          type="checkbox"
+          id={`show-comment-${commentNumber}`}
+          name={`show-comment-${commentNumber}`}
+          className="show-comment"
+        />
         <div className="comment-container">
-          <h3 className="govuk-heading-m"> Comment #{commentNumber}</h3>
+          <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
           <p className="govuk-body">
             <em>
               Published{" "}
@@ -29,8 +35,17 @@ export const CommentCard = ({
             </div>
           )}
           <h4 className="govuk-heading-s">Comment</h4>
-          <p className="govuk-body">{comment?.comment}</p>
+          <div className="comment-text">
+            <p className="govuk-body">{comment?.comment}</p>
+          </div>
         </div>
+        <label
+          className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+          htmlFor={`show-comment-${commentNumber}`}
+        >
+          <span className="read-comment">Read the rest of</span>{" "}
+          <span className="hide-comment">Minimise</span> this comment
+        </label>
       </div>
     </div>
   );

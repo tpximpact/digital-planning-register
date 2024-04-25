@@ -46,7 +46,7 @@ export default function Documents({
     );
   return (
     <div>
-      <BackLink href="/" />
+      <BackLink href={`/${id}`} />
       {data && (
         <>
           <ApplicationHeader
