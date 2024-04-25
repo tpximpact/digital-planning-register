@@ -13,7 +13,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 const resultsPerPage = 10;
 
 export default function Home() {
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[] | undefined>([]);
   const [metaData, setMetaData] = useState<any>(undefined);
   const [idReference, setIdReference] = useState<number>(0);
   const [selectedPage, setSelectedPage] = useState(0);
@@ -33,17 +33,26 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const params = searchParams.get("page");
-      const pageParams: any = params ? parseInt(params) : 1;
-      const response = await getApplicationsByCouncil(
-        pageParams,
-        resultsPerPage,
-      );
+      const paramsPage = searchParams.get("page");
+      const paramsSearch = searchParams.get("search");
+      const pageParams: any = paramsPage ? parseInt(paramsPage) : 1;
+
+      if (paramsSearch) {
+        const response = await getApplicationById(parseInt(paramsSearch));
+        setData([response] as Data[]);
+        setMetaData(undefined);
+      } else {
+        const response = await getApplicationsByCouncil(
+          pageParams,
+          resultsPerPage,
+        );
+        setData(response.data);
+        setMetaData(response.metadata);
+      }
+
       setSelectedPage(pageParams - 1);
-      setData(response.data);
-      setMetaData(response.metadata);
     })();
-  }, [pathname, searchParams]);
+  }, [idReference, pathname, searchParams]);
 
   async function handlePageClick(event: any) {
     const response = await getApplicationsByCouncil(
@@ -64,15 +73,22 @@ export default function Home() {
   async function searchById(event: any) {
     event.preventDefault();
     const data = await getApplicationById(idReference);
-    setData([data] as Data[]);
-    setMetaData(undefined);
+    if (!data.error) {
+      setData([data] as Data[]);
+      setMetaData(undefined);
+    } else {
+      setData(undefined);
+    }
+    router.push(
+      pathname + "?" + createQueryString("search", idReference.toString()),
+    );
   }
 
   const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
-  const next = metaData?.page === 54 ? "" : <NextIcon />;
+  const next = metaData?.page == metaData?.total_pages ? "" : <NextIcon />;
   return (
     <main className="govuk-width-container">
-      {data.length > 0 && (
+      {data && data?.length > 0 && (
         <>
           <Form
             searchById={(event: any) => searchById(event)}
@@ -80,7 +96,7 @@ export default function Home() {
           />
           <DesktopHeader />
           <div className="govuk-grid-row responsive-table-row">
-            {data.map((application: any, index: number) => (
+            {data?.map((application: any, index: number) => (
               <div key={index} className="item">
                 <div className="govuk-grid-column-one-quarter">
                   <div className="govuk-grid-column-one-half responsive-cell">
