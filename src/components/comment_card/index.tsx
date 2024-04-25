@@ -1,3 +1,5 @@
+import { firstLetterUppercase } from "@/help";
+
 export const CommentCard = ({
   comment,
   commentNumber,
@@ -21,7 +23,9 @@ export const CommentCard = ({
               <h4 className="govuk-heading-s">
                 Sentiment towards this application
               </h4>
-              <p className="govuk-body">{comment?.summary_tag}</p>
+              <p className="govuk-body">
+                {firstLetterUppercase(comment?.summary_tag)}
+              </p>
             </div>
           )}
           <h4 className="govuk-heading-s">Comment</h4>
