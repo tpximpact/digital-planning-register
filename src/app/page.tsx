@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import { getApplicationsByCouncil, getApplicationById } from "../actions";
 import Link from "next/link";
-import { NextIcon, PreviewIcon } from "../../public/icons";
+import { NextIcon, PreviousIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
 import DesktopHeader from "@/components/desktop-header";
@@ -42,7 +42,7 @@ export default function Home() {
     setMetaData(undefined);
   }
 
-  const preview = metaData?.page === 1 ? "" : <PreviewIcon />;
+  const preview = metaData?.page === 1 ? "" : <PreviousIcon />;
   const next = metaData?.page === 54 ? "" : <NextIcon />;
   return (
     <main className="govuk-width-container">

@@ -1,7 +1,7 @@
 import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
-import { firstLetterUppercase } from "../../help/index";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 
 const ApplicationInformation = ({
   reference_in_full,
@@ -59,7 +59,7 @@ const ApplicationInformation = ({
               <h2 className="govuk-heading-s">Application Type</h2>
               <p className="govuk-body" role="application-type">
                 {application_type &&
-                  firstLetterUppercase(application_type?.replace(/_/g, " "))}
+                  capitaliseWord(application_type?.replace(/_/g, " "))}
               </p>
             </div>
 
@@ -78,7 +78,7 @@ const ApplicationInformation = ({
                   role="application-status"
                   style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                 >
-                  {firstLetterUppercase(status?.replace(/_/g, " "))}
+                  {capitaliseWord(status?.replace(/_/g, " "))}
                 </p>
               )}
             </div>
@@ -105,7 +105,12 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Decision Date</h2>
               <p className="govuk-body">
-                {format(new Date(determination_date as string), "dd MMM yyyy")}
+                {determination_date
+                  ? format(
+                      new Date(determination_date as string),
+                      "dd MMM yyyy",
+                    )
+                  : "Date not available"}
               </p>
             </div>
 
@@ -116,7 +121,7 @@ const ApplicationInformation = ({
                   className="govuk-tag--yellow govuk-body"
                   style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                 >
-                  {firstLetterUppercase(result_flag)}
+                  {capitaliseWord(result_flag)}
                 </p>
               )}
             </div>

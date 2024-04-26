@@ -1,49 +1,68 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getApplicationById } from "@/actions";
-import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviousIcon } from "../../../../public/icons";
+import ApplicationComments from "@/components/application_comments";
 import ApplicationHeader from "@/components/application_header";
 
-export default function Documents({
+export default function Comments({
   params: { id },
+  searchParams,
 }: {
   params: { id: string };
+  searchParams?: { type?: string };
 }) {
-  const [data, setData] = useState<any>(undefined);
+  const [data, setData] = useState<any>();
   const [currentPage, setCurrentPage] = useState(0);
-  const maxDisplayDocuments = 10;
+  const maxDisplayComments = 10;
 
   useEffect(() => {
-    (async () => {
-      const response = await getApplicationById(parseFloat(id as string));
-      setData(response);
-    })();
+    const fetchData = async () => {
+      const applicationData = await getApplicationById(
+        parseFloat(id as string),
+      );
+      setData(applicationData);
+    };
+
+    fetchData();
   }, [id]);
 
-  const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
-  const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
-  const currentDocuments = data?.documents?.slice(
-    indexOfFirstDocument,
-    indexOfLastDocument,
-  );
+  const type = searchParams?.type ?? "published";
+  const commentsType = type === "consultee" ? "consultee" : "published";
+  const comments =
+    commentsType === "consultee"
+      ? data?.consultee_comments
+      : data?.published_comments;
 
+  const sortedComments = comments?.sort((a: any, b: any) => {
+    const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
+    const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
+    return dateB - dateA;
+  });
+
+  const totalComments = sortedComments?.length ?? 0;
+
+  const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
+  const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
+  const currentComments = sortedComments?.slice(
+    indexOfFirstComment,
+    indexOfLastComment,
+  );
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
   };
 
-  const showPagination = data?.documents?.length > maxDisplayDocuments;
-
+  const showPagination = (comments?.length ?? 0) > maxDisplayComments;
   const preview = currentPage === 0 ? "" : <PreviousIcon />;
   const next =
-    currentPage ===
-    Math.ceil(data?.documents?.length / maxDisplayDocuments) - 1 ? (
+    currentPage === Math.ceil(comments?.length / maxDisplayComments) - 1 ? (
       ""
     ) : (
       <NextIcon />
     );
+
   return (
     <div>
       <BackLink href={`/${id}`} />
@@ -53,12 +72,15 @@ export default function Documents({
             reference={data.reference_in_full}
             address={data.site}
           />
-          <ApplicationFile
+          <ApplicationComments
             {...data}
             id={id}
+            maxDisplayComments={10}
             showViewAllButton={false}
-            documents={currentDocuments}
-            maxDisplayDocuments={maxDisplayDocuments}
+            type={type}
+            comments={currentComments}
+            totalComments={totalComments}
+            currentPage={currentPage}
           />
           {showPagination && (
             <div className="pagination-section">
@@ -66,10 +88,10 @@ export default function Documents({
                 breakLabel="..."
                 nextLabel={next}
                 onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={4}
                 marginPagesDisplayed={1}
                 pageCount={Math.ceil(
-                  data?.documents?.length / maxDisplayDocuments,
+                  (comments?.length ?? 0) / maxDisplayComments,
                 )}
                 previousLabel={preview}
                 pageClassName="page-item"
