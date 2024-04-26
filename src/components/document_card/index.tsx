@@ -9,7 +9,7 @@ export const DocumentCard = ({
   formatTag: (tag: any) => string;
 }) => {
   return (
-    <div className="govuk-grid-column-one-third-from-desktop">
+    <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-one-third">
         <Image
           src={file}
