@@ -1,4 +1,5 @@
 // /path/to/ApplicationComments.tsx
+import React from "react";
 import { ApplicationComment, Data } from "../../../util/type";
 import CommentCard from "../comment_card";
 
@@ -37,7 +38,7 @@ const ApplicationComments = ({
       </h2>
       {comments.length > 0 ? (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin">
+          <div>
             {displayedComments.map((comment, index) => (
               <CommentCard
                 key={index}

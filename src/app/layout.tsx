@@ -1,8 +1,9 @@
 import "./globals.css";
 import "@/styles/app.scss";
-import Header from "@/components/header";
-import Head from "@/components/head";
+import Header from "../components/header";
+import Head from "../components/head";
 import { Suspense } from "react";
+import React from "react";
 
 export default function RootLayout({
   children,
@@ -18,7 +19,7 @@ export default function RootLayout({
       <Head />
       <body>
         <Header />
-        <div className="layout">
+        <div className="govuk-width-container">
           <Suspense>{children}</Suspense>
         </div>
       </body>
