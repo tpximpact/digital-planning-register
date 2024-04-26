@@ -25,7 +25,9 @@ export const DocumentCard = ({
             href={document?.url}
             className="govuk-link govuk-link--no-visited-state"
           >
-            {document?.tags?.map(formatTag).join(", ")}
+            {document?.tags?.length > 0
+              ? document.tags.map(formatTag).join(", ")
+              : "Unnamed Document"}
           </a>
         </p>
         <p className="govuk-hint">
