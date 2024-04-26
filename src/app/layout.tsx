@@ -2,6 +2,7 @@ import "./globals.css";
 import "@/styles/app.scss";
 import Header from "@/components/header";
 import Head from "@/components/head";
+import { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -17,7 +18,9 @@ export default function RootLayout({
       <Head />
       <body>
         <Header />
-        <div className="layout">{children}</div>
+        <div className="layout">
+          <Suspense>{children}</Suspense>
+        </div>
       </body>
     </html>
   );

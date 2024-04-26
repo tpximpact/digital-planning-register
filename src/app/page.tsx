@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import ReactPaginate from "react-paginate";
 import { getApplicationsByCouncil, getApplicationById } from "../actions";
@@ -8,20 +8,34 @@ import { NextIcon, PreviousIcon } from "../../public/icons";
 import { Data } from "../../util/type";
 import Form from "@/components/form";
 import DesktopHeader from "@/components/desktop-header";
+import NoResult from "../components/no-results";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const resultsPerPage = 10;
 
 export default function Home() {
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[] | undefined>([]);
   const [metaData, setMetaData] = useState<any>(undefined);
   const [idReference, setIdReference] = useState<number>(0);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   useEffect(() => {
     (async () => {
       const response = await getApplicationsByCouncil(1, resultsPerPage);
       setData(response.data);
       setMetaData(response.metadata);
-      console.log({ response });
     })();
   }, []);
 
@@ -38,20 +52,29 @@ export default function Home() {
   async function searchById(event: any) {
     event.preventDefault();
     const data = await getApplicationById(idReference);
-    setData([data] as Data[]);
-    setMetaData(undefined);
+
+    if (!data.error) {
+      setData([data] as Data[]);
+      setMetaData(undefined);
+    } else {
+      setData(undefined);
+    }
+    router.push(
+      pathname + "?" + createQueryString("search", idReference.toString()),
+    );
   }
 
   const preview = metaData?.page === 1 ? "" : <PreviousIcon />;
   const next = metaData?.page === 54 ? "" : <NextIcon />;
+
   return (
     <main className="govuk-width-container">
-      {data.length > 0 && (
+      <Form
+        searchById={(event: any) => searchById(event)}
+        setIdReference={setIdReference}
+      />
+      {data && data?.length > 0 && (
         <>
-          <Form
-            searchById={(event: any) => searchById(event)}
-            setIdReference={setIdReference}
-          />
           <DesktopHeader />
           <div className="govuk-grid-row responsive-table-row">
             {data.map((application: any, index: number) => (
@@ -129,6 +152,7 @@ export default function Home() {
           </section>
         </>
       )}
+      {data === undefined && <NoResult />}
     </main>
   );
 }
