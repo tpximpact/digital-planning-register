@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getApplicationById } from "@/actions";
-import { BackLink } from "@/components/button";
+import { getApplicationById } from "../../../actions";
+import { BackLink } from "../../../components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviousIcon } from "../../../../public/icons";
-import ApplicationComments from "@/components/application_comments";
-import ApplicationHeader from "@/components/application_header";
+import ApplicationComments from "../../../components/application_comments";
+import ApplicationHeader from "../../../components/application_header";
+import React from "react";
 
 export default function Comments({
   params: { id },
@@ -67,7 +68,7 @@ export default function Comments({
     <div>
       <BackLink href={`/${id}`} />
       {data && (
-        <>
+        <div className="govuk-main-wrapper">
           <ApplicationHeader
             reference={data.reference_in_full}
             address={data.site}
@@ -108,7 +109,7 @@ export default function Comments({
               />
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

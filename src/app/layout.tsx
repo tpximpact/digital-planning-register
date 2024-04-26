@@ -19,7 +19,7 @@ export default function RootLayout({
       <Head />
       <body>
         <Header />
-        <div className="layout">
+        <div className="govuk-width-container">
           <Suspense>{children}</Suspense>
         </div>
       </body>

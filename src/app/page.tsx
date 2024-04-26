@@ -92,7 +92,7 @@ export default function Home() {
   const next = metaData?.page == metaData?.total_pages ? "" : <NextIcon />;
 
   return (
-    <main className="govuk-width-container">
+    <main className="govuk-main-wrapper">
       <Form
         searchById={(event: any) => searchById(event)}
         setIdReference={setIdReference}
