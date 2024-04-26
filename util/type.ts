@@ -6,6 +6,12 @@ export type ApplicationDocument = {
   numbers?: string;
 };
 
+export type ApplicationComment = {
+  comment?: string;
+  received_at?: string;
+  summary_tag?: string;
+};
+
 export type Data = {
   reference?: string;
   site?: { address_1: string; postcode: string };
@@ -23,6 +29,8 @@ export type Data = {
   applicant_last_name?: string;
   documents?: ApplicationDocument[];
   boundary_geojson?: BoundaryGeojson;
+  consultee_comments?: ApplicationComment[];
+  published_comments?: ApplicationComment[];
 };
 
 type BoundaryGeojson =

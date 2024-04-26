@@ -1,8 +1,9 @@
 import "./globals.css";
 import "@/styles/app.scss";
-import Header from "@/components/header";
-import Head from "@/components/head";
+import Header from "../components/header";
+import Head from "../components/head";
 import { Suspense } from "react";
+import React from "react";
 
 export default function RootLayout({
   children,
