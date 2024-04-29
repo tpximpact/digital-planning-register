@@ -3,13 +3,16 @@
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,
+  council: string,
 ) {
+  const apiKey = council + "_api_key";
+  const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BOPS_API}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
+    `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${process.env.southwark_api_key}`,
+        Authorization: `Bearer ${process.env[apiKey]}`,
       },
     },
   );
@@ -17,13 +20,16 @@ export async function getApplicationsByCouncil(
 }
 
 // This function search by int ID, in the future it should search by reference number
-export async function getApplicationById(id: number) {
+export async function getApplicationById(id: number, council: string) {
+  const apiKey = council + "_api_key";
+  const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
+
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BOPS_API}planning_applications/${id}`,
+    `${process.env[councilApi]}planning_applications/${id}`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${process.env.southwark_api_key}`,
+        Authorization: `Bearer ${process.env[apiKey]}`,
       },
     },
   );

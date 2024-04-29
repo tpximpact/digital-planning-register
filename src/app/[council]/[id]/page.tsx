@@ -1,5 +1,5 @@
 "use client";
-import { getApplicationById } from "../../actions/index";
+import { getApplicationById } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
@@ -9,29 +9,31 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { useEffect, useState } from "react";
-import { ApplicationComment } from "../../../util/type";
+import { ApplicationComment } from "../../../../util/type";
 
 type Id = {
   id: string;
+  council: string;
 };
 type Params = {
   params: Id;
 };
 
 export default function Application({ params }: Params) {
-  const { id } = params;
+  const { id, council } = params;
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchData() {
       const applicationData = await getApplicationById(
         parseFloat(id as string),
+        council,
       );
       setData(applicationData);
     }
 
     fetchData();
-  }, [id]);
+  }, [id, council]);
 
   const sortComments = (comments: ApplicationComment[] = []) => {
     return comments.sort((a, b) => {
