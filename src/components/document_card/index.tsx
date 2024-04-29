@@ -9,7 +9,7 @@ export const DocumentCard = ({
   formatTag: (tag: any) => string;
 }) => {
   return (
-    <div className="govuk-grid-column-one-third-from-desktop">
+    <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-one-third">
         <Image
           src={file}
@@ -25,7 +25,9 @@ export const DocumentCard = ({
             href={document?.url}
             className="govuk-link govuk-link--no-visited-state"
           >
-            {document?.tags?.map(formatTag).join(", ")}
+            {document?.tags?.length > 0
+              ? document.tags.map(formatTag).join(", ")
+              : "Unnamed Document"}
           </a>
         </p>
         <p className="govuk-hint">
