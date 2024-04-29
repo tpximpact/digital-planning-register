@@ -11,12 +11,12 @@ import ApplicationComments from "@/components/application_comments";
 import { useEffect, useState } from "react";
 import { ApplicationComment } from "../../../../util/type";
 
-type Id = {
+type Props = {
   id: string;
   council: string;
 };
 type Params = {
-  params: Id;
+  params: Props;
 };
 
 export default function Application({ params }: Params) {
@@ -55,9 +55,15 @@ export default function Application({ params }: Params) {
           {/* <ApplicationLocation /> */}
           {/* <ApplicationDetails {...data} /> */}
 
-          <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
+          <ApplicationFile
+            {...data}
+            id={id}
+            maxDisplayDocuments={6}
+            council={council}
+          />
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}
@@ -69,6 +75,7 @@ export default function Application({ params }: Params) {
 
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}

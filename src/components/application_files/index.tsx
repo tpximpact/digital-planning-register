@@ -7,6 +7,7 @@ interface ApplicationFileProps extends Data {
   id: string;
   showViewAllButton?: boolean;
   maxDisplayDocuments?: number;
+  council: string;
 }
 
 const ApplicationFile = ({
@@ -14,6 +15,7 @@ const ApplicationFile = ({
   id,
   showViewAllButton = true,
   maxDisplayDocuments,
+  council,
 }: ApplicationFileProps) => {
   const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
 
@@ -45,7 +47,7 @@ const ApplicationFile = ({
                     documents
                   </p>
                   <a
-                    href={`/${id}/documents`}
+                    href={`/${council}/${id}/documents`}
                     role="button"
                     className="govuk-button govuk-button--primary"
                     data-module="govuk-button"
