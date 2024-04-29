@@ -48,7 +48,7 @@ export default function Application({ params }: Params) {
 
   return (
     <div className="govuk-width-container">
-      <BackLink href="/" />
+      <BackLink href={`/${council}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />

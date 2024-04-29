@@ -67,7 +67,7 @@ export default function Comments({
 
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationHeader

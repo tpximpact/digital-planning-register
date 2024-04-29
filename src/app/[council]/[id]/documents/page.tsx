@@ -49,7 +49,7 @@ export default function Documents({
     );
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       {data && (
         <>
           <ApplicationHeader
