@@ -69,8 +69,13 @@ export const CommentCard = ({
               className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
               htmlFor={`show-comment-${commentNumber}`}
             >
-              <span className="read-comment">Read the rest of</span>{" "}
-              <span className="hide-comment">Minimise</span> this comment
+              <span className="read-comment" aria-hidden="true">
+                Read the rest of
+              </span>{" "}
+              <span className="hide-comment" aria-hidden="true">
+                Minimise
+              </span>{" "}
+              this comment
             </label>
           )}
         </div>
