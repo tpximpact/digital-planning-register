@@ -1,4 +1,3 @@
-"use client";
 import { getApplicationById } from "../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
@@ -8,30 +7,14 @@ import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
-import { useEffect, useState } from "react";
 import { ApplicationComment } from "../../../util/type";
 
-type Id = {
-  id: string;
-};
-type Params = {
-  params: Id;
-};
+type Id = { id: string };
+type Params = { params: Id };
 
-export default function Application({ params }: Params) {
+export default async function Application({ params }: Params) {
   const { id } = params;
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const applicationData = await getApplicationById(
-        parseFloat(id as string),
-      );
-      setData(applicationData);
-    }
-
-    fetchData();
-  }, [id]);
+  const data = await getApplicationById(parseFloat(id as string));
 
   const sortComments = (comments: ApplicationComment[] = []) => {
     return comments.sort((a, b) => {
@@ -52,7 +35,6 @@ export default function Application({ params }: Params) {
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
           {/* <ApplicationDetails {...data} /> */}
-
           <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
           <ApplicationComments
             {...data}
@@ -64,7 +46,6 @@ export default function Application({ params }: Params) {
             currentPage={0}
             totalComments={consulteeComments.length}
           />
-
           <ApplicationComments
             {...data}
             id={id}
