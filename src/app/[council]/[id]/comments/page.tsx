@@ -1,18 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getApplicationById } from "../../../actions";
-import { BackLink } from "../../../components/button";
+import { getApplicationById } from "../../../../actions";
+import { BackLink } from "../../../../components/button";
 import ReactPaginate from "react-paginate";
-import { NextIcon, PreviousIcon } from "../../../../public/icons";
-import ApplicationComments from "../../../components/application_comments";
-import ApplicationHeader from "../../../components/application_header";
+import { NextIcon, PreviousIcon } from "../../../../../public/icons";
+import ApplicationComments from "../../../../components/application_comments";
+import ApplicationHeader from "../../../../components/application_header";
 import React from "react";
 
 export default function Comments({
-  params: { id },
+  params: { id, council },
   searchParams,
 }: {
-  params: { id: string };
+  params: { id: string; council: string };
   searchParams?: { type?: string };
 }) {
   const [data, setData] = useState<any>();
@@ -23,12 +23,13 @@ export default function Comments({
     const fetchData = async () => {
       const applicationData = await getApplicationById(
         parseFloat(id as string),
+        council,
       );
       setData(applicationData);
     };
 
     fetchData();
-  }, [id]);
+  }, [council, id]);
 
   const type = searchParams?.type ?? "published";
   const commentsType = type === "consultee" ? "consultee" : "published";
@@ -66,7 +67,7 @@ export default function Comments({
 
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationHeader

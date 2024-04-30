@@ -1,5 +1,5 @@
 "use client";
-import { getApplicationById } from "../../actions/index";
+import { getApplicationById } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
@@ -9,29 +9,31 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { useEffect, useState } from "react";
-import { ApplicationComment } from "../../../util/type";
+import { ApplicationComment } from "../../../../util/type";
 
-type Id = {
+type Props = {
   id: string;
+  council: string;
 };
 type Params = {
-  params: Id;
+  params: Props;
 };
 
 export default function Application({ params }: Params) {
-  const { id } = params;
+  const { id, council } = params;
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchData() {
       const applicationData = await getApplicationById(
         parseFloat(id as string),
+        council,
       );
       setData(applicationData);
     }
 
     fetchData();
-  }, [id]);
+  }, [id, council]);
 
   const sortComments = (comments: ApplicationComment[] = []) => {
     return comments.sort((a, b) => {
@@ -46,16 +48,22 @@ export default function Application({ params }: Params) {
 
   return (
     <div className="govuk-width-container">
-      <BackLink href="/" />
+      <BackLink href={`/${council}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
           {/* <ApplicationDetails {...data} /> */}
 
-          <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
+          <ApplicationFile
+            {...data}
+            id={id}
+            maxDisplayDocuments={6}
+            council={council}
+          />
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}
@@ -67,6 +75,7 @@ export default function Application({ params }: Params) {
 
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}

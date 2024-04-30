@@ -4,13 +4,13 @@ import { getApplicationById } from "@/actions";
 import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
-import { NextIcon, PreviousIcon } from "../../../../public/icons";
+import { NextIcon, PreviousIcon } from "../../../../../public/icons";
 import ApplicationHeader from "@/components/application_header";
 
 export default function Documents({
-  params: { id },
+  params: { id, council },
 }: {
-  params: { id: string };
+  params: { id: string; council: string };
 }) {
   const [data, setData] = useState<any>(undefined);
   const [currentPage, setCurrentPage] = useState(0);
@@ -18,10 +18,13 @@ export default function Documents({
 
   useEffect(() => {
     (async () => {
-      const response = await getApplicationById(parseFloat(id as string));
+      const response = await getApplicationById(
+        parseFloat(id as string),
+        council,
+      );
       setData(response);
     })();
-  }, [id]);
+  }, [council, id]);
 
   const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
   const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
@@ -46,7 +49,7 @@ export default function Documents({
     );
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       {data && (
         <>
           <ApplicationHeader

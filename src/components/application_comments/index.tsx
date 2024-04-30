@@ -11,6 +11,7 @@ interface ApplicationCommentsProps extends Data {
   showViewAllButton?: boolean;
   totalComments?: number;
   currentPage?: number;
+  council: string;
 }
 
 const ApplicationComments = ({
@@ -21,6 +22,7 @@ const ApplicationComments = ({
   showViewAllButton = true,
   totalComments = 0,
   currentPage = 0,
+  council,
 }: ApplicationCommentsProps) => {
   const displayedComments = comments.slice(0, maxDisplayComments);
 
@@ -61,7 +63,7 @@ const ApplicationComments = ({
                   of {totalComments} comments
                 </p>
                 <a
-                  href={`/${id}/comments?type=${type}`}
+                  href={`/${council}/${id}/comments?type=${type}`}
                   role="button"
                   className="govuk-button govuk-button--primary"
                   data-module="govuk-button"
