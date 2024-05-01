@@ -134,6 +134,16 @@
   max-height: 25rem;
   overflow: hidden;
 }
+
+.comment-expander {
+  color: govuk-colour("blue");
+  margin-top: 2em;
+  position: relative;
+  margin-left: 15px;
+  font-size: 19px;
+  cursor: pointer;
+}
+
 // label.comment-expander {
 //   color: govuk-colour("blue");
 //   margin-top: 2em;

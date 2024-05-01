@@ -57,7 +57,7 @@ export default async function Home({
         <>
           <DesktopHeader />
           <div className="govuk-grid-row responsive-table-row">
-            {data.map((application: any, index: number) => (
+            {data?.map((application: any, index: number) => (
               <div key={index} className="item">
                 <div className="govuk-grid-column-one-quarter">
                   <div className="govuk-grid-column-one-half responsive-cell">
