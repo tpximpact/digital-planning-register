@@ -1,107 +1,63 @@
-"use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import { format } from "date-fns";
-import ReactPaginate from "react-paginate";
 import { getApplicationsByCouncil, getApplicationById } from "../actions";
 import Link from "next/link";
-import { NextIcon, PreviousIcon } from "../../public/icons";
 import { Data } from "../../util/type";
-import Form from "../components/form";
 import DesktopHeader from "../components/desktop-header";
 import NoResult from "../components/no-results";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Pagination from "@/components/pagination";
 
 const resultsPerPage = 10;
 
-export default function Home() {
-  const [data, setData] = useState<Data[] | undefined>([]);
-  const [metaData, setMetaData] = useState<any>(undefined);
-  const [idReference, setIdReference] = useState<number>(0);
-  const [selectedPage, setSelectedPage] = useState(0);
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const page = parseInt(searchParams?.page as string) || 1;
+  const search = searchParams?.search as string;
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
+  let data: Data[] | undefined;
+  let totalPages: number = 0;
 
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  useEffect(() => {
-    (async () => {
-      const paramsPage = searchParams.get("page");
-      const paramsSearch = searchParams.get("search");
-      const pageParams: any = paramsPage ? parseInt(paramsPage) : 1;
-
-      if (paramsSearch) {
-        const response = await getApplicationById(parseInt(paramsSearch));
-        console.log(response);
-        let res = response.error ? undefined : [response];
-        setData(res as Data[]);
-        setMetaData(undefined);
-      } else {
-        const response = await getApplicationsByCouncil(
-          pageParams,
-          resultsPerPage,
-        );
-        setData(response.data);
-        setMetaData(response.metadata);
-      }
-
-      setSelectedPage(pageParams - 1);
-    })();
-  }, [idReference, pathname, searchParams]);
-
-  async function handlePageClick(event: any) {
-    const response = await getApplicationsByCouncil(
-      event.selected + 1,
-      resultsPerPage,
-    );
-    setData(response.data);
-    setMetaData(response.metadata);
-    setSelectedPage(event.selected);
-    router.push(
-      pathname +
-        "?" +
-        createQueryString("page", (event.selected + 1).toString()),
-    );
-  }
-
-  // in the future it should change to byReferenceNumber
-  async function searchById(event: any) {
-    event.preventDefault();
-
-    const data = await getApplicationById(idReference);
-    if (!data.error) {
-      setData([data] as Data[]);
-      setMetaData(undefined);
-    } else {
-      setData(undefined);
+  if (search) {
+    const response = await getApplicationById(parseInt(search));
+    if (!response.error) {
+      data = [response];
+      totalPages = 1;
     }
-    router.push(
-      pathname + "?" + createQueryString("search", idReference.toString()),
-    );
+  } else {
+    const response = await getApplicationsByCouncil(page, resultsPerPage);
+    if (response.data) {
+      data = response.data;
+      totalPages = response.metadata?.total_pages || 1;
+    }
   }
-
-  const preview = metaData?.page === 1 ? "" : <PreviousIcon />;
-  const next = metaData?.page == metaData?.total_pages ? "" : <NextIcon />;
 
   return (
     <main className="govuk-main-wrapper">
-      <Form
-        searchById={(event: any) => searchById(event)}
-        setIdReference={setIdReference}
-      />
-      {data && data?.length > 0 && (
+      <form action="/" method="get">
+        <div className="govuk-form-group">
+          <label className="govuk-label" htmlFor="search">
+            Search by ID
+          </label>
+          <input
+            className="govuk-input"
+            id="search"
+            name="search"
+            type="text"
+            defaultValue={search || ""}
+          />
+        </div>
+        <button className="govuk-button" type="submit">
+          Search
+        </button>
+      </form>
+      {data && data.length > 0 ? (
         <>
           <DesktopHeader />
           <div className="govuk-grid-row responsive-table-row">
-            {data?.map((application: any, index: number) => (
+            {data.map((application: any, index: number) => (
               <div key={index} className="item">
                 <div className="govuk-grid-column-one-quarter">
                   <div className="govuk-grid-column-one-half responsive-cell">
@@ -137,7 +93,10 @@ export default function Home() {
                     <h2 className="govuk-heading-s">Date submitted</h2>
                     <p className="govuk-body">
                       {application?.created_at &&
-                        `${format(new Date(application?.created_at), "dd MMM yyyy")}`}
+                        `${format(
+                          new Date(application?.created_at),
+                          "dd MMM yyyy",
+                        )}`}
                     </p>
                   </div>
                   <div className="govuk-grid-column-one-half responsive-cell">
@@ -152,36 +111,18 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <section className="pagination-section">
-            {metaData?.total_pages > 1 && (
-              <>
-                <ReactPaginate
-                  breakLabel="..."
-                  nextLabel={next}
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={4}
-                  marginPagesDisplayed={1}
-                  pageCount={metaData?.total_pages}
-                  previousLabel={preview}
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active-page"
-                  forcePage={selectedPage}
-                  renderOnZeroPageCount={null}
-                />
-              </>
-            )}
-          </section>
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={page - 1}
+              totalItems={totalPages * resultsPerPage}
+              itemsPerPage={resultsPerPage}
+              baseUrl={search ? `/?search=${search}` : "/"}
+            />
+          )}
         </>
+      ) : (
+        <NoResult />
       )}
-      {data === undefined && <NoResult />}
     </main>
   );
 }
