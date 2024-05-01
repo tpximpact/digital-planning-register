@@ -1,7 +1,7 @@
 // /path/to/ApplicationComments.tsx
 import React from "react";
 import { ApplicationComment, Data } from "../../../util/type";
-import CommentCard from "../comment_card";
+import { CommentCard } from "../comment_card";
 
 interface ApplicationCommentsProps extends Data {
   comments?: ApplicationComment[];
@@ -61,7 +61,7 @@ const ApplicationComments = ({
                   of {totalComments} comments
                 </p>
                 <a
-                  href={`/${id}/comments?type=${type}`}
+                  href={`/${id}/comments?type=${type}/page=1`}
                   role="button"
                   className="govuk-button govuk-button--primary"
                   data-module="govuk-button"

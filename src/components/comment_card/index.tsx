@@ -12,35 +12,42 @@ export const CommentCard = ({
 }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
   const commentContainerRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const checkOverflow = () => {
       const current = commentContainerRef.current;
       if (current) {
-        setIsOverflowing(current.scrollHeight > current.clientHeight);
+        const isOverflow = current.scrollHeight > 25 * 16;
+        setIsOverflowing(isOverflow);
+        if (!isExpanded && isOverflow) {
+          current.style.maxHeight = "25rem";
+        }
       }
     };
 
     checkOverflow();
-    // Re-check when window resizes
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [comment]);
+  }, [comment, isExpanded]);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+    const current = commentContainerRef.current;
+    if (current) {
+      current.style.maxHeight = isExpanded ? "25rem" : "none";
+    }
+  };
 
   return (
     <>
-      <hr className="govuk-section-break govuk-section-break--visible grid-row-extra-bottom-margin"></hr>
-
+      <hr className="govuk-section-break govuk-section-break--visible grid-row-extra-bottom-margin" />
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-full comment">
-          <input
-            type="checkbox"
-            id={`show-comment-${commentNumber}`}
-            name={`show-comment-${commentNumber}`}
-            className="show-comment"
-            style={{ display: "none" }}
-          />
-          <div ref={commentContainerRef} className="comment-container">
+          <div
+            ref={commentContainerRef}
+            className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
+          >
             <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
             <p className="govuk-body">
               <em>
@@ -65,21 +72,17 @@ export const CommentCard = ({
               <p className="govuk-body">{comment?.comment}</p>
             </div>
           </div>
-          {isOverflowing && (
-            <label
-              className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
-              htmlFor={`show-comment-${commentNumber}`}
-            >
-              <span className="read-comment" aria-hidden="true">
-                Read the rest of
-              </span>{" "}
-              <span className="hide-comment" aria-hidden="true">
-                Minimise
-              </span>{" "}
-              this comment
-            </label>
-          )}
         </div>
+        {isOverflowing && (
+          <label
+            className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+            onClick={toggleExpand}
+          >
+            {isExpanded
+              ? "Minimise this comment"
+              : "Read the rest of this comment"}
+          </label>
+        )}
       </div>
     </>
   );
