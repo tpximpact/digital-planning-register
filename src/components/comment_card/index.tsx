@@ -1,3 +1,4 @@
+"use client";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import React, { useState, useEffect, useRef } from "react";
 import { ApplicationComment } from "../../../util/type";

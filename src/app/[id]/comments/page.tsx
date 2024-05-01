@@ -7,6 +7,7 @@ import { NextIcon, PreviousIcon } from "../../../../public/icons";
 import ApplicationComments from "../../../components/application_comments";
 import ApplicationHeader from "../../../components/application_header";
 import React from "react";
+import Pagination from "@/components/pagination";
 
 export default function Comments({
   params: { id },
@@ -84,30 +85,12 @@ export default function Comments({
             currentPage={currentPage}
           />
           {showPagination && (
-            <div className="pagination-section">
-              <ReactPaginate
-                breakLabel="..."
-                nextLabel={next}
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={4}
-                marginPagesDisplayed={1}
-                pageCount={Math.ceil(
-                  (comments?.length ?? 0) / maxDisplayComments,
-                )}
-                previousLabel={preview}
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active-page"
-                renderOnZeroPageCount={null}
-              />
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalComments}
+              itemsPerPage={maxDisplayComments}
+              onPageChange={handlePageClick}
+            />
           )}
         </div>
       )}

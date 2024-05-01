@@ -6,6 +6,7 @@ import { BackLink } from "@/components/button";
 import ReactPaginate from "react-paginate";
 import { NextIcon, PreviousIcon } from "../../../../public/icons";
 import ApplicationHeader from "@/components/application_header";
+import Pagination from "@/components/pagination";
 
 export default function Documents({
   params: { id },
@@ -62,27 +63,11 @@ export default function Documents({
           />
           {showPagination && (
             <div className="pagination-section">
-              <ReactPaginate
-                breakLabel="..."
-                nextLabel={next}
+              <Pagination
+                currentPage={currentPage}
+                totalItems={data?.documents?.length}
+                itemsPerPage={maxDisplayDocuments}
                 onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={1}
-                pageCount={Math.ceil(
-                  data?.documents?.length / maxDisplayDocuments,
-                )}
-                previousLabel={preview}
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active-page"
-                renderOnZeroPageCount={null}
               />
             </div>
           )}
