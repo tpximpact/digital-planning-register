@@ -27,7 +27,7 @@ export default async function Documents({
 
   return (
     <div>
-      <BackLink href={`/${council}${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       <ApplicationHeader
         reference={applicationData.reference_in_full}
         address={applicationData.site}

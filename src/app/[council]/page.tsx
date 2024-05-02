@@ -43,7 +43,7 @@ export default async function Home({
 
   return (
     <main className="govuk-main-wrapper">
-      <form action="/" method="get">
+      <form action={`/${council}`} method="get">
         <div className="govuk-form-group">
           <label className="govuk-label" htmlFor="search">
             Search by ID
@@ -126,7 +126,7 @@ export default async function Home({
               currentPage={page - 1}
               totalItems={totalPages * resultsPerPage}
               itemsPerPage={resultsPerPage}
-              baseUrl={`/${council}`}
+              baseUrl={`/${council}/`}
               queryParams={searchParams as Record<string, string>}
             />
           )}
