@@ -1,4 +1,4 @@
-import { getApplicationById } from "../../actions/index";
+import { getApplicationById } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
@@ -7,14 +7,14 @@ import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
-import { ApplicationComment } from "../../../util/type";
+import { ApplicationComment } from "../../../../util/type";
 
-type Id = { id: string };
-type Params = { params: Id };
+type Props = { id: string; council: string };
+type Params = { params: Props };
 
 export default async function Application({ params }: Params) {
-  const { id } = params;
-  const data = await getApplicationById(parseFloat(id as string));
+  const { id, council } = params;
+  const data = await getApplicationById(parseFloat(id as string), council);
 
   const sortComments = (comments: ApplicationComment[] = []) => {
     return comments.sort((a, b) => {
@@ -29,15 +29,21 @@ export default async function Application({ params }: Params) {
 
   return (
     <div className="govuk-width-container">
-      <BackLink href="/" />
+      <BackLink href={`/${council}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
           {/* <ApplicationLocation /> */}
           {/* <ApplicationDetails {...data} /> */}
-          <ApplicationFile {...data} id={id} maxDisplayDocuments={6} />
+          <ApplicationFile
+            {...data}
+            id={id}
+            maxDisplayDocuments={6}
+            council={council}
+          />
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}
@@ -48,6 +54,7 @@ export default async function Application({ params }: Params) {
           />
           <ApplicationComments
             {...data}
+            council={council}
             id={id}
             maxDisplayComments={3}
             showViewAllButton={true}

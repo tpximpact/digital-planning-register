@@ -5,14 +5,17 @@ import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
 
 export default async function Documents({
-  params: { id },
+  params: { id, council },
   searchParams,
 }: {
-  params: { id: string };
+  params: { id: string; council: string };
   searchParams?: { page?: string };
 }) {
   const maxDisplayDocuments = 10;
-  const applicationData = await getApplicationById(parseFloat(id as string));
+  const applicationData = await getApplicationById(
+    parseFloat(id as string),
+    council,
+  );
 
   const currentPage = parseInt(searchParams?.page || "1", 10) - 1;
   const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
@@ -24,7 +27,7 @@ export default async function Documents({
 
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}${id}`} />
       <ApplicationHeader
         reference={applicationData.reference_in_full}
         address={applicationData.site}

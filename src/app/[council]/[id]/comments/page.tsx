@@ -1,18 +1,21 @@
-import { getApplicationById } from "../../../actions";
-import { BackLink } from "../../../components/button";
-import ApplicationComments from "../../../components/application_comments";
-import ApplicationHeader from "../../../components/application_header";
+import { getApplicationById } from "../../../../actions";
+import { BackLink } from "../../../../components/button";
+import ApplicationComments from "../../../../components/application_comments";
+import ApplicationHeader from "../../../../components/application_header";
 import Pagination from "@/components/pagination";
 
 export default async function Comments({
-  params: { id },
+  params: { id, council },
   searchParams,
 }: {
-  params: { id: string };
+  params: { id: string; council: string };
   searchParams?: { type?: string; page?: string };
 }) {
   const maxDisplayComments = 10;
-  const applicationData = await getApplicationById(parseFloat(id as string));
+  const applicationData = await getApplicationById(
+    parseFloat(id as string),
+    council,
+  );
 
   const type = searchParams?.type ?? "published";
   const commentsType = type === "consultee" ? "consultee" : "published";
@@ -37,7 +40,7 @@ export default async function Comments({
 
   return (
     <div>
-      <BackLink href={`/${id}`} />
+      <BackLink href={`/${council}/${id}`} />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={applicationData.reference_in_full}
