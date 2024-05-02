@@ -60,7 +60,7 @@ export default async function Comments({
           currentPage={currentPage}
           totalItems={totalComments}
           itemsPerPage={maxDisplayComments}
-          baseUrl={`/${id}/comments`}
+          baseUrl={`/${council}/${id}/comments`}
           queryParams={searchParams || {}}
         />
       </div>
