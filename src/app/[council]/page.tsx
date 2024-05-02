@@ -10,13 +10,15 @@ import Pagination from "@/components/pagination";
 const resultsPerPage = 10;
 
 export default async function Home({
+  params,
   searchParams,
 }: {
+  params: { council: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
-  const council = searchParams?.council as string;
+  const council = params.council;
 
   let data: Data[] | undefined;
   let totalPages: number = 0;
