@@ -116,7 +116,8 @@ export default async function Home({
               currentPage={page - 1}
               totalItems={totalPages * resultsPerPage}
               itemsPerPage={resultsPerPage}
-              baseUrl={search ? `/?search=${search}` : "/"}
+              baseUrl={"/"}
+              queryParams={searchParams as Record<string, string>}
             />
           )}
         </>

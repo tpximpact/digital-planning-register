@@ -7,6 +7,7 @@ interface PaginationProps {
   totalItems: number;
   itemsPerPage: number;
   baseUrl: string;
+  queryParams: Record<string, string>;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -14,14 +15,20 @@ const Pagination: React.FC<PaginationProps> = ({
   totalItems,
   itemsPerPage,
   baseUrl,
+  queryParams,
 }) => {
   const pageCount = Math.ceil(totalItems / itemsPerPage);
   const showPagination = totalItems > itemsPerPage;
 
+  const buildUrl = (page: number) => {
+    const query = { ...queryParams, page: String(page + 1) };
+    return `${baseUrl}?${new URLSearchParams(query).toString()}`;
+  };
+
   const renderPageLink = (page: number) => {
     return (
       <Link
-        href={`${baseUrl}?page=${page + 1}`}
+        href={buildUrl(page)}
         className={`page-link ${currentPage === page ? "active-page" : ""}`}
       >
         {page + 1}
@@ -32,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const renderPreviousLink = () => {
     if (currentPage === 0) return null;
     return (
-      <Link href={`${baseUrl}?page=${currentPage}`} className="page-link">
+      <Link href={buildUrl(currentPage - 1)} className="page-link">
         <PreviousIcon />
       </Link>
     );
@@ -41,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const renderNextLink = () => {
     if (currentPage === pageCount - 1) return null;
     return (
-      <Link href={`${baseUrl}?page=${currentPage + 2}`} className="page-link">
+      <Link href={buildUrl(currentPage + 1)} className="page-link">
         <NextIcon />
       </Link>
     );

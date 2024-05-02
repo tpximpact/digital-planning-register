@@ -41,6 +41,7 @@ export default async function Documents({
         totalItems={applicationData?.documents?.length}
         itemsPerPage={maxDisplayDocuments}
         baseUrl={`/${id}/documents`}
+        queryParams={searchParams || {}}
       />
     </div>
   );

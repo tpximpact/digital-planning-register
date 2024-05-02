@@ -58,6 +58,7 @@ export default async function Comments({
           totalItems={totalComments}
           itemsPerPage={maxDisplayComments}
           baseUrl={`/${id}/comments`}
+          queryParams={searchParams || {}}
         />
       </div>
     </div>
