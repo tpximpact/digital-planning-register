@@ -42,8 +42,8 @@ export const CommentCard = ({
   return (
     <>
       <hr className="govuk-section-break govuk-section-break--visible grid-row-extra-bottom-margin" />
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-full comment">
+      <div className="govuk-grid-row grid-row-extra-bottom-margin comment">
+        <div className="govuk-grid-column-full">
           <div
             ref={commentContainerRef}
             className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
@@ -72,17 +72,20 @@ export const CommentCard = ({
               <p className="govuk-body">{comment?.comment}</p>
             </div>
           </div>
+          {isOverflowing && !isExpanded && (
+            <div className="read-more-ellipsis">...</div>
+          )}
+          {isOverflowing && (
+            <label
+              className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+              onClick={toggleExpand}
+            >
+              {isExpanded
+                ? "Minimise this comment"
+                : "Read the rest of this comment"}
+            </label>
+          )}
         </div>
-        {isOverflowing && (
-          <label
-            className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
-            onClick={toggleExpand}
-          >
-            {isExpanded
-              ? "Minimise this comment"
-              : "Read the rest of this comment"}
-          </label>
-        )}
       </div>
     </>
   );
