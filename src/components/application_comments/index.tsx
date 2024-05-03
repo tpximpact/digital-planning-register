@@ -63,7 +63,7 @@ const ApplicationComments = ({
                   of {totalComments} comments
                 </p>
                 <a
-                  href={`/${council}/${id}/comments?type=${type}/page=1`}
+                  href={`/${council}/${id}/comments?type=${type}`}
                   role="button"
                   className="govuk-button govuk-button--primary"
                   data-module="govuk-button"
