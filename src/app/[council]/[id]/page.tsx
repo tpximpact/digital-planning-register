@@ -47,7 +47,7 @@ export default function Application({ params }: Params) {
   const publishedComments = sortComments(data?.published_comments);
 
   return (
-    <div className="">
+    <div>
       <BackLink href={`/${council}`} />
       {data && (
         <div className="govuk-main-wrapper">
