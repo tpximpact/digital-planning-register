@@ -73,7 +73,7 @@ The project structure follows the Next.js App Router conventions and includes a 
 - `app/`: Contains the Next.js app directory.
 
   - `[council]/`: Dynamic route for each council.
-    - `page.tsx`: The main listing page component for each council.
+    - `page.tsx`: The main listing page component for each council which includes search functionality.
     - `[id]/`: Dynamic route for a specific planning application within a council.
       - `page.tsx`: The page component for a specific ID within a council.
   - `components/`: Contains reusable React components used throughout the application.
