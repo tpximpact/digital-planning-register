@@ -1,12 +1,8 @@
 ## Overview
 
-This project is a Digital Planning Register web application that helps people search and access historical planning records, decisions, and data of planning applications.
+This project is a Digital Planning Register web application that helps people search and access historical planning records, decisions, and data of planning applications. It supports multiple councils, each with its own dedicated data source. Although you can view data from different councils within the application, the data itself is segregated and specific to each council.
 
-It is built using [Next.js](https://nextjs.org/) and bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-### Council-Specific Data
-
-This planning register application supports multiple councils, each with its own dedicated data source. Although you can view data from different councils within the application, the data itself is segregated and specific to each council.
+It is built using [Next.js](https://nextjs.org/) and bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). The codebase is written in TypeScript which enhances code reliability, maintainability, and tooling support.
 
 ### API Integration
 
@@ -21,6 +17,8 @@ The application handles the routing and rendering of council-specific pages base
 It's important to note that while the application provides a unified interface to view data from multiple councils, the data itself remains isolated and specific to each council. The application does not combine or merge data from different councils.
 
 ## Getting Started
+
+Ensure you have Node.js and npm (Node Package Manager) installed on your machine.
 
 Install dependencies:
 
@@ -87,7 +85,7 @@ The project structure follows the Next.js App Router conventions and includes a 
 
 ## Environment setup
 
-Ensure that the .env or .env.local file also has the following environment Keys:
+Ensure that the .env or .env.local file also has the following environment variables:
 
 |          Variable Name          | Value |
 | :-----------------------------: | :---: |
