@@ -1,7 +1,7 @@
 // /path/to/ApplicationComments.tsx
 import React from "react";
 import { ApplicationComment, Data } from "../../../util/type";
-import CommentCard from "../comment_card";
+import { CommentCard } from "../comment_card";
 
 interface ApplicationCommentsProps extends Data {
   comments?: ApplicationComment[];
