@@ -6,8 +6,9 @@ import config from "../../../util/config.json";
 const NotFoundLink = () => {
   const pathname = usePathname();
   const council = pathname.split("/")[1];
-  const councilConfig: any = config[`${council}`];
-  const contact: any =
+  const configData = config as any;
+  const councilConfig = configData[`${council}`];
+  const contact =
     councilConfig?.contact || "https://www.gov.uk/find-local-council ";
   const applicationSearchUrl = councilConfig?.name ? `/${council}` : "/";
 
