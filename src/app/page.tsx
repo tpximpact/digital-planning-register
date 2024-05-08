@@ -1,5 +1,39 @@
+import React from "react";
+import Image from "next/image";
+import file from "../../public/images/logos/camdenlogo.svg";
+
 const Main = () => {
-  return <div>No result</div>;
+  return (
+    <main className="govuk-main-wrapper">
+      <h1 className="govuk-heading-l">
+        Welcome to the Digital Planning Register
+      </h1>
+      <p className="govuk-body">
+        This site allows you to find planning applications submitted through the
+        Open Digital Planning system for your local council planning authority.
+      </p>
+      <p className="govuk-body">
+        Not all planning applications will be available through this register,
+        and you may need to check individual council's websites to see what
+        records are kept here.
+      </p>
+
+      <h2 className="govuk-heading-m">
+        Select your council to start exploring planning applications in your
+        area
+      </h2>
+
+      <div className="logos-container">
+        <a
+          className="govuk-button govuk-button--secondary"
+          title="Council"
+          href="/camden"
+        >
+          <Image src={file} alt="Camden Council" width={450} height={75} />
+        </a>
+      </div>
+    </main>
+  );
 };
 
 export default Main;
