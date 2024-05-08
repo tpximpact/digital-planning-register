@@ -126,57 +126,33 @@
 
 // Comments
 
-.govuk-section-break:first-child {
-  display: none;
-}
 .comment {
   border-left: 5px solid govuk-colour("mid-grey");
   margin-left: 15px;
 }
-.comment-container {
+.comment-container-js {
   max-height: 25rem;
   overflow: hidden;
 }
-label.comment-expander {
+
+.comment-expander {
   color: govuk-colour("blue");
   margin-top: 2em;
-  display: block;
   position: relative;
+  font-size: 19px;
+  cursor: pointer;
 }
-label.comment-expander::before {
-  content: "...";
-  display: block;
-  position: absolute;
-  color: govuk-colour("black");
-  top: -2rem;
+
+.comment-content {
+  margin-bottom: 8px;
+}
+
+.read-more-ellipsis {
+  margin-top: 8px;
   font-size: 19px;
 }
-input[type="checkbox"].show-comment:checked ~ .comment-expander::before {
-  display: none;
-}
-input[type="checkbox"].show-comment {
-  display: none;
-}
-input[type="checkbox"].show-comment:checked + .comment-container {
-  max-height: 100000rem;
-  padding-bottom: 0;
-}
-input[type="checkbox"].show-comment:checked + .comment-container::after {
-  content: "";
-}
-input[type="checkbox"].show-comment:checked ~ .comment-expander {
-  margin-top: 0;
-}
-input[type="checkbox"].show-comment:checked
-  ~ .comment-expander
-  > .read-comment {
-  display: none;
-}
-input[type="checkbox"].show-comment ~ .comment-expander > .hide-comment {
-  display: none;
-}
-input[type="checkbox"].show-comment:checked
-  ~ .comment-expander
-  > .hide-comment {
-  display: inline;
+
+.comment-expander {
+  display: block;
+  margin-top: 4px;
 }
