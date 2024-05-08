@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const NoResult = () => {
+export default async function NoResult({ council }: { council: string }) {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
@@ -10,7 +10,10 @@ const NoResult = () => {
         </h2>
         <p className="govuk-body">
           You can try searching again, or{" "}
-          <Link href="/" className="govuk-link govuk-link--no-visited-state">
+          <Link
+            href={`/${council}`}
+            className="govuk-link govuk-link--no-visited-state"
+          >
             go back to the default application list
           </Link>
         </p>
@@ -33,6 +36,4 @@ const NoResult = () => {
       </div>
     </div>
   );
-};
-
-export default NoResult;
+}

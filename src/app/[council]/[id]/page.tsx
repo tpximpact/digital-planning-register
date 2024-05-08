@@ -29,7 +29,7 @@ export default async function Application({ params }: Params) {
 
   return (
     <div>
-      <BackLink href={`/${council}`} />
+      <BackLink />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
