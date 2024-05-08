@@ -8,7 +8,7 @@ export async function getApplicationsByCouncil(
   const apiKey = council + "_api_key";
   const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
   if (process.env[councilApi] == undefined) {
-    return { status: 404, message: "Council not registered" };
+    return { status: 404, message: "Council not registered", data: null };
   } else {
     const data = await fetch(
       `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
@@ -27,15 +27,18 @@ export async function getApplicationsByCouncil(
 export async function getApplicationById(id: number, council: string) {
   const apiKey = council + "_api_key";
   const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-
-  const data = await fetch(
-    `${process.env[councilApi]}planning_applications/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${process.env[apiKey]}`,
+  if (process.env[councilApi] == undefined) {
+    return { status: 404, message: "Council not registered", data: null };
+  } else {
+    const data = await fetch(
+      `${process.env[councilApi]}planning_applications/${id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${process.env[apiKey]}`,
+        },
       },
-    },
-  );
-  return data.json();
+    );
+    return data.json();
+  }
 }
