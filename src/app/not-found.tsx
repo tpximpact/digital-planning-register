@@ -1,9 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import Link from "next/link";
+import { BackLink } from "@/components/button";
+import NotFoundLink from "@/components/not_found_link";
+
 export default function NotFound() {
   return (
     <>
-      <div className="">
+      <BackLink />
+      <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-l">Page not found</h1>
         <p className="govuk-body">
           The link you have used may be incorrect, or you are trying to reach a
@@ -12,18 +15,23 @@ export default function NotFound() {
         <p className="govuk-body">
           If you are having problems finding what you need, you can:
         </p>
-        <ul className="govuk-list govuk-list--bullet">
+        <NotFoundLink />
+        {/* <ul className="govuk-list govuk-list--bullet">
           <li>
             <Link href="/" className="govuk-link govuk-link--no-visited-state">
               Try searching for an application
             </Link>
           </li>
           <li>
-            <Link href="#" className="govuk-link govuk-link--no-visited-state">
+            <Link
+              href="https://www.gov.uk/find-local-council "
+              className="govuk-link govuk-link--no-visited-state"
+              target="_blank"
+            >
               Get in touch with the council
             </Link>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </>
   );
