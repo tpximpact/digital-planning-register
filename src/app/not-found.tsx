@@ -16,22 +16,6 @@ export default function NotFound() {
           If you are having problems finding what you need, you can:
         </p>
         <NotFoundLink />
-        {/* <ul className="govuk-list govuk-list--bullet">
-          <li>
-            <Link href="/" className="govuk-link govuk-link--no-visited-state">
-              Try searching for an application
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="https://www.gov.uk/find-local-council "
-              className="govuk-link govuk-link--no-visited-state"
-              target="_blank"
-            >
-              Get in touch with the council
-            </Link>
-          </li>
-        </ul> */}
       </div>
     </>
   );
