@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import file from "../../public/images/logos/camdenlogo.svg";
+import CouncilCards from "@/components/council_cards";
 
 const Main = () => {
   return (
@@ -22,16 +21,7 @@ const Main = () => {
         Select your council to start exploring planning applications in your
         area
       </h2>
-
-      <div className="logos-container">
-        <a
-          className="govuk-button govuk-button--secondary"
-          title="Council"
-          href="/camden"
-        >
-          <Image src={file} alt="Camden Council" width={450} height={75} />
-        </a>
-      </div>
+      <CouncilCards />
     </main>
   );
 };

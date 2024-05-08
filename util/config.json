@@ -1,6 +1,22 @@
 {
-    "camden": {
-        "name": "Camden",
-        "contact": "https://www.camden.gov.uk/contact-camden"
-    }
+  "camden": {
+    "name": "Camden",
+    "contact": "https://www.camden.gov.uk/contact-camden",
+    "logo": "camdenlogo.svg"
+  },
+  "gateshead": {
+    "name": "Gateshead",
+    "contact": "",
+    "logo": "gatesheadlogo.svg"
+  },
+  "lambeth": {
+    "name": "Lambeth",
+    "contact": "",
+    "logo": "lambethlogo.svg"
+  },
+  "southwark": {
+    "name": "Southwark",
+    "contact": "",
+    "logo": "southwarklogo.svg"
+  }
 }
