@@ -1,14 +1,14 @@
 export type ApplicationDocument = {
-  url?: string;
-  applicant_description?: string;
-  tags?: string[];
-  created_at?: string;
-  numbers?: string;
+  url: string;
+  applicant_description: string;
+  tags: string[];
+  created_at: string;
+  numbers: string;
 };
 
 export type ApplicationComment = {
-  comment?: string;
-  received_at?: string;
+  comment: string;
+  received_at: string;
   summary_tag?: string;
 };
 
