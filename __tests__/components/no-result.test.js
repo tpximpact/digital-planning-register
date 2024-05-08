@@ -1,8 +1,9 @@
 import NoResult from "@/components/no-results";
 import { screen, render } from "@testing-library/react";
 describe("Render ApplicationPeople", () => {
-  it("should render correct", () => {
-    render(<NoResult />);
+  it("should render correct", async () => {
+    const value = { council: "camden" };
+    render(await NoResult(value));
 
     expect(
       screen.getByRole("title", { Name: "No applications match your search" }),
