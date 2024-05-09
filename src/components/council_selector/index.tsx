@@ -5,8 +5,16 @@ import { Config } from "../../../util/type";
 export const CouncilSelector = () => {
   const councilConfig = config as Config;
   const councilOptions = Object.keys(councilConfig);
-  const currentPath =
-    typeof window !== "undefined" ? window.location.pathname.slice(1) : "";
+
+  const getCurrentCouncil = () => {
+    if (typeof window !== "undefined") {
+      const pathParts = window.location.pathname.split("/");
+      return pathParts.length > 1 ? pathParts[1] : "";
+    }
+    return "";
+  };
+
+  const currentCouncil = getCurrentCouncil();
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCouncil = event.target.value;
@@ -21,7 +29,7 @@ export const CouncilSelector = () => {
         className="govuk-select"
         id="sort"
         name="council"
-        value={currentPath}
+        value={currentCouncil}
         onChange={handleCouncilChange}
       >
         <option value="select">Select your council</option>
