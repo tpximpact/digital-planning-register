@@ -53,3 +53,13 @@ type BoundaryGeojson =
         properties?: any;
       }>;
     };
+
+interface Council {
+  name: string;
+  contact?: string;
+  logo?: string;
+}
+
+export interface Config {
+  [key: string]: Council;
+}

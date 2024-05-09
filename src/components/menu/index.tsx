@@ -1,4 +1,6 @@
 import Link from "next/link";
+import CouncilSelector from "../council_selector";
+
 const Menu = () => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
@@ -6,6 +8,7 @@ const Menu = () => {
         id="navigation"
         className="govuk-header__navigation-list govuk-width-container"
       >
+        <CouncilSelector />
         <li className="govuk-header__navigation-item current-item">
           <Link className="govuk-header__link nav-link" href="/" role="link">
             Application search
