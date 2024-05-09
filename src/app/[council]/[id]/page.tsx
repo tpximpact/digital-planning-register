@@ -41,6 +41,7 @@ export default async function Application({ params }: Params) {
             maxDisplayDocuments={6}
             council={council}
           />
+          <ApplicationPeople {...data} />
           <ApplicationComments
             {...data}
             council={council}
