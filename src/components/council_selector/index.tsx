@@ -2,7 +2,7 @@ import React from "react";
 import config from "../../../util/config.json";
 import { Config } from "../../../util/type";
 
-export const CouncilDropdown = () => {
+export const CouncilSelector = () => {
   const councilConfig = config as Config;
   const councilOptions = Object.keys(councilConfig);
   const currentPath =
@@ -35,4 +35,4 @@ export const CouncilDropdown = () => {
   );
 };
 
-export default CouncilDropdown;
+export default CouncilSelector;
