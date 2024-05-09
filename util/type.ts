@@ -56,9 +56,9 @@ type BoundaryGeojson =
 
 export interface Council {
   name: string;
-  contact: string;
-  logo: string;
-  logowhite: string;
+  contact?: string;
+  logo?: string;
+  logowhite?: string;
 }
 
 export interface Config {
