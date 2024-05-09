@@ -53,22 +53,28 @@ export default async function Home({
     <>
       {!data && <BackLink />}
       <main className="govuk-main-wrapper">
-        <form action={`/${council}`} method="get">
-          <div className="govuk-form-group">
-            <label className="govuk-label" htmlFor="search">
-              Search by ID
-            </label>
-            <input
-              className="govuk-input"
-              id="search"
-              name="search"
-              type="text"
-              defaultValue={search || ""}
-            />
+        <form action={`/${council}`} method="get" className="govuk-grid-row">
+          <div className="govuk-grid-column-three-quarters">
+            <div className="govuk-form-group">
+              <h1 className="govuk-label-wrapper">
+                <label className="govuk-label" htmlFor="search">
+                  Search by application reference, address or description
+                </label>
+              </h1>
+              <input
+                className="govuk-input"
+                id="search"
+                name="search"
+                type="text"
+                defaultValue={search || ""}
+              />
+            </div>
           </div>
-          <button className="govuk-button" type="submit">
-            Search
-          </button>
+          <div className="govuk-grid-column-one-quarter search-bar-buttons">
+            <button className="govuk-button" type="submit">
+              Search
+            </button>
+          </div>
         </form>
         {data && data.length > 0 ? (
           <>
