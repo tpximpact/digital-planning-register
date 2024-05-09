@@ -6,17 +6,14 @@
   },
   "gateshead": {
     "name": "Gateshead",
-    "contact": "",
     "logo": "gatesheadlogo.svg"
   },
   "lambeth": {
     "name": "Lambeth",
-    "contact": "",
     "logo": "lambethlogo.svg"
   },
   "southwark": {
     "name": "Southwark",
-    "contact": "",
     "logo": "southwarklogo.svg"
   }
 }
