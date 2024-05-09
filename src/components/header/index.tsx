@@ -16,7 +16,8 @@ const Header = () => {
   const council = params.council as string;
 
   const councilConfig = config as Config;
-  const logo = councilConfig[council].logowhite;
+  const logo = councilConfig[council]?.logowhite;
+  const name = councilConfig[council]?.name;
   const logoPath =
     logo &&
     logo !== "" &&
@@ -36,12 +37,12 @@ const Header = () => {
             {logoPath ? (
               <Image
                 src={`/images/logos/${logo}`}
-                alt={`${councilConfig[council].name} Logo`}
+                alt={`${name} Logo`}
                 width={148}
                 height={31}
               />
             ) : (
-              <span>{councilConfig[council].name}</span>
+              <span>{name}</span>
             )}
           </Link>
         </div>
