@@ -2,6 +2,7 @@
 import React from "react";
 import { ApplicationComment, Data } from "../../../util/type";
 import { CommentCard } from "../comment_card";
+import config from "../../../util/config.json";
 
 interface ApplicationCommentsProps extends Data {
   comments?: ApplicationComment[];
@@ -25,6 +26,8 @@ const ApplicationComments = ({
   council,
 }: ApplicationCommentsProps) => {
   const displayedComments = comments.slice(0, maxDisplayComments);
+  const councilConfig = config as any;
+  const { publicComments, specialistComments } = councilConfig[council];
 
   const commentTypeLabel =
     type === "consultee" ? "professional consultee" : "neighbour";
@@ -38,7 +41,9 @@ const ApplicationComments = ({
       <h2 className="govuk-heading-l">
         {type === "consultee" ? "Specialist Comments" : "Public Comments"}
       </h2>
-      {comments.length > 0 ? (
+      {comments.length > 0 &&
+      ((type === "consultee" && specialistComments) ||
+        (type === "published" && publicComments)) ? (
         <>
           <div>
             {displayedComments.map((comment, index) => (
