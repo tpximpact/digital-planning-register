@@ -13,7 +13,7 @@ const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const onlyWidth = useWindowWidth();
   const params = useParams();
-  const council = params.council as string;
+  const council = params?.council as string;
 
   const councilConfig = config as Config;
   const logo = councilConfig[council]?.logowhite;
