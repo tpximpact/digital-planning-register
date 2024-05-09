@@ -17,7 +17,7 @@ export default async function Application({ params }: Params) {
   const { id, council } = params;
   const data = await getApplicationById(parseFloat(id as string), council);
 
-  if (data.error) {
+  if (data.error || data.data === null) {
     notFound();
   }
 
