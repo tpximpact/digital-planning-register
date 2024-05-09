@@ -27,7 +27,8 @@ const ApplicationComments = ({
 }: ApplicationCommentsProps) => {
   const displayedComments = comments.slice(0, maxDisplayComments);
   const councilConfig = config as any;
-  const { publicComments, specialistComments } = councilConfig[council];
+  const publicComments = councilConfig[council]?.publicComments;
+  const specialistComments = councilConfig[council]?.specialistComments;
 
   const commentTypeLabel =
     type === "consultee" ? "professional consultee" : "neighbour";
