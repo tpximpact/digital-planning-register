@@ -4,11 +4,16 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import ApplicationComments from "@/components/application_comments";
 import { mockData } from "../../__mockData__/mockData";
 import "@testing-library/jest-dom";
+import config from "../../util/config.json";
+
+config["camden"].specialistComments = true;
+export default config;
 
 describe("ApplicationComments", () => {
   it("renders consultee comments correctly", () => {
     render(
       <ApplicationComments
+        council="camden"
         {...mockData}
         id={mockData.id}
         type="consultee"
@@ -29,6 +34,7 @@ describe("ApplicationComments", () => {
     render(
       <ApplicationComments
         {...mockData}
+        council="camden"
         id={mockData.id}
         type="published"
         maxDisplayComments={10}
@@ -48,6 +54,7 @@ describe("ApplicationComments", () => {
     render(
       <ApplicationComments
         {...mockData}
+        council="camden"
         comments={[]}
         id={mockData.id}
         type="consultee"
@@ -65,6 +72,7 @@ describe("ApplicationComments", () => {
     render(
       <ApplicationComments
         {...mockData}
+        council="camden"
         comments={[]}
         id={mockData.id}
         type="published"
