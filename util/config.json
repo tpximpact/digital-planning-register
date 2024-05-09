@@ -3,6 +3,7 @@
     "name": "Camden",
     "contact": "https://www.camden.gov.uk/contact-camden",
     "logo": "camdenlogo.svg",
+    "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
     "specialistComments": false
   },

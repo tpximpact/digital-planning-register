@@ -3,6 +3,7 @@ import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
+import { notFound } from "next/navigation";
 
 export default async function Documents({
   params: { id, council },
@@ -16,6 +17,10 @@ export default async function Documents({
     parseFloat(id as string),
     council,
   );
+
+  if (applicationData.data === null || applicationData.error) {
+    notFound();
+  }
 
   const currentPage = parseInt(searchParams?.page || "1", 10) - 1;
   const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
