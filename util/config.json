@@ -1,6 +1,8 @@
 {
     "camden": {
         "name": "Camden",
-        "contact": "https://www.camden.gov.uk/contact-camden"
+        "contact": "https://www.camden.gov.uk/contact-camden",
+        "logo": "camdenlogo.svg",
+        "logowhite": "camdenlogowhite.svg"
     }
 }
