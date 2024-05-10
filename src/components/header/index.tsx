@@ -1,16 +1,7 @@
-"use client";
 import Link from "next/link";
 import Menu from "../menu";
-import { useEffect, useState } from "react";
-import { useWindowWidth } from "@react-hook/window-size";
 
 const Header = () => {
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const onlyWidth = useWindowWidth();
-
-  useEffect(() => {
-    onlyWidth >= 769 ? setIsOpenMenu(true) : setIsOpenMenu(false);
-  }, [onlyWidth]);
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
@@ -36,25 +27,28 @@ const Header = () => {
             </svg>
           </Link>
         </div>
-        <div className="govuk-header__content">
+        <div>
           <Link
             href="/"
             className="govuk-header__link govuk-header__service-name"
             role="link"
           >
-            Planning Index
+            Title
           </Link>
-          <button
-            onClick={() => setIsOpenMenu(!isOpenMenu)}
-            type="button"
-            className="govuk-header__menu-button menu"
+          <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+          <label
+            htmlFor="menu-toggle"
+            className="govuk-header__menu-button menu-button"
             aria-controls="navigation"
+            aria-label="Toggle menu"
           >
             Menu
-          </button>
+          </label>
+          <div className="menu" id="navigation">
+            <Menu />
+          </div>
         </div>
       </div>
-      {isOpenMenu && <Menu />}
     </header>
   );
 };

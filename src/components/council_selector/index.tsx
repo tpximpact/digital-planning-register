@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import config from "../../../util/config.json";
 import { Config } from "../../../util/type";
