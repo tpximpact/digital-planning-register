@@ -58,7 +58,6 @@ const Header = () => {
             onClick={() => setIsOpenMenu(!isOpenMenu)}
             type="button"
             className="govuk-header__menu-button menu"
-            aria-controls="navigation"
           >
             Menu
           </button>
