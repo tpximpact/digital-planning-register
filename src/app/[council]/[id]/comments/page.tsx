@@ -59,6 +59,7 @@ export default async function Comments({
           comments={currentComments}
           totalComments={totalComments}
           currentPage={currentPage}
+          council={council}
         />
         <Pagination
           currentPage={currentPage}
