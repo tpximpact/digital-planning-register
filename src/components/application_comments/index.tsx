@@ -15,6 +15,40 @@ interface ApplicationCommentsProps extends Data {
   council: string;
 }
 
+export function getTitle(
+  type: string,
+  publicComments: boolean,
+  specialistComments: boolean,
+) {
+  const titleRes: { [key: string]: string } = {
+    consultee: "Specialist Comments",
+    published: "Public Comments",
+  };
+  if (type === "consultee" && specialistComments) {
+    return titleRes[type];
+  }
+  if (type === "published" && publicComments) {
+    return titleRes[type];
+  }
+}
+
+export function getNoCommentMessage(
+  type: string,
+  publicComments: boolean,
+  specialistComments: boolean,
+) {
+  const noMessage: { [key: string]: string } = {
+    consultee: "No comments from specialists have been published at this time.",
+    published: "No comments from the public have been published at this time.",
+  };
+  if (type === "consultee" && specialistComments) {
+    return noMessage[type];
+  }
+  if (type === "published" && publicComments) {
+    return noMessage[type];
+  }
+}
+
 const ApplicationComments = ({
   comments = [],
   id,
@@ -32,15 +66,16 @@ const ApplicationComments = ({
 
   const commentTypeLabel =
     type === "consultee" ? "professional consultee" : "neighbour";
-  const noCommentsMessage =
-    type === "consultee"
-      ? "No comments from specialists have been published at this time."
-      : "No comments from the public have been published at this time.";
+  const noCommentsMessage = getNoCommentMessage(
+    type,
+    publicComments,
+    specialistComments,
+  );
 
   return (
     <>
       <h2 className="govuk-heading-l">
-        {type === "consultee" ? "Specialist Comments" : "Public Comments"}
+        {getTitle(type, publicComments, specialistComments)}
       </h2>
       {comments.length > 0 &&
       ((type === "consultee" && specialistComments) ||
