@@ -3,18 +3,26 @@
     "name": "Camden",
     "contact": "https://www.camden.gov.uk/contact-camden",
     "logo": "camdenlogo.svg",
-    "logowhite": "camdenlogowhite.svg"
+    "logowhite": "camdenlogowhite.svg",
+    "publicComments": true,
+    "specialistComments": false
   },
   "gateshead": {
     "name": "Gateshead",
-    "logo": "gatesheadlogo.svg"
+    "logo": "gatesheadlogo.svg",
+    "publicComments": false,
+    "specialistComments": false
   },
   "lambeth": {
     "name": "Lambeth",
-    "logo": "lambethlogo.svg"
+    "logo": "lambethlogo.svg",
+    "publicComments": false,
+    "specialistComments": false
   },
   "southwark": {
     "name": "Southwark",
-    "logo": "southwarklogo.svg"
+    "logo": "southwarklogo.svg",
+    "publicComments": false,
+    "specialistComments": false
   }
 }
