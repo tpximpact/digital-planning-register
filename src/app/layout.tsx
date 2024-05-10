@@ -16,6 +16,7 @@ export default function RootLayout({
   }
   return (
     <html lang="en">
+      <title>Public index</title>
       <Head />
       <body>
         <Header />
