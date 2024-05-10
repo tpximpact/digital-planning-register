@@ -30,21 +30,23 @@ const Header = () => {
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
         <div className="govuk-header__logo">
-          <Link
-            href={`/${council}`}
-            className="govuk-header__link govuk-header__link--homepage"
-          >
-            {logoPath ? (
-              <Image
-                src={`/images/logos/${logo}`}
-                alt={`${name} Logo`}
-                width={148}
-                height={31}
-              />
-            ) : (
-              <span>{name}</span>
-            )}
-          </Link>
+          {council && (
+            <Link
+              href={`/${council}`}
+              className="govuk-header__link govuk-header__link--homepage"
+            >
+              {logoPath ? (
+                <Image
+                  src={`/images/logos/${logo}`}
+                  alt={`${name} Logo`}
+                  width={148}
+                  height={31}
+                />
+              ) : (
+                <span>{name}</span>
+              )}
+            </Link>
+          )}
         </div>
         <div className="govuk-header__content">
           <Link
@@ -58,7 +60,6 @@ const Header = () => {
             onClick={() => setIsOpenMenu(!isOpenMenu)}
             type="button"
             className="govuk-header__menu-button menu"
-            aria-controls="navigation"
           >
             Menu
           </button>
