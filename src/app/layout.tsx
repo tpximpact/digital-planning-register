@@ -20,6 +20,7 @@ export default function RootLayout({
   }
   return (
     <html lang="en">
+      <title>Digital Planning Register</title>
       <Head />
       <body>
         <Header currentPath={pathname} />

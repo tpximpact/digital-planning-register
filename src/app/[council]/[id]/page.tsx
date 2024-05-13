@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getApplicationById } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
@@ -15,6 +16,10 @@ type Params = { params: Props };
 export default async function Application({ params }: Params) {
   const { id, council } = params;
   const data = await getApplicationById(parseFloat(id as string), council);
+
+  if (data.error || data.data === null) {
+    notFound();
+  }
 
   const sortComments = (comments: ApplicationComment[] = []) => {
     return comments.sort((a, b) => {
@@ -41,6 +46,7 @@ export default async function Application({ params }: Params) {
             maxDisplayDocuments={6}
             council={council}
           />
+          <ApplicationPeople {...data} />
           <ApplicationComments
             {...data}
             council={council}

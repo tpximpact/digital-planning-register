@@ -3,6 +3,7 @@ import { BackLink } from "../../../../components/button";
 import ApplicationComments from "../../../../components/application_comments";
 import ApplicationHeader from "../../../../components/application_header";
 import Pagination from "@/components/pagination";
+import { notFound } from "next/navigation";
 
 export default async function Comments({
   params: { id, council },
@@ -16,6 +17,9 @@ export default async function Comments({
     parseFloat(id as string),
     council,
   );
+  if (applicationData.data === null || applicationData.error) {
+    notFound();
+  }
 
   const type = searchParams?.type ?? "published";
   const commentsType = type === "consultee" ? "consultee" : "published";
@@ -55,6 +59,7 @@ export default async function Comments({
           comments={currentComments}
           totalComments={totalComments}
           currentPage={currentPage}
+          council={council}
         />
         <Pagination
           currentPage={currentPage}

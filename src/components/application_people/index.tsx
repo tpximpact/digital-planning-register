@@ -33,23 +33,21 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Relationship to property</h4>
-              <p className="govuk-body">Occupier</p>
+              <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Company</h4>
-              <p className="govuk-body">JoSmith Ltd</p>
+              <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">
-                19 Road Street, Placeton, Cityville, PO5 7CO
-              </p>
+              <p className="govuk-body">No Information</p>
             </div>
           </div>
         </div>
@@ -69,16 +67,14 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Company</h4>
-              <p className="govuk-body">JoanDoe Ltd</p>
+              <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">
-                19 Road Street, Placeton, Cityville, PO5 7CO
-              </p>
+              <p className="govuk-body">No Information</p>
             </div>
           </div>
         </div>
