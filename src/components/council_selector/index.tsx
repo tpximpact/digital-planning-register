@@ -25,22 +25,20 @@ export const CouncilSelector = () => {
   };
 
   return (
-    <li className="govuk-header__navigation-item no-spacing">
-      <select
-        className="govuk-select"
-        id="sort"
-        name="council"
-        value={currentCouncil}
-        onChange={handleCouncilChange}
-      >
-        <option value="select">Select your council</option>
-        {councilOptions.map((councilKey) => (
-          <option key={councilKey} value={councilKey}>
-            {councilConfig[councilKey].name}
-          </option>
-        ))}
-      </select>
-    </li>
+    <select
+      className="govuk-select"
+      id="sort"
+      name="council"
+      value={currentCouncil}
+      onChange={handleCouncilChange}
+    >
+      <option value="select">Select your council</option>
+      {councilOptions.map((councilKey) => (
+        <option key={councilKey} value={councilKey}>
+          {councilConfig[councilKey].name}
+        </option>
+      ))}
+    </select>
   );
 };
 
