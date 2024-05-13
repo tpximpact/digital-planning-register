@@ -8,7 +8,7 @@ const Menu = ({ currentPath }: { currentPath: string }) => {
         id="navigation"
         className="govuk-header__navigation-list govuk-width-container"
       >
-        <CouncilSelector />
+        <CouncilSelector currentPath={currentPath} />
         {currentPath !== "/" && (
           <li className="govuk-header__navigation-item current-item">
             <Link className="govuk-header__link nav-link" href="/" role="link">
