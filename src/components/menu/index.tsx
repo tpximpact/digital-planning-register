@@ -1,7 +1,7 @@
 import Link from "next/link";
 import CouncilSelector from "../council_selector";
 
-const Menu = () => {
+const Menu = ({ currentPath }: { currentPath: string }) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
       <ul
@@ -9,11 +9,13 @@ const Menu = () => {
         className="govuk-header__navigation-list govuk-width-container"
       >
         <CouncilSelector />
-        <li className="govuk-header__navigation-item current-item">
-          <Link className="govuk-header__link nav-link" href="/" role="link">
-            Application search
-          </Link>
-        </li>
+        {currentPath !== "/" && (
+          <li className="govuk-header__navigation-item current-item">
+            <Link className="govuk-header__link nav-link" href="/" role="link">
+              Application search
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

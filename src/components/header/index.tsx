@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Menu from "../menu";
 
-const Header = () => {
+const Header = ({ currentPath }: { currentPath: string }) => {
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
@@ -47,7 +47,7 @@ const Header = () => {
         </label>
         <input type="checkbox" id="menu-toggle" className="menu-toggle" />
         <div className="menu" id="navigation" aria-labelledby="menu-toggle">
-          <Menu />
+          <Menu currentPath={currentPath} />
         </div>
       </div>
     </header>
