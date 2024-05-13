@@ -17,7 +17,7 @@ describe("CouncilSelector", () => {
   const councilOptions = Object.keys(config);
 
   it("renders the selector with council options", () => {
-    render(<CouncilSelector />);
+    render(<CouncilSelector currentPath={mockLocation.pathname} />);
     const selector = screen.getByRole("combobox");
     expect(selector).toBeInTheDocument();
 

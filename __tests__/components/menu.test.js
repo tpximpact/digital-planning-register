@@ -2,9 +2,26 @@ import Menu from "../../src/components/menu";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
+const mockLocation1 = {
+  href: "",
+  pathname: "/camden",
+};
+
+const mockLocation2 = {
+  href: "",
+  pathname: "/",
+};
+
 describe("Test Menu", () => {
-  it("it should render correctly", async () => {
-    render(<Menu />);
+  it("it should render with application search present", async () => {
+    render(<Menu currentPath={mockLocation1.pathname} />);
     expect(screen.getByRole("link", { Name: "Application Search" }));
+  });
+
+  it("it should render without application search present", async () => {
+    render(<Menu currentPath={mockLocation2.pathname} />);
+    expect(
+      screen.queryByRole("link", { Name: "Application Search" }),
+    ).toBeNull();
   });
 });
