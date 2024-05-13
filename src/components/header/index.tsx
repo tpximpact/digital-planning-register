@@ -63,7 +63,7 @@ const Header = ({ currentPath }: { currentPath: string }) => {
         </label>
         <input type="checkbox" id="menu-toggle" className="menu-toggle" />
         <div className="menu" id="navigation" aria-labelledby="menu-toggle">
-          <Menu currentPath={currentPath} />
+          <Menu currentPath={currentPath} council={name} />
         </div>
       </div>
     </header>
