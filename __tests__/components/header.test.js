@@ -9,6 +9,6 @@ jest.mock("@react-hook/window-size", () => ({
 describe("Test Header", () => {
   it("it should render correctly", async () => {
     render(<Header />);
-    expect(screen.getByRole("link", { name: "Planning Index" }));
+    expect(screen.getByRole("link", { name: "Digital Planning Register" }));
   });
 });
