@@ -9,9 +9,7 @@ import config from "../../../util/config.json";
 import { Config } from "../../../util/type";
 import path from "path";
 
-const Header = () => {
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const onlyWidth = useWindowWidth();
+const Header = ({ currentPath }: { currentPath: string }) => {
   const params = useParams();
   const council = params?.council as string;
 
@@ -22,10 +20,6 @@ const Header = () => {
     logo &&
     logo !== "" &&
     path.join(process.cwd(), "public", "images", "logos", logo);
-
-  useEffect(() => {
-    onlyWidth >= 769 ? setIsOpenMenu(true) : setIsOpenMenu(false);
-  }, [onlyWidth]);
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
@@ -48,24 +42,30 @@ const Header = () => {
             </Link>
           )}
         </div>
-        <div className="govuk-header__content">
+        <div>
           <Link
             href="/"
             className="govuk-header__link govuk-header__service-name"
             role="link"
           >
-            Planning Index
+            Digital Planning Register
           </Link>
-          <button
-            onClick={() => setIsOpenMenu(!isOpenMenu)}
-            type="button"
-            className="govuk-header__menu-button menu"
-          >
-            Menu
-          </button>
         </div>
       </div>
-      {isOpenMenu && <Menu />}
+      <div className="govuk-header__menu">
+        <label
+          htmlFor="menu-toggle"
+          className="govuk-header__menu-button menu-button"
+          aria-controls="navigation"
+          aria-label="Toggle menu"
+        >
+          Menu
+        </label>
+        <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+        <div className="menu" id="navigation" aria-labelledby="menu-toggle">
+          <Menu currentPath={currentPath} council={name} />
+        </div>
+      </div>
     </header>
   );
 };
