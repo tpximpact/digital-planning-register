@@ -59,6 +59,8 @@ export interface Council {
   contact?: string;
   logo?: string;
   logowhite?: string;
+  publicComments?: boolean;
+  specialistComments?: boolean;
 }
 
 export interface Config {

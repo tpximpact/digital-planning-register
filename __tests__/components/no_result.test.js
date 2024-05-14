@@ -1,4 +1,4 @@
-import NoResult from "@/components/no-results";
+import NoResult from "@/components/no_results";
 import { screen, render } from "@testing-library/react";
 describe("Render ApplicationPeople", () => {
   it("should render correct", async () => {

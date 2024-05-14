@@ -4,7 +4,7 @@ import { getApplicationsByCouncil, getApplicationById } from "../../actions";
 import Link from "next/link";
 import { Data } from "../../../util/type";
 import DesktopHeader from "../../components/desktop-header";
-import NoResult from "../../components/no-results";
+import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
 import { BackLink } from "@/components/button";
@@ -51,7 +51,7 @@ export default async function Home({
 
   return (
     <>
-      {!data && <BackLink />}
+      {!data && <BackLink href={`/${council}`} />}
       <main className="govuk-main-wrapper">
         <form action={`/${council}`} method="get" className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">

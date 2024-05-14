@@ -43,8 +43,8 @@ export default async function Comments({
   );
 
   return (
-    <div>
-      <BackLink />
+    <>
+      <BackLink href={`/${council}/${id}`} />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={applicationData.reference_in_full}
@@ -69,6 +69,6 @@ export default async function Comments({
           queryParams={searchParams || {}}
         />
       </div>
-    </div>
+    </>
   );
 }

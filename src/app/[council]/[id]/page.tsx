@@ -33,8 +33,8 @@ export default async function Application({ params }: Params) {
   const publishedComments = sortComments(data?.published_comments);
 
   return (
-    <div>
-      <BackLink />
+    <>
+      <BackLink href={`/${council}`} />
       {data && (
         <div className="govuk-main-wrapper">
           <ApplicationInformation {...data} />
@@ -72,6 +72,6 @@ export default async function Application({ params }: Params) {
           {/* <ApplicationConstraints /> */}
         </div>
       )}
-    </div>
+    </>
   );
 }

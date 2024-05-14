@@ -5,7 +5,7 @@ import NotFoundLink from "@/components/not_found_link";
 export default function NotFound() {
   return (
     <>
-      <BackLink />
+      <BackLink href={`/`} />
       <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-l">Page not found</h1>
         <p className="govuk-body">

@@ -31,8 +31,8 @@ export default async function Documents({
   );
 
   return (
-    <div>
-      <BackLink />
+    <>
+      <BackLink href={`/${council}/${id}`} />
       <ApplicationHeader
         reference={applicationData.reference_in_full}
         address={applicationData.site}
@@ -51,6 +51,6 @@ export default async function Documents({
         baseUrl={`/${council}/${id}/documents`}
         queryParams={searchParams || {}}
       />
-    </div>
+    </>
   );
 }
