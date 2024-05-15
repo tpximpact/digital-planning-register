@@ -44,7 +44,9 @@ const Header = ({ currentPath }: { currentPath: string }) => {
             href="/"
             className="govuk-header__link govuk-header__service-name"
             role="link"
-          ></Link>
+          >
+            Digital Planning Register
+          </Link>
         </div>
       </div>
       <div className="govuk-header__menu">

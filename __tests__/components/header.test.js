@@ -14,6 +14,6 @@ const mockLocation = {
 describe("Header", () => {
   it("it should render correctly", async () => {
     render(<Header currentPath={mockLocation.pathname} />);
-    expect(screen.getByRole("checkbox", { name: "Toggle menu" }));
+    expect(screen.getByRole("link", { name: "Digital Planning Register" }));
   });
 });
