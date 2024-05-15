@@ -1,8 +1,7 @@
 import Link from "next/link";
-import React from "react";
 import config from "../../../util/config.json";
 
-export default function NoResult({ council }: { council: string }) {
+const NoResult = ({ council }: { council: string }) => {
   const configCouncil = config as any;
   const getInTouchURL =
     configCouncil[council]?.contact || "https://www.gov.uk/";
@@ -41,4 +40,6 @@ export default function NoResult({ council }: { council: string }) {
       </div>
     </div>
   );
-}
+};
+
+export default NoResult;

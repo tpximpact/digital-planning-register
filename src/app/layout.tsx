@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <title>Digital Planning Register</title>
       <Head />
-      <body>
+      <body className={"govuk-frontend-supported"}>
         <Header currentPath={pathname} />
         <div className="govuk-width-container">
           <Suspense>{children}</Suspense>

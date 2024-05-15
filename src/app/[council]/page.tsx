@@ -11,24 +11,30 @@ import { BackLink } from "@/components/button";
 
 const resultsPerPage = 10;
 
-export default async function Home({
-  params,
-  searchParams,
-}: {
-  params: { council: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+interface FetchDataResponse {
+  data?: Data[];
+  totalPages: number;
+  hasError: boolean;
+  errorMessage: string;
+}
+
+async function fetchData(
+  params: { council: string },
+  searchParams?: { [key: string]: string | string[] | undefined },
+): Promise<FetchDataResponse> {
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
   const council = params.council;
-
-  let data: Data[] | undefined;
+  let data: Data[] | undefined = undefined;
   let totalPages: number = 0;
+  let hasError = false;
+  let errorMessage = "";
 
   if (search) {
     const response = await getApplicationById(parseInt(search), council);
     if (!response.error) {
       if (response.data === null) {
+        hasError = true;
         notFound();
       } else {
         data = [response];
@@ -45,10 +51,49 @@ export default async function Home({
       data = response.data;
       totalPages = response.metadata?.total_pages || 1;
     } else {
+      hasError = true;
       notFound();
     }
   }
 
+  return { data, totalPages, hasError, errorMessage };
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { council: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { hasError, errorMessage } = await fetchData(params, searchParams);
+
+  if (hasError) {
+    return {
+      title: "Error",
+      description: errorMessage,
+    };
+  }
+
+  return {
+    title: "Application Data",
+    description: "Fetched application data",
+  };
+}
+
+export default async function Home({
+  params,
+  searchParams,
+}: {
+  params: { council: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { data, totalPages, hasError, errorMessage } = await fetchData(
+    params,
+    searchParams,
+  );
+  const page = parseInt(searchParams?.page as string) || 1; // Ensure page is defined here
+  const council = params.council;
   return (
     <>
       {!data && <BackLink href={`/${council}`} />}
@@ -66,7 +111,7 @@ export default async function Home({
                 id="search"
                 name="search"
                 type="text"
-                defaultValue={search || ""}
+                defaultValue={searchParams?.search || ""}
               />
             </div>
           </div>

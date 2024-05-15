@@ -13,11 +13,22 @@ import { ApplicationComment } from "../../../../util/type";
 type Props = { id: string; council: string };
 type Params = { params: Props };
 
-export default async function Application({ params }: Params) {
+async function fetchData(params: Props) {
   const { id, council } = params;
   const data = await getApplicationById(parseFloat(id as string), council);
 
   if (data.error || data.data === null) {
+    return null;
+  }
+
+  return data;
+}
+
+export default async function Application({ params }: Params) {
+  const data = await fetchData(params);
+  const { id, council } = params;
+
+  if (!data) {
     notFound();
   }
 
@@ -35,43 +46,41 @@ export default async function Application({ params }: Params) {
   return (
     <>
       <BackLink href={`/${council}`} />
-      {data && (
-        <div className="govuk-main-wrapper">
-          <ApplicationInformation {...data} />
-          {/* <ApplicationLocation /> */}
-          {/* <ApplicationDetails {...data} /> */}
-          <ApplicationFile
-            {...data}
-            id={id}
-            maxDisplayDocuments={6}
-            council={council}
-          />
-          <ApplicationPeople {...data} />
-          <ApplicationComments
-            {...data}
-            council={council}
-            id={id}
-            maxDisplayComments={3}
-            showViewAllButton={true}
-            type="consultee"
-            comments={consulteeComments}
-            currentPage={0}
-            totalComments={consulteeComments.length}
-          />
-          <ApplicationComments
-            {...data}
-            council={council}
-            id={id}
-            maxDisplayComments={3}
-            showViewAllButton={true}
-            type="published"
-            comments={publishedComments}
-            currentPage={0}
-            totalComments={publishedComments.length}
-          />
-          {/* <ApplicationConstraints /> */}
-        </div>
-      )}
+      <div className="govuk-main-wrapper">
+        <ApplicationInformation {...data} />
+        {/* <ApplicationLocation /> */}
+        {/* <ApplicationDetails {...data} /> */}
+        <ApplicationFile
+          {...data}
+          id={id}
+          maxDisplayDocuments={6}
+          council={council}
+        />
+        <ApplicationPeople {...data} />
+        <ApplicationComments
+          {...data}
+          council={council}
+          id={id}
+          maxDisplayComments={3}
+          showViewAllButton={true}
+          type="consultee"
+          comments={consulteeComments}
+          currentPage={0}
+          totalComments={consulteeComments.length}
+        />
+        <ApplicationComments
+          {...data}
+          council={council}
+          id={id}
+          maxDisplayComments={3}
+          showViewAllButton={true}
+          type="published"
+          comments={publishedComments}
+          currentPage={0}
+          totalComments={publishedComments.length}
+        />
+        {/* <ApplicationConstraints /> */}
+      </div>
     </>
   );
 }
