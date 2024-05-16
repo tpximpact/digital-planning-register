@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { getApplicationById } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
@@ -9,6 +8,7 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
+import NotFound from "../../not-found";
 
 type Props = { id: number; council: string };
 type Params = { params: Props };
@@ -17,19 +17,36 @@ async function fetchData(params: Props) {
   const { id, council } = params;
   const data = await getApplicationById(id, council);
 
-  if (data.error || data.data === null) {
-    return null;
+  return data;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string; council: string };
+}) {
+  const { id, council } = params;
+  const data = await fetchData({ id: Number(id), council });
+
+  if (data.error) {
+    return {
+      title: "Error",
+      description: data.errorMessage || "An error occurred",
+    };
   }
 
-  return data;
+  return {
+    title: "Application Data",
+    description: "Fetched application data",
+  };
 }
 
 export default async function Application({ params }: Params) {
   const data = await fetchData(params);
   const { id, council } = params;
 
-  if (!data) {
-    notFound();
+  if (data.error || data.data === null) {
+    return <NotFound />;
   }
 
   const sortComments = (comments: ApplicationComment[] = []) => {
