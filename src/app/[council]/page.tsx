@@ -93,7 +93,7 @@ export default async function Home({
   const council = params.council;
 
   if (hasError) {
-    return <NotFound />;
+    return <NotFound params={params} />;
   }
   return (
     <>

@@ -46,7 +46,7 @@ export default async function Application({ params }: Params) {
   const { id, council } = params;
 
   if (data.error || data.data === null) {
-    return <NotFound />;
+    return <NotFound params={params} />;
   }
 
   const sortComments = (comments: ApplicationComment[] = []) => {

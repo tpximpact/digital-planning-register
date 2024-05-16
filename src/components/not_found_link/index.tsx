@@ -2,13 +2,15 @@ import Link from "next/link";
 import config from "../../../util/config.json";
 
 interface NotFoundLinkProps {
-  params?: { council: string };
+  params?: {
+    council: string;
+  };
 }
 
 export default function NotFoundLink({ params }: NotFoundLinkProps) {
   const council = params?.council || "";
   const configData = config as Record<string, any>;
-  const councilConfig = configData[council];
+  const councilConfig = configData[`${council}`];
   const contact =
     councilConfig?.contact || "https://www.gov.uk/find-local-council";
   const applicationSearchUrl = councilConfig?.name ? `/${council}` : "/";

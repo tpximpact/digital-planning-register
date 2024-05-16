@@ -2,7 +2,13 @@
 import { BackLink } from "@/components/button";
 import NotFoundLink from "@/components/not_found_link";
 
-export default function NotFound() {
+interface NotFoundProps {
+  params: {
+    council: string;
+  };
+}
+
+export default function NotFound({ params }: NotFoundProps) {
   return (
     <>
       <BackLink href={`/`} />
@@ -15,7 +21,7 @@ export default function NotFound() {
         <p className="govuk-body">
           If you are having problems finding what you need, you can:
         </p>
-        <NotFoundLink />
+        <NotFoundLink params={params} />
       </div>
     </>
   );
