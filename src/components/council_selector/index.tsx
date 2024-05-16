@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
 import { Config } from "../../../util/type";
 
 const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
   const councilConfig = config as Config;
   const councilOptions = Object.keys(councilConfig);
+  const [selectedCouncil, setSelectedCouncil] = useState(
+    currentPath.split("/")[1] || "select",
+  );
 
-  const selectedCouncil = currentPath.split("/")[1] || "select";
+  useEffect(() => {
+    document.documentElement.className = "js-enabled";
+  }, []);
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCouncil = event.target.value;
@@ -16,20 +21,45 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
   };
 
   return (
-    <select
-      className="govuk-select"
-      id="sort"
-      name="council"
-      value={selectedCouncil}
-      onChange={handleCouncilChange}
-    >
-      <option value="select">Select your council</option>
-      {councilOptions.map((councilKey) => (
-        <option key={councilKey} value={councilKey}>
-          {councilConfig[councilKey].name}
-        </option>
-      ))}
-    </select>
+    <>
+      <noscript>
+        <style>{`.js-only { display: none; }`}</style>
+        <form action="/council-redirect" method="get">
+          <div>
+            <select
+              className="govuk-select noscript-only council-selection"
+              id="sort"
+              name="council"
+              defaultValue={selectedCouncil}
+            >
+              <option value="select">Select your council</option>
+              {councilOptions.map((councilKey) => (
+                <option key={councilKey} value={councilKey}>
+                  {councilConfig[councilKey].name}
+                </option>
+              ))}
+            </select>
+            <button type="submit" className="govuk-button council-selection">
+              Select
+            </button>
+          </div>
+        </form>
+      </noscript>
+      <select
+        className="govuk-select js-only"
+        id="sort"
+        name="council"
+        value={selectedCouncil}
+        onChange={handleCouncilChange}
+      >
+        <option value="select">Select your council</option>
+        {councilOptions.map((councilKey) => (
+          <option key={councilKey} value={councilKey}>
+            {councilConfig[councilKey].name}
+          </option>
+        ))}
+      </select>
+    </>
   );
 };
 

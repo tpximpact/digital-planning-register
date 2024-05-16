@@ -97,6 +97,18 @@
   }
 }
 
-.govuk-select {
-  margin-top: 3px;
+.council-selection {
+  margin: 3px;
+}
+
+.js-enabled .js-only {
+  display: block;
+}
+
+.js-disabled .js-only {
+  display: none;
+}
+
+.js-disabled .noscript-only {
+  display: block;
 }
