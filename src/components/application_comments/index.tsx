@@ -6,7 +6,7 @@ import config from "../../../util/config.json";
 
 interface ApplicationCommentsProps extends Data {
   comments?: ApplicationComment[];
-  id: string;
+  id: number;
   type: "consultee" | "published";
   maxDisplayComments?: number;
   showViewAllButton?: boolean;

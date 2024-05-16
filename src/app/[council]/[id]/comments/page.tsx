@@ -9,14 +9,11 @@ export default async function Comments({
   params: { id, council },
   searchParams,
 }: {
-  params: { id: string; council: string };
+  params: { id: number; council: string };
   searchParams?: { type?: string; page?: string };
 }) {
   const maxDisplayComments = 10;
-  const applicationData = await getApplicationById(
-    parseFloat(id as string),
-    council,
-  );
+  const applicationData = await getApplicationById(id, council);
   if (applicationData.data === null || applicationData.error) {
     notFound();
   }

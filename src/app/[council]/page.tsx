@@ -11,11 +11,11 @@ import NotFound from "../not-found";
 
 const resultsPerPage = 10;
 
-export async function fetchData(
+async function fetchData(
   params: { council: string },
   searchParams?: { [key: string]: string | string[] | undefined },
 ): Promise<{
-  data: Data[];
+  data?: Data[];
   totalPages: number;
   hasError?: boolean;
   errorMessage?: string;

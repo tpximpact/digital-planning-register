@@ -10,12 +10,12 @@ import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
 
-type Props = { id: string; council: string };
+type Props = { id: number; council: string };
 type Params = { params: Props };
 
 async function fetchData(params: Props) {
   const { id, council } = params;
-  const data = await getApplicationById(parseFloat(id as string), council);
+  const data = await getApplicationById(id, council);
 
   if (data.error || data.data === null) {
     return null;

@@ -4,7 +4,7 @@ import { formatTag } from "../../../util/formatTag";
 
 interface ApplicationFileProps extends Data {
   documents: ApplicationDocument[];
-  id: string;
+  id: number;
   showViewAllButton?: boolean;
   maxDisplayDocuments?: number;
   council: string;
