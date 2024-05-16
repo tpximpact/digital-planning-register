@@ -1,15 +1,16 @@
-"use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import config from "../../../util/config.json";
 
-const NotFoundLink = () => {
-  const pathname = usePathname();
-  const council = pathname.split("/")[1];
-  const configData = config as any;
-  const councilConfig = configData[`${council}`];
+interface NotFoundLinkProps {
+  params?: { council: string };
+}
+
+export default function NotFoundLink({ params }: NotFoundLinkProps) {
+  const council = params?.council || "";
+  const configData = config as Record<string, any>;
+  const councilConfig = configData[council];
   const contact =
-    councilConfig?.contact || "https://www.gov.uk/find-local-council ";
+    councilConfig?.contact || "https://www.gov.uk/find-local-council";
   const applicationSearchUrl = councilConfig?.name ? `/${council}` : "/";
 
   return (
@@ -33,6 +34,4 @@ const NotFoundLink = () => {
       </li>
     </ul>
   );
-};
-
-export default NotFoundLink;
+}

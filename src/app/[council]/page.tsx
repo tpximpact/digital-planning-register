@@ -6,26 +6,24 @@ import { Data } from "../../../util/type";
 import DesktopHeader from "../../components/desktop-header";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
-import { notFound } from "next/navigation";
 import { BackLink } from "@/components/button";
+import NotFound from "../not-found";
 
 const resultsPerPage = 10;
 
-interface FetchDataResponse {
-  data?: Data[];
-  totalPages: number;
-  hasError: boolean;
-  errorMessage: string;
-}
-
-async function fetchData(
+export async function fetchData(
   params: { council: string },
   searchParams?: { [key: string]: string | string[] | undefined },
-): Promise<FetchDataResponse> {
+): Promise<{
+  data: Data[];
+  totalPages: number;
+  hasError?: boolean;
+  errorMessage?: string;
+}> {
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
   const council = params.council;
-  let data: Data[] | undefined = undefined;
+  let data: Data[] = [];
   let totalPages: number = 0;
   let hasError = false;
   let errorMessage = "";
@@ -35,7 +33,6 @@ async function fetchData(
     if (!response.error) {
       if (response.data === null) {
         hasError = true;
-        notFound();
       } else {
         data = [response];
         totalPages = 1;
@@ -52,7 +49,7 @@ async function fetchData(
       totalPages = response.metadata?.total_pages || 1;
     } else {
       hasError = true;
-      notFound();
+      errorMessage = response.message;
     }
   }
 
@@ -92,8 +89,12 @@ export default async function Home({
     params,
     searchParams,
   );
-  const page = parseInt(searchParams?.page as string) || 1; // Ensure page is defined here
+  const page = parseInt(searchParams?.page as string) || 1;
   const council = params.council;
+
+  if (hasError) {
+    return <NotFound />;
+  }
   return (
     <>
       {!data && <BackLink href={`/${council}`} />}
