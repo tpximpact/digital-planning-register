@@ -90,7 +90,7 @@ export default async function Home({
                           href={`/${council}/${application?.id}`}
                           className="govuk-link"
                         >
-                          {application.reference_in_full}
+                          {application.reference}
                         </Link>
                       </p>
                     </div>

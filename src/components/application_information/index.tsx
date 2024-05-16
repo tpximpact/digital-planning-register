@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 
 const ApplicationInformation = ({
-  reference_in_full,
+  reference,
   application_type,
   site,
   received_date,
@@ -51,7 +51,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-quarter">
               <h2 className="govuk-heading-s">Application Reference</h2>
               <p className="govuk-body" role="application-reference">
-                {reference_in_full}
+                {reference}
               </p>
             </div>
 
