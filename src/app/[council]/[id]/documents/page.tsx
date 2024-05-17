@@ -34,7 +34,7 @@ export default async function Documents({
     <div>
       <BackLink />
       <ApplicationHeader
-        reference={applicationData.reference_in_full}
+        reference={applicationData.reference}
         address={applicationData.site}
       />
       <ApplicationFile

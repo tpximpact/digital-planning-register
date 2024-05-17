@@ -47,7 +47,7 @@ export default async function Comments({
       <BackLink />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
-          reference={applicationData.reference_in_full}
+          reference={applicationData.reference}
           address={applicationData.site}
         />
         <ApplicationComments

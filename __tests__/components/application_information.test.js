@@ -8,7 +8,7 @@ jest.mock("../../src/components/map", () => {
 
 describe("Render ApplicationInformation", () => {
   const mockData = {
-    reference_in_full: "AAA_BBB_CCC_DDD",
+    reference: "AAA_BBB_CCC_DDD",
     application_type: "planning_application",
     site: {
       address_1: "40, TEST ROAD",
@@ -40,7 +40,7 @@ describe("Render ApplicationInformation", () => {
     render(<ApplicationInformation {...mockData} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockData.reference_in_full,
+        Name: mockData.reference,
       }),
     );
     expect(
@@ -89,7 +89,7 @@ describe("Render ApplicationInformation", () => {
     render(<ApplicationInformation {...mockDataWithMultiPolygon} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockDataWithMultiPolygon.reference_in_full,
+        Name: mockDataWithMultiPolygon.reference,
       }),
     );
     expect(
@@ -143,7 +143,7 @@ describe("Render ApplicationInformation", () => {
     render(<ApplicationInformation {...mockDataWithFeatureCollection} />);
     expect(
       screen.getByRole("application-reference", {
-        Name: mockDataWithFeatureCollection.reference_in_full,
+        Name: mockDataWithFeatureCollection.reference,
       }),
     );
     expect(
