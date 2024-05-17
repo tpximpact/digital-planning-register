@@ -8,6 +8,7 @@ import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 
 const resultsPerPage = 10;
 
@@ -68,13 +69,13 @@ export async function generateMetadata({
   if (hasError) {
     return {
       title: "Error",
-      description: errorMessage,
+      description: errorMessage || "An error occurred",
     };
   }
 
   return {
-    title: "Application Data",
-    description: "Fetched application data",
+    title: "Digital Planning Register",
+    description: `${capitaliseWord(params.council)} planning applications`,
   };
 }
 

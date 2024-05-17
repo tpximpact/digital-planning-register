@@ -9,6 +9,7 @@ import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
 import NotFound from "../../not-found";
+import { capitaliseWord } from "../../../../util/capitaliseWord";
 
 type Props = { id: number; council: string };
 type Params = { params: Props };
@@ -36,8 +37,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Application Data",
-    description: "Fetched application data",
+    title: `Application ${data.reference}`,
+    description: `${capitaliseWord(params.council)} planning application`,
   };
 }
 

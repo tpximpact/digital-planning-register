@@ -39,7 +39,10 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
                 </option>
               ))}
             </select>
-            <button type="submit" className="govuk-button council-selection">
+            <button
+              type="submit"
+              className="govuk-button custom-button council-selection"
+            >
               Select
             </button>
           </div>
