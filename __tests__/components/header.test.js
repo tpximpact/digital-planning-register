@@ -2,10 +2,18 @@ import Header from "../../src/components/header";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-describe("Test Header", () => {
+jest.mock("@react-hook/window-size", () => ({
+  useWindowWidth: jest.fn(),
+}));
 
+const mockLocation = {
+  href: "",
+  pathname: "/",
+};
+
+describe("Test Header", () => {
   it("it should render correctly", async () => {
-    render(<Header />);
-    expect(screen.getByRole("link", { name: "Camden Public Planning Index" }));
+    render(<Header currentPath={mockLocation.pathname} />);
+    expect(screen.getByRole("link", { name: "Digital Planning Register" }));
   });
 });

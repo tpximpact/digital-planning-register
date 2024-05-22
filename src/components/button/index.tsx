@@ -1,10 +1,11 @@
-export const BackLink = ({
-href,
-}: {
-  href: string
-}) => {
+"use client";
+import { useRouter } from "next/navigation";
+export const BackLink = ({ href = "#" }: { href?: string }) => {
+  const router = useRouter();
   return (
-    <a href={href}className="govuk-back-link">Back</a>
+    <a href={href} className="govuk-back-link" onClick={() => router.back()}>
+      Back
+    </a>
   );
 };
 
