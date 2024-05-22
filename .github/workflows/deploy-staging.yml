@@ -10,9 +10,6 @@ jobs:
 
     steps:
       - uses: docker/setup-buildx-action@v3
-        env:
-          NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_BOPS_API_URL }}
-          NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.LAMBETH_BOPS_API_URL }}
 
       - uses: actions/checkout@v3
 
@@ -23,3 +20,6 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_STAGING_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
+        env:
+          NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_BOPS_API_URL }}
+          NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.LAMBETH_BOPS_API_URL }}
