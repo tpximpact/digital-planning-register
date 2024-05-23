@@ -2,7 +2,7 @@ name: build and deploy
 
 on:
   push:
-    branches: ["heroku-deploy"]
+    branches: ["feature/heroku-deploy"]
 
 jobs:
   build-and-deploy-staging:
