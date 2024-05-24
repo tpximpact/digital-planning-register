@@ -6,7 +6,7 @@ import config from "../../../util/config.json";
 
 interface ApplicationCommentsProps extends Data {
   comments?: ApplicationComment[];
-  applicationNumber: string;
+  reference: string;
   type: "consultee" | "published";
   maxDisplayComments?: number;
   showViewAllButton?: boolean;
@@ -51,7 +51,7 @@ export function getNoCommentMessage(
 
 const ApplicationComments = ({
   comments = [],
-  applicationNumber,
+  reference,
   type,
   maxDisplayComments = 10,
   showViewAllButton = true,
@@ -104,7 +104,7 @@ const ApplicationComments = ({
                   of {totalComments} comments
                 </p>
                 <a
-                  href={`/${council}/${applicationNumber}/comments?type=${type}`}
+                  href={`/${council}/${reference}/comments?type=${type}`}
                   role="button"
                   className="govuk-button govuk-button--primary"
                   data-module="govuk-button"

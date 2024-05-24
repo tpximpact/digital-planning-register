@@ -1,4 +1,4 @@
-import { getApplicationByReferenceNumber } from "@/actions";
+import { getApplicationByReference } from "@/actions";
 import ApplicationFile from "@/components/application_files";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
@@ -6,17 +6,14 @@ import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
 
 export default async function Documents({
-  params: { applicationNumber, council },
+  params: { reference, council },
   searchParams,
 }: {
-  params: { applicationNumber: string; council: string };
+  params: { reference: string; council: string };
   searchParams?: { page?: string };
 }) {
   const maxDisplayDocuments = 10;
-  const applicationData = await getApplicationByReferenceNumber(
-    applicationNumber,
-    council,
-  );
+  const applicationData = await getApplicationByReference(reference, council);
 
   if (applicationData.data === null || applicationData.error) {
     notFound();
@@ -39,7 +36,7 @@ export default async function Documents({
       />
       <ApplicationFile
         {...applicationData}
-        applicationNumber={applicationNumber}
+        reference={reference}
         showViewAllButton={false}
         documents={currentDocuments}
         maxDisplayDocuments={maxDisplayDocuments}
@@ -48,7 +45,7 @@ export default async function Documents({
         currentPage={currentPage}
         totalItems={applicationData?.documents?.length}
         itemsPerPage={maxDisplayDocuments}
-        baseUrl={`/${council}/${applicationNumber}/documents`}
+        baseUrl={`/${council}/${reference}/documents`}
         queryParams={searchParams || {}}
       />
     </div>

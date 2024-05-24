@@ -23,9 +23,9 @@ export async function getApplicationsByCouncil(
   }
 }
 
-// This function get by applicationNumber
-export async function getApplicationByReferenceNumber(
-  applicationNumber: string,
+// This function get by reference
+export async function getApplicationByReference(
+  reference: string,
   council: string,
 ) {
   const apiKey = council.toUpperCase() + "_API_KEY";
@@ -34,7 +34,7 @@ export async function getApplicationByReferenceNumber(
     return { status: 404, message: "Council not registered", data: null };
   } else {
     const data = await fetch(
-      `${process.env[councilApi]}planning_applications/${applicationNumber}`,
+      `${process.env[councilApi]}planning_applications/${reference}`,
       {
         method: "GET",
         headers: {
