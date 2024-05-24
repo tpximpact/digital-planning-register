@@ -23,15 +23,18 @@ export async function getApplicationsByCouncil(
   }
 }
 
-// This function search by int ID, in the future it should search by reference number
-export async function getApplicationById(id: number, council: string) {
+// This function get by applicationNumber
+export async function getApplicationByReferenceNumber(
+  applicationNumber: string,
+  council: string,
+) {
   const apiKey = council.toUpperCase() + "_API_KEY";
   const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
   if (process.env[councilApi] == undefined) {
     return { status: 404, message: "Council not registered", data: null };
   } else {
     const data = await fetch(
-      `${process.env[councilApi]}planning_applications/${id}`,
+      `${process.env[councilApi]}planning_applications/${applicationNumber}`,
       {
         method: "GET",
         headers: {
