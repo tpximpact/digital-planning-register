@@ -1,7 +1,7 @@
 export const mockData = {
   id: "123",
   determination_date: "2024-04-23",
-  reference_in_full: "ABC/123",
+  reference: "ABC/123",
   site: {
     address_1: "123 Main Street",
     address_2: "Anytown",
