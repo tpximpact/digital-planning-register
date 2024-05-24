@@ -23,7 +23,7 @@ export const CouncilLogo = ({
     <Image
       src={`/images/logos/${logoFileName}`}
       alt={`${councilName} Logo`}
-      width={450}
+      width={350}
       height={75}
     />
   ) : (
