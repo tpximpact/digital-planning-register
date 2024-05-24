@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getApplicationById } from "../../../actions/index";
+import { getApplicationByReference } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
@@ -10,12 +10,13 @@ import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
 
-type Props = { id: string; council: string };
+type Props = { reference: string; council: string };
 type Params = { params: Props };
 
 export default async function Application({ params }: Params) {
-  const { id, council } = params;
-  const data = await getApplicationById(parseFloat(id as string), council);
+  const { reference, council } = params;
+
+  const data = await getApplicationByReference(reference, council);
 
   if (data.error || data.data === null) {
     notFound();
@@ -42,7 +43,7 @@ export default async function Application({ params }: Params) {
           {/* <ApplicationDetails {...data} /> */}
           <ApplicationFile
             {...data}
-            id={id}
+            reference={reference}
             maxDisplayDocuments={6}
             council={council}
           />
@@ -50,7 +51,7 @@ export default async function Application({ params }: Params) {
           <ApplicationComments
             {...data}
             council={council}
-            id={id}
+            reference={reference}
             maxDisplayComments={3}
             showViewAllButton={true}
             type="consultee"
@@ -61,7 +62,7 @@ export default async function Application({ params }: Params) {
           <ApplicationComments
             {...data}
             council={council}
-            id={id}
+            reference={reference}
             maxDisplayComments={3}
             showViewAllButton={true}
             type="published"

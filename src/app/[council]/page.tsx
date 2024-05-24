@@ -1,6 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
-import { getApplicationsByCouncil, getApplicationById } from "../../actions";
+import { getApplicationsByCouncil, searchApplication } from "../../actions";
 import Link from "next/link";
 import { Data } from "../../../util/type";
 import DesktopHeader from "../../components/desktop-header";
@@ -26,13 +26,18 @@ export default async function Home({
   let totalPages: number = 0;
 
   if (search) {
-    const response = await getApplicationById(parseInt(search), council);
+    const response = await searchApplication(
+      search,
+      council,
+      page,
+      resultsPerPage,
+    );
     if (!response.error) {
       if (response.data === null) {
         notFound();
       } else {
-        data = [response];
-        totalPages = 1;
+        data = response.data;
+        totalPages = response?.metadata?.total_pages || 1;
       }
     }
   } else {
@@ -87,30 +92,40 @@ export default async function Home({
                       <h2 className="govuk-heading-s">Application Reference</h2>
                       <p className="govuk-body test">
                         <Link
-                          href={`/${council}/${application?.id}`}
+                          href={`/${council}/${application?.reference || application?.application?.reference}`}
                           className="govuk-link"
                         >
-                          {application.reference}
+                          {application.reference ||
+                            application.application.reference}
                         </Link>
                       </p>
                     </div>
                     <div className="govuk-grid-column-one-half responsive-cell">
                       <h2 className="govuk-heading-s">Address</h2>
                       <p className="govuk-body">
-                        {application?.site?.address_1},{" "}
-                        {application?.site?.postcode}
+                        {application?.site?.address_1 ||
+                          application?.property?.address?.singleLine}
+                        {application?.site?.postcode &&
+                          ", " + application?.site?.postcode}
                       </p>
                     </div>
                   </div>
                   <div className="govuk-grid-column-one-half">
                     <div className="govuk-grid-column-two-thirds responsive-cell">
                       <h2 className="govuk-heading-s">Description</h2>
-                      <p className="govuk-body">{application.description}</p>
+                      <p className="govuk-body">
+                        {application.description ||
+                          application?.proposal?.description}
+                      </p>
                     </div>
                     <div className="govuk-grid-column-one-third responsive-cell">
                       <h2 className="govuk-heading-s">Application type</h2>
                       <p className="govuk-body">
-                        {application?.application_type?.replace(/_/g, " ")}
+                        {application?.application_type?.replace(/_/g, " ") ||
+                          application?.application?.type?.description.replace(
+                            /_/g,
+                            " ",
+                          )}
                       </p>
                     </div>
                   </div>
@@ -118,18 +133,28 @@ export default async function Home({
                     <div className="govuk-grid-column-one-half responsive-cell">
                       <h2 className="govuk-heading-s">Date submitted</h2>
                       <p className="govuk-body">
-                        {application?.created_at &&
+                        {(application?.received_date &&
                           `${format(
-                            new Date(application?.created_at),
+                            new Date(application?.received_date),
                             "dd MMM yyyy",
-                          )}`}
+                          )}`) ||
+                          (application?.application?.receivedAt &&
+                            `${format(
+                              new Date(application?.application?.receivedAt),
+                              "dd MMM yyyy",
+                            )}`)}
                       </p>
                     </div>
                     <div className="govuk-grid-column-one-half responsive-cell">
                       <h2 className="govuk-heading-s">Status</h2>
                       <p className="govuk-body">
-                        {application?.status &&
-                          application?.status?.replace(/_/g, " ")}
+                        {(application?.status &&
+                          application?.status?.replace(/_/g, " ")) ||
+                          (application?.application?.status &&
+                            application?.application?.status.replace(
+                              /_/g,
+                              " ",
+                            ))}
                       </p>
                     </div>
                   </div>

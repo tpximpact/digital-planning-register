@@ -4,7 +4,7 @@ import { formatTag } from "../../../util/formatTag";
 
 interface ApplicationFileProps extends Data {
   documents: ApplicationDocument[];
-  id: string;
+  reference: string;
   showViewAllButton?: boolean;
   maxDisplayDocuments?: number;
   council: string;
@@ -12,7 +12,7 @@ interface ApplicationFileProps extends Data {
 
 const ApplicationFile = ({
   documents,
-  id,
+  reference,
   showViewAllButton = true,
   maxDisplayDocuments,
   council,
@@ -47,7 +47,7 @@ const ApplicationFile = ({
                     documents
                   </p>
                   <a
-                    href={`/${council}/${id}/documents`}
+                    href={`/${council}/${reference}/documents`}
                     role="button"
                     className="govuk-button govuk-button--primary"
                     data-module="govuk-button"

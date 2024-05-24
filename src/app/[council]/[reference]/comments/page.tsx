@@ -1,4 +1,4 @@
-import { getApplicationById } from "../../../../actions";
+import { getApplicationByReference } from "../../../../actions";
 import { BackLink } from "../../../../components/button";
 import ApplicationComments from "../../../../components/application_comments";
 import ApplicationHeader from "../../../../components/application_header";
@@ -6,17 +6,14 @@ import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
 
 export default async function Comments({
-  params: { id, council },
+  params: { reference, council },
   searchParams,
 }: {
-  params: { id: string; council: string };
+  params: { reference: string; council: string };
   searchParams?: { type?: string; page?: string };
 }) {
   const maxDisplayComments = 10;
-  const applicationData = await getApplicationById(
-    parseFloat(id as string),
-    council,
-  );
+  const applicationData = await getApplicationByReference(reference, council);
   if (applicationData.data === null || applicationData.error) {
     notFound();
   }
@@ -52,7 +49,7 @@ export default async function Comments({
         />
         <ApplicationComments
           {...applicationData}
-          id={id}
+          reference={reference}
           maxDisplayComments={10}
           showViewAllButton={false}
           type={type}
@@ -65,7 +62,7 @@ export default async function Comments({
           currentPage={currentPage}
           totalItems={totalComments}
           itemsPerPage={maxDisplayComments}
-          baseUrl={`/${council}/${id}/comments`}
+          baseUrl={`/${council}/${reference}/comments`}
           queryParams={searchParams || {}}
         />
       </div>
