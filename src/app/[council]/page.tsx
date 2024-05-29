@@ -91,7 +91,7 @@ export default async function Home({
                 defaultValue={search || ""}
               />
               {isError && (
-                <p id="passport-issued-error" className="govuk-error-message">
+                <p id="search-error" className="govuk-error-message">
                   <span className="govuk-visually-hidden">Error:</span> Enter at
                   least 3 characters to search
                 </p>
