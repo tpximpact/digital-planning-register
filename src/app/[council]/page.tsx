@@ -21,23 +21,40 @@ export default async function Home({
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
   const council = params.council;
+  let isError = false;
 
   let data: Data[] | undefined;
   let totalPages: number = 0;
 
   if (search) {
-    const response = await searchApplication(
-      search,
-      council,
-      page,
-      resultsPerPage,
-    );
-    if (!response.error) {
-      if (response.data === null) {
-        notFound();
-      } else {
+    if (search.length < 3) {
+      isError = true;
+      const response = await getApplicationsByCouncil(
+        page,
+        resultsPerPage,
+        council,
+      );
+      if (response.data) {
         data = response.data;
-        totalPages = response?.metadata?.total_pages || 1;
+        totalPages = response.metadata?.total_pages || 1;
+      } else {
+        notFound();
+      }
+    } else {
+      isError = false;
+      const response = await searchApplication(
+        search,
+        council,
+        page,
+        resultsPerPage,
+      );
+      if (!response.error) {
+        if (response.data === null) {
+          notFound();
+        } else {
+          data = response.data;
+          totalPages = response?.metadata?.total_pages || 1;
+        }
       }
     }
   } else {
@@ -73,6 +90,12 @@ export default async function Home({
                 type="text"
                 defaultValue={search || ""}
               />
+              {isError && (
+                <p id="passport-issued-error" className="govuk-error-message">
+                  <span className="govuk-visually-hidden">Error:</span> Enter at
+                  least 3 characters to search
+                </p>
+              )}
             </div>
           </div>
           <div className="govuk-grid-column-one-quarter search-bar-buttons">
