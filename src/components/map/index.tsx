@@ -17,6 +17,7 @@ interface MapProps {
   osVectorTilesApiKey?: string;
   geojsonData?: string;
   showScale?: boolean;
+  page?: string;
 }
 
 const Map: React.FC<MapProps> = ({
@@ -26,13 +27,23 @@ const Map: React.FC<MapProps> = ({
   osVectorTilesApiKey = "",
   geojsonData = "",
   showScale = true,
+  page = "",
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
     const map = document.querySelector("my-map") as HTMLElement;
     if (map) {
       map.style.width = "28rem";
-      map.style.height = onlyWidth <= 1090 ? "20rem" : "14rem";
+      map.style.height =
+        page == "landing"
+          ? onlyWidth > 640 && onlyWidth < 1090
+            ? "14rem"
+            : "20rem"
+          : onlyWidth <= 1090
+            ? "20rem"
+            : "14rem";
+      map.style.marginBottom =
+        page == "landing" && onlyWidth < 640 ? "10px" : "auto";
       map.style.display = "table-cell";
       map.style.padding = "0, 15px, 15px 0";
 
@@ -44,7 +55,7 @@ const Map: React.FC<MapProps> = ({
         console.debug({ geojson: (event as CustomEvent).detail });
       });
     }
-  }, [onlyWidth]);
+  }, [onlyWidth, page]);
 
   return (
     <div>
