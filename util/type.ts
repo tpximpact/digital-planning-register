@@ -19,7 +19,6 @@ export type Data = {
   application_type?: string;
   received_date?: string;
   status?: string;
-  reference_in_full?: string;
   result_flag?: string;
   consultation?: { end_date: string };
   determination_date?: string;

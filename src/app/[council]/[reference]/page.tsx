@@ -1,4 +1,5 @@
-import { getApplicationById } from "../../../actions/index";
+import { notFound } from "next/navigation";
+import { getApplicationByReference } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
@@ -8,15 +9,15 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
-import NotFound from "../../not-found";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
+import NotFound from "@/app/not-found";
 
-type Props = { id: number; council: string };
+type Props = { reference: string; council: string };
 type Params = { params: Props };
 
 async function fetchData(params: Props) {
-  const { id, council } = params;
-  const data = await getApplicationById(id, council);
+  const { reference, council } = params;
+  const data = await getApplicationByReference(reference, council);
 
   return data;
 }
@@ -24,10 +25,10 @@ async function fetchData(params: Props) {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string; council: string };
+  params: { reference: string; council: string };
 }) {
-  const { id, council } = params;
-  const data = await fetchData({ id: Number(id), council });
+  const { reference, council } = params;
+  const data = await fetchData({ reference: reference, council });
 
   if (data.error) {
     return {
@@ -44,7 +45,7 @@ export async function generateMetadata({
 
 export default async function Application({ params }: Params) {
   const data = await fetchData(params);
-  const { id, council } = params;
+  const { reference, council } = params;
 
   if (data.error || data.data === null) {
     return <NotFound params={params} />;
@@ -70,7 +71,7 @@ export default async function Application({ params }: Params) {
         {/* <ApplicationDetails {...data} /> */}
         <ApplicationFile
           {...data}
-          id={id}
+          reference={reference}
           maxDisplayDocuments={6}
           council={council}
         />
@@ -78,7 +79,7 @@ export default async function Application({ params }: Params) {
         <ApplicationComments
           {...data}
           council={council}
-          id={id}
+          reference={reference}
           maxDisplayComments={3}
           showViewAllButton={true}
           type="consultee"
@@ -89,7 +90,7 @@ export default async function Application({ params }: Params) {
         <ApplicationComments
           {...data}
           council={council}
-          id={id}
+          reference={reference}
           maxDisplayComments={3}
           showViewAllButton={true}
           type="published"

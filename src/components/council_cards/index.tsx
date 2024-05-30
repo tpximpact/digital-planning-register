@@ -1,5 +1,6 @@
 import CouncilLogo from "../council_logo";
 import config from "../../../util/config.json";
+import Link from "next/link";
 
 interface Council {
   name: string;
@@ -20,14 +21,14 @@ export const CouncilCards = () => {
       {councils.map((council) => {
         const { name, logo } = councilConfig[council];
         return (
-          <a
+          <Link
             href={`/${council}`}
             className="govuk-button govuk-button--secondary"
             title={`${name} Council`}
             key={council}
           >
             <CouncilLogo councilName={name} logoFileName={logo} />
-          </a>
+          </Link>
         );
       })}
     </div>
