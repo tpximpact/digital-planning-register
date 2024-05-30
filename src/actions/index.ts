@@ -5,21 +5,26 @@ export async function getApplicationsByCouncil(
   resultsPerPage: number,
   council: string,
 ) {
-  const apiKey = council.toUpperCase() + "_API_KEY";
-  const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-  if (process.env[councilApi] == undefined) {
-    return { status: 404, message: "Council not registered", data: null };
-  } else {
-    const data = await fetch(
-      `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${process.env[apiKey]}`,
+  try {
+    const apiKey = council.toUpperCase() + "_API_KEY";
+    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
+    if (process.env[councilApi] == undefined) {
+      return { status: 404, message: "Council not registered", data: null };
+    } else {
+      const response = await fetch(
+        `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${process.env[apiKey]}`,
+          },
         },
-      },
-    );
-    return data.json();
+      );
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    return { status: 500, message: "Internal server error", data: null };
   }
 }
 
@@ -33,7 +38,7 @@ export async function getApplicationByReference(
   if (process.env[councilApi] == undefined) {
     return { status: 404, message: "Council not registered", data: null };
   } else {
-    const data = await fetch(
+    const response = await fetch(
       `${process.env[councilApi]}planning_applications/${reference}`,
       {
         method: "GET",
@@ -42,7 +47,8 @@ export async function getApplicationByReference(
         },
       },
     );
-    return data.json();
+    const data = await response.json();
+    return data;
   }
 }
 
@@ -52,21 +58,26 @@ export async function searchApplication(
   page: number,
   resultsPerPage: number,
 ) {
-  const apiKey = council + "_api_key";
-  const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-  if (process.env[councilApi] == undefined) {
-    return { status: 404, message: "Council not registered", data: null };
-  } else {
-    const data = await fetch(
-      `${process.env[councilApi]}public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${process.env[apiKey]}`,
+  try {
+    const apiKey = council.toUpperCase() + "_API_KEY";
+    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
+    if (process.env[councilApi] == undefined) {
+      return { status: 404, message: "Council not registered", data: null };
+    } else {
+      const response = await fetch(
+        `${process.env[councilApi]}public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${process.env[apiKey]}`,
+          },
         },
-      },
-    );
+      );
 
-    return data.json();
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    return { status: 500, message: "Internal server error", data: null };
   }
 }

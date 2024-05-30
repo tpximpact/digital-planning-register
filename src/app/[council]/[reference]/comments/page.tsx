@@ -41,7 +41,7 @@ export default async function Comments({
 
   return (
     <div>
-      <BackLink />
+      <BackLink href={`/${council}/${reference}`} />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={applicationData.reference}

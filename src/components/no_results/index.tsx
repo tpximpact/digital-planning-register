@@ -1,10 +1,11 @@
 import Link from "next/link";
-import React from "react";
 import config from "../../../util/config.json";
 
-export default async function NoResult({ council }: { council: string }) {
+const NoResult = ({ council }: { council: string }) => {
   const configCouncil = config as any;
-  const getInTouchURL = configCouncil[council].contact || "https://www.gov.uk/";
+  const getInTouchURL =
+    configCouncil[council]?.contact || "https://www.gov.uk/";
+
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
@@ -21,7 +22,7 @@ export default async function NoResult({ council }: { council: string }) {
           </Link>
         </p>
         <p className="govuk-body">
-          If you having problems with finding what you need, you can:
+          If you are having problems with finding what you need, you can:
         </p>
         <ul className="govuk-list govuk-list--bullet">
           <li>Check you have spelled everything correctly</li>
@@ -39,4 +40,6 @@ export default async function NoResult({ council }: { council: string }) {
       </div>
     </div>
   );
-}
+};
+
+export default NoResult;
