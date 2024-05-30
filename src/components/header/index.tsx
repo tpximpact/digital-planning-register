@@ -1,9 +1,6 @@
-"use client";
 import Link from "next/link";
 import Menu from "../menu";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useWindowWidth } from "@react-hook/window-size";
 import { useParams } from "next/navigation";
 import config from "../../../util/config.json";
 import { Config } from "../../../util/type";

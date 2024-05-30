@@ -11,7 +11,7 @@ const mockLocation = {
   pathname: "/",
 };
 
-describe("Test Header", () => {
+describe("Header", () => {
   it("it should render correctly", async () => {
     render(<Header currentPath={mockLocation.pathname} />);
     expect(screen.getByRole("link", { name: "Digital Planning Register" }));

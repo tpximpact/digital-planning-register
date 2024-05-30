@@ -4,31 +4,36 @@ import { getApplicationsByCouncil, searchApplication } from "../../actions";
 import Link from "next/link";
 import { Data } from "../../../util/type";
 import DesktopHeader from "../../components/desktop-header";
-import NoResult from "../../components/no-results";
+import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
-import { notFound } from "next/navigation";
 import { BackLink } from "@/components/button";
+import NotFound from "../not-found";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 
 const resultsPerPage = 10;
 
-export default async function Home({
-  params,
-  searchParams,
-}: {
-  params: { council: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+async function fetchData(
+  params: { council: string },
+  searchParams?: { [key: string]: string | string[] | undefined },
+): Promise<{
+  data?: Data[];
+  totalPages: number;
+  hasError?: boolean;
+  errorMessage?: string;
+  validationError?: boolean;
+}> {
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
   const council = params.council;
-  let isError = false;
-
-  let data: Data[] | undefined;
+  let validationError = false;
+  let data: Data[] = [];
   let totalPages: number = 0;
+  let hasError = false;
+  let errorMessage = "";
 
   if (search) {
     if (search.length < 3) {
-      isError = true;
+      validationError = true;
       const response = await getApplicationsByCouncil(
         page,
         resultsPerPage,
@@ -38,10 +43,11 @@ export default async function Home({
         data = response.data;
         totalPages = response.metadata?.total_pages || 1;
       } else {
-        notFound();
+        hasError = true;
+        errorMessage = response.message;
       }
     } else {
-      isError = false;
+      validationError = false;
       const response = await searchApplication(
         search,
         council,
@@ -50,11 +56,15 @@ export default async function Home({
       );
       if (!response.error) {
         if (response.data === null) {
-          notFound();
+          hasError = true;
+          errorMessage = "No applications found.";
         } else {
           data = response.data;
           totalPages = response?.metadata?.total_pages || 1;
         }
+      } else {
+        hasError = true;
+        errorMessage = response.message;
       }
     }
   } else {
@@ -67,13 +77,53 @@ export default async function Home({
       data = response.data;
       totalPages = response.metadata?.total_pages || 1;
     } else {
-      notFound();
+      hasError = true;
+      errorMessage = response.message;
     }
   }
 
+  return { data, totalPages, hasError, errorMessage, validationError };
+}
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { council: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { hasError, errorMessage } = await fetchData(params, searchParams);
+
+  if (hasError) {
+    return {
+      title: "Error",
+      description: errorMessage || "An error occurred",
+    };
+  }
+
+  return {
+    title: "Digital Planning Register",
+    description: `${capitaliseWord(params.council)} planning applications`,
+  };
+}
+
+export default async function Home({
+  params,
+  searchParams,
+}: {
+  params: { council: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { data, totalPages, hasError, errorMessage, validationError } =
+    await fetchData(params, searchParams);
+  const page = parseInt(searchParams?.page as string) || 1;
+  const council = params.council;
+
+  if (hasError) {
+    return <NotFound params={params} />;
+  }
   return (
     <>
-      {!data && <BackLink />}
+      {!data && <BackLink href={`/${council}`} />}
       <main className="govuk-main-wrapper">
         <form action={`/${council}`} method="get" className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
@@ -88,9 +138,9 @@ export default async function Home({
                 id="search"
                 name="search"
                 type="text"
-                defaultValue={search || ""}
+                defaultValue={searchParams?.search || ""}
               />
-              {isError && (
+              {validationError && (
                 <p id="search-error" className="govuk-error-message">
                   <span className="govuk-visually-hidden">Error:</span> Enter at
                   least 3 characters to search

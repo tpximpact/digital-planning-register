@@ -30,6 +30,8 @@ export type Data = {
   boundary_geojson?: BoundaryGeojson;
   consultee_comments?: ApplicationComment[];
   published_comments?: ApplicationComment[];
+  created_at?: string;
+  id: number;
 };
 
 type BoundaryGeojson =
@@ -58,6 +60,8 @@ export interface Council {
   contact?: string;
   logo?: string;
   logowhite?: string;
+  publicComments?: boolean;
+  specialistComments?: boolean;
 }
 
 export interface Config {

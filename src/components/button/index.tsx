@@ -1,9 +1,6 @@
-"use client";
-import { useRouter } from "next/navigation";
-export const BackLink = ({ href = "#" }: { href?: string }) => {
-  const router = useRouter();
+export const BackLink = ({ href }: { href?: string }) => {
   return (
-    <a href={href} className="govuk-back-link" onClick={() => router.back()}>
+    <a href={href} className="govuk-back-link">
       Back
     </a>
   );
@@ -13,20 +10,20 @@ export const Button = ({
   content,
   icon,
   className,
-  onClick,
+  type = "button",
   iconClass,
 }: {
   iconClass?: string;
   content: string;
   icon?: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }) => {
   return (
     <button
+      type={type}
       className={`govuk-button ${className}`}
       data-module="govuk-button"
-      onClick={onClick}
     >
       {content}
       {icon && (

@@ -9,17 +9,46 @@ import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
 import { ApplicationComment } from "../../../../util/type";
+import { capitaliseWord } from "../../../../util/capitaliseWord";
+import NotFound from "@/app/not-found";
 
 type Props = { reference: string; council: string };
 type Params = { params: Props };
 
-export default async function Application({ params }: Params) {
+async function fetchData(params: Props) {
   const { reference, council } = params;
-
   const data = await getApplicationByReference(reference, council);
 
+  return data;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { reference: string; council: string };
+}) {
+  const { reference, council } = params;
+  const data = await fetchData({ reference: reference, council });
+
+  if (data.error) {
+    return {
+      title: "Error",
+      description: data.errorMessage || "An error occurred",
+    };
+  }
+
+  return {
+    title: `Application ${data.reference}`,
+    description: `${capitaliseWord(params.council)} planning application`,
+  };
+}
+
+export default async function Application({ params }: Params) {
+  const data = await fetchData(params);
+  const { reference, council } = params;
+
   if (data.error || data.data === null) {
-    notFound();
+    return <NotFound params={params} />;
   }
 
   const sortComments = (comments: ApplicationComment[] = []) => {
@@ -34,45 +63,43 @@ export default async function Application({ params }: Params) {
   const publishedComments = sortComments(data?.published_comments);
 
   return (
-    <div>
-      <BackLink />
-      {data && (
-        <div className="govuk-main-wrapper">
-          <ApplicationInformation {...data} />
-          {/* <ApplicationLocation /> */}
-          {/* <ApplicationDetails {...data} /> */}
-          <ApplicationFile
-            {...data}
-            reference={reference}
-            maxDisplayDocuments={6}
-            council={council}
-          />
-          <ApplicationPeople {...data} />
-          <ApplicationComments
-            {...data}
-            council={council}
-            reference={reference}
-            maxDisplayComments={3}
-            showViewAllButton={true}
-            type="consultee"
-            comments={consulteeComments}
-            currentPage={0}
-            totalComments={consulteeComments.length}
-          />
-          <ApplicationComments
-            {...data}
-            council={council}
-            reference={reference}
-            maxDisplayComments={3}
-            showViewAllButton={true}
-            type="published"
-            comments={publishedComments}
-            currentPage={0}
-            totalComments={publishedComments.length}
-          />
-          {/* <ApplicationConstraints /> */}
-        </div>
-      )}
-    </div>
+    <>
+      <BackLink href={`/${council}`} />
+      <div className="govuk-main-wrapper">
+        <ApplicationInformation {...data} />
+        {/* <ApplicationLocation /> */}
+        {/* <ApplicationDetails {...data} /> */}
+        <ApplicationFile
+          {...data}
+          reference={reference}
+          maxDisplayDocuments={6}
+          council={council}
+        />
+        <ApplicationPeople {...data} />
+        <ApplicationComments
+          {...data}
+          council={council}
+          reference={reference}
+          maxDisplayComments={3}
+          showViewAllButton={true}
+          type="consultee"
+          comments={consulteeComments}
+          currentPage={0}
+          totalComments={consulteeComments.length}
+        />
+        <ApplicationComments
+          {...data}
+          council={council}
+          reference={reference}
+          maxDisplayComments={3}
+          showViewAllButton={true}
+          type="published"
+          comments={publishedComments}
+          currentPage={0}
+          totalComments={publishedComments.length}
+        />
+        {/* <ApplicationConstraints /> */}
+      </div>
+    </>
   );
 }
