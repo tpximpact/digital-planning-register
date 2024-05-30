@@ -142,7 +142,7 @@ export default async function Home({
                       <div className="govuk-grid-column-two-thirds description">
                         <h2 className="govuk-heading-s">Description</h2>
                         <p className="govuk-body">
-                          {application.description ||
+                          {application?.description ||
                             application?.proposal?.description}
                         </p>
                       </div>
@@ -190,9 +190,7 @@ export default async function Home({
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">
-                          Consultation End Date
-                        </h2>
+                        <h2 className="govuk-heading-s">Published Date</h2>
                         <p className="govuk-body">
                           {application?.consultation?.end_date &&
                             `${format(

@@ -42,8 +42,6 @@ const Map: React.FC<MapProps> = ({
           : onlyWidth <= 1090
             ? "20rem"
             : "14rem";
-      map.style.marginBottom =
-        page == "landing" && onlyWidth < 640 ? "10px" : "auto";
       map.style.display = "table-cell";
       map.style.padding = "0, 15px, 15px 0";
 
