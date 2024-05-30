@@ -118,7 +118,7 @@ export default async function Home({
                         <h2 className="govuk-heading-s">
                           Application Reference
                         </h2>
-                        <p className="govuk-body test">
+                        <p className="govuk-body">
                           {application.reference ||
                             application.application.reference}
                         </p>

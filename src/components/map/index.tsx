@@ -31,26 +31,30 @@ const Map: React.FC<MapProps> = ({
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
-    const map = document.querySelector("my-map") as HTMLElement;
+    const map = document.querySelectorAll("my-map") as NodeListOf<HTMLElement>;
+
     if (map) {
-      map.style.width = "28rem";
-      map.style.height =
-        page == "landing"
-          ? onlyWidth > 640 && onlyWidth < 1090
-            ? "14rem"
-            : "20rem"
-          : onlyWidth <= 1090
-            ? "20rem"
-            : "14rem";
-      map.style.display = "table-cell";
-      map.style.padding = "0, 15px, 15px 0";
+      map.forEach((canvas) => {
+        (canvas.style.width = "28rem"),
+          (canvas.style.height =
+            page == "landing"
+              ? onlyWidth > 640 && onlyWidth < 1090
+                ? "14rem"
+                : "20rem"
+              : onlyWidth <= 1090
+                ? "20rem"
+                : "14rem");
 
-      map.addEventListener("areaChange", (event: Event) => {
-        console.debug({ area: (event as CustomEvent).detail });
-      });
+        canvas.style.display = "table-cell";
+        canvas.style.padding = "0, 15px, 15px 0";
 
-      map.addEventListener("geojsonChange", (event: Event) => {
-        console.debug({ geojson: (event as CustomEvent).detail });
+        canvas.addEventListener("areaChange", (event: Event) => {
+          console.debug({ area: (event as CustomEvent).detail });
+        });
+
+        canvas.addEventListener("geojsonChange", (event: Event) => {
+          console.debug({ geojson: (event as CustomEvent).detail });
+        });
       });
     }
   }, [onlyWidth, page]);
