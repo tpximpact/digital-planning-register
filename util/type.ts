@@ -30,6 +30,7 @@ export type Data = {
   boundary_geojson?: BoundaryGeojson;
   consultee_comments?: ApplicationComment[];
   published_comments?: ApplicationComment[];
+  in_assessment_at?: string;
   created_at?: string;
   id: number;
 };
