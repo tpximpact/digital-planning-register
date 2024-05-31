@@ -36,7 +36,9 @@ const ApplicationInformation = ({
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third-from-desktop">
           <h2 className="govuk-heading-s">Application Reference</h2>
-          <p className="govuk-body">{reference}</p>
+          <p className="govuk-body" role="application-reference">
+            {reference}
+          </p>
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop">
@@ -66,7 +68,7 @@ const ApplicationInformation = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Application Type</h2>
-              <p className="govuk-body">
+              <p className="govuk-body" role="application-type">
                 {capitaliseWord(application_type?.replace(/_/g, " ") as string)}
               </p>
             </div>
