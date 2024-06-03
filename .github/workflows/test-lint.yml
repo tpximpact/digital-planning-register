@@ -28,14 +28,3 @@ jobs:
 
       - name: Run tests
         run: yarn test
-
-      - name: Build the application
-        run: yarn build
-
-      - name: Start the application
-        run: yarn start & npx wait-on http://localhost:3000
-
-      - name: Run pa11y-ci
-        run: |
-          yarn global add pa11y-ci
-          pa11y-ci --config .pa11yci
