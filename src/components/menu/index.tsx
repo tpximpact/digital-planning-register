@@ -14,7 +14,7 @@ const Menu = ({
         id="navigation"
         className="govuk-header__navigation-list govuk-width-container"
       >
-        <li className="govuk-header__navigation-item">
+        <li className="govuk-header__navigation-item no-space">
           <CouncilSelector currentPath={currentPath} />
         </li>
         {currentPath !== "/" && (
