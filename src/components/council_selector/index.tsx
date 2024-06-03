@@ -5,13 +5,12 @@ import { Config } from "../../../util/type";
 const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
   const councilConfig = config as Config;
   const councilOptions = Object.keys(councilConfig);
-  const [selectedCouncil, setSelectedCouncil] = useState(
-    currentPath.split("/")[1] || "select",
-  );
+  const [selectedCouncil, setSelectedCouncil] = useState("select");
 
   useEffect(() => {
     document.documentElement.className = "js-enabled";
-  }, []);
+    setSelectedCouncil(currentPath.split("/")[1]);
+  }, [currentPath]);
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCouncil = event.target.value;
