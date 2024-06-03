@@ -14,6 +14,7 @@ const ApplicationInformation = ({
   consultation,
   boundary_geojson,
   description,
+  in_assessment_at,
 }: Data) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -33,7 +34,23 @@ const ApplicationInformation = ({
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-quarter app-map">
+        <div className="govuk-grid-column-one-third-from-desktop">
+          <h2 className="govuk-heading-s">Application Reference</h2>
+          <p className="govuk-body" role="application-reference">
+            {reference}
+          </p>
+        </div>
+
+        <div className="govuk-grid-column-two-thirds-from-desktop">
+          <h2 className="govuk-heading-s">Address</h2>
+          <p className="govuk-body">
+            {site?.address_1}, {site?.postcode}{" "}
+          </p>
+        </div>
+      </div>
+
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-one-third app-map">
           {geometryType && coordinates && (
             <Map
               geojsonData={JSON.stringify({
@@ -46,76 +63,90 @@ const ApplicationInformation = ({
             />
           )}
         </div>
-        <div className="govuk-grid-column-three-quarters key-info">
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Application Reference</h2>
-              <p className="govuk-body" role="application-reference">
-                {reference}
-              </p>
-            </div>
 
-            <div className="govuk-grid-column-one-quarter">
+        <div className="govuk-grid-column-two-thirds-from-desktop key-info">
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Application Type</h2>
               <p className="govuk-body" role="application-type">
-                {application_type &&
-                  capitaliseWord(application_type?.replace(/_/g, " "))}
+                {capitaliseWord(application_type?.replace(/_/g, " ") as string)}
               </p>
             </div>
 
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Address</h2>
-              <p className="govuk-body">
-                {site?.address_1}, {site?.postcode}{" "}
-              </p>
-            </div>
-
-            <div className="govuk-grid-column-one-quarter">
+            <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Status</h2>
-              {status && (
-                <p
-                  className="govuk-tag--blue govuk-body"
-                  role="application-status"
-                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-                >
-                  {capitaliseWord(status?.replace(/_/g, " "))}
-                </p>
-              )}
+
+              <p
+                className="govuk-tag--blue govuk-body"
+                role="application-status"
+                style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+              >
+                {capitaliseWord(status?.replace(/_/g, " ") as string)}
+              </p>
             </div>
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Date Submitted</h2>
+          </div>
+
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Received date</h2>
               <p className="govuk-body">
                 {received_date
                   ? format(new Date(received_date as string), "dd MMM yyyy")
                   : "Date not available"}
               </p>
             </div>
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Consultation open until</h2>
+            <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Consultation end date</h2>
               <p className="govuk-body">
                 {consultation?.end_date
-                  ? format(
-                      new Date(consultation?.end_date as string),
-                      "dd MMM yyyy",
-                    )
-                  : "Date not available"}{" "}
-              </p>
-            </div>
-
-            <div className="govuk-grid-column-one-quarter">
-              <h2 className="govuk-heading-s">Decision Date</h2>
-              <p className="govuk-body">
-                {determination_date
-                  ? format(
-                      new Date(determination_date as string),
-                      "dd MMM yyyy",
-                    )
+                  ? format(new Date(consultation?.end_date), "dd MMM yyyy")
                   : "Date not available"}
               </p>
             </div>
 
-            <div className="govuk-grid-column-one-quarter">
+            {/* <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Valid from date</h2>
+              <p className="govuk-body">
+                {in_assessment_at
+                  ? format(new Date(in_assessment_at), "dd MMM yyyy")
+                  : "Date not available"}
+              </p>
+            </div> */}
+          </div>
+
+          <div className="govuk-grid-row">
+            {/* <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Published date</h2>
+              <p className="govuk-body">
+                {received_date
+                  ? format(new Date(received_date as string), "dd MMM yyyy")
+                  : "Date not available"}
+              </p>
+            </div> */}
+
+            {/* <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Consultation end date</h2>
+              <p className="govuk-body">
+                {consultation?.end_date
+                  ? format(new Date(consultation?.end_date), "dd MMM yyyy")
+                  : "Date not available"}
+              </p>
+            </div> */}
+          </div>
+
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
+              <h2 className="govuk-heading-s">Decision Date</h2>
+              <p className="govuk-body">
+                {determination_date
+                  ? format(new Date(determination_date), "dd MMM yyyy")
+                  : "Date not available"}
+              </p>
+            </div>
+
+            <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Decision</h2>
+
               {result_flag && (
                 <p
                   className="govuk-tag--yellow govuk-body"
