@@ -106,7 +106,7 @@ const ApplicationComments = ({
                 <a
                   href={`/${council}/${reference}/comments?type=${type}`}
                   role="button"
-                  className="govuk-button govuk-button--primary"
+                  className="govuk-button govuk-button--secondary blue-button"
                   data-module="govuk-button"
                 >
                   Show all {totalComments} {commentTypeLabel} comments
