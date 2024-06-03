@@ -1,17 +1,3 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 npm test
 npm run lint
-
-# Start your application server
-npm start &
-
-# Wait for the server to start (adjust the delay if needed)
-sleep 5
-
-# Run pa11y-ci
-npx pa11y-ci
-
-# Stop your application server
-pkill node

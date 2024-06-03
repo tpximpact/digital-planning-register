@@ -21,10 +21,21 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Run tests
-        run: yarn test
+        run: npm test
+
+      - name: Build the application
+        run: npm run build
+
+      - name: Start the application
+        run: npm start & npx wait-on http://localhost:3000
+
+      - name: Run pa11y-ci
+        run: |
+          npm install -g pa11y-ci
+          pa11y-ci --config .pa11yci
