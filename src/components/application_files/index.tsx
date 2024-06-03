@@ -49,7 +49,7 @@ const ApplicationFile = ({
                   <a
                     href={`/${council}/${reference}/documents`}
                     role="button"
-                    className="govuk-button govuk-button--primary"
+                    className="govuk-button govuk-button--secondary blue-button"
                     data-module="govuk-button"
                   >
                     Show all {documents.length} documents
