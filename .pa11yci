@@ -1,0 +1,12 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA"
+  },
+  "urls": [
+    "http://localhost:3000/",
+    "http://localhost:3000/{council}",
+    "http://localhost:3000/{council}/{reference}",
+    "http://localhost:3000/{council}/{reference}/documents",
+    "http://localhost:3000/{council}/{reference}/comments"
+  ]
+}
