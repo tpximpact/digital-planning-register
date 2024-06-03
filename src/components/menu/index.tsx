@@ -19,7 +19,7 @@ const Menu = ({
         </li>
         {currentPath !== "/" && (
           <li
-            className={`govuk-header__navigation-item ${currentPath === "/" + council.toLowerCase() && "current-item"}`}
+            className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() && "current-item"}`}
           >
             <Link
               className="govuk-header__link nav-link"
