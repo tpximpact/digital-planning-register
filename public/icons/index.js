@@ -21,7 +21,7 @@ export const SortIcon = () => {
 export const NextIcon = () => {
   return (
     <div className="icon">
-      <p className="govuk-link govuk-pagination__link">
+      <p className="govuk-link">
         <span className="govuk-pagination__next pagination-next-previous">
           Next
         </span>
@@ -57,7 +57,7 @@ export const PreviousIcon = () => {
           fill="#505A5F"
         />
       </svg>
-      <p className="govuk-link govuk-pagination__link">
+      <p className="govuk-link ">
         <span className="govuk-pagination__prev pagination-next-previous">
           Previous
         </span>
