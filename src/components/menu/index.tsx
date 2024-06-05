@@ -18,7 +18,9 @@ const Menu = ({
           <CouncilSelector currentPath={currentPath} />
         </li>
         {currentPath !== "/" && (
-          <li className="govuk-header__navigation-item current-item">
+          <li
+            className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() && "current-item"}`}
+          >
             <Link
               className="govuk-header__link nav-link"
               href={council ? `/${council.toLowerCase()}` : "/"}
