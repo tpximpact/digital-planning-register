@@ -10,12 +10,13 @@ describe("Pagination", () => {
     itemsPerPage: 10,
     baseUrl: "/",
     queryParams: {},
+    totalPages: 6,
   };
 
   it("renders pagination links correctly", () => {
     render(<Pagination {...baseProps} />);
     const paginationLinks = screen.getAllByRole("link");
-    expect(paginationLinks).toHaveLength(6);
+    expect(paginationLinks).toHaveLength(4);
   });
 
   it("highlights the active page link", () => {
