@@ -21,7 +21,11 @@ export const SortIcon = () => {
 export const NextIcon = () => {
   return (
     <div className="icon">
-      <p>Next</p>
+      <p className="govuk-link">
+        <span className="govuk-pagination__next pagination-next-previous">
+          Next
+        </span>
+      </p>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="15"
@@ -53,7 +57,11 @@ export const PreviousIcon = () => {
           fill="#505A5F"
         />
       </svg>
-      <p>Previous</p>
+      <p className="govuk-link ">
+        <span className="govuk-pagination__prev pagination-next-previous">
+          Previous
+        </span>
+      </p>
     </div>
   );
 };

@@ -93,6 +93,24 @@
 
 .page-link {
   padding: 10px 18px;
+  text-decoration: underline;
+}
+
+.page-link:hover {
+  background-color: #f3f2f1;
+  color: #003078;
+}
+
+.pagination-next-previous {
+  text-decoration: underline; 
+  color: #1d70b8
+}
+
+.pagination-next-previous:hover {
+  color: #003078;
+}
+.page-link:hover .pagination-next-previous {
+  color: #003078;
 }
 
 .search {
