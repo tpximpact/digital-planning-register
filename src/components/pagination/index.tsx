@@ -27,14 +27,14 @@ const Pagination: React.FC<PaginationProps> = ({
     return `${baseUrl}?${new URLSearchParams(query).toString()}`;
   };
 
-  const pageDisplay = (page: number, current: number, totalItems: number) => {
+  const pageDisplay = (page: number, current: number, totalPages: number) => {
     if (
       page + 1 === 1 ||
       page + 1 === current ||
       page + 1 === current + 1 ||
       page + 1 === current + 2 ||
-      current === totalItems ||
-      page + 1 === totalItems
+      current === totalPages ||
+      page + 1 === totalPages
     ) {
       return (
         <Link
