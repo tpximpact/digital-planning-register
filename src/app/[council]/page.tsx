@@ -1,7 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
 import { getApplicationsByCouncil, searchApplication } from "../../actions";
-import Link from "next/link";
 import { Data } from "../../../util/type";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
@@ -9,6 +8,7 @@ import { BackLink } from "@/components/button";
 import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { definedStatus } from "../../../util/formatStatus";
 
 const resultsPerPage = 10;
 
@@ -215,13 +215,14 @@ export default async function Home({
                         <h2 className="govuk-heading-s">Status</h2>
                         <p className="govuk-body">
                           {(application?.status &&
-                            capitaliseWord(
-                              application?.status?.replace(/_/g, " "),
+                            definedStatus(
+                              application?.status,
+                              application?.consultation?.end_date,
                             )) ||
                             (application?.application?.status &&
-                              application?.application?.status.replace(
-                                /_/g,
-                                " ",
+                              definedStatus(
+                                application?.application?.status,
+                                application?.application?.consultation.end_date,
                               ))}
                         </p>
                       </div>

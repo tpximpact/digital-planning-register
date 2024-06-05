@@ -2,6 +2,7 @@ import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { definedStatus } from "../../../util/formatStatus";
 
 const ApplicationInformation = ({
   reference,
@@ -81,7 +82,10 @@ const ApplicationInformation = ({
                 role="application-status"
                 style={{ maxWidth: "fit-content", padding: "2px 10px" }}
               >
-                {capitaliseWord(status?.replace(/_/g, " ") as string)}
+                {definedStatus(
+                  status as string,
+                  consultation?.end_date as string,
+                )}
               </p>
             </div>
           </div>
