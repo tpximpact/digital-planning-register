@@ -284,6 +284,7 @@ export default async function Home({
                 currentPage={page - 1}
                 totalItems={totalPages * resultsPerPage}
                 itemsPerPage={resultsPerPage}
+                totalPages={totalPages}
                 baseUrl={`/${council}/`}
                 queryParams={searchParams as Record<string, string>}
               />

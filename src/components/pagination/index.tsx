@@ -8,6 +8,7 @@ interface PaginationProps {
   itemsPerPage: number;
   baseUrl: string;
   queryParams: Record<string, string>;
+  totalPages: number;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -16,6 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({
   itemsPerPage,
   baseUrl,
   queryParams,
+  totalPages,
 }) => {
   const pageCount = Math.ceil(totalItems / itemsPerPage);
   const showPagination = totalItems > itemsPerPage;
@@ -25,15 +27,38 @@ const Pagination: React.FC<PaginationProps> = ({
     return `${baseUrl}?${new URLSearchParams(query).toString()}`;
   };
 
+  const pageDisplay = (page: number, current: number, totalItems: number) => {
+    if (
+      page + 1 === 1 ||
+      page + 1 === current ||
+      page + 1 === current + 1 ||
+      page + 1 === current + 2 ||
+      current === totalItems ||
+      page + 1 === totalItems
+    ) {
+      return (
+        <Link
+          href={buildUrl(page)}
+          className={`govuk-link--no-visited-state govuk-pagination__link page-link ${currentPage === page ? "active-page" : ""}`}
+        >
+          {page + 1}
+        </Link>
+      );
+    } else if (current + 3 === page + 1 || current - 1 === page + 1) {
+      return (
+        <Link
+          href={buildUrl(page)}
+          className={`govuk-link--no-visited-state govuk-pagination__link ${currentPage === page ? "active-page" : ""}`}
+        >
+          ...
+        </Link>
+      );
+    } else {
+      return;
+    }
+  };
   const renderPageLink = (page: number) => {
-    return (
-      <Link
-        href={buildUrl(page)}
-        className={`page-link ${currentPage === page ? "active-page" : ""}`}
-      >
-        {page + 1}
-      </Link>
-    );
+    return pageDisplay(page, currentPage, totalPages);
   };
 
   const renderPreviousLink = () => {
