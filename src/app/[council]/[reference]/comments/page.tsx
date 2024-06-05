@@ -39,6 +39,7 @@ export default async function Comments({
     indexOfLastComment,
   );
 
+  const totalPages = Math.ceil(totalComments / maxDisplayComments);
   return (
     <div>
       <BackLink href={`/${council}/${reference}`} />
@@ -64,6 +65,7 @@ export default async function Comments({
           itemsPerPage={maxDisplayComments}
           baseUrl={`/${council}/${reference}/comments`}
           queryParams={searchParams || {}}
+          totalPages={totalPages}
         />
       </div>
     </div>
