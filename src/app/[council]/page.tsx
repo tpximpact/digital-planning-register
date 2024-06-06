@@ -222,7 +222,8 @@ export default async function Home({
                             (application?.application?.status &&
                               definedStatus(
                                 application?.application?.status,
-                                application?.application?.consultation.end_date,
+                                application?.application?.consultation
+                                  ?.end_date,
                               ))}
                         </p>
                       </div>
