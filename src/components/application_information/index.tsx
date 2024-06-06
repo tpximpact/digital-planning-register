@@ -2,6 +2,7 @@ import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { definedDecision } from "../../..//util/formatDecision";
 
 const ApplicationInformation = ({
   reference,
@@ -9,6 +10,7 @@ const ApplicationInformation = ({
   site,
   received_date,
   result_flag,
+  decision,
   determination_date,
   status,
   consultation,
@@ -138,7 +140,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Decision Date</h2>
               <p className="govuk-body">
-                {determination_date
+                {determination_date && decision
                   ? format(new Date(determination_date), "dd MMM yyyy")
                   : "Date not available"}
               </p>
@@ -147,12 +149,12 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Decision</h2>
 
-              {result_flag && (
+              {decision && determination_date && (
                 <p
                   className="govuk-tag--yellow govuk-body"
                   style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                 >
-                  {capitaliseWord(result_flag)}
+                  {definedDecision(decision, application_type as string)}
                 </p>
               )}
             </div>
