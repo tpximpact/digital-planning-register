@@ -184,12 +184,12 @@ export default async function Home({
                       </div>
                     </div>
                     <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
+                      <div className="govuk-grid-column-one-third landing-map">
                         <LandingMap
                           boundary_geojson={application.boundary_geojson}
                         />
                       </div>
-                      <div className="govuk-grid-column-two-thirds description">
+                      <div className="govuk-grid-column-two-thirds">
                         <h2 className="govuk-heading-s">Description</h2>
                         <p className="govuk-body">
                           {application?.description ||
@@ -227,7 +227,7 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Date submitted</h2>
+                        <h2 className="govuk-heading-s">Received date</h2>
                         <p className="govuk-body">
                           {(application?.received_date &&
                             `${format(
@@ -244,14 +244,14 @@ export default async function Home({
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Published Date</h2>
+                        {/* <h2 className="govuk-heading-s">Published Date</h2>
                         <p className="govuk-body">
                           {application?.consultation?.end_date &&
                             `${format(
                               new Date(application?.consultation?.end_date),
                               "dd-MM-yyyy",
                             )}`}
-                        </p>
+                        </p> */}
                       </div>
                       <div className="govuk-grid-column-one-third">
                         <h2 className="govuk-heading-s">Decision Date</h2>
