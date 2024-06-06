@@ -239,6 +239,7 @@
   height: 3.125rem;
   padding: 0 15px;
   line-height: 50px;
+  margin: 0 3px;
   border: none;
 }
 
@@ -254,6 +255,11 @@
   .govuk-header__navigation-item.current-item {
     border-bottom: 4px solid #1d70b8;
   }
+}
+
+.no-space {
+  margin: 0 !important;
+    padding: 0 !important;
 }
 
 // Adapting header for no logo
@@ -281,5 +287,8 @@
 @media (max-width: 40.0625em) {
   .logos-container a {
     width: 100%;
+  }
+    .govuk-header__navigation-item {
+    margin: 0
   }
 }
