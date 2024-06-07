@@ -76,14 +76,14 @@ export const CommentCard = ({
             <div className="read-more-ellipsis">...</div>
           )}
           {isOverflowing && (
-            <label
+            <div
               className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
               onClick={toggleExpand}
             >
               {isExpanded
                 ? "Minimise this comment"
                 : "Read the rest of this comment"}
-            </label>
+            </div>
           )}
         </div>
       </div>

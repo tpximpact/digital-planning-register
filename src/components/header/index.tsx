@@ -25,6 +25,7 @@ const Header = ({ currentPath }: { currentPath: string }) => {
             <Link
               href={`/${council}`}
               className="govuk-header__link govuk-header__link--homepage"
+              aria-label={`${name} application search page`}
             >
               {logoPath ? (
                 <>
@@ -65,7 +66,8 @@ const Header = ({ currentPath }: { currentPath: string }) => {
         <div
           className="menu"
           id="navigation-menu"
-          aria-labelledby="menu-toggle"
+          role="navigation"
+          aria-label="Navigation Menu"
         >
           <Menu currentPath={currentPath} council={name} />
         </div>
