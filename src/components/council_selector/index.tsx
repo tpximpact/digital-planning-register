@@ -11,7 +11,8 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
 
   useEffect(() => {
     document.documentElement.className = "js-enabled";
-  }, []);
+    setSelectedCouncil(currentPath.split("/")[1]);
+  }, [currentPath]);
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCouncil = event.target.value;

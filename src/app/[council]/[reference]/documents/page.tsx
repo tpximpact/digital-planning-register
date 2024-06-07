@@ -27,6 +27,9 @@ export default async function Documents({
     indexOfLastDocument,
   );
 
+  const totalPages = Math.ceil(
+    applicationData?.documents?.length / maxDisplayDocuments,
+  );
   return (
     <div>
       <BackLink href={`/${council}/${reference}`} />
@@ -47,6 +50,7 @@ export default async function Documents({
         itemsPerPage={maxDisplayDocuments}
         baseUrl={`/${council}/${reference}/documents`}
         queryParams={searchParams || {}}
+        totalPages={totalPages}
       />
     </div>
   );
