@@ -9,6 +9,7 @@ import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
+import ButtonDetails from "@/components/button_details";
 
 const resultsPerPage = 10;
 
@@ -269,12 +270,19 @@ export default async function Home({
 
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <a
+                        <ButtonDetails
+                          council={council}
+                          reference={
+                            application.reference ||
+                            application?.application?.reference
+                          }
+                        />
+                        {/* <a
                           href={`/${council}/${application?.reference || application?.application?.reference}`}
                           className="govuk-button govuk-button--secondary blue-button"
                         >
                           View details
-                        </a>
+                        </a> */}
                       </div>
                     </div>
                   </div>
