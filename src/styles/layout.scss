@@ -122,7 +122,7 @@
 }
 
 .js-enabled .js-only {
-  display: block;
+  display: inline;
 }
 
 .js-disabled .js-only {
@@ -130,5 +130,5 @@
 }
 
 .js-disabled .noscript-only {
-  display: block;
+  display: inline;
 }
