@@ -27,12 +27,15 @@ const Header = ({ currentPath }: { currentPath: string }) => {
               className="govuk-header__link govuk-header__link--homepage"
             >
               {logoPath ? (
-                <Image
-                  src={`/images/logos/${logo}`}
-                  alt={`${name} Logo`}
-                  width={148}
-                  height={31}
-                />
+                <>
+                  <Image
+                    src={`/images/logos/${logo}`}
+                    alt={`${name} Logo`}
+                    width={148}
+                    height={31}
+                  />
+                  <span className="govuk-visually-hidden">{name}</span>
+                </>
               ) : (
                 <span>{name}</span>
               )}
