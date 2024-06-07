@@ -115,6 +115,9 @@ const PreSubmission = ({ council }: any) => {
           <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
         </svg>
       </a>
+      <button type="submit" className="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
     </>
   );
 };
