@@ -2,6 +2,8 @@ import { Data } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { definedDecision } from "../../..//util/formatDecision";
+import { definedStatus } from "../../../util/formatStatus";
 
 const ApplicationInformation = ({
   reference,
@@ -9,6 +11,7 @@ const ApplicationInformation = ({
   site,
   received_date,
   result_flag,
+  decision,
   determination_date,
   status,
   consultation,
@@ -81,7 +84,10 @@ const ApplicationInformation = ({
                 role="application-status"
                 style={{ maxWidth: "fit-content", padding: "2px 10px" }}
               >
-                {capitaliseWord(status?.replace(/_/g, " ") as string)}
+                {definedStatus(
+                  status as string,
+                  consultation?.end_date as string,
+                )}
               </p>
             </div>
           </div>
@@ -105,61 +111,63 @@ const ApplicationInformation = ({
             </div>
 
             {/* <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">Valid from date</h2>
-              <p className="govuk-body">
-                {in_assessment_at
-                  ? format(new Date(in_assessment_at), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
-            </div> */}
+      <h2 className="govuk-heading-s">Valid from date</h2>
+      <p className="govuk-body">
+        {in_assessment_at
+          ? format(new Date(in_assessment_at), "dd MMM yyyy")
+          : "Date not available"}
+      </p>
+    </div> */}
           </div>
 
           <div className="govuk-grid-row">
             {/* <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">Published date</h2>
-              <p className="govuk-body">
-                {received_date
-                  ? format(new Date(received_date as string), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
-            </div> */}
+      <h2 className="govuk-heading-s">Published date</h2>
+      <p className="govuk-body">
+        {received_date
+          ? format(new Date(received_date as string), "dd MMM yyyy")
+          : "Date not available"}
+      </p>
+    </div> */}
 
             {/* <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">Consultation end date</h2>
-              <p className="govuk-body">
-                {consultation?.end_date
-                  ? format(new Date(consultation?.end_date), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
-            </div> */}
+      <h2 className="govuk-heading-s">Consultation end date</h2>
+      <p className="govuk-body">
+        {consultation?.end_date
+          ? format(new Date(consultation?.end_date), "dd MMM yyyy")
+          : "Date not available"}
+      </p>
+    </div> */}
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">Decision Date</h2>
-              <p className="govuk-body">
-                {determination_date
-                  ? format(new Date(determination_date), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
+              {determination_date && decision && (
+                <>
+                  <h2 className="govuk-heading-s">Decision Date</h2>
+                  <p className="govuk-body">
+                    {format(new Date(determination_date), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">Decision</h2>
-
-              {result_flag && (
-                <p
-                  className="govuk-tag--yellow govuk-body"
-                  style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-                >
-                  {capitaliseWord(result_flag)}
-                </p>
+              {decision && determination_date && (
+                <>
+                  <h2 className="govuk-heading-s">Decision</h2>
+                  <p
+                    className="govuk-tag--yellow govuk-body"
+                    style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+                  >
+                    {definedDecision(decision, application_type as string)}
+                  </p>
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
-
       <h2 className="govuk-heading-l">Description</h2>
       <p className="govuk-body" role="application-description">
         {description}

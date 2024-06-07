@@ -1,7 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
 import { getApplicationsByCouncil, searchApplication } from "../../actions";
-import Link from "next/link";
 import { Data } from "../../../util/type";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
@@ -9,6 +8,7 @@ import { BackLink } from "@/components/button";
 import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { definedStatus } from "../../../util/formatStatus";
 
 const resultsPerPage = 10;
 
@@ -184,12 +184,12 @@ export default async function Home({
                       </div>
                     </div>
                     <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
+                      <div className="govuk-grid-column-one-third landing-map">
                         <LandingMap
                           boundary_geojson={application.boundary_geojson}
                         />
                       </div>
-                      <div className="govuk-grid-column-two-thirds description">
+                      <div className="govuk-grid-column-two-thirds">
                         <h2 className="govuk-heading-s">Description</h2>
                         <p className="govuk-body">
                           {application?.description ||
@@ -215,19 +215,21 @@ export default async function Home({
                         <h2 className="govuk-heading-s">Status</h2>
                         <p className="govuk-body">
                           {(application?.status &&
-                            capitaliseWord(
-                              application?.status?.replace(/_/g, " "),
+                            definedStatus(
+                              application?.status,
+                              application?.consultation?.end_date,
                             )) ||
                             (application?.application?.status &&
-                              application?.application?.status.replace(
-                                /_/g,
-                                " ",
+                              definedStatus(
+                                application?.application?.status,
+                                application?.application?.consultation
+                                  ?.end_date,
                               ))}
                         </p>
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Date submitted</h2>
+                        <h2 className="govuk-heading-s">Received date</h2>
                         <p className="govuk-body">
                           {(application?.received_date &&
                             `${format(
@@ -244,14 +246,14 @@ export default async function Home({
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Published Date</h2>
+                        {/* <h2 className="govuk-heading-s">Published Date</h2>
                         <p className="govuk-body">
                           {application?.consultation?.end_date &&
                             `${format(
                               new Date(application?.consultation?.end_date),
                               "dd-MM-yyyy",
                             )}`}
-                        </p>
+                        </p> */}
                       </div>
                       <div className="govuk-grid-column-one-third">
                         <h2 className="govuk-heading-s">Decision Date</h2>
@@ -284,6 +286,7 @@ export default async function Home({
                 currentPage={page - 1}
                 totalItems={totalPages * resultsPerPage}
                 itemsPerPage={resultsPerPage}
+                totalPages={totalPages}
                 baseUrl={`/${council}/`}
                 queryParams={searchParams as Record<string, string>}
               />
