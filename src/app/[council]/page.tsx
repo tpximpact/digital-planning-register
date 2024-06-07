@@ -139,6 +139,7 @@ export default async function Home({
                 name="search"
                 type="text"
                 defaultValue={searchParams?.search || ""}
+                autoComplete="on"
               />
               {validationError && (
                 <p id="search-error" className="govuk-error-message">

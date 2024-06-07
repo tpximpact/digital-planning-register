@@ -39,7 +39,7 @@ const ApplicationInformation = ({
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third-from-desktop">
           <h2 className="govuk-heading-s">Application Reference</h2>
-          <p className="govuk-body" role="application-reference">
+          <p className="govuk-body" id="application-reference">
             {reference}
           </p>
         </div>
@@ -71,7 +71,7 @@ const ApplicationInformation = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-s">Application Type</h2>
-              <p className="govuk-body" role="application-type">
+              <p className="govuk-body" id="application-type">
                 {capitaliseWord(application_type?.replace(/_/g, " ") as string)}
               </p>
             </div>
@@ -81,7 +81,7 @@ const ApplicationInformation = ({
 
               <p
                 className="govuk-tag--blue govuk-body"
-                role="application-status"
+                id="application-status"
                 style={{ maxWidth: "fit-content", padding: "2px 10px" }}
               >
                 {definedStatus(
@@ -169,7 +169,7 @@ const ApplicationInformation = ({
         </div>
       </div>
       <h2 className="govuk-heading-l">Description</h2>
-      <p className="govuk-body" role="application-description">
+      <p className="govuk-body" id="application-description">
         {description}
       </p>
     </div>

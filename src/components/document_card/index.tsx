@@ -17,6 +17,8 @@ export const DocumentCard = ({
           width={130}
           height={160}
           className="file-icon"
+          aria-label="File icon"
+          role="img"
         />
       </div>
       <div className="govuk-grid-column-two-thirds">

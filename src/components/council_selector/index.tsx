@@ -24,7 +24,7 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
   return (
     <>
       <noscript>
-        <style>{`.js-only { display: none; } .noscript-only { display: inline; background-color: #ffffff; color: #0b0c0c; }`}</style>
+        <style>{`.js-only { display: none; } .noscript-only { display: inline; color: #0b0c0c; }`}</style>
         <form action="/council-redirect" method="get">
           <div>
             <select
@@ -33,6 +33,7 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
               name="council"
               defaultValue={selectedCouncil}
               aria-label="Select your council"
+              autoComplete="on"
             >
               <option value="select">Select your council</option>
               {councilOptions.map((councilKey) => (

@@ -17,7 +17,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="applicant-name">
+              <p className="govuk-body">
                 {applicant_first_name} {applicant_last_name}
               </p>
             </div>
@@ -58,7 +58,7 @@ const ApplicationPeople = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
               <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="agent-name">
+              <p className="govuk-body">
                 {agent_first_name} {agent_last_name}
               </p>
             </div>
