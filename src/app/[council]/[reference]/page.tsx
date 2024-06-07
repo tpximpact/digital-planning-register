@@ -66,7 +66,7 @@ export default async function Application({ params }: Params) {
     <>
       <BackLink href={`/${council}`} />
       <div className="govuk-main-wrapper">
-        <ApplicationInformation {...data} />
+        <ApplicationInformation {...data} council={council} />
         {/* <ApplicationLocation /> */}
         {/* <ApplicationDetails {...data} /> */}
         <ApplicationFile

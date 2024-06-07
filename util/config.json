@@ -5,7 +5,9 @@
     "logo": "camdenlogo.svg",
     "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
-    "specialistComments": false
+    "specialistComments": false,
+    "material_consideration": "https://www.camden.gov.uk/commenting-planning-application"
+
   },
   "gateshead": {
     "name": "Gateshead",

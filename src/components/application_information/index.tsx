@@ -4,19 +4,22 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
 
-const ApplicationInformation = ({
-  reference,
-  application_type,
-  site,
-  received_date,
-  result_flag,
-  determination_date,
-  status,
-  consultation,
-  boundary_geojson,
-  description,
-  in_assessment_at,
-}: Data) => {
+const ApplicationInformation = (
+  {
+    reference,
+    application_type,
+    site,
+    received_date,
+    result_flag,
+    determination_date,
+    status,
+    consultation,
+    boundary_geojson,
+    description,
+    in_assessment_at,
+  }: Data,
+  council: { council: string },
+) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;
@@ -168,6 +171,18 @@ const ApplicationInformation = ({
       <p className="govuk-body" role="application-description">
         {description}
       </p>
+      <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
+        <div className="govuk-grid-column-full">
+          <a
+            href={`/${council}/comment`}
+            role="button"
+            className="govuk-button govuk-button--primary"
+            data-module="govuk-button"
+          >
+            Comment on this application
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
