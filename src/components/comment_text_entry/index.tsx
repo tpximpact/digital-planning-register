@@ -1,4 +1,4 @@
-const CommentTextEntry = () => {
+const CommentTextEntry = ({ setFeedbackNumber }: any) => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
@@ -24,6 +24,7 @@ const CommentTextEntry = () => {
           type="submit"
           className="govuk-button"
           data-module="govuk-button"
+          onClick={() => setFeedbackNumber(4)}
         >
           Continue
         </button>

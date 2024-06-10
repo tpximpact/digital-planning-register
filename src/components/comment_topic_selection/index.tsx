@@ -10,7 +10,7 @@ const topics_selection = [
   "Other",
 ];
 
-const CommentTopicSelection = () => {
+const CommentTopicSelection = ({ setFeedbackNumber }: any) => {
   return (
     <>
       <div className="govuk-grid-row">
@@ -80,6 +80,7 @@ const CommentTopicSelection = () => {
             type="submit"
             className="govuk-button"
             data-module="govuk-button"
+            onClick={() => setFeedbackNumber(3)}
           >
             Continue
           </button>

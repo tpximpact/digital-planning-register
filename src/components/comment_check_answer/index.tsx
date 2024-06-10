@@ -38,7 +38,13 @@ const dummy_personal_data = [
     answer: "",
   },
 ];
-const CommentCheckAnswer = ({ council }: { council: string }) => {
+const CommentCheckAnswer = ({
+  council,
+  setFeedbackNumber,
+}: {
+  council: string;
+  setFeedbackNumber: (e: number) => void;
+}) => {
   const councilConfig = config as any;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
@@ -159,6 +165,7 @@ const CommentCheckAnswer = ({ council }: { council: string }) => {
               type="submit"
               className="govuk-button"
               data-module="govuk-button"
+              onClick={() => setFeedbackNumber(6)}
             >
               Accept and send
             </button>

@@ -1,7 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import config from "../../../util/config.json";
 
-const PreSubmission = ({ council }: any) => {
+const PreSubmission = ({
+  council,
+  setFeedbackNumber,
+}: {
+  council: any;
+  setFeedbackNumber: (e: number) => void;
+}) => {
   const councilConfig = config as any;
   const materialConsideration = councilConfig[council]?.material_consideration;
   return (
@@ -95,8 +101,9 @@ const PreSubmission = ({ council }: any) => {
         email address. The case officer will summarise their findings in the
         officer's report and decision notice.
       </p>
-      <a
-        href="#"
+      <button
+        onClick={() => setFeedbackNumber(1)}
+        // href="#"
         role="button"
         draggable="false"
         className="govuk-button govuk-button--start"
@@ -114,10 +121,10 @@ const PreSubmission = ({ council }: any) => {
         >
           <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
         </svg>
-      </a>
-      <button type="submit" className="govuk-button" data-module="govuk-button">
-        Continue
       </button>
+      {/* <button type="submit" className="govuk-button" data-module="govuk-button">
+        Continue
+      </button> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { useState } from "react";
-const CommentSentimet = () => {
+const CommentSentimet = ({ setFeedbackNumber }: any) => {
   const [opposedColor, setOpposedColor] = useState("transparent");
   const [neutralColor, setNeutralColor] = useState("transparent");
   const [supportColor, setSupportColor] = useState("transparent");
@@ -56,7 +56,12 @@ const CommentSentimet = () => {
           </div>
         </div>
       </form>
-      <button type="submit" className="govuk-button" data-module="govuk-button">
+      <button
+        type="submit"
+        className="govuk-button"
+        data-module="govuk-button"
+        onClick={() => setFeedbackNumber(2)}
+      >
         Continue
       </button>
     </>

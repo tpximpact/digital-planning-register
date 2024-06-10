@@ -12,14 +12,17 @@ const ButtonDetails = ({
   const setLocalStorage = () => {
     localStorage.setItem("council", JSON.stringify(council));
     localStorage.setItem("reference", reference);
-    router.push(`/${council}/${reference}`);
+    router.push(`/${council}/comment`);
   };
+
   return (
     <button
       onClick={() => setLocalStorage()}
-      className="govuk-button govuk-button--secondary blue-button"
+      role="button"
+      className="govuk-button govuk-button--primary"
+      data-module="govuk-button"
     >
-      View details
+      Comment on this application
     </button>
   );
 };
