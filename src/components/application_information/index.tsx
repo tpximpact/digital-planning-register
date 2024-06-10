@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
 import ButtonDetails from "@/components/button_details";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 type ApplicationInfo = {
   reference: string;
@@ -49,6 +51,18 @@ const ApplicationInformation = ({
       coordinates = features[0].geometry?.coordinates;
     }
   }
+
+  const actionHandler = async (
+    council: { council: string },
+    reference: string,
+    _formData: FormData,
+  ) => {
+    "use server";
+    cookies().set("council", JSON.stringify(council));
+    cookies().set("reference", reference);
+    redirect(`/${council}/comment`);
+  };
+  const updateActionHandler = actionHandler.bind(null, council, reference);
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -187,7 +201,7 @@ const ApplicationInformation = ({
       </p>
       <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
         <div className="govuk-grid-column-full">
-          <ButtonDetails council={council} reference={reference as string} />
+          <ButtonDetails actionHandler={updateActionHandler} />
           {/* <a
             href={`/${council}/comment`}
             role="button"
