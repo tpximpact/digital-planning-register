@@ -59,15 +59,15 @@ export const CommentCard = ({
             </p>
             {comment.summary_tag && (
               <div>
-                <h3 className="govuk-heading-s">
+                <div className="govuk-heading-s">
                   Sentiment towards this application
-                </h3>
+                </div>
                 <p className="govuk-body">
                   {capitaliseWord(comment.summary_tag)}
                 </p>
               </div>
             )}
-            <h4 className="govuk-heading-s">Comment</h4>
+            <div className="govuk-heading-s">Comment</div>
             <div className="comment-text">
               <p className="govuk-body">{comment?.comment}</p>
             </div>

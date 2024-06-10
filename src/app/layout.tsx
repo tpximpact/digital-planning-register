@@ -31,9 +31,9 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header currentPath={pathname} />
-        <div className="govuk-width-container" id="main">
+        <main className="govuk-width-container" id="main">
           <Suspense>{children}</Suspense>
-        </div>
+        </main>
       </body>
     </html>
   );

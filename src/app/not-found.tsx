@@ -10,7 +10,7 @@ interface NotFoundProps {
 
 export default function NotFound({ params }: NotFoundProps) {
   return (
-    <main>
+    <>
       <BackLink href={`/`} />
       <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-l">Page not found</h1>
@@ -23,6 +23,6 @@ export default function NotFound({ params }: NotFoundProps) {
         </p>
         <NotFoundLink params={params} />
       </div>
-    </main>
+    </>
   );
 }

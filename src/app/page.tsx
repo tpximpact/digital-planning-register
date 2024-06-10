@@ -4,7 +4,7 @@ import CouncilCards from "@/components/council_cards";
 
 const Main = () => {
   return (
-    <main className="govuk-main-wrapper">
+    <div className="govuk-main-wrapper">
       <h1 className="govuk-heading-l">
         Welcome to the Digital Planning Register
       </h1>
@@ -23,7 +23,7 @@ const Main = () => {
         area
       </h2>
       <CouncilCards />
-    </main>
+    </div>
   );
 };
 
