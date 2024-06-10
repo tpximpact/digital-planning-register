@@ -35,7 +35,7 @@ export type Data = {
   id: number;
 };
 
-type BoundaryGeojson =
+export type BoundaryGeojson =
   | {
       type: "Feature";
       geometry: {

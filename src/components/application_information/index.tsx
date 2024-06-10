@@ -1,25 +1,39 @@
-import { Data } from "../../../util/type";
+import { BoundaryGeojson } from "../../../util/type";
 import Map from "../map";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
+import ButtonDetails from "@/components/button_details";
 
-const ApplicationInformation = (
-  {
-    reference,
-    application_type,
-    site,
-    received_date,
-    result_flag,
-    determination_date,
-    status,
-    consultation,
-    boundary_geojson,
-    description,
-    in_assessment_at,
-  }: Data,
-  council: { council: string },
-) => {
+type ApplicationInfo = {
+  reference: string;
+  application_type: string;
+  site: { address_1: string; postcode: string };
+  received_date: string;
+  result_flag: string;
+  determination_date: string;
+  status: string;
+  consultation: { end_date: string };
+  boundary_geojson: BoundaryGeojson;
+  description: string;
+  in_assessment_at: string;
+  council: { council: string };
+};
+
+const ApplicationInformation = ({
+  reference,
+  application_type,
+  site,
+  received_date,
+  result_flag,
+  determination_date,
+  status,
+  consultation,
+  boundary_geojson,
+  description,
+  in_assessment_at,
+  council,
+}: ApplicationInfo) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;
@@ -173,14 +187,15 @@ const ApplicationInformation = (
       </p>
       <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
         <div className="govuk-grid-column-full">
-          <a
+          <ButtonDetails council={council} reference={reference as string} />
+          {/* <a
             href={`/${council}/comment`}
             role="button"
             className="govuk-button govuk-button--primary"
             data-module="govuk-button"
           >
             Comment on this application
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
