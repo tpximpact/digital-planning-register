@@ -64,7 +64,7 @@ const Map: React.FC<MapProps> = ({
   }, [onlyWidth, page]);
 
   return (
-    <div role="region" tabIndex={0}>
+    <div role="region" aria-label="map">
       <my-map
         role="application"
         zoom="14"

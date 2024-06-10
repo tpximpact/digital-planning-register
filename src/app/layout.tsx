@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <title>Digital Planning Register</title>
       <Head />
-      <body>
+      <body className="govuk-frontend-supported">
         <a
           href="#main"
           className="govuk-skip-link"
