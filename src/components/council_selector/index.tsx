@@ -58,6 +58,7 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
         value={selectedCouncil}
         onChange={handleCouncilChange}
         aria-label="Select your council"
+        autoComplete="on"
       >
         <option value="select">Select your council</option>
         {councilOptions.map((councilKey) => (

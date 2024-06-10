@@ -13,7 +13,7 @@ export const DocumentCard = ({
       <div className="govuk-grid-column-one-third">
         <Image
           src={file}
-          alt="File"
+          alt="document"
           width={130}
           height={160}
           className="file-icon"

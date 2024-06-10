@@ -48,7 +48,7 @@ export const CommentCard = ({
             ref={commentContainerRef}
             className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
           >
-            <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
+            <h2 className="govuk-heading-m">Comment #{commentNumber}</h2>
             <p className="govuk-body">
               <em>
                 Published{" "}
@@ -59,9 +59,9 @@ export const CommentCard = ({
             </p>
             {comment.summary_tag && (
               <div>
-                <h4 className="govuk-heading-s">
+                <h3 className="govuk-heading-s">
                   Sentiment towards this application
-                </h4>
+                </h3>
                 <p className="govuk-body">
                   {capitaliseWord(comment.summary_tag)}
                 </p>
