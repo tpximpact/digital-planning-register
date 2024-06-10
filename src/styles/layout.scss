@@ -83,17 +83,17 @@
 
 @media (max-width: 768px) {
   .menu-button {
-    display: block;
+    display: block !important;
   }
 }
 
 @media (min-width: 769px) {
   .menu-button {
-    display: none;
+    display: none !important;
   }
 
   .menu {
-    display: block;
+    display: block !important;
   }
 }
 
