@@ -64,7 +64,7 @@ const Header = ({ currentPath }: { currentPath: string }) => {
         <input
           type="checkbox"
           id="menu-toggle"
-          className="visually-hidden menu-toggle"
+          className="govuk-visually-hidden-focusable menu-toggle"
           aria-controls="navigation-menu"
         />
         <div
