@@ -53,12 +53,12 @@ const ApplicationInformation = ({
   }
 
   const actionHandler = async (
-    council: { council: string },
+    council: any,
     reference: string,
     _formData: FormData,
   ) => {
     "use server";
-    cookies().set("council", JSON.stringify(council));
+    cookies().set("council", council as string);
     cookies().set("reference", reference);
     redirect(`/${council}/comment`);
   };

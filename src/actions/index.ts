@@ -1,5 +1,7 @@
 "use server";
 
+import { cookies } from "next/headers";
+
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,
@@ -35,6 +37,7 @@ export async function getApplicationByReference(
 ) {
   const apiKey = council.toUpperCase() + "_API_KEY";
   const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
+
   if (process.env[councilApi] == undefined) {
     return { status: 404, message: "Council not registered", data: null };
   } else {
@@ -80,4 +83,8 @@ export async function searchApplication(
   } catch (error) {
     return { status: 500, message: "Internal server error", data: null };
   }
+}
+
+export async function getCookies(value: string) {
+  return cookies().get(value);
 }

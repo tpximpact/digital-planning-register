@@ -1,4 +1,3 @@
-"use client";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentimet from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
@@ -8,63 +7,86 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import { useEffect, useState } from "react";
-import { getApplicationByReference } from "@/actions";
+import { Suspense, useEffect, useState } from "react";
+import { getApplicationByReference, getCookies } from "@/actions";
 import { Data } from "../../../../util/type";
+import { notFound } from "next/navigation";
+import { capitaliseWord } from "../../../../util/capitaliseWord";
 
-const Comment = () => {
-  const [feedbackNumber, setFeedbackNumber] = useState<number>(0);
-  const [council, setCouncil] = useState<string>("");
-  const [reference, setReference] = useState<string>("");
-  const [application, setApplication] = useState<Data>();
+type Props = { reference: string; council: string };
 
-  useEffect(() => {
-    const localStorageCouncil = localStorage.getItem("council") as string;
-    const councilParse = JSON.parse(localStorageCouncil);
-    setCouncil(localStorageCouncil);
-    const localStorageReference = localStorage.getItem("reference") as string;
-    setReference(localStorageReference);
-    const fetchData = async () => {
-      const data = await getApplicationByReference(
-        localStorageReference,
-        councilParse,
-      );
-      setApplication(data);
+async function fetchData(params: Props) {
+  const { reference, council } = params;
+  const data = await getApplicationByReference(reference, council);
+
+  return data;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { reference: string; council: string };
+}) {
+  const councilCookies = await getCookies("council");
+  const referenceCookies = await getCookies("reference");
+  const council = councilCookies?.value as string;
+  const reference = referenceCookies?.value as string;
+
+  const data = await fetchData({ reference: reference, council });
+
+  if (data.error) {
+    return {
+      title: "Error",
+      description: data.errorMessage || "An error occurred",
     };
-    fetchData();
-  }, [council, reference]);
+  }
+
+  return {
+    title: `Application ${data.reference}`,
+    description: `${capitaliseWord(params.council)} planning application`,
+  };
+}
+
+const Comment = async () => {
+  const councilCookies = await getCookies("council");
+  const referenceCookies = await getCookies("reference");
+  const council = councilCookies?.value as string;
+  const reference = referenceCookies?.value as string;
+  const data = await fetchData({
+    reference,
+    council,
+  });
+  // const [feedbackNumber, setFeedbackNumber] = useState<number>(0);
+  const getFeedbackNumber = await getCookies("feedbackNumber");
+  const feedbackNumber = parseInt(getFeedbackNumber?.value as string) || 0;
 
   const feedbackPage = () => {
+    console.log(feedbackNumber);
     switch (feedbackNumber) {
       case 0:
-        return (
-          <PreSubmission
-            council={council}
-            setFeedbackNumber={setFeedbackNumber}
-          />
-        );
+        return <PreSubmission council={council} />;
       case 1:
-        return <CommentSentimet setFeedbackNumber={setFeedbackNumber} />;
-      case 2:
-        return <CommentTopicSelection setFeedbackNumber={setFeedbackNumber} />;
-      case 3:
-        return <CommentTextEntry setFeedbackNumber={setFeedbackNumber} />;
-      case 4:
-        return (
-          <CommentPersonalDetails
-            council={council}
-            setFeedbackNumber={setFeedbackNumber}
-          />
-        );
-      case 5:
-        return (
-          <CommentCheckAnswer
-            council={council}
-            setFeedbackNumber={setFeedbackNumber}
-          />
-        );
-      case 6:
-        return <CommentConfirmation />;
+        return <CommentSentimet />;
+      // case 2:
+      //   return <CommentTopicSelection feedbackNumber={feedbackNumber} />;
+      // case 3:
+      //   return <CommentTextEntry feedbackNumber={feedbackNumber} />;
+      // case 4:
+      //   return (
+      //     <CommentPersonalDetails
+      //       council={council}
+      //       feedbackNumber={feedbackNumber}
+      //     />
+      //   );
+      // case 5:
+      //   return (
+      //     <CommentCheckAnswer
+      //       council={council}
+      //       feedbackNumber={feedbackNumber}
+      //     />
+      //   );
+      //   case 6:
+      //     return <CommentConfirmation />;
     }
   };
 
@@ -74,9 +96,9 @@ const Comment = () => {
       <div className="govuk-main-wrapper">
         {feedbackNumber > 0 && feedbackNumber < 6 && (
           <CommentHeader
-            boundary_geojson={application?.boundary_geojson}
-            reference={application?.reference as string}
-            site={application?.site}
+            reference={reference as string}
+            boundary_geojson={data?.boundary_geojson}
+            site={data?.site}
           />
         )}
         {feedbackPage()}
