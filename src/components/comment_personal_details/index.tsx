@@ -1,12 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
+import { cookies } from "next/headers";
 import config from "../../../util/config.json";
-const CommentPersonalDetails = ({
-  council,
-  setFeedbackNumber,
-}: {
-  council: string;
-  setFeedbackNumber: (e: number) => void;
-}) => {
+const CommentPersonalDetails = ({ council }: { council: string }) => {
   const councilConfig = config as any;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
@@ -142,14 +137,21 @@ const CommentPersonalDetails = ({
             for more information.
           </div>
         </details>
-        <button
-          type="submit"
-          className="govuk-button"
-          data-module="govuk-button"
-          onClick={() => setFeedbackNumber(5)}
+        <form
+          action={async () => {
+            "use server";
+            cookies().set("feedbackNumber", "5");
+          }}
         >
-          Continue
-        </button>
+          <button
+            type="submit"
+            className="govuk-button"
+            data-module="govuk-button"
+            // onClick={() => setFeedbackNumber(5)}
+          >
+            Continue
+          </button>
+        </form>
       </div>
     </div>
   );

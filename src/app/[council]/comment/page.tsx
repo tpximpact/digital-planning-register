@@ -67,26 +67,23 @@ const Comment = async () => {
         return <PreSubmission council={council} />;
       case 1:
         return <CommentSentimet />;
-      // case 2:
-      //   return <CommentTopicSelection feedbackNumber={feedbackNumber} />;
-      // case 3:
-      //   return <CommentTextEntry feedbackNumber={feedbackNumber} />;
-      // case 4:
-      //   return (
-      //     <CommentPersonalDetails
-      //       council={council}
-      //       feedbackNumber={feedbackNumber}
-      //     />
-      //   );
-      // case 5:
-      //   return (
-      //     <CommentCheckAnswer
-      //       council={council}
-      //       feedbackNumber={feedbackNumber}
-      //     />
-      //   );
-      //   case 6:
-      //     return <CommentConfirmation />;
+      case 2:
+        return <CommentTopicSelection />;
+      case 3:
+        return <CommentTextEntry />;
+      case 4:
+        return <CommentPersonalDetails council={council} />;
+      case 5:
+        return <CommentCheckAnswer council={council} />;
+      case 6:
+        return (
+          <CommentConfirmation
+            reference={reference}
+            site={data?.site}
+            council={council}
+            boundary_geojson={data?.boundary_geojson}
+          />
+        );
     }
   };
 

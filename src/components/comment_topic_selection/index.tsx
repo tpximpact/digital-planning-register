@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { cookies } from "next/headers";
 const topics_selection = [
   "Design, size or height of new buildings or extensions",
   "Use and function of the proposed development",
@@ -10,7 +11,7 @@ const topics_selection = [
   "Other",
 ];
 
-const CommentTopicSelection = ({ setFeedbackNumber }: any) => {
+const CommentTopicSelection = async () => {
   return (
     <>
       <div className="govuk-grid-row">
@@ -76,14 +77,21 @@ const CommentTopicSelection = ({ setFeedbackNumber }: any) => {
               logged."
             </div>
           </details>
-          <button
-            type="submit"
-            className="govuk-button"
-            data-module="govuk-button"
-            onClick={() => setFeedbackNumber(3)}
+          <form
+            action={async () => {
+              "use server";
+              cookies().set("feedbackNumber", "3");
+            }}
           >
-            Continue
-          </button>
+            <button
+              type="submit"
+              className="govuk-button"
+              data-module="govuk-button"
+              // onClick={() => setFeedbackNumber(3)}
+            >
+              Continue
+            </button>
+          </form>
         </div>
       </div>
     </>

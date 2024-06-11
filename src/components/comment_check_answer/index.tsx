@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import config from "../../../util/config.json";
+import { cookies } from "next/headers";
 const dummy_answer = [
   {
     question: "How do you feel about this development",
@@ -38,13 +39,7 @@ const dummy_personal_data = [
     answer: "",
   },
 ];
-const CommentCheckAnswer = ({
-  council,
-  setFeedbackNumber,
-}: {
-  council: string;
-  setFeedbackNumber: (e: number) => void;
-}) => {
+const CommentCheckAnswer = async ({ council }: { council: string }) => {
   const councilConfig = config as any;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
@@ -160,12 +155,17 @@ const CommentCheckAnswer = ({
             </div>
           </details>
 
-          <form action="confirmation" method="post" noValidate>
+          <form
+            action={async () => {
+              "use server";
+              cookies().set("feedbackNumber", "6");
+            }}
+          >
             <button
               type="submit"
               className="govuk-button"
               data-module="govuk-button"
-              onClick={() => setFeedbackNumber(6)}
+              // onClick={() => setFeedbackNumber(6)}
             >
               Accept and send
             </button>

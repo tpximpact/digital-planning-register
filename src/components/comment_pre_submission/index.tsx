@@ -1,13 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
+import { cookies } from "next/headers";
 import config from "../../../util/config.json";
+// import { cookies } from "next/headers";
 
-const PreSubmission = ({
-  council,
-  setFeedbackNumber,
-}: {
-  council: any;
-  setFeedbackNumber: (e: number) => void;
-}) => {
+const PreSubmission = async ({ council }: { council: any }) => {
   const councilConfig = config as any;
   const materialConsideration = councilConfig[council]?.material_consideration;
   return (
@@ -101,27 +97,33 @@ const PreSubmission = ({
         email address. The case officer will summarise their findings in the
         officer's report and decision notice.
       </p>
-      <button
-        onClick={() => setFeedbackNumber(1)}
-        // href="#"
-        role="button"
-        draggable="false"
-        className="govuk-button govuk-button--start"
-        data-module="govuk-button"
+      <form
+        action={async () => {
+          "use server";
+          cookies().set("feedbackNumber", "1");
+        }}
       >
-        Start now
-        <svg
-          className="govuk-button__start-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          width="17.5"
-          height="19"
-          viewBox="0 0 33 40"
-          aria-hidden="true"
-          focusable="false"
+        <button
+          type="submit"
+          role="button"
+          draggable="false"
+          className="govuk-button govuk-button--start"
+          data-module="govuk-button"
         >
-          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-        </svg>
-      </button>
+          Start now
+          <svg
+            className="govuk-button__start-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="17.5"
+            height="19"
+            viewBox="0 0 33 40"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+          </svg>
+        </button>
+      </form>
       {/* <button type="submit" className="govuk-button" data-module="govuk-button">
         Continue
       </button> */}
