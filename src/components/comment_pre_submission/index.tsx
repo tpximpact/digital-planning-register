@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import config from "../../../util/config.json";
 // import { cookies } from "next/headers";
 
@@ -101,6 +102,7 @@ const PreSubmission = async ({ council }: { council: any }) => {
         action={async () => {
           "use server";
           cookies().set("feedbackNumber", "1");
+          redirect(`/${council}/comment`);
         }}
       >
         <button

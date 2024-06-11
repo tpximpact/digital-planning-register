@@ -66,7 +66,7 @@ const Comment = async () => {
       case 0:
         return <PreSubmission council={council} />;
       case 1:
-        return <CommentSentimet />;
+        return <CommentSentimet council={council} />;
       case 2:
         return <CommentTopicSelection />;
       case 3:

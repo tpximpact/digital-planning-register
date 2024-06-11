@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 // import { useState } from "react";
-const CommentSentimet = async () => {
+const CommentSentimet = async (council: { council: string }) => {
   // const [opposedColor, setOpposedColor] = useState("transparent");
   // const [neutralColor, setNeutralColor] = useState("transparent");
   // const [supportColor, setSupportColor] = useState("transparent");
@@ -13,6 +14,7 @@ const CommentSentimet = async () => {
         action={async () => {
           "use server";
           cookies().set("feedbackNumber", "2");
+          redirect(`/${council}/comment`);
         }}
       >
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
