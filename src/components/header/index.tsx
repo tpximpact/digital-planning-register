@@ -57,12 +57,16 @@ const Header = ({ currentPath }: { currentPath: string }) => {
         <label
           htmlFor="menu-toggle"
           className="govuk-header__menu-button menu-button"
-          aria-controls="navigation"
-          aria-label="Toggle menu"
+          aria-controls="navigation-menu"
         >
           Menu
         </label>
-        <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+        <input
+          type="checkbox"
+          id="menu-toggle"
+          className="visually-hidden menu-toggle"
+          aria-controls="navigation-menu"
+        />
         <div
           className="menu"
           id="navigation-menu"

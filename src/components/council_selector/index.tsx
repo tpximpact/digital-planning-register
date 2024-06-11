@@ -24,7 +24,7 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
   return (
     <>
       <noscript>
-        <style>{`.js-only { display: none; } .noscript-only { display: inline; color: #0b0c0c; }`}</style>
+        <style>{`.js-only { display: none; }`}</style>
         <form action="/council-redirect" method="get">
           <div>
             <select
