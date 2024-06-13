@@ -90,7 +90,7 @@ Ensure that the .env or .env.local file also has the following environment varia
 |          Variable Name          | Value |
 | :-----------------------------: | :---: |
 | NEXT_PUBLIC_BOPS_API\_[COUNCIL] |  ###  |
-|       [council]\_api_key        |  ###  |
+|       [COUNCIL]\_API_KEY        |  ###  |
 
 Please ensure you replace [COUNCIL] and [council] with the council names.
 
@@ -101,6 +101,6 @@ For example, for Camden and Southwark data:
 |         Variable Name          | Value |
 | :----------------------------: | :---: |
 | NEXT_PUBLIC_BOPS_API_SOUTHWARK |  ###  |
-|       southwark_api_key        |  ###  |
+|       SOUTHWARK_API_KEY        |  ###  |
 |  NEXT_PUBLIC_BOPS_API_CAMDEN   |  ###  |
-|         camden_api_key         |  ###  |
+|         CAMDEN_API_KEY         |  ###  |
