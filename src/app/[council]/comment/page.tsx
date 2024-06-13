@@ -1,5 +1,5 @@
 import PreSubmission from "@/components/comment_pre_submission";
-import CommentSentimet from "@/components/comment_sentiment";
+import CommentSentiment from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
 import CommentHeader from "@/components/comment-header";
 import CommentTextEntry from "@/components/comment_text_entry";
@@ -66,7 +66,7 @@ const Comment = async () => {
       case 0:
         return <PreSubmission council={council} />;
       case 1:
-        return <CommentSentimet council={council} />;
+        return <CommentSentiment council={council} />;
       case 2:
         return <CommentTopicSelection />;
       case 3:

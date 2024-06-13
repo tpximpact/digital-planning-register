@@ -35,7 +35,7 @@ const CommentConfirmation = ({
   return (
     <>
       <div className="govuk-panel govuk-panel--confirmation">
-        <h1 className="govuk-panel__title">Application complete</h1>
+        <h1 className="govuk-panel__title">Comment submitted</h1>
         <div className="govuk-panel__body">
           Your reference number
           <br />
@@ -81,7 +81,7 @@ const CommentConfirmation = ({
         action={async () => {
           "use server";
           cookies().set("feedbackNumber", "0");
-          redirect(`/${council}`)
+          redirect(`/${council}`);
         }}
       >
         <button
