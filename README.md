@@ -92,7 +92,7 @@ Ensure that the .env or .env.local file also has the following environment varia
 | NEXT_PUBLIC_BOPS_API\_[COUNCIL] |  ###  |
 |       [COUNCIL]\_API_KEY        |  ###  |
 
-Please ensure you replace [COUNCIL] and [council] with the council names.
+Please ensure you replace [COUNCIL] with the council name.
 
 Each council has its own set of environment variables that specify the API URL and the required API key. If you require access to multiple councils, you can do this by duplicating the variables and adding the relevant council name.
 
