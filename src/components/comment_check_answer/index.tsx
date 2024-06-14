@@ -35,11 +35,11 @@ const CommentCheckAnswer = async ({
   const sentiment = cookies().get("sentiment")?.value || "";
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
-  const commentData = cookies().get("commentData")?.value
-    ? JSON.parse(cookies().get("commentData")?.value)
-    : {};
-  const personalDetails = cookies().get("personalDetails")?.value
-    ? JSON.parse(cookies().get("personalDetails")?.value)
+  const commentCookie = cookies().get("commentData")?.value;
+  const commentData = commentCookie ? JSON.parse(commentCookie) : {};
+  const personalDetailsCookie = cookies().get("personalDetails")?.value;
+  const personalDetails = personalDetailsCookie
+    ? JSON.parse(personalDetailsCookie)
     : {};
 
   const submissionError = cookies().get("submissionError")?.value === "true";
@@ -188,16 +188,16 @@ const CommentCheckAnswer = async ({
                   What topics do you want to comment on?
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">
-                    {selectedTopics
-                      .map((topic) => {
-                        const foundTopic = topics_selection.find(
-                          (t) => t.value === topic,
-                        );
-                        return foundTopic ? foundTopic.label : "";
-                      })
-                      .join(", ")}
-                  </p>
+                  <ul className="govuk-list">
+                    {selectedTopics.map((topic) => {
+                      const foundTopic = topics_selection.find(
+                        (t) => t.value === topic,
+                      );
+                      return foundTopic ? (
+                        <li key={foundTopic.value}>{foundTopic.label}</li>
+                      ) : null;
+                    })}
+                  </ul>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <button

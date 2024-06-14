@@ -89,10 +89,6 @@ export async function searchApplication(
   }
 }
 
-export async function getCookies(value: string) {
-  return cookies().get(value);
-}
-
 // This might change to take in a reference instead of an id. also note the version number is different - separate env variable for v1.
 export async function submitComment(
   id: number,
@@ -128,4 +124,12 @@ export async function submitComment(
     console.error("Error submitting comment", error);
     return { status: 500, message: "Internal server error" };
   }
+}
+
+export async function getCookies(value: string) {
+  return cookies().get(value);
+}
+
+export async function deleteCookies(value: string) {
+  return cookies().delete(value);
 }

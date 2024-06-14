@@ -30,7 +30,6 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
     if (Object.values(errors).some((error) => error)) {
       cookies().set("validationErrors", JSON.stringify(errors));
       redirect(`/${council}/comment`);
-      return;
     }
 
     const personalDetails = {
@@ -47,10 +46,8 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
     cookies().delete("validationErrors");
     redirect(`/${council}/comment`);
   }
-
-  const validationErrors = cookies().get("validationErrors")?.value
-    ? JSON.parse(cookies().get("validationErrors")?.value)
-    : {};
+  const errorCookies = cookies().get("validationErrors")?.value;
+  const validationErrors = errorCookies ? JSON.parse(errorCookies) : {};
 
   return (
     <div className="govuk-grid-row">

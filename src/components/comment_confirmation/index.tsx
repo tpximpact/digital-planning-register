@@ -3,6 +3,7 @@ import Map from "../map";
 import { BoundaryGeojson } from "../../../util/type";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { capitaliseWord } from "../../../util/capitaliseWord";
 
 type CommentConfirmationType = {
   boundary_geojson?: BoundaryGeojson;
@@ -39,6 +40,7 @@ const CommentConfirmation = ({
         <div className="govuk-panel__body">
           Your reference number
           <br />
+          {/* This is a hard coded reference */}
           <strong>HDJ2123F</strong>
         </div>
       </div>
@@ -65,7 +67,8 @@ const CommentConfirmation = ({
           <p className="govuk-body">{reference}</p>
           <p className="govuk-body">
             Your feedback helps us improve developments so they meet the needs
-            of people in Camden. It's important you let us know what you think.
+            of people in {capitaliseWord(council)}. It's important you let us
+            know what you think.
           </p>
         </div>
       </div>
