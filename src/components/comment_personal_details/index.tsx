@@ -20,6 +20,19 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
     const telephoneNumber = formData.get("telephone-number") as string;
     const consent = formData.get("consent") === "on";
 
+    const errors: { [key: string]: boolean } = {
+      name: !name,
+      address: !address,
+      postcode: !postcode,
+      consent: !consent,
+    };
+
+    if (Object.values(errors).some((error) => error)) {
+      cookies().set("validationErrors", JSON.stringify(errors));
+      redirect(`/${council}/comment`);
+      return;
+    }
+
     const personalDetails = {
       name,
       address,
@@ -31,42 +44,71 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
 
     cookies().set("personalDetails", JSON.stringify(personalDetails));
     cookies().set("feedbackNumber", "5");
+    cookies().delete("validationErrors");
     redirect(`/${council}/comment`);
   }
+
+  const validationErrors = cookies().get("validationErrors")?.value
+    ? JSON.parse(cookies().get("validationErrors")?.value)
+    : {};
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <h1 className="govuk-heading-l">Your details</h1>
         <form action={handleSubmit}>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
+          >
             <label className="govuk-label" htmlFor="name">
               Name
             </label>
+            {validationErrors.name && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span> Your name
+                is required
+              </p>
+            )}
             <input
-              className="govuk-input govuk-input--width-20"
+              className={`govuk-input govuk-input--width-20 ${validationErrors.name ? "govuk-input--error" : ""}`}
               id="name"
               name="name"
               type="text"
             />
           </div>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
+          >
             <label className="govuk-label" htmlFor="address">
               Address
             </label>
+            {validationErrors.address && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span> Your
+                address is required
+              </p>
+            )}
             <input
-              className="govuk-input govuk-input--width-20"
+              className={`govuk-input govuk-input--width-20 ${validationErrors.address ? "govuk-input--error" : ""}`}
               id="address"
               name="address"
               type="text"
             />
           </div>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
+          >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
             </label>
+            {validationErrors.postcode && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span> Your
+                postcode is required
+              </p>
+            )}
             <input
-              className="govuk-input govuk-input--width-10"
+              className={`govuk-input govuk-input--width-10 ${validationErrors.postcode ? "govuk-input--error" : ""}`}
               id="postcode"
               name="postcode"
               type="text"
@@ -96,15 +138,23 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               type="text"
             />
           </div>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
+          >
+            {validationErrors.consent && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error: </span> You need
+                to consent
+              </p>
+            )}
             <div className="govuk-checkboxes" data-module="govuk-checkboxes">
               <div className="govuk-checkboxes__item">
                 <input
-                  className="govuk-checkboxes__input"
+                  className={`govuk-checkboxes__input ${validationErrors.consent ? "govuk-input--error" : ""}`}
                   id="consent"
                   name="consent"
                   type="checkbox"
-                  value="carcasses"
+                  value="on"
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"

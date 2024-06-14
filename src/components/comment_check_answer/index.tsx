@@ -2,6 +2,7 @@
 import config from "../../../util/config.json";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { submitComment } from "@/actions";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 
 const topics_selection = [
@@ -18,7 +19,13 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
-const CommentCheckAnswer = async ({ council }: { council: string }) => {
+const CommentCheckAnswer = async ({
+  council,
+  applicationId,
+}: {
+  council: string;
+  applicationId: number;
+}) => {
   const councilConfig = config as any;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
@@ -28,30 +35,126 @@ const CommentCheckAnswer = async ({ council }: { council: string }) => {
   const sentiment = cookies().get("sentiment")?.value || "";
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
-  const commentDataString = cookies().get("commentData")?.value;
-  const commentData = commentDataString ? JSON.parse(commentDataString) : {};
-  const personalDetailsString = cookies().get("personalDetails")?.value;
-  const personalDetails = personalDetailsString
-    ? JSON.parse(personalDetailsString)
+  const commentData = cookies().get("commentData")?.value
+    ? JSON.parse(cookies().get("commentData")?.value)
     : {};
+  const personalDetails = cookies().get("personalDetails")?.value
+    ? JSON.parse(cookies().get("personalDetails")?.value)
+    : {};
+
+  const submissionError = cookies().get("submissionError")?.value === "true";
+
+  // const handleSubmit = async (formData: FormData) => {
+  //   "use server";
+  //   const action = formData.get("action") as string;
+
+  //   if (action === "change") {
+  //     const page = formData.get("page") as string;
+  //     cookies().set("feedbackNumber", page);
+  //     redirect(`/${council}/comment`);
+  //   } else if (action === "submit") {
+  //     const apiData = {
+  //       name: personalDetails.name,
+  //       email: personalDetails.emailAddress,
+  //       address: `${personalDetails.address}, ${personalDetails.postcode}`,
+  //       response: selectedTopics
+  //         .map((topic) => {
+  //           const topicLabel = topics_selection.find(
+  //             (t) => t.value === topic,
+  //           )?.label;
+  //           const comment = commentData[topic];
+  //           return `* ${topicLabel}: ${comment}`;
+  //         })
+  //         .join(" "),
+  //       summary_tag: sentiment === "opposed" ? "objection" : sentiment,
+  //       tags: selectedTopics,
+  //     };
+
+  //     // Log the API data structure for debugging
+  //     console.log(apiData);
+
+  //     // Redirect to a confirmation or error page after logging the data
+  //     cookies().set("feedbackNumber", "6"); // Adjust based on your flow control
+  //     redirect(`/${council}/comment/confirmation`);
+  //   }
+
   const handleSubmit = async (formData: FormData) => {
     "use server";
     const action = formData.get("action") as string;
-
     if (action === "change") {
       const page = formData.get("page") as string;
       cookies().set("feedbackNumber", page);
+      redirect(`/${council}/comment`);
     } else if (action === "submit") {
-      cookies().set("feedbackNumber", "6");
+      const apiData = {
+        name: personalDetails.name,
+        email: personalDetails.emailAddress,
+        address: `${personalDetails.address}, ${personalDetails.postcode}`,
+        response: selectedTopics
+          .map((topic) => {
+            const topicLabel = topics_selection.find(
+              (t) => t.value === topic,
+            )?.label;
+            const comment = commentData[topic];
+            return `* ${topicLabel}: ${comment}`;
+          })
+          .join(" "),
+        summary_tag: sentiment === "opposed" ? "objection" : sentiment,
+        tags: selectedTopics,
+      };
+      console.log(apiData);
+      try {
+        const result = await submitComment(applicationId, council, apiData);
+        if (result.status === 200) {
+          cookies().set("feedbackNumber", "6");
+          cookies().delete("submissionError");
+          redirect(`/${council}/comment`);
+        } else {
+          cookies().set("submissionError", "true");
+          redirect(`/${council}/comment`);
+        }
+      } catch (error) {
+        console.error("Error submitting the comment", error);
+        cookies().set("submissionError", "true");
+        redirect(`/${council}/comment`);
+      }
     }
-
-    redirect(`/${council}/comment`);
   };
 
   return (
     <>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds-from-desktop">
+          {submissionError && (
+            <div
+              className="govuk-error-summary"
+              data-module="govuk-error-summary"
+            >
+              <div role="alert">
+                <h2 className="govuk-error-summary__title">
+                  There was a problem submitting your comment
+                </h2>
+                <div className="govuk-error-summary__body">
+                  <ul className="govuk-list govuk-error-summary__list">
+                    <li>
+                      <div>
+                        There was a technical issue when we tried to submit your
+                        comment.
+                      </div>
+                    </li>
+                    <li>
+                      <div>Your comment has been kept in your browser.</div>
+                    </li>
+                    <li>
+                      <div>
+                        Please try again later, or contact your council.
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
           <h1 className="govuk-heading-l">
             Check your comments before sending your application
           </h1>

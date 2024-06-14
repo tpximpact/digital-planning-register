@@ -61,7 +61,11 @@ const CommentTextEntry = async () => {
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form action={handleSubmit}>
-          <div className="govuk-form-group">
+          <div className="govuk-form-group govuk-form-group--error">
+            <p id="form-error" className="govuk-error-message">
+              <span className="govuk-visually-hidden">Error: </span> Your
+              comment is required
+            </p>
             <h1 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--l" htmlFor="comment">
                 Comment on {currentTopicLabel}
@@ -71,12 +75,13 @@ const CommentTextEntry = async () => {
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
             <textarea
-              className="govuk-textarea"
+              className="govuk-textarea govuk-input--error"
               id="comment"
               name="comment"
               rows={5}
               aria-describedby="comment-hint"
               defaultValue={""}
+              required
             ></textarea>
           </div>
           <button

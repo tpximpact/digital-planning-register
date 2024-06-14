@@ -74,7 +74,8 @@ const Comment = async () => {
       case 4:
         return <CommentPersonalDetails council={council} />;
       case 5:
-        return <CommentCheckAnswer council={council} />;
+        // this may change to reference but for now the endpoint takes in the id
+        return <CommentCheckAnswer council={council} applicationId={data.id} />;
       case 6:
         return (
           <CommentConfirmation
