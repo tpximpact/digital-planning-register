@@ -84,15 +84,6 @@ export default async function CommentCheckAnswer({
     "use server";
     console.log("Form submitted");
     cookies().set("feedbackNumber", "6");
-    cookies().delete("validationErrors");
-    cookies().delete("sentiment");
-    cookies().delete("selectedTopics");
-    cookies().delete("commentData");
-    cookies().delete("personalDetails");
-    cookies().delete("validationError");
-    cookies().delete("submissionError");
-    cookies().delete("reference");
-    cookies().delete("council");
     redirect(`/${council}/comment`);
   }
 

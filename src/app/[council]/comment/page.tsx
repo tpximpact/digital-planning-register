@@ -1,3 +1,4 @@
+"use server";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentiment from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
@@ -12,7 +13,6 @@ import { getApplicationByReference, getCookies } from "@/actions";
 import { Data } from "../../../../util/type";
 import { notFound } from "next/navigation";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
-
 type Props = { reference: string; council: string };
 
 async function fetchData(params: Props) {
@@ -56,7 +56,6 @@ const Comment = async () => {
     reference,
     council,
   });
-  // const [feedbackNumber, setFeedbackNumber] = useState<number>(0);
   const getFeedbackNumber = await getCookies("feedbackNumber");
   const feedbackNumber = parseInt(getFeedbackNumber?.value as string) || 0;
 

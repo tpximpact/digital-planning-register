@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+"use server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";

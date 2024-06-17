@@ -24,7 +24,6 @@ const CommentSentiment = async ({ council }: { council: string }) => {
             redirect(`/${council}/comment`);
           }
         }}
-        method="POST"
       >
         <input type="hidden" name="council" value={council} />
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">

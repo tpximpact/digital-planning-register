@@ -67,8 +67,8 @@ const CommentConfirmation = ({
           <p className="govuk-body">{reference}</p>
           <p className="govuk-body">
             Your feedback helps us improve developments so they meet the needs
-            of people in {capitaliseWord(council)}. It's important you let us
-            know what you think.
+            of people in {council ? capitaliseWord(council) : "your council."}.
+            It's important you let us know what you think.
           </p>
         </div>
       </div>
