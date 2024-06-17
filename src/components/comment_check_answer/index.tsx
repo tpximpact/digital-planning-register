@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+"use server";
 import config from "../../../util/config.json";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -19,13 +20,13 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
-const CommentCheckAnswer = async ({
+export default async function CommentCheckAnswer({
   council,
   applicationId,
 }: {
   council: string;
   applicationId: number;
-}) => {
+}) {
   const councilConfig = config as any;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
@@ -44,82 +45,56 @@ const CommentCheckAnswer = async ({
 
   const submissionError = cookies().get("submissionError")?.value === "true";
 
-  // const handleSubmit = async (formData: FormData) => {
+  // async function handleSubmit() {
   //   "use server";
-  //   const action = formData.get("action") as string;
-
-  //   if (action === "change") {
-  //     const page = formData.get("page") as string;
-  //     cookies().set("feedbackNumber", page);
+  //   const apiData = {
+  //     name: personalDetails.name,
+  //     email: personalDetails.emailAddress,
+  //     address: `${personalDetails.address}, ${personalDetails.postcode}`,
+  //     response: selectedTopics
+  //       .map((topic) => {
+  //         const topicLabel = topics_selection.find(
+  //           (t) => t.value === topic,
+  //         )?.label;
+  //         const comment = commentData[topic];
+  //         return `* ${topicLabel}: ${comment} `;
+  //       })
+  //       .join(" "),
+  //     summary_tag: sentiment === "opposed" ? "objection" : sentiment,
+  //     tags: selectedTopics,
+  //   };
+  //   console.log(apiData);
+  //   try {
+  //     const result = await submitComment(applicationId, council, apiData);
+  //     if (result.status === 200) {
+  //       cookies().set("feedbackNumber", "6");
+  //       cookies().delete("submissionError");
+  //       redirect(`/${council}/comment`);
+  //     } else {
+  //       cookies().set("submissionError", "true");
+  //       redirect(`/${council}/comment`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error submitting the comment", error);
+  //     cookies().set("submissionError", "true");
   //     redirect(`/${council}/comment`);
-  //   } else if (action === "submit") {
-  //     const apiData = {
-  //       name: personalDetails.name,
-  //       email: personalDetails.emailAddress,
-  //       address: `${personalDetails.address}, ${personalDetails.postcode}`,
-  //       response: selectedTopics
-  //         .map((topic) => {
-  //           const topicLabel = topics_selection.find(
-  //             (t) => t.value === topic,
-  //           )?.label;
-  //           const comment = commentData[topic];
-  //           return `* ${topicLabel}: ${comment}`;
-  //         })
-  //         .join(" "),
-  //       summary_tag: sentiment === "opposed" ? "objection" : sentiment,
-  //       tags: selectedTopics,
-  //     };
-
-  //     // Log the API data structure for debugging
-  //     console.log(apiData);
-
-  //     // Redirect to a confirmation or error page after logging the data
-  //     cookies().set("feedbackNumber", "6"); // Adjust based on your flow control
-  //     redirect(`/${council}/comment/confirmation`);
   //   }
-
-  const handleSubmit = async (formData: FormData) => {
+  // }
+  async function handleSubmit() {
     "use server";
-    const action = formData.get("action") as string;
-    if (action === "change") {
-      const page = formData.get("page") as string;
-      cookies().set("feedbackNumber", page);
-      redirect(`/${council}/comment`);
-    } else if (action === "submit") {
-      const apiData = {
-        name: personalDetails.name,
-        email: personalDetails.emailAddress,
-        address: `${personalDetails.address}, ${personalDetails.postcode}`,
-        response: selectedTopics
-          .map((topic) => {
-            const topicLabel = topics_selection.find(
-              (t) => t.value === topic,
-            )?.label;
-            const comment = commentData[topic];
-            return `* ${topicLabel}: ${comment}`;
-          })
-          .join(" "),
-        summary_tag: sentiment === "opposed" ? "objection" : sentiment,
-        tags: selectedTopics,
-      };
-      console.log(apiData);
-      try {
-        const result = await submitComment(applicationId, council, apiData);
-        if (result.status === 200) {
-          cookies().set("feedbackNumber", "6");
-          cookies().delete("submissionError");
-          redirect(`/${council}/comment`);
-        } else {
-          cookies().set("submissionError", "true");
-          redirect(`/${council}/comment`);
-        }
-      } catch (error) {
-        console.error("Error submitting the comment", error);
-        cookies().set("submissionError", "true");
-        redirect(`/${council}/comment`);
-      }
-    }
-  };
+    console.log("Form submitted");
+    cookies().set("feedbackNumber", "6");
+    cookies().delete("validationErrors");
+    cookies().delete("sentiment");
+    cookies().delete("selectedTopics");
+    cookies().delete("commentData");
+    cookies().delete("personalDetails");
+    cookies().delete("validationError");
+    cookies().delete("submissionError");
+    cookies().delete("reference");
+    cookies().delete("council");
+    redirect(`/${council}/comment`);
+  }
 
   return (
     <>
@@ -168,7 +143,7 @@ const CommentCheckAnswer = async ({
                 <dd className="govuk-summary-list__value">
                   <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
-                <dd className="govuk-summary-list__actions">
+                {/* <dd className="govuk-summary-list__actions">
                   <button
                     type="submit"
                     name="action"
@@ -178,7 +153,7 @@ const CommentCheckAnswer = async ({
                     Change
                   </button>
                   <input type="hidden" name="page" value="1" />
-                </dd>
+                </dd> */}
               </div>
             </dl>
 
@@ -199,7 +174,7 @@ const CommentCheckAnswer = async ({
                     })}
                   </ul>
                 </dd>
-                <dd className="govuk-summary-list__actions">
+                {/* <dd className="govuk-summary-list__actions">
                   <button
                     type="submit"
                     name="action"
@@ -209,7 +184,7 @@ const CommentCheckAnswer = async ({
                     Change
                   </button>
                   <input type="hidden" name="page" value="2" />
-                </dd>
+                </dd> */}
               </div>
             </dl>
 
@@ -232,7 +207,7 @@ const CommentCheckAnswer = async ({
                           : "No comment provided"}
                       </p>
                     </dd>
-                    <dd className="govuk-summary-list__actions">
+                    {/* <dd className="govuk-summary-list__actions">
                       <button
                         type="submit"
                         name="action"
@@ -242,7 +217,7 @@ const CommentCheckAnswer = async ({
                         Change
                       </button>
                       <input type="hidden" name="page" value="3" />
-                    </dd>
+                    </dd> */}
                   </div>
                 </dl>
               );
@@ -352,13 +327,7 @@ const CommentCheckAnswer = async ({
                 </p>
               </div>
             </details>
-
-            <button
-              type="submit"
-              name="action"
-              value="submit"
-              className="govuk-button"
-            >
+            <button type="submit" className="govuk-button">
               Accept and send
             </button>
           </form>
@@ -366,6 +335,4 @@ const CommentCheckAnswer = async ({
       </div>
     </>
   );
-};
-
-export default CommentCheckAnswer;
+}

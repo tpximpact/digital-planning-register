@@ -28,6 +28,7 @@ const CommentTextEntry = async () => {
     cookies().get("currentTopicIndex")?.value || "0",
   );
   const currentTopic = selectedTopics[currentTopicIndex] || "";
+  const validationError = cookies().get("validationError")?.value === "true";
 
   if (!currentTopic) {
     redirect(`/${council}/comment`);
@@ -36,21 +37,28 @@ const CommentTextEntry = async () => {
   async function handleSubmit(formData: FormData) {
     "use server";
     const comment = formData.get("comment") as string;
-    const existingCommentsValue = cookies().get("commentData")?.value;
-    const existingComments = existingCommentsValue
-      ? JSON.parse(existingCommentsValue)
-      : {};
 
-    existingComments[currentTopic] = comment;
-    cookies().set("commentData", JSON.stringify(existingComments));
-
-    if (currentTopicIndex < selectedTopics.length - 1) {
-      cookies().set("currentTopicIndex", (currentTopicIndex + 1).toString());
+    if (!comment) {
+      cookies().set("validationError", "true");
       redirect(`/${council}/comment`);
     } else {
-      cookies().delete("currentTopicIndex");
-      cookies().set("feedbackNumber", "4");
-      redirect(`/${council}/comment`);
+      const existingCommentsValue = cookies().get("commentData")?.value;
+      const existingComments = existingCommentsValue
+        ? JSON.parse(existingCommentsValue)
+        : {};
+
+      existingComments[currentTopic] = comment;
+      cookies().set("commentData", JSON.stringify(existingComments));
+      cookies().delete("validationError");
+
+      if (currentTopicIndex < selectedTopics.length - 1) {
+        cookies().set("currentTopicIndex", (currentTopicIndex + 1).toString());
+        redirect(`/${council}/comment`);
+      } else {
+        cookies().delete("currentTopicIndex");
+        cookies().set("feedbackNumber", "4");
+        redirect(`/${council}/comment`);
+      }
     }
   }
 
@@ -61,11 +69,17 @@ const CommentTextEntry = async () => {
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form action={handleSubmit}>
-          <div className="govuk-form-group govuk-form-group--error">
-            <p id="form-error" className="govuk-error-message">
-              <span className="govuk-visually-hidden">Error: </span> Your
-              comment is required
-            </p>
+          <div
+            className={`govuk-form-group ${
+              validationError ? "govuk-form-group--error" : ""
+            }`}
+          >
+            {validationError && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error: </span> Your
+                comment is required
+              </p>
+            )}
             <h1 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--l" htmlFor="comment">
                 Comment on {currentTopicLabel}
@@ -75,13 +89,14 @@ const CommentTextEntry = async () => {
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
             <textarea
-              className="govuk-textarea govuk-input--error"
+              className={`govuk-textarea ${
+                validationError ? "govuk-input--error" : ""
+              }`}
               id="comment"
               name="comment"
               rows={5}
               aria-describedby="comment-hint"
               defaultValue={""}
-              required
             ></textarea>
           </div>
           <button

@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+"use server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import config from "../../../util/config.json";
@@ -13,13 +14,22 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
 
   async function handleSubmit(formData: FormData) {
     "use server";
-    const name = formData.get("name") as string;
-    const address = formData.get("address") as string;
-    const postcode = formData.get("postcode") as string;
-    const emailAddress = formData.get("email-address") as string;
-    const telephoneNumber = formData.get("telephone-number") as string;
-    const consent = formData.get("consent") === "on";
+    const name = formData.get("name");
+    const address = formData.get("address");
+    const postcode = formData.get("postcode");
+    const emailAddress = formData.get("email-address");
+    const telephoneNumber = formData.get("telephone-number");
+    const consent = formData.get("consent");
 
+    if (
+      typeof name !== "string" ||
+      typeof address !== "string" ||
+      typeof postcode !== "string" ||
+      typeof emailAddress !== "string" ||
+      typeof telephoneNumber !== "string"
+    ) {
+      throw new Error("Invalid form data");
+    }
     const errors: { [key: string]: boolean } = {
       name: !name,
       address: !address,

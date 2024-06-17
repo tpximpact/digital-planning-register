@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 const CommentSentiment = async ({ council }: { council: string }) => {
   const sentiment = cookies().get("sentiment")?.value;
+  const validationError = cookies().get("validationError")?.value === "true";
 
   return (
     <>
@@ -12,9 +13,16 @@ const CommentSentiment = async ({ council }: { council: string }) => {
         action={async (formData) => {
           "use server";
           const selectedSentiment = formData.get("sentiment") as string;
-          cookies().set("sentiment", selectedSentiment);
-          cookies().set("feedbackNumber", "2");
-          redirect(`/${council}/comment`);
+
+          if (!selectedSentiment) {
+            cookies().set("validationError", "true");
+            redirect(`/${council}/comment`);
+          } else {
+            cookies().set("sentiment", selectedSentiment);
+            cookies().set("feedbackNumber", "2");
+            cookies().delete("validationError");
+            redirect(`/${council}/comment`);
+          }
         }}
         method="POST"
       >
@@ -24,11 +32,23 @@ const CommentSentiment = async ({ council }: { council: string }) => {
             How do you feel about this development?
           </h1>
         </legend>
-
-        <div className="wrap-icons-feeling" data-module="govuk-radios">
+        {validationError && (
+          <p id="form-error" className="govuk-error-message">
+            <span className="govuk-visually-hidden">Error:</span> Please select
+            an option
+          </p>
+        )}
+        <div
+          className={`wrap-icons-feeling ${
+            validationError ? "govuk-form-group--error" : ""
+          }`}
+          data-module="govuk-radios"
+        >
           <div className="govuk-radios__item">
             <input
-              className="govuk-radios__input"
+              className={`govuk-radios__input ${
+                validationError ? "govuk-input--error" : ""
+              }`}
               id="sentiment-opposed"
               name="sentiment"
               type="radio"
@@ -44,7 +64,9 @@ const CommentSentiment = async ({ council }: { council: string }) => {
           </div>
           <div className="govuk-radios__item">
             <input
-              className="govuk-radios__input"
+              className={`govuk-radios__input ${
+                validationError ? "govuk-input--error" : ""
+              }`}
               id="sentiment-neutral"
               name="sentiment"
               type="radio"
@@ -60,7 +82,9 @@ const CommentSentiment = async ({ council }: { council: string }) => {
           </div>
           <div className="govuk-radios__item">
             <input
-              className="govuk-radios__input"
+              className={`govuk-radios__input ${
+                validationError ? "govuk-input--error" : ""
+              }`}
               id="sentiment-support"
               name="sentiment"
               type="radio"

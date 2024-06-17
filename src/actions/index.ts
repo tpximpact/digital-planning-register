@@ -93,7 +93,7 @@ export async function searchApplication(
 export async function submitComment(
   id: number,
   council: string,
-  comment: object,
+  apiData: object,
 ) {
   try {
     const apiKey = council.toUpperCase() + "_API_KEY";
@@ -109,7 +109,7 @@ export async function submitComment(
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env[apiKey]}`,
           },
-          body: JSON.stringify(comment),
+          body: JSON.stringify(apiData),
         },
       );
 
