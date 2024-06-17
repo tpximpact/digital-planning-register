@@ -90,7 +90,7 @@ const CommentTopicSelection = async () => {
                         className="govuk-label govuk-checkboxes__label"
                         htmlFor={topic.value}
                       >
-                        {capitaliseWord(topic.label)}
+                        {topic.label}
                       </label>
                     </div>
                   ))}

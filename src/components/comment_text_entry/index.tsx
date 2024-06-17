@@ -83,7 +83,7 @@ const CommentTextEntry = async () => {
             )}
             <h1 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--l" htmlFor="comment">
-                Comment on {currentTopicLabel}
+                Comment on {currentTopicLabel.toLowerCase()}
               </label>
             </h1>
             <div id="comment-hint" className="govuk-hint">
