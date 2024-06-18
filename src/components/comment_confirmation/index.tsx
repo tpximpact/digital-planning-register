@@ -37,12 +37,6 @@ const CommentConfirmation = ({
     <>
       <div className="govuk-panel govuk-panel--confirmation">
         <h1 className="govuk-panel__title">Comment submitted</h1>
-        <div className="govuk-panel__body">
-          Your reference number
-          <br />
-          {/* This is a hard coded reference */}
-          <strong>HDJ2123F</strong>
-        </div>
       </div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third">

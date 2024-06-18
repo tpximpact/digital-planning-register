@@ -44,47 +44,47 @@ export default async function CommentCheckAnswer({
     : {};
 
   const submissionError = cookies().get("submissionError")?.value === "true";
+  const apiData = {
+    name: personalDetails.name,
+    email: personalDetails.emailAddress,
+    address: `${personalDetails.address}, ${personalDetails.postcode}`,
+    response: selectedTopics
+      .map((topic) => {
+        const topicLabel = topics_selection.find(
+          (t) => t.value === topic,
+        )?.label;
+        const comment = commentData[topic];
+        return `* ${topicLabel}: ${comment} `;
+      })
+      .join(" "),
+    summary_tag: sentiment === "opposed" ? "objection" : sentiment,
+    tags: selectedTopics,
+  };
 
-  // async function handleSubmit() {
-  //   "use server";
-  //   const apiData = {
-  //     name: personalDetails.name,
-  //     email: personalDetails.emailAddress,
-  //     address: `${personalDetails.address}, ${personalDetails.postcode}`,
-  //     response: selectedTopics
-  //       .map((topic) => {
-  //         const topicLabel = topics_selection.find(
-  //           (t) => t.value === topic,
-  //         )?.label;
-  //         const comment = commentData[topic];
-  //         return `* ${topicLabel}: ${comment} `;
-  //       })
-  //       .join(" "),
-  //     summary_tag: sentiment === "opposed" ? "objection" : sentiment,
-  //     tags: selectedTopics,
-  //   };
-  //   console.log(apiData);
-  //   try {
-  //     const result = await submitComment(applicationId, council, apiData);
-  //     if (result.status === 200) {
-  //       cookies().set("feedbackNumber", "6");
-  //       cookies().delete("submissionError");
-  //       redirect(`/${council}/comment`);
-  //     } else {
-  //       cookies().set("submissionError", "true");
-  //       redirect(`/${council}/comment`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting the comment", error);
-  //     cookies().set("submissionError", "true");
-  //     redirect(`/${council}/comment`);
-  //   }
-  // }
   async function handleSubmit() {
     "use server";
-    console.log("Form submitted");
-    cookies().set("feedbackNumber", "6");
-    redirect(`/${council}/comment`);
+    try {
+      const result = await submitComment(applicationId, council, apiData);
+      if (result.status === 200) {
+        cookies().set("feedbackNumber", "6");
+        cookies().delete("submissionError");
+        // Should we delete cookies here? Should they have a timeout?
+        // cookies().delete("sentiment");
+        // cookies().delete("selectedTopics");
+        // cookies().delete("commentData");
+        // cookies().delete("personalDetails");
+        // cookies().delete("reference");
+
+        redirect(`/${council}/comment`);
+      } else {
+        cookies().set("submissionError", "true");
+        redirect(`/${council}/comment`);
+      }
+    } catch (error) {
+      console.error("Error submitting the comment", error);
+      cookies().set("submissionError", "true");
+      redirect(`/${council}/comment`);
+    }
   }
 
   return (
