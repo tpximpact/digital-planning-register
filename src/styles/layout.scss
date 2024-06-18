@@ -38,11 +38,6 @@
     }
   }
 }
-@media (max-width: 1020px) {
-  .menu {
-    display: block;
-  }
-}
 
 .container-menu {
   display: flex;
@@ -80,6 +75,9 @@
   }
   .menu-desktop {
     display: none;
+  }
+  .menu {
+    display: block;
   }
   
 }
