@@ -5,10 +5,12 @@ import { useParams } from "next/navigation";
 import config from "../../../util/config.json";
 import { Config } from "../../../util/type";
 import path from "path";
+import { useState } from "react";
 
 const Header = ({ currentPath }: { currentPath: string }) => {
   const params = useParams();
   const council = params?.council as string;
+  const [isExtended, setIsExtended] = useState(false);
 
   const councilConfig = config as Config;
   const logo = councilConfig[council]?.logowhite;
@@ -17,11 +19,12 @@ const Header = ({ currentPath }: { currentPath: string }) => {
     logo &&
     logo !== "" &&
     path.join(process.cwd(), "public", "images", "logos", logo);
+
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
       <div className="govuk-header__container govuk-width-container">
-        <div className="govuk-header__logo">
-          {council && (
+        {council && (
+          <div className="govuk-header__logo">
             <Link
               href={`/${council}`}
               className="govuk-header__link govuk-header__link--homepage"
@@ -37,31 +40,38 @@ const Header = ({ currentPath }: { currentPath: string }) => {
                 <span>{name}</span>
               )}
             </Link>
-          )}
-        </div>
+          </div>
+        )}
         <div>
           <Link
             href="/"
-            className="govuk-header__link govuk-header__service-name"
+            className="govuk-header__link govuk-header__service-name govuk-header__content"
             role="link"
           >
             Digital Planning Register
           </Link>
         </div>
-      </div>
-      <div className="govuk-header__menu">
-        <label
-          htmlFor="menu-toggle"
-          className="govuk-header__menu-button menu-button"
+        <button
+          type="button"
+          className="govuk-header__menu-button govuk-js-header-toggle"
           aria-controls="navigation"
-          aria-label="Toggle menu"
+          aria-expanded={isExtended}
+          onClick={() => setIsExtended(!isExtended)}
         >
           Menu
-        </label>
-        <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+        </button>
+      </div>
+      {isExtended && (
         <div className="menu" id="navigation" aria-labelledby="menu-toggle">
           <Menu currentPath={currentPath} council={name} />
         </div>
+      )}
+      <div
+        className="menu-desktop"
+        id="navigation"
+        aria-labelledby="menu-toggle"
+      >
+        <Menu currentPath={currentPath} council={name} />
       </div>
     </header>
   );
