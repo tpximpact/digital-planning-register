@@ -185,7 +185,8 @@ export default async function Home({
                       </div>
                     </div>
                     <div className="govuk-grid-row">
-                      {(application?.boundary_geojson || application?.property?.boundary?.site) && (
+                      {(application?.boundary_geojson ||
+                        application?.property?.boundary?.site) && (
                         <div className="govuk-grid-column-one-third landing-map">
                           <LandingMap
                             boundary_geojson={
