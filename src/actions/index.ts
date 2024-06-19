@@ -45,7 +45,6 @@ export async function getApplicationByReference(
         headers: {
           Authorization: `Bearer ${process.env[apiKey]}`,
         },
-        next: { revalidate: 86400 },
       },
     );
     const data = await response.json();
