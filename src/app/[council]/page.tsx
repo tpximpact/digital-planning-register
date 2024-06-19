@@ -9,6 +9,7 @@ import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
+import DescriptionCard from "@/components/description_card";
 
 const resultsPerPage = 10;
 
@@ -194,10 +195,12 @@ export default async function Home({
                       </div>
                       <div className="govuk-grid-column-two-thirds">
                         <h2 className="govuk-heading-s">Description</h2>
-                        <p className="govuk-body">
-                          {application?.description ||
-                            application?.proposal?.description}
-                        </p>
+                        <DescriptionCard
+                          description={
+                            application?.description ||
+                            application?.proposal?.description
+                          }
+                        />
                       </div>
                     </div>
                     <div className="govuk-grid-row">
@@ -215,36 +218,48 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Status</h2>
-                        <p className="govuk-body">
-                          {(application?.status &&
-                            definedStatus(
-                              application?.status,
-                              application?.consultation?.end_date,
-                            )) ||
-                            (application?.application?.status &&
-                              definedStatus(
-                                application?.application?.status,
-                                application?.application?.consultation
-                                  ?.end_date,
-                              ))}
-                        </p>
+                        {application?.status ||
+                          (application?.application?.status && (
+                            <>
+                              <h2 className="govuk-heading-s">Status</h2>
+                              <p className="govuk-body">
+                                {(application?.status &&
+                                  definedStatus(
+                                    application?.status,
+                                    application?.consultation?.end_date,
+                                  )) ||
+                                  (application?.application?.status &&
+                                    definedStatus(
+                                      application?.application?.status,
+                                      application?.application?.consultation
+                                        ?.end_date,
+                                    ))}
+                              </p>
+                            </>
+                          ))}
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Received date</h2>
-                        <p className="govuk-body">
-                          {(application?.received_date &&
-                            `${format(
-                              new Date(application?.received_date),
-                              "dd-MM-yyyy",
-                            )}`) ||
-                            (application?.application?.receivedAt &&
-                              `${format(
-                                new Date(application?.application?.receivedAt),
-                                "dd-MM-yyyy",
-                              )}`)}
-                        </p>
+                        {application?.received_date ||
+                          (application?.application?.receivedAt && (
+                            <>
+                              <h2 className="govuk-heading-s">Received date</h2>
+                              <p className="govuk-body">
+                                {(application?.received_date &&
+                                  `${format(
+                                    new Date(application?.received_date),
+                                    "dd MMM yyyy",
+                                  )}`) ||
+                                  (application?.application?.receivedAt &&
+                                    `${format(
+                                      new Date(
+                                        application?.application?.receivedAt,
+                                      ),
+                                      "dd MMM yyyy",
+                                    )}`)}
+                              </p>
+                            </>
+                          ))}
                       </div>
                     </div>
                     <div className="govuk-grid-row">
@@ -254,19 +269,47 @@ export default async function Home({
                           {application?.consultation?.end_date &&
                             `${format(
                               new Date(application?.consultation?.end_date),
-                              "dd-MM-yyyy",
+                              "dd MMM yyyy",
                             )}`}
                         </p> */}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Decision Date</h2>
-                        <p className="govuk-body">
-                          {application?.determination_date &&
-                            `${format(
-                              new Date(application?.determination_date),
-                              "dd-MM-yyyy",
-                            )}`}
-                        </p>
+                        {application?.consultation?.end_date && (
+                          <>
+                            <h2 className="govuk-heading-s">
+                              Consultation End Date
+                            </h2>
+                            <p className="govuk-body">
+                              {format(
+                                new Date(application?.consultation?.end_date),
+                                "dd MMM yyyy",
+                              )}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <div className="govuk-grid-column-one-third">
+                        {application?.determination_date && (
+                          <>
+                            <h2 className="govuk-heading-s">Decision Date</h2>
+                            <p className="govuk-body">
+                              {format(
+                                new Date(application?.determination_date),
+                                "dd MMM yyyy",
+                              )}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <div>
+                        {application?.decision && (
+                          <>
+                            <h2 className="govuk-heading-s">Decision</h2>
+                            <p className="govuk-body">
+                              {capitaliseWord(application?.decision)}
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
 
