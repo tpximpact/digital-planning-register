@@ -185,14 +185,16 @@ export default async function Home({
                       </div>
                     </div>
                     <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third landing-map">
-                        <LandingMap
-                          boundary_geojson={
-                            application?.boundary_geojson ||
-                            application?.property?.boundary?.site
-                          }
-                        />
-                      </div>
+                      {(application?.boundary_geojson || application?.property?.boundary?.site) && (
+                        <div className="govuk-grid-column-one-third landing-map">
+                          <LandingMap
+                            boundary_geojson={
+                              application?.boundary_geojson ||
+                              application?.property?.boundary?.site
+                            }
+                          />
+                        </div>
+                      )}
                       <div className="govuk-grid-column-two-thirds">
                         <h2 className="govuk-heading-s">Description</h2>
                         <DescriptionCard
@@ -218,48 +220,45 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        {application?.status ||
-                          (application?.application?.status && (
-                            <>
-                              <h2 className="govuk-heading-s">Status</h2>
-                              <p className="govuk-body">
-                                {(application?.status &&
+                        {(application?.status ||
+                          application?.application?.status) && (
+                          <>
+                            <h2 className="govuk-heading-s">Status</h2>
+                            <p className="govuk-body">
+                              {definedStatus(
+                                application?.status,
+                                application?.consultation?.end_date,
+                              ) ||
+                                (application?.application?.status &&
                                   definedStatus(
-                                    application?.status,
-                                    application?.consultation?.end_date,
-                                  )) ||
-                                  (application?.application?.status &&
-                                    definedStatus(
-                                      application?.application?.status,
-                                      application?.application?.consultation
-                                        ?.end_date,
-                                    ))}
-                              </p>
-                            </>
-                          ))}
+                                    application?.application?.status,
+                                    application?.application?.consultation
+                                      ?.end_date,
+                                  ))}
+                            </p>
+                          </>
+                        )}
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        {application?.received_date ||
-                          (application?.application?.receivedAt && (
-                            <>
-                              <h2 className="govuk-heading-s">Received date</h2>
-                              <p className="govuk-body">
-                                {(application?.received_date &&
-                                  `${format(
-                                    new Date(application?.received_date),
-                                    "dd MMM yyyy",
-                                  )}`) ||
-                                  (application?.application?.receivedAt &&
-                                    `${format(
-                                      new Date(
-                                        application?.application?.receivedAt,
-                                      ),
-                                      "dd MMM yyyy",
-                                    )}`)}
-                              </p>
-                            </>
-                          ))}
+                        {(application?.received_date ||
+                          application?.application?.receivedAt) && (
+                          <>
+                            <h2 className="govuk-heading-s">Received date</h2>
+                            <p className="govuk-body">
+                              {`${format(
+                                new Date(application?.received_date),
+                                "dd MMM yyyy",
+                              )}` ||
+                                `${format(
+                                  new Date(
+                                    application?.application?.receivedAt,
+                                  ),
+                                  "dd MMM yyyy",
+                                )}`}
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="govuk-grid-row">
@@ -306,7 +305,9 @@ export default async function Home({
                           <>
                             <h2 className="govuk-heading-s">Decision</h2>
                             <p className="govuk-body">
-                              {capitaliseWord(application?.decision)}
+                              {capitaliseWord(
+                                application?.decision.replace(/_/g, " "),
+                              )}
                             </p>
                           </>
                         )}
