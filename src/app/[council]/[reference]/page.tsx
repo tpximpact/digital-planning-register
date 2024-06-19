@@ -8,7 +8,7 @@ import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
-import { ApplicationComment } from "../../../../util/type";
+import { ApplicationComment, Config } from "../../../../util/type";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "@/app/not-found";
 import config from "../../../../util/config.json";
@@ -62,7 +62,7 @@ export default async function Application({ params }: Params) {
 
   const consulteeComments = sortComments(data?.consultee_comments);
   const publishedComments = sortComments(data?.published_comments);
-  const councilConfig = config as any;
+  const councilConfig: Config = config;
 
   const publicComments = councilConfig[council]?.publicComments;
   const specialistComments = councilConfig[council]?.specialistComments;
