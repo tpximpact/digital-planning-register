@@ -38,11 +38,6 @@
     }
   }
 }
-@media (max-width: 1020px) {
-  .menu {
-    display: block;
-  }
-}
 
 .container-menu {
   display: flex;
@@ -73,28 +68,37 @@
   display: none;
 }
 
-.menu {
-  display: none;
-}
-
-.menu-toggle:checked ~ .menu {
-  display: block;
-}
 
 @media (max-width: 768px) {
   .menu-button {
     display: block;
   }
+  .menu-desktop {
+    display: none;
+  }
+  .menu {
+    display: block;
+  }
+  
+}
+
+@media (scripting: none) {
+  .govuk-header__menu-button {
+    display: none;
+  }
+  .menu-desktop {
+    display: inline;
+  }
 }
 
 @media (min-width: 769px) {
+.govuk-header__menu-button {
+  display: none;
+}
   .menu-button {
     display: none !important;
   }
 
-  .menu {
-    display: block;
-  }
 }
 
 .council-selection {
