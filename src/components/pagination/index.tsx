@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { NextIcon, PreviousIcon } from "../../../public/icons";
 
 interface PaginationProps {
@@ -37,21 +36,21 @@ const Pagination: React.FC<PaginationProps> = ({
       page + 1 === totalPages
     ) {
       return (
-        <Link
+        <a
           href={buildUrl(page)}
           className={`govuk-link--no-visited-state page-link ${currentPage === page ? "active-page" : ""}`}
         >
           {page + 1}
-        </Link>
+        </a>
       );
     } else if (current + 3 === page + 1 || current - 1 === page + 1) {
       return (
-        <Link
+        <a
           href={buildUrl(page)}
           className={`govuk-link--no-visited-state ${currentPage === page ? "active-page" : ""}`}
         >
           ...
-        </Link>
+        </a>
       );
     } else {
       return;
@@ -64,18 +63,18 @@ const Pagination: React.FC<PaginationProps> = ({
   const renderPreviousLink = () => {
     if (currentPage === 0) return null;
     return (
-      <Link href={buildUrl(currentPage - 1)} className="page-link">
+      <a href={buildUrl(currentPage - 1)} className="page-link">
         <PreviousIcon />
-      </Link>
+      </a>
     );
   };
 
   const renderNextLink = () => {
     if (currentPage === pageCount - 1) return null;
     return (
-      <Link href={buildUrl(currentPage + 1)} className="page-link">
+      <a href={buildUrl(currentPage + 1)} className="page-link">
         <NextIcon />
-      </Link>
+      </a>
     );
   };
 

@@ -18,7 +18,6 @@ export async function getApplicationsByCouncil(
           headers: {
             Authorization: `Bearer ${process.env[apiKey]}`,
           },
-          next: { revalidate: 86400 },
         },
       );
       const data = await response.json();
@@ -73,7 +72,6 @@ export async function searchApplication(
           headers: {
             Authorization: `Bearer ${process.env[apiKey]}`,
           },
-          next: { revalidate: 86400 },
         },
       );
 
