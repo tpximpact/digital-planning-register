@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <title>Digital Planning Register</title>
       <Head />
-      <body>
+      <body className="govuk-frontend-supported">
         <a
           href="#main"
           className="govuk-skip-link"
@@ -31,9 +31,9 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Header currentPath={pathname} />
-        <div className="govuk-width-container" id="main">
+        <main className="govuk-width-container" id="main">
           <Suspense>{children}</Suspense>
-        </div>
+        </main>
       </body>
     </html>
   );

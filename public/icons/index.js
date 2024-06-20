@@ -8,6 +8,8 @@ export const SortIcon = () => {
       height="24"
       fill="currentColor"
       viewBox="0 0 24 24"
+      role="img"
+      aria-label="Sort"
     >
       <path
         fillRule="evenodd"
@@ -32,6 +34,8 @@ export const NextIcon = () => {
         height="13"
         viewBox="0 0 15 13"
         fill="none"
+        role="img"
+        aria-label="Next arrow"
       >
         <path
           d="M8.107 -0.0078125L6.6934 1.40619L10.986 5.69919H-2V7.69919H10.896L6.7105 11.6758L8.0875 13.125L14.8316 6.71879L8.107 -0.0078125Z"
@@ -51,6 +55,8 @@ export const PreviousIcon = () => {
         height="13"
         viewBox="0 0 15 13"
         fill="none"
+        role="img"
+        aria-label="Back arrow"
       >
         <path
           d="M6.893 13.125L8.3066 11.711L4.014 7.418L17 7.418V5.418L4.104 5.418L8.2895 1.4414L6.9125 -0.0078001L0.1684 6.3984L6.893 13.125Z"

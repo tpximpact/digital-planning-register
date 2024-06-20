@@ -21,7 +21,7 @@ const ApplicationFile = ({
 
   return (
     <div className="grid-row-extra-bottom-margin documents-container">
-      <h2 className="govuk-heading-l">Documents</h2>
+      <h1 className="govuk-heading-l">Documents</h1>
       <p className="govuk-body documents-containers">
         To find out more detailed information, please read the following
         document(s) provided by the applicant.

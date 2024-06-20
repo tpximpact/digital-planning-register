@@ -124,7 +124,7 @@ export default async function Home({
   return (
     <>
       {!data && <BackLink href={`/${council}`} />}
-      <main className="govuk-main-wrapper">
+      <div className="govuk-main-wrapper">
         <form action={`/${council}`} method="get" className="govuk-grid-row">
           <div className="govuk-grid-column-one-half">
             <div className="govuk-form-group">
@@ -139,6 +139,7 @@ export default async function Home({
                 name="search"
                 type="text"
                 defaultValue={searchParams?.search || ""}
+                autoComplete="on"
               />
               {validationError && (
                 <p id="search-error" className="govuk-error-message">
@@ -165,16 +166,16 @@ export default async function Home({
                   <div className="govuk-grid-column-full">
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">
+                        <div className="govuk-heading-s">
                           Application Reference
-                        </h2>
+                        </div>
                         <p className="govuk-body">
                           {application.reference ||
                             application.application.reference}
                         </p>
                       </div>
                       <div className="govuk-grid-column-two-thirds">
-                        <h2 className="govuk-heading-s">Address</h2>
+                        <div className="govuk-heading-s">Address</div>
                         <p className="govuk-body">
                           {application?.site?.address_1 ||
                             application?.property?.address?.singleLine}
@@ -193,7 +194,7 @@ export default async function Home({
                         />
                       </div>
                       <div className="govuk-grid-column-two-thirds">
-                        <h2 className="govuk-heading-s">Description</h2>
+                        <div className="govuk-heading-s">Description</div>
                         <p className="govuk-body">
                           {application?.description ||
                             application?.proposal?.description}
@@ -202,7 +203,7 @@ export default async function Home({
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Application type</h2>
+                        <div className="govuk-heading-s">Application type</div>
                         <p className="govuk-body">
                           {capitaliseWord(
                             application?.application_type?.replace(/_/g, " ") ||
@@ -215,7 +216,7 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Status</h2>
+                        <div className="govuk-heading-s">Status</div>
                         <p className="govuk-body">
                           {(application?.status &&
                             definedStatus(
@@ -232,7 +233,7 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Received date</h2>
+                        <div className="govuk-heading-s">Received date</div>
                         <p className="govuk-body">
                           {(application?.received_date &&
                             `${format(
@@ -249,7 +250,7 @@ export default async function Home({
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        {/* <h2 className="govuk-heading-s">Published Date</h2>
+                        {/* <div className="govuk-heading-s">Published Date</div>
                         <p className="govuk-body">
                           {application?.consultation?.end_date &&
                             `${format(
@@ -259,7 +260,7 @@ export default async function Home({
                         </p> */}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        <h2 className="govuk-heading-s">Decision Date</h2>
+                        <div className="govuk-heading-s">Decision Date</div>
                         <p className="govuk-body">
                           {application?.determination_date &&
                             `${format(
@@ -298,7 +299,7 @@ export default async function Home({
         ) : (
           <NoResult council={council} />
         )}
-      </main>
+      </div>
     </>
   );
 }

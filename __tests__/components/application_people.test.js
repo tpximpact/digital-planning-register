@@ -1,3 +1,5 @@
+import "@testing-library/jest-dom";
+
 import ApplicationPeople from "@/components/application_people";
 import { screen, render } from "@testing-library/react";
 describe("Render ApplicationPeople", () => {
@@ -10,16 +12,6 @@ describe("Render ApplicationPeople", () => {
 
   it("should render correct", async () => {
     render(<ApplicationPeople {...mockData} />);
-
-    expect(
-      screen.getByRole("agent-name", {
-        Name: `${mockData.agent_first_name} ${mockData.agent_first_name}`,
-      }),
-    );
-    expect(
-      screen.getByRole("applicant-name", {
-        Name: `${mockData.applicant_first_name} ${mockData.applicant_first_name}`,
-      }),
-    );
+    expect(screen.getByText("John Schmitt")).toBeInTheDocument();
   });
 });
