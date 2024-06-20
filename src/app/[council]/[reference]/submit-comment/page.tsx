@@ -8,11 +8,10 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import { Suspense, useEffect, useState } from "react";
-import { getApplicationByReference, getCookies } from "@/actions";
-import { Data } from "../../../../util/type";
+import { getApplicationByReference } from "@/actions";
 import { notFound } from "next/navigation";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
+import { capitaliseWord } from "../../../../../util/capitaliseWord";
+
 type Props = { reference: string; council: string };
 
 async function fetchData(params: Props) {
@@ -27,12 +26,8 @@ export async function generateMetadata({
 }: {
   params: { reference: string; council: string };
 }) {
-  const councilCookies = await getCookies("council");
-  const referenceCookies = await getCookies("reference");
-  const council = councilCookies?.value as string;
-  const reference = referenceCookies?.value as string;
-
-  const data = await fetchData({ reference: reference, council });
+  const { reference, council } = params;
+  const data = await fetchData({ reference, council });
 
   if (data.error) {
     return {
@@ -47,34 +42,42 @@ export async function generateMetadata({
   };
 }
 
-const Comment = async () => {
-  const councilCookies = await getCookies("council");
-  const referenceCookies = await getCookies("reference");
-  const council = councilCookies?.value as string;
-  const reference = referenceCookies?.value as string;
-  const data = await fetchData({
-    reference,
-    council,
-  });
-  const getFeedbackNumber = await getCookies("feedbackNumber");
-  const feedbackNumber = parseInt(getFeedbackNumber?.value as string) || 0;
+const Comment = async ({
+  params,
+  searchParams,
+}: {
+  params: { reference: string; council: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) => {
+  const { reference, council } = params;
+  const data = await fetchData({ reference, council });
+  const page = parseInt(searchParams?.page as string) || 0;
 
   const feedbackPage = () => {
-    console.log(feedbackNumber);
-    switch (feedbackNumber) {
+    switch (page) {
       case 0:
-        return <PreSubmission council={council} />;
+        return <PreSubmission council={council} reference={reference} />;
       case 1:
-        return <CommentSentiment council={council} />;
+        return <CommentSentiment council={council} reference={reference} />;
       case 2:
-        return <CommentTopicSelection />;
+        return (
+          <CommentTopicSelection council={council} reference={reference} />
+        );
       case 3:
-        return <CommentTextEntry />;
+        return <CommentTextEntry council={council} reference={reference} />;
       case 4:
-        return <CommentPersonalDetails council={council} />;
+        return (
+          <CommentPersonalDetails council={council} reference={reference} />
+        );
       case 5:
-        // this may change to reference but for now the endpoint takes in the id
-        return <CommentCheckAnswer council={council} applicationId={data.id} />;
+        return (
+          <CommentCheckAnswer
+            council={council}
+            // once the submit comment endpoint takes in the reference, we will be able to remove the id
+            applicationId={data.id}
+            reference={reference}
+          />
+        );
       case 6:
         return (
           <CommentConfirmation
@@ -87,13 +90,23 @@ const Comment = async () => {
     }
   };
 
+  const getBackLinkHref = () => {
+    if (page === 0) {
+      return "/";
+    } else if (page === 6) {
+      return `/${council}/${reference}/submit-comment?page=5`;
+    } else {
+      return `/${council}/${reference}/submit-comment?page=${page - 1}`;
+    }
+  };
+
   return (
     <>
-      <BackLink href="/" />
+      <BackLink href={getBackLinkHref()} />
       <div className="govuk-main-wrapper">
-        {feedbackNumber > 0 && feedbackNumber < 6 && (
+        {page > 0 && page < 6 && (
           <CommentHeader
-            reference={reference as string}
+            reference={reference}
             boundary_geojson={data?.boundary_geojson}
             site={data?.site}
           />

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { submitComment } from "@/actions";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { Config } from "../../../util/type";
 
 const topics_selection = [
   {
@@ -23,11 +24,13 @@ const topics_selection = [
 export default async function CommentCheckAnswer({
   council,
   applicationId,
+  reference,
 }: {
   council: string;
   applicationId: number;
+  reference: string;
 }) {
-  const councilConfig = config as any;
+  const councilConfig: Config = config;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
   const planningServicePrivacyStatement =
@@ -44,6 +47,7 @@ export default async function CommentCheckAnswer({
     : {};
 
   const submissionError = cookies().get("submissionError")?.value === "true";
+
   const apiData = {
     name: personalDetails.name,
     email: personalDetails.emailAddress,
@@ -61,32 +65,41 @@ export default async function CommentCheckAnswer({
     tags: selectedTopics,
   };
 
+  // Commented out so we don't submit to the API when testing
+  // async function handleSubmit() {
+  //   "use server";
+  //   cookies().delete("submissionError");
+  //   try {
+  //     // once the new api endpoint takes in a reference, we will be able to swap it with the applicationId
+  //     const result = await submitComment(applicationId, council, apiData);
+  //     if (result.status === 200) {
+  //       cookies().delete("sentiment");
+  //       cookies().delete("selectedTopics");
+  //       cookies().delete("commentData");
+  //       cookies().delete("personalDetails");
+  //       cookies().delete("reference");
+  //     } else {
+  //       cookies().set("submissionError", "true");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error submitting the comment", error);
+  //     cookies().set("submissionError", "true");
+  //   }
+  //   redirect(`/${council}/${reference}/submit-comment?page=6`);
+  // }
+
+  // Test handle submit for debugging
   async function handleSubmit() {
     "use server";
-    try {
-      const result = await submitComment(applicationId, council, apiData);
-      if (result.status === 200) {
-        cookies().set("feedbackNumber", "6");
-        cookies().delete("submissionError");
-        // Should we delete cookies here? Should they have a timeout?
-        // cookies().delete("sentiment");
-        // cookies().delete("selectedTopics");
-        // cookies().delete("commentData");
-        // cookies().delete("personalDetails");
-        // cookies().delete("reference");
-
-        redirect(`/${council}/comment`);
-      } else {
-        cookies().set("submissionError", "true");
-        redirect(`/${council}/comment`);
-      }
-    } catch (error) {
-      console.error("Error submitting the comment", error);
-      cookies().set("submissionError", "true");
-      redirect(`/${council}/comment`);
-    }
+    console.log("Form submitted");
+    cookies().delete("submissionError");
+    cookies().delete("sentiment");
+    cookies().delete("selectedTopics");
+    cookies().delete("commentData");
+    cookies().delete("personalDetails");
+    cookies().delete("reference");
+    redirect(`/${council}/${reference}/submit-comment?page=6`);
   }
-
   return (
     <>
       <div className="govuk-grid-row">
@@ -122,7 +135,7 @@ export default async function CommentCheckAnswer({
             </div>
           )}
           <h1 className="govuk-heading-l">
-            Check your comments before sending your application
+            Check what you have written before sending your comment
           </h1>
 
           <form action={handleSubmit}>
@@ -134,20 +147,16 @@ export default async function CommentCheckAnswer({
                 <dd className="govuk-summary-list__value">
                   <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
-                {/* <dd className="govuk-summary-list__actions">
-                  <button
-                    type="submit"
-                    name="action"
-                    value="change"
+                <dd className="govuk-summary-list__actions">
+                  <a
                     className="govuk-link"
+                    href={`/${council}/${reference}/submit-comment?page=1`}
                   >
                     Change
-                  </button>
-                  <input type="hidden" name="page" value="1" />
-                </dd> */}
+                  </a>
+                </dd>
               </div>
             </dl>
-
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">
@@ -165,20 +174,16 @@ export default async function CommentCheckAnswer({
                     })}
                   </ul>
                 </dd>
-                {/* <dd className="govuk-summary-list__actions">
-                  <button
-                    type="submit"
-                    name="action"
-                    value="change"
+                <dd className="govuk-summary-list__actions">
+                  <a
                     className="govuk-link"
+                    href={`/${council}/${reference}/submit-comment?page=2`}
                   >
                     Change
-                  </button>
-                  <input type="hidden" name="page" value="2" />
-                </dd> */}
+                  </a>
+                </dd>
               </div>
             </dl>
-
             {selectedTopics.map((topic, index) => {
               const foundTopic = topics_selection.find(
                 (t) => t.value === topic,
@@ -198,61 +203,127 @@ export default async function CommentCheckAnswer({
                           : "No comment provided"}
                       </p>
                     </dd>
-                    {/* <dd className="govuk-summary-list__actions">
-                      <button
-                        type="submit"
-                        name="action"
-                        value="change"
+                    <dd className="govuk-summary-list__actions">
+                      <a
                         className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=3`}
                       >
                         Change
-                      </button>
-                      <input type="hidden" name="page" value="3" />
-                    </dd> */}
+                      </a>
+                    </dd>
                   </div>
                 </dl>
               );
             })}
-
             <h1 className="govuk-heading-l">
-              Check your details before sending your application
+              Check your details before sending your comment
             </h1>
-
-            {Object.entries(personalDetails).map(([key, value], index) => (
-              <dl className="govuk-summary-list" key={index}>
-                <div className="govuk-summary-list__row">
-                  <dt className="govuk-summary-list__key">
-                    {capitaliseWord(key)}
-                  </dt>
-                  <dd className="govuk-summary-list__value">
-                    <p className="govuk-body">
-                      {value ? (value as string) : ""}
-                    </p>
-                  </dd>
-                  <dd className="govuk-summary-list__actions">
-                    <ul className="govuk-summary-list__actions-list">
-                      <li className="govuk-summary-list__actions-list-item">
-                        <button
-                          type="submit"
-                          name="action"
-                          value="change"
-                          className="govuk-link"
-                        >
-                          Change
-                        </button>
-                        <input type="hidden" name="page" value="4" />
-                      </li>
-                    </ul>
-                  </dd>
-                </div>
-              </dl>
-            ))}
-
-            <h2 className="govuk-heading-m">Now send your application</h2>
-
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Name</dt>
+                <dd className="govuk-summary-list__value">
+                  <p className="govuk-body">{personalDetails.name}</p>
+                </dd>
+                <dd className="govuk-summary-list__actions">
+                  <ul className="govuk-summary-list__actions-list">
+                    <li className="govuk-summary-list__actions-list-item">
+                      <a
+                        className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=4`}
+                      >
+                        Change
+                      </a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Address</dt>
+                <dd className="govuk-summary-list__value">
+                  <p className="govuk-body">{personalDetails.address}</p>
+                </dd>
+                <dd className="govuk-summary-list__actions">
+                  <ul className="govuk-summary-list__actions-list">
+                    <li className="govuk-summary-list__actions-list-item">
+                      <a
+                        className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=4`}
+                      >
+                        Change
+                      </a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Postcode</dt>
+                <dd className="govuk-summary-list__value">
+                  <p className="govuk-body">{personalDetails.postcode}</p>
+                </dd>
+                <dd className="govuk-summary-list__actions">
+                  <ul className="govuk-summary-list__actions-list">
+                    <li className="govuk-summary-list__actions-list-item">
+                      <a
+                        className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=4`}
+                      >
+                        Change
+                      </a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Email address</dt>
+                <dd className="govuk-summary-list__value">
+                  <p className="govuk-body">{personalDetails.emailAddress}</p>
+                </dd>
+                <dd className="govuk-summary-list__actions">
+                  <ul className="govuk-summary-list__actions-list">
+                    <li className="govuk-summary-list__actions-list-item">
+                      <a
+                        className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=4`}
+                      >
+                        Change
+                      </a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Telephone number</dt>
+                <dd className="govuk-summary-list__value">
+                  <p className="govuk-body">
+                    {personalDetails.telephoneNumber}
+                  </p>
+                </dd>
+                <dd className="govuk-summary-list__actions">
+                  <ul className="govuk-summary-list__actions-list">
+                    <li className="govuk-summary-list__actions-list-item">
+                      <a
+                        className="govuk-link"
+                        href={`/${council}/${reference}/submit-comment?page=4`}
+                      >
+                        Change
+                      </a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+            <h2 className="govuk-heading-m">Now send your comment</h2>
             <p className="govuk-body">
-              By submitting this application you are confirming that, to the
-              best of your knowledge, the details you are providing are correct.
+              By submitting this comment you are confirming that, to the best of
+              your knowledge, the details you are providing are correct.
             </p>
             <details className="govuk-details">
               <summary className="govuk-details__summary">

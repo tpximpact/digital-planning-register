@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 "use server";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { cookies } from "next/headers";
 
 const topics_selection = [
   {
@@ -18,10 +18,15 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
-const CommentTopicSelection = async () => {
+const CommentTopicSelection = async ({
+  council,
+  reference,
+}: {
+  council: string;
+  reference: string;
+}) => {
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
-  const council = cookies().get("council")?.value || "";
   const validationError = cookies().get("validationError")?.value === "true";
 
   async function handleSubmit(formData: FormData) {
@@ -32,12 +37,11 @@ const CommentTopicSelection = async () => {
 
     if (selectedTopics.length === 0) {
       cookies().set("validationError", "true");
-      redirect(`/${council}/comment`);
+      redirect(`/${council}/${reference}/submit-comment?page=2`);
     } else {
       cookies().set("selectedTopics", selectedTopics.join(","));
-      cookies().set("feedbackNumber", "3");
       cookies().delete("validationError");
-      redirect(`/${council}/comment`);
+      redirect(`/${council}/${reference}/submit-comment?page=3`);
     }
   }
 
@@ -56,7 +60,6 @@ const CommentTopicSelection = async () => {
               about. Select all the topics that apply.
             </div>
             <form action={handleSubmit}>
-              <input type="hidden" name="council" value={council} />
               <div
                 className={`govuk-form-group ${
                   validationError ? "govuk-form-group--error" : ""
@@ -111,17 +114,18 @@ const CommentTopicSelection = async () => {
                   </p>
                   <ul className="govuk-list govuk-list--bullet">
                     <li>overlooking/loss of privacy</li>
-                    <li>loss of light or overshadowing</li>{" "}
-                    <li>traffic parking</li> <li>highway safety</li>{" "}
-                    <li>noise from new uses or plant equipment</li>{" "}
-                    <li>effect on listed building and conservation area</li>{" "}
+                    <li>loss of light or overshadowing</li>
+                    <li>traffic parking</li>
+                    <li>highway safety</li>
+                    <li>noise from new uses or plant equipment</li>
+                    <li>effect on listed building and conservation area</li>
                     <li>scale of buildings and structures</li>
-                    <li> layout and density of building</li>{" "}
+                    <li>layout and density of building</li>
                     <li>design, appearance and materials</li>
-                    <li>disabled persons' access</li>{" "}
+                    <li>disabled persons' access</li>
                     <li>
                       previous planning decisions (including appeal decisions)
-                    </li>{" "}
+                    </li>
                     <li>trees and nature conservation</li>
                   </ul>
                   <p className="govuk-body">
@@ -132,7 +136,7 @@ const CommentTopicSelection = async () => {
                   </p>
                   <p className="govuk-body">
                     The case officer will summarise their findings in the
-                    officer's report and/or decision notice.{" "}
+                    officer's report and/or decision notice.
                   </p>
                   <p className="govuk-body">
                     We won't acknowledge receipt of your comments, or get in

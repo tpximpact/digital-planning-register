@@ -21,10 +21,15 @@ const topics_selection: Topic[] = [
   { label: "Other", value: "other" },
 ];
 
-const CommentTextEntry = async () => {
+const CommentTextEntry = async ({
+  council,
+  reference,
+}: {
+  council: string;
+  reference: string;
+}) => {
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
-  const council = cookies().get("council")?.value || "";
   const currentTopicIndex = parseInt(
     cookies().get("currentTopicIndex")?.value || "0",
   );
@@ -32,7 +37,7 @@ const CommentTextEntry = async () => {
   const validationError = cookies().get("validationError")?.value === "true";
 
   if (!currentTopic) {
-    redirect(`/${council}/comment`);
+    redirect(`/${council}/${reference}/submit-comment?page=2`);
   }
 
   async function handleSubmit(formData: FormData) {
@@ -41,7 +46,7 @@ const CommentTextEntry = async () => {
 
     if (!comment) {
       cookies().set("validationError", "true");
-      redirect(`/${council}/comment`);
+      redirect(`/${council}/${reference}/submit-comment?page=3`);
     } else {
       const existingCommentsValue = cookies().get("commentData")?.value;
       const existingComments = existingCommentsValue
@@ -54,11 +59,10 @@ const CommentTextEntry = async () => {
 
       if (currentTopicIndex < selectedTopics.length - 1) {
         cookies().set("currentTopicIndex", (currentTopicIndex + 1).toString());
-        redirect(`/${council}/comment`);
+        redirect(`/${council}/${reference}/submit-comment?page=3`);
       } else {
         cookies().delete("currentTopicIndex");
-        cookies().set("feedbackNumber", "4");
-        redirect(`/${council}/comment`);
+        redirect(`/${council}/${reference}/submit-comment?page=4`);
       }
     }
   }
@@ -97,7 +101,6 @@ const CommentTextEntry = async () => {
               name="comment"
               rows={5}
               aria-describedby="comment-hint"
-              defaultValue={""}
             ></textarea>
           </div>
           <button

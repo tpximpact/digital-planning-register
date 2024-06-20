@@ -58,9 +58,8 @@ const ApplicationInformation = ({
     _formData: FormData,
   ) => {
     "use server";
-    cookies().set("council", council as string);
     cookies().set("reference", reference);
-    redirect(`/${council}/comment`);
+    redirect(`/${council}/${reference}/submit-comment`);
   };
   const updateActionHandler = actionHandler.bind(null, council, reference);
   return (

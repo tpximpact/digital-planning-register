@@ -1,12 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
 "use server";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { cookies } from "next/headers";
+import { Config } from "../../../util/type";
 
-const CommentPersonalDetails = async ({ council }: { council: string }) => {
-  const councilConfig = config as any;
+const CommentPersonalDetails = async ({
+  council,
+  reference,
+}: {
+  council: string;
+  reference: string;
+}) => {
+  const councilConfig: Config = config;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
   const planningServicePrivacyStatement =
@@ -39,7 +46,7 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
 
     if (Object.values(errors).some((error) => error)) {
       cookies().set("validationErrors", JSON.stringify(errors));
-      redirect(`/${council}/comment`);
+      redirect(`/${council}/${reference}/submit-comment?page=4`);
     }
 
     const personalDetails = {
@@ -52,10 +59,13 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
     };
 
     cookies().set("personalDetails", JSON.stringify(personalDetails));
-    cookies().set("feedbackNumber", "5");
     cookies().delete("validationErrors");
-    redirect(`/${council}/comment`);
+    redirect(`/${council}/${reference}/submit-comment?page=5`);
   }
+  const personalDetailsCookie = cookies().get("personalDetails")?.value;
+  const personalDetails = personalDetailsCookie
+    ? JSON.parse(personalDetailsCookie)
+    : {};
   const errorCookies = cookies().get("validationErrors")?.value;
   const validationErrors = errorCookies ? JSON.parse(errorCookies) : {};
 
@@ -65,7 +75,9 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
         <h1 className="govuk-heading-l">Your details</h1>
         <form action={handleSubmit}>
           <div
-            className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${
+              validationErrors.name ? "govuk-form-group--error" : ""
+            }`}
           >
             <label className="govuk-label" htmlFor="name">
               Name
@@ -77,14 +89,19 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.name ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${
+                validationErrors.name ? "govuk-input--error" : ""
+              }`}
               id="name"
               name="name"
               type="text"
+              defaultValue={personalDetails.name || ""}
             />
           </div>
           <div
-            className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${
+              validationErrors.address ? "govuk-form-group--error" : ""
+            }`}
           >
             <label className="govuk-label" htmlFor="address">
               Address
@@ -96,14 +113,19 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.address ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${
+                validationErrors.address ? "govuk-input--error" : ""
+              }`}
               id="address"
               name="address"
               type="text"
+              defaultValue={personalDetails.address || ""}
             />
           </div>
           <div
-            className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${
+              validationErrors.postcode ? "govuk-form-group--error" : ""
+            }`}
           >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
@@ -115,10 +137,13 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-10 ${validationErrors.postcode ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-10 ${
+                validationErrors.postcode ? "govuk-input--error" : ""
+              }`}
               id="postcode"
               name="postcode"
               type="text"
+              defaultValue={personalDetails.postcode || ""}
             />
           </div>
           <div className="govuk-form-group">
@@ -131,6 +156,7 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               id="email-address"
               name="email-address"
               type="text"
+              defaultValue={personalDetails.emailAddress || ""}
             />
           </div>
           <div className="govuk-form-group">
@@ -143,10 +169,13 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
               id="telephone-number"
               name="telephone-number"
               type="text"
+              defaultValue={personalDetails.telephoneNumber || ""}
             />
           </div>
           <div
-            className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${
+              validationErrors.consent ? "govuk-form-group--error" : ""
+            }`}
           >
             {validationErrors.consent && (
               <p id="form-error" className="govuk-error-message">
@@ -157,11 +186,14 @@ const CommentPersonalDetails = async ({ council }: { council: string }) => {
             <div className="govuk-checkboxes" data-module="govuk-checkboxes">
               <div className="govuk-checkboxes__item">
                 <input
-                  className={`govuk-checkboxes__input ${validationErrors.consent ? "govuk-input--error" : ""}`}
+                  className={`govuk-checkboxes__input ${
+                    validationErrors.consent ? "govuk-input--error" : ""
+                  }`}
                   id="consent"
                   name="consent"
                   type="checkbox"
                   value="on"
+                  defaultChecked={personalDetails.consent === "on"}
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"

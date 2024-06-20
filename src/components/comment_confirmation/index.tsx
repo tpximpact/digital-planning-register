@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+"use server";
 import Map from "../map";
 import { BoundaryGeojson } from "../../../util/type";
 import { cookies } from "next/headers";
@@ -12,7 +13,7 @@ type CommentConfirmationType = {
   council: string;
 };
 
-const CommentConfirmation = ({
+const CommentConfirmation = async ({
   reference,
   site,
   boundary_geojson,
@@ -77,7 +78,6 @@ const CommentConfirmation = ({
       <form
         action={async () => {
           "use server";
-          cookies().set("feedbackNumber", "0");
           redirect(`/${council}`);
         }}
       >

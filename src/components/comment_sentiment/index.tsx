@@ -1,9 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
+"use server";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const CommentSentiment = async ({ council }: { council: string }) => {
+const CommentSentiment = async ({
+  council,
+  reference,
+}: {
+  council: string;
+  reference: string;
+}) => {
   const sentiment = cookies().get("sentiment")?.value;
   const validationError = cookies().get("validationError")?.value === "true";
 
@@ -16,12 +23,11 @@ const CommentSentiment = async ({ council }: { council: string }) => {
 
           if (!selectedSentiment) {
             cookies().set("validationError", "true");
-            redirect(`/${council}/comment`);
+            redirect(`/${council}/${reference}/submit-comment?page=1`);
           } else {
             cookies().set("sentiment", selectedSentiment);
-            cookies().set("feedbackNumber", "2");
             cookies().delete("validationError");
-            redirect(`/${council}/comment`);
+            redirect(`/${council}/${reference}/submit-comment?page=2`);
           }
         }}
       >

@@ -63,6 +63,10 @@ export interface Council {
   logowhite?: string;
   publicComments?: boolean;
   specialistComments?: boolean;
+  material_consideration?: string;
+  contact_planning_advice?: string;
+  corporate_privacy_statement?: string;
+  planning_service_privacy_statement?: string;
 }
 
 export interface Config {

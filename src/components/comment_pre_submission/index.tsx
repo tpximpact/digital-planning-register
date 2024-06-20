@@ -1,13 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
 "use server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import config from "../../../util/config.json";
-// import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { Config } from "../../../util/type";
 
-const PreSubmission = async ({ council }: { council: any }) => {
-  const councilConfig = config as any;
+const PreSubmission = async ({
+  council,
+  reference,
+}: {
+  council: any;
+  reference: string;
+}) => {
+  const councilConfig: Config = config;
   const materialConsideration = councilConfig[council]?.material_consideration;
+
   return (
     <>
       <h1 className="govuk-heading-l">
@@ -102,8 +109,7 @@ const PreSubmission = async ({ council }: { council: any }) => {
       <form
         action={async () => {
           "use server";
-          cookies().set("feedbackNumber", "1");
-          redirect(`/${council}/comment`);
+          redirect(`/${council}/${reference}/submit-comment?page=1`);
         }}
       >
         <button
@@ -127,9 +133,6 @@ const PreSubmission = async ({ council }: { council: any }) => {
           </svg>
         </button>
       </form>
-      {/* <button type="submit" className="govuk-button" data-module="govuk-button">
-        Continue
-      </button> */}
     </>
   );
 };
