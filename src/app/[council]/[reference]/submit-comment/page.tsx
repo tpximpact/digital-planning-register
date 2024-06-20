@@ -109,6 +109,7 @@ const Comment = async ({
             reference={reference}
             boundary_geojson={data?.boundary_geojson}
             site={data?.site}
+            council={council}
           />
         )}
         {feedbackPage()}

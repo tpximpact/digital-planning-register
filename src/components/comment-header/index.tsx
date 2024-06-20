@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { capitaliseWord } from "../../../util/capitaliseWord";
 import { BoundaryGeojson } from "../../../util/type";
 import Map from "../map";
 
@@ -6,11 +7,13 @@ type CommentHeaderType = {
   boundary_geojson?: BoundaryGeojson;
   site?: { address_1: string; postcode: string };
   reference: string;
+  council: string;
 };
 const CommentHeader = ({
   boundary_geojson,
   site,
   reference,
+  council,
 }: CommentHeaderType) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -53,7 +56,8 @@ const CommentHeader = ({
           <p className="govuk-body">{reference}</p>
           <p className="govuk-body">
             Your feedback helps us improve developments so they meet the needs
-            of people in Camden. It's important you let us know what you think.
+            of people in {capitaliseWord(council)}. It's important you let us
+            know what you think.
           </p>
         </div>
       </div>
