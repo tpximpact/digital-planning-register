@@ -18,6 +18,7 @@ interface MapProps {
   geojsonData?: string;
   showScale?: boolean;
   page?: string;
+  staticMode?: boolean;
 }
 
 const Map: React.FC<MapProps> = ({
@@ -28,6 +29,7 @@ const Map: React.FC<MapProps> = ({
   geojsonData = "",
   showScale = true,
   page = "",
+  staticMode = false,
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
@@ -63,6 +65,7 @@ const Map: React.FC<MapProps> = ({
     <div>
       <my-map
         zoom="14"
+        {...(staticMode ? { staticMode } : {})}
         geojsonColor={geojsonColor}
         geojsonBuffer={geojsonBuffer}
         hideResetControl={hideResetControl}

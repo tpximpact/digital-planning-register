@@ -19,6 +19,7 @@ const LandingMap = ({ boundary_geojson }: any) => {
     <>
       {geometryType && coordinates && (
         <Map
+          staticMode={true}
           page="landing"
           geojsonData={JSON.stringify({
             type: "Feature",
