@@ -17,6 +17,7 @@ const Form = ({
             id="search"
             className="govuk-input search"
             onChange={(e: any) => setIdReference(e.target.value)}
+            autoComplete="on"
           />
         </div>
         <div className="govuk-grid-column-one-quarter search-bar-buttons">

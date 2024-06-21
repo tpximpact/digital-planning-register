@@ -29,9 +29,11 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
           <div>
             <select
               className="govuk-select noscript-only council-selection"
-              id="sort"
+              id="council-select-noscript"
               name="council"
               defaultValue={selectedCouncil}
+              aria-label="Select your council"
+              autoComplete="on"
             >
               <option value="select">Select your council</option>
               {councilOptions.map((councilKey) => (
@@ -51,10 +53,12 @@ const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
       </noscript>
       <select
         className="govuk-select js-only"
-        id="sort"
+        id="council-select"
         name="council"
         value={selectedCouncil}
         onChange={handleCouncilChange}
+        aria-label="Select your council"
+        autoComplete="on"
       >
         <option value="select">Select your council</option>
         {councilOptions.map((councilKey) => (

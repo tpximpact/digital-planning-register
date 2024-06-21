@@ -28,14 +28,18 @@ const Header = ({ currentPath }: { currentPath: string }) => {
             <Link
               href={`/${council}`}
               className="govuk-header__link govuk-header__link--homepage"
+              aria-label={`${name} application search page`}
             >
               {logoPath ? (
-                <Image
-                  src={`/images/logos/${logo}`}
-                  alt={`${name} Logo`}
-                  width={148}
-                  height={31}
-                />
+                <>
+                  <Image
+                    src={`/images/logos/${logo}`}
+                    alt={`${name} Logo`}
+                    width={148}
+                    height={31}
+                  />
+                  <span className="govuk-visually-hidden">{name}</span>
+                </>
               ) : (
                 <span>{name}</span>
               )}
@@ -62,15 +66,11 @@ const Header = ({ currentPath }: { currentPath: string }) => {
         </button>
       </div>
       {isExtended && (
-        <div className="menu" id="navigation" aria-labelledby="menu-toggle">
+        <div className="menu" id="navigation" aria-label="Navigation Menu">
           <Menu currentPath={currentPath} council={name} />
         </div>
       )}
-      <div
-        className="menu-desktop"
-        id="navigation"
-        aria-labelledby="menu-toggle"
-      >
+      <div className="menu-desktop" id="navigation-desktop">
         <Menu currentPath={currentPath} council={name} />
       </div>
     </header>

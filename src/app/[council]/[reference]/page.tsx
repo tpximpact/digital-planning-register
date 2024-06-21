@@ -8,9 +8,10 @@ import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
-import { ApplicationComment } from "../../../../util/type";
+import { ApplicationComment, Config } from "../../../../util/type";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "@/app/not-found";
+import config from "../../../../util/config.json";
 
 type Props = { reference: string; council: string };
 type Params = { params: Props };
@@ -61,6 +62,10 @@ export default async function Application({ params }: Params) {
 
   const consulteeComments = sortComments(data?.consultee_comments);
   const publishedComments = sortComments(data?.published_comments);
+  const councilConfig: Config = config;
+
+  const publicComments = councilConfig[council]?.publicComments;
+  const specialistComments = councilConfig[council]?.specialistComments;
 
   return (
     <>
@@ -76,28 +81,32 @@ export default async function Application({ params }: Params) {
           council={council}
         />
         <ApplicationPeople {...data} />
-        <ApplicationComments
-          {...data}
-          council={council}
-          reference={reference}
-          maxDisplayComments={3}
-          showViewAllButton={true}
-          type="consultee"
-          comments={consulteeComments}
-          currentPage={0}
-          totalComments={consulteeComments.length}
-        />
-        <ApplicationComments
-          {...data}
-          council={council}
-          reference={reference}
-          maxDisplayComments={3}
-          showViewAllButton={true}
-          type="published"
-          comments={publishedComments}
-          currentPage={0}
-          totalComments={publishedComments.length}
-        />
+        {specialistComments && (
+          <ApplicationComments
+            {...data}
+            council={council}
+            reference={reference}
+            maxDisplayComments={3}
+            showViewAllButton={true}
+            type="consultee"
+            comments={consulteeComments}
+            currentPage={0}
+            totalComments={consulteeComments.length}
+          />
+        )}
+        {publicComments && (
+          <ApplicationComments
+            {...data}
+            council={council}
+            reference={reference}
+            maxDisplayComments={3}
+            showViewAllButton={true}
+            type="published"
+            comments={publishedComments}
+            currentPage={0}
+            totalComments={publishedComments.length}
+          />
+        )}
         {/* <ApplicationConstraints /> */}
       </div>
     </>
