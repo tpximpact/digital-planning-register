@@ -1,4 +1,3 @@
-"use server";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentiment from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
@@ -9,15 +8,24 @@ import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
 import { getApplicationByReference } from "@/actions";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
-type Props = { reference: string; council: string };
+type Props = {
+  params: { reference: string; council: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-async function fetchData(params: Props) {
-  const { reference, council } = params;
+async function fetchData({
+  reference,
+  council,
+}: {
+  reference: string;
+  council: string;
+}) {
   const data = await getApplicationByReference(reference, council);
-
   return data;
 }
 
@@ -42,32 +50,59 @@ export async function generateMetadata({
   };
 }
 
-const Comment = async ({
-  params,
-  searchParams,
-}: {
-  params: { reference: string; council: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) => {
-  const { reference, council } = params;
-  const data = await fetchData({ reference, council });
-  const page = parseInt(searchParams?.page as string) || 0;
+const Comment = async ({ params, searchParams }: Props) => {
+  let { reference, council } = params;
 
+  if (!reference) reference = cookies().get("reference")?.value || "";
+  if (!council) council = cookies().get("council")?.value || "";
+  if (!reference || !council) {
+    redirect("/");
+  }
+
+  const page = parseInt((searchParams.page as string) || "0");
+
+  const data = await fetchData({ reference, council });
   const feedbackPage = () => {
     switch (page) {
       case 0:
-        return <PreSubmission council={council} reference={reference} />;
+        return (
+          <PreSubmission
+            council={council}
+            reference={reference}
+            applicationId={data.id}
+          />
+        );
       case 1:
-        return <CommentSentiment council={council} reference={reference} />;
+        return (
+          <CommentSentiment
+            council={council}
+            reference={reference}
+            applicationId={data.id}
+          />
+        );
       case 2:
         return (
-          <CommentTopicSelection council={council} reference={reference} />
+          <CommentTopicSelection
+            council={council}
+            reference={reference}
+            applicationId={data.id}
+          />
         );
       case 3:
-        return <CommentTextEntry council={council} reference={reference} />;
+        return (
+          <CommentTextEntry
+            council={council}
+            reference={reference}
+            applicationId={data.id}
+          />
+        );
       case 4:
         return (
-          <CommentPersonalDetails council={council} reference={reference} />
+          <CommentPersonalDetails
+            council={council}
+            reference={reference}
+            applicationId={data.id}
+          />
         );
       case 5:
         return (

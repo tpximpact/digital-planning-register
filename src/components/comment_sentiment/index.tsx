@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-"use server";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const CommentSentiment = async ({
   council,
   reference,
+  applicationId,
 }: {
   council: string;
   reference: string;
+  applicationId: number;
 }) => {
   const sentiment = cookies().get("sentiment")?.value;
   const validationError = cookies().get("validationError")?.value === "true";
@@ -17,21 +17,12 @@ const CommentSentiment = async ({
   return (
     <>
       <form
-        action={async (formData) => {
-          "use server";
-          const selectedSentiment = formData.get("sentiment") as string;
-
-          if (!selectedSentiment) {
-            cookies().set("validationError", "true");
-            redirect(`/${council}/${reference}/submit-comment?page=1`);
-          } else {
-            cookies().set("sentiment", selectedSentiment);
-            cookies().delete("validationError");
-            redirect(`/${council}/${reference}/submit-comment?page=2`);
-          }
-        }}
+        action={`/${council}/${reference}/submit-comment-redirect?page=1`}
+        method="POST"
       >
         <input type="hidden" name="council" value={council} />
+        <input type="hidden" name="reference" value={reference} />{" "}
+        <input type="hidden" name="applicationId" value={applicationId} />
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
           <h1 className="govuk-fieldset__heading">
             How do you feel about this development?

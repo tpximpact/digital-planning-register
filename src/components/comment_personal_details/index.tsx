@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-"use server";
 import { redirect } from "next/navigation";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
@@ -9,9 +8,11 @@ import { Config } from "../../../util/type";
 const CommentPersonalDetails = async ({
   council,
   reference,
+  applicationId,
 }: {
   council: string;
   reference: string;
+  applicationId: number;
 }) => {
   const councilConfig: Config = config;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
@@ -19,49 +20,6 @@ const CommentPersonalDetails = async ({
   const planningServicePrivacyStatement =
     councilConfig[council]?.planning_service_privacy_statement;
 
-  async function handleSubmit(formData: FormData) {
-    "use server";
-    const name = formData.get("name");
-    const address = formData.get("address");
-    const postcode = formData.get("postcode");
-    const emailAddress = formData.get("email-address");
-    const telephoneNumber = formData.get("telephone-number");
-    const consent = formData.get("consent");
-
-    if (
-      typeof name !== "string" ||
-      typeof address !== "string" ||
-      typeof postcode !== "string" ||
-      typeof emailAddress !== "string" ||
-      typeof telephoneNumber !== "string"
-    ) {
-      throw new Error("Invalid form data");
-    }
-    const errors: { [key: string]: boolean } = {
-      name: !name,
-      address: !address,
-      postcode: !postcode,
-      consent: !consent,
-    };
-
-    if (Object.values(errors).some((error) => error)) {
-      cookies().set("validationErrors", JSON.stringify(errors));
-      redirect(`/${council}/${reference}/submit-comment?page=4`);
-    }
-
-    const personalDetails = {
-      name,
-      address,
-      postcode,
-      emailAddress,
-      telephoneNumber,
-      consent,
-    };
-
-    cookies().set("personalDetails", JSON.stringify(personalDetails));
-    cookies().delete("validationErrors");
-    redirect(`/${council}/${reference}/submit-comment?page=5`);
-  }
   const personalDetailsCookie = cookies().get("personalDetails")?.value;
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
@@ -73,7 +31,13 @@ const CommentPersonalDetails = async ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <h1 className="govuk-heading-l">Your details</h1>
-        <form action={handleSubmit}>
+        <form
+          action={`/${council}/${reference}/submit-comment-redirect?page=4`}
+          method="POST"
+        >
+          <input type="hidden" name="council" value={council} />
+          <input type="hidden" name="reference" value={reference} />{" "}
+          <input type="hidden" name="applicationId" value={applicationId} />
           <div
             className={`govuk-form-group ${
               validationErrors.name ? "govuk-form-group--error" : ""

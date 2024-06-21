@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-"use server";
 import Map from "../map";
 import { BoundaryGeojson } from "../../../util/type";
 import { cookies } from "next/headers";
@@ -75,12 +74,7 @@ const CommentConfirmation = async ({
         your area, you can view all currently active applications and provide
         comments on them.
       </p>
-      <form
-        action={async () => {
-          "use server";
-          redirect(`/${council}`);
-        }}
-      >
+      <form action={`/${council}`} method="POST">
         <button
           type="submit"
           role="button"

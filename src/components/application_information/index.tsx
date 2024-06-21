@@ -19,7 +19,8 @@ type ApplicationInfo = {
   boundary_geojson: BoundaryGeojson;
   description: string;
   in_assessment_at: string;
-  council: { council: string };
+  council: string;
+  id: number;
 };
 
 const ApplicationInformation = ({
@@ -35,6 +36,7 @@ const ApplicationInformation = ({
   description,
   in_assessment_at,
   council,
+  id,
 }: ApplicationInfo) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -52,16 +54,6 @@ const ApplicationInformation = ({
     }
   }
 
-  const actionHandler = async (
-    council: any,
-    reference: string,
-    _formData: FormData,
-  ) => {
-    "use server";
-    cookies().set("reference", reference);
-    redirect(`/${council}/${reference}/submit-comment`);
-  };
-  const updateActionHandler = actionHandler.bind(null, council, reference);
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -200,7 +192,11 @@ const ApplicationInformation = ({
       </p>
       <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
         <div className="govuk-grid-column-full">
-          <ButtonDetails actionHandler={updateActionHandler} />
+          <ButtonDetails
+            council={council}
+            reference={reference}
+            applicationId={id}
+          />
           {/* <a
             href={`/${council}/comment`}
             role="button"

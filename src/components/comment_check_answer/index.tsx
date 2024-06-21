@@ -1,9 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-"use server";
 import config from "../../../util/config.json";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { submitComment } from "@/actions";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "../../../util/type";
 
@@ -48,58 +45,6 @@ export default async function CommentCheckAnswer({
 
   const submissionError = cookies().get("submissionError")?.value === "true";
 
-  const apiData = {
-    name: personalDetails.name,
-    email: personalDetails.emailAddress,
-    address: `${personalDetails.address}, ${personalDetails.postcode}`,
-    response: selectedTopics
-      .map((topic) => {
-        const topicLabel = topics_selection.find(
-          (t) => t.value === topic,
-        )?.label;
-        const comment = commentData[topic];
-        return `* ${topicLabel}: ${comment} `;
-      })
-      .join(" "),
-    summary_tag: sentiment === "opposed" ? "objection" : sentiment,
-    tags: selectedTopics,
-  };
-
-  // Commented out so we don't submit to the API when testing
-  // async function handleSubmit() {
-  //   "use server";
-  //   cookies().delete("submissionError");
-  //   try {
-  //     // once the new api endpoint takes in a reference, we will be able to swap it with the applicationId
-  //     const result = await submitComment(applicationId, council, apiData);
-  //     if (result.status === 200) {
-  //       cookies().delete("sentiment");
-  //       cookies().delete("selectedTopics");
-  //       cookies().delete("commentData");
-  //       cookies().delete("personalDetails");
-  //       cookies().delete("reference");
-  //     } else {
-  //       cookies().set("submissionError", "true");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting the comment", error);
-  //     cookies().set("submissionError", "true");
-  //   }
-  //   redirect(`/${council}/${reference}/submit-comment?page=6`);
-  // }
-
-  // Test handle submit for debugging
-  async function handleSubmit() {
-    "use server";
-    console.log("Form submitted");
-    cookies().delete("submissionError");
-    cookies().delete("sentiment");
-    cookies().delete("selectedTopics");
-    cookies().delete("commentData");
-    cookies().delete("personalDetails");
-    cookies().delete("reference");
-    redirect(`/${council}/${reference}/submit-comment?page=6`);
-  }
   return (
     <>
       <div className="govuk-grid-row">
@@ -138,7 +83,13 @@ export default async function CommentCheckAnswer({
             Check what you have written before sending your comment
           </h1>
 
-          <form action={handleSubmit}>
+          <form
+            action={`/${council}/${reference}/submit-comment-redirect?page=5`}
+            method="POST"
+          >
+            <input type="hidden" name="council" value={council} />
+            <input type="hidden" name="reference" value={reference} />{" "}
+            <input type="hidden" name="applicationId" value={applicationId} />{" "}
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">

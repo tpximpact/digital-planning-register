@@ -125,11 +125,3 @@ export async function submitComment(
     return { status: 500, message: "Internal server error" };
   }
 }
-
-export async function getCookies(value: string) {
-  return cookies().get(value);
-}
-
-export async function deleteCookies(value: string) {
-  return cookies().delete(value);
-}

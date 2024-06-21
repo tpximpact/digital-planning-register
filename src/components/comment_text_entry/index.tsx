@@ -1,4 +1,3 @@
-"use server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -24,9 +23,11 @@ const topics_selection: Topic[] = [
 const CommentTextEntry = async ({
   council,
   reference,
+  applicationId,
 }: {
   council: string;
   reference: string;
+  applicationId: number;
 }) => {
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
@@ -40,40 +41,19 @@ const CommentTextEntry = async ({
     redirect(`/${council}/${reference}/submit-comment?page=2`);
   }
 
-  async function handleSubmit(formData: FormData) {
-    "use server";
-    const comment = formData.get("comment") as string;
-
-    if (!comment) {
-      cookies().set("validationError", "true");
-      redirect(`/${council}/${reference}/submit-comment?page=3`);
-    } else {
-      const existingCommentsValue = cookies().get("commentData")?.value;
-      const existingComments = existingCommentsValue
-        ? JSON.parse(existingCommentsValue)
-        : {};
-
-      existingComments[currentTopic] = comment;
-      cookies().set("commentData", JSON.stringify(existingComments));
-      cookies().delete("validationError");
-
-      if (currentTopicIndex < selectedTopics.length - 1) {
-        cookies().set("currentTopicIndex", (currentTopicIndex + 1).toString());
-        redirect(`/${council}/${reference}/submit-comment?page=3`);
-      } else {
-        cookies().delete("currentTopicIndex");
-        redirect(`/${council}/${reference}/submit-comment?page=4`);
-      }
-    }
-  }
-
   const currentTopicLabel =
     topics_selection.find((t) => t.value === currentTopic)?.label || "";
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <form action={handleSubmit}>
+        <form
+          action={`/${council}/${reference}/submit-comment-redirect?page=3`}
+          method="POST"
+        >
+          <input type="hidden" name="council" value={council} />
+          <input type="hidden" name="reference" value={reference} />{" "}
+          <input type="hidden" name="applicationId" value={applicationId} />{" "}
           <div
             className={`govuk-form-group ${
               validationError ? "govuk-form-group--error" : ""

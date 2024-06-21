@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-"use server";
 import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { cookies } from "next/headers";
@@ -21,29 +20,15 @@ const topics_selection = [
 const CommentTopicSelection = async ({
   council,
   reference,
+  applicationId,
 }: {
   council: string;
   reference: string;
+  applicationId: number;
 }) => {
   const selectedTopics =
     cookies().get("selectedTopics")?.value?.split(",") || [];
   const validationError = cookies().get("validationError")?.value === "true";
-
-  async function handleSubmit(formData: FormData) {
-    "use server";
-    const selectedTopics = topics_selection
-      .filter((topic) => formData.get(topic.value))
-      .map((topic) => topic.value);
-
-    if (selectedTopics.length === 0) {
-      cookies().set("validationError", "true");
-      redirect(`/${council}/${reference}/submit-comment?page=2`);
-    } else {
-      cookies().set("selectedTopics", selectedTopics.join(","));
-      cookies().delete("validationError");
-      redirect(`/${council}/${reference}/submit-comment?page=3`);
-    }
-  }
 
   return (
     <>
@@ -59,7 +44,13 @@ const CommentTopicSelection = async ({
               Help us understand what your comments on this development are
               about. Select all the topics that apply.
             </div>
-            <form action={handleSubmit}>
+            <form
+              action={`/${council}/${reference}/submit-comment-redirect?page=2`}
+              method="POST"
+            >
+              <input type="hidden" name="council" value={council} />
+              <input type="hidden" name="reference" value={reference} />{" "}
+              <input type="hidden" name="applicationId" value={applicationId} />{" "}
               <div
                 className={`govuk-form-group ${
                   validationError ? "govuk-form-group--error" : ""
@@ -84,7 +75,7 @@ const CommentTopicSelection = async ({
                           validationError ? "govuk-input--error" : ""
                         }`}
                         id={topic.value}
-                        name={topic.value}
+                        name="topics"
                         type="checkbox"
                         value={topic.value}
                         defaultChecked={selectedTopics.includes(topic.value)}

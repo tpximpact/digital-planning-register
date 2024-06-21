@@ -9,7 +9,7 @@ type CommentHeaderType = {
   reference: string;
   council: string;
 };
-const CommentHeader = ({
+const CommentHeader = async ({
   boundary_geojson,
   site,
   reference,

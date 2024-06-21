@@ -1,6 +1,20 @@
-const ButtonDetails = ({ actionHandler }: { actionHandler: any }) => {
+const ButtonDetails = ({
+  council,
+  reference,
+  applicationId,
+}: {
+  council: string;
+  reference: string;
+  applicationId: number;
+}) => {
   return (
-    <form action={actionHandler}>
+    <form
+      action={`/${council}/${reference}/submit-comment-redirect?page=0`}
+      method="POST"
+    >
+      <input type="hidden" name="council" value={council} />
+      <input type="hidden" name="reference" value={reference} />
+      <input type="hidden" name="applicationId" value={applicationId} />
       <button
         type="submit"
         role="button"
