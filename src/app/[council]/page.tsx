@@ -235,7 +235,7 @@ export default async function Home({
                                   definedStatus(
                                     application?.application?.status,
                                     application?.application?.consultation
-                                      ?.end_date,
+                                      ?.endDate,
                                   ))}
                             </p>
                           </>
@@ -248,16 +248,18 @@ export default async function Home({
                           <>
                             <h2 className="govuk-heading-s">Received date</h2>
                             <p className="govuk-body">
-                              {`${format(
-                                new Date(application?.received_date),
-                                "dd MMM yyyy",
-                              )}` ||
+                              {(application?.received_date &&
                                 `${format(
-                                  new Date(
-                                    application?.application?.receivedAt,
-                                  ),
+                                  new Date(application?.received_date),
                                   "dd MMM yyyy",
-                                )}`}
+                                )}`) ||
+                                (application?.application?.receivedAt &&
+                                  `${format(
+                                    new Date(
+                                      application?.application?.receivedAt,
+                                    ),
+                                    "dd MMM yyyy",
+                                  )}`)}
                             </p>
                           </>
                         )}
@@ -275,41 +277,69 @@ export default async function Home({
                         </p> */}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        {application?.consultation?.end_date && (
+                        {(application?.consultation?.end_date ||
+                          application?.application?.consultation?.endDate) && (
                           <>
                             <h2 className="govuk-heading-s">
                               Consultation End Date
                             </h2>
                             <p className="govuk-body">
-                              {format(
-                                new Date(application?.consultation?.end_date),
-                                "dd MMM yyyy",
-                              )}
+                              {(application?.consultation?.end_date &&
+                                format(
+                                  new Date(application?.consultation?.end_date),
+                                  "dd MMM yyyy",
+                                )) ||
+                                (application?.application?.consultation
+                                  ?.endDate &&
+                                  format(
+                                    new Date(
+                                      application?.application?.consultation?.endDate,
+                                    ),
+                                    "dd MMM yyyy",
+                                  ))}
                             </p>
                           </>
                         )}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        {application?.determination_date && (
+                        {(application?.determination_date ||
+                          application?.application?.determinedAt) && (
                           <>
                             <h2 className="govuk-heading-s">Decision Date</h2>
                             <p className="govuk-body">
-                              {format(
-                                new Date(application?.determination_date),
-                                "dd MMM yyyy",
-                              )}
+                              {(application?.determination_date &&
+                                format(
+                                  new Date(application?.determination_date),
+                                  "dd MMM yyyy",
+                                )) ||
+                                (application?.application?.determinedAt &&
+                                  format(
+                                    new Date(
+                                      application?.application?.determinedAt,
+                                    ),
+                                    "dd MMM yyyy",
+                                  ))}
                             </p>
                           </>
                         )}
                       </div>
-                      <div>
-                        {application?.decision && (
+                      <div className="govuk-grid-column-one-third">
+                        {(application?.decision ||
+                          application?.application?.decision) && (
                           <>
                             <h2 className="govuk-heading-s">Decision</h2>
                             <p className="govuk-body">
-                              {capitaliseWord(
-                                application?.decision.replace(/_/g, " "),
-                              )}
+                              {(application?.decision &&
+                                capitaliseWord(
+                                  application?.decision.replace(/_/g, " "),
+                                )) ||
+                                (application?.application?.decision &&
+                                  capitaliseWord(
+                                    application?.application?.decision.replace(
+                                      /_/g,
+                                      " ",
+                                    ),
+                                  ))}
                             </p>
                           </>
                         )}
