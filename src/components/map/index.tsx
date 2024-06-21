@@ -18,6 +18,7 @@ interface MapProps {
   geojsonData?: string;
   showScale?: boolean;
   page?: string;
+  staticMode?: boolean;
   ariaLabelOlFixedOverlay?: string;
   osCopyright?: string;
 }
@@ -30,6 +31,7 @@ const Map: React.FC<MapProps> = ({
   geojsonData = "",
   showScale = true,
   page = "",
+  staticMode = false,
   ariaLabelOlFixedOverlay = "An interactive map",
   osCopyright = "© Crown copyright and database rights 2024 OS (0)100024857",
 }) => {
@@ -68,6 +70,7 @@ const Map: React.FC<MapProps> = ({
       <my-map
         role="application"
         zoom="14"
+        {...(staticMode ? { staticMode } : {})}
         geojsonColor={geojsonColor}
         geojsonBuffer={geojsonBuffer}
         hideResetControl={hideResetControl}
