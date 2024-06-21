@@ -1,8 +1,9 @@
 import Link from "next/link";
 import config from "../../../util/config.json";
+import { Config } from "../../../util/type";
 
 const NoResult = ({ council }: { council: string }) => {
-  const configCouncil = config as any;
+  const configCouncil: Config = config;
   const getInTouchURL =
     configCouncil[council]?.contact || "https://www.gov.uk/";
 

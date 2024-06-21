@@ -68,7 +68,6 @@
   display: none;
 }
 
-
 @media (max-width: 768px) {
   .menu-button {
     display: block;
@@ -79,7 +78,6 @@
   .menu {
     display: block;
   }
-  
 }
 
 @media (scripting: none) {
@@ -92,13 +90,12 @@
 }
 
 @media (min-width: 769px) {
-.govuk-header__menu-button {
-  display: none;
-}
+  .govuk-header__menu-button {
+    display: none;
+  }
   .menu-button {
     display: none;
   }
-
 }
 
 .council-selection {
@@ -129,10 +126,10 @@
   display: inline;
 }
 
-.js-disabled .js-only {
+.js-only {
   display: none;
 }
 
-.js-disabled .noscript-only {
+.noscript-only {
   display: inline;
 }

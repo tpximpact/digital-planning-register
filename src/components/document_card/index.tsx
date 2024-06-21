@@ -13,10 +13,12 @@ export const DocumentCard = ({
       <div className="govuk-grid-column-one-third">
         <Image
           src={file}
-          alt="File"
+          alt="Document"
           width={130}
           height={160}
           className="file-icon"
+          aria-label="Document"
+          role="img"
         />
       </div>
       <div className="govuk-grid-column-two-thirds">

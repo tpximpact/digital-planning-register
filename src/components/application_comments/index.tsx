@@ -1,6 +1,6 @@
 // /path/to/ApplicationComments.tsx
 import React from "react";
-import { ApplicationComment, Data } from "../../../util/type";
+import { ApplicationComment, Config, Data } from "../../../util/type";
 import { CommentCard } from "../comment_card";
 import config from "../../../util/config.json";
 
@@ -60,9 +60,10 @@ const ApplicationComments = ({
   council,
 }: ApplicationCommentsProps) => {
   const displayedComments = comments.slice(0, maxDisplayComments);
-  const councilConfig = config as any;
-  const publicComments = councilConfig[council]?.publicComments;
-  const specialistComments = councilConfig[council]?.specialistComments;
+  const councilConfig: Config = config;
+  const publicComments = councilConfig[council]?.publicComments ?? false;
+  const specialistComments =
+    councilConfig[council]?.specialistComments ?? false;
 
   const commentTypeLabel =
     type === "consultee" ? "professional consultee" : "neighbour";
@@ -74,9 +75,9 @@ const ApplicationComments = ({
 
   return (
     <>
-      <h2 className="govuk-heading-l">
+      <h1 className="govuk-heading-l">
         {getTitle(type, publicComments, specialistComments)}
-      </h2>
+      </h1>
       {comments.length > 0 &&
       ((type === "consultee" && specialistComments) ||
         (type === "published" && publicComments)) ? (
