@@ -33,6 +33,8 @@ const CommentCheckAnswer = async ({
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
   const planningServicePrivacyStatement =
     councilConfig[council]?.planning_service_privacy_statement;
+  const getInTouchURL =
+    councilConfig[council]?.contact || "https://www.gov.uk/";
 
   // Retrieve all cookies
   const sentimentCookie = await getCookie("sentiment", reference);
@@ -75,7 +77,15 @@ const CommentCheckAnswer = async ({
                     </li>
                     <li>
                       <div>
-                        Please try again later, or contact your council.
+                        Please try again later, or{" "}
+                        <a
+                          className="govuk-link govuk-link--no-visited-state"
+                          href={getInTouchURL}
+                          target="_blank"
+                        >
+                          contact your council
+                        </a>
+                        .
                       </div>
                     </li>
                   </ul>
