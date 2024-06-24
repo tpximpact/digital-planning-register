@@ -12,6 +12,7 @@ import { notFound, redirect } from "next/navigation";
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
+import NotFound from "@/app/not-found";
 
 type Props = {
   params: { reference: string; council: string };
@@ -39,7 +40,7 @@ const componentMap: { [key: number]: React.ComponentType<ComponentProps> } = {
 function renderComponent(page: number, props: ComponentProps) {
   const Component = componentMap[page];
   if (!Component) {
-    return null;
+    return <NotFound params={props} />;
   }
   return <Component {...props} />;
 }
@@ -98,7 +99,7 @@ const Comment = async ({ params, searchParams }: Props) => {
 
   const getBackLinkHref = () => {
     if (page === 0) {
-      return "/";
+      return `/${council}/${reference}/`;
     } else if (page === 6) {
       return `/${council}/${reference}/submit-comment?page=5`;
     } else {
@@ -108,18 +109,22 @@ const Comment = async ({ params, searchParams }: Props) => {
 
   return (
     <>
-      <BackLink href={getBackLinkHref()} />
-      <div className="govuk-main-wrapper">
-        {page > 0 && page < 6 && (
-          <CommentHeader
-            reference={reference}
-            boundary_geojson={data?.boundary_geojson}
-            site={data?.site}
-            council={council}
-          />
-        )}
-        {renderComponent(page, componentProps)}
-      </div>
+      {page < 6 && (
+        <>
+          <BackLink href={getBackLinkHref()} />
+          {page > 0 && page < 6 && (
+            <div className="govuk-main-wrapper">
+              <CommentHeader
+                reference={reference}
+                boundary_geojson={data?.boundary_geojson}
+                site={data?.site}
+                council={council}
+              />
+            </div>
+          )}
+        </>
+      )}
+      {renderComponent(page, componentProps)}
     </>
   );
 };
