@@ -1,30 +1,42 @@
-/* eslint-disable react/no-unescaped-entities */
 import { getCookie } from "@/actions";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
-import { cookies } from "next/headers";
 
 const CommentSentiment = async ({
   council,
   reference,
   applicationId,
+  searchParams,
 }: {
   council: string;
   reference: string;
   applicationId: number;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const sentiment = await getCookie("sentiment", reference);
-
   const validationErrorCookie = await getCookie("validationError", reference);
   const validationError = validationErrorCookie === "true";
+  const isEditing = searchParams.edit === "true";
+
+  const options = [
+    { id: "opposed", label: "Opposed", Icon: OpposedIcon, color: "#AA2A16" },
+    { id: "neutral", label: "Neutral", Icon: NeutralIcon, color: "#1D70B8" },
+    { id: "support", label: "Support", Icon: SupportIcon, color: "#00703C" },
+  ];
+
   return (
     <>
       <form
-        action={`/${council}/${reference}/submit-comment-redirect?page=1`}
+        action={`/${council}/${reference}/submit-comment-redirect?page=1${isEditing ? "&edit=true" : ""}`}
         method="POST"
       >
         <input type="hidden" name="council" value={council} />
-        <input type="hidden" name="reference" value={reference} />{" "}
+        <input type="hidden" name="reference" value={reference} />
         <input type="hidden" name="applicationId" value={applicationId} />
+        <input
+          type="hidden"
+          name="isEditing"
+          value={isEditing ? "true" : "false"}
+        />
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
           <h1 className="govuk-fieldset__heading">
             How do you feel about this development?
@@ -42,60 +54,32 @@ const CommentSentiment = async ({
           }`}
           data-module="govuk-radios"
         >
-          <div className="govuk-radios__item">
-            <input
-              className={`govuk-radios__input ${
-                validationError ? "govuk-input--error" : ""
-              }`}
-              id="sentiment-opposed"
-              name="sentiment"
-              type="radio"
-              value="opposed"
-              defaultChecked={sentiment === "opposed"}
-            />
-            <label className="govuk-label" htmlFor="sentiment-opposed">
-              <OpposedIcon
-                color={sentiment === "opposed" ? "#AA2A16" : "transparent"}
-              />
-              <span className="govuk-body">Opposed</span>
-            </label>
-          </div>
-          <div className="govuk-radios__item">
-            <input
-              className={`govuk-radios__input ${
-                validationError ? "govuk-input--error" : ""
-              }`}
-              id="sentiment-neutral"
-              name="sentiment"
-              type="radio"
-              value="neutral"
-              defaultChecked={sentiment === "neutral"}
-            />
-            <label className="govuk-label" htmlFor="sentiment-neutral">
-              <NeutralIcon
-                color={sentiment === "neutral" ? "#1D70B8" : "transparent"}
-              />
-              <span className="govuk-body">Neutral</span>
-            </label>
-          </div>
-          <div className="govuk-radios__item">
-            <input
-              className={`govuk-radios__input ${
-                validationError ? "govuk-input--error" : ""
-              }`}
-              id="sentiment-support"
-              name="sentiment"
-              type="radio"
-              value="support"
-              defaultChecked={sentiment === "support"}
-            />
-            <label className="govuk-label" htmlFor="sentiment-support">
-              <SupportIcon
-                color={sentiment === "support" ? "#00703C" : "transparent"}
-              />
-              <span className="govuk-body">Support</span>
-            </label>
-          </div>
+          {options.map((option) => {
+            const isChecked = sentiment === option.id;
+            return (
+              <div key={option.id} className="govuk-radios__item">
+                <input
+                  className={`govuk-radios__input ${
+                    validationError ? "govuk-input--error" : ""
+                  }`}
+                  id={`sentiment-${option.id}`}
+                  name="sentiment"
+                  type="radio"
+                  value={option.id}
+                  defaultChecked={isChecked}
+                />
+                <label
+                  className="govuk-label"
+                  htmlFor={`sentiment-${option.id}`}
+                >
+                  <option.Icon
+                    color={isChecked ? option.color : "transparent"}
+                  />
+                  <span className="govuk-body">{option.label}</span>
+                </label>
+              </div>
+            );
+          })}
         </div>
         <button
           type="submit"

@@ -1,22 +1,35 @@
-import { getCookie } from "@/actions"; // Adjust the import path as necessary
+import { getCookie } from "@/actions";
+import { setTopicIndex } from "@/actions";
 
 const CommentTextEntry = async ({
   council,
   reference,
   applicationId,
+  searchParams,
 }: {
   council: string;
   reference: string;
   applicationId: number;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const topicIndexFromURL = searchParams.topicIndex;
+  const isEditing = searchParams.edit === "true";
+
   const selectedTopicsCookie = await getCookie("selectedTopics", reference);
   const selectedTopics = selectedTopicsCookie?.split(",") || [];
 
-  const currentTopicIndexCookie = await getCookie(
-    "currentTopicIndex",
-    reference,
-  );
-  const currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
+  let currentTopicIndex: number;
+
+  if (topicIndexFromURL !== undefined) {
+    currentTopicIndex = parseInt(topicIndexFromURL as string);
+    await setTopicIndex(reference, currentTopicIndex);
+  } else {
+    const currentTopicIndexCookie = await getCookie(
+      "currentTopicIndex",
+      reference,
+    );
+    currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
+  }
 
   const currentTopic = selectedTopics[currentTopicIndex] || "";
 
@@ -32,7 +45,7 @@ const CommentTextEntry = async ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form
-          action={`/${council}/${reference}/submit-comment-redirect?page=3`}
+          action={`/${council}/${reference}/submit-comment-redirect?page=3&topicIndex=${currentTopicIndex}${isEditing ? "&edit=true" : ""}`}
           method="POST"
         >
           <input type="hidden" name="council" value={council} />
@@ -57,6 +70,13 @@ const CommentTextEntry = async ({
             <div id="comment-hint" className="govuk-hint">
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
+            <input type="hidden" name="topicIndex" value={currentTopicIndex} />
+            <input
+              type="hidden"
+              name="isEditing"
+              value={isEditing ? "true" : "false"}
+            />
+
             <textarea
               className={`govuk-textarea ${
                 validationError ? "govuk-input--error" : ""

@@ -105,7 +105,7 @@ const CommentCheckAnswer = async ({
                 <dd className="govuk-summary-list__actions">
                   <a
                     className="govuk-link"
-                    href={`/${council}/${reference}/submit-comment?page=1`}
+                    href={`/${council}/${reference}/submit-comment?page=1&edit=true`}
                   >
                     Change
                   </a>
@@ -132,7 +132,7 @@ const CommentCheckAnswer = async ({
                 <dd className="govuk-summary-list__actions">
                   <a
                     className="govuk-link"
-                    href={`/${council}/${reference}/submit-comment?page=2`}
+                    href={`/${council}/${reference}/submit-comment?page=2&edit=true`}
                   >
                     Change
                   </a>
@@ -161,7 +161,7 @@ const CommentCheckAnswer = async ({
                     <dd className="govuk-summary-list__actions">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=3`}
+                        href={`/${council}/${reference}/submit-comment?page=3&topicIndex=${index}&edit=true`}
                       >
                         Change
                       </a>
@@ -184,7 +184,7 @@ const CommentCheckAnswer = async ({
                     <li className="govuk-summary-list__actions-list-item">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4`}
+                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
                       >
                         Change
                       </a>
@@ -204,7 +204,7 @@ const CommentCheckAnswer = async ({
                     <li className="govuk-summary-list__actions-list-item">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4`}
+                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
                       >
                         Change
                       </a>
@@ -224,7 +224,7 @@ const CommentCheckAnswer = async ({
                     <li className="govuk-summary-list__actions-list-item">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4`}
+                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
                       >
                         Change
                       </a>
@@ -244,7 +244,7 @@ const CommentCheckAnswer = async ({
                     <li className="govuk-summary-list__actions-list-item">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4`}
+                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
                       >
                         Change
                       </a>
@@ -266,7 +266,7 @@ const CommentCheckAnswer = async ({
                     <li className="govuk-summary-list__actions-list-item">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4`}
+                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
                       >
                         Change
                       </a>

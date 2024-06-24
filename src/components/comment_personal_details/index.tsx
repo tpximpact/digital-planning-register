@@ -10,10 +10,12 @@ const CommentPersonalDetails = async ({
   council,
   reference,
   applicationId,
+  searchParams,
 }: {
   council: string;
   reference: string;
   applicationId: number;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const councilConfig: Config = config;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
@@ -28,6 +30,8 @@ const CommentPersonalDetails = async ({
 
   const errorCookies = await getCookie("validationErrors", reference);
   const validationErrors = errorCookies ? JSON.parse(errorCookies) : {};
+  const isEditing = searchParams.edit === "true";
+  const isConsentChecked = personalDetails.consent === "on";
 
   return (
     <div className="govuk-grid-row">
@@ -40,6 +44,11 @@ const CommentPersonalDetails = async ({
           <input type="hidden" name="council" value={council} />
           <input type="hidden" name="reference" value={reference} />{" "}
           <input type="hidden" name="applicationId" value={applicationId} />
+          <input
+            type="hidden"
+            name="isEditing"
+            value={isEditing ? "true" : "false"}
+          />
           <div
             className={`govuk-form-group ${
               validationErrors.name ? "govuk-form-group--error" : ""
@@ -159,7 +168,7 @@ const CommentPersonalDetails = async ({
                   name="consent"
                   type="checkbox"
                   value="on"
-                  defaultChecked={personalDetails.consent === "on"}
+                  defaultChecked={isConsentChecked}
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"

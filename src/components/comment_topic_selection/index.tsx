@@ -22,16 +22,20 @@ const CommentTopicSelection = async ({
   council,
   reference,
   applicationId,
+  searchParams,
 }: {
   council: string;
   reference: string;
   applicationId: number;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const selectedTopicsCookie = await getCookie("selectedTopics", reference);
   const selectedTopics = selectedTopicsCookie?.split(",") || [];
 
   const validationErrorCookie = await getCookie("validationError", reference);
   const validationError = validationErrorCookie === "true";
+  const isEditing = searchParams.edit === "true";
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -53,6 +57,11 @@ const CommentTopicSelection = async ({
               <input type="hidden" name="council" value={council} />
               <input type="hidden" name="reference" value={reference} />{" "}
               <input type="hidden" name="applicationId" value={applicationId} />{" "}
+              <input
+                type="hidden"
+                name="isEditing"
+                value={isEditing ? "true" : "false"}
+              />
               <div
                 className={`govuk-form-group ${
                   validationError ? "govuk-form-group--error" : ""

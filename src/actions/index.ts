@@ -162,3 +162,7 @@ export async function clearAllCookies(reference: string) {
   ];
   cookiesToClear.forEach((cookie) => deleteCookie(cookie, reference));
 }
+
+export async function setTopicIndex(reference: string, index: number) {
+  setCookie("currentTopicIndex", index.toString(), reference);
+}

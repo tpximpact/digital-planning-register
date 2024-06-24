@@ -4,6 +4,7 @@ import {
   deleteCookie,
   getCookie,
   setCookie,
+  setTopicIndex,
   submitComment,
 } from "@/actions";
 
@@ -31,11 +32,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // Create a FormData object with the applicationId
   const formData = new FormData();
   formData.append("applicationId", applicationId);
 
-  // Use the same logic as handlePresubmissionStep
   return handlePresubmissionStep(council, reference, formData, request);
 }
 
@@ -129,49 +128,92 @@ async function handlePresubmissionStep(
   }
 }
 
-function handleSentimentStep(
+async function handleSentimentStep(
   council: string,
   reference: string,
   formData: FormData,
   request: NextRequest,
 ) {
   const sentiment = formData.get("sentiment") as string;
+  const isEditing = formData.get("isEditing") === "true";
+
   if (sentiment) {
-    setCookie("sentiment", sentiment, reference);
-    deleteCookie("validationError", reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=2`, request.url),
-    );
+    await setCookie("sentiment", sentiment, reference);
+    await deleteCookie("validationError", reference);
+
+    if (isEditing) {
+      // If editing, return to the check answers page
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
+      );
+    } else {
+      // If not editing, continue to the next step
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=2`, request.url),
+      );
+    }
   } else {
-    setCookie("validationError", "true", reference);
+    await setCookie("validationError", "true", reference);
     return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=1`, request.url),
+      new URL(
+        `/${council}/${reference}/submit-comment?page=1${isEditing ? "&edit=true" : ""}`,
+        request.url,
+      ),
     );
   }
 }
 
-function handleTopicsStep(
+async function handleTopicsStep(
   council: string,
   reference: string,
   formData: FormData,
   request: NextRequest,
 ) {
   const selectedTopics = formData.getAll("topics") as string[];
+  const isEditing = formData.get("isEditing") === "true";
+
   if (selectedTopics.length > 0) {
-    deleteCookie("validationError", reference);
-    setCookie("selectedTopics", selectedTopics.join(","), reference);
-    setCookie("currentTopicIndex", "0", reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
-    );
+    await deleteCookie("validationError", reference);
+    await setCookie("selectedTopics", selectedTopics.join(","), reference);
+
+    if (isEditing) {
+      // If editing, we need to handle potential removal of topics
+      const commentDataCookie = await getCookie("commentData", reference);
+      if (commentDataCookie) {
+        const commentData = JSON.parse(commentDataCookie);
+        const updatedCommentData = Object.fromEntries(
+          Object.entries(commentData).filter(([topic]) =>
+            selectedTopics.includes(topic),
+          ),
+        );
+        await setCookie(
+          "commentData",
+          JSON.stringify(updatedCommentData),
+          reference,
+        );
+      }
+
+      // Return to the check answers page
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
+      );
+    } else {
+      // If not editing, continue to the next step
+      await setCookie("currentTopicIndex", "0", reference);
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
+      );
+    }
   } else {
-    setCookie("validationError", "true", reference);
+    await setCookie("validationError", "true", reference);
     return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=2`, request.url),
+      new URL(
+        `/${council}/${reference}/submit-comment?page=2${isEditing ? "&edit=true" : ""}`,
+        request.url,
+      ),
     );
   }
 }
-
 async function handleCommentsStep(
   council: string,
   reference: string,
@@ -179,15 +221,26 @@ async function handleCommentsStep(
   request: NextRequest,
 ) {
   const comment = formData.get("comment") as string;
+  const topicIndex = formData.get("topicIndex");
+  const isEditing = formData.get("isEditing") === "true";
+
   if (comment) {
     await deleteCookie("validationError", reference);
     const selectedTopicsCookie = await getCookie("selectedTopics", reference);
     const selectedTopics = selectedTopicsCookie?.split(",") || [];
-    const currentTopicIndexCookie = await getCookie(
-      "currentTopicIndex",
-      reference,
-    );
-    const currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
+
+    let currentTopicIndex: number;
+
+    if (topicIndex !== null) {
+      currentTopicIndex = parseInt(topicIndex as string);
+    } else {
+      const currentTopicIndexCookie = await getCookie(
+        "currentTopicIndex",
+        reference,
+      );
+      currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
+    }
+
     const currentTopic = selectedTopics[currentTopicIndex];
 
     const existingCommentsValue = await getCookie("commentData", reference);
@@ -196,12 +249,14 @@ async function handleCommentsStep(
       : {};
     existingComments[currentTopic] = comment;
     await setCookie("commentData", JSON.stringify(existingComments), reference);
-    if (currentTopicIndex < selectedTopics.length - 1) {
-      await setCookie(
-        "currentTopicIndex",
-        (currentTopicIndex + 1).toString(),
-        reference,
+
+    if (isEditing) {
+      // If editing, return to the check answers page
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
       );
+    } else if (currentTopicIndex < selectedTopics.length - 1) {
+      await setTopicIndex(reference, currentTopicIndex + 1);
       return NextResponse.redirect(
         new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
       );
@@ -214,12 +269,15 @@ async function handleCommentsStep(
   } else {
     await setCookie("validationError", "true", reference);
     return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
+      new URL(
+        `/${council}/${reference}/submit-comment?page=3${isEditing ? "&edit=true" : ""}`,
+        request.url,
+      ),
     );
   }
 }
 
-function handlePersonalDetailsStep(
+async function handlePersonalDetailsStep(
   council: string,
   reference: string,
   formData: FormData,
@@ -231,26 +289,30 @@ function handlePersonalDetailsStep(
     postcode: formData.get("postcode") as string,
     emailAddress: formData.get("email-address") as string,
     telephoneNumber: formData.get("telephone-number") as string,
-    consent: formData.get("consent") as string,
+    consent: formData.get("consent") === "on" ? "on" : "off",
   };
 
   const errors: { [key: string]: boolean } = {
     name: !personalDetails.name,
     address: !personalDetails.address,
     postcode: !personalDetails.postcode,
-    consent: !personalDetails.consent,
+    consent: personalDetails.consent !== "on",
   };
 
-  setCookie("personalDetails", JSON.stringify(personalDetails), reference);
+  await setCookie(
+    "personalDetails",
+    JSON.stringify(personalDetails),
+    reference,
+  );
 
   if (Object.values(errors).some((error) => error)) {
-    setCookie("validationErrors", JSON.stringify(errors), reference);
+    await setCookie("validationErrors", JSON.stringify(errors), reference);
     return NextResponse.redirect(
       new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
     );
   } else {
-    deleteCookie("validationError", reference);
-    setCookie("personalDetails", JSON.stringify(personalDetails), reference);
+    await deleteCookie("validationErrors", reference);
+    await deleteCookie("validationError", reference);
     return NextResponse.redirect(
       new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
     );

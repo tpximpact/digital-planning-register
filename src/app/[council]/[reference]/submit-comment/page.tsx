@@ -25,6 +25,7 @@ type ComponentProps = {
   applicationId?: number;
   site?: string;
   boundary_geojson?: any;
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 const componentMap: { [key: number]: React.ComponentType<ComponentProps> } = {
@@ -95,6 +96,7 @@ const Comment = async ({ params, searchParams }: Props) => {
     applicationId: data.id,
     site: data?.site,
     boundary_geojson: data?.boundary_geojson,
+    searchParams,
   };
 
   const getBackLinkHref = () => {
