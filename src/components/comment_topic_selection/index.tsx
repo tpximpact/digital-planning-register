@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { cookies } from "next/headers";
+import { getCookie } from "@/actions";
 
 const topics_selection = [
   {
@@ -26,10 +27,11 @@ const CommentTopicSelection = async ({
   reference: string;
   applicationId: number;
 }) => {
-  const selectedTopics =
-    cookies().get("selectedTopics")?.value?.split(",") || [];
-  const validationError = cookies().get("validationError")?.value === "true";
+  const selectedTopicsCookie = await getCookie("selectedTopics", reference);
+  const selectedTopics = selectedTopicsCookie?.split(",") || [];
 
+  const validationErrorCookie = await getCookie("validationError", reference);
+  const validationError = validationErrorCookie === "true";
   return (
     <>
       <div className="govuk-grid-row">

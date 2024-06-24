@@ -9,7 +9,7 @@ const ButtonDetails = ({
 }) => {
   return (
     <form
-      action={`/${council}/${reference}/submit-comment-redirect?page=0`}
+      action={`/${council}/${reference}/submit-comment?page=0`}
       method="POST"
     >
       <input type="hidden" name="council" value={council} />

@@ -4,6 +4,7 @@ import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { cookies } from "next/headers";
 import { Config } from "../../../util/type";
+import { getCookie } from "@/actions";
 
 const CommentPersonalDetails = async ({
   council,
@@ -20,11 +21,12 @@ const CommentPersonalDetails = async ({
   const planningServicePrivacyStatement =
     councilConfig[council]?.planning_service_privacy_statement;
 
-  const personalDetailsCookie = cookies().get("personalDetails")?.value;
+  const personalDetailsCookie = await getCookie("personalDetails", reference);
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
     : {};
-  const errorCookies = cookies().get("validationErrors")?.value;
+
+  const errorCookies = await getCookie("validationErrors", reference);
   const validationErrors = errorCookies ? JSON.parse(errorCookies) : {};
 
   return (

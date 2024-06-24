@@ -18,6 +18,31 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
+type ComponentProps = {
+  council: string;
+  reference: string;
+  applicationId?: number;
+  site?: string;
+  boundary_geojson?: any;
+};
+
+const componentMap: { [key: number]: React.ComponentType<ComponentProps> } = {
+  0: PreSubmission as React.ComponentType<ComponentProps>,
+  1: CommentSentiment as React.ComponentType<ComponentProps>,
+  2: CommentTopicSelection as React.ComponentType<ComponentProps>,
+  3: CommentTextEntry as React.ComponentType<ComponentProps>,
+  4: CommentPersonalDetails as React.ComponentType<ComponentProps>,
+  5: CommentCheckAnswer as React.ComponentType<ComponentProps>,
+  6: CommentConfirmation as React.ComponentType<ComponentProps>,
+};
+
+function renderComponent(page: number, props: ComponentProps) {
+  const Component = componentMap[page];
+  if (!Component) {
+    return null;
+  }
+  return <Component {...props} />;
+}
 async function fetchData({
   reference,
   council,
@@ -62,67 +87,13 @@ const Comment = async ({ params, searchParams }: Props) => {
   const page = parseInt((searchParams.page as string) || "0");
 
   const data = await fetchData({ reference, council });
-  const feedbackPage = () => {
-    switch (page) {
-      case 0:
-        return (
-          <PreSubmission
-            council={council}
-            reference={reference}
-            applicationId={data.id}
-          />
-        );
-      case 1:
-        return (
-          <CommentSentiment
-            council={council}
-            reference={reference}
-            applicationId={data.id}
-          />
-        );
-      case 2:
-        return (
-          <CommentTopicSelection
-            council={council}
-            reference={reference}
-            applicationId={data.id}
-          />
-        );
-      case 3:
-        return (
-          <CommentTextEntry
-            council={council}
-            reference={reference}
-            applicationId={data.id}
-          />
-        );
-      case 4:
-        return (
-          <CommentPersonalDetails
-            council={council}
-            reference={reference}
-            applicationId={data.id}
-          />
-        );
-      case 5:
-        return (
-          <CommentCheckAnswer
-            council={council}
-            // once the submit comment endpoint takes in the reference, we will be able to remove the id
-            applicationId={data.id}
-            reference={reference}
-          />
-        );
-      case 6:
-        return (
-          <CommentConfirmation
-            reference={reference}
-            site={data?.site}
-            council={council}
-            boundary_geojson={data?.boundary_geojson}
-          />
-        );
-    }
+
+  const componentProps: ComponentProps = {
+    council,
+    reference,
+    applicationId: data.id,
+    site: data?.site,
+    boundary_geojson: data?.boundary_geojson,
   };
 
   const getBackLinkHref = () => {
@@ -147,7 +118,7 @@ const Comment = async ({ params, searchParams }: Props) => {
             council={council}
           />
         )}
-        {feedbackPage()}
+        {renderComponent(page, componentProps)}
       </div>
     </>
   );

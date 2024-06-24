@@ -3,6 +3,7 @@ import config from "../../../util/config.json";
 import { cookies } from "next/headers";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "../../../util/type";
+import { getCookie } from "@/actions";
 
 const topics_selection = [
   {
@@ -18,33 +19,36 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
-export default async function CommentCheckAnswer({
+const CommentCheckAnswer = async ({
   council,
-  applicationId,
   reference,
+  applicationId,
 }: {
   council: string;
-  applicationId: number;
   reference: string;
-}) {
+  applicationId: number;
+}) => {
   const councilConfig: Config = config;
   const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
   const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
   const planningServicePrivacyStatement =
     councilConfig[council]?.planning_service_privacy_statement;
 
-  const sentiment = cookies().get("sentiment")?.value || "";
-  const selectedTopics =
-    cookies().get("selectedTopics")?.value?.split(",") || [];
-  const commentCookie = cookies().get("commentData")?.value;
-  const commentData = commentCookie ? JSON.parse(commentCookie) : {};
-  const personalDetailsCookie = cookies().get("personalDetails")?.value;
+  // Retrieve all cookies
+  const sentimentCookie = await getCookie("sentiment", reference);
+  const selectedTopicsCookie = await getCookie("selectedTopics", reference);
+  const commentDataCookie = await getCookie("commentData", reference);
+  const personalDetailsCookie = await getCookie("personalDetails", reference);
+  const submissionErrorCookie = await getCookie("submissionError", reference);
+
+  // Process cookie data
+  const sentiment = sentimentCookie || "";
+  const selectedTopics = selectedTopicsCookie?.split(",") || [];
+  const commentData = commentDataCookie ? JSON.parse(commentDataCookie) : {};
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
     : {};
-
-  const submissionError = cookies().get("submissionError")?.value === "true";
-
+  const submissionError = submissionErrorCookie === "true";
   return (
     <>
       <div className="govuk-grid-row">
@@ -348,4 +352,6 @@ export default async function CommentCheckAnswer({
       </div>
     </>
   );
-}
+};
+
+export default CommentCheckAnswer;

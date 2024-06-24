@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { getCookie } from "@/actions";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { cookies } from "next/headers";
 
@@ -11,9 +12,10 @@ const CommentSentiment = async ({
   reference: string;
   applicationId: number;
 }) => {
-  const sentiment = cookies().get("sentiment")?.value;
-  const validationError = cookies().get("validationError")?.value === "true";
+  const sentiment = await getCookie("sentiment", reference);
 
+  const validationErrorCookie = await getCookie("validationError", reference);
+  const validationError = validationErrorCookie === "true";
   return (
     <>
       <form
