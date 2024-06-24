@@ -107,7 +107,7 @@ const CommentPersonalDetails = async ({
             </label>
             {validationErrors.postcode && (
               <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Your
+                <span className="govuk-visually-hidden">Error:</span> A valid
                 postcode is required
               </p>
             )}
@@ -134,13 +134,21 @@ const CommentPersonalDetails = async ({
               defaultValue={personalDetails.emailAddress || ""}
             />
           </div>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
+          >
             <label className="govuk-label" htmlFor="telephone-number">
               Telephone number
             </label>
             <div className="govuk-hint">Optional</div>
+            {validationErrors.telephoneNumber && (
+              <p id="form-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span>A valid
+                telephone number is required
+              </p>
+            )}
             <input
-              className="govuk-input govuk-input--width-20"
+              className={`govuk-input govuk-input--width-20 ${validationErrors.telephoneNumber ? "govuk-input--error" : ""}`}
               id="telephone-number"
               name="telephone-number"
               type="text"

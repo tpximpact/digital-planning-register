@@ -7,6 +7,12 @@ import {
   setTopicIndex,
   submitComment,
 } from "@/actions";
+import {
+  phoneRegex,
+  phoneValidation,
+  postCodeRegex,
+  postcodeValidation,
+} from "../../../../../util/validation";
 
 const topics_selection = [
   {
@@ -295,7 +301,8 @@ async function handlePersonalDetailsStep(
   const errors: { [key: string]: boolean } = {
     name: !personalDetails.name,
     address: !personalDetails.address,
-    postcode: !personalDetails.postcode,
+    postcode: !postcodeValidation(personalDetails.postcode),
+    telephoneNumber: !phoneValidation(personalDetails.telephoneNumber),
     consent: personalDetails.consent !== "on",
   };
 
