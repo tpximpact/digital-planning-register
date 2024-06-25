@@ -10,10 +10,15 @@ const DescriptionCard = ({ description }: any) => {
     const checkOverflow = () => {
       const current = commentContainerRef.current;
       if (current) {
-        const isOverflow = current.scrollHeight > 250;
+        const getMap =
+          document.querySelectorAll('[role="region"]')[0].clientHeight;
+        const isOverflow = current.scrollHeight > getMap;
         if (isOverflow) {
           setNewDescription(
-            current?.textContent?.slice(0, 350).trim().concat(`...`),
+            current?.textContent
+              ?.slice(0, getMap > 250 ? 640 : 350)
+              .trim()
+              .concat(`...`),
           );
           setContinuedText(
             <span style={{ fontStyle: "italic" }}>(continued)</span>,
