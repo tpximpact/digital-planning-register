@@ -28,8 +28,8 @@ const CommentPersonalDetails = async ({
     ? JSON.parse(personalDetailsCookie)
     : {};
 
-  const errorCookies = await getCookie("validationErrors", reference);
-  const validationErrors = errorCookies ? JSON.parse(errorCookies) : {};
+  const errorCookies = await getCookie("validationError", reference);
+  const validationError = errorCookies ? JSON.parse(errorCookies) : {};
   const isEditing = searchParams.edit === "true";
   const isConsentChecked = personalDetails.consent === "on";
 
@@ -51,13 +51,13 @@ const CommentPersonalDetails = async ({
           />
           <div
             className={`govuk-form-group ${
-              validationErrors.name ? "govuk-form-group--error" : ""
+              validationError.name ? "govuk-form-group--error" : ""
             }`}
           >
             <label className="govuk-label" htmlFor="name">
               Name
             </label>
-            {validationErrors.name && (
+            {validationError.name && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error:</span> Your name
                 is required
@@ -65,7 +65,7 @@ const CommentPersonalDetails = async ({
             )}
             <input
               className={`govuk-input govuk-input--width-20 ${
-                validationErrors.name ? "govuk-input--error" : ""
+                validationError.name ? "govuk-input--error" : ""
               }`}
               id="name"
               name="name"
@@ -75,13 +75,13 @@ const CommentPersonalDetails = async ({
           </div>
           <div
             className={`govuk-form-group ${
-              validationErrors.address ? "govuk-form-group--error" : ""
+              validationError.address ? "govuk-form-group--error" : ""
             }`}
           >
             <label className="govuk-label" htmlFor="address">
               Address
             </label>
-            {validationErrors.address && (
+            {validationError.address && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error:</span> Your
                 address is required
@@ -89,7 +89,7 @@ const CommentPersonalDetails = async ({
             )}
             <input
               className={`govuk-input govuk-input--width-20 ${
-                validationErrors.address ? "govuk-input--error" : ""
+                validationError.address ? "govuk-input--error" : ""
               }`}
               id="address"
               name="address"
@@ -99,13 +99,13 @@ const CommentPersonalDetails = async ({
           </div>
           <div
             className={`govuk-form-group ${
-              validationErrors.postcode ? "govuk-form-group--error" : ""
+              validationError.postcode ? "govuk-form-group--error" : ""
             }`}
           >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
             </label>
-            {validationErrors.postcode && (
+            {validationError.postcode && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error:</span> A valid
                 postcode is required
@@ -113,7 +113,7 @@ const CommentPersonalDetails = async ({
             )}
             <input
               className={`govuk-input govuk-input--width-10 ${
-                validationErrors.postcode ? "govuk-input--error" : ""
+                validationError.postcode ? "govuk-input--error" : ""
               }`}
               id="postcode"
               name="postcode"
@@ -135,20 +135,20 @@ const CommentPersonalDetails = async ({
             />
           </div>
           <div
-            className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationError.telephoneNumber ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="telephone-number">
               Telephone number
             </label>
             <div className="govuk-hint">Optional</div>
-            {validationErrors.telephoneNumber && (
+            {validationError.telephoneNumber && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error:</span>A valid
                 telephone number is required
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.telephoneNumber ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${validationError.telephoneNumber ? "govuk-input--error" : ""}`}
               id="telephone-number"
               name="telephone-number"
               type="text"
@@ -157,10 +157,10 @@ const CommentPersonalDetails = async ({
           </div>
           <div
             className={`govuk-form-group ${
-              validationErrors.consent ? "govuk-form-group--error" : ""
+              validationError.consent ? "govuk-form-group--error" : ""
             }`}
           >
-            {validationErrors.consent && (
+            {validationError.consent && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error: </span> You need
                 to consent
@@ -170,7 +170,7 @@ const CommentPersonalDetails = async ({
               <div className="govuk-checkboxes__item">
                 <input
                   className={`govuk-checkboxes__input ${
-                    validationErrors.consent ? "govuk-input--error" : ""
+                    validationError.consent ? "govuk-input--error" : ""
                   }`}
                   id="consent"
                   name="consent"

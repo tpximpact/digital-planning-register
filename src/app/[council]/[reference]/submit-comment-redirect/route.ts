@@ -313,12 +313,12 @@ async function handlePersonalDetailsStep(
   );
 
   if (Object.values(errors).some((error) => error)) {
-    await setCookie("validationErrors", JSON.stringify(errors), reference);
+    await setCookie("validationError", JSON.stringify(errors), reference);
     return NextResponse.redirect(
       new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
     );
   } else {
-    await deleteCookie("validationErrors", reference);
+    await deleteCookie("validationError", reference);
     await deleteCookie("validationError", reference);
     return NextResponse.redirect(
       new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
