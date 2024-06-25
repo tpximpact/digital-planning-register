@@ -4,19 +4,19 @@ import { useRef, useEffect, useState } from "react";
 const DescriptionCard = ({ description }: any) => {
   const commentContainerRef = useRef<HTMLDivElement>(null);
   const [newDescription, setNewDescription] = useState(description);
-  const [isOverflow, setIsOverflow] = useState(false);
-  const continuedText = (
-    <span style={{ fontStyle: "italic" }}>(continued)</span>
-  );
+  const [continuedText, setContinuedText] = useState<any>();
+
   useEffect(() => {
     const checkOverflow = () => {
       const current = commentContainerRef.current;
       if (current) {
-        const isOverflow = current.scrollHeight > 25 * 16;
-        setIsOverflow(isOverflow);
+        const isOverflow = current.scrollHeight > 250;
         if (isOverflow) {
           setNewDescription(
             current?.textContent?.slice(0, 350).trim().concat(`...`),
+          );
+          setContinuedText(
+            <span style={{ fontStyle: "italic" }}>(continued)</span>,
           );
         }
       }
@@ -27,7 +27,7 @@ const DescriptionCard = ({ description }: any) => {
   }, [description]);
   return (
     <p className="govuk-body" ref={commentContainerRef}>
-      {newDescription} {isOverflow ? continuedText : ""}
+      {newDescription} {continuedText}
     </p>
   );
 };
