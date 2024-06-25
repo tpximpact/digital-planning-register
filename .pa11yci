@@ -16,6 +16,18 @@
     "http://localhost:3000/{council}/{reference}",
     "http://localhost:3000/{council}/{reference}/documents",
     "http://localhost:3000/{council}/{reference}/comments",
-    "http://localhost:3000/not-found"
+    "http://localhost:3000/not-found",
+    "http://localhost:3000/{council}/{reference}/submit-comment",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=1",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=2",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=3",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=4",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=5",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=6",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=1&edit=true",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=2&edit=true",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=3&topicIndex=1&edit=true",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=4&edit=true",
+    "http://localhost:3000/{council}/{reference}/submit-comment?page=5&edit=true"
   ]
 }
