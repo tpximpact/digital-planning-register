@@ -22,6 +22,7 @@ type ApplicationInfo = {
   in_assessment_at: string;
   council: string;
   id: number;
+  decision: string;
 };
 
 const ApplicationInformation = ({
