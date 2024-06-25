@@ -20,14 +20,25 @@ const CommentTextEntry = async ({
   let currentTopicIndex: number;
 
   if (topicIndexFromURL !== undefined) {
-    currentTopicIndex = parseInt(topicIndexFromURL as string);
+    currentTopicIndex = Array.isArray(topicIndexFromURL)
+      ? parseInt(topicIndexFromURL[0], 10)
+      : parseInt(topicIndexFromURL, 10);
+
+    if (isNaN(currentTopicIndex)) {
+      currentTopicIndex = 0;
+    }
+
     await setTopicIndex(reference, currentTopicIndex);
   } else {
     const currentTopicIndexCookie = await getCookie(
       "currentTopicIndex",
       reference,
     );
-    currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
+    currentTopicIndex = parseInt(currentTopicIndexCookie || "0", 10);
+
+    if (isNaN(currentTopicIndex)) {
+      currentTopicIndex = 0;
+    }
   }
 
   const currentTopic = selectedTopics[currentTopicIndex] || "";
@@ -44,7 +55,7 @@ const CommentTextEntry = async ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form
-          action={`/${council}/${reference}/submit-comment-redirect?page=3${isEditing ? "&edit=true" : ""}`}
+          action={`/${council}/${reference}/submit-comment-redirect?page=3&topicIndex=${currentTopicIndex}${isEditing ? "&edit=true" : ""}`}
           method="POST"
         >
           <input type="hidden" name="council" value={council} />

@@ -99,11 +99,26 @@ const Comment = async ({ params, searchParams }: Props) => {
     searchParams,
   };
 
-  const getBackLinkHref = () => {
+  const getBackLinkHref = (searchParams: {
+    [key: string]: string | string[] | undefined;
+  }) => {
     if (page === 0) {
       return `/${council}/${reference}/`;
     } else if (page === 6) {
       return `/${council}/${reference}/submit-comment?page=5`;
+    } else if (page === 3) {
+      // Comment entry page (use the topicIndex to navigate through selected topics)
+      const topicIndexParam = searchParams.topicIndex;
+      const currentTopicIndex =
+        typeof topicIndexParam === "string"
+          ? parseInt(topicIndexParam || "0", 10)
+          : 0;
+
+      if (currentTopicIndex > 0) {
+        return `/${council}/${reference}/submit-comment?page=3&topicIndex=${currentTopicIndex - 1}`;
+      } else {
+        return `/${council}/${reference}/submit-comment?page=2`;
+      }
     } else {
       return `/${council}/${reference}/submit-comment?page=${page - 1}`;
     }
@@ -113,7 +128,7 @@ const Comment = async ({ params, searchParams }: Props) => {
     <>
       {page < 6 && (
         <>
-          <BackLink href={getBackLinkHref()} />
+          <BackLink href={getBackLinkHref(searchParams)} />
           {page > 0 && page < 6 && (
             <div className="govuk-main-wrapper">
               <CommentHeader

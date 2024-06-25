@@ -188,37 +188,35 @@ async function handleTopicsStep(
     const newTopics = selectedTopics.filter(
       (topic) => !previousTopics.includes(topic),
     );
-    const addedNewTopic = newTopics.length > 0;
 
-    if (isEditing) {
-      if (addedNewTopic) {
-        // If editing and a new topic was added, go to the comment page for the new topic
-        const newTopicIndex = selectedTopics.indexOf(newTopics[0]);
-        await setCookie(
-          "currentTopicIndex",
-          newTopicIndex.toString(),
-          reference,
-        );
-        return NextResponse.redirect(
-          new URL(
-            `/${council}/${reference}/submit-comment?page=3&topicIndex=${newTopicIndex}&edit=true`,
-            request.url,
-          ),
-        );
-      } else {
-        // If editing but no new topic, return to the check answers page
-        return NextResponse.redirect(
-          new URL(
-            `/${council}/${reference}/submit-comment?page=5`,
-            request.url,
-          ),
-        );
-      }
+    if (isEditing && newTopics.length > 0) {
+      // If editing and new topics were added
+      await setCookie("newTopics", JSON.stringify(newTopics), reference);
+      const firstNewTopicIndex = selectedTopics.indexOf(newTopics[0]);
+      await setCookie(
+        "currentTopicIndex",
+        firstNewTopicIndex.toString(),
+        reference,
+      );
+      return NextResponse.redirect(
+        new URL(
+          `/${council}/${reference}/submit-comment?page=3&topicIndex=${firstNewTopicIndex}&edit=true`,
+          request.url,
+        ),
+      );
+    } else if (isEditing) {
+      // If editing but no new topics, return to the check answers page
+      return NextResponse.redirect(
+        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
+      );
     } else {
       // If not editing, continue to the next step
       await setCookie("currentTopicIndex", "0", reference);
       return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
+        new URL(
+          `/${council}/${reference}/submit-comment?page=3&topicIndex=0`,
+          request.url,
+        ),
       );
     }
   } else {
@@ -268,10 +266,45 @@ async function handleCommentsStep(
     await setCookie("commentData", JSON.stringify(existingComments), reference);
 
     if (isEditing) {
-      // If editing, always return to the check answers page
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-      );
+      const newTopicsCookie = await getCookie("newTopics", reference);
+      if (newTopicsCookie) {
+        const newTopics = JSON.parse(newTopicsCookie);
+        const currentNewTopicIndex = newTopics.indexOf(currentTopic);
+        if (currentNewTopicIndex < newTopics.length - 1) {
+          // There are more new topics to comment on
+          const nextNewTopicIndex = selectedTopics.indexOf(
+            newTopics[currentNewTopicIndex + 1],
+          );
+          await setCookie(
+            "currentTopicIndex",
+            nextNewTopicIndex.toString(),
+            reference,
+          );
+          return NextResponse.redirect(
+            new URL(
+              `/${council}/${reference}/submit-comment?page=3&topicIndex=${nextNewTopicIndex}&edit=true`,
+              request.url,
+            ),
+          );
+        } else {
+          // All new topics have been commented on
+          await deleteCookie("newTopics", reference);
+          return NextResponse.redirect(
+            new URL(
+              `/${council}/${reference}/submit-comment?page=5`,
+              request.url,
+            ),
+          );
+        }
+      } else {
+        // No new topics, return to check answers page
+        return NextResponse.redirect(
+          new URL(
+            `/${council}/${reference}/submit-comment?page=5`,
+            request.url,
+          ),
+        );
+      }
     } else if (currentTopicIndex < selectedTopics.length - 1) {
       await setTopicIndex(reference, currentTopicIndex + 1);
       return NextResponse.redirect(
