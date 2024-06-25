@@ -1,5 +1,4 @@
-import { getCookie } from "@/actions";
-import { setTopicIndex } from "@/actions";
+import { getCookie, setTopicIndex } from "@/actions";
 
 const CommentTextEntry = async ({
   council,
@@ -45,12 +44,18 @@ const CommentTextEntry = async ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form
-          action={`/${council}/${reference}/submit-comment-redirect?page=3&topicIndex=${currentTopicIndex}${isEditing ? "&edit=true" : ""}`}
+          action={`/${council}/${reference}/submit-comment-redirect?page=3${isEditing ? "&edit=true" : ""}`}
           method="POST"
         >
           <input type="hidden" name="council" value={council} />
           <input type="hidden" name="reference" value={reference} />
           <input type="hidden" name="applicationId" value={applicationId} />
+          <input
+            type="hidden"
+            name="isEditing"
+            value={isEditing ? "true" : "false"}
+          />
+          <input type="hidden" name="topicIndex" value={currentTopicIndex} />
           <div
             className={`govuk-form-group ${
               validationError ? "govuk-form-group--error" : ""
@@ -70,12 +75,6 @@ const CommentTextEntry = async ({
             <div id="comment-hint" className="govuk-hint">
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
-            <input type="hidden" name="topicIndex" value={currentTopicIndex} />
-            <input
-              type="hidden"
-              name="isEditing"
-              value={isEditing ? "true" : "false"}
-            />
 
             <textarea
               className={`govuk-textarea ${

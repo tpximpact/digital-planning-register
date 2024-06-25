@@ -180,29 +180,39 @@ async function handleTopicsStep(
 
   if (selectedTopics.length > 0) {
     await deleteCookie("validationError", reference);
+    const previousTopicsCookie = await getCookie("selectedTopics", reference);
+    const previousTopics = previousTopicsCookie?.split(",") || [];
     await setCookie("selectedTopics", selectedTopics.join(","), reference);
 
+    const newTopics = selectedTopics.filter(
+      (topic) => !previousTopics.includes(topic),
+    );
+    const addedNewTopic = newTopics.length > 0;
+
     if (isEditing) {
-      // If editing, we need to handle potential removal of topics
-      const commentDataCookie = await getCookie("commentData", reference);
-      if (commentDataCookie) {
-        const commentData = JSON.parse(commentDataCookie);
-        const updatedCommentData = Object.fromEntries(
-          Object.entries(commentData).filter(([topic]) =>
-            selectedTopics.includes(topic),
-          ),
-        );
+      if (addedNewTopic) {
+        // If editing and a new topic was added, go to the comment page for the new topic
+        const newTopicIndex = selectedTopics.indexOf(newTopics[0]);
         await setCookie(
-          "commentData",
-          JSON.stringify(updatedCommentData),
+          "currentTopicIndex",
+          newTopicIndex.toString(),
           reference,
         );
+        return NextResponse.redirect(
+          new URL(
+            `/${council}/${reference}/submit-comment?page=3&topicIndex=${newTopicIndex}&edit=true`,
+            request.url,
+          ),
+        );
+      } else {
+        // If editing but no new topic, return to the check answers page
+        return NextResponse.redirect(
+          new URL(
+            `/${council}/${reference}/submit-comment?page=5`,
+            request.url,
+          ),
+        );
       }
-
-      // Return to the check answers page
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-      );
     } else {
       // If not editing, continue to the next step
       await setCookie("currentTopicIndex", "0", reference);
@@ -257,7 +267,7 @@ async function handleCommentsStep(
     await setCookie("commentData", JSON.stringify(existingComments), reference);
 
     if (isEditing) {
-      // If editing, return to the check answers page
+      // If editing, always return to the check answers page
       return NextResponse.redirect(
         new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
       );
@@ -276,7 +286,7 @@ async function handleCommentsStep(
     await setCookie("validationError", "true", reference);
     return NextResponse.redirect(
       new URL(
-        `/${council}/${reference}/submit-comment?page=3${isEditing ? "&edit=true" : ""}`,
+        `/${council}/${reference}/submit-comment?page=3&topicIndex=${topicIndex}${isEditing ? "&edit=true" : ""}`,
         request.url,
       ),
     );

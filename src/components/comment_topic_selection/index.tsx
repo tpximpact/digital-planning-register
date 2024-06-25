@@ -62,6 +62,12 @@ const CommentTopicSelection = async ({
                 name="isEditing"
                 value={isEditing ? "true" : "false"}
               />
+              <input
+                type="hidden"
+                name="addedNewTopic"
+                id="addedNewTopic"
+                value="false"
+              />
               <div
                 className={`govuk-form-group ${
                   validationError ? "govuk-form-group--error" : ""
