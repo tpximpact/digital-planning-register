@@ -48,7 +48,7 @@ export const CommentCard = ({
             ref={commentContainerRef}
             className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
           >
-            <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
+            <h2 className="govuk-heading-m">Comment #{commentNumber}</h2>
             <p className="govuk-body">
               <em>
                 Published{" "}
@@ -59,15 +59,15 @@ export const CommentCard = ({
             </p>
             {comment.summary_tag && (
               <div>
-                <h4 className="govuk-heading-s">
+                <div className="govuk-heading-s">
                   Sentiment towards this application
-                </h4>
+                </div>
                 <p className="govuk-body">
                   {capitaliseWord(comment.summary_tag)}
                 </p>
               </div>
             )}
-            <h4 className="govuk-heading-s">Comment</h4>
+            <div className="govuk-heading-s">Comment</div>
             <div className="comment-text">
               <p className="govuk-body">{comment?.comment}</p>
             </div>
@@ -76,14 +76,14 @@ export const CommentCard = ({
             <div className="read-more-ellipsis">...</div>
           )}
           {isOverflowing && (
-            <label
+            <div
               className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
               onClick={toggleExpand}
             >
               {isExpanded
                 ? "Minimise this comment"
                 : "Read the rest of this comment"}
-            </label>
+            </div>
           )}
         </div>
       </div>

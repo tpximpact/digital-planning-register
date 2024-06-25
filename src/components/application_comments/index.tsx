@@ -75,9 +75,9 @@ const ApplicationComments = ({
 
   return (
     <>
-      <h2 className="govuk-heading-l">
+      <h1 className="govuk-heading-l">
         {getTitle(type, publicComments, specialistComments)}
-      </h2>
+      </h1>
       {comments.length > 0 &&
       ((type === "consultee" && specialistComments) ||
         (type === "published" && publicComments)) ? (

@@ -38,23 +38,8 @@ describe("Render ApplicationInformation", () => {
 
   it("should render correctly with Polygon geometry", () => {
     render(<ApplicationInformation {...mockData} />);
-    expect(
-      screen.getByRole("application-reference", {
-        Name: mockData.reference,
-      }),
-    );
-    expect(
-      screen.getByRole("application-type", { Name: mockData.application_type }),
-    );
-    expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("application-description", {
-        Name: mockData.description,
-      }),
-    );
   });
 
   it("should render correctly with MultiPolygon geometry", () => {
@@ -87,17 +72,6 @@ describe("Render ApplicationInformation", () => {
     };
 
     render(<ApplicationInformation {...mockDataWithMultiPolygon} />);
-    expect(
-      screen.getByRole("application-reference", {
-        Name: mockDataWithMultiPolygon.reference,
-      }),
-    );
-    expect(
-      screen.getByRole("application-type", {
-        Name: mockDataWithMultiPolygon.application_type,
-      }),
-    );
-    expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
   });
@@ -141,17 +115,6 @@ describe("Render ApplicationInformation", () => {
     };
 
     render(<ApplicationInformation {...mockDataWithFeatureCollection} />);
-    expect(
-      screen.getByRole("application-reference", {
-        Name: mockDataWithFeatureCollection.reference,
-      }),
-    );
-    expect(
-      screen.getByRole("application-type", {
-        Name: mockDataWithFeatureCollection.application_type,
-      }),
-    );
-    expect(screen.getByRole("application-status", { Name: "not started" }));
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
   });

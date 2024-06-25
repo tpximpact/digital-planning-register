@@ -12,12 +12,12 @@ const ApplicationPeople = ({
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Applicant</h3>
+          <div className="govuk-heading-m">Applicant</div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="applicant-name">
+              <div className="govuk-heading-s">Name</div>
+              <p className="govuk-body">
                 {applicant_first_name} {applicant_last_name}
               </p>
             </div>
@@ -25,40 +25,40 @@ const ApplicationPeople = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Type</h4>
+              <div className="govuk-heading-s">Type</div>
               <p className="govuk-body">Company</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Relationship to property</h4>
+              <div className="govuk-heading-s">Relationship to property</div>
               <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Company</h4>
+              <div className="govuk-heading-s">Company</div>
               <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
+              <div className="govuk-heading-s">Address</div>
               <p className="govuk-body">No Information</p>
             </div>
           </div>
         </div>
 
         <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Applicants Agent</h3>
+          <div className="govuk-heading-m">Applicants Agent</div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body" role="agent-name">
+              <div className="govuk-heading-s">Name</div>
+              <p className="govuk-body">
                 {agent_first_name} {agent_last_name}
               </p>
             </div>
@@ -66,14 +66,14 @@ const ApplicationPeople = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Company</h4>
+              <div className="govuk-heading-s">Company</div>
               <p className="govuk-body">No Information</p>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
+              <div className="govuk-heading-s">Address</div>
               <p className="govuk-body">No Information</p>
             </div>
           </div>

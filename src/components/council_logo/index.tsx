@@ -25,6 +25,8 @@ export const CouncilLogo = ({
       alt={`${councilName} Logo`}
       width={350}
       height={75}
+      aria-label={`${councilName} Logo`}
+      role="img"
     />
   ) : (
     <span>{councilName}</span>
