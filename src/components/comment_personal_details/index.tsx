@@ -121,13 +121,25 @@ const CommentPersonalDetails = async ({
               defaultValue={personalDetails.postcode || ""}
             />
           </div>
-          <div className="govuk-form-group">
+          <div
+            className={`govuk-form-group ${
+              validationError.emailAddress ? "govuk-form-group--error" : ""
+            }`}
+          >
             <label className="govuk-label" htmlFor="email-address">
               Email address
             </label>
             <div className="govuk-hint">Optional</div>
+            {validationError.emailAddress && (
+              <p id="email-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span> Enter a
+                valid email address
+              </p>
+            )}
             <input
-              className="govuk-input govuk-input--width-20"
+              className={`govuk-input govuk-input--width-20 ${
+                validationError.emailAddress ? "govuk-input--error" : ""
+              }`}
               id="email-address"
               name="email-address"
               type="text"

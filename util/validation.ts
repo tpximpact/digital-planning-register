@@ -14,3 +14,11 @@ export const phoneValidation = (phoneForm: string) => {
     phoneForm == ""
   );
 };
+
+export const emailValidation = (emailForm: string) => {
+  return (
+    (emailForm !== "" && emailForm?.includes("@")) ||
+    emailForm == undefined ||
+    emailForm == ""
+  );
+};

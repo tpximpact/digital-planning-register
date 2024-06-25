@@ -8,6 +8,7 @@ import {
   submitComment,
 } from "@/actions";
 import {
+  emailValidation,
   phoneRegex,
   phoneValidation,
   postCodeRegex,
@@ -312,6 +313,9 @@ async function handlePersonalDetailsStep(
     name: !personalDetails.name,
     address: !personalDetails.address,
     postcode: !postcodeValidation(personalDetails.postcode),
+    emailAddress:
+      personalDetails.emailAddress !== "" &&
+      !emailValidation(personalDetails.emailAddress),
     telephoneNumber: !phoneValidation(personalDetails.telephoneNumber),
     consent: personalDetails.consent !== "on",
   };
@@ -328,7 +332,6 @@ async function handlePersonalDetailsStep(
       new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
     );
   } else {
-    await deleteCookie("validationError", reference);
     await deleteCookie("validationError", reference);
     return NextResponse.redirect(
       new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
