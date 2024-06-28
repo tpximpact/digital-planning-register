@@ -277,6 +277,7 @@ export default async function Home({
                       <div className="govuk-grid-column-one-third">
                         <form
                           action={async () => {
+                            "use server";
                             cookies().set(
                               "reference",
                               application?.reference ||

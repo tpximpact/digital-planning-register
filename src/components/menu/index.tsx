@@ -35,7 +35,10 @@ const Menu = ({
             >
               <Link
                 className="govuk-header__link nav-link"
-                href={`/${council?.toLowerCase()}/planning-process`}
+                role="link"
+                href={
+                  council ? `/${council?.toLowerCase()}/planning-process` : "/"
+                }
               >
                 Understanding planning
               </Link>
