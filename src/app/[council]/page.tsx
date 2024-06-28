@@ -322,27 +322,27 @@ export default async function Home({
                         )}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        {(application?.determination_date &&
-                          application.desicion) ||
+                        {((application?.determination_date &&
+                          application.decision) ||
                           (application?.application?.determinedAt &&
-                            application?.application?.decision && (
-                              <>
-                                <div className="govuk-heading-s">Decision</div>
-                                <p className="govuk-body">
-                                  {(application?.determination_date &&
-                                    definedDecision(
-                                      application.decision,
-                                      application.application_type as string,
-                                    )) ||
-                                    (application?.application?.determinedAt &&
-                                      definedDecision(
-                                        application?.application?.decision,
-                                        application.application?.type
-                                          ?.description as string,
-                                      ))}
-                                </p>
-                              </>
-                            ))}
+                            application?.application?.decision)) && (
+                          <>
+                            <div className="govuk-heading-s">Decision</div>
+                            <p className="govuk-body">
+                              {(application?.determination_date &&
+                                definedDecision(
+                                  application.decision,
+                                  application.application_type as string,
+                                )) ||
+                                (application?.application?.determinedAt &&
+                                  definedDecision(
+                                    application?.application?.decision,
+                                    application.application?.type
+                                      ?.description as string,
+                                  ))}
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
 
