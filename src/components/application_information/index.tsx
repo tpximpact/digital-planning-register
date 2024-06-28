@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
+import { BoundaryGeojson } from "../../../util/type";
 
 function applicationType(application_type: string) {
   const type: { [key: string]: string } = {
@@ -25,6 +26,22 @@ function statusApplication(status: string) {
   return type[status] || "application-statuses";
 }
 
+type InformationData = {
+  reference?: string;
+  site?: { address_1: string; postcode: string };
+  description?: string;
+  application_type?: string;
+  received_date?: string;
+  status?: string;
+  result_flag?: string;
+  consultation?: { end_date: string };
+  decision: string;
+  determination_date?: string;
+  boundary_geojson?: BoundaryGeojson;
+  in_assessment_at?: string;
+  council: string;
+};
+
 const ApplicationInformation = ({
   reference,
   application_type,
@@ -38,7 +55,8 @@ const ApplicationInformation = ({
   boundary_geojson,
   description,
   in_assessment_at,
-}: Data) => {
+  council,
+}: InformationData) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;
@@ -94,7 +112,7 @@ const ApplicationInformation = ({
                 Application Type
                 <a
                   className="info-icon"
-                  href={`/camden/planning-process#${applicationType(application_type as string)}`}
+                  href={`/${council}/planning-process#${applicationType(application_type as string)}`}
                   title="Understanding application types"
                   target="_blank"
                 >
@@ -111,7 +129,7 @@ const ApplicationInformation = ({
                 Status
                 <a
                   className="info-icon"
-                  href={`/camden/planning-process#${statusApplication(
+                  href={`/${council}/planning-process#${statusApplication(
                     definedStatus(
                       status as string,
                       consultation?.end_date as string,
@@ -143,7 +161,7 @@ const ApplicationInformation = ({
                 Received date
                 <a
                   className="info-icon"
-                  href="/camden/planning-process#received-date"
+                  href={`/${council}/planning-process#received-date`}
                   title="Understanding dates"
                   target="_blank"
                 >
@@ -164,7 +182,7 @@ const ApplicationInformation = ({
                     Consultation end date{" "}
                     <a
                       className="info-icon"
-                      href="/camden/planning-process#consultation-end-date"
+                      href={`/${council}/planning-process#consultation-end-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -179,7 +197,7 @@ const ApplicationInformation = ({
             </div>
 
             {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Valid from date <a class="info-icon" href="/camden/planning-process#validated-dates" title="Understanding dates" target="_blank">i</a></div>
+      <div className="govuk-heading-s">Valid from date <a class="info-icon" href="/${council}/planning-process#validated-dates" title="Understanding dates" target="_blank">i</a></div>
       <p className="govuk-body">
         {in_assessment_at
           ? format(new Date(in_assessment_at), "dd MMM yyyy")
@@ -190,7 +208,7 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Published date <a class="info-icon" href="/camden/planning-process#published-date" title="Understanding dates" target="_blank">i</a></div>
+      <div className="govuk-heading-s">Published date <a class="info-icon" href="/${council}/planning-process#published-date" title="Understanding dates" target="_blank">i</a></div>
       <p className="govuk-body">
         {received_date
           ? format(new Date(received_date as string), "dd MMM yyyy")
@@ -216,7 +234,7 @@ const ApplicationInformation = ({
                     Decision Date{" "}
                     <a
                       className="info-icon"
-                      href="/camden/planning-process#decision-date"
+                      href={`/${council}/planning-process#decision-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -237,7 +255,7 @@ const ApplicationInformation = ({
                     Decision{" "}
                     <a
                       className="info-icon"
-                      href={`/camden/planning-process#${definedDecision(
+                      href={`/${council}/planning-process#${definedDecision(
                         decision,
                         application_type as string,
                       )
