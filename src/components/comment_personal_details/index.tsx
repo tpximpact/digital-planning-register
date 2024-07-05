@@ -119,6 +119,7 @@ const CommentPersonalDetails = async ({
               name="postcode"
               type="text"
               defaultValue={personalDetails.postcode || ""}
+              autoComplete="postal-code"
             />
           </div>
           <div
@@ -142,7 +143,9 @@ const CommentPersonalDetails = async ({
               }`}
               id="email-address"
               name="email-address"
-              type="text"
+              type="email"
+              spellCheck="false"
+              autoComplete="email"
               defaultValue={personalDetails.emailAddress || ""}
             />
           </div>
@@ -163,8 +166,9 @@ const CommentPersonalDetails = async ({
               className={`govuk-input govuk-input--width-20 ${validationError.telephoneNumber ? "govuk-input--error" : ""}`}
               id="telephone-number"
               name="telephone-number"
-              type="text"
+              type="tel"
               defaultValue={personalDetails.telephoneNumber || ""}
+              autoComplete="tel"
             />
           </div>
           <div
