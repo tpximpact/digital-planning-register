@@ -1,3 +1,5 @@
+@use "components/comment_sentiment";
+
 .backlink {
   border: none;
   background-color: white;
@@ -171,38 +173,4 @@
 .comment-expander {
   display: block;
   margin-top: 4px;
-}
-
-// Comment
-
-// Comment submission
-.wrap-icons-feeling {
-  display: flex;
-  justify-content: space-between;
-  max-width: 25rem;
-}
-
-.wrap-icons-feeling > div {
-  display: flex;
-  flex-direction: column;
-}
-.wrap-icons-feeling svg {
-  margin: 0 auto;
-  border-radius: 50%;
-}
-.wrap-icons-feeling input:checked + label .opposed-face {
-  background: #aa2a16;
-}
-.wrap-icons-feeling input:checked + label .neutral-face {
-  background: #1d70b8;
-}
-.wrap-icons-feeling input:checked + label .support-face {
-  background: #00703c;
-}
-
-.wrap-icons-feeling .govuk-label {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  margin-top: 5px;
 }
