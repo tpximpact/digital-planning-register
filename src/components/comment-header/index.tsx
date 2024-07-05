@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable react/no-unescaped-entities */
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { BoundaryGeojson } from "../../../util/type";
@@ -9,7 +10,7 @@ type CommentHeaderType = {
   reference: string;
   council: string;
 };
-const CommentHeader = async ({
+const CommentHeader = ({
   boundary_geojson,
   site,
   reference,
