@@ -61,6 +61,7 @@ const Header = ({ currentPath }: { currentPath: string }) => {
           aria-controls="navigation"
           aria-expanded={isExtended}
           onClick={() => setIsExtended(!isExtended)}
+          hidden={true}
         >
           Menu
         </button>
