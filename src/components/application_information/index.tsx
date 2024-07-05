@@ -202,14 +202,6 @@ const ApplicationInformation = ({
             reference={reference}
             applicationId={id}
           />
-          {/* <a
-            href={`/${council}/comment`}
-            role="button"
-            className="govuk-button govuk-button--primary"
-            data-module="govuk-button"
-          >
-            Comment on this application
-          </a> */}
         </div>
       </div>
     </div>

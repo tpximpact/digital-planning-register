@@ -274,13 +274,6 @@ export default async function Home({
 
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        {/* <ButtonDetails
-                          council={council}
-                          reference={
-                            application.reference ||
-                            application?.application?.reference
-                          }
-                        /> */}
                         <a
                           href={`/${council}/${application?.reference || application?.application?.reference}`}
                           className="govuk-button govuk-button--secondary blue-button"
