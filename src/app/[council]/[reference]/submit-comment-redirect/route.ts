@@ -29,22 +29,6 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const council = searchParams.get("council");
-  const reference = searchParams.get("reference");
-  const applicationId = searchParams.get("applicationId");
-
-  if (!council || !reference || !applicationId) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  const formData = new FormData();
-  formData.append("applicationId", applicationId);
-
-  return handlePresubmissionStep(council, reference, formData, request);
-}
-
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const { searchParams } = new URL(request.url);
