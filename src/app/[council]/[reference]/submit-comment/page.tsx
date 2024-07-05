@@ -80,8 +80,6 @@ export async function generateMetadata({
 const Comment = async ({ params, searchParams }: Props) => {
   let { reference, council } = params;
 
-  if (!reference) reference = cookies().get("reference")?.value || "";
-  if (!council) council = cookies().get("council")?.value || "";
   if (!reference || !council) {
     redirect("/");
   }
