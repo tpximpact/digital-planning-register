@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { cookies } from "next/headers";
-import { getCookie } from "@/actions";
+import { getCookie } from "@/actions/cookies";
 
 const topics_selection = [
   {

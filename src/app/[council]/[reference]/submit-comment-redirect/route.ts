@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  clearAllCookies,
-  deleteCookie,
-  getCookie,
-  setCookie,
-  setTopicIndex,
-  submitComment,
-} from "@/actions";
+import { setTopicIndex, submitComment } from "@/actions";
 import {
   emailValidation,
   phoneRegex,
@@ -14,6 +7,12 @@ import {
   postCodeRegex,
   postcodeValidation,
 } from "../../../../../util/validation";
+import {
+  clearAllCookies,
+  getCookie,
+  setCookie,
+  deleteCookie,
+} from "@/actions/cookies";
 
 const topics_selection = [
   {

@@ -4,7 +4,7 @@ import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { cookies } from "next/headers";
 import { Config } from "../../../util/type";
-import { getCookie } from "@/actions";
+import { getCookie } from "@/actions/cookies";
 
 const CommentPersonalDetails = async ({
   council,

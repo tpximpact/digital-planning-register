@@ -1,4 +1,4 @@
-import { getCookie } from "@/actions";
+import { getCookie } from "@/actions/cookies";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 
 const CommentSentiment = async ({

@@ -1,4 +1,5 @@
-import { getCookie, setTopicIndex } from "@/actions";
+import { setTopicIndex } from "@/actions";
+import { getCookie } from "@/actions/cookies";
 
 const CommentTextEntry = async ({
   council,

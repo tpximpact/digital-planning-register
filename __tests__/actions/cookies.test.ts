@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "@/actions";
+import { getCookie, setCookie, deleteCookie } from "@/actions/cookies";
 import { cookies } from "next/headers";
 
 jest.mock("next/headers", () => ({
