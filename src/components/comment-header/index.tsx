@@ -1,57 +1,73 @@
-"use client";
 /* eslint-disable react/no-unescaped-entities */
+import React from "react";
+import dynamic from "next/dynamic";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { BoundaryGeojson } from "../../../util/type";
-import Map from "../map";
 
-type CommentHeaderType = {
+// Dynamically import the Map component with SSR disabled
+const DynamicMap = dynamic(() => import("../map"), {
+  ssr: false,
+  loading: () => <div className="map-placeholder">Loading map...</div>,
+});
+
+interface CommentHeaderProps {
   boundary_geojson?: BoundaryGeojson;
   site?: { address_1: string; postcode: string };
   reference: string;
   council: string;
-};
-const CommentHeader = ({
+}
+
+const CommentHeader: React.FC<CommentHeaderProps> = ({
   boundary_geojson,
   site,
   reference,
   council,
-}: CommentHeaderType) => {
-  const boundaryGeojson = boundary_geojson;
+}) => {
+  const getGeometryData = React.useMemo(() => {
+    if (!boundary_geojson) return null;
 
-  let geometryType: "Polygon" | "MultiPolygon" | undefined;
-  let coordinates: number[][][] | number[][][][] | undefined;
+    let geometryType: "Polygon" | "MultiPolygon" | undefined;
+    let coordinates: number[][][] | number[][][][] | undefined;
 
-  if (boundaryGeojson?.type === "Feature") {
-    geometryType = boundaryGeojson.geometry?.type;
-    coordinates = boundaryGeojson.geometry?.coordinates;
-  } else if (boundaryGeojson?.type === "FeatureCollection") {
-    const features = boundaryGeojson.features;
-    if (features && features.length > 0) {
-      geometryType = features[0].geometry?.type;
-      coordinates = features[0].geometry?.coordinates;
+    if (boundary_geojson.type === "Feature") {
+      geometryType = boundary_geojson.geometry?.type;
+      coordinates = boundary_geojson.geometry?.coordinates;
+    } else if (boundary_geojson.type === "FeatureCollection") {
+      const features = boundary_geojson.features;
+      if (features && features.length > 0) {
+        geometryType = features[0].geometry?.type;
+        coordinates = features[0].geometry?.coordinates;
+      }
     }
-  }
+
+    if (!geometryType || !coordinates) return null;
+
+    return {
+      type: "Feature",
+      geometry: {
+        type: geometryType,
+        coordinates,
+      },
+    };
+  }, [boundary_geojson]);
+
   return (
-    <>
+    <div className="comment-header">
       <h1 className="govuk-heading-l">Tell us what you think</h1>
 
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third">
-          {geometryType && coordinates && (
-            <Map
-              geojsonData={JSON.stringify({
-                type: "Feature",
-                geometry: {
-                  type: geometryType,
-                  coordinates,
-                },
-              })}
+          {getGeometryData && (
+            <DynamicMap
+              geojsonData={JSON.stringify(getGeometryData)}
+              staticMode={true}
+              zoom={10}
             />
           )}
         </div>
         <div className="govuk-grid-column-two-thirds">
           <h2 className="govuk-heading-m">
-            {site?.address_1}, {site?.postcode}{" "}
+            {site?.address_1}, {site?.postcode}
           </h2>
           <h2 className="govuk-heading-s">Application Reference</h2>
           <p className="govuk-body">{reference}</p>
@@ -62,8 +78,8 @@ const CommentHeader = ({
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default CommentHeader;
+export default React.memo(CommentHeader);

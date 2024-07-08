@@ -21,6 +21,7 @@ interface MapProps {
   staticMode?: boolean;
   ariaLabelOlFixedOverlay?: string;
   osCopyright?: string;
+  zoom?: number;
 }
 
 const Map: React.FC<MapProps> = ({
@@ -34,6 +35,7 @@ const Map: React.FC<MapProps> = ({
   staticMode = false,
   ariaLabelOlFixedOverlay = "An interactive map",
   osCopyright = "© Crown copyright and database rights 2024 OS (0)100024857",
+  zoom = 14,
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
@@ -69,7 +71,7 @@ const Map: React.FC<MapProps> = ({
     <div role="region" aria-label="map">
       <my-map
         role="application"
-        zoom="14"
+        zoom={zoom}
         {...(staticMode ? { staticMode } : {})}
         geojsonColor={geojsonColor}
         geojsonBuffer={geojsonBuffer}
