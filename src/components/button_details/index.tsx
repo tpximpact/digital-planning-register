@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const ButtonDetails = ({
   council,
   reference,
@@ -8,22 +10,13 @@ const ButtonDetails = ({
   applicationId: number;
 }) => {
   return (
-    <form
-      action={`/${council}/${reference}/submit-comment?page=0`}
-      method="POST"
+    <Link
+      href={`/${council}/${reference}/submit-comment`}
+      className="govuk-button govuk-button--primary"
+      data-module="govuk-button"
     >
-      <input type="hidden" name="council" value={council} />
-      <input type="hidden" name="reference" value={reference} />
-      <input type="hidden" name="applicationId" value={applicationId} />
-      <button
-        type="submit"
-        role="button"
-        className="govuk-button govuk-button--primary"
-        data-module="govuk-button"
-      >
-        Comment on this application
-      </button>
-    </form>
+      Comment on this application
+    </Link>
   );
 };
 

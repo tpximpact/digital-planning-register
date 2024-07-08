@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { redirect } from "next/navigation";
 import { setTopicIndex, submitComment } from "@/actions";
 import {
   emailValidation,
-  phoneRegex,
   phoneValidation,
-  postCodeRegex,
   postcodeValidation,
 } from "../../../../../util/validation";
 import {
@@ -39,45 +38,39 @@ export async function POST(request: NextRequest) {
   const page = parseInt(searchParams.get("page") || "0");
 
   if (!council || !reference) {
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=0`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=0`);
   }
 
   switch (page) {
     case 0:
-      return handlePresubmissionStep(council, reference, formData, request);
+      return handlePresubmissionStep(council, reference, formData);
     case 1:
-      return handleSentimentStep(council, reference, formData, request);
+      return handleSentimentStep(council, reference, formData);
     case 2:
-      return handleTopicsStep(council, reference, formData, request);
+      return handleTopicsStep(council, reference, formData);
     case 3:
-      return handleCommentsStep(council, reference, formData, request);
+      return handleCommentsStep(council, reference, formData);
     case 4:
-      return handlePersonalDetailsStep(council, reference, formData, request);
+      return handlePersonalDetailsStep(council, reference, formData);
     case 5:
-      return handleSubmissionStep(council, reference, formData, request);
+      return handleSubmissionStep(council, reference, formData);
     default:
       await clearAllCookies(reference);
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=0`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=0`);
   }
 }
+
 async function handlePresubmissionStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
-  // Check for existing cookies
   const existingApplicationId = await getCookie("applicationId", reference);
   const sentiment = await getCookie("sentiment", reference);
   const selectedTopics = await getCookie("selectedTopics", reference);
   const commentData = await getCookie("commentData", reference);
   const personalDetails = await getCookie("personalDetails", reference);
 
-  // If there's no existing applicationId or it's different, start fresh
   if (
     !existingApplicationId ||
     existingApplicationId !== formData.get("applicationId")
@@ -88,33 +81,19 @@ async function handlePresubmissionStep(
       formData.get("applicationId") as string,
       reference,
     );
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=1`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=1`);
   }
 
-  // Determine the furthest point reached
   if (personalDetails) {
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=5`);
   } else if (commentData) {
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=4`);
   } else if (selectedTopics) {
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=3`);
   } else if (sentiment) {
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=2`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=2`);
   } else {
-    // If only applicationId exists, start from sentiment page
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=1`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=1`);
   }
 }
 
@@ -122,7 +101,6 @@ async function handleSentimentStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
   const sentiment = formData.get("sentiment") as string;
   const isEditing = formData.get("isEditing") === "true";
@@ -132,23 +110,14 @@ async function handleSentimentStep(
     await deleteCookie("validationError", reference);
 
     if (isEditing) {
-      // If editing, return to the check answers page
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=5`);
     } else {
-      // If not editing, continue to the next step
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=2`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=2`);
     }
   } else {
     await setCookie("validationError", "true", reference);
-    return NextResponse.redirect(
-      new URL(
-        `/${council}/${reference}/submit-comment?page=1${isEditing ? "&edit=true" : ""}`,
-        request.url,
-      ),
+    redirect(
+      `/${council}/${reference}/submit-comment?page=1${isEditing ? "&edit=true" : ""}`,
     );
   }
 }
@@ -157,7 +126,6 @@ async function handleTopicsStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
   const selectedTopics = formData.getAll("topics") as string[];
   const isEditing = formData.get("isEditing") === "true";
@@ -173,7 +141,6 @@ async function handleTopicsStep(
     );
 
     if (isEditing && newTopics.length > 0) {
-      // If editing and new topics were added
       await setCookie("newTopics", JSON.stringify(newTopics), reference);
       const firstNewTopicIndex = selectedTopics.indexOf(newTopics[0]);
       await setCookie(
@@ -181,42 +148,27 @@ async function handleTopicsStep(
         firstNewTopicIndex.toString(),
         reference,
       );
-      return NextResponse.redirect(
-        new URL(
-          `/${council}/${reference}/submit-comment?page=3&topicIndex=${firstNewTopicIndex}&edit=true`,
-          request.url,
-        ),
+      redirect(
+        `/${council}/${reference}/submit-comment?page=3&topicIndex=${firstNewTopicIndex}&edit=true`,
       );
     } else if (isEditing) {
-      // If editing but no new topics, return to the check answers page
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=5`);
     } else {
-      // If not editing, continue to the next step
       await setCookie("currentTopicIndex", "0", reference);
-      return NextResponse.redirect(
-        new URL(
-          `/${council}/${reference}/submit-comment?page=3&topicIndex=0`,
-          request.url,
-        ),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=3&topicIndex=0`);
     }
   } else {
     await setCookie("validationError", "true", reference);
-    return NextResponse.redirect(
-      new URL(
-        `/${council}/${reference}/submit-comment?page=2${isEditing ? "&edit=true" : ""}`,
-        request.url,
-      ),
+    redirect(
+      `/${council}/${reference}/submit-comment?page=2${isEditing ? "&edit=true" : ""}`,
     );
   }
 }
+
 async function handleCommentsStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
   const comment = formData.get("comment") as string;
   const topicIndex = formData.get("topicIndex");
@@ -254,7 +206,6 @@ async function handleCommentsStep(
         const newTopics = JSON.parse(newTopicsCookie);
         const currentNewTopicIndex = newTopics.indexOf(currentTopic);
         if (currentNewTopicIndex < newTopics.length - 1) {
-          // There are more new topics to comment on
           const nextNewTopicIndex = selectedTopics.indexOf(
             newTopics[currentNewTopicIndex + 1],
           );
@@ -263,49 +214,28 @@ async function handleCommentsStep(
             nextNewTopicIndex.toString(),
             reference,
           );
-          return NextResponse.redirect(
-            new URL(
-              `/${council}/${reference}/submit-comment?page=3&topicIndex=${nextNewTopicIndex}&edit=true`,
-              request.url,
-            ),
+          redirect(
+            `/${council}/${reference}/submit-comment?page=3&topicIndex=${nextNewTopicIndex}&edit=true`,
           );
         } else {
-          // All new topics have been commented on
           await deleteCookie("newTopics", reference);
-          return NextResponse.redirect(
-            new URL(
-              `/${council}/${reference}/submit-comment?page=5`,
-              request.url,
-            ),
-          );
+          await deleteCookie("currentTopicIndex", reference);
+          redirect(`/${council}/${reference}/submit-comment?page=5`);
         }
       } else {
-        // No new topics, return to check answers page
-        return NextResponse.redirect(
-          new URL(
-            `/${council}/${reference}/submit-comment?page=5`,
-            request.url,
-          ),
-        );
+        redirect(`/${council}/${reference}/submit-comment?page=5`);
       }
     } else if (currentTopicIndex < selectedTopics.length - 1) {
       await setTopicIndex(reference, currentTopicIndex + 1);
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=3`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=3`);
     } else {
       await deleteCookie("currentTopicIndex", reference);
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
-      );
+      redirect(`/${council}/${reference}/submit-comment?page=4`);
     }
   } else {
     await setCookie("validationError", "true", reference);
-    return NextResponse.redirect(
-      new URL(
-        `/${council}/${reference}/submit-comment?page=3&topicIndex=${topicIndex}${isEditing ? "&edit=true" : ""}`,
-        request.url,
-      ),
+    redirect(
+      `/${council}/${reference}/submit-comment?page=3&topicIndex=${topicIndex}${isEditing ? "&edit=true" : ""}`,
     );
   }
 }
@@ -314,7 +244,6 @@ async function handlePersonalDetailsStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
   const personalDetails = {
     name: formData.get("name") as string,
@@ -344,31 +273,23 @@ async function handlePersonalDetailsStep(
 
   if (Object.values(errors).some((error) => error)) {
     await setCookie("validationError", JSON.stringify(errors), reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=4`);
   } else {
     await deleteCookie("validationError", reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-    );
+    redirect(`/${council}/${reference}/submit-comment?page=5`);
   }
 }
-
 async function handleSubmissionStep(
   council: string,
   reference: string,
   formData: FormData,
-  request: NextRequest,
 ) {
   const applicationId = await getCookie("applicationId", reference);
 
   if (!applicationId) {
     console.error("Invalid or missing application ID");
     await setCookie("submissionError", "true", reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=4`, request.url),
-    );
+    return redirect(`/${council}/${reference}/submit-comment?page=4`);
   }
 
   const sentimentCookie = await getCookie("sentiment", reference);
@@ -396,33 +317,18 @@ async function handleSubmissionStep(
         return `* ${topicLabel}: ${comment} `;
       })
       .join(" "),
-    summary_tag: sentiment === "opposed" ? "objection" : sentiment,
+    summary_tag: sentiment,
     tags: selectedTopics,
   };
+  await deleteCookie("submissionError", reference);
 
-  try {
-    const result = await submitComment(
-      parseInt(applicationId),
-      council,
-      apiData,
-    );
-    if (result.status === 200) {
-      await clearAllCookies(reference);
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=6`, request.url),
-      );
-    } else {
-      await setCookie("submissionError", "true", reference);
-      console.log("Error caught", result);
-      return NextResponse.redirect(
-        new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-      );
-    }
-  } catch (error) {
-    console.error("Error submitting the comment", error);
+  const result = await submitComment(parseInt(applicationId), council, apiData);
+  if (result.status === 200) {
+    await clearAllCookies(reference);
+    return redirect(`/${council}/${reference}/submit-comment?page=6`);
+  } else {
+    console.log("Error caught", result);
     await setCookie("submissionError", "true", reference);
-    return NextResponse.redirect(
-      new URL(`/${council}/${reference}/submit-comment?page=5`, request.url),
-    );
+    return redirect(`/${council}/${reference}/submit-comment?page=5`);
   }
 }

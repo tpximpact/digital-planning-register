@@ -1,56 +1,66 @@
-import { setTopicIndex } from "@/actions";
-import { getCookie } from "@/actions/cookies";
+"use client";
 
-const CommentTextEntry = async ({
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { getCookie, setCookie } from "@/actions/cookies";
+
+const CommentTextEntry = ({
   council,
   reference,
   applicationId,
-  searchParams,
 }: {
   council: string;
   reference: string;
   applicationId: number;
-  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const topicIndexFromURL = searchParams.topicIndex;
-  const isEditing = searchParams.edit === "true";
+  const searchParams = useSearchParams();
+  const topicIndexFromURL = searchParams.get("topicIndex");
+  const isEditing = searchParams.get("edit") === "true";
 
-  const selectedTopicsCookie = await getCookie("selectedTopics", reference);
-  const selectedTopics = selectedTopicsCookie?.split(",") || [];
+  const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [validationError, setValidationError] = useState(false);
+  const [existingComment, setExistingComment] = useState("");
 
-  let currentTopicIndex: number;
+  useEffect(() => {
+    const loadData = async () => {
+      const selectedTopicsCookie = await getCookie("selectedTopics", reference);
+      const topics = selectedTopicsCookie?.split(",") || [];
+      setSelectedTopics(topics);
 
-  if (topicIndexFromURL !== undefined) {
-    currentTopicIndex = Array.isArray(topicIndexFromURL)
-      ? parseInt(topicIndexFromURL[0], 10)
-      : parseInt(topicIndexFromURL, 10);
+      let index: number;
+      if (topicIndexFromURL !== null) {
+        index = parseInt(topicIndexFromURL, 10);
+        if (isNaN(index)) index = 0;
+        await setCookie("currentTopicIndex", index.toString(), reference);
+      } else {
+        const currentTopicIndexCookie = await getCookie(
+          "currentTopicIndex",
+          reference,
+        );
+        index = parseInt(currentTopicIndexCookie || "0", 10);
+        if (isNaN(index)) index = 0;
+      }
+      setCurrentTopicIndex(index);
 
-    if (isNaN(currentTopicIndex)) {
-      currentTopicIndex = 0;
-    }
+      const validationErrorCookie = await getCookie(
+        "validationError",
+        reference,
+      );
+      setValidationError(validationErrorCookie === "true");
 
-    await setTopicIndex(reference, currentTopicIndex);
-  } else {
-    const currentTopicIndexCookie = await getCookie(
-      "currentTopicIndex",
-      reference,
-    );
-    currentTopicIndex = parseInt(currentTopicIndexCookie || "0", 10);
+      // Fetch existing comment data
+      const commentDataCookie = await getCookie("commentData", reference);
+      const commentData = commentDataCookie
+        ? JSON.parse(commentDataCookie)
+        : {};
+      setExistingComment(commentData[topics[index]] || "");
+    };
 
-    if (isNaN(currentTopicIndex)) {
-      currentTopicIndex = 0;
-    }
-  }
+    loadData();
+  }, [reference, topicIndexFromURL]);
 
   const currentTopic = selectedTopics[currentTopicIndex] || "";
-
-  const validationErrorCookie = await getCookie("validationError", reference);
-  const validationError = validationErrorCookie === "true";
-
-  // Fetch existing comment data
-  const commentDataCookie = await getCookie("commentData", reference);
-  const commentData = commentDataCookie ? JSON.parse(commentDataCookie) : {};
-  const existingComment = commentData[currentTopic] || "";
 
   return (
     <div className="govuk-grid-row">
@@ -69,9 +79,7 @@ const CommentTextEntry = async ({
           />
           <input type="hidden" name="topicIndex" value={currentTopicIndex} />
           <div
-            className={`govuk-form-group ${
-              validationError ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationError ? "govuk-form-group--error" : ""}`}
           >
             {validationError && (
               <p id="form-error" className="govuk-error-message">
@@ -87,11 +95,8 @@ const CommentTextEntry = async ({
             <div id="comment-hint" className="govuk-hint">
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
-
             <textarea
-              className={`govuk-textarea ${
-                validationError ? "govuk-input--error" : ""
-              }`}
+              className={`govuk-textarea ${validationError ? "govuk-input--error" : ""}`}
               id="comment"
               name="comment"
               rows={5}

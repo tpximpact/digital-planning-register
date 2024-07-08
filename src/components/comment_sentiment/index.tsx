@@ -18,9 +18,9 @@ const CommentSentiment = async ({
   const isEditing = searchParams.edit === "true";
 
   const options = [
-    { id: "opposed", label: "Opposed", Icon: OpposedIcon },
+    { id: "objection", label: "Opposed", Icon: OpposedIcon },
     { id: "neutral", label: "Neutral", Icon: NeutralIcon },
-    { id: "support", label: "Support", Icon: SupportIcon },
+    { id: "supportive", label: "Support", Icon: SupportIcon },
   ];
 
   return (
