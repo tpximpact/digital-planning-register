@@ -174,62 +174,8 @@
   margin-top: 4px;
 }
 
-// Info icon links
-a.info-icon {
-    display:inline-block;
-    font-size:.8em;
-    border-radius:50%;
-    height:1.3em;
-    width:1.3em;
-    background:govuk-colour("light-grey");
-    text-align:center;
-    text-decoration: none;
-    color:govuk-colour("blue");
-    margin-left: 5px;
-}
-a.info-icon:visited {
-    color:govuk-colour("blue");
-}
-a.info-icon:hover {
-    background:govuk-colour("blue");
-    color:white;
-}
-a.info-icon:focus {
-    background:govuk-colour("yellow");
-    box-shadow:none;
-    outline:3px solid govuk-colour("black");
-    color:govuk-colour("black");
-}
-
-// Help page
-.contents-bar a {
-    text-decoration: none;
-    font-size:1rem;
-}
-.contents-bar a:hover {
-    text-decoration: underline;
-}
-
-.list-heading {
-    font-weight:bold;
-}
-
-.sub-list {
-    margin-left:2em;
-    position: relative;
-}
-.sub-list:before {
-    content: "—";
-    position: relative;
-    margin: 0 1em 0 -2em;
-}
-.sub-sub-list {
-    margin-left:4em;
-}
-.list-heading {
-    font-weight:bold;
-}
-
-.sub-sub-list {
-    margin-left:4em;
+.back-button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
 }
