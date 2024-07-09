@@ -9,8 +9,6 @@ import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 const resultsPerPage = 10;
 
@@ -125,7 +123,7 @@ export default async function Home({
   }
   return (
     <>
-      {!data && <BackLink href={`/${council}`} />}
+      {!data && <BackLink />}
       <div className="govuk-main-wrapper">
         <form action={`/${council}`} method="get" className="govuk-grid-row">
           <div className="govuk-grid-column-one-half">
@@ -275,24 +273,12 @@ export default async function Home({
 
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        <form
-                          action={async () => {
-                            "use server";
-                            cookies().set(
-                              "reference",
-                              application?.reference ||
-                                application?.application?.reference,
-                            );
-                            cookies().set("council", council);
-                            redirect(
-                              `/${council}/${application?.reference || application?.application?.reference}`,
-                            );
-                          }}
+                        <a
+                          className="govuk-button govuk-button--secondary blue-button"
+                          href={`/${council}/${application?.reference || application?.application?.reference}`}
                         >
-                          <button className="govuk-button govuk-button--secondary blue-button">
-                            View details
-                          </button>
-                        </form>
+                          View details
+                        </a>
                       </div>
                     </div>
                   </div>

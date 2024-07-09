@@ -1,13 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { BackLink } from "@/components/button";
-import { cookies } from "next/headers";
 
 const PlanningProcess = () => {
-  const council = cookies().get("council")?.value as string;
-  const reference = cookies().get("reference")?.value as string;
   return (
     <>
-      <BackLink href={`/${council}/${reference}`} />
+      <BackLink />
       <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-xl">Understanding planning</h1>
         <div className="govuk-grid-row">
