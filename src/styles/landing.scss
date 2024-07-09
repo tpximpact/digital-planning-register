@@ -292,7 +292,10 @@
   .logos-container a {
     width: 100%;
   }
-    .govuk-header__navigation-item {
+}
+
+@media (max-width: 768px) {
+  .govuk-header__navigation-item {
     margin: 0;
     padding-left: 0;
   }
