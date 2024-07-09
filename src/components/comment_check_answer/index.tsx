@@ -7,16 +7,47 @@ import { getCookie } from "@/actions/cookies";
 
 const topics_selection = [
   {
-    label: "Design, size or height of new buildings or extensions",
+    label:
+      "Comment on the design, size or height of new buildings or extensions",
     value: "design",
+    selectedTopicsLabel:
+      "The design, size or height of new buildings or extensions",
   },
-  { label: "Use and function of the proposed development", value: "use" },
-  { label: "Impacts on natural light", value: "light" },
-  { label: "Privacy of neighbours", value: "privacy" },
-  { label: "Disabled persons' access", value: "access" },
-  { label: "Noise from new uses", value: "noise" },
-  { label: "Traffic, parking or road safety", value: "traffic" },
-  { label: "Other", value: "other" },
+  {
+    label: "Comment on the use and function of the proposed development",
+    value: "use",
+    selectedTopicsLabel: "The use and function of the proposed development",
+  },
+  {
+    label: "Comment on any impacts on natural light",
+    value: "light",
+    selectedTopicsLabel: "Any impacts on natural light",
+  },
+  {
+    label: "Comment on any impacts on privacy of neighbours",
+    value: "privacy",
+    selectedTopicsLabel: "Impacts to the privacy of neighbours",
+  },
+  {
+    label: "Comment on disabled access",
+    value: "access",
+    selectedTopicsLabel: "Impacts on disabled persons' access",
+  },
+  {
+    label: "Comment on any noise from new uses",
+    value: "noise",
+    selectedTopicsLabel: "Any noise from new uses",
+  },
+  {
+    label: "Comment on traffic, parking or road safety",
+    value: "traffic",
+    selectedTopicsLabel: "Impacts to traffic, parking or road safety",
+  },
+  {
+    label: "Other comments",
+    value: "other",
+    selectedTopicsLabel: "Any other things",
+  },
 ];
 
 const CommentCheckAnswer = async ({
@@ -45,12 +76,23 @@ const CommentCheckAnswer = async ({
 
   // Process cookie data
   const sentiment = sentimentCookie || "";
+  const displaySentiment =
+    sentiment === "objection" ? "Opposed" : capitaliseWord(sentiment);
   const selectedTopics = selectedTopicsCookie?.split(",") || [];
   const commentData = commentDataCookie ? JSON.parse(commentDataCookie) : {};
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
     : {};
   const submissionError = submissionErrorCookie === "true";
+
+  const formatSelectedTopics = (selectedTopics: string[]) => {
+    return selectedTopics
+      .map((topic) => {
+        const foundTopic = topics_selection.find((t) => t.value === topic);
+        return foundTopic ? foundTopic.selectedTopicsLabel : "";
+      })
+      .filter((label) => label !== "");
+  };
   return (
     <>
       <div className="govuk-grid-row">
@@ -102,15 +144,15 @@ const CommentCheckAnswer = async ({
             method="POST"
           >
             <input type="hidden" name="council" value={council} />
-            <input type="hidden" name="reference" value={reference} />{" "}
-            <input type="hidden" name="applicationId" value={applicationId} />{" "}
+            <input type="hidden" name="reference" value={reference} />
+            <input type="hidden" name="applicationId" value={applicationId} />
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">
                   How do you feel about this development
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{capitaliseWord(sentiment)}</p>
+                  <p className="govuk-body">{displaySentiment}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <a
@@ -128,16 +170,11 @@ const CommentCheckAnswer = async ({
                   What topics do you want to comment on?
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <ul className="govuk-list">
-                    {selectedTopics.map((topic) => {
-                      const foundTopic = topics_selection.find(
-                        (t) => t.value === topic,
-                      );
-                      return foundTopic ? (
-                        <li key={foundTopic.value}>{foundTopic.label}</li>
-                      ) : null;
-                    })}
-                  </ul>
+                  {formatSelectedTopics(selectedTopics).map((topic, index) => (
+                    <p key={index} className="govuk-body">
+                      {topic}
+                    </p>
+                  ))}
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <a
@@ -158,9 +195,7 @@ const CommentCheckAnswer = async ({
               return (
                 <dl className="govuk-summary-list" key={index}>
                   <div className="govuk-summary-list__row">
-                    <dt className="govuk-summary-list__key">
-                      Comment on {topicLabel.toLowerCase()}
-                    </dt>
+                    <dt className="govuk-summary-list__key">{topicLabel}</dt>
                     <dd className="govuk-summary-list__value">
                       <p className="govuk-body">
                         {commentData[topic]

@@ -4,6 +4,18 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getCookie, setCookie } from "@/actions/cookies";
 
+const topicLabels = {
+  design:
+    "Comment on the design, size or height of new buildings or extensions",
+  use: "Comment on the use and function of the proposed development",
+  light: "Comment on any impacts on natural light",
+  privacy: "Comment on impacts to the privacy of neighbours",
+  access: "Comment on impacts on disabled persons' access",
+  noise: "Comment on any noise from new uses",
+  traffic: "Comment on impacts to traffic, parking or road safety",
+  other: "Comment on other things",
+};
+
 const CommentTextEntry = ({
   council,
   reference,
@@ -17,6 +29,7 @@ const CommentTextEntry = ({
   const topicIndexFromURL = searchParams.get("topicIndex");
   const isEditing = searchParams.get("edit") === "true";
 
+  const [isLoading, setIsLoading] = useState(true);
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
@@ -55,12 +68,20 @@ const CommentTextEntry = ({
         ? JSON.parse(commentDataCookie)
         : {};
       setExistingComment(commentData[topics[index]] || "");
+
+      setIsLoading(false);
     };
 
     loadData();
   }, [reference, topicIndexFromURL]);
 
+  if (isLoading) {
+    return null;
+  }
+
   const currentTopic = selectedTopics[currentTopicIndex] || "";
+  const currentTopicLabel =
+    topicLabels[currentTopic as keyof typeof topicLabels];
 
   return (
     <div className="govuk-grid-row">
@@ -89,7 +110,7 @@ const CommentTextEntry = ({
             )}
             <h1 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--l" htmlFor="comment">
-                Comment on {currentTopic}
+                {currentTopicLabel}
               </label>
             </h1>
             <div id="comment-hint" className="govuk-hint">
