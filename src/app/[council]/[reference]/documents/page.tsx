@@ -32,7 +32,7 @@ export default async function Documents({
   );
   return (
     <div>
-      <BackLink href={`/${council}/${reference}`} />
+      <BackLink />
       <ApplicationHeader
         reference={applicationData.reference}
         address={applicationData.site}

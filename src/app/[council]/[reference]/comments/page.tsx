@@ -42,7 +42,7 @@ export default async function Comments({
   const totalPages = Math.ceil(totalComments / maxDisplayComments);
   return (
     <div>
-      <BackLink href={`/${council}/${reference}`} />
+      <BackLink />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={applicationData.reference}

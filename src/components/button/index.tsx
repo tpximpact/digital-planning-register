@@ -1,8 +1,25 @@
-export const BackLink = ({ href }: { href?: string }) => {
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+export const BackLink = () => {
+  const router = useRouter();
+  const [isJsEnabled, setIsJsEnabled] = useState(false);
+  useEffect(() => {
+    document.documentElement.className = "js-enabled";
+    setIsJsEnabled(true);
+  }, []);
   return (
-    <a href={href} className="govuk-back-link">
-      Back
-    </a>
+    <>
+      {isJsEnabled && (
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="govuk-back-link back-button"
+        >
+          Back
+        </button>
+      )}
+    </>
   );
 };
 
