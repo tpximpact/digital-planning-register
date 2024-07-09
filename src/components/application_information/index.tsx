@@ -1,5 +1,5 @@
 import { BoundaryGeojson } from "../../../util/type";
-import Map from "../map";
+import dynamic from "next/dynamic";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
@@ -7,6 +7,11 @@ import { definedStatus } from "../../../util/formatStatus";
 import ButtonDetails from "@/components/button_details";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+
+const DynamicMap = dynamic(() => import("../map"), {
+  ssr: false,
+  loading: () => <div>Loading map...</div>,
+});
 
 type ApplicationInfo = {
   reference: string;
@@ -57,6 +62,17 @@ const ApplicationInformation = ({
     }
   }
 
+  const geojsonData =
+    geometryType && coordinates
+      ? JSON.stringify({
+          type: "Feature",
+          geometry: {
+            type: geometryType,
+            coordinates,
+          },
+        })
+      : null;
+
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -77,17 +93,7 @@ const ApplicationInformation = ({
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third app-map">
-          {geometryType && coordinates && (
-            <Map
-              geojsonData={JSON.stringify({
-                type: "Feature",
-                geometry: {
-                  type: geometryType,
-                  coordinates,
-                },
-              })}
-            />
-          )}
+          {geojsonData && <DynamicMap geojsonData={geojsonData} />}
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop key-info">

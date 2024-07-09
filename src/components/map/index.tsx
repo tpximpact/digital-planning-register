@@ -45,7 +45,7 @@ const Map: React.FC<MapProps> = ({
       map.forEach((canvas) => {
         (canvas.style.width = "28rem"),
           (canvas.style.height =
-            page == "landing"
+            page == "static-map-page"
               ? onlyWidth > 640 && onlyWidth < 1090
                 ? "14rem"
                 : "20rem"

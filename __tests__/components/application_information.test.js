@@ -6,6 +6,57 @@ jest.mock("../../src/components/map", () => {
   return jest.fn(() => <div data-testid="mockMap"></div>);
 });
 
+// Mock the dynamic import
+jest.mock("next/dynamic", () => ({
+  __esModule: true,
+  default: () => {
+    const DynamicComponent = (props) => <div data-testid="mockMap"></div>;
+    DynamicComponent.displayName = "LoadableComponent";
+    return DynamicComponent;
+  },
+}));
+
+describe("Render ApplicationInformation", () => {
+  const mockData = {
+    reference: "AAA_BBB_CCC_DDD",
+    application_type: "planning_application",
+    site: {
+      address_1: "40, TEST ROAD",
+      postcode: "AB1 CD2",
+    },
+    received_date: "2024-03-18T00:00:00.000+00:00",
+    result_flag: null,
+    determination_date: "2024-03-19",
+    status: "not_started",
+    consultation: { end_date: "2024-04-08" },
+    description: "Simple description",
+    boundary_geojson: {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [1, 1],
+            [1, 0],
+            [0, 0],
+          ],
+        ],
+      },
+    },
+    council: "test_council",
+    id: 123,
+    decision: null,
+    in_assessment_at: null,
+  };
+
+  it("should render correctly with Polygon geometry", () => {
+    render(<ApplicationInformation {...mockData} />);
+    const mapComponent = screen.getByTestId("mockMap");
+    expect(mapComponent).toBeInTheDocument();
+  });
+});
+
 describe("Render ApplicationInformation", () => {
   const mockData = {
     reference: "AAA_BBB_CCC_DDD",
@@ -35,12 +86,6 @@ describe("Render ApplicationInformation", () => {
       },
     },
   };
-
-  it("should render correctly with Polygon geometry", () => {
-    render(<ApplicationInformation {...mockData} />);
-    const mapComponent = screen.getByTestId("mockMap");
-    expect(mapComponent).toBeInTheDocument();
-  });
 
   it("should render correctly with MultiPolygon geometry", () => {
     const mockDataWithMultiPolygon = {

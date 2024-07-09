@@ -62,6 +62,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
               geojsonData={JSON.stringify(getGeometryData)}
               staticMode={true}
               zoom={10}
+              page="static-map-page"
             />
           )}
         </div>

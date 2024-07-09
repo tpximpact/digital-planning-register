@@ -1,4 +1,13 @@
-import Map from "../map";
+import dynamic from "next/dynamic";
+import React from "react";
+
+const DynamicMap = dynamic(() => import("../map"), {
+  ssr: false,
+  loading: () => (
+    <div style={{ width: "28rem", height: "20rem" }}>Loading map...</div>
+  ),
+});
+
 const LandingMap = ({ boundary_geojson }: any) => {
   const boundaryGeojson = boundary_geojson;
 
@@ -15,22 +24,25 @@ const LandingMap = ({ boundary_geojson }: any) => {
       coordinates = features[0].geometry?.coordinates;
     }
   }
+
+  if (!geometryType || !coordinates) {
+    return null;
+  }
+
+  const geojsonData = JSON.stringify({
+    type: "Feature",
+    geometry: {
+      type: geometryType,
+      coordinates: coordinates,
+    },
+  });
+
   return (
-    <>
-      {geometryType && coordinates && (
-        <Map
-          staticMode={true}
-          page="landing"
-          geojsonData={JSON.stringify({
-            type: "Feature",
-            geometry: {
-              type: geometryType,
-              coordinates: coordinates,
-            },
-          })}
-        />
-      )}
-    </>
+    <DynamicMap
+      staticMode={true}
+      page="static-map-page"
+      geojsonData={geojsonData}
+    />
   );
 };
 
