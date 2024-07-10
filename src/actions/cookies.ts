@@ -22,17 +22,30 @@ export async function getCookie(name: string, reference: string) {
 }
 
 export async function deleteCookie(name: string, reference: string) {
-  cookies().delete(`${reference}_${name}`);
+  if (name.startsWith("comment_")) {
+    cookies().delete(`${reference}_${name}`);
+  } else {
+    cookies().delete(`${reference}_${name}`);
+  }
 }
 
 export async function clearAllCookies(reference: string) {
   const cookiesToClear = [
     "sentiment",
     "selectedTopics",
-    "commentData",
     "personalDetails",
     "validationError",
     "applicationId",
   ];
   cookiesToClear.forEach((cookie) => deleteCookie(cookie, reference));
+
+  // Clear all comment cookies
+  const cookieStore = cookies();
+  const allCookies = cookieStore.getAll();
+
+  for (const cookie of allCookies) {
+    if (cookie.name.startsWith(`${reference}_comment_`)) {
+      cookieStore.delete(cookie.name);
+    }
+  }
 }

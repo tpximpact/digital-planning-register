@@ -78,7 +78,6 @@ const CommentCheckAnswer = async ({
   // Retrieve all cookies
   const sentimentCookie = await getCookie("sentiment", reference);
   const selectedTopicsCookie = await getCookie("selectedTopics", reference);
-  const commentDataCookie = await getCookie("commentData", reference);
   const personalDetailsCookie = await getCookie("personalDetails", reference);
   const submissionErrorCookie = await getCookie("submissionError", reference);
 
@@ -87,7 +86,6 @@ const CommentCheckAnswer = async ({
   const displaySentiment =
     sentiment === "objection" ? "Opposed" : capitaliseWord(sentiment);
   const selectedTopics = selectedTopicsCookie?.split(",") || [];
-  const commentData = commentDataCookie ? JSON.parse(commentDataCookie) : {};
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
     : {};
@@ -101,6 +99,12 @@ const CommentCheckAnswer = async ({
       })
       .filter((label) => label !== "");
   };
+  const comments = await Promise.all(
+    selectedTopics.map(async (topic) => {
+      const comment = await getCookie(`comment_${topic}`, reference);
+      return { topic, comment };
+    }),
+  );
   return (
     <>
       <div className="govuk-grid-row">
@@ -194,7 +198,7 @@ const CommentCheckAnswer = async ({
                 </dd>
               </div>
             </dl>
-            {selectedTopics.map((topic, index) => {
+            {comments.map(({ topic, comment }, index) => {
               const foundTopic = topics_selection.find(
                 (t) => t.value === topic,
               );
@@ -206,9 +210,7 @@ const CommentCheckAnswer = async ({
                     <dt className="govuk-summary-list__key">{topicLabel}</dt>
                     <dd className="govuk-summary-list__value">
                       <p className="govuk-body">
-                        {commentData[topic]
-                          ? (commentData[topic] as string)
-                          : "No comment provided"}
+                        {comment || "No comment provided"}
                       </p>
                     </dd>
                     <dd className="govuk-summary-list__actions">

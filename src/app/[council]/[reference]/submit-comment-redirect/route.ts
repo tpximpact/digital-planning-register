@@ -27,6 +27,12 @@ const topics_selection = [
   { label: "Other", value: "other" },
 ];
 
+const MAX_COMMENT_LENGTH = 1200;
+
+const normaliseAndCountChars = (text: string) => {
+  return text.replace(/\s+/g, " ").trim().length;
+};
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const { searchParams } = new URL(request.url);
@@ -68,7 +74,6 @@ async function handlePresubmissionStep(
   const existingApplicationId = await getCookie("applicationId", reference);
   const sentiment = await getCookie("sentiment", reference);
   const selectedTopics = await getCookie("selectedTopics", reference);
-  const commentData = await getCookie("commentData", reference);
   const personalDetails = await getCookie("personalDetails", reference);
 
   if (
@@ -86,10 +91,21 @@ async function handlePresubmissionStep(
 
   if (personalDetails) {
     redirect(`/${council}/${reference}/submit-comment?page=5`);
-  } else if (commentData) {
-    redirect(`/${council}/${reference}/submit-comment?page=4`);
   } else if (selectedTopics) {
-    redirect(`/${council}/${reference}/submit-comment?page=3`);
+    const topics = selectedTopics.split(",");
+    let hasComments = false;
+    for (const topic of topics) {
+      const comment = await getCookie(`comment_${topic}`, reference);
+      if (comment) {
+        hasComments = true;
+        break;
+      }
+    }
+    if (hasComments) {
+      redirect(`/${council}/${reference}/submit-comment?page=4`);
+    } else {
+      redirect(`/${council}/${reference}/submit-comment?page=3`);
+    }
   } else if (sentiment) {
     redirect(`/${council}/${reference}/submit-comment?page=2`);
   } else {
@@ -136,6 +152,13 @@ async function handleTopicsStep(
     const previousTopics = previousTopicsCookie?.split(",") || [];
     await setCookie("selectedTopics", selectedTopics.join(","), reference);
 
+    // Delete cookies for deselected topics
+    for (const topic of previousTopics) {
+      if (!selectedTopics.includes(topic)) {
+        await deleteCookie(`comment_${topic}`, reference);
+      }
+    }
+
     const newTopics = selectedTopics.filter(
       (topic) => !previousTopics.includes(topic),
     );
@@ -172,10 +195,15 @@ async function handleCommentsStep(
 ) {
   const comment = formData.get("comment") as string;
   const topicIndex = formData.get("topicIndex");
+  const currentTopic = formData.get("currentTopic") as string;
   const isEditing = formData.get("isEditing") === "true";
 
-  if (comment) {
+  const normalisedCommentLength = normaliseAndCountChars(comment);
+
+  if (comment && normalisedCommentLength <= MAX_COMMENT_LENGTH) {
     await deleteCookie("validationError", reference);
+    await setCookie(`comment_${currentTopic}`, comment, reference);
+
     const selectedTopicsCookie = await getCookie("selectedTopics", reference);
     const selectedTopics = selectedTopicsCookie?.split(",") || [];
 
@@ -190,15 +218,6 @@ async function handleCommentsStep(
       );
       currentTopicIndex = parseInt(currentTopicIndexCookie || "0");
     }
-
-    const currentTopic = selectedTopics[currentTopicIndex];
-
-    const existingCommentsValue = await getCookie("commentData", reference);
-    const existingComments = existingCommentsValue
-      ? JSON.parse(existingCommentsValue)
-      : {};
-    existingComments[currentTopic] = comment;
-    await setCookie("commentData", JSON.stringify(existingComments), reference);
 
     if (isEditing) {
       const newTopicsCookie = await getCookie("newTopics", reference);
@@ -294,29 +313,27 @@ async function handleSubmissionStep(
 
   const sentimentCookie = await getCookie("sentiment", reference);
   const personalDetailsCookie = await getCookie("personalDetails", reference);
-  const commentDataCookie = await getCookie("commentData", reference);
   const selectedTopicsCookie = await getCookie("selectedTopics", reference);
 
   const sentiment = sentimentCookie || "";
   const personalDetails = personalDetailsCookie
     ? JSON.parse(personalDetailsCookie)
     : {};
-  const commentData = commentDataCookie ? JSON.parse(commentDataCookie) : {};
   const selectedTopics = selectedTopicsCookie?.split(",") || [];
 
   const apiData = {
     name: personalDetails.name,
     email: personalDetails.emailAddress,
     address: `${personalDetails.address}, ${personalDetails.postcode}`,
-    response: selectedTopics
-      .map((topic: string) => {
+    response: await Promise.all(
+      selectedTopics.map(async (topic: string) => {
         const topicLabel = topics_selection.find(
           (t) => t.value === topic,
         )?.label;
-        const comment = commentData[topic];
+        const comment = (await getCookie(`comment_${topic}`, reference)) || "";
         return `* ${topicLabel}: ${comment} `;
-      })
-      .join(" "),
+      }),
+    ).then((comments) => comments.join(" ")),
     summary_tag: sentiment,
     tags: selectedTopics,
   };

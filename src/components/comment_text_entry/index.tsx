@@ -4,6 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getCookie, setCookie } from "@/actions/cookies";
 
+const MAX_COMMENT_LENGTH = 1200;
+
+// Function to normalise and count characters consistently
+const normaliseAndCountChars = (text: string) => {
+  // Replace all whitespace (including newlines) with a single space
+  const normalised = text.replace(/\s+/g, " ").trim();
+  return normalised.length;
+};
+
 const topicLabels = {
   design:
     "Comment on the design, size or height of new buildings or extensions",
@@ -33,7 +42,8 @@ const CommentTextEntry = ({
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
-  const [existingComment, setExistingComment] = useState("");
+  const [comment, setComment] = useState("");
+  const [isOverLimit, setIsOverLimit] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -62,18 +72,42 @@ const CommentTextEntry = ({
       );
       setValidationError(validationErrorCookie === "true");
 
-      // Fetch existing comment data
-      const commentDataCookie = await getCookie("commentData", reference);
-      const commentData = commentDataCookie
-        ? JSON.parse(commentDataCookie)
-        : {};
-      setExistingComment(commentData[topics[index]] || "");
+      // Fetch existing comment data for the current topic
+      const currentTopic = topics[index];
+      const savedComment =
+        (await getCookie(`comment_${currentTopic}`, reference)) || "";
+      setComment(savedComment);
+      const charCount = normaliseAndCountChars(savedComment);
+      setIsOverLimit(charCount > MAX_COMMENT_LENGTH);
 
       setIsLoading(false);
     };
 
     loadData();
   }, [reference, topicIndexFromURL]);
+
+  const handleCommentChange = async (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const newComment = e.target.value;
+    setComment(newComment);
+    const charCount = normaliseAndCountChars(newComment);
+    const newIsOverLimit = charCount > MAX_COMMENT_LENGTH;
+    setIsOverLimit(newIsOverLimit);
+
+    // Save comment to cookie as user types
+    const currentTopic = selectedTopics[currentTopicIndex];
+    try {
+      await setCookie(`comment_${currentTopic}`, newComment, reference);
+      // Clear validation error if it was set and comment is now valid
+      if (validationError && newComment.trim() !== "" && !newIsOverLimit) {
+        await setCookie("validationError", "false", reference);
+        setValidationError(false);
+      }
+    } catch (error) {
+      console.error("Failed to save comment:", error);
+    }
+  };
 
   if (isLoading) {
     return null;
@@ -99,13 +133,23 @@ const CommentTextEntry = ({
             value={isEditing ? "true" : "false"}
           />
           <input type="hidden" name="topicIndex" value={currentTopicIndex} />
+          <input type="hidden" name="currentTopic" value={currentTopic} />
           <div
-            className={`govuk-form-group ${validationError ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${
+              validationError || isOverLimit ? "govuk-form-group--error" : ""
+            }`}
           >
             {validationError && (
               <p id="form-error" className="govuk-error-message">
                 <span className="govuk-visually-hidden">Error: </span> Your
                 comment is required
+              </p>
+            )}
+            {isOverLimit && (
+              <p id="length-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error: </span> Your
+                comment exceeds the maximum length of {MAX_COMMENT_LENGTH}{" "}
+                characters
               </p>
             )}
             <h1 className="govuk-label-wrapper">
@@ -117,18 +161,22 @@ const CommentTextEntry = ({
               {currentTopicIndex + 1} of {selectedTopics.length}
             </div>
             <textarea
-              className={`govuk-textarea ${validationError ? "govuk-input--error" : ""}`}
+              className={`govuk-textarea ${
+                validationError || isOverLimit ? "govuk-textarea--error" : ""
+              }`}
               id="comment"
               name="comment"
               rows={5}
               aria-describedby="comment-hint"
-              defaultValue={existingComment}
+              value={comment}
+              onChange={handleCommentChange}
             ></textarea>
           </div>
           <button
             type="submit"
             className="govuk-button"
             data-module="govuk-button"
+            disabled={isOverLimit}
           >
             Continue
           </button>
