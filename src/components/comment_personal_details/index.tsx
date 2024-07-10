@@ -18,10 +18,18 @@ const CommentPersonalDetails = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const councilConfig: Config = config;
-  const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
-  const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
-  const planningServicePrivacyStatement =
-    councilConfig[council]?.planning_service_privacy_statement;
+  const contactPlanningAdviceLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.contact_planning_advice_link;
+  const corporatePrivacyLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.corporate_privacy_statement_link;
+  const planningServicePrivacyStatementLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.planning_service_privacy_statement_link;
 
   const personalDetailsCookie = await getCookie("personalDetails", reference);
   const personalDetails = personalDetailsCookie
@@ -237,7 +245,7 @@ const CommentPersonalDetails = async ({
                 published,{" "}
                 <a
                   className="govuk-link govuk-link--no-visited-state"
-                  href={contactPlanningAdvice}
+                  href={contactPlanningAdviceLink}
                   target="_blank"
                 >
                   contact the Planning Advice and Information Service.
@@ -247,7 +255,7 @@ const CommentPersonalDetails = async ({
                 Read our {""}
                 <a
                   className="govuk-link govuk-link--no-visited-state"
-                  href={corporatePrivacy}
+                  href={corporatePrivacyLink}
                   target="_blank"
                 >
                   {""}
@@ -256,7 +264,7 @@ const CommentPersonalDetails = async ({
                 and our {""}
                 <a
                   className="govuk-link govuk-link--no-visited-state"
-                  href={planningServicePrivacyStatement}
+                  href={planningServicePrivacyStatementLink}
                   target="_blank"
                 >
                   planning service statement

@@ -60,10 +60,18 @@ const CommentCheckAnswer = async ({
   applicationId: number;
 }) => {
   const councilConfig: Config = config;
-  const contactPlanningAdvice = councilConfig[council]?.contact_planning_advice;
-  const corporatePrivacy = councilConfig[council]?.corporate_privacy_statement;
-  const planningServicePrivacyStatement =
-    councilConfig[council]?.planning_service_privacy_statement;
+  const contactPlanningAdviceLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_check_answer
+      ?.contact_planning_advice_link;
+  const corporatePrivacyLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_check_answer
+      ?.corporate_privacy_statement_link;
+  const planningServicePrivacyStatementLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_check_answer
+      ?.planning_service_privacy_statement_link;
   const getInTouchURL =
     councilConfig[council]?.contact || "https://www.gov.uk/";
 
@@ -359,7 +367,7 @@ const CommentCheckAnswer = async ({
                   published,{" "}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
-                    href={contactPlanningAdvice}
+                    href={contactPlanningAdviceLink}
                     target="_blank"
                   >
                     {" "}
@@ -370,7 +378,7 @@ const CommentCheckAnswer = async ({
                   Read our {""}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
-                    href={corporatePrivacy}
+                    href={corporatePrivacyLink}
                     target="_blank"
                   >
                     {""}
@@ -379,7 +387,7 @@ const CommentCheckAnswer = async ({
                   and our {""}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
-                    href={planningServicePrivacyStatement}
+                    href={planningServicePrivacyStatementLink}
                     target="_blank"
                   >
                     planning service statement

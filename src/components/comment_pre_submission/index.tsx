@@ -14,7 +14,10 @@ const PreSubmission = async ({
   applicationId: number;
 }) => {
   const councilConfig: Config = config;
-  const materialConsideration = councilConfig[council]?.material_consideration;
+  const whatHappensToYourCommentsLink =
+    councilConfig[council]?.pageContent
+      ?.council_reference_submit_comment_pre_submission
+      ?.what_happens_to_your_comments_link;
 
   return (
     <>
@@ -90,9 +93,9 @@ const PreSubmission = async ({
       <h2 className="govuk-heading-m">What happens to your comments</h2>
       <p className="govuk-body">
         The case officer will take all comments which are{" "}
-        {materialConsideration ? (
+        {whatHappensToYourCommentsLink ? (
           <a
-            href={materialConsideration}
+            href={whatHappensToYourCommentsLink}
             className="govuk-link govuk-link--no-visited-state"
             target="_blank"
           >
