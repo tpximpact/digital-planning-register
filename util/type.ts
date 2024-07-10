@@ -31,12 +31,13 @@ export type Data = {
   boundary_geojson?: BoundaryGeojson;
   consultee_comments?: ApplicationComment[];
   published_comments?: ApplicationComment[];
-  in_assessment_at?: string;
+  publishedAt?: string;
+  validAt?: string;
   created_at?: string;
   id: number;
 };
 
-type BoundaryGeojson =
+export type BoundaryGeojson =
   | {
       type: "Feature";
       geometry: {
