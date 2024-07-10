@@ -170,6 +170,7 @@ const CommentTextEntry = ({
               aria-describedby="comment-hint"
               value={comment}
               onChange={handleCommentChange}
+              maxLength={1200}
             ></textarea>
           </div>
           <button
