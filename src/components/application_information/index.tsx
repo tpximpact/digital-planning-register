@@ -114,6 +114,7 @@ const ApplicationInformation = ({
                   className="info-icon"
                   href={`/${council}/planning-process#${applicationType(application_type as string)}`}
                   title="Understanding application types"
+                  aria-label="Understanding application types"
                   target="_blank"
                 >
                   i
@@ -136,6 +137,7 @@ const ApplicationInformation = ({
                     ),
                   )}`}
                   title="Understanding application statuses"
+                  aria-label="Understanding application statuses"
                   target="_blank"
                 >
                   i
@@ -163,6 +165,7 @@ const ApplicationInformation = ({
                   className="info-icon"
                   href={`/${council}/planning-process#received-date`}
                   title="Understanding dates"
+                  aria-label="Understanding dates"
                   target="_blank"
                 >
                   i
@@ -184,6 +187,7 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${council}/planning-process#consultation-end-date`}
                       title="Understanding dates"
+                      aria-label="Understanding dates"
                       target="_blank"
                     >
                       i
@@ -236,6 +240,7 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${council}/planning-process#decision-date`}
                       title="Understanding dates"
+                      aria-label="Understanding dates"
                       target="_blank"
                     >
                       i
@@ -262,6 +267,7 @@ const ApplicationInformation = ({
                         .toLowerCase()
                         .replace(/ /g, "-")}`}
                       title="Understanding decisions"
+                      aria-label="Understanding decisions"
                       target="_blank"
                     >
                       i
