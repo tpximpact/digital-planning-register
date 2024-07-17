@@ -126,7 +126,3 @@ export async function submitComment(
     return { status: 500, message: "Internal server error" };
   }
 }
-
-export async function setTopicIndex(reference: string, index: number) {
-  setCookie("currentTopicIndex", index.toString(), reference);
-}
