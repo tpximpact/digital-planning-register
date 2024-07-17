@@ -121,7 +121,7 @@ const CommentTextEntry = ({
               className="govuk-button"
               data-module="govuk-button"
             >
-              {isEditing ? "Return to summary" : "Next"}
+              Continue
             </button>
           </div>
         </form>

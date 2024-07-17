@@ -9,7 +9,6 @@ import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
-import ButtonDetails from "@/components/button_details";
 
 const resultsPerPage = 10;
 

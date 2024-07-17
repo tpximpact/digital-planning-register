@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
-import ButtonDetails from "@/components/button_details";
+import Link from "next/link";
 
 const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,
@@ -201,11 +201,13 @@ const ApplicationInformation = ({
       </p>
       <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
         <div className="govuk-grid-column-full">
-          <ButtonDetails
-            council={council}
-            reference={reference}
-            applicationId={id}
-          />
+          <Link
+            href={`/${council}/${reference}/submit-comment`}
+            className="govuk-button govuk-button--primary"
+            data-module="govuk-button"
+          >
+            Comment on this application
+          </Link>
         </div>
       </div>
     </div>
