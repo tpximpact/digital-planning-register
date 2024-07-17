@@ -1,22 +1,56 @@
 /* eslint-disable react/no-unescaped-entities */
-import { redirect } from "next/navigation";
+"use client";
+import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { cookies } from "next/headers";
 import { Config } from "../../../util/type";
-import { getCookie } from "@/actions/cookies";
+import {
+  emailValidation,
+  phoneValidation,
+  postcodeValidation,
+} from "../../../util/validation";
 
-const CommentPersonalDetails = async ({
+interface PersonalDetails {
+  name: string;
+  address: string;
+  postcode: string;
+  emailAddress: string;
+  telephoneNumber: string;
+  consent: boolean;
+}
+
+interface ValidationErrors {
+  name?: string;
+  address?: string;
+  postcode?: string;
+  emailAddress?: string;
+  telephoneNumber?: string;
+  consent?: string;
+}
+
+const CommentPersonalDetails = ({
   council,
   reference,
-  applicationId,
-  searchParams,
+  navigateToPage,
+  isEditing,
 }: {
   council: string;
   reference: string;
-  applicationId: number;
-  searchParams: { [key: string]: string | string[] | undefined };
+  navigateToPage: (page: number, params?: object) => void;
+  isEditing: boolean;
 }) => {
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
+    name: "",
+    address: "",
+    postcode: "",
+    emailAddress: "",
+    telephoneNumber: "",
+    consent: false,
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {},
+  );
+
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
     councilConfig[council]?.pageContent
@@ -31,176 +65,199 @@ const CommentPersonalDetails = async ({
       ?.council_reference_submit_comment_personal_details
       ?.planning_service_privacy_statement_link;
 
-  const personalDetailsCookie = await getCookie("personalDetails", reference);
-  const personalDetails = personalDetailsCookie
-    ? JSON.parse(personalDetailsCookie)
-    : {};
+  useEffect(() => {
+    const storedDetails = localStorage.getItem(`personalDetails_${reference}`);
+    if (storedDetails) {
+      setPersonalDetails(JSON.parse(storedDetails));
+    }
+  }, [reference]);
 
-  const errorCookies = await getCookie("validationError", reference);
-  const validationError = errorCookies ? JSON.parse(errorCookies) : {};
-  const isEditing = searchParams.edit === "true";
-  const isConsentChecked = personalDetails.consent === "on";
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setPersonalDetails((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const validatePersonalDetails = (): boolean => {
+    const errors: ValidationErrors = {};
+    if (!personalDetails.name) errors.name = "Your name is required";
+    if (!personalDetails.address) errors.address = "Your address is required";
+    if (!postcodeValidation(personalDetails.postcode))
+      errors.postcode = "A valid postcode is required";
+    if (
+      personalDetails.emailAddress &&
+      !emailValidation(personalDetails.emailAddress)
+    )
+      errors.emailAddress = "Email address must be valid";
+    if (
+      personalDetails.telephoneNumber &&
+      !phoneValidation(personalDetails.telephoneNumber)
+    )
+      errors.telephoneNumber = "Telephone number must be valid";
+    if (!personalDetails.consent) errors.consent = "You need to consent";
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validatePersonalDetails()) {
+      localStorage.setItem(
+        `personalDetails_${reference}`,
+        JSON.stringify(personalDetails),
+      );
+      navigateToPage(5);
+    }
+  };
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <h1 className="govuk-heading-l">Your details</h1>
-        <form
-          action={`/${council}/${reference}/submit-comment-redirect?page=4`}
-          method="POST"
-        >
-          <input type="hidden" name="council" value={council} />
-          <input type="hidden" name="reference" value={reference} />{" "}
-          <input type="hidden" name="applicationId" value={applicationId} />
-          <input
-            type="hidden"
-            name="isEditing"
-            value={isEditing ? "true" : "false"}
-          />
+        <form onSubmit={handleSubmit}>
+          {/* Name input */}
           <div
-            className={`govuk-form-group ${
-              validationError.name ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="name">
               Name
             </label>
-            {validationError.name && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Your name
-                is required
+            {validationErrors.name && (
+              <p id="name-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {validationErrors.name}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${
-                validationError.name ? "govuk-input--error" : ""
-              }`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors.name ? "govuk-input--error" : ""}`}
               id="name"
               name="name"
               type="text"
-              defaultValue={personalDetails.name || ""}
+              value={personalDetails.name}
+              onChange={handleInputChange}
             />
           </div>
+
+          {/* Address input */}
           <div
-            className={`govuk-form-group ${
-              validationError.address ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="address">
               Address
             </label>
-            {validationError.address && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Your
-                address is required
+            {validationErrors.address && (
+              <p id="address-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {validationErrors.address}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${
-                validationError.address ? "govuk-input--error" : ""
-              }`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors.address ? "govuk-input--error" : ""}`}
               id="address"
               name="address"
               type="text"
-              defaultValue={personalDetails.address || ""}
+              value={personalDetails.address}
+              onChange={handleInputChange}
             />
           </div>
+
+          {/* Postcode input */}
           <div
-            className={`govuk-form-group ${
-              validationError.postcode ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
             </label>
-            {validationError.postcode && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> A valid
-                postcode is required
+            {validationErrors.postcode && (
+              <p id="postcode-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {validationErrors.postcode}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-10 ${
-                validationError.postcode ? "govuk-input--error" : ""
-              }`}
+              className={`govuk-input govuk-input--width-10 ${validationErrors.postcode ? "govuk-input--error" : ""}`}
               id="postcode"
               name="postcode"
               type="text"
-              defaultValue={personalDetails.postcode || ""}
+              value={personalDetails.postcode}
+              onChange={handleInputChange}
               autoComplete="postal-code"
             />
           </div>
+
+          {/* Email address input */}
           <div
-            className={`govuk-form-group ${
-              validationError.emailAddress ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationErrors.emailAddress ? "govuk-form-group--error" : ""}`}
           >
-            <label className="govuk-label" htmlFor="email-address">
+            <label className="govuk-label" htmlFor="emailAddress">
               Email address
             </label>
             <div className="govuk-hint">Optional</div>
-            {validationError.emailAddress && (
+            {validationErrors.emailAddress && (
               <p id="email-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Enter a
-                valid email address
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {validationErrors.emailAddress}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${
-                validationError.emailAddress ? "govuk-input--error" : ""
-              }`}
-              id="email-address"
-              name="email-address"
-              type="email"
+              className={`govuk-input govuk-input--width-20 ${validationErrors.emailAddress ? "govuk-input--error" : ""}`}
+              id="emailAddress"
+              name="emailAddress"
+              type="text"
+              value={personalDetails.emailAddress}
+              onChange={handleInputChange}
               spellCheck="false"
               autoComplete="email"
-              defaultValue={personalDetails.emailAddress || ""}
             />
           </div>
+
+          {/* Telephone number input */}
           <div
-            className={`govuk-form-group ${validationError.telephoneNumber ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
           >
-            <label className="govuk-label" htmlFor="telephone-number">
+            <label className="govuk-label" htmlFor="telephoneNumber">
               Telephone number
             </label>
             <div className="govuk-hint">Optional</div>
-            {validationError.telephoneNumber && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span>A valid
-                telephone number is required
+            {validationErrors.telephoneNumber && (
+              <p id="telephone-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {validationErrors.telephoneNumber}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationError.telephoneNumber ? "govuk-input--error" : ""}`}
-              id="telephone-number"
-              name="telephone-number"
+              className={`govuk-input govuk-input--width-20 ${validationErrors.telephoneNumber ? "govuk-input--error" : ""}`}
+              id="telephoneNumber"
+              name="telephoneNumber"
               type="tel"
-              defaultValue={personalDetails.telephoneNumber || ""}
+              value={personalDetails.telephoneNumber}
+              onChange={handleInputChange}
               autoComplete="tel"
             />
           </div>
+
+          {/* Consent checkbox */}
           <div
-            className={`govuk-form-group ${
-              validationError.consent ? "govuk-form-group--error" : ""
-            }`}
+            className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
           >
-            {validationError.consent && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error: </span> You need
-                to consent
+            {validationErrors.consent && (
+              <p id="consent-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error: </span>{" "}
+                {validationErrors.consent}
               </p>
             )}
             <div className="govuk-checkboxes" data-module="govuk-checkboxes">
               <div className="govuk-checkboxes__item">
                 <input
-                  className={`govuk-checkboxes__input ${
-                    validationError.consent ? "govuk-input--error" : ""
-                  }`}
+                  className={`govuk-checkboxes__input ${validationErrors.consent ? "govuk-input--error" : ""}`}
                   id="consent"
                   name="consent"
                   type="checkbox"
-                  value="on"
-                  defaultChecked={isConsentChecked}
+                  checked={personalDetails.consent}
+                  onChange={handleInputChange}
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"
@@ -286,4 +343,5 @@ const CommentPersonalDetails = async ({
     </div>
   );
 };
+
 export default CommentPersonalDetails;

@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
+"use client";
+import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
-import { cookies } from "next/headers";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "../../../util/type";
-import { getCookie } from "@/actions/cookies";
+import { submitComment } from "@/actions";
 
 const topics_selection = [
   {
@@ -50,15 +51,25 @@ const topics_selection = [
   },
 ];
 
-const CommentCheckAnswer = async ({
+const CommentCheckAnswer = ({
   council,
   reference,
   applicationId,
+  navigateToPage,
 }: {
   council: string;
   reference: string;
   applicationId: number;
+  navigateToPage: (page: number, params?: object) => void;
 }) => {
+  const [sentiment, setSentiment] = useState("");
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [personalDetails, setPersonalDetails] = useState<any>({});
+  const [comments, setComments] = useState<
+    { topic: string; comment: string }[]
+  >([]);
+  const [submissionError, setSubmissionError] = useState(false);
+
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
     councilConfig[council]?.pageContent
@@ -75,36 +86,75 @@ const CommentCheckAnswer = async ({
   const getInTouchURL =
     councilConfig[council]?.contact || "https://www.gov.uk/";
 
-  // Retrieve all cookies
-  const sentimentCookie = await getCookie("sentiment", reference);
-  const selectedTopicsCookie = await getCookie("selectedTopics", reference);
-  const personalDetailsCookie = await getCookie("personalDetails", reference);
-  const submissionErrorCookie = await getCookie("submissionError", reference);
+  useEffect(() => {
+    setSentiment(localStorage.getItem(`sentiment_${reference}`) || "");
+    setSelectedTopics(
+      localStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
+    );
+    const storedPersonalDetails = localStorage.getItem(
+      `personalDetails_${reference}`,
+    );
+    if (storedPersonalDetails) {
+      setPersonalDetails(JSON.parse(storedPersonalDetails));
+    }
 
-  // Process cookie data
-  const sentiment = sentimentCookie || "";
-  const displaySentiment =
-    sentiment === "objection" ? "Opposed" : capitaliseWord(sentiment);
-  const selectedTopics = selectedTopicsCookie?.split(",") || [];
-  const personalDetails = personalDetailsCookie
-    ? JSON.parse(personalDetailsCookie)
-    : {};
-  const submissionError = submissionErrorCookie === "true";
+    const storedTopics =
+      localStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
+    const loadedComments = storedTopics.map((topic) => ({
+      topic,
+      comment: localStorage.getItem(`comment_${topic}_${reference}`) || "",
+    }));
+    setComments(loadedComments);
+  }, [reference]);
 
-  const formatSelectedTopics = (selectedTopics: string[]) => {
-    return selectedTopics
+  const formatSelectedTopics = (topics: string[]) => {
+    return topics
       .map((topic) => {
         const foundTopic = topics_selection.find((t) => t.value === topic);
         return foundTopic ? foundTopic.selectedTopicsLabel : "";
       })
       .filter((label) => label !== "");
   };
-  const comments = await Promise.all(
-    selectedTopics.map(async (topic) => {
-      const comment = await getCookie(`comment_${topic}`, reference);
-      return { topic, comment };
-    }),
-  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmissionError(false);
+
+    const apiData = {
+      name: personalDetails.name,
+      email: personalDetails.emailAddress,
+      address: `${personalDetails.address}, ${personalDetails.postcode}`,
+      response: comments
+        .map(({ topic, comment }) => {
+          const topicLabel = topics_selection.find(
+            (t) => t.value === topic,
+          )?.label;
+          return `* ${topicLabel}: ${comment} `;
+        })
+        .join(" "),
+      summary_tag: sentiment,
+      tags: selectedTopics,
+    };
+
+    try {
+      const result = await submitComment(applicationId, council, apiData);
+      if (result.status === 200) {
+        // Clear all local storage for this reference
+        Object.keys(localStorage).forEach((key) => {
+          if (key.includes(reference)) {
+            localStorage.removeItem(key);
+          }
+        });
+        navigateToPage(6);
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      setSubmissionError(true);
+    }
+  };
+
   return (
     <>
       <div className="govuk-grid-row">
@@ -136,6 +186,7 @@ const CommentCheckAnswer = async ({
                           className="govuk-link govuk-link--no-visited-state"
                           href={getInTouchURL}
                           target="_blank"
+                          rel="noopener noreferrer"
                         >
                           contact your council
                         </a>
@@ -151,31 +202,27 @@ const CommentCheckAnswer = async ({
             Check what you have written before sending your comment
           </h1>
 
-          <form
-            action={`/${council}/${reference}/submit-comment-redirect?page=5`}
-            method="POST"
-          >
-            <input type="hidden" name="council" value={council} />
-            <input type="hidden" name="reference" value={reference} />
-            <input type="hidden" name="applicationId" value={applicationId} />
+          <form onSubmit={handleSubmit}>
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">
                   How do you feel about this development
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{displaySentiment}</p>
+                  <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <a
                     className="govuk-link"
-                    href={`/${council}/${reference}/submit-comment?page=1&edit=true`}
+                    href="#"
+                    onClick={() => navigateToPage(1, { edit: true })}
                   >
                     Change
                   </a>
                 </dd>
               </div>
             </dl>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">
@@ -191,18 +238,22 @@ const CommentCheckAnswer = async ({
                 <dd className="govuk-summary-list__actions">
                   <a
                     className="govuk-link"
-                    href={`/${council}/${reference}/submit-comment?page=2&edit=true`}
+                    href="#"
+                    onClick={() => navigateToPage(2, { edit: true })}
                   >
                     Change
                   </a>
                 </dd>
               </div>
             </dl>
+
             {comments.map(({ topic, comment }, index) => {
               const foundTopic = topics_selection.find(
                 (t) => t.value === topic,
               );
-              const topicLabel = foundTopic ? foundTopic.label : "";
+              const topicLabel = foundTopic
+                ? foundTopic.selectedTopicsLabel
+                : "";
 
               return (
                 <dl className="govuk-summary-list" key={index}>
@@ -216,7 +267,10 @@ const CommentCheckAnswer = async ({
                     <dd className="govuk-summary-list__actions">
                       <a
                         className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=3&topicIndex=${index}&edit=true`}
+                        href="#"
+                        onClick={() =>
+                          navigateToPage(3, { topicIndex: index, edit: true })
+                        }
                       >
                         Change
                       </a>
@@ -225,9 +279,9 @@ const CommentCheckAnswer = async ({
                 </dl>
               );
             })}
-            <h1 className="govuk-heading-l">
-              Check your details before sending your comment
-            </h1>
+
+            <h2 className="govuk-heading-m">Your details</h2>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Name</dt>
@@ -235,19 +289,17 @@ const CommentCheckAnswer = async ({
                   <p className="govuk-body">{personalDetails.name}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ul className="govuk-summary-list__actions-list">
-                    <li className="govuk-summary-list__actions-list-item">
-                      <a
-                        className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
-                      >
-                        Change
-                      </a>
-                    </li>
-                  </ul>
+                  <a
+                    className="govuk-link"
+                    href="#"
+                    onClick={() => navigateToPage(4, { edit: true })}
+                  >
+                    Change
+                  </a>
                 </dd>
               </div>
             </dl>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Address</dt>
@@ -255,19 +307,17 @@ const CommentCheckAnswer = async ({
                   <p className="govuk-body">{personalDetails.address}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ul className="govuk-summary-list__actions-list">
-                    <li className="govuk-summary-list__actions-list-item">
-                      <a
-                        className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
-                      >
-                        Change
-                      </a>
-                    </li>
-                  </ul>
+                  <a
+                    className="govuk-link"
+                    href="#"
+                    onClick={() => navigateToPage(4, { edit: true })}
+                  >
+                    Change
+                  </a>
                 </dd>
               </div>
             </dl>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Postcode</dt>
@@ -275,19 +325,17 @@ const CommentCheckAnswer = async ({
                   <p className="govuk-body">{personalDetails.postcode}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ul className="govuk-summary-list__actions-list">
-                    <li className="govuk-summary-list__actions-list-item">
-                      <a
-                        className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
-                      >
-                        Change
-                      </a>
-                    </li>
-                  </ul>
+                  <a
+                    className="govuk-link"
+                    href="#"
+                    onClick={() => navigateToPage(4, { edit: true })}
+                  >
+                    Change
+                  </a>
                 </dd>
               </div>
             </dl>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Email address</dt>
@@ -295,19 +343,17 @@ const CommentCheckAnswer = async ({
                   <p className="govuk-body">{personalDetails.emailAddress}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ul className="govuk-summary-list__actions-list">
-                    <li className="govuk-summary-list__actions-list-item">
-                      <a
-                        className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
-                      >
-                        Change
-                      </a>
-                    </li>
-                  </ul>
+                  <a
+                    className="govuk-link"
+                    href="#"
+                    onClick={() => navigateToPage(4, { edit: true })}
+                  >
+                    Change
+                  </a>
                 </dd>
               </div>
             </dl>
+
             <dl className="govuk-summary-list">
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Telephone number</dt>
@@ -317,24 +363,23 @@ const CommentCheckAnswer = async ({
                   </p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ul className="govuk-summary-list__actions-list">
-                    <li className="govuk-summary-list__actions-list-item">
-                      <a
-                        className="govuk-link"
-                        href={`/${council}/${reference}/submit-comment?page=4&edit=true`}
-                      >
-                        Change
-                      </a>
-                    </li>
-                  </ul>
+                  <a
+                    className="govuk-link"
+                    href="#"
+                    onClick={() => navigateToPage(4, { edit: true })}
+                  >
+                    Change
+                  </a>
                 </dd>
               </div>
             </dl>
+
             <h2 className="govuk-heading-m">Now send your comment</h2>
             <p className="govuk-body">
               By submitting this comment you are confirming that, to the best of
               your knowledge, the details you are providing are correct.
             </p>
+
             <details className="govuk-details">
               <summary className="govuk-details__summary">
                 <span className="govuk-details__summary-text">
@@ -343,7 +388,7 @@ const CommentCheckAnswer = async ({
               </summary>
               <div className="govuk-details__text">
                 <p className="govuk-body">
-                  We need your name and contact information because can only
+                  We need your name and contact information because we can only
                   formally explore comments coming from people who live close to
                   the proposed development. We will also use this to contact you
                   if the planning decision regarding this application is
@@ -361,44 +406,45 @@ const CommentCheckAnswer = async ({
                     className="govuk-link govuk-link--no-visited-state"
                     href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     General Data Protection Regulation (GDPR).
                   </a>{" "}
-                  {""}
                   If you have concerns about any data you have sent being
                   published,{" "}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
                     href={contactPlanningAdviceLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {" "}
                     contact the Planning Advice and Information Service.
                   </a>
                 </p>
                 <p className="govuk-body">
-                  Read our {""}
+                  Read our{" "}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
                     href={corporatePrivacyLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {""}
                     corporate privacy statement
-                  </a>
-                  and our {""}
+                  </a>{" "}
+                  and our{" "}
                   <a
                     className="govuk-link govuk-link--no-visited-state"
                     href={planningServicePrivacyStatementLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     planning service statement
                   </a>{" "}
-                  {""}
                   for more information.
                 </p>
               </div>
             </details>
+
             <button type="submit" className="govuk-button">
               Accept and send
             </button>

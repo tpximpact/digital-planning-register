@@ -1,21 +1,42 @@
-import { getCookie } from "@/actions/cookies";
+"use client";
+import React, { useEffect, useState } from "react";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 
-const CommentSentiment = async ({
-  council,
+const CommentSentiment = ({
   reference,
-  applicationId,
-  searchParams,
+  navigateToPage,
 }: {
-  council: string;
   reference: string;
-  applicationId: number;
-  searchParams: { [key: string]: string | string[] | undefined };
+  navigateToPage: (page: number, params?: object) => void;
 }) => {
-  const sentiment = await getCookie("sentiment", reference);
-  const validationErrorCookie = await getCookie("validationError", reference);
-  const validationError = validationErrorCookie === "true";
-  const isEditing = searchParams.edit === "true";
+  const [sentiment, setSentiment] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const storedSentiment = localStorage.getItem(`sentiment_${reference}`);
+    if (storedSentiment) {
+      setSentiment(storedSentiment);
+    }
+
+    // Check if there are already selected topics
+    const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
+    setIsEditing(!!storedTopics);
+  }, [reference]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (sentiment) {
+      localStorage.setItem(`sentiment_${reference}`, sentiment);
+      if (isEditing) {
+        navigateToPage(5); // Go to check answers page if editing
+      } else {
+        navigateToPage(2); // Go to topic selection for new submissions
+      }
+    } else {
+      setValidationError(true);
+    }
+  };
 
   const options = [
     { id: "objection", label: "Opposed", Icon: OpposedIcon },
@@ -24,74 +45,45 @@ const CommentSentiment = async ({
   ];
 
   return (
-    <>
-      <form
-        action={`/${council}/${reference}/submit-comment-redirect?page=1${isEditing ? "&edit=true" : ""}`}
-        method="POST"
-      >
-        <input type="hidden" name="council" value={council} />
-        <input type="hidden" name="reference" value={reference} />
-        <input type="hidden" name="applicationId" value={applicationId} />
-        <input
-          type="hidden"
-          name="isEditing"
-          value={isEditing ? "true" : "false"}
-        />
-        <div className="govuk-form-group">
-          <fieldset className="govuk-fieldset">
-            <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 className="govuk-fieldset__heading">
-                How do you feel about this development?
-              </h1>
-            </legend>
-            {validationError && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Please
-                select an option
-              </p>
-            )}
-            <div
-              className={`govuk-radios dsn-sentiment ${
-                validationError ? "govuk-form-group--error" : ""
-              }`}
-              data-module="govuk-radios"
+    <form onSubmit={handleSubmit}>
+      <h1 className="govuk-heading-l">
+        How do you feel about this development?
+      </h1>
+      {validationError && (
+        <p className="govuk-error-message">
+          <span className="govuk-visually-hidden">Error:</span> Please select an
+          option
+        </p>
+      )}
+      <div className="govuk-radios dsn-sentiment">
+        {options.map((option) => (
+          <div className="govuk-radios__item" key={option.id}>
+            <input
+              className="govuk-radios__input"
+              id={option.id}
+              name="sentiment"
+              type="radio"
+              value={option.id}
+              checked={sentiment === option.id}
+              onChange={(e) => {
+                setSentiment(e.target.value);
+                setValidationError(false);
+              }}
+            />
+            <label
+              className="govuk-label govuk-radios__label"
+              htmlFor={option.id}
             >
-              {options.map((option) => {
-                const isChecked = sentiment === option.id;
-                return (
-                  <div key={option.id} className="govuk-radios__item">
-                    <input
-                      className={`govuk-radios__input ${
-                        validationError ? "govuk-input--error" : ""
-                      }`}
-                      id={`sentiment-${option.id}`}
-                      name="sentiment"
-                      type="radio"
-                      value={option.id}
-                      defaultChecked={isChecked}
-                    />
-                    <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor={`sentiment-${option.id}`}
-                    >
-                      <option.Icon />
-                      <span className="govuk-body">{option.label}</span>
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-          </fieldset>
-        </div>
-        <button
-          type="submit"
-          className="govuk-button"
-          data-module="govuk-button"
-        >
-          Continue
-        </button>
-      </form>
-    </>
+              <option.Icon />
+              <span className="govuk-body">{option.label}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+      <button type="submit" className="govuk-button">
+        Continue
+      </button>
+    </form>
   );
 };
 

@@ -1,23 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
 import Map from "../map";
 import { BoundaryGeojson } from "../../../util/type";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 
-type CommentConfirmationType = {
-  boundary_geojson?: BoundaryGeojson;
-  site?: { address_1: string; postcode: string };
-  reference: string;
-  council: string;
-};
-
-const CommentConfirmation = async ({
+const CommentConfirmation = ({
   reference,
+  council,
   site,
   boundary_geojson,
-  council,
-}: CommentConfirmationType) => {
+}: {
+  reference: string;
+  council: string;
+  site?: { address_1: string; postcode: string };
+  boundary_geojson?: BoundaryGeojson;
+}) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;
@@ -33,6 +29,7 @@ const CommentConfirmation = async ({
       coordinates = features[0].geometry?.coordinates;
     }
   }
+
   return (
     <>
       <div className="govuk-panel govuk-panel--confirmation">
@@ -74,7 +71,7 @@ const CommentConfirmation = async ({
         your area, you can view all currently active applications and provide
         comments on them.
       </p>
-      <form action={`/${council}`} method="POST">
+      <form action={`/${council}`} method="GET">
         <button
           type="submit"
           role="button"

@@ -1,17 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import { cookies } from "next/headers";
+"use client";
+import React from "react";
 import config from "../../../util/config.json";
-import { redirect } from "next/navigation";
 import { Config } from "../../../util/type";
 
-const PreSubmission = async ({
+const PreSubmission = ({
   council,
-  reference,
-  applicationId,
+  navigateToPage,
 }: {
-  council: any;
-  reference: string;
-  applicationId: number;
+  council: string;
+  navigateToPage: (page: number, params?: object) => void;
 }) => {
   const councilConfig: Config = config;
   const whatHappensToYourCommentsLink =
@@ -19,12 +17,16 @@ const PreSubmission = async ({
       ?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigateToPage(1);
+  };
+
   return (
     <>
       <h1 className="govuk-heading-l">
         What you need to know before you comment
       </h1>
-
       <h2 className="govuk-heading-m">
         What isn't considered in planning approval
       </h2>
@@ -98,6 +100,7 @@ const PreSubmission = async ({
             href={whatHappensToYourCommentsLink}
             className="govuk-link govuk-link--no-visited-state"
             target="_blank"
+            rel="noopener noreferrer"
           >
             material considerations
           </a>
@@ -110,17 +113,9 @@ const PreSubmission = async ({
         email address. The case officer will summarise their findings in the
         officer's report and decision notice.
       </p>
-      <form
-        action={`/${council}/${reference}/submit-comment-redirect?page=0`}
-        method="POST"
-      >
-        <input type="hidden" name="council" value={council} />
-        <input type="hidden" name="reference" value={reference} />
-        <input type="hidden" name="applicationId" value={applicationId} />
+      <form onSubmit={handleSubmit}>
         <button
           type="submit"
-          role="button"
-          draggable="false"
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
         >
