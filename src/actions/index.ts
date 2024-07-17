@@ -1,8 +1,4 @@
 "use server";
-
-import { cookies } from "next/headers";
-import { setCookie } from "./cookies";
-
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,

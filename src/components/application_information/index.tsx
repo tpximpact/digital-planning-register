@@ -5,8 +5,6 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
 import ButtonDetails from "@/components/button_details";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { notFound, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentiment from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
