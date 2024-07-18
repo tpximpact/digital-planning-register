@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
-import { BoundaryGeojson } from "../../../util/type";
 
 type InformationData = {
   reference?: string;
@@ -28,23 +27,6 @@ const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,
   loading: () => <div>Loading map...</div>,
 });
-
-type ApplicationInfo = {
-  reference: string;
-  application_type: string;
-  site: { address_1: string; postcode: string };
-  received_date: string;
-  result_flag: string;
-  determination_date: string;
-  status: string;
-  consultation: { end_date: string };
-  boundary_geojson: BoundaryGeojson;
-  description: string;
-  in_assessment_at: string;
-  council: string;
-  id: number;
-  decision: string;
-};
 
 const ApplicationInformation = ({
   reference,

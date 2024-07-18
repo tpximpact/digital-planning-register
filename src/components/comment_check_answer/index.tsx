@@ -219,6 +219,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(1, { edit: true })}
+                    aria-label="Change how you feel about this development"
                   >
                     Change
                   </a>
@@ -243,6 +244,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(2, { edit: true })}
+                    aria-label="Change what topics you want to comment on"
                   >
                     Change
                   </a>
@@ -274,6 +276,7 @@ const CommentCheckAnswer = ({
                         onClick={() =>
                           navigateToPage(3, { topicIndex: index, edit: true })
                         }
+                        aria-label={`Change ${topicLabel} comment`}
                       >
                         Change
                       </a>
@@ -296,6 +299,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(4, { edit: true })}
+                    aria-label="Change name"
                   >
                     Change
                   </a>
@@ -314,6 +318,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(4, { edit: true })}
+                    aria-label="Change address"
                   >
                     Change
                   </a>
@@ -332,6 +337,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(4, { edit: true })}
+                    aria-label="Change postcode"
                   >
                     Change
                   </a>
@@ -350,6 +356,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(4, { edit: true })}
+                    aria-label="Change email address"
                   >
                     Change
                   </a>
@@ -370,6 +377,7 @@ const CommentCheckAnswer = ({
                     className="govuk-link"
                     href="#"
                     onClick={() => navigateToPage(4, { edit: true })}
+                    aria-label="Change telephone number"
                   >
                     Change
                   </a>
