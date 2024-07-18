@@ -4,6 +4,24 @@ import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
+import { BoundaryGeojson } from "../../../util/type";
+
+type InformationData = {
+  reference?: string;
+  site?: { address_1: string; postcode: string };
+  description?: string;
+  application_type?: string;
+  received_date?: string;
+  status?: string;
+  consultation?: { end_date: string };
+  decision: string;
+  determination_date?: string;
+  boundary_geojson?: BoundaryGeojson;
+  in_assessment_at?: string;
+  council: string;
+  publishedAt?: string;
+  validAt?: string;
+};
 import Link from "next/link";
 
 const DynamicMap = dynamic(() => import("../map"), {
@@ -33,17 +51,16 @@ const ApplicationInformation = ({
   application_type,
   site,
   received_date,
-  result_flag,
+  publishedAt,
   decision,
   determination_date,
   status,
   consultation,
   boundary_geojson,
   description,
-  in_assessment_at,
+  validAt,
   council,
-  id,
-}: ApplicationInfo) => {
+}: InformationData) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;
@@ -129,42 +146,58 @@ const ApplicationInformation = ({
               </p>
             </div>
             <div className="govuk-grid-column-one-half">
-              <div className="govuk-heading-s">Consultation end date</div>
-              <p className="govuk-body">
-                {consultation?.end_date
-                  ? format(new Date(consultation?.end_date), "dd MMM yyyy")
-                  : "Date not available"}
-              </p>
+              {validAt && (
+                <>
+                  <div className="govuk-heading-s">
+                    Valid from date{" "}
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#validated-dates`}
+                      title="Understanding dates"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
+                  <p className="govuk-body">
+                    {format(new Date(validAt), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
             </div>
-
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Valid from date</div>
-      <p className="govuk-body">
-        {in_assessment_at
-          ? format(new Date(in_assessment_at), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
           </div>
 
           <div className="govuk-grid-row">
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Published date</div>
-      <p className="govuk-body">
-        {received_date
-          ? format(new Date(received_date as string), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
-
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Consultation end date</div>
-      <p className="govuk-body">
-        {consultation?.end_date
-          ? format(new Date(consultation?.end_date), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
+            <div className="govuk-grid-column-one-half">
+              {publishedAt && (
+                <>
+                  <div className="govuk-heading-s">
+                    Published date{" "}
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#published-date"`}
+                      title="Understanding dates"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
+                  <p className="govuk-body">
+                    {format(new Date(publishedAt as string), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
+            </div>
+            <div className="govuk-grid-column-one-half">
+              {consultation?.end_date && (
+                <>
+                  <div className="govuk-heading-s">Consultation end date</div>
+                  <p className="govuk-body">
+                    {format(new Date(consultation?.end_date), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="govuk-grid-row">

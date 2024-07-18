@@ -9,6 +9,8 @@ import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedStatus } from "../../../util/formatStatus";
+import { definedDecision } from "../../../util/formatDecision";
+import DescriptionCard from "@/components/description_card";
 
 const resultsPerPage = 10;
 
@@ -185,20 +187,25 @@ export default async function Home({
                       </div>
                     </div>
                     <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third landing-map">
-                        <LandingMap
-                          boundary_geojson={
-                            application?.boundary_geojson ||
-                            application?.property?.boundary?.site
+                      {(application?.boundary_geojson ||
+                        application?.property?.boundary?.site) && (
+                        <div className="govuk-grid-column-one-third landing-map">
+                          <LandingMap
+                            boundary_geojson={
+                              application?.boundary_geojson ||
+                              application?.property?.boundary?.site
+                            }
+                          />
+                        </div>
+                      )}
+                      <div className="govuk-grid-column-two-thirds">
+                        <h2 className="govuk-heading-s">Description</h2>
+                        <DescriptionCard
+                          description={
+                            application?.description ||
+                            application?.proposal?.description
                           }
                         />
-                      </div>
-                      <div className="govuk-grid-column-two-thirds">
-                        <div className="govuk-heading-s">Description</div>
-                        <p className="govuk-body">
-                          {application?.description ||
-                            application?.proposal?.description}
-                        </p>
                       </div>
                     </div>
                     <div className="govuk-grid-row">
@@ -216,58 +223,143 @@ export default async function Home({
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <div className="govuk-heading-s">Status</div>
-                        <p className="govuk-body">
-                          {(application?.status &&
-                            definedStatus(
-                              application?.status,
-                              application?.consultation?.end_date,
-                            )) ||
-                            (application?.application?.status &&
-                              definedStatus(
-                                application?.application?.status,
-                                application?.application?.consultation
-                                  ?.end_date,
-                              ))}
-                        </p>
+                        {(application?.status ||
+                          application?.application?.status) && (
+                          <>
+                            <h2 className="govuk-heading-s">Status</h2>
+                            <p className="govuk-body">
+                              {definedStatus(
+                                application?.status,
+                                application?.consultation?.end_date,
+                              ) ||
+                                (application?.application?.status &&
+                                  definedStatus(
+                                    application?.application?.status,
+                                    application?.application?.consultation
+                                      ?.endDate,
+                                  ))}
+                            </p>
+                          </>
+                        )}
                       </div>
 
                       <div className="govuk-grid-column-one-third">
-                        <div className="govuk-heading-s">Received date</div>
-                        <p className="govuk-body">
-                          {(application?.received_date &&
-                            `${format(
-                              new Date(application?.received_date),
-                              "dd-MM-yyyy",
-                            )}`) ||
-                            (application?.application?.receivedAt &&
-                              `${format(
-                                new Date(application?.application?.receivedAt),
-                                "dd-MM-yyyy",
-                              )}`)}
-                        </p>
+                        {(application?.received_date ||
+                          application?.application?.receivedAt) && (
+                          <>
+                            <h2 className="govuk-heading-s">Received date</h2>
+                            <p className="govuk-body">
+                              {(application?.received_date &&
+                                `${format(
+                                  new Date(application?.received_date),
+                                  "dd MMM yyyy",
+                                )}`) ||
+                                (application?.application?.receivedAt &&
+                                  `${format(
+                                    new Date(
+                                      application?.application?.receivedAt,
+                                    ),
+                                    "dd MMM yyyy",
+                                  )}`)}
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="govuk-grid-row">
                       <div className="govuk-grid-column-one-third">
-                        {/* <div className="govuk-heading-s">Published Date</div>
-                        <p className="govuk-body">
-                          {application?.consultation?.end_date &&
-                            `${format(
-                              new Date(application?.consultation?.end_date),
-                              "dd-MM-yyyy",
-                            )}`}
-                        </p> */}
+                        {(application?.publishedAt ||
+                          application?.application?.publishedAt) && (
+                          <>
+                            <div className="govuk-heading-s">
+                              Published Date
+                            </div>
+                            <p className="govuk-body">
+                              {(application?.publishedAt &&
+                                `${format(
+                                  new Date(application?.publishedAt),
+                                  "dd MMM yyyy",
+                                )}`) ||
+                                (application?.application?.publishedAt &&
+                                  `${format(
+                                    new Date(
+                                      application?.application?.publishedAt,
+                                    ),
+                                    "dd MMM yyyy",
+                                  )}`)}
+                            </p>
+                          </>
+                        )}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        <div className="govuk-heading-s">Decision Date</div>
-                        <p className="govuk-body">
-                          {application?.determination_date &&
-                            `${format(
-                              new Date(application?.determination_date),
-                              "dd-MM-yyyy",
-                            )}`}
-                        </p>
+                        {(application?.consultation?.end_date ||
+                          application?.application?.consultation?.end_date) && (
+                          <>
+                            <div className="govuk-heading-s">
+                              Consultation End Date
+                            </div>
+                            <p className="govuk-body">
+                              {(application?.consultation?.end_date &&
+                                `${format(
+                                  new Date(application?.consultation?.end_date),
+                                  "dd MMM yyyy",
+                                )}`) ||
+                                (application?.application?.consultation
+                                  ?.end_date &&
+                                  `${format(
+                                    new Date(
+                                      application?.application?.consultation?.end_date,
+                                    ),
+                                    "dd MMM yyyy",
+                                  )}`)}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <div className="govuk-grid-column-one-third">
+                        {(application?.determination_date ||
+                          application?.application?.determinedAt) && (
+                          <>
+                            <div className="govuk-heading-s">Decision Date</div>
+                            <p className="govuk-body">
+                              {(application?.determination_date &&
+                                `${format(
+                                  new Date(application?.determination_date),
+                                  "dd MMM yyyy",
+                                )}`) ||
+                                (application?.application?.determinedAt &&
+                                  `${format(
+                                    new Date(
+                                      application?.application?.determinedAt,
+                                    ),
+                                    "dd MMM yyyy",
+                                  )}`)}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      <div className="govuk-grid-column-one-third">
+                        {((application?.determination_date &&
+                          application.decision) ||
+                          (application?.application?.determinedAt &&
+                            application?.application?.decision)) && (
+                          <>
+                            <div className="govuk-heading-s">Decision</div>
+                            <p className="govuk-body">
+                              {(application?.determination_date &&
+                                definedDecision(
+                                  application.decision,
+                                  application.application_type as string,
+                                )) ||
+                                (application?.application?.determinedAt &&
+                                  definedDecision(
+                                    application?.application?.decision,
+                                    application.application?.type
+                                      ?.description as string,
+                                  ))}
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
 

@@ -64,12 +64,16 @@
   flex-wrap: wrap;
 }
 
-.key-info .govuk-grid-row {
-  margin-bottom: 1.5rem;
+.key-info .govuk-grid-column-one-half {
+  margin-bottom: 1em;
 }
 
 .documents-container {
   padding-top: 20px;
+}
+
+.landing-map {
+  margin-bottom: 2em;
 }
 
 @media (max-width: 640px) {

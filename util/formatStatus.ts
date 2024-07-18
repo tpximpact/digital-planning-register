@@ -18,5 +18,5 @@ export function definedStatus(status: string, end_date: string) {
     ? "Consultation in progress"
     : isMatchStatus && is_day_before
       ? "Assessment in progress"
-      : capitaliseWord(status.replace(/_/g, " "));
+      : capitaliseWord(status?.replace(/_/g, " "));
 }

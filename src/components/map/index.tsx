@@ -68,7 +68,7 @@ const Map: React.FC<MapProps> = ({
   }, [onlyWidth, page]);
 
   return (
-    <div role="region" aria-label="map">
+    <div role="region" aria-label="map" id="osl-map">
       <my-map
         role="application"
         zoom={zoom}
