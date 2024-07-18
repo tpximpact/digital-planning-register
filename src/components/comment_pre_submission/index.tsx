@@ -6,10 +6,14 @@ import { Config } from "../../../util/type";
 
 const PreSubmission = ({
   council,
+  reference,
   navigateToPage,
+  updateProgress,
 }: {
   council: string;
+  reference: string;
   navigateToPage: (page: number, params?: object) => void;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const councilConfig: Config = config;
   const whatHappensToYourCommentsLink =
@@ -19,6 +23,8 @@ const PreSubmission = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    localStorage.setItem(`presubmission_${reference}`, "completed");
+    updateProgress(0);
     navigateToPage(1);
   };
 

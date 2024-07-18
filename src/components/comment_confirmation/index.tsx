@@ -2,18 +2,28 @@
 import Map from "../map";
 import { BoundaryGeojson } from "../../../util/type";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { useEffect } from "react";
 
 const CommentConfirmation = ({
   reference,
   council,
   site,
   boundary_geojson,
+  navigateToPage,
 }: {
   reference: string;
   council: string;
   site?: { address_1: string; postcode: string };
   boundary_geojson?: BoundaryGeojson;
+  navigateToPage: (page: number, params?: object) => void;
 }) => {
+  useEffect(() => {
+    const hasSubmitted = localStorage.getItem(`submitted_${reference}`);
+    if (!hasSubmitted) {
+      navigateToPage(0);
+    }
+  }, [reference, navigateToPage]);
+
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;

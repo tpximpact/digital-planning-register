@@ -23,12 +23,12 @@ const CommentTextEntry = ({
   reference,
   currentTopic,
   onContinue,
-  isEditing,
+  updateProgress,
 }: {
   reference: string;
   currentTopic: string;
   onContinue: () => void;
-  isEditing: boolean;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
@@ -61,6 +61,7 @@ const CommentTextEntry = ({
     e.preventDefault();
     if (comment && normalisedCharCount <= MAX_COMMENT_LENGTH) {
       localStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
+      updateProgress(3);
       onContinue();
     } else {
       setValidationError(true);

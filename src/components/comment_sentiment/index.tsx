@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 
 const CommentSentiment = ({
   reference,
   navigateToPage,
+  updateProgress,
 }: {
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const [sentiment, setSentiment] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
@@ -19,23 +21,28 @@ const CommentSentiment = ({
       setSentiment(storedSentiment);
     }
 
-    // Check if there are already selected topics
     const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
     setIsEditing(!!storedTopics);
   }, [reference]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (sentiment) {
-      localStorage.setItem(`sentiment_${reference}`, sentiment);
-      if (isEditing) {
-        navigateToPage(5); // Go to check answers page if editing
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (sentiment) {
+        localStorage.setItem(`sentiment_${reference}`, sentiment);
+        updateProgress(1);
+        const nextPage = isEditing ? 5 : 2;
+        navigateToPage(nextPage);
       } else {
-        navigateToPage(2); // Go to topic selection for new submissions
+        setValidationError(true);
       }
-    } else {
-      setValidationError(true);
-    }
+    },
+    [sentiment, reference, updateProgress, isEditing, navigateToPage],
+  );
+
+  const handleSentimentChange = (value: string) => {
+    setSentiment(value);
+    setValidationError(false);
   };
 
   const options = [
@@ -65,10 +72,7 @@ const CommentSentiment = ({
               type="radio"
               value={option.id}
               checked={sentiment === option.id}
-              onChange={(e) => {
-                setSentiment(e.target.value);
-                setValidationError(false);
-              }}
+              onChange={(e) => handleSentimentChange(e.target.value)}
             />
             <label
               className="govuk-label govuk-radios__label"

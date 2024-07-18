@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentiment from "@/components/comment_sentiment";
@@ -40,8 +40,19 @@ const Comment = ({ params }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [personalDetailsSubmitted, setPersonalDetailsSubmitted] =
     useState(false);
+  const [maxAllowedPage, setMaxAllowedPage] = useState(0);
 
-  const checkExistingProgress = React.useCallback(() => {
+  const updateURL = useCallback(
+    (newPage: number) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", newPage.toString());
+      router.replace(url.toString());
+    },
+    [router],
+  );
+
+  const checkExistingProgress = useCallback(() => {
+    const presubmission = localStorage.getItem(`presubmission_${reference}`);
     const sentiment = localStorage.getItem(`sentiment_${reference}`);
     const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
     const storedPersonalDetails = localStorage.getItem(
@@ -49,19 +60,19 @@ const Comment = ({ params }: Props) => {
     );
 
     if (storedPersonalDetails) {
-      return 5; // Go to check answers if personal details are submitted
+      return 5;
     } else if (storedTopics) {
       const topics = storedTopics.split(",");
       const hasUncommentedTopic = topics.some(
         (topic) => !localStorage.getItem(`comment_${topic}_${reference}`),
       );
-      return hasUncommentedTopic ? 3 : 4; // Go to text entry or personal details
+      return hasUncommentedTopic ? 3 : 4;
     } else if (sentiment) {
-      return 2; // Go to topic selection if sentiment is set
-    } else if (localStorage.getItem(`presubmission_${reference}`)) {
-      return 1; // Go to sentiment if presubmission is completed
+      return 2;
+    } else if (presubmission) {
+      return 1;
     }
-    return 0; // Start from PreSubmission if no progress
+    return 0;
   }, [reference]);
 
   useEffect(() => {
@@ -81,15 +92,24 @@ const Comment = ({ params }: Props) => {
   }, [reference, council]);
 
   useEffect(() => {
+    const startingPage = checkExistingProgress();
+    setMaxAllowedPage(startingPage);
+
     const pageParam = searchParams.get("page");
     const editParam = searchParams.get("edit");
     const topicIndexParam = searchParams.get("topicIndex");
 
     if (pageParam) {
-      setPage(parseInt(pageParam));
+      const requestedPage = parseInt(pageParam);
+      if (requestedPage <= startingPage) {
+        setPage(requestedPage);
+      } else {
+        setPage(startingPage);
+        updateURL(startingPage);
+      }
     } else {
-      const startingPage = checkExistingProgress();
       setPage(startingPage);
+      updateURL(startingPage);
     }
 
     setIsEditing(editParam === "true");
@@ -106,40 +126,74 @@ const Comment = ({ params }: Props) => {
       `personalDetails_${reference}`,
     );
     setPersonalDetailsSubmitted(!!storedPersonalDetails);
-  }, [searchParams, reference, checkExistingProgress]);
+  }, [searchParams, reference, checkExistingProgress, updateURL]);
 
-  const navigateToPage = (newPage: number, params: object = {}) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("page", newPage.toString());
-    Object.entries(params).forEach(([key, value]) => {
-      if (typeof value === "string" || typeof value === "number") {
-        url.searchParams.set(key, value.toString());
+  const navigateToPage = useCallback(
+    (newPage: number, params: object = {}) => {
+      setPage(newPage);
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", newPage.toString());
+      Object.entries(params).forEach(([key, value]) => {
+        if (typeof value === "string" || typeof value === "number") {
+          url.searchParams.set(key, value.toString());
+        }
+      });
+      router.push(url.toString());
+    },
+    [router],
+  );
+
+  const updateProgress = useCallback((completedPage: number) => {
+    setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
+  }, []);
+
+  const navigateToNextTopic = useMemo(
+    () => (topics: string[]) => {
+      const nextUncommentedTopic = topics.find((topic) => {
+        const comment = localStorage.getItem(`comment_${topic}_${reference}`);
+        return !comment || comment.trim() === "";
+      });
+
+      if (nextUncommentedTopic) {
+        const nextIndex = topics.indexOf(nextUncommentedTopic);
+        setCurrentTopicIndex(nextIndex);
+        navigateToPage(3, { topicIndex: nextIndex });
+      } else if (personalDetailsSubmitted) {
+        navigateToPage(5);
+      } else {
+        navigateToPage(4);
       }
-    });
-    router.push(url.toString());
-  };
+    },
+    [reference, personalDetailsSubmitted, navigateToPage, setCurrentTopicIndex],
+  );
 
-  const handleTopicSubmission = (topics: string[]) => {
-    const previousTopics = selectedTopics;
-    setSelectedTopics(topics);
+  const handleTopicSubmission = useCallback(
+    (topics: string[]) => {
+      const previousTopics = selectedTopics;
+      setSelectedTopics(topics);
 
-    const newlyAddedTopics = topics.filter(
-      (topic) => !previousTopics.includes(topic),
-    );
-    setNewTopics(newlyAddedTopics);
+      const newlyAddedTopics = topics.filter(
+        (topic) => !previousTopics.includes(topic),
+      );
+      setNewTopics(newlyAddedTopics);
 
-    if (newlyAddedTopics.length > 0) {
-      const firstNewTopicIndex = topics.indexOf(newlyAddedTopics[0]);
-      setCurrentTopicIndex(firstNewTopicIndex);
-      navigateToPage(3, { topicIndex: firstNewTopicIndex, edit: isEditing });
-    } else if (isEditing) {
-      navigateToPage(5); // Go to check answers if no new topics during editing
-    } else {
-      navigateToNextTopic(topics);
-    }
-  };
+      if (newlyAddedTopics.length > 0) {
+        const firstNewTopicIndex = topics.indexOf(newlyAddedTopics[0]);
+        setCurrentTopicIndex(firstNewTopicIndex);
+        navigateToPage(3, {
+          topicIndex: firstNewTopicIndex,
+          edit: isEditing ? "true" : "false",
+        });
+      } else if (isEditing) {
+        navigateToPage(5);
+      } else {
+        navigateToNextTopic(topics);
+      }
+    },
+    [selectedTopics, isEditing, navigateToPage, navigateToNextTopic],
+  );
 
-  const handleTopicNavigation = () => {
+  const handleTopicNavigation = useCallback(() => {
     if (isEditing) {
       const nextNewTopicIndex = newTopics.findIndex(
         (topic) => selectedTopics.indexOf(topic) > currentTopicIndex,
@@ -148,35 +202,21 @@ const Comment = ({ params }: Props) => {
       if (nextNewTopicIndex !== -1) {
         const nextIndex = selectedTopics.indexOf(newTopics[nextNewTopicIndex]);
         setCurrentTopicIndex(nextIndex);
-        navigateToPage(3, { topicIndex: nextIndex, edit: true });
+        navigateToPage(3, { topicIndex: nextIndex, edit: "true" });
       } else {
-        navigateToPage(5); // Go to check answers if no more new topics
+        navigateToPage(5);
       }
     } else {
       navigateToNextTopic(selectedTopics);
     }
-  };
-
-  const navigateToNextTopic = (topics: string[]) => {
-    const nextUncommentedTopic = topics.find((topic) => {
-      const comment = localStorage.getItem(`comment_${topic}_${reference}`);
-      return !comment || comment.trim() === "";
-    });
-
-    if (nextUncommentedTopic) {
-      const nextIndex = topics.indexOf(nextUncommentedTopic);
-      setCurrentTopicIndex(nextIndex);
-      navigateToPage(3, { topicIndex: nextIndex });
-    } else if (personalDetailsSubmitted) {
-      navigateToPage(5); // Go to check answers if all topics have comments and personal details are submitted
-    } else {
-      navigateToPage(4); // Go to personal details if not yet submitted
-    }
-  };
-
-  if (error) {
-    return <NotFound params={params} />;
-  }
+  }, [
+    isEditing,
+    newTopics,
+    selectedTopics,
+    currentTopicIndex,
+    navigateToPage,
+    navigateToNextTopic,
+  ]);
 
   const renderComponent = () => {
     if (!applicationData) {
@@ -185,9 +225,10 @@ const Comment = ({ params }: Props) => {
 
     const commonProps = {
       reference,
-      navigateToPage,
-      isEditing,
       council,
+      navigateToPage,
+      updateProgress,
+      isEditing,
     };
 
     switch (page) {
@@ -232,7 +273,7 @@ const Comment = ({ params }: Props) => {
     }
   };
 
-  const getBackLinkHref = () => {
+  const getBackLinkHref = useCallback(() => {
     if (page === 0) {
       return `/${council}/${reference}/`;
     } else if (page === 1) {
@@ -255,7 +296,16 @@ const Comment = ({ params }: Props) => {
       const previousPage = Math.max(0, page - 1);
       return `/${council}/${reference}/submit-comment?page=${previousPage}`;
     }
-  };
+  }, [page, council, reference, currentTopicIndex, isEditing, selectedTopics]);
+
+  if (error) {
+    return <NotFound params={params} />;
+  }
+
+  if (page > maxAllowedPage) {
+    updateURL(maxAllowedPage);
+    return null;
+  }
 
   return (
     <>

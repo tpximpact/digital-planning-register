@@ -19,9 +19,11 @@ const topics_selection = [
 const CommentTopicSelection = ({
   reference,
   onTopicSelection,
+  updateProgress,
 }: {
   reference: string;
   onTopicSelection: (topics: string[]) => void;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
@@ -40,6 +42,7 @@ const CommentTopicSelection = ({
         `selectedTopics_${reference}`,
         selectedTopics.join(","),
       );
+      updateProgress(2);
       onTopicSelection(selectedTopics);
     } else {
       setValidationError(true);

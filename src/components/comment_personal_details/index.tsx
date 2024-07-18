@@ -33,11 +33,13 @@ const CommentPersonalDetails = ({
   reference,
   navigateToPage,
   isEditing,
+  updateProgress,
 }: {
   council: string;
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "",
@@ -109,6 +111,7 @@ const CommentPersonalDetails = ({
         `personalDetails_${reference}`,
         JSON.stringify(personalDetails),
       );
+      updateProgress(4);
       navigateToPage(5);
     }
   };

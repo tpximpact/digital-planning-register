@@ -56,11 +56,13 @@ const CommentCheckAnswer = ({
   reference,
   applicationId,
   navigateToPage,
+  updateProgress,
 }: {
   council: string;
   reference: string;
   applicationId: number;
   navigateToPage: (page: number, params?: object) => void;
+  updateProgress: (completedPage: number) => void;
 }) => {
   const [sentiment, setSentiment] = useState("");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -145,6 +147,7 @@ const CommentCheckAnswer = ({
             localStorage.removeItem(key);
           }
         });
+        updateProgress(5); // Update progress to allow access to confirmation page
         navigateToPage(6);
       } else {
         throw new Error("Submission failed");
