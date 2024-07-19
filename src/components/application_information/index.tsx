@@ -40,6 +40,8 @@ type InformationData = {
   boundary_geojson?: BoundaryGeojson;
   in_assessment_at?: string;
   council: string;
+  publishedAt?: string;
+  validAt?: string;
 };
 
 const ApplicationInformation = ({
@@ -47,7 +49,7 @@ const ApplicationInformation = ({
   application_type,
   site,
   received_date,
-  result_flag,
+  publishedAt,
   decision,
   determination_date,
   status,
@@ -55,6 +57,7 @@ const ApplicationInformation = ({
   boundary_geojson,
   description,
   in_assessment_at,
+  validAt,
   council,
 }: InformationData) => {
   const boundaryGeojson = boundary_geojson;
@@ -179,55 +182,58 @@ const ApplicationInformation = ({
             </div>
 
             <div className="govuk-grid-column-one-half">
-              {consultation?.end_date && (
+              {validAt && (
                 <>
                   <div className="govuk-heading-s">
-                    Consultation end date{" "}
+                    Valid from date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#consultation-end-date`}
+                      href={`/${council}/planning-process#validated-dates`}
                       title="Understanding dates"
-                      aria-label="Understanding dates"
                       target="_blank"
                     >
                       i
                     </a>
                   </div>
                   <p className="govuk-body">
+                    {format(new Date(validAt), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
+              {publishedAt && (
+                <>
+                  <div className="govuk-heading-s">
+                    Published date{" "}
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#published-date"`}
+                      title="Understanding dates"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
+                  <p className="govuk-body">
+                    {format(new Date(publishedAt as string), "dd MMM yyyy")}
+                  </p>
+                </>
+              )}
+            </div>
+            <div className="govuk-grid-column-one-half">
+              {consultation?.end_date && (
+                <>
+                  <div className="govuk-heading-s">Consultation end date</div>
+                  <p className="govuk-body">
                     {format(new Date(consultation?.end_date), "dd MMM yyyy")}
                   </p>
                 </>
               )}
             </div>
-
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Valid from date <a class="info-icon" href="/${council}/planning-process#validated-dates" title="Understanding dates" target="_blank">i</a></div>
-      <p className="govuk-body">
-        {in_assessment_at
-          ? format(new Date(in_assessment_at), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
-          </div>
-
-          <div className="govuk-grid-row">
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Published date <a class="info-icon" href="/${council}/planning-process#published-date" title="Understanding dates" target="_blank">i</a></div>
-      <p className="govuk-body">
-        {received_date
-          ? format(new Date(received_date as string), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
-
-            {/* <div className="govuk-grid-column-one-half">
-      <div className="govuk-heading-s">Consultation end date</div>
-      <p className="govuk-body">
-        {consultation?.end_date
-          ? format(new Date(consultation?.end_date), "dd MMM yyyy")
-          : "Date not available"}
-      </p>
-    </div> */}
           </div>
 
           <div className="govuk-grid-row">
