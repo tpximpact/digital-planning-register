@@ -69,7 +69,7 @@ describe("CommentTextEntry", () => {
   });
 
   it("prevents adding more characters when the comment reaches the maximum length", () => {
-    const longComment = "a".repeat(2500);
+    const longComment = "a".repeat(6000);
     render(<CommentTextEntry {...defaultProps} />);
     fireEvent.change(
       screen.getByLabelText(
@@ -87,7 +87,7 @@ describe("CommentTextEntry", () => {
     ).toHaveValue(longComment);
     expect(
       screen.getByText(
-        "You have reached the character limit of 2500 characters",
+        "You have reached the character limit of 6000 characters",
       ),
     ).toBeInTheDocument();
 

@@ -155,26 +155,13 @@ const Comment = ({ params }: Props) => {
   // Reset submission state when navigating away from the confirmation page
   useEffect(() => {
     const pageParam = searchParams.get("page");
-    if (submissionComplete && pageParam && parseInt(pageParam) !== 6) {
+    const currentPage = pageParam ? parseInt(pageParam) : 0;
+
+    if (submissionComplete && currentPage !== 6) {
       localStorage.removeItem(`submissionComplete_${reference}`);
       setSubmissionComplete(false);
     }
-  }, [submissionComplete, searchParams, reference]);
-
-  // Clear submission complete flag after a delay
-  useEffect(() => {
-    if (submissionComplete) {
-      const timer = setTimeout(
-        () => {
-          localStorage.removeItem(`submissionComplete_${reference}`);
-          setSubmissionComplete(false);
-        },
-        1 * 60 * 1000,
-      ); // 1 minute delay
-
-      return () => clearTimeout(timer);
-    }
-  }, [submissionComplete, reference]);
+  }, [submissionComplete, reference, searchParams]);
 
   // Function to navigate to a specific page
   const navigateToPage = useCallback(
@@ -226,7 +213,6 @@ const Comment = ({ params }: Props) => {
     },
     [reference, personalDetailsSubmitted, navigateToPage],
   );
-
   // Function to handle topic submission
   const handleTopicSubmission = useCallback(
     (topics: string[]) => {
@@ -243,7 +229,7 @@ const Comment = ({ params }: Props) => {
         setCurrentTopicIndex(firstNewTopicIndex);
         navigateToPage(3, {
           topicIndex: firstNewTopicIndex,
-          edit: isEditing ? "true" : "false",
+          ...(isEditing && { edit: "true" }),
         });
       } else if (isEditing) {
         navigateToPage(5);
