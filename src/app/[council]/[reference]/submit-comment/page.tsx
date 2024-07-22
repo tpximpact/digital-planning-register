@@ -41,7 +41,10 @@ const Comment = ({ params }: Props) => {
   const [personalDetailsSubmitted, setPersonalDetailsSubmitted] =
     useState(false);
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
+  const [submissionComplete, setSubmissionComplete] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
+  // Function to update the URL with the new page number
   const updateURL = useCallback(
     (newPage: number) => {
       const url = new URL(window.location.href);
@@ -51,7 +54,12 @@ const Comment = ({ params }: Props) => {
     [router],
   );
 
+  // Function to check the user's progress in the comment submission process
   const checkExistingProgress = useCallback(() => {
+    // Check various localStorage items to determine the user's progress
+    const submissionCompleteFlag = localStorage.getItem(
+      `submissionComplete_${reference}`,
+    );
     const presubmission = localStorage.getItem(`presubmission_${reference}`);
     const sentiment = localStorage.getItem(`sentiment_${reference}`);
     const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
@@ -59,7 +67,11 @@ const Comment = ({ params }: Props) => {
       `personalDetails_${reference}`,
     );
 
-    if (storedPersonalDetails) {
+    // Return the appropriate page number based on the user's progress
+    if (submissionCompleteFlag) {
+      setSubmissionComplete(true);
+      return 6;
+    } else if (storedPersonalDetails) {
       return 5;
     } else if (storedTopics) {
       const topics = storedTopics.split(",");
@@ -75,6 +87,7 @@ const Comment = ({ params }: Props) => {
     return 0;
   }, [reference]);
 
+  // Fetch application data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,6 +104,7 @@ const Comment = ({ params }: Props) => {
     fetchData();
   }, [reference, council]);
 
+  // Set up the initial page and handle URL parameters
   useEffect(() => {
     const startingPage = checkExistingProgress();
     setMaxAllowedPage(startingPage);
@@ -99,17 +113,18 @@ const Comment = ({ params }: Props) => {
     const editParam = searchParams.get("edit");
     const topicIndexParam = searchParams.get("topicIndex");
 
+    // Set the current page based on URL parameters and user progress
     if (pageParam) {
       const requestedPage = parseInt(pageParam);
-      if (requestedPage <= startingPage) {
+      if (requestedPage <= Math.max(startingPage, 6)) {
         setPage(requestedPage);
       } else {
         setPage(startingPage);
-        updateURL(startingPage);
+        setShouldRedirect(true);
       }
     } else {
       setPage(startingPage);
-      updateURL(startingPage);
+      setShouldRedirect(true);
     }
 
     setIsEditing(editParam === "true");
@@ -117,6 +132,7 @@ const Comment = ({ params }: Props) => {
       setCurrentTopicIndex(parseInt(topicIndexParam));
     }
 
+    // Load stored topics and personal details
     const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
     if (storedTopics) {
       setSelectedTopics(storedTopics.split(","));
@@ -126,11 +142,45 @@ const Comment = ({ params }: Props) => {
       `personalDetails_${reference}`,
     );
     setPersonalDetailsSubmitted(!!storedPersonalDetails);
-  }, [searchParams, reference, checkExistingProgress, updateURL]);
+  }, [searchParams, reference, checkExistingProgress]);
 
+  // Handle URL updates when redirection is needed
+  useEffect(() => {
+    if (shouldRedirect) {
+      updateURL(page);
+      setShouldRedirect(false);
+    }
+  }, [shouldRedirect, page, updateURL]);
+
+  // Reset submission state when navigating away from the confirmation page
+  useEffect(() => {
+    const pageParam = searchParams.get("page");
+    if (submissionComplete && pageParam && parseInt(pageParam) !== 6) {
+      localStorage.removeItem(`submissionComplete_${reference}`);
+      setSubmissionComplete(false);
+    }
+  }, [submissionComplete, searchParams, reference]);
+
+  // Clear submission complete flag after a delay
+  useEffect(() => {
+    if (submissionComplete) {
+      const timer = setTimeout(
+        () => {
+          localStorage.removeItem(`submissionComplete_${reference}`);
+          setSubmissionComplete(false);
+        },
+        1 * 60 * 1000,
+      ); // 1 minute delay
+
+      return () => clearTimeout(timer);
+    }
+  }, [submissionComplete, reference]);
+
+  // Function to navigate to a specific page
   const navigateToPage = useCallback(
     (newPage: number, params: object = {}) => {
       setPage(newPage);
+      setMaxAllowedPage((prevMax) => Math.max(prevMax, newPage));
       const url = new URL(window.location.href);
       url.searchParams.set("page", newPage.toString());
       Object.entries(params).forEach(([key, value]) => {
@@ -139,14 +189,24 @@ const Comment = ({ params }: Props) => {
         }
       });
       router.push(url.toString());
+
+      // Reset submission state when navigating away from confirmation page
+      if (submissionComplete && newPage !== 6) {
+        setTimeout(() => {
+          localStorage.removeItem(`submissionComplete_${reference}`);
+          setSubmissionComplete(false);
+        }, 0);
+      }
     },
-    [router],
+    [router, submissionComplete, reference],
   );
 
+  // Function to update the maximum allowed page
   const updateProgress = useCallback((completedPage: number) => {
     setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
   }, []);
 
+  // Function to navigate to the next uncommented topic
   const navigateToNextTopic = useMemo(
     () => (topics: string[]) => {
       const nextUncommentedTopic = topics.find((topic) => {
@@ -164,9 +224,10 @@ const Comment = ({ params }: Props) => {
         navigateToPage(4);
       }
     },
-    [reference, personalDetailsSubmitted, navigateToPage, setCurrentTopicIndex],
+    [reference, personalDetailsSubmitted, navigateToPage],
   );
 
+  // Function to handle topic submission
   const handleTopicSubmission = useCallback(
     (topics: string[]) => {
       const previousTopics = selectedTopics;
@@ -193,6 +254,7 @@ const Comment = ({ params }: Props) => {
     [selectedTopics, isEditing, navigateToPage, navigateToNextTopic],
   );
 
+  // Function to handle navigation between topics
   const handleTopicNavigation = useCallback(() => {
     if (isEditing) {
       const nextNewTopicIndex = newTopics.findIndex(
@@ -218,6 +280,7 @@ const Comment = ({ params }: Props) => {
     navigateToNextTopic,
   ]);
 
+  // Function to render the appropriate component based on the current page
   const renderComponent = () => {
     if (!applicationData) {
       return null;
@@ -273,6 +336,7 @@ const Comment = ({ params }: Props) => {
     }
   };
 
+  // Function to get the href for the back link
   const getBackLinkHref = useCallback(() => {
     if (page === 0) {
       return `/${council}/${reference}/`;
@@ -298,15 +362,21 @@ const Comment = ({ params }: Props) => {
     }
   }, [page, council, reference, currentTopicIndex, isEditing, selectedTopics]);
 
+  // Render NotFound component if there's an error
   if (error) {
     return <NotFound params={params} />;
   }
 
+  // Handle redirection if the current page exceeds the maximum allowed page
   if (page > maxAllowedPage) {
-    updateURL(maxAllowedPage);
+    if (!shouldRedirect) {
+      setShouldRedirect(true);
+      setPage(maxAllowedPage);
+    }
     return null;
   }
 
+  // Render the main component
   return (
     <>
       {page < 6 && (

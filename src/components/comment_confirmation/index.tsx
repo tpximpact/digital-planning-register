@@ -17,13 +17,6 @@ const CommentConfirmation = ({
   boundary_geojson?: BoundaryGeojson;
   navigateToPage: (page: number, params?: object) => void;
 }) => {
-  useEffect(() => {
-    const hasSubmitted = localStorage.getItem(`submitted_${reference}`);
-    if (!hasSubmitted) {
-      navigateToPage(0);
-    }
-  }, [reference, navigateToPage]);
-
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;

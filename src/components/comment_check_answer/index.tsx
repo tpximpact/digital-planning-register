@@ -141,13 +141,18 @@ const CommentCheckAnswer = ({
     try {
       const result = await submitComment(applicationId, council, apiData);
       if (result.status === 200) {
-        // Clear all local storage for this reference
+        localStorage.setItem(`submissionComplete_${reference}`, "true");
+
+        // Clear all other localStorage items for this reference
         Object.keys(localStorage).forEach((key) => {
-          if (key.includes(reference)) {
+          if (
+            key.includes(reference) &&
+            key !== `submissionComplete_${reference}`
+          ) {
             localStorage.removeItem(key);
           }
         });
-        updateProgress(5); // Update progress to allow access to confirmation page
+        updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
         navigateToPage(6);
       } else {
         throw new Error("Submission failed");

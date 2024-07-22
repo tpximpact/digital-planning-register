@@ -59,12 +59,6 @@ describe("CommentConfirmation", () => {
     ).toBeInTheDocument();
   });
 
-  it("navigates to page 0 if the comment has not been submitted", () => {
-    render(<CommentConfirmation {...defaultProps} />);
-
-    expect(defaultProps.navigateToPage).toHaveBeenCalledWith(0);
-  });
-
   it("does not navigate to page 0 if the comment has been submitted", () => {
     localStorage.setItem("submitted_REF-001", "true");
     render(<CommentConfirmation {...defaultProps} />);
