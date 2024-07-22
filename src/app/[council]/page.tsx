@@ -293,7 +293,7 @@ export default async function Home({
                       </div>
                       <div className="govuk-grid-column-one-third">
                         {(application?.consultation?.end_date ||
-                          application?.application?.consultation?.end_date) && (
+                          application?.application?.consultation?.endDate) && (
                           <>
                             <div className="govuk-heading-s">
                               Consultation End Date
@@ -305,10 +305,10 @@ export default async function Home({
                                   "dd MMM yyyy",
                                 )}`) ||
                                 (application?.application?.consultation
-                                  ?.end_date &&
+                                  ?.endDate &&
                                   `${format(
                                     new Date(
-                                      application?.application?.consultation?.end_date,
+                                      application?.application?.consultation?.endDate,
                                     ),
                                     "dd MMM yyyy",
                                   )}`)}
