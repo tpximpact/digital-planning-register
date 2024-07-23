@@ -68,7 +68,9 @@ const CommentPersonalDetails = ({
       ?.planning_service_privacy_statement_link;
 
   useEffect(() => {
-    const storedDetails = localStorage.getItem(`personalDetails_${reference}`);
+    const storedDetails = sessionStorage.getItem(
+      `personalDetails_${reference}`,
+    );
     if (storedDetails) {
       setPersonalDetails(JSON.parse(storedDetails));
     }
@@ -107,7 +109,7 @@ const CommentPersonalDetails = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validatePersonalDetails()) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         `personalDetails_${reference}`,
         JSON.stringify(personalDetails),
       );

@@ -56,14 +56,14 @@ const Comment = ({ params }: Props) => {
 
   // Function to check the user's progress in the comment submission process
   const checkExistingProgress = useCallback(() => {
-    // Check various localStorage items to determine the user's progress
-    const submissionCompleteFlag = localStorage.getItem(
+    // Check various sessionStorage items to determine the user's progress
+    const submissionCompleteFlag = sessionStorage.getItem(
       `submissionComplete_${reference}`,
     );
-    const presubmission = localStorage.getItem(`presubmission_${reference}`);
-    const sentiment = localStorage.getItem(`sentiment_${reference}`);
-    const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
-    const storedPersonalDetails = localStorage.getItem(
+    const presubmission = sessionStorage.getItem(`presubmission_${reference}`);
+    const sentiment = sessionStorage.getItem(`sentiment_${reference}`);
+    const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
+    const storedPersonalDetails = sessionStorage.getItem(
       `personalDetails_${reference}`,
     );
 
@@ -76,7 +76,7 @@ const Comment = ({ params }: Props) => {
     } else if (storedTopics) {
       const topics = storedTopics.split(",");
       const hasUncommentedTopic = topics.some(
-        (topic) => !localStorage.getItem(`comment_${topic}_${reference}`),
+        (topic) => !sessionStorage.getItem(`comment_${topic}_${reference}`),
       );
       return hasUncommentedTopic ? 3 : 4;
     } else if (sentiment) {
@@ -133,12 +133,12 @@ const Comment = ({ params }: Props) => {
     }
 
     // Load stored topics and personal details
-    const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
+    const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
     if (storedTopics) {
       setSelectedTopics(storedTopics.split(","));
     }
 
-    const storedPersonalDetails = localStorage.getItem(
+    const storedPersonalDetails = sessionStorage.getItem(
       `personalDetails_${reference}`,
     );
     setPersonalDetailsSubmitted(!!storedPersonalDetails);
@@ -158,7 +158,7 @@ const Comment = ({ params }: Props) => {
     const currentPage = pageParam ? parseInt(pageParam) : 0;
 
     if (submissionComplete && currentPage !== 6) {
-      localStorage.removeItem(`submissionComplete_${reference}`);
+      sessionStorage.removeItem(`submissionComplete_${reference}`);
       setSubmissionComplete(false);
     }
   }, [submissionComplete, reference, searchParams]);
@@ -180,7 +180,7 @@ const Comment = ({ params }: Props) => {
       // Reset submission state when navigating away from confirmation page
       if (submissionComplete && newPage !== 6) {
         setTimeout(() => {
-          localStorage.removeItem(`submissionComplete_${reference}`);
+          sessionStorage.removeItem(`submissionComplete_${reference}`);
           setSubmissionComplete(false);
         }, 0);
       }
@@ -197,7 +197,7 @@ const Comment = ({ params }: Props) => {
   const navigateToNextTopic = useMemo(
     () => (topics: string[]) => {
       const nextUncommentedTopic = topics.find((topic) => {
-        const comment = localStorage.getItem(`comment_${topic}_${reference}`);
+        const comment = sessionStorage.getItem(`comment_${topic}_${reference}`);
         return !comment || comment.trim() === "";
       });
 

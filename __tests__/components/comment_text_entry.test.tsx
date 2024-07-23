@@ -12,7 +12,7 @@ describe("CommentTextEntry", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -52,13 +52,13 @@ describe("CommentTextEntry", () => {
 
     expect(defaultProps.onContinue).toHaveBeenCalled();
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(3);
-    expect(localStorage.getItem("comment_design_REF-001")).toBe(
+    expect(sessionStorage.getItem("comment_design_REF-001")).toBe(
       "This is a valid comment.",
     );
   });
 
-  it("loads the stored comment from localStorage when available", () => {
-    localStorage.setItem("comment_design_REF-001", "Stored comment");
+  it("loads the stored comment from sessionStorage when available", () => {
+    sessionStorage.setItem("comment_design_REF-001", "Stored comment");
     render(<CommentTextEntry {...defaultProps} />);
 
     expect(

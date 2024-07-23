@@ -23,7 +23,7 @@ const PreSubmission = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem(`presubmission_${reference}`, "completed");
+    sessionStorage.setItem(`presubmission_${reference}`, "completed");
     updateProgress(0);
     navigateToPage(1);
   };

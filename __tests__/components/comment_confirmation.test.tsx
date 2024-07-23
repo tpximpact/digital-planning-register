@@ -34,7 +34,7 @@ describe("CommentConfirmation", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -60,7 +60,7 @@ describe("CommentConfirmation", () => {
   });
 
   it("does not navigate to page 0 if the comment has been submitted", () => {
-    localStorage.setItem("submitted_REF-001", "true");
+    sessionStorage.setItem("submitted_REF-001", "true");
     render(<CommentConfirmation {...defaultProps} />);
 
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();

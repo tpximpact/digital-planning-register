@@ -11,7 +11,7 @@ describe("CommentTopicSelection", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -59,29 +59,31 @@ describe("CommentTopicSelection", () => {
       "traffic",
     ]);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(2);
-    expect(localStorage.getItem("selectedTopics_REF-001")).toBe(
+    expect(sessionStorage.getItem("selectedTopics_REF-001")).toBe(
       "design,traffic",
     );
   });
 
-  it("loads the stored topics from localStorage when available", () => {
-    localStorage.setItem("selectedTopics_REF-001", "light,privacy");
+  it("loads the stored topics from sessionStorage when available", () => {
+    sessionStorage.setItem("selectedTopics_REF-001", "light,privacy");
     render(<CommentTopicSelection {...defaultProps} />);
 
     expect(screen.getByLabelText("Impacts on natural light")).toBeChecked();
     expect(screen.getByLabelText("Privacy of neighbours")).toBeChecked();
   });
 
-  it("removes the associated comment from localStorage when a topic is deselected", () => {
-    localStorage.setItem("selectedTopics_REF-001", "noise,other");
-    localStorage.setItem("comment_noise_REF-001", "Noise comment");
-    localStorage.setItem("comment_other_REF-001", "Other comment");
+  it("removes the associated comment from sessionStorage when a topic is deselected", () => {
+    sessionStorage.setItem("selectedTopics_REF-001", "noise,other");
+    sessionStorage.setItem("comment_noise_REF-001", "Noise comment");
+    sessionStorage.setItem("comment_other_REF-001", "Other comment");
     render(<CommentTopicSelection {...defaultProps} />);
 
     fireEvent.click(screen.getByLabelText("Noise from new uses"));
 
     expect(screen.getByLabelText("Noise from new uses")).not.toBeChecked();
-    expect(localStorage.getItem("comment_noise_REF-001")).toBeNull();
-    expect(localStorage.getItem("comment_other_REF-001")).toBe("Other comment");
+    expect(sessionStorage.getItem("comment_noise_REF-001")).toBeNull();
+    expect(sessionStorage.getItem("comment_other_REF-001")).toBe(
+      "Other comment",
+    );
   });
 });

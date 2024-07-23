@@ -16,12 +16,12 @@ const CommentSentiment = ({
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const storedSentiment = localStorage.getItem(`sentiment_${reference}`);
+    const storedSentiment = sessionStorage.getItem(`sentiment_${reference}`);
     if (storedSentiment) {
       setSentiment(storedSentiment);
     }
 
-    const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
+    const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
     setIsEditing(!!storedTopics);
   }, [reference]);
 
@@ -29,7 +29,7 @@ const CommentSentiment = ({
     (e: React.FormEvent) => {
       e.preventDefault();
       if (sentiment) {
-        localStorage.setItem(`sentiment_${reference}`, sentiment);
+        sessionStorage.setItem(`sentiment_${reference}`, sentiment);
         updateProgress(1);
         const nextPage = isEditing ? 5 : 2;
         navigateToPage(nextPage);

@@ -89,11 +89,11 @@ const CommentCheckAnswer = ({
     councilConfig[council]?.contact || "https://www.gov.uk/";
 
   useEffect(() => {
-    setSentiment(localStorage.getItem(`sentiment_${reference}`) || "");
+    setSentiment(sessionStorage.getItem(`sentiment_${reference}`) || "");
     setSelectedTopics(
-      localStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
+      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
     );
-    const storedPersonalDetails = localStorage.getItem(
+    const storedPersonalDetails = sessionStorage.getItem(
       `personalDetails_${reference}`,
     );
     if (storedPersonalDetails) {
@@ -101,10 +101,10 @@ const CommentCheckAnswer = ({
     }
 
     const storedTopics =
-      localStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
+      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
     const loadedComments = storedTopics.map((topic) => ({
       topic,
-      comment: localStorage.getItem(`comment_${topic}_${reference}`) || "",
+      comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
     }));
     setComments(loadedComments);
   }, [reference]);
@@ -141,15 +141,15 @@ const CommentCheckAnswer = ({
     try {
       const result = await submitComment(applicationId, council, apiData);
       if (result.status === 200) {
-        localStorage.setItem(`submissionComplete_${reference}`, "true");
+        sessionStorage.setItem(`submissionComplete_${reference}`, "true");
 
-        // Clear all other localStorage items for this reference
-        Object.keys(localStorage).forEach((key) => {
+        // Clear all other sessionStorage items for this reference
+        Object.keys(sessionStorage).forEach((key) => {
           if (
             key.includes(reference) &&
             key !== `submissionComplete_${reference}`
           ) {
-            localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
           }
         });
         updateProgress(5); // Update progress to allow access to confirmation page and redirect to it

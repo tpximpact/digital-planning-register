@@ -29,7 +29,7 @@ const CommentTopicSelection = ({
   const [validationError, setValidationError] = useState(false);
 
   useEffect(() => {
-    const storedTopics = localStorage.getItem(`selectedTopics_${reference}`);
+    const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
     if (storedTopics) {
       setSelectedTopics(storedTopics.split(","));
     }
@@ -38,7 +38,7 @@ const CommentTopicSelection = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedTopics.length > 0) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         `selectedTopics_${reference}`,
         selectedTopics.join(","),
       );
@@ -53,7 +53,7 @@ const CommentTopicSelection = ({
     setSelectedTopics((prev) => {
       if (prev.includes(topic)) {
         // Remove topic and associated comment
-        localStorage.removeItem(`comment_${topic}_${reference}`);
+        sessionStorage.removeItem(`comment_${topic}_${reference}`);
         return prev.filter((t) => t !== topic);
       } else {
         return [...prev, topic];

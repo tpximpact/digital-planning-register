@@ -23,7 +23,7 @@ describe("PreSubmission", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
   });
 
   it("renders the component with the correct content", () => {
@@ -56,7 +56,7 @@ describe("PreSubmission", () => {
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(1);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(0);
-    expect(localStorage.getItem("presubmission_REF-001")).toBe("completed");
+    expect(sessionStorage.getItem("presubmission_REF-001")).toBe("completed");
   });
 
   it('renders the "material considerations" link when provided in the council config', () => {

@@ -18,7 +18,7 @@ describe("CommentCheckAnswer", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -36,10 +36,10 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("displays the stored sentiment, selected topics, comments, and personal details", () => {
-    localStorage.setItem("sentiment_REF-001", "supportive");
-    localStorage.setItem("selectedTopics_REF-001", "use");
-    localStorage.setItem("comment_use_REF-001", "Use comment");
-    localStorage.setItem(
+    sessionStorage.setItem("sentiment_REF-001", "supportive");
+    sessionStorage.setItem("selectedTopics_REF-001", "use");
+    sessionStorage.setItem("comment_use_REF-001", "Use comment");
+    sessionStorage.setItem(
       "personalDetails_REF-001",
       JSON.stringify({
         name: "John Doe",
@@ -104,9 +104,9 @@ describe("CommentCheckAnswer", () => {
       );
       expect(defaultProps.updateProgress).toHaveBeenCalledWith(5);
       expect(defaultProps.navigateToPage).toHaveBeenCalledWith(6);
-      expect(localStorage.getItem("sentiment_REF-001")).toBeNull();
-      expect(localStorage.getItem("selectedTopics_REF-001")).toBeNull();
-      expect(localStorage.getItem("personalDetails_REF-001")).toBeNull();
+      expect(sessionStorage.getItem("sentiment_REF-001")).toBeNull();
+      expect(sessionStorage.getItem("selectedTopics_REF-001")).toBeNull();
+      expect(sessionStorage.getItem("personalDetails_REF-001")).toBeNull();
     });
   });
 

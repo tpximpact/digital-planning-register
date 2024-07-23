@@ -27,7 +27,7 @@ describe("CommentPersonalDetails", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -84,7 +84,7 @@ describe("CommentPersonalDetails", () => {
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(5);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(4);
-    const storedData = localStorage.getItem("personalDetails_REF-001");
+    const storedData = sessionStorage.getItem("personalDetails_REF-001");
     expect(storedData && JSON.parse(storedData)).toEqual({
       name: "John Doe",
       address: "123 Main St",
@@ -95,8 +95,8 @@ describe("CommentPersonalDetails", () => {
     });
   });
 
-  it("loads the stored personal details from localStorage when available", () => {
-    localStorage.setItem(
+  it("loads the stored personal details from sessionStorage when available", () => {
+    sessionStorage.setItem(
       "personalDetails_REF-001",
       JSON.stringify({
         name: "Jane Smith",

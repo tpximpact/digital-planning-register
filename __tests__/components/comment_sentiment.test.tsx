@@ -11,7 +11,7 @@ describe("CommentSentiment", () => {
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    sessionStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -47,18 +47,18 @@ describe("CommentSentiment", () => {
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(2);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(1);
-    expect(localStorage.getItem("sentiment_REF-001")).toBe("supportive");
+    expect(sessionStorage.getItem("sentiment_REF-001")).toBe("supportive");
   });
 
-  it("loads the stored sentiment from localStorage when available", () => {
-    localStorage.setItem("sentiment_REF-001", "neutral");
+  it("loads the stored sentiment from sessionStorage when available", () => {
+    sessionStorage.setItem("sentiment_REF-001", "neutral");
     render(<CommentSentiment {...defaultProps} />);
 
     expect(screen.getByLabelText("Neutral")).toBeChecked();
   });
 
   it("navigates to page 5 when editing and a sentiment is selected and the form is submitted", () => {
-    localStorage.setItem(
+    sessionStorage.setItem(
       "selectedTopics_REF-001",
       JSON.stringify(["topic1", "topic2"]),
     );
@@ -68,6 +68,6 @@ describe("CommentSentiment", () => {
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(5);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(1);
-    expect(localStorage.getItem("sentiment_REF-001")).toBe("objection");
+    expect(sessionStorage.getItem("sentiment_REF-001")).toBe("objection");
   });
 });

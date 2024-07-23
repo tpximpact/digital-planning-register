@@ -36,7 +36,7 @@ const CommentTextEntry = ({
   const [isMaxLength, setIsMaxLength] = useState(false);
 
   useEffect(() => {
-    const storedComment = localStorage.getItem(
+    const storedComment = sessionStorage.getItem(
       `comment_${currentTopic}_${reference}`,
     );
     if (storedComment) {
@@ -69,7 +69,7 @@ const CommentTextEntry = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (comment && normalisedCharCount <= MAX_COMMENT_LENGTH) {
-      localStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
+      sessionStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
       updateProgress(3);
       onContinue();
     } else {
