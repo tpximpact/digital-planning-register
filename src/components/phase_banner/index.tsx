@@ -9,6 +9,8 @@ const PhaseBanner = () => {
           This is a new service. Help us improve it and{" "}
           <a
             className="govuk-link"
+            target="_blank"
+            rel="noopener noreferrer"
             href="https://docs.google.com/forms/d/e/1FAIpQLSfERu46lRoEk6hBQj6diQNwe8QM8HZorNotNRPj-yJ3FkJaxQ/viewform"
           >
             give your feedback (opens in new tab)
