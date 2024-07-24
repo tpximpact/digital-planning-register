@@ -6,6 +6,7 @@ import Head from "../components/head";
 import { Suspense } from "react";
 import React from "react";
 import { usePathname } from "next/navigation";
+import PhaseBanner from "@/components/phase_banner";
 
 export default function RootLayout({
   children,
@@ -32,6 +33,7 @@ export default function RootLayout({
         </a>
         <Header currentPath={pathname} />
         <main className="govuk-width-container" id="main">
+          <PhaseBanner />
           <Suspense>{children}</Suspense>
         </main>
       </body>
