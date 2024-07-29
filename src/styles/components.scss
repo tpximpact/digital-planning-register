@@ -1,3 +1,6 @@
+@import "components/info-icons";
+@import "components/contents-bar";
+
 .backlink {
   border: none;
   background-color: white;
@@ -62,7 +65,7 @@
   flex-wrap: wrap;
 }
 
-.key-info .govuk-grid-column-one-half  {
+.key-info .govuk-grid-column-one-half {
   margin-bottom: 1em;
 }
 
@@ -79,7 +82,6 @@
     margin-bottom: 1em;
   }
 }
-
 
 @media (max-width: 1090px) {
   .app-map {
@@ -136,13 +138,13 @@
 }
 
 .govuk-button--secondary.blue-button {
-    background:govuk-colour("blue");
-    color:white;
-    box-shadow: 0 2px 0 #001e37
+  background: govuk-colour("blue");
+  color: white;
+  box-shadow: 0 2px 0 #001e37;
 }
 .govuk-button--secondary.blue-button:hover {
-    background: #095ba1;
-    color:white;
+  background: #095ba1;
+  color: white;
 }
 
 // Comments

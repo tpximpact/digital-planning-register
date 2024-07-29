@@ -18,17 +18,32 @@ const Menu = ({
           <CouncilSelector currentPath={currentPath} />
         </li>
         {currentPath !== "/" && (
-          <li
-            className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() && "current-item"}`}
-          >
-            <Link
-              className="govuk-header__link nav-link"
-              href={council ? `/${council.toLowerCase()}` : "/"}
-              role="link"
+          <>
+            <li
+              className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() && "current-item"}`}
             >
-              Application search
-            </Link>
-          </li>
+              <Link
+                className="govuk-header__link nav-link"
+                href={council ? `/${council.toLowerCase()}` : "/"}
+                role="link"
+              >
+                Application search
+              </Link>
+            </li>
+            <li
+              className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/planning-process" && "current-item"}`}
+            >
+              <Link
+                className="govuk-header__link nav-link"
+                role="link"
+                href={
+                  council ? `/${council?.toLowerCase()}/planning-process` : "/"
+                }
+              >
+                Understanding planning
+              </Link>
+            </li>
+          </>
         )}
       </ul>
     </nav>
