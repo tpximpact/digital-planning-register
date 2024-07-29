@@ -11,146 +11,99 @@ const PlanningProcess = () => {
           <div className="govuk-grid-column-one-third-from-desktop contents-bar">
             <h2 className="govuk-heading-l">Contents</h2>
 
-            <p className="list-heading govuk-body">
-              <a href="#application-statuses" className="govuk-link">
-                Application statuses
-              </a>
+            <p className="contents-bar__list-heading">
+              <a href="#application-statuses">Application statuses</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#consultation-in-progress" className="govuk-link">
-                Consultation in progress
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#consultation-in-progress">Consultation in progress</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#assessment-in-progress" className="govuk-link">
-                Assessment in progress
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#assessment-in-progress">Assessment in progress</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#determined" className="govuk-link">
-                Determined
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#determined">Determined</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#withdrawn" className="govuk-link">
-                Withdrawn
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#withdrawn">Withdrawn</a>
             </p>
 
-            <p className="list-heading govuk-body">
-              <a href="#important-dates" className="govuk-link">
-                Important dates
-              </a>
+            <p className="contents-bar__list-heading">
+              <a href="#important-dates">Important dates</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#received-date" className="govuk-link">
-                Received date
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#received-date">Received date</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#validated-date" className="govuk-link">
-                Valid from date
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#validated-date">Valid from date</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#published-date" className="govuk-link">
-                Published date
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#published-date">Published date</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#consultation-end-date" className="govuk-link">
-                Consultation end date
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#consultation-end-date">Consultation end date</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#decision-date" className="govuk-link">
-                Decision date
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#decision-date">Decision date</a>
             </p>
 
-            <p className="list-heading govuk-body">
-              <a href="#decisions" className="govuk-link">
-                Decisions
-              </a>
+            <p className="contents-bar__list-heading">
+              <a href="#decisions">Decisions</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#granted" className="govuk-link">
-                Granted
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#granted">Granted</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#refused" className="govuk-link">
-                Refused
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#refused">Refused</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#prior-approved" className="govuk-link">
-                Prior approval required and approved
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#prior-approved">Prior approval required and approved</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#prior-approval-not-required" className="govuk-link">
+            <p className="contents-bar__sub-list">
+              <a href="#prior-approval-not-required">
                 Prior approval not required
               </a>
             </p>
-            <p className="sub-list govuk-body">
-              <a
-                href="#prior-approval-required-and-refused"
-                className="govuk-link"
-              >
+            <p className="contents-bar__sub-list">
+              <a href="#prior-approval-required-and-refused">
                 Prior approval required and refused
               </a>
             </p>
 
-            <p className="list-heading govuk-body">
-              <a href="#application-types" className="govuk-link">
-                Application types
-              </a>
+            <p className="contents-bar__list-heading">
+              <a href="#application-types">Application types</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#householder" className="govuk-link">
-                Householder planning application
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#householder">Householder planning application</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#planning_permission" className="govuk-link">
-                Full planning permission
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#planning_permission">Full planning permission</a>
             </p>
-            <p className="sub-list sub-sub-list govuk-body">
-              <a href="#full_minor" className="govuk-link">
-                Minor and changes of use
-              </a>
+            <p className="contents-bar__sub-list contents-bar__sub-sub-list">
+              <a href="#full_minor">Minor and changes of use</a>
             </p>
-            <p className="sub-list sub-sub-list govuk-body">
-              <a href="#full_major" className="govuk-link">
-                Major
-              </a>
+            <p className="contents-bar__sub-list contents-bar__sub-sub-list">
+              <a href="#full_major">Major</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#outline_planning_permission" className="govuk-link">
+            <p className="contents-bar__sub-list">
+              <a href="#outline_planning_permission">
                 Outline planning permission
               </a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#lawfulness_certificate" className="govuk-link">
+            <p className="contents-bar__sub-list">
+              <a href="#lawfulness_certificate">
                 Lawful development certificate
               </a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#prior_approval" className="govuk-link">
-                Prior approval
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#prior_approval">Prior approval</a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#approval_of_reserved_matters" className="govuk-link">
+            <p className="contents-bar__sub-list">
+              <a href="#approval_of_reserved_matters">
                 Approval of reserved matters
               </a>
             </p>
-            <p className="sub-list govuk-body">
-              <a href="#non_planning_consents" className="govuk-link">
-                Non-planning consents
-              </a>
+            <p className="contents-bar__sub-list">
+              <a href="#non_planning_consents">Non-planning consents</a>
             </p>
           </div>
 
