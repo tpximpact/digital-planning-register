@@ -1,4 +1,10 @@
 {
+  "buckinghamshire": {
+    "name": "Buckinghamshire",
+    "logo": "buckinghamshirelogo.svg",
+    "publicComments": false,
+    "specialistComments": false
+  },
   "camden": {
     "name": "Camden",
     "contact": "https://www.camden.gov.uk/contact-camden",
