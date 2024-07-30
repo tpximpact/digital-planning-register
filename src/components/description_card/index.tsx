@@ -1,6 +1,13 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
+/**
+ * This component displays the description passed to it
+ * Max description length is 640 characters
+ * if theres a map then the max is 350 characters
+ * @param descrption
+ * @returns
+ */
 const DescriptionCard = ({ description }: any) => {
   const commentContainerRef = useRef<HTMLDivElement>(null);
   const [newDescription, setNewDescription] = useState(description);
@@ -10,13 +17,17 @@ const DescriptionCard = ({ description }: any) => {
     const checkOverflow = () => {
       const current = commentContainerRef.current;
       if (current) {
-        const getMap =
-          document.querySelectorAll('[role="region"]')[0].clientHeight;
-        const isOverflow = current.scrollHeight > getMap;
-        if (isOverflow) {
+        const getMap = current
+          ?.closest(".govuk-grid-row")
+          ?.querySelector(".landing-map");
+        const getMapHeight = getMap?.clientHeight ?? 0;
+        const isOverflow = current.scrollHeight > getMapHeight;
+        const currDescription =
+          current.querySelector("span")?.textContent ?? "";
+        if (isOverflow && currDescription?.length > 350) {
           setNewDescription(
-            current?.textContent
-              ?.slice(0, getMap > 250 ? 640 : 350)
+            currDescription
+              ?.slice(0, getMapHeight > 250 ? 640 : 350)
               .trim()
               .concat(`...`),
           );
@@ -30,9 +41,10 @@ const DescriptionCard = ({ description }: any) => {
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, [description]);
+
   return (
     <p className="govuk-body" ref={commentContainerRef}>
-      {newDescription} {continuedText}
+      <span>{newDescription}</span> {continuedText}
     </p>
   );
 };
