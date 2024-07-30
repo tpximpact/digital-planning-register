@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import { NonStandardBoundaryGeojson } from "@/types";
 
 const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,
@@ -8,7 +9,11 @@ const DynamicMap = dynamic(() => import("../map"), {
   ),
 });
 
-const LandingMap = ({ boundary_geojson }: any) => {
+interface LandingMapProps {
+  boundary_geojson: NonStandardBoundaryGeojson;
+}
+
+const LandingMap = ({ boundary_geojson }: LandingMapProps) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;

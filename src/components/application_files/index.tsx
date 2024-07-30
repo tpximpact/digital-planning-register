@@ -1,22 +1,22 @@
-import { ApplicationDocument, Data } from "../../../util/type";
 import DocumentCard from "../document_card";
 import { formatTag } from "../../../util/formatTag";
+import { NonStandardDocument } from "@/types";
 
-interface ApplicationFileProps extends Data {
-  documents: ApplicationDocument[];
+interface ApplicationFilesProps {
   reference: string;
+  council: string;
+  documents: NonStandardDocument[];
   showViewAllButton?: boolean;
   maxDisplayDocuments?: number;
-  council: string;
 }
 
 const ApplicationFile = ({
-  documents,
   reference,
+  council,
+  documents,
   showViewAllButton = true,
   maxDisplayDocuments,
-  council,
-}: ApplicationFileProps) => {
+}: ApplicationFilesProps) => {
   const displayedDocuments = documents?.slice(0, maxDisplayDocuments) ?? [];
 
   return (

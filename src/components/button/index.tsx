@@ -33,19 +33,22 @@ export const BackLink = ({ link }: { link?: string }) => {
     </>
   );
 };
+
+interface ButtonProps {
+  iconClass?: string;
+  content: string;
+  icon?: React.ReactNode;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+}
+
 export const Button = ({
   content,
   icon,
   className,
   type = "button",
   iconClass,
-}: {
-  iconClass?: string;
-  content: string;
-  icon?: React.ReactNode;
-  className?: string;
-  type?: "button" | "submit" | "reset";
-}) => {
+}: ButtonProps) => {
   return (
     <button
       type={type}

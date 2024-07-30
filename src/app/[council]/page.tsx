@@ -1,104 +1,78 @@
 import React from "react";
-import { format } from "date-fns";
 import { getApplicationsByCouncil, searchApplication } from "../../actions";
-import { Data } from "../../../util/type";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
-import LandingMap from "@/components/landing_map";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { definedStatus } from "../../../util/formatStatus";
-import { definedDecision } from "../../../util/formatDecision";
-import DescriptionCard from "@/components/description_card";
+import {
+  SearchParams,
+  ApiResponse,
+  V2PlanningApplications,
+  V2PlanningApplicationsSearch,
+} from "@/types";
+import { Metadata } from "next";
+import ApplicationCard from "@/components/application_card";
+import { getNonStandardApplicationDetails } from "../../../util/applicationHelpers";
 
 const resultsPerPage = 10;
 
-async function fetchData(
-  params: { council: string },
-  searchParams?: { [key: string]: string | string[] | undefined },
-): Promise<{
-  data?: Data[];
-  totalPages: number;
-  hasError?: boolean;
-  errorMessage?: string;
-  validationError?: boolean;
-}> {
+interface PageParams {
+  council: string;
+}
+
+interface HomeProps {
+  params: PageParams;
+  searchParams?: SearchParams | undefined;
+}
+
+async function fetchData({
+  params,
+  searchParams,
+}: HomeProps): Promise<
+  ApiResponse<V2PlanningApplications | V2PlanningApplicationsSearch | null>
+> {
+  const { council } = params;
   const page = parseInt(searchParams?.page as string) || 1;
   const search = searchParams?.search as string;
-  const council = params.council;
-  let validationError = false;
-  let data: Data[] = [];
-  let totalPages: number = 0;
-  let hasError = false;
-  let errorMessage = "";
 
-  if (search) {
-    if (search.length < 3) {
-      validationError = true;
-      const response = await getApplicationsByCouncil(
-        page,
-        resultsPerPage,
-        council,
-      );
-      if (response.data) {
-        data = response.data;
-        totalPages = response.metadata?.total_pages || 1;
-      } else {
-        hasError = true;
-        errorMessage = response.message;
-      }
-    } else {
-      validationError = false;
-      const response = await searchApplication(
-        search,
-        council,
-        page,
-        resultsPerPage,
-      );
-      if (!response.error) {
-        if (response.data === null) {
-          hasError = true;
-          errorMessage = "No applications found.";
-        } else {
-          data = response.data;
-          totalPages = response?.metadata?.total_pages || 1;
-        }
-      } else {
-        hasError = true;
-        errorMessage = response.message;
-      }
-    }
+  // console.log("page:", council);
+  // console.log("page:", page);
+  // console.log("search:", search);
+
+  /**
+   * @todo endpoints for these will change to be the same /api/v2/public/planning_applications/search?page=1&maxresults=10
+   * Currently these two endpoints return different data structures, getApplicationsByCouncil is a non standard soon to be deprecated one, searchApplication is closer to the final form
+   */
+  if (search && search.length >= 3) {
+    const response = await searchApplication(
+      search,
+      council,
+      page,
+      resultsPerPage,
+    );
+    return response;
   } else {
     const response = await getApplicationsByCouncil(
       page,
       resultsPerPage,
       council,
     );
-    if (response.data) {
-      data = response.data;
-      totalPages = response.metadata?.total_pages || 1;
-    } else {
-      hasError = true;
-      errorMessage = response.message;
-    }
+    return response;
   }
-
-  return { data, totalPages, hasError, errorMessage, validationError };
 }
+
 export async function generateMetadata({
   params,
   searchParams,
-}: {
-  params: { council: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const { hasError, errorMessage } = await fetchData(params, searchParams);
+}: HomeProps): Promise<Metadata> {
+  const response = await fetchData({ params, searchParams });
+  const data = response.data ?? null;
 
-  if (hasError) {
+  if (!response.data) {
     return {
       title: "Error",
-      description: errorMessage || "An error occurred",
+      description: "An error occurred",
     };
   }
 
@@ -108,24 +82,21 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({
-  params,
-  searchParams,
-}: {
-  params: { council: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const { data, totalPages, hasError, errorMessage, validationError } =
-    await fetchData(params, searchParams);
-  const page = parseInt(searchParams?.page as string) || 1;
+export default async function Home({ params, searchParams }: HomeProps) {
+  const response = await fetchData({ params, searchParams });
+  const page = parseInt(searchParams?.page || "1");
   const council = params.council;
+  const search = !!(searchParams?.search && searchParams?.search.length >= 3);
+  const validationError =
+    searchParams?.search && searchParams?.search.length < 3 ? true : false;
 
-  if (hasError) {
+  if (response?.status?.code !== 200) {
     return <NotFound params={params} />;
   }
+
   return (
     <>
-      {!data && <BackLink />}
+      {!response?.data && <BackLink />}
       <div className="govuk-main-wrapper">
         <form action={`/${council}`} method="get" className="govuk-grid-row">
           <div className="govuk-grid-column-one-half">
@@ -157,234 +128,29 @@ export default async function Home({
             </button>
           </div>
         </form>
-        {data && data.length > 0 ? (
+        {response?.data?.data && response?.data?.data.length > 0 ? (
           <>
             <div>
-              {data?.map((application: any, index: number) => (
-                <div
-                  key={index}
-                  className="govuk-grid-row grid-row-extra-bottom-margin search-card"
-                >
-                  <div className="govuk-grid-column-full">
-                    <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
-                        <div className="govuk-heading-s">
-                          Application Reference
-                        </div>
-                        <p className="govuk-body">
-                          {application.reference ||
-                            application.application.reference}
-                        </p>
-                      </div>
-                      <div className="govuk-grid-column-two-thirds">
-                        <div className="govuk-heading-s">Address</div>
-                        <p className="govuk-body">
-                          {application?.site?.address_1 ||
-                            application?.property?.address?.singleLine}
-                          {application?.site?.postcode &&
-                            ", " + application?.site?.postcode}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="govuk-grid-row">
-                      {(application?.boundary_geojson ||
-                        application?.property?.boundary?.site) && (
-                        <div className="govuk-grid-column-one-third landing-map">
-                          <LandingMap
-                            boundary_geojson={
-                              application?.boundary_geojson ||
-                              application?.property?.boundary?.site
-                            }
-                          />
-                        </div>
-                      )}
-                      <div className="govuk-grid-column-two-thirds">
-                        <h2 className="govuk-heading-s">Description</h2>
-                        <DescriptionCard
-                          description={
-                            application?.description ||
-                            application?.proposal?.description
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
-                        <div className="govuk-heading-s">Application type</div>
-                        <p className="govuk-body">
-                          {capitaliseWord(
-                            application?.application_type?.replace(/_/g, " ") ||
-                              application?.application?.type?.description.replace(
-                                /_/g,
-                                " ",
-                              ),
-                          )}
-                        </p>
-                      </div>
-
-                      <div className="govuk-grid-column-one-third">
-                        {(application?.status ||
-                          application?.application?.status) && (
-                          <>
-                            <h2 className="govuk-heading-s">Status</h2>
-                            <p className="govuk-body">
-                              {definedStatus(
-                                application?.status,
-                                application?.consultation?.end_date,
-                              ) ||
-                                (application?.application?.status &&
-                                  definedStatus(
-                                    application?.application?.status,
-                                    application?.application?.consultation
-                                      ?.endDate,
-                                  ))}
-                            </p>
-                          </>
-                        )}
-                      </div>
-
-                      <div className="govuk-grid-column-one-third">
-                        {(application?.received_date ||
-                          application?.application?.receivedAt) && (
-                          <>
-                            <h2 className="govuk-heading-s">Received date</h2>
-                            <p className="govuk-body">
-                              {(application?.received_date &&
-                                `${format(
-                                  new Date(application?.received_date),
-                                  "dd MMM yyyy",
-                                )}`) ||
-                                (application?.application?.receivedAt &&
-                                  `${format(
-                                    new Date(
-                                      application?.application?.receivedAt,
-                                    ),
-                                    "dd MMM yyyy",
-                                  )}`)}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
-                        {(application?.publishedAt ||
-                          application?.application?.publishedAt) && (
-                          <>
-                            <div className="govuk-heading-s">
-                              Published Date
-                            </div>
-                            <p className="govuk-body">
-                              {(application?.publishedAt &&
-                                `${format(
-                                  new Date(application?.publishedAt),
-                                  "dd MMM yyyy",
-                                )}`) ||
-                                (application?.application?.publishedAt &&
-                                  `${format(
-                                    new Date(
-                                      application?.application?.publishedAt,
-                                    ),
-                                    "dd MMM yyyy",
-                                  )}`)}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                      <div className="govuk-grid-column-one-third">
-                        {(application?.consultation?.end_date ||
-                          application?.application?.consultation?.endDate) && (
-                          <>
-                            <div className="govuk-heading-s">
-                              Consultation End Date
-                            </div>
-                            <p className="govuk-body">
-                              {(application?.consultation?.end_date &&
-                                `${format(
-                                  new Date(application?.consultation?.end_date),
-                                  "dd MMM yyyy",
-                                )}`) ||
-                                (application?.application?.consultation
-                                  ?.endDate &&
-                                  `${format(
-                                    new Date(
-                                      application?.application?.consultation?.endDate,
-                                    ),
-                                    "dd MMM yyyy",
-                                  )}`)}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                      <div className="govuk-grid-column-one-third">
-                        {(application?.determination_date ||
-                          application?.application?.determinedAt) && (
-                          <>
-                            <div className="govuk-heading-s">Decision Date</div>
-                            <p className="govuk-body">
-                              {(application?.determination_date &&
-                                `${format(
-                                  new Date(application?.determination_date),
-                                  "dd MMM yyyy",
-                                )}`) ||
-                                (application?.application?.determinedAt &&
-                                  `${format(
-                                    new Date(
-                                      application?.application?.determinedAt,
-                                    ),
-                                    "dd MMM yyyy",
-                                  )}`)}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                      <div className="govuk-grid-column-one-third">
-                        {((application?.determination_date &&
-                          application.decision) ||
-                          (application?.application?.determinedAt &&
-                            application?.application?.decision)) && (
-                          <>
-                            <div className="govuk-heading-s">Decision</div>
-                            <p className="govuk-body">
-                              {(application?.determination_date &&
-                                definedDecision(
-                                  application.decision,
-                                  application.application_type as string,
-                                )) ||
-                                (application?.application?.determinedAt &&
-                                  definedDecision(
-                                    application?.application?.decision,
-                                    application.application?.type
-                                      ?.description as string,
-                                  ))}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="govuk-grid-row">
-                      <div className="govuk-grid-column-one-third">
-                        <a
-                          className="govuk-button govuk-button--secondary blue-button"
-                          href={`/${council}/${application?.reference || application?.application?.reference}`}
-                        >
-                          View details
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {response?.data?.data.map((application, i) => {
+                return (
+                  <ApplicationCard
+                    key={i}
+                    council={council}
+                    {...getNonStandardApplicationDetails(search, application)}
+                  />
+                );
+              })}
             </div>
-            {totalPages > 1 && (
+            {response?.data?.metadata?.total_pages > 1 && (
               <Pagination
                 currentPage={page - 1}
-                totalItems={totalPages * resultsPerPage}
+                totalItems={
+                  response?.data?.metadata?.total_pages * resultsPerPage
+                }
                 itemsPerPage={resultsPerPage}
-                totalPages={totalPages}
+                totalPages={response?.data?.metadata?.total_pages}
                 baseUrl={`/${council}/`}
-                queryParams={searchParams as Record<string, string>}
+                queryParams={searchParams}
               />
             )}
           </>

@@ -1,13 +1,12 @@
 import Link from "next/link";
 import CouncilSelector from "../council_selector";
 
-const Menu = ({
-  currentPath,
-  council,
-}: {
+interface MenuProps {
   currentPath: string;
   council: string;
-}) => {
+}
+
+const Menu = ({ currentPath, council }: MenuProps) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
       <ul

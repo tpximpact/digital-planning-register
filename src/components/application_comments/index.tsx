@@ -1,18 +1,18 @@
 // /path/to/ApplicationComments.tsx
 import React from "react";
-import { ApplicationComment, Config, Data } from "../../../util/type";
 import { CommentCard } from "../comment_card";
 import config from "../../../util/config.json";
+import { Config, NonStandardComment } from "@/types";
 
-interface ApplicationCommentsProps extends Data {
-  comments?: ApplicationComment[];
+export interface ApplicationCommentsProps {
+  council: string;
   reference: string;
   type: "consultee" | "published";
+  comments?: NonStandardComment[];
   maxDisplayComments?: number;
   showViewAllButton?: boolean;
   totalComments?: number;
   currentPage?: number;
-  council: string;
 }
 
 export function getTitle(

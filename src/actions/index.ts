@@ -1,59 +1,23 @@
 "use server";
+
+import { handleBopsGetRequest } from "@/lib/api";
+import {
+  ApiResponse,
+  V2PlanningApplications,
+  V2PlanningApplicationsReference,
+  V2PlanningApplicationsSearch,
+} from "@/types";
+
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,
   council: string,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
-}
-
-// This function get by reference
-export async function getApplicationByReference(
-  reference: string,
-  council: string,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications/${reference}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
+): Promise<ApiResponse<V2PlanningApplications | null>> {
+  const url = `planning_applications?page=${page}&maxresults=${resultsPerPage}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplications | null>
+  >(council, url);
+  return request;
 }
 
 export async function searchApplication(
@@ -61,29 +25,23 @@ export async function searchApplication(
   council: string,
   page: number,
   resultsPerPage: number,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
+): Promise<ApiResponse<V2PlanningApplicationsSearch | null>> {
+  const url = `public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsSearch | null>
+  >(council, url);
+  return request;
+}
 
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
+export async function getApplicationByReference(
+  reference: string,
+  council: string,
+): Promise<ApiResponse<V2PlanningApplicationsReference | null>> {
+  const url = `planning_applications/${reference}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsReference | null>
+  >(council, url);
+  return request;
 }
 
 // This might change to take in a reference instead of an id. also note the version number is different - separate env variable for v1.
