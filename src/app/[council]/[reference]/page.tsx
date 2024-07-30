@@ -10,6 +10,7 @@ import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "@/app/not-found";
 import config from "../../../../util/config.json";
 import { Metadata } from "next";
+import { ApplicationFormObject } from "@/components/application_form";
 
 interface PageParams {
   council: string;
@@ -69,6 +70,12 @@ export default async function Application({ params }: ApplicationProps) {
   const publicComments = councilConfig[council]?.publicComments;
   const specialistComments = councilConfig[council]?.specialistComments;
 
+  // add fake application form document
+  const applicationFormDocument = ApplicationFormObject(council, reference);
+  const documents = applicationFormDocument
+    ? [applicationFormDocument, ...response.data.documents]
+    : response.data.documents;
+
   return (
     <>
       <BackLink />
@@ -81,7 +88,7 @@ export default async function Application({ params }: ApplicationProps) {
         {/* <ApplicationLocation /> */}
         {/* <ApplicationDetails {...response.data} /> */}
         <ApplicationFile
-          documents={response.data.documents}
+          documents={documents}
           reference={reference}
           maxDisplayDocuments={6}
           council={council}

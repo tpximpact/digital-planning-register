@@ -3,6 +3,8 @@
  * ${process.env[councilApi]}planning_applications
  */
 
+import { ApplicationSubmission } from "./application-submission";
+
 interface Metadata {
   results: number;
   total_results: number;
@@ -199,3 +201,11 @@ export interface V2PlanningApplicationsSearch {
  */
 export interface V2PlanningApplicationsReference
   extends NonStandardApplication {}
+
+/**
+ * GET /api/v2/planning_applications/{reference}/submission
+ */
+export interface V2PlanningApplicationsSubmission {
+  application: ApplicationOverview;
+  submission: ApplicationSubmission;
+}
