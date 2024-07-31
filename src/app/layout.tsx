@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import React from "react";
 import { usePathname } from "next/navigation";
 import PhaseBanner from "@/components/phase_banner";
+import Footer from "@/components/footer";
 
 export default function RootLayout({
   children,
@@ -36,6 +37,7 @@ export default function RootLayout({
           <PhaseBanner />
           <Suspense>{children}</Suspense>
         </main>
+        <Footer />
       </body>
     </html>
   );
