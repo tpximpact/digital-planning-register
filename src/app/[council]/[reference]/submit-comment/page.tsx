@@ -179,10 +179,11 @@ const Comment = ({ params }: Props) => {
 
       // Reset submission state when navigating away from confirmation page
       if (submissionComplete && newPage !== 6) {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
           sessionStorage.removeItem(`submissionComplete_${reference}`);
           setSubmissionComplete(false);
         }, 0);
+        return () => clearTimeout(timeoutId);
       }
     },
     [router, submissionComplete, reference],
