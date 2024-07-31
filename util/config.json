@@ -6,6 +6,7 @@
     "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
     "specialistComments": false,
+    "privacyPolicy": "https://www.camden.gov.uk/data-protection-privacy-and-cookies",
     "pageContent": {
       "council_reference_submit_comment_pre_submission": {
         "what_happens_to_your_comments_link": "https://www.camden.gov.uk/commenting-planning-application"

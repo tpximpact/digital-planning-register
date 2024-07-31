@@ -79,6 +79,7 @@ export interface Council {
   publicComments?: boolean;
   specialistComments?: boolean;
   pageContent?: PageContent;
+  privacyPolicy?: string;
 }
 
 export interface Config {
