@@ -1,28 +1,38 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-export const BackLink = () => {
+import Link from "next/link";
+
+export const BackLink = ({ link }: { link?: string }) => {
   const router = useRouter();
   const [isJsEnabled, setIsJsEnabled] = useState(false);
+
   useEffect(() => {
     document.documentElement.className = "js-enabled";
     setIsJsEnabled(true);
   }, []);
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (!link) {
+      e.preventDefault();
+      router.back();
+    }
+  };
+
   return (
     <>
       {isJsEnabled && (
-        <button
-          type="button"
-          onClick={() => router.back()}
+        <Link
+          href={link || "#"}
+          onClick={handleClick}
           className="govuk-back-link back-button"
         >
           Back
-        </button>
+        </Link>
       )}
     </>
   );
 };
-
 export const Button = ({
   content,
   icon,

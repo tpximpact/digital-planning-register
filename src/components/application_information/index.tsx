@@ -1,10 +1,9 @@
-import { Data } from "../../../util/type";
-import Map from "../map";
+import { BoundaryGeojson } from "../../../util/type";
+import dynamic from "next/dynamic";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
-import { BoundaryGeojson } from "../../../util/type";
 
 function applicationType(application_type: string) {
   const type: { [key: string]: string } = {
@@ -43,6 +42,12 @@ type InformationData = {
   publishedAt?: string;
   validAt?: string;
 };
+import Link from "next/link";
+
+const DynamicMap = dynamic(() => import("../map"), {
+  ssr: false,
+  loading: () => <div>Loading map...</div>,
+});
 
 const ApplicationInformation = ({
   reference,
@@ -75,6 +80,18 @@ const ApplicationInformation = ({
       coordinates = features[0].geometry?.coordinates;
     }
   }
+
+  const geojsonData =
+    geometryType && coordinates
+      ? JSON.stringify({
+          type: "Feature",
+          geometry: {
+            type: geometryType,
+            coordinates,
+          },
+        })
+      : null;
+
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -95,17 +112,7 @@ const ApplicationInformation = ({
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third app-map">
-          {geometryType && coordinates && (
-            <Map
-              geojsonData={JSON.stringify({
-                type: "Feature",
-                geometry: {
-                  type: geometryType,
-                  coordinates,
-                },
-              })}
-            />
-          )}
+          {geojsonData && <DynamicMap geojsonData={geojsonData} />}
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop key-info">
@@ -295,6 +302,17 @@ const ApplicationInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
+      <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
+        <div className="govuk-grid-column-full">
+          <Link
+            href={`/${council}/${reference}/submit-comment`}
+            className="govuk-button govuk-button--primary"
+            data-module="govuk-button"
+          >
+            Comment on this application
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

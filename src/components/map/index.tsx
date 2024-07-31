@@ -21,6 +21,7 @@ interface MapProps {
   staticMode?: boolean;
   ariaLabelOlFixedOverlay?: string;
   osCopyright?: string;
+  zoom?: number;
 }
 
 const Map: React.FC<MapProps> = ({
@@ -34,6 +35,7 @@ const Map: React.FC<MapProps> = ({
   staticMode = false,
   ariaLabelOlFixedOverlay = "An interactive map",
   osCopyright = "© Crown copyright and database rights 2024 OS (0)100024857",
+  zoom = 14,
 }) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
@@ -43,7 +45,7 @@ const Map: React.FC<MapProps> = ({
       map.forEach((canvas) => {
         (canvas.style.width = "28rem"),
           (canvas.style.height =
-            page == "landing"
+            page == "static-map-page"
               ? onlyWidth > 640 && onlyWidth < 1090
                 ? "14rem"
                 : "20rem"
@@ -66,10 +68,10 @@ const Map: React.FC<MapProps> = ({
   }, [onlyWidth, page]);
 
   return (
-    <div role="region" aria-label="map">
+    <div role="region" aria-label="map" id="osl-map">
       <my-map
         role="application"
-        zoom="14"
+        zoom={zoom}
         {...(staticMode ? { staticMode } : {})}
         geojsonColor={geojsonColor}
         geojsonBuffer={geojsonBuffer}
