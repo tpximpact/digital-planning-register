@@ -35,11 +35,6 @@ const Footer = () => {
                   </a>
                 </li>
               )}
-              <li className="govuk-footer__inline-list-item">
-                <a className="govuk-footer__link" href="#">
-                  Cookie policy
-                </a>
-              </li>
             </ul>
             <svg
               aria-hidden="true"
