@@ -38,6 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({
       return (
         <a
           href={buildUrl(page)}
+          key={page}
           className={`govuk-link--no-visited-state page-link ${currentPage === page ? "active-page" : ""}`}
         >
           {page + 1}
@@ -46,6 +47,7 @@ const Pagination: React.FC<PaginationProps> = ({
     } else if (current + 3 === page + 1 || current - 1 === page + 1) {
       return (
         <a
+          key={page}
           href={buildUrl(page)}
           className={`govuk-link--no-visited-state ${currentPage === page ? "active-page" : ""}`}
         >

@@ -367,9 +367,7 @@ const Comment = ({ params }: Props) => {
     <>
       {page < 6 && (
         <>
-          {page > 0 && page < 6 && applicationData && (
-            <BackLink href={getBackLinkHref()} />
-          )}
+          {page < 6 && applicationData && <BackLink link={getBackLinkHref()} />}
           {applicationData && (
             <CommentHeader
               council={council}

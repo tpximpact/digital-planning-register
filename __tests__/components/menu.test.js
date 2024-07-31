@@ -14,14 +14,14 @@ const mockLocation2 = {
 
 describe("Test Menu", () => {
   it("it should render with application search present", async () => {
-    render(<Menu currentPath={mockLocation1.pathname} />);
-    expect(screen.getByRole("link", { Name: "Application Search" }));
+    render(<Menu currentPath={mockLocation1.pathname} council="camden" />);
+    expect(screen.getByText("Application search"));
   });
 
   it("it should render without application search present", async () => {
     render(<Menu currentPath={mockLocation2.pathname} />);
     expect(
-      screen.queryByRole("link", { Name: "Application Search" }),
+      screen.queryByRole("link", { Name: "Application search" }),
     ).toBeNull();
   });
 });

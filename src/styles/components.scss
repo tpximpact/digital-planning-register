@@ -1,4 +1,6 @@
-@use "components/comment_sentiment";
+@import "components/comment_sentiment";
+@import "components/info-icons";
+@import "components/contents-bar";
 
 .backlink {
   border: none;
