@@ -55,6 +55,11 @@ describe("Render ApplicationInformation", () => {
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
   });
+
+  it("should not show determined_at date if decision is null", () => {
+    render(<ApplicationInformation {...mockData} />);
+    expect(screen.queryByText("Decision")).toBeNull();
+  });
 });
 
 describe("Render ApplicationInformation", () => {
@@ -68,6 +73,8 @@ describe("Render ApplicationInformation", () => {
     received_date: "2024-03-18T00:00:00.000+00:00",
     result_flag: null,
     determination_date: "2024-03-19",
+    determined_at: "2024-07-18T00:00:00.000+00:00",
+    decision: "granted",
     status: "not_started",
     consultation: { end_date: "2024-04-08" },
     description: "Simple description",
@@ -86,6 +93,11 @@ describe("Render ApplicationInformation", () => {
       },
     },
   };
+
+  it("should show determined_at date if decision is not null", () => {
+    render(<ApplicationInformation {...mockData} />);
+    expect(screen.getByText("Decision Date")).toBeInTheDocument();
+  });
 
   it("should render correctly with MultiPolygon geometry", () => {
     const mockDataWithMultiPolygon = {

@@ -317,14 +317,16 @@ export default async function Home({
                         )}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        {(application?.determination_date ||
-                          application?.application?.determinedAt) && (
+                        {((application?.determined_at &&
+                          application?.decision) ||
+                          (application?.application?.determinedAt &&
+                            application?.application?.decision)) && (
                           <>
                             <div className="govuk-heading-s">Decision Date</div>
                             <p className="govuk-body">
-                              {(application?.determination_date &&
+                              {(application?.determined_at &&
                                 `${format(
-                                  new Date(application?.determination_date),
+                                  new Date(application?.determined_at),
                                   "dd MMM yyyy",
                                 )}`) ||
                                 (application?.application?.determinedAt &&
@@ -339,19 +341,17 @@ export default async function Home({
                         )}
                       </div>
                       <div className="govuk-grid-column-one-third">
-                        {((application?.determination_date &&
-                          application.decision) ||
-                          (application?.application?.determinedAt &&
-                            application?.application?.decision)) && (
+                        {(application.decision ||
+                          application?.application?.decision) && (
                           <>
                             <div className="govuk-heading-s">Decision</div>
                             <p className="govuk-body">
-                              {(application?.determination_date &&
+                              {(application?.decision &&
                                 definedDecision(
                                   application.decision,
                                   application.application_type as string,
                                 )) ||
-                                (application?.application?.determinedAt &&
+                                (application?.application?.decision &&
                                   definedDecision(
                                     application?.application?.decision,
                                     application.application?.type

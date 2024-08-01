@@ -23,6 +23,7 @@ export type Data = {
   consultation?: { end_date: string };
   decision: string;
   determination_date?: string;
+  determined_at?: string;
   agent_first_name?: string;
   agent_last_name?: string;
   applicant_first_name?: string;
