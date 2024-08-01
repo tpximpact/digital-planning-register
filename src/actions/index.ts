@@ -1,4 +1,6 @@
 "use server";
+import { cookies } from "next/headers";
+
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,
@@ -121,4 +123,9 @@ export async function submitComment(
     console.error("Error submitting comment", error);
     return { status: 500, message: "Internal server error" };
   }
+}
+
+export async function setConsentCookie(value: boolean) {
+  const cookieStore = cookies();
+  cookieStore.set("consentCookie", value.toString(), { maxAge: 31536000 }); // 1 year
 }
