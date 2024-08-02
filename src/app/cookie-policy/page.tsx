@@ -85,22 +85,7 @@ const Cookies = () => {
           Essential cookies keep your information secure while you use this
           service. We do not need to ask permission to use essential cookies.
         </p>
-        <p className="govuk-body">We do not use any essential cookies.</p>
-        <h3 className="govuk-heading-m">Essential session storage</h3>
-        <p className="govuk-body">
-          This service uses session storage to temporarily store small amounts
-          of data on your device. This helps the service work properly and
-          improves your experience as you move through the Digital Planning
-          Register process.
-        </p>
-        <p className="govuk-body">Session storage:</p>
-        <ul className="govuk-list govuk-list--bullet">
-          <li>stores data only for the duration of your browser session</li>
-          <li>is deleted when you close your browser</li>
-          <li>is not accessible by other websites</li>
-          <li>does not send data unless you submit a form</li>
-        </ul>
-        <h3 className="govuk-heading-m">Session storage items we use</h3>
+        <p className="govuk-body">We use the following essential cookies:</p>
         <table className="govuk-table govuk-table--small-text-until-tablet">
           <thead className="govuk-table__head">
             <tr className="govuk-table__row">
@@ -120,9 +105,57 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">presubmission</td>
+              <th scope="row" className="govuk-table__header">
+                consentCookie
+              </th>
               <td className="govuk-table__cell">
-                Tracks whether users have started the comment flow process
+                Stores your cookie preferences
+              </td>
+              <td className="govuk-table__cell">1 year</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 className="govuk-heading-m">Essential session storage</h3>
+        <p className="govuk-body">
+          This service uses session storage to temporarily store small amounts
+          of data on your device. This helps the service work properly and
+          improves your experience as you move through the Digital Planning
+          Register process.
+        </p>
+        <p className="govuk-body">Session storage:</p>
+        <ul className="govuk-list govuk-list--bullet">
+          <li>stores data only for the duration of your browser session</li>
+          <li>is deleted when you close your browser</li>
+          <li>is not accessible by other websites</li>
+          <li>does not send data unless you submit a form</li>
+        </ul>
+        <p className="govuk-body">
+          We use the following session storage items:
+        </p>
+        <table className="govuk-table govuk-table--small-text-until-tablet">
+          <thead className="govuk-table__head">
+            <tr className="govuk-table__row">
+              <th scope="col" className="govuk-table__header">
+                Name
+              </th>
+              <th scope="col" className="govuk-table__header">
+                Purpose
+              </th>
+              <th scope="col" className="govuk-table__header">
+                Expires
+              </th>
+            </tr>
+          </thead>
+          <tbody className="govuk-table__body">
+            <tr
+              className="govuk-table__row"
+              style={{ borderBottom: "1px solid #b1b4b6" }}
+            >
+              <th scope="row" className="govuk-table__header">
+                presubmission
+              </th>
+              <td className="govuk-table__cell">
+                Tracks whether you have started the comment flow process
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -132,7 +165,9 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">sentiment</td>
+              <th scope="row" className="govuk-table__header">
+                sentiment
+              </th>
               <td className="govuk-table__cell">
                 Stores what was entered as the choice for sentiment
               </td>
@@ -144,7 +179,9 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">selectedTopics</td>
+              <th scope="row" className="govuk-table__header">
+                selectedTopics
+              </th>
               <td className="govuk-table__cell">
                 Stores which boxes you checked for topics to comment on
               </td>
@@ -156,7 +193,9 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">comment</td>
+              <th scope="row" className="govuk-table__header">
+                comment
+              </th>
               <td className="govuk-table__cell">
                 Stores the content of each topic comment box
               </td>
@@ -168,7 +207,9 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">personalDetails</td>
+              <th scope="row" className="govuk-table__header">
+                personalDetails
+              </th>
               <td className="govuk-table__cell">
                 Stores the data entered into the final step, such as name and
                 email
@@ -181,7 +222,9 @@ const Cookies = () => {
               className="govuk-table__row"
               style={{ borderBottom: "1px solid #b1b4b6" }}
             >
-              <td className="govuk-table__cell">submissionComplete</td>
+              <th scope="row" className="govuk-table__header">
+                submissionComplete
+              </th>
               <td className="govuk-table__cell">
                 Tracks whether the submission was successful
               </td>
@@ -195,6 +238,50 @@ const Cookies = () => {
           Note: Some session storage items may include additional identifying
           information to manage multiple submissions.
         </p>
+        <h3 className="govuk-heading-m">Analytics cookies</h3>
+        <p className="govuk-body">
+          With your permission, we use Google Analytics to collect data about
+          how you use this service. This information helps us to improve our
+          service.
+        </p>
+        <p className="govuk-body">
+          Google is not allowed to use or share our analytics data with anyone.
+        </p>
+        <p className="govuk-body">
+          Google Analytics store anonymised information about:
+        </p>
+        <table className="govuk-table govuk-table--small-text-until-tablet">
+          <thead className="govuk-table__head">
+            <tr
+              className="govuk-table__row"
+              style={{ borderBottom: "1px solid #b1b4b6" }}
+            >
+              <th scope="col" className="govuk-table__header">
+                Name
+              </th>
+              <th scope="col" className="govuk-table__header">
+                Purpose
+              </th>
+              <th scope="col" className="govuk-table__header">
+                Expires
+              </th>
+            </tr>
+          </thead>
+          <tbody className="govuk-table__body">
+            <tr
+              className="govuk-table__row"
+              style={{ borderBottom: "1px solid #b1b4b6" }}
+            >
+              <th scope="row" className="govuk-table__header">
+                _ga
+              </th>
+              <td className="govuk-table__cell">
+                Used to identify unique users
+              </td>
+              <td className="govuk-table__cell">2 years</td>
+            </tr>
+          </tbody>
+        </table>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-two-thirds">
             <h2 className="govuk-heading-l">Change your cookie settings</h2>
