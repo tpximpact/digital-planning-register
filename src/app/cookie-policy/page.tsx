@@ -101,10 +101,7 @@ const Cookies = () => {
             </tr>
           </thead>
           <tbody className="govuk-table__body">
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 consentCookie
               </th>
@@ -147,10 +144,7 @@ const Cookies = () => {
             </tr>
           </thead>
           <tbody className="govuk-table__body">
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 presubmission
               </th>
@@ -161,10 +155,7 @@ const Cookies = () => {
                 When you submit a comment or close your browser
               </td>
             </tr>
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 sentiment
               </th>
@@ -175,10 +166,7 @@ const Cookies = () => {
                 When you submit a comment or close your browser
               </td>
             </tr>
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 selectedTopics
               </th>
@@ -189,10 +177,7 @@ const Cookies = () => {
                 When you submit a comment or close your browser
               </td>
             </tr>
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 comment
               </th>
@@ -203,10 +188,7 @@ const Cookies = () => {
                 When you submit a comment or close your browser
               </td>
             </tr>
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 personalDetails
               </th>
@@ -218,10 +200,7 @@ const Cookies = () => {
                 When you submit a comment or close your browser
               </td>
             </tr>
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 submissionComplete
               </th>
@@ -252,10 +231,7 @@ const Cookies = () => {
         </p>
         <table className="govuk-table govuk-table--small-text-until-tablet">
           <thead className="govuk-table__head">
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="col" className="govuk-table__header">
                 Name
               </th>
@@ -268,10 +244,7 @@ const Cookies = () => {
             </tr>
           </thead>
           <tbody className="govuk-table__body">
-            <tr
-              className="govuk-table__row"
-              style={{ borderBottom: "1px solid #b1b4b6" }}
-            >
+            <tr className="govuk-table__row">
               <th scope="row" className="govuk-table__header">
                 _ga
               </th>
@@ -340,22 +313,6 @@ const Cookies = () => {
           </div>
         </div>
       </div>
-
-      {/* <noscript>
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-two-thirds">
-            <h2 className="govuk-heading-l">Change your cookie settings</h2>
-            <p className="govuk-body">
-              We cannot change your cookie settings at the moment because
-              JavaScript is not running in your browser. To fix this, try:
-            </p>
-            <ul className="govuk-list govuk-list--bullet">
-              <li>turning on JavaScript in your browser settings</li>
-              <li>reloading this page</li>
-            </ul>
-          </div>
-        </div>
-      </noscript> */}
     </>
   );
 };
