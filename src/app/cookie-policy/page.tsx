@@ -124,7 +124,7 @@ const Cookies = () => {
           <li>stores data only for the duration of your browser session</li>
           <li>is deleted when you close your browser</li>
           <li>is not accessible by other websites</li>
-          <li>does not send data unless you submit a form</li>
+          <li>does not automatically send data to our servers</li>
         </ul>
         <p className="govuk-body">
           We use the following session storage items:
@@ -215,7 +215,8 @@ const Cookies = () => {
         </table>
         <p className="govuk-body">
           Note: Some session storage items may include additional identifying
-          information to manage multiple submissions.
+          information, such as the planning application reference number, to
+          manage multiple submissions.
         </p>
         <h3 className="govuk-heading-m">Analytics cookies</h3>
         <p className="govuk-body">
