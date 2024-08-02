@@ -90,7 +90,8 @@ const Cookies = () => {
         <p className="govuk-body">
           This service uses session storage to temporarily store small amounts
           of data on your device. This helps the service work properly and
-          improves your experience as you move through the Register process.
+          improves your experience as you move through the Digital Planning
+          Register process.
         </p>
         <p className="govuk-body">Session storage:</p>
         <ul className="govuk-list govuk-list--bullet">

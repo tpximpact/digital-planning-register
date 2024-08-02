@@ -24,7 +24,9 @@ describe("CookieBanner", () => {
 
   it("renders the initial banner when no consent cookie is set", () => {
     render(<CookieBanner />);
-    expect(screen.getByText("Cookies on Register")).toBeInTheDocument();
+    expect(
+      screen.getByText("Cookies on Digital Planning Register"),
+    ).toBeInTheDocument();
     expect(screen.getByText("Accept analytics cookies")).toBeInTheDocument();
     expect(screen.getByText("Reject analytics cookies")).toBeInTheDocument();
   });
