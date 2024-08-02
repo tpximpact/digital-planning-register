@@ -127,5 +127,9 @@ export async function submitComment(
 
 export async function setConsentCookie(value: boolean) {
   const cookieStore = cookies();
-  cookieStore.set("consentCookie", value.toString(), { maxAge: 31536000 }); // 1 year
+  cookieStore.set("consentCookie", value.toString(), {
+    path: "/",
+    maxAge: 31536000, // 1 year
+    sameSite: "strict",
+  });
 }
