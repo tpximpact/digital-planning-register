@@ -149,7 +149,7 @@ const Cookies = () => {
                 presubmission
               </th>
               <td className="govuk-table__cell">
-                Tracks whether you have started the comment flow process
+                Tracks whether you have started making a comment
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -160,7 +160,7 @@ const Cookies = () => {
                 sentiment
               </th>
               <td className="govuk-table__cell">
-                Stores what was entered as the choice for sentiment
+                Stores what sentiment you selected about a planning application, whether you are opposed, neutral or support it.
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -171,7 +171,7 @@ const Cookies = () => {
                 selectedTopics
               </th>
               <td className="govuk-table__cell">
-                Stores which boxes you checked for topics to comment on
+                Stores which topics you selected to comment on, such as 'Impacts on natural light,' 'Noise from new uses,' etc
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -182,7 +182,7 @@ const Cookies = () => {
                 comment
               </th>
               <td className="govuk-table__cell">
-                Stores the content of each topic comment box
+                Stores the text you write about each topic in your comment
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -193,7 +193,7 @@ const Cookies = () => {
                 personalDetails
               </th>
               <td className="govuk-table__cell">
-                Stores the data entered into the final step, such as name and
+                Stores the identifying information entered into the final step, such as name, address and
                 email
               </td>
               <td className="govuk-table__cell">
