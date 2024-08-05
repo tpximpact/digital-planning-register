@@ -1,8 +1,12 @@
 import Link from "next/link";
 import config from "../../../util/config.json";
-import { Config } from "../../../util/type";
+import { Config } from "@/types";
 
-const NoResult = ({ council }: { council: string }) => {
+interface NoResultProps {
+  council: string;
+}
+
+const NoResult = ({ council }: NoResultProps) => {
   const configCouncil: Config = config;
   const getInTouchURL =
     configCouncil[council]?.contact || "https://www.gov.uk/";

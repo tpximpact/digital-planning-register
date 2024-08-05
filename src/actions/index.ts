@@ -1,61 +1,25 @@
 "use server";
 import { cookies } from "next/headers";
+import { handleBopsGetRequest, handleBopsPostRequest } from "@/lib/api";
+import {
+  ApiResponse,
+  V2PlanningApplications,
+  V2PlanningApplicationsReference,
+  V2PlanningApplicationsSearch,
+  V1PlanningApplicationsNeighbourResponse,
+  V2PlanningApplicationsSubmission,
+} from "@/types";
 
 export async function getApplicationsByCouncil(
   page: number,
   resultsPerPage: number,
   council: string,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications?page=${page}&maxresults=${resultsPerPage}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
-}
-
-// This function get by reference
-export async function getApplicationByReference(
-  reference: string,
-  council: string,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications/${reference}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
+): Promise<ApiResponse<V2PlanningApplications | null>> {
+  const url = `planning_applications?page=${page}&maxresults=${resultsPerPage}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplications | null>
+  >(council, url);
+  return request;
 }
 
 export async function searchApplication(
@@ -63,66 +27,50 @@ export async function searchApplication(
   council: string,
   page: number,
   resultsPerPage: number,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase();
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-      return data;
-    } else {
-      return { status: 404, message: "Council not registered", data: null };
-    }
-  } catch (error) {
-    return { status: 500, message: "Internal server error", data: null };
-  }
+): Promise<ApiResponse<V2PlanningApplicationsSearch | null>> {
+  const url = `public/planning_applications/search?page=${page}&maxresults=${resultsPerPage}&q=${search}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsSearch | null>
+  >(council, url);
+  return request;
 }
 
-// This might change to take in a reference instead of an id. also note the version number is different - separate env variable for v1.
-export async function submitComment(
+export async function getApplicationByReference(
+  reference: string,
+  council: string,
+): Promise<ApiResponse<V2PlanningApplicationsReference | null>> {
+  const url = `planning_applications/${reference}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsReference | null>
+  >(council, url);
+  return request;
+}
+
+// NB v1 endpoint
+export async function postComment(
   id: number,
   council: string,
   apiData: object,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase() + "_V1";
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications/${id}/neighbour_responses`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-          body: JSON.stringify(apiData),
-        },
-      );
+): Promise<ApiResponse<V1PlanningApplicationsNeighbourResponse | null>> {
+  const url = `planning_applications/${id}/neighbour_responses`;
+  const request = await handleBopsPostRequest<
+    ApiResponse<V1PlanningApplicationsNeighbourResponse | null>
+  >(council, url, apiData, true);
+  return request;
+}
 
-      if (response.ok) {
-        return { status: 200, message: "Comment submitted successfully" };
-      } else {
-        const result = await response.json();
-        return { status: response.status, message: result.message };
-      }
-    } else {
-      return { status: 404, message: "Council not registered" };
-    }
-  } catch (error) {
-    console.error("Error submitting comment", error);
-    return { status: 500, message: "Internal server error" };
-  }
+// get an application's submission data
+export async function getApplicationSubmission(
+  reference: string,
+  council: string,
+): Promise<ApiResponse<V2PlanningApplicationsSubmission | null>> {
+  // console.info("\n\n\ngetApplicationDocuments");
+  // console.trace();
+  const url = `planning_applications/${reference}/submission`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsSubmission | null>
+  >(council, url);
+  return request;
 }
 
 export async function setConsentCookie(value: boolean) {

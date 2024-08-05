@@ -1,11 +1,11 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { submitComment } from "@/actions";
+import { postComment } from "@/actions";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
 
 jest.mock("../../src/actions", () => ({
-  submitComment: jest.fn(),
+  postComment: jest.fn(),
 }));
 
 describe("CommentCheckAnswer", () => {
@@ -91,13 +91,13 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("submits the comment and navigates to the confirmation page on successful submission", async () => {
-    (submitComment as jest.Mock).mockResolvedValueOnce({ status: 200 });
+    (postComment as jest.Mock).mockResolvedValueOnce({ status: { code: 200 } });
 
     render(<CommentCheckAnswer {...defaultProps} />);
     fireEvent.click(screen.getByRole("button", { name: "Accept and send" }));
 
     await waitFor(() => {
-      expect(submitComment).toHaveBeenCalledWith(
+      expect(postComment).toHaveBeenCalledWith(
         1,
         "exampleCouncil",
         expect.any(Object),
@@ -111,7 +111,7 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("displays an error message when the comment submission fails", async () => {
-    (submitComment as jest.Mock).mockRejectedValueOnce(
+    (postComment as jest.Mock).mockRejectedValueOnce(
       new Error("Submission failed"),
     );
 
