@@ -1,11 +1,12 @@
 "use server";
 
-import { handleBopsGetRequest } from "@/lib/api";
+import { handleBopsGetRequest, handleBopsPostRequest } from "@/lib/api";
 import {
   ApiResponse,
   V2PlanningApplications,
   V2PlanningApplicationsReference,
   V2PlanningApplicationsSearch,
+  V1PlanningApplicationsNeighbourResponse,
 } from "@/types";
 
 export async function getApplicationsByCouncil(
@@ -44,39 +45,15 @@ export async function getApplicationByReference(
   return request;
 }
 
-// This might change to take in a reference instead of an id. also note the version number is different - separate env variable for v1.
-export async function submitComment(
+// NB v1 endpoint
+export async function postComment(
   id: number,
   council: string,
   apiData: object,
-) {
-  try {
-    const apiKey = council.toUpperCase() + "_API_KEY";
-    const councilApi = "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase() + "_V1";
-    if (process.env[councilApi]) {
-      const response = await fetch(
-        `${process.env[councilApi]}planning_applications/${id}/neighbour_responses`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env[apiKey]}`,
-          },
-          body: JSON.stringify(apiData),
-        },
-      );
-
-      if (response.ok) {
-        return { status: 200, message: "Comment submitted successfully" };
-      } else {
-        const result = await response.json();
-        return { status: response.status, message: result.message };
-      }
-    } else {
-      return { status: 404, message: "Council not registered" };
-    }
-  } catch (error) {
-    console.error("Error submitting comment", error);
-    return { status: 500, message: "Internal server error" };
-  }
+): Promise<ApiResponse<V1PlanningApplicationsNeighbourResponse | null>> {
+  const url = `planning_applications/${id}/neighbour_responses`;
+  const request = await handleBopsPostRequest<
+    ApiResponse<V1PlanningApplicationsNeighbourResponse | null>
+  >(council, url, apiData, true);
+  return request;
 }
