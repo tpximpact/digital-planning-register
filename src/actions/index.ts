@@ -7,6 +7,7 @@ import {
   V2PlanningApplicationsReference,
   V2PlanningApplicationsSearch,
   V1PlanningApplicationsNeighbourResponse,
+  V2PlanningApplicationsSubmission,
 } from "@/types";
 
 export async function getApplicationsByCouncil(
@@ -55,5 +56,19 @@ export async function postComment(
   const request = await handleBopsPostRequest<
     ApiResponse<V1PlanningApplicationsNeighbourResponse | null>
   >(council, url, apiData, true);
+  return request;
+}
+
+// get an application's submission data
+export async function getApplicationSubmission(
+  reference: string,
+  council: string,
+): Promise<ApiResponse<V2PlanningApplicationsSubmission | null>> {
+  // console.info("\n\n\ngetApplicationDocuments");
+  // console.trace();
+  const url = `planning_applications/${reference}/submission`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<V2PlanningApplicationsSubmission | null>
+  >(council, url);
   return request;
 }

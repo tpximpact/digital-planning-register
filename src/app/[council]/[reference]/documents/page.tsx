@@ -5,6 +5,7 @@ import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
 import { SearchParams } from "@/types";
+import { ApplicationFormObject } from "@/components/application_form";
 
 interface PageParams {
   council: string;
@@ -30,7 +31,11 @@ export default async function Documents({
   const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
   const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
 
-  const documents = response.data.documents ?? [];
+  // add fake application form document
+  const applicationFormDocument = ApplicationFormObject(council, reference);
+  const documents = applicationFormDocument
+    ? [applicationFormDocument, ...response.data.documents]
+    : response.data.documents ?? [];
 
   const currentDocuments = documents.slice(
     indexOfFirstDocument,
