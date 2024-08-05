@@ -96,13 +96,16 @@ const Comment = ({ params }: Props) => {
           setError(data.error);
         } else {
           setApplicationData(data as ApplicationData);
+          if (data.status === "determined") {
+            router.push(`/${council}/${reference}`);
+          }
         }
       } catch (err) {
         setError("An unexpected error occurred");
       }
     };
     fetchData();
-  }, [reference, council]);
+  }, [reference, council, router]);
 
   // Set up the initial page and handle URL parameters
   useEffect(() => {

@@ -302,17 +302,19 @@ const ApplicationInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
-      <div className="govuk-grid-row extra-top-margin">
-        <div className="govuk-grid-column-full">
-          <Link
-            href={`/${council}/${reference}/submit-comment`}
-            className="govuk-button govuk-button--primary"
-            data-module="govuk-button"
-          >
-            Comment on this application
-          </Link>
+      {status !== "determined" && (
+        <div className="govuk-grid-row extra-top-margin">
+          <div className="govuk-grid-column-full">
+            <Link
+              href={`/${council}/${reference}/submit-comment`}
+              className="govuk-button govuk-button--primary"
+              data-module="govuk-button"
+            >
+              Comment on this application
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
