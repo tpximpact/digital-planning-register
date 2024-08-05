@@ -299,6 +299,8 @@ const Comment = ({ params }: Props) => {
             {...commonProps}
             currentTopic={selectedTopics[currentTopicIndex]}
             onContinue={handleTopicNavigation}
+            currentTopicIndex={currentTopicIndex}
+            totalTopics={selectedTopics.length}
           />
         );
       case 4:
