@@ -1,11 +1,20 @@
-import { Data } from "../../../util/type";
+import { V2PlanningApplicationsReference } from "@/types";
+
+interface ApplicationPeopleProps
+  extends Pick<
+    V2PlanningApplicationsReference,
+    | "applicant_first_name"
+    | "applicant_last_name"
+    | "agent_first_name"
+    | "agent_last_name"
+  > {}
 
 const ApplicationPeople = ({
   applicant_first_name,
   applicant_last_name,
   agent_first_name,
   agent_last_name,
-}: Data) => {
+}: ApplicationPeopleProps) => {
   return (
     <div>
       <h2 className="govuk-heading-l">People</h2>

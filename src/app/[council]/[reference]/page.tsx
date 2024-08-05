@@ -1,67 +1,69 @@
-import { notFound } from "next/navigation";
 import { getApplicationByReference } from "../../../actions/index";
 import { BackLink } from "@/components/button";
 import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
-import ApplicationDetails from "@/components/application_details";
-import ApplicationLocation from "@/components/application_location";
 import ApplicationPeople from "@/components/application_people";
-import ApplicationConstraints from "@/components/application_constraints";
 import ApplicationComments from "@/components/application_comments";
-import { ApplicationComment, Config } from "../../../../util/type";
+import { NonStandardComment } from "@/types";
+import { Config, ApiResponse, V2PlanningApplicationsReference } from "@/types";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "@/app/not-found";
 import config from "../../../../util/config.json";
+import { Metadata } from "next";
 
-type Props = { reference: string; council: string };
-type Params = { params: Props };
+interface PageParams {
+  council: string;
+  reference: string;
+}
 
-async function fetchData(params: Props) {
+interface ApplicationProps {
+  params: PageParams;
+}
+
+async function fetchData(
+  params: PageParams,
+): Promise<ApiResponse<V2PlanningApplicationsReference | null>> {
   const { reference, council } = params;
-  const data = await getApplicationByReference(reference, council);
-
-  return data;
+  const response = await getApplicationByReference(reference, council);
+  return response;
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: { reference: string; council: string };
-}) {
-  const { reference, council } = params;
-  const data = await fetchData({ reference: reference, council });
+}: ApplicationProps): Promise<Metadata> {
+  const response = await fetchData(params);
 
-  if (data.error) {
+  if (!response.data) {
     return {
       title: "Error",
-      description: data.errorMessage || "An error occurred",
+      description: "An error occurred",
     };
   }
 
   return {
-    title: `Application ${data.reference}`,
+    title: `Application ${response.data.reference}`,
     description: `${capitaliseWord(params.council)} planning application`,
   };
 }
 
-export default async function Application({ params }: Params) {
-  const data = await fetchData(params);
+export default async function Application({ params }: ApplicationProps) {
+  const response = await fetchData(params);
   const { reference, council } = params;
 
-  if (data.error || data.data === null) {
+  if (!response.data) {
     return <NotFound params={params} />;
   }
 
-  const sortComments = (comments: ApplicationComment[] = []) => {
-    return comments.sort((a, b) => {
+  const sortComments = (comments: NonStandardComment[]) => {
+    return comments?.sort((a, b) => {
       const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
       const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
       return dateB - dateA;
     });
   };
 
-  const consulteeComments = sortComments(data?.consultee_comments);
-  const publishedComments = sortComments(data?.published_comments);
+  const consulteeComments = sortComments(response.data?.consultee_comments);
+  const publishedComments = sortComments(response.data?.published_comments);
   const councilConfig: Config = config;
 
   const publicComments = councilConfig[council]?.publicComments;
@@ -71,19 +73,22 @@ export default async function Application({ params }: Params) {
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
-        <ApplicationInformation {...data} council={council} />
+        <ApplicationInformation
+          {...response.data}
+          reference={reference}
+          council={council}
+        />
         {/* <ApplicationLocation /> */}
-        {/* <ApplicationDetails {...data} /> */}
+        {/* <ApplicationDetails {...response.data} /> */}
         <ApplicationFile
-          {...data}
+          documents={response.data.documents}
           reference={reference}
           maxDisplayDocuments={6}
           council={council}
         />
-        <ApplicationPeople {...data} />
+        <ApplicationPeople {...response.data} />
         {specialistComments && (
           <ApplicationComments
-            {...data}
             council={council}
             reference={reference}
             maxDisplayComments={3}
@@ -91,12 +96,11 @@ export default async function Application({ params }: Params) {
             type="consultee"
             comments={consulteeComments}
             currentPage={0}
-            totalComments={consulteeComments.length}
+            totalComments={consulteeComments?.length}
           />
         )}
         {publicComments && (
           <ApplicationComments
-            {...data}
             council={council}
             reference={reference}
             maxDisplayComments={3}
@@ -104,7 +108,7 @@ export default async function Application({ params }: Params) {
             type="published"
             comments={publishedComments}
             currentPage={0}
-            totalComments={publishedComments.length}
+            totalComments={publishedComments?.length}
           />
         )}
         {/* <ApplicationConstraints /> */}

@@ -1,16 +1,7 @@
 import CouncilLogo from "../council_logo";
 import config from "../../../util/config.json";
 import Link from "next/link";
-
-interface Council {
-  name: string;
-  contact?: string;
-  logo?: string;
-}
-
-interface Config {
-  [key: string]: Council;
-}
+import { Config } from "@/types";
 
 export const CouncilCards = () => {
   const councilConfig = config as Config;

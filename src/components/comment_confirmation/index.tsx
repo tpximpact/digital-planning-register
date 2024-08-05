@@ -1,8 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import Map from "../map";
-import { BoundaryGeojson } from "../../../util/type";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { useEffect } from "react";
+import { NonStandardBoundaryGeojson } from "@/types";
+
+interface CommentConfirmationProps {
+  reference: string;
+  council: string;
+  site?: { address_1: string; postcode: string };
+  boundary_geojson?: NonStandardBoundaryGeojson;
+  navigateToPage: (page: number, params?: object) => void;
+}
 
 const CommentConfirmation = ({
   reference,
@@ -10,13 +17,7 @@ const CommentConfirmation = ({
   site,
   boundary_geojson,
   navigateToPage,
-}: {
-  reference: string;
-  council: string;
-  site?: { address_1: string; postcode: string };
-  boundary_geojson?: BoundaryGeojson;
-  navigateToPage: (page: number, params?: object) => void;
-}) => {
+}: CommentConfirmationProps) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;

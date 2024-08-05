@@ -4,41 +4,51 @@ import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
+import { SearchParams } from "@/types";
+
+interface PageParams {
+  council: string;
+  reference: string;
+}
+
+interface DocumentsProps {
+  params: PageParams;
+  searchParams?: SearchParams | undefined;
+}
 
 export default async function Documents({
   params: { reference, council },
   searchParams,
-}: {
-  params: { reference: string; council: string };
-  searchParams?: { page?: string };
-}) {
-  const maxDisplayDocuments = 10;
-  const applicationData = await getApplicationByReference(reference, council);
-
-  if (applicationData.data === null || applicationData.error) {
+}: DocumentsProps) {
+  const maxDisplayDocuments = 12;
+  const response = await getApplicationByReference(reference, council);
+  if (!response.data) {
     notFound();
   }
 
   const currentPage = parseInt(searchParams?.page || "1", 10) - 1;
   const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
   const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
-  const currentDocuments = applicationData?.documents?.slice(
+
+  const documents = response.data.documents ?? [];
+
+  const currentDocuments = documents.slice(
     indexOfFirstDocument,
     indexOfLastDocument,
   );
 
-  const totalPages = Math.ceil(
-    applicationData?.documents?.length / maxDisplayDocuments,
-  );
+  const totalPages = Math.ceil(documents.length / maxDisplayDocuments);
+
   return (
     <div>
       <BackLink />
       <ApplicationHeader
-        reference={applicationData.reference}
-        address={applicationData.site}
+        reference={response?.data.reference}
+        site={response?.data.site}
       />
       <ApplicationFile
-        {...applicationData}
+        {...response?.data}
+        council={council}
         reference={reference}
         showViewAllButton={false}
         documents={currentDocuments}
@@ -46,10 +56,10 @@ export default async function Documents({
       />
       <Pagination
         currentPage={currentPage}
-        totalItems={applicationData?.documents?.length}
+        totalItems={documents.length}
         itemsPerPage={maxDisplayDocuments}
         baseUrl={`/${council}/${reference}/documents`}
-        queryParams={searchParams || {}}
+        queryParams={searchParams}
         totalPages={totalPages}
       />
     </div>
