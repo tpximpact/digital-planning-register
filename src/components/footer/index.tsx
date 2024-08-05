@@ -10,7 +10,8 @@ const Footer = () => {
 
   const { ...councils } = config as Config;
   const currentCouncil = councils[council] as Council | undefined;
-  const privacyPolicy = currentCouncil?.privacyPolicy;
+  const privacyPolicy =
+    currentCouncil?.pageContent?.privacy_policy?.privacy_policy_link;
   const isCouncilPath = pathname?.includes(`/${council}`);
 
   return (

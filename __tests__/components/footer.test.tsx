@@ -11,7 +11,11 @@ jest.mock("next/navigation", () => ({
 
 jest.mock("../../util/config.json", () => ({
   someCouncil: {
-    privacyPolicy: "https://example.com/privacy",
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link: "https://example.com/privacy",
+      },
+    },
   },
 }));
 
