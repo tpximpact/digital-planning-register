@@ -342,10 +342,10 @@ const Comment = ({ params }: Props) => {
   // Render the main component
   return (
     <>
+      {page < 6 && applicationData && <BackLink />}
       {page < 6 && (
-        <>
-          {page < 6 && applicationData && <BackLink />}
-          {applicationData && (
+        <div className="govuk-main-wrapper">
+          {page >= 1 && applicationData && (
             <CommentHeader
               council={council}
               reference={reference}
@@ -353,9 +353,9 @@ const Comment = ({ params }: Props) => {
               site={applicationData.site}
             />
           )}
-        </>
+          {renderComponent()}
+        </div>
       )}
-      {renderComponent()}
     </>
   );
 };
