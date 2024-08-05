@@ -160,7 +160,8 @@ const Cookies = () => {
                 sentiment
               </th>
               <td className="govuk-table__cell">
-                Stores what sentiment you selected about a planning application, whether you are opposed, neutral or support it.
+                Stores what sentiment you selected about a planning application,
+                whether you are opposed, neutral or support it.
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -171,7 +172,8 @@ const Cookies = () => {
                 selectedTopics
               </th>
               <td className="govuk-table__cell">
-                Stores which topics you selected to comment on, such as 'Impacts on natural light,' 'Noise from new uses,' etc
+                Stores which topics you selected to comment on, such as 'Impacts
+                on natural light,' 'Noise from new uses,' etc
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
@@ -193,8 +195,8 @@ const Cookies = () => {
                 personalDetails
               </th>
               <td className="govuk-table__cell">
-                Stores the identifying information entered into the final step, such as name, address and
-                email
+                Stores the identifying information entered into the final step,
+                such as name, address and email
               </td>
               <td className="govuk-table__cell">
                 When you submit a comment or close your browser
