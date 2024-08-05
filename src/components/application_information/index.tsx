@@ -302,7 +302,7 @@ const ApplicationInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
-      <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
+      <div className="govuk-grid-row extra-top-margin">
         <div className="govuk-grid-column-full">
           <Link
             href={`/${council}/${reference}/submit-comment`}
