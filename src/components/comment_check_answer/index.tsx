@@ -160,6 +160,7 @@ const CommentCheckAnswer = ({
     } catch (error) {
       console.error("Error submitting comment:", error);
       setSubmissionError(true);
+      window.scrollTo(0, 0);
     }
   };
 
