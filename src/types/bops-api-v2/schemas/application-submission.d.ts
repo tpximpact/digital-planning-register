@@ -1,23 +1,49 @@
 /**
+ * #/components/schemas/ApplicationSubmission
+ * https://camden.bops-staging.services/api/docs/v2/swagger_doc.yaml
+ *
  * This file contains a LOT of types and definitions, some are auto generated and some are not
  * 99% of this will not be needed for our purposes but I've included it so that we can have as
  * much control over the data as possible while we develop and build this
  * for now the application-form page does what it needs to do and outputs everything submitted
  */
 
+import { ApplicationOverview } from "../definitions/application-overview";
+
+/**
+ * Alternative to the MUCH more complicated example below
+ */
+// export interface ApplicationSubmission {
+//   application: ApplicationOverview;
+//   submission: {
+//     data: {
+//       [key: string]: any;
+//     };
+//     preAssessment?: any[];
+//     responses?: any[];
+//     files?: any[];
+//     metadata: {
+//       [key: string]: any;
+//     };
+//   } | null;
+// }
+
 export interface ApplicationSubmission {
-  data: {
-    applicant: BaseApplicant | Agent;
-    application: BaseApplication | LondonApplication;
-    files?: FilesAsData;
-    property: UKProperty | LondonProperty;
-    proposal: BaseProposal | LondonProposal;
-    user: User;
-  };
-  preAssessment?: any[];
-  responses?: QuestionAndResponses[];
-  files?: File[];
-  metadata: AnyProviderMetadata | PlanXMetadata;
+  application: ApplicationOverview;
+  submission: {
+    data: {
+      applicant: BaseApplicant | Agent;
+      application: BaseApplication | LondonApplication;
+      files?: FilesAsData;
+      property: UKProperty | LondonProperty;
+      proposal: BaseProposal | LondonProposal;
+      user: User;
+    };
+    preAssessment?: any[];
+    responses?: QuestionAndResponses[];
+    files?: File[];
+    metadata: AnyProviderMetadata | PlanXMetadata;
+  } | null;
 }
 
 interface AnyProviderMetadata {

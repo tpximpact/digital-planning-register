@@ -1,9 +1,9 @@
 import Image from "next/image";
 import file from "../../../public/images/file-icon-default.svg";
-import { NonStandardDocument } from "@/types";
+import { DprDocument } from "@/types";
 
 interface DocumentCardProps {
-  document: NonStandardDocument;
+  document: DprDocument;
   formatTag: (tag: string) => string;
 }
 
@@ -27,9 +27,7 @@ export const DocumentCard = ({ document, formatTag }: DocumentCardProps) => {
             href={document?.url}
             className="govuk-link govuk-link--no-visited-state"
           >
-            {document?.tags?.length > 0
-              ? document.tags.map(formatTag).join(", ")
-              : "Unnamed Document"}
+            {document?.title}
           </a>
         </p>
         {document?.created_at && (

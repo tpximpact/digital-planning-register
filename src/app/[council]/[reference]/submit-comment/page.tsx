@@ -12,19 +12,12 @@ import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
 import { getApplicationByReference } from "@/actions";
 import NotFound from "@/app/not-found";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprApplicationDetails } from "@/types";
 
 type Props = {
   params: { reference: string; council: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
-
-interface ApplicationData {
-  id: number;
-  boundary_geojson: NonStandardBoundaryGeojson;
-  site: { address_1: string; postcode: string };
-  [key: string]: any;
-}
 
 const Comment = ({ params }: Props) => {
   const { reference, council } = params;
@@ -32,7 +25,7 @@ const Comment = ({ params }: Props) => {
   const searchParams = useSearchParams();
   const [page, setPage] = useState(0);
   const [applicationData, setApplicationData] =
-    useState<ApplicationData | null>(null);
+    useState<DprApplicationDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);
@@ -95,7 +88,7 @@ const Comment = ({ params }: Props) => {
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
-          setApplicationData(response.data as ApplicationData);
+          setApplicationData(response.data);
           if (response?.data?.status === "determined") {
             router.push(`/${council}/${reference}`);
           }

@@ -2,7 +2,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 
 // Dynamically import the Map component with SSR disabled
 const DynamicMap = dynamic(() => import("../map"), {
@@ -11,7 +11,7 @@ const DynamicMap = dynamic(() => import("../map"), {
 });
 
 interface CommentHeaderProps {
-  boundary_geojson?: NonStandardBoundaryGeojson;
+  boundary_geojson?: DprBoundaryGeojson;
   site?: { address_1: string; postcode: string };
   reference: string;
   council: string;
@@ -26,8 +26,8 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
   const getGeometryData = React.useMemo(() => {
     if (!boundary_geojson) return null;
 
-    let geometryType: "Polygon" | "MultiPolygon" | undefined;
-    let coordinates: number[][][] | number[][][][] | undefined;
+    let geometryType;
+    let coordinates;
 
     if (boundary_geojson.type === "Feature") {
       geometryType = boundary_geojson.geometry?.type;

@@ -1,11 +1,11 @@
 import DocumentCard from "../document_card";
 import { formatTag } from "../../../util/formatTag";
-import { NonStandardDocument } from "@/types";
+import { DprDocument } from "@/types";
 
 interface ApplicationFilesProps {
   reference: string;
   council: string;
-  documents: NonStandardDocument[];
+  documents: DprDocument[];
   showViewAllButton?: boolean;
   maxDisplayDocuments?: number;
 }
@@ -29,12 +29,8 @@ const ApplicationFile = ({
       {documents && documents.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
-            {displayedDocuments.map((document) => (
-              <DocumentCard
-                key={document?.numbers}
-                document={document}
-                formatTag={formatTag}
-              />
+            {displayedDocuments.map((document, i) => (
+              <DocumentCard key={i} document={document} formatTag={formatTag} />
             ))}
           </div>
           {showViewAllButton &&

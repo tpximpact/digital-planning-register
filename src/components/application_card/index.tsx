@@ -1,4 +1,4 @@
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../../util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
@@ -10,7 +10,7 @@ export interface ApplicationCardProps {
   council: string;
   reference: string;
   address: string;
-  boundary_geojson: NonStandardBoundaryGeojson;
+  boundary_geojson: DprBoundaryGeojson;
   description: string;
   applicationType: string;
   applicationStatus: string;
@@ -20,7 +20,6 @@ export interface ApplicationCardProps {
   applicationDeterminationDate: string | null | undefined;
   applicationDeterminedAt: string | null | undefined;
   applicationDecision: string | null | undefined;
-  applicationReference: string;
 }
 
 const ApplicationCard = ({
@@ -37,7 +36,6 @@ const ApplicationCard = ({
   applicationDeterminationDate,
   applicationDeterminedAt,
   applicationDecision,
-  applicationReference,
 }: ApplicationCardProps) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin search-card">
@@ -153,7 +151,7 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <a
-              href={`/${council}/${applicationReference}`}
+              href={`/${council}/${reference}`}
               className="govuk-button govuk-button--secondary blue-button"
             >
               View details

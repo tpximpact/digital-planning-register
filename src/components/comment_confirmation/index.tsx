@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import Map from "../map";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 
 interface CommentConfirmationProps {
   reference: string;
   council: string;
   site?: { address_1: string; postcode: string };
-  boundary_geojson?: NonStandardBoundaryGeojson;
+  boundary_geojson?: DprBoundaryGeojson;
   navigateToPage: (page: number, params?: object) => void;
 }
 
@@ -20,8 +20,8 @@ const CommentConfirmation = ({
 }: CommentConfirmationProps) => {
   const boundaryGeojson = boundary_geojson;
 
-  let geometryType: "Polygon" | "MultiPolygon" | undefined;
-  let coordinates: number[][][] | number[][][][] | undefined;
+  let geometryType;
+  let coordinates;
 
   if (boundaryGeojson?.type === "Feature") {
     geometryType = boundaryGeojson.geometry?.type;

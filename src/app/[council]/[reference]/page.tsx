@@ -4,8 +4,7 @@ import ApplicationInformation from "@/components/application_information";
 import ApplicationFile from "@/components/application_files";
 import ApplicationPeople from "@/components/application_people";
 import ApplicationComments from "@/components/application_comments";
-import { NonStandardComment } from "@/types";
-import { Config, ApiResponse, V2PlanningApplicationsReference } from "@/types";
+import { Config, ApiResponse, DprApplicationDetails } from "@/types";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "@/app/not-found";
 import config from "../../../../util/config.json";
@@ -23,7 +22,7 @@ interface ApplicationProps {
 
 async function fetchData(
   params: PageParams,
-): Promise<ApiResponse<V2PlanningApplicationsReference | null>> {
+): Promise<ApiResponse<DprApplicationDetails | null>> {
   const { reference, council } = params;
   const response = await getApplicationByReference(reference, council);
   return response;
@@ -55,16 +54,6 @@ export default async function Application({ params }: ApplicationProps) {
     return <NotFound params={params} />;
   }
 
-  const sortComments = (comments: NonStandardComment[]) => {
-    return comments?.sort((a, b) => {
-      const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
-      const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
-      return dateB - dateA;
-    });
-  };
-
-  const consulteeComments = sortComments(response.data?.consultee_comments);
-  const publishedComments = sortComments(response.data?.published_comments);
   const councilConfig: Config = config;
 
   const publicComments = councilConfig[council]?.publicComments;
@@ -101,9 +90,9 @@ export default async function Application({ params }: ApplicationProps) {
             maxDisplayComments={3}
             showViewAllButton={true}
             type="consultee"
-            comments={consulteeComments}
+            comments={response.data?.consultee_comments}
             currentPage={0}
-            totalComments={consulteeComments?.length}
+            totalComments={response.data?.consultee_comments?.length}
           />
         )}
         {publicComments && (
@@ -113,9 +102,9 @@ export default async function Application({ params }: ApplicationProps) {
             maxDisplayComments={3}
             showViewAllButton={true}
             type="published"
-            comments={publishedComments}
+            comments={response.data?.published_comments}
             currentPage={0}
-            totalComments={publishedComments?.length}
+            totalComments={response.data?.published_comments?.length}
           />
         )}
         {/* <ApplicationConstraints /> */}

@@ -1,3 +1,8 @@
+/**
+ * Config file definition
+ * @todo this can be simplified
+ */
+
 export interface Council {
   name: string;
   contact?: string;

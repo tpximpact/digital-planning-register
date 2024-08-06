@@ -2,6 +2,7 @@ import { V2PlanningApplications, V2PlanningApplicationsSearch } from "@/types";
 
 /**
  * While we're dealing with endpoints with different data structures using this method to keep the code sane!
+ * @deprecated
  * @param search
  * @param application
  */

@@ -2,13 +2,14 @@
 import React from "react";
 import { CommentCard } from "../comment_card";
 import config from "../../../util/config.json";
-import { Config, NonStandardComment } from "@/types";
+import { Config, DprComment } from "@/types";
+import { sortComments } from "@/lib/comments";
 
 export interface ApplicationCommentsProps {
   council: string;
   reference: string;
   type: "consultee" | "published";
-  comments?: NonStandardComment[];
+  comments?: DprComment[];
   maxDisplayComments?: number;
   showViewAllButton?: boolean;
   totalComments?: number;
@@ -72,6 +73,8 @@ const ApplicationComments = ({
     publicComments,
     specialistComments,
   );
+
+  comments = sortComments(comments);
 
   return (
     <>

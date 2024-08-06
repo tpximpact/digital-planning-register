@@ -1,8 +1,8 @@
-import { NonStandardDocument, V2PlanningApplicationsSubmission } from "@/types";
+import { DprDocument, V2PlanningApplicationsSubmission } from "@/types";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 
 /**
- * This generates a fake document - currently using the NonStandardDocument type
+ * This generates a fake document - currently using the BopsNonStandardDocument type
  * @todo this will soon not be compatible with the new document type
  * Its added per page as opposed to at a higher level since we fetch the data at each load anyway,
  * it might be worth looking into if this affects caching for data fetching at some point though
@@ -13,17 +13,16 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 export const ApplicationFormObject = (
   council: string,
   reference: string,
-): NonStandardDocument | null => {
+): DprDocument | null => {
   if (!council || !reference) {
     return null;
   }
   return {
     url: `/${council}/${reference}/application-form`,
-    tags: ["form.application"],
-    numbers: "Application form",
-    applicant_description: null,
+    title: "Application form",
     metadata: {
       contentType: "text/html",
+      byteSize: 0,
     },
   };
 };

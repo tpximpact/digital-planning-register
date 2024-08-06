@@ -1,5 +1,5 @@
 import React from "react";
-import { getApplicationsByCouncil, searchApplication } from "../../actions";
+import { getPublicApplications } from "../../actions";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
@@ -8,12 +8,10 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 import {
   SearchParams,
   ApiResponse,
-  V2PlanningApplications,
-  V2PlanningApplicationsSearch,
+  V2PublicPlanningApplications,
 } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
-import { getNonStandardApplicationDetails } from "../../../util/applicationHelpers";
 
 const resultsPerPage = 10;
 
@@ -29,37 +27,23 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<
-  ApiResponse<V2PlanningApplications | V2PlanningApplicationsSearch | null>
-> {
+}: HomeProps): Promise<ApiResponse<V2PublicPlanningApplications | null>> {
   const { council } = params;
-  const page = parseInt(searchParams?.page as string) || 1;
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const search = searchParams?.search as string;
 
   // console.log("page:", council);
   // console.log("page:", page);
   // console.log("search:", search);
 
-  /**
-   * @todo endpoints for these will change to be the same /api/v2/public/planning_applications/search?page=1&maxresults=10
-   * Currently these two endpoints return different data structures, getApplicationsByCouncil is a non standard soon to be deprecated one, searchApplication is closer to the final form
-   */
-  if (search && search.length >= 3) {
-    const response = await searchApplication(
-      search,
-      council,
-      page,
-      resultsPerPage,
-    );
-    return response;
-  } else {
-    const response = await getApplicationsByCouncil(
-      page,
-      resultsPerPage,
-      council,
-    );
-    return response;
-  }
+  const response = await getPublicApplications(
+    page,
+    resultsPerPage,
+    council,
+    search,
+  );
+
+  return response;
 }
 
 export async function generateMetadata({
@@ -84,7 +68,7 @@ export async function generateMetadata({
 
 export default async function Home({ params, searchParams }: HomeProps) {
   const response = await fetchData({ params, searchParams });
-  const page = parseInt(searchParams?.page || "1");
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const council = params.council;
   const search = !!(searchParams?.search && searchParams?.search.length >= 3);
   const validationError =
@@ -136,7 +120,21 @@ export default async function Home({ params, searchParams }: HomeProps) {
                   <ApplicationCard
                     key={i}
                     council={council}
-                    {...getNonStandardApplicationDetails(search, application)}
+                    reference={application.application.reference}
+                    address={application.property.address.singleLine}
+                    boundary_geojson={application.property.boundary.site}
+                    description={application.proposal.description}
+                    applicationType={application.application.type.description}
+                    applicationStatus={application.application.status}
+                    consultationEndDate={
+                      application.application.consultation?.endDate
+                    }
+                    applicationReceivedDate={application.application.receivedAt}
+                    applicationPublishedAt={application.application.publishedAt}
+                    applicationDeterminationDate={
+                      application.application.determinedAt
+                    }
+                    applicationDecision={application.application.decision}
                   />
                 );
               })}

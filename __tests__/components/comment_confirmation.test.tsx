@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentConfirmation from "@/components/comment_confirmation";
 import "@testing-library/jest-dom";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 
 jest.mock("../../src/components/map", () => {
   return jest.fn(() => <div data-testid="mocked-map">Mocked Map</div>);
@@ -29,7 +29,7 @@ describe("CommentConfirmation", () => {
           ],
         ],
       },
-    } as NonStandardBoundaryGeojson,
+    } as DprBoundaryGeojson,
     navigateToPage: jest.fn(),
   };
 
