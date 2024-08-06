@@ -15,6 +15,7 @@ interface ApplicationInformationProps
     | "publishedAt"
     | "decision"
     | "determination_date"
+    | "determined_at"
     | "status"
     | "consultation"
     | "boundary_geojson"
@@ -59,6 +60,7 @@ const ApplicationInformation = ({
   publishedAt,
   decision,
   determination_date,
+  determined_at,
   status,
   consultation,
   boundary_geojson,
@@ -195,7 +197,7 @@ const ApplicationInformation = ({
                     Valid from date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#validated-dates`}
+                      href={`/${council}/planning-process#validated-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -218,7 +220,7 @@ const ApplicationInformation = ({
                     Published date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#published-date"`}
+                      href={`/${council}/planning-process#published-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -234,7 +236,17 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {consultation?.end_date && (
                 <>
-                  <div className="govuk-heading-s">Consultation end date</div>
+                  <div className="govuk-heading-s">
+                    Consultation end date{" "}
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#consultation-end-date`}
+                      title="Understanding consultation end date"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
                   <p className="govuk-body">
                     {format(new Date(consultation?.end_date), "dd MMM yyyy")}
                   </p>
@@ -245,7 +257,7 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              {determination_date && decision && (
+              {determined_at && decision && (
                 <>
                   <div className="govuk-heading-s">
                     Decision Date{" "}
@@ -260,14 +272,14 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p className="govuk-body">
-                    {format(new Date(determination_date), "dd MMM yyyy")}
+                    {format(new Date(determined_at), "dd MMM yyyy")}
                   </p>
                 </>
               )}
             </div>
 
             <div className="govuk-grid-column-one-half">
-              {decision && determination_date && (
+              {decision && determined_at && (
                 <>
                   <div className="govuk-heading-s">
                     Decision{" "}
@@ -302,17 +314,19 @@ const ApplicationInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
-      <div className="govuk-grid-row grid-row-extra-bottom-margin extra-top-margin">
-        <div className="govuk-grid-column-full">
-          <Link
-            href={`/${council}/${reference}/submit-comment`}
-            className="govuk-button govuk-button--primary"
-            data-module="govuk-button"
-          >
-            Comment on this application
-          </Link>
+      {status !== "determined" && (
+        <div className="govuk-grid-row extra-top-margin">
+          <div className="govuk-grid-column-full">
+            <Link
+              href={`/${council}/${reference}/submit-comment`}
+              className="govuk-button govuk-button--primary"
+              data-module="govuk-button"
+            >
+              Comment on this application
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

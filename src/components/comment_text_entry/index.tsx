@@ -24,11 +24,15 @@ const CommentTextEntry = ({
   currentTopic,
   onContinue,
   updateProgress,
+  currentTopicIndex,
+  totalTopics,
 }: {
   reference: string;
   currentTopic: string;
   onContinue: () => void;
   updateProgress: (completedPage: number) => void;
+  currentTopicIndex: number;
+  totalTopics: number;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
@@ -98,10 +102,14 @@ const CommentTextEntry = ({
             )}
 
             <h1 className="govuk-label-wrapper">
-              <label className="govuk-label govuk-label--l" htmlFor="comment">
+              <label className="govuk-label govuk-label--m" htmlFor="comment">
                 {topicLabels[currentTopic as keyof typeof topicLabels]}
               </label>
             </h1>
+
+            <p className="govuk-hint">
+              {currentTopicIndex + 1} of {totalTopics}
+            </p>
 
             <textarea
               className={`govuk-textarea ${validationError || isMaxLength ? "govuk-textarea--error" : ""}`}

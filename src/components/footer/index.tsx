@@ -1,6 +1,19 @@
 import Image from "next/image";
+import { useParams, usePathname } from "next/navigation";
+import config from "../../../util/config.json";
+import { Config, Council } from "../../../util/type";
 
 const Footer = () => {
+  const params = useParams();
+  const pathname = usePathname();
+  const council = params?.council as string;
+
+  const { ...councils } = config as Config;
+  const currentCouncil = councils[council] as Council | undefined;
+  const privacyPolicy =
+    currentCouncil?.pageContent?.privacy_policy?.privacy_policy_link;
+  const isCouncilPath = pathname?.includes(`/${council}`);
+
   return (
     <footer className="govuk-footer">
       <div className="govuk-width-container">
@@ -9,13 +22,20 @@ const Footer = () => {
             <Image
               src="/images/logos/odp-logo.svg"
               alt="Open Digital Planning Logo"
-              height="100"
-              width="300"
+              height={100}
+              width={300}
             />
           </div>
           <div className="govuk-footer__meta-item govuk-footer__meta-item--grow">
             <h2 className="govuk-visually-hidden">Support links</h2>
             <ul className="govuk-footer__inline-list">
+              {isCouncilPath && privacyPolicy && (
+                <li className="govuk-footer__inline-list-item">
+                  <a className="govuk-footer__link" href={privacyPolicy}>
+                    Privacy policy
+                  </a>
+                </li>
+              )}
               <li className="govuk-footer__inline-list-item">
                 <a className="govuk-footer__link" href={`/cookie-policy`}>
                   Cookie policy

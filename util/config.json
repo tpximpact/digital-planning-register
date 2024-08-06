@@ -1,4 +1,10 @@
 {
+  "buckinghamshire": {
+    "name": "Buckinghamshire",
+    "logo": "buckinghamshirelogo.svg",
+    "publicComments": false,
+    "specialistComments": false
+  },
   "camden": {
     "name": "Camden",
     "contact": "https://www.camden.gov.uk/contact-camden",
@@ -19,6 +25,9 @@
         "contact_planning_advice_link": "https://www.camden.gov.uk/contact-planning-advice-and-information-service",
         "corporate_privacy_statement_link": "https://www.camden.gov.uk/data-protection-privacy-and-cookies",
         "planning_service_privacy_statement_link": "https://www.camden.gov.uk/documents/20142/2247044/Privacy+Notice_regenerationandplanning+-+updated+May19.pdf/23506373-1b95-2cc5-55b2-55897cfe4b42"
+      },
+      "privacy_policy": {
+        "privacy_policy_link": "https://www.camden.gov.uk/data-protection-privacy-and-cookies"
       }
     }
   },

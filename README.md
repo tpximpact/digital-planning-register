@@ -98,9 +98,11 @@ Each council has its own set of environment variables that specify the API URL a
 
 For example, for Camden and Southwark data:
 
-|         Variable Name          | Value |
-| :----------------------------: | :---: |
-| NEXT_PUBLIC_BOPS_API_SOUTHWARK |  ###  |
-|       SOUTHWARK_API_KEY        |  ###  |
-|  NEXT_PUBLIC_BOPS_API_CAMDEN   |  ###  |
-|         CAMDEN_API_KEY         |  ###  |
+|            Variable Name             | Value |
+| :----------------------------------: | :---: |
+|    NEXT_PUBLIC_BOPS_API_SOUTHWARK    |  ###  |
+|          SOUTHWARK_API_KEY           |  ###  |
+|     NEXT_PUBLIC_BOPS_API_CAMDEN      |  ###  |
+|            CAMDEN_API_KEY            |  ###  |
+| NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE |  ###  |
+|       BUCKINGHAMSHIRE_API_KEY        |  ###  |
