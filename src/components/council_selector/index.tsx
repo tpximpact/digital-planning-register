@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
-import { Config } from "../../../util/type";
+import { Config } from "@/types";
 
-const CouncilSelector = ({ currentPath }: { currentPath: string }) => {
+interface CouncilSelectorProps {
+  currentPath: string;
+}
+
+const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
   const councilConfig = config as Config;
   const councilOptions = Object.keys(councilConfig);
   const [selectedCouncil, setSelectedCouncil] = useState(

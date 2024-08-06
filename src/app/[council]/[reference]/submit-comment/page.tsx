@@ -12,7 +12,7 @@ import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
 import { getApplicationByReference } from "@/actions";
 import NotFound from "@/app/not-found";
-import { BoundaryGeojson } from "../../../../../util/type";
+import { NonStandardBoundaryGeojson } from "@/types";
 
 type Props = {
   params: { reference: string; council: string };
@@ -21,7 +21,7 @@ type Props = {
 
 interface ApplicationData {
   id: number;
-  boundary_geojson: BoundaryGeojson;
+  boundary_geojson: NonStandardBoundaryGeojson;
   site: { address_1: string; postcode: string };
   [key: string]: any;
 }
@@ -91,12 +91,12 @@ const Comment = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getApplicationByReference(reference, council);
-        if ("error" in data) {
-          setError(data.error);
+        const response = await getApplicationByReference(reference, council);
+        if (response?.status?.code !== 200) {
+          setError(response?.status?.message || "An unexpected error occurred");
         } else {
-          setApplicationData(data as ApplicationData);
-          if (data.status === "determined") {
+          setApplicationData(response.data as ApplicationData);
+          if (response?.data?.status === "determined") {
             router.push(`/${council}/${reference}`);
           }
         }

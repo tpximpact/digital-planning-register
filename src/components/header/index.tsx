@@ -3,11 +3,15 @@ import Menu from "../menu";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import config from "../../../util/config.json";
-import { Config } from "../../../util/type";
+import { Config } from "@/types";
 import path from "path";
 import { useState } from "react";
 
-const Header = ({ currentPath }: { currentPath: string }) => {
+interface HeaderProps {
+  currentPath: string;
+}
+
+const Header = ({ currentPath }: HeaderProps) => {
   const params = useParams();
   const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
