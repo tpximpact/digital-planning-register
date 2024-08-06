@@ -56,7 +56,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
       <h1 className="govuk-heading-l">Tell us what you think</h1>
 
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-third">
+        <div className="govuk-grid-column-one-third app-map">
           {getGeometryData && (
             <DynamicMap
               geojsonData={JSON.stringify(getGeometryData)}

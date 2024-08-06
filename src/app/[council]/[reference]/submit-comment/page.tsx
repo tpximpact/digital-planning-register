@@ -96,13 +96,16 @@ const Comment = ({ params }: Props) => {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
           setApplicationData(response.data as ApplicationData);
+          if (response?.data?.status === "determined") {
+            router.push(`/${council}/${reference}`);
+          }
         }
       } catch (err) {
         setError("An unexpected error occurred");
       }
     };
     fetchData();
-  }, [reference, council]);
+  }, [reference, council, router]);
 
   // Set up the initial page and handle URL parameters
   useEffect(() => {
@@ -299,6 +302,8 @@ const Comment = ({ params }: Props) => {
             {...commonProps}
             currentTopic={selectedTopics[currentTopicIndex]}
             onContinue={handleTopicNavigation}
+            currentTopicIndex={currentTopicIndex}
+            totalTopics={selectedTopics.length}
           />
         );
       case 4:
@@ -323,32 +328,6 @@ const Comment = ({ params }: Props) => {
     }
   };
 
-  // Function to get the href for the back link
-  const getBackLinkHref = useCallback(() => {
-    if (page === 0) {
-      return `/${council}/${reference}/`;
-    } else if (page === 1) {
-      return `/${council}/${reference}/submit-comment?page=0`;
-    } else if (page === 2) {
-      return `/${council}/${reference}/submit-comment?page=1`;
-    } else if (page === 3) {
-      if (currentTopicIndex > 0) {
-        return `/${council}/${reference}/submit-comment?page=3&topicIndex=${currentTopicIndex - 1}${isEditing ? "&edit=true" : ""}`;
-      } else {
-        return `/${council}/${reference}/submit-comment?page=2${isEditing ? "&edit=true" : ""}`;
-      }
-    } else if (page === 4) {
-      return `/${council}/${reference}/submit-comment?page=3&topicIndex=${selectedTopics.length - 1}`;
-    } else if (page === 5) {
-      return isEditing
-        ? `/${council}/${reference}/submit-comment?page=2&edit=true`
-        : `/${council}/${reference}/submit-comment?page=4`;
-    } else {
-      const previousPage = Math.max(0, page - 1);
-      return `/${council}/${reference}/submit-comment?page=${previousPage}`;
-    }
-  }, [page, council, reference, currentTopicIndex, isEditing, selectedTopics]);
-
   // Render NotFound component if there's an error
   if (error) {
     return <NotFound params={params} />;
@@ -366,10 +345,10 @@ const Comment = ({ params }: Props) => {
   // Render the main component
   return (
     <>
+      {page < 6 && applicationData && <BackLink />}
       {page < 6 && (
-        <>
-          {page < 6 && applicationData && <BackLink link={getBackLinkHref()} />}
-          {applicationData && (
+        <div className="govuk-main-wrapper">
+          {page >= 1 && applicationData && (
             <CommentHeader
               council={council}
               reference={reference}
@@ -377,9 +356,9 @@ const Comment = ({ params }: Props) => {
               site={applicationData.site}
             />
           )}
-        </>
+          {renderComponent()}
+        </div>
       )}
-      {renderComponent()}
     </>
   );
 };
