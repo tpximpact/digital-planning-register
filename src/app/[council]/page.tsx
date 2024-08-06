@@ -131,7 +131,7 @@ export default async function Home({ params, searchParams }: HomeProps) {
                     }
                     applicationReceivedDate={application.application.receivedAt}
                     applicationPublishedAt={application.application.publishedAt}
-                    applicationDeterminationDate={
+                    applicationDeterminedAt={
                       application.application.determinedAt
                     }
                     applicationDecision={application.application.decision}

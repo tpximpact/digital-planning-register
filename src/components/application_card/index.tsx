@@ -17,7 +17,6 @@ export interface ApplicationCardProps {
   consultationEndDate: string | null;
   applicationReceivedDate: string;
   applicationPublishedAt: string | null | undefined;
-  applicationDeterminationDate: string | null | undefined;
   applicationDeterminedAt: string | null | undefined;
   applicationDecision: string | null | undefined;
 }
@@ -33,7 +32,6 @@ const ApplicationCard = ({
   consultationEndDate,
   applicationReceivedDate,
   applicationPublishedAt,
-  applicationDeterminationDate,
   applicationDeterminedAt,
   applicationDecision,
 }: ApplicationCardProps) => {
