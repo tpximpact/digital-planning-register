@@ -197,7 +197,7 @@ const ApplicationInformation = ({
                     Valid from date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#validated-dates`}
+                      href={`/${council}/planning-process#validated-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -220,7 +220,7 @@ const ApplicationInformation = ({
                     Published date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#published-date"`}
+                      href={`/${council}/planning-process#published-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -236,7 +236,17 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {consultation?.end_date && (
                 <>
-                  <div className="govuk-heading-s">Consultation end date</div>
+                  <div className="govuk-heading-s">
+                    Consultation end date{" "}
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#consultation-end-date`}
+                      title="Understanding consultation end date"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
                   <p className="govuk-body">
                     {format(new Date(consultation?.end_date), "dd MMM yyyy")}
                   </p>
