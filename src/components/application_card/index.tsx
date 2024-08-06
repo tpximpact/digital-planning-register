@@ -18,6 +18,7 @@ export interface ApplicationCardProps {
   applicationReceivedDate: string;
   applicationPublishedAt: string | null | undefined;
   applicationDeterminationDate: string | null | undefined;
+  applicationDeterminedAt: string | null | undefined;
   applicationDecision: string | null | undefined;
   applicationReference: string;
 }
@@ -34,6 +35,7 @@ const ApplicationCard = ({
   applicationReceivedDate,
   applicationPublishedAt,
   applicationDeterminationDate,
+  applicationDeterminedAt,
   applicationDecision,
   applicationReference,
 }: ApplicationCardProps) => {
@@ -123,13 +125,13 @@ const ApplicationCard = ({
             )}
           </div>
           <div className="govuk-grid-column-one-third">
-            {applicationDeterminationDate && (
+            {applicationDeterminedAt && applicationDecision && (
               <>
                 <div className="govuk-heading-s">Decision Date</div>
                 <p className="govuk-body">
-                  {applicationDeterminationDate &&
+                  {applicationDeterminedAt &&
                     `${format(
-                      new Date(applicationDeterminationDate),
+                      new Date(applicationDeterminedAt),
                       "dd MMM yyyy",
                     )}`}
                 </p>
@@ -137,11 +139,11 @@ const ApplicationCard = ({
             )}
           </div>
           <div className="govuk-grid-column-one-third">
-            {applicationDeterminationDate && applicationDecision && (
+            {applicationDeterminedAt && applicationDecision && (
               <>
                 <div className="govuk-heading-s">Decision</div>
                 <p className="govuk-body">
-                  {applicationDeterminationDate &&
+                  {applicationDeterminedAt &&
                     definedDecision(applicationDecision, applicationType)}
                 </p>
               </>
