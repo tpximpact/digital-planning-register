@@ -1,11 +1,9 @@
-import Link from "next/link";
-const Form = ({
-  searchById,
-  setIdReference,
-}: {
+interface FormProps {
   searchById: (event: any) => Promise<void>;
   setIdReference: (value: any) => void;
-}) => {
+}
+
+const Form = ({ searchById, setIdReference }: FormProps) => {
   return (
     <div className="govuk-grid-row ">
       <form>

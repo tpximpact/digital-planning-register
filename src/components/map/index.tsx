@@ -24,7 +24,7 @@ interface MapProps {
   zoom?: number;
 }
 
-const Map: React.FC<MapProps> = ({
+const Map = ({
   geojsonColor = "#ff0000",
   geojsonBuffer = "85",
   hideResetControl = true,
@@ -36,7 +36,7 @@ const Map: React.FC<MapProps> = ({
   ariaLabelOlFixedOverlay = "An interactive map",
   osCopyright = "© Crown copyright and database rights 2024 OS (0)100024857",
   zoom = 14,
-}) => {
+}: MapProps) => {
   const onlyWidth = useWindowWidth();
   useEffect(() => {
     const map = document.querySelectorAll("my-map") as NodeListOf<HTMLElement>;

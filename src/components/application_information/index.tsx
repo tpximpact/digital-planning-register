@@ -1,9 +1,29 @@
-import { BoundaryGeojson } from "../../../util/type";
 import dynamic from "next/dynamic";
 import { format } from "date-fns";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { definedDecision } from "../../..//util/formatDecision";
 import { definedStatus } from "../../../util/formatStatus";
+import { V2PlanningApplicationsReference } from "@/types";
+import Link from "next/link";
+
+interface ApplicationInformationProps
+  extends Pick<
+    V2PlanningApplicationsReference,
+    | "application_type"
+    | "site"
+    | "received_date"
+    | "publishedAt"
+    | "decision"
+    | "determination_date"
+    | "status"
+    | "consultation"
+    | "boundary_geojson"
+    | "description"
+    | "validAt"
+  > {
+  council: string;
+  reference?: string;
+}
 
 function applicationType(application_type: string) {
   const type: { [key: string]: string } = {
@@ -25,31 +45,13 @@ function statusApplication(status: string) {
   return type[status] || "application-statuses";
 }
 
-type InformationData = {
-  reference?: string;
-  site?: { address_1: string; postcode: string };
-  description?: string;
-  application_type?: string;
-  received_date?: string;
-  status?: string;
-  result_flag?: string;
-  consultation?: { end_date: string };
-  decision: string;
-  determination_date?: string;
-  boundary_geojson?: BoundaryGeojson;
-  in_assessment_at?: string;
-  council: string;
-  publishedAt?: string;
-  validAt?: string;
-};
-import Link from "next/link";
-
 const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,
   loading: () => <div>Loading map...</div>,
 });
 
 const ApplicationInformation = ({
+  council,
   reference,
   application_type,
   site,
@@ -61,10 +63,8 @@ const ApplicationInformation = ({
   consultation,
   boundary_geojson,
   description,
-  in_assessment_at,
   validAt,
-  council,
-}: InformationData) => {
+}: ApplicationInformationProps) => {
   const boundaryGeojson = boundary_geojson;
 
   let geometryType: "Polygon" | "MultiPolygon" | undefined;

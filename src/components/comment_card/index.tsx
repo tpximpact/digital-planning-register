@@ -1,15 +1,14 @@
 "use client";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import React, { useState, useEffect, useRef } from "react";
-import { ApplicationComment } from "../../../util/type";
+import { NonStandardComment } from "@/types";
 
-export const CommentCard = ({
-  comment,
-  commentNumber,
-}: {
-  comment: ApplicationComment;
+interface CommentCardProps {
+  comment: NonStandardComment;
   commentNumber: number;
-}) => {
+}
+
+export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
   const commentContainerRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);

@@ -4,17 +4,25 @@ import ApplicationComments from "../../../../components/application_comments";
 import ApplicationHeader from "../../../../components/application_header";
 import Pagination from "@/components/pagination";
 import { notFound } from "next/navigation";
+import { CommentSearchParams } from "@/types";
+
+interface PageParams {
+  council: string;
+  reference: string;
+}
+
+interface CommentsProps {
+  params: PageParams;
+  searchParams?: CommentSearchParams | undefined;
+}
 
 export default async function Comments({
   params: { reference, council },
   searchParams,
-}: {
-  params: { reference: string; council: string };
-  searchParams?: { type?: string; page?: string };
-}) {
+}: CommentsProps) {
   const maxDisplayComments = 10;
-  const applicationData = await getApplicationByReference(reference, council);
-  if (applicationData.data === null || applicationData.error) {
+  const response = await getApplicationByReference(reference, council);
+  if (!response.data) {
     notFound();
   }
 
@@ -22,8 +30,9 @@ export default async function Comments({
   const commentsType = type === "consultee" ? "consultee" : "published";
   const comments =
     commentsType === "consultee"
-      ? applicationData?.consultee_comments
-      : applicationData?.published_comments;
+      ? response?.data?.consultee_comments
+      : response?.data?.published_comments;
+
   const sortedComments = comments?.sort((a: any, b: any) => {
     const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
     const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
@@ -45,11 +54,11 @@ export default async function Comments({
       <BackLink />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
-          reference={applicationData.reference}
-          address={applicationData.site}
+          reference={response?.data?.reference}
+          site={response?.data?.site}
         />
         <ApplicationComments
-          {...applicationData}
+          {...response?.data}
           reference={reference}
           maxDisplayComments={10}
           showViewAllButton={false}
@@ -64,7 +73,7 @@ export default async function Comments({
           totalItems={totalComments}
           itemsPerPage={maxDisplayComments}
           baseUrl={`/${council}/${reference}/comments`}
-          queryParams={searchParams || {}}
+          queryParams={searchParams}
           totalPages={totalPages}
         />
       </div>

@@ -1,23 +1,24 @@
 import React from "react";
 import { NextIcon, PreviousIcon } from "../../../public/icons";
+import { SearchParams } from "@/types";
 
 interface PaginationProps {
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
   baseUrl: string;
-  queryParams: Record<string, string>;
+  queryParams: SearchParams | undefined;
   totalPages: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   currentPage,
   totalItems,
   itemsPerPage,
   baseUrl,
   queryParams,
   totalPages,
-}) => {
+}: PaginationProps) => {
   const pageCount = Math.ceil(totalItems / itemsPerPage);
   const showPagination = totalItems > itemsPerPage;
 

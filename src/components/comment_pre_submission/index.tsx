@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import config from "../../../util/config.json";
-import { Config } from "../../../util/type";
+import { Config } from "@/types";
 
 const PreSubmission = ({
   council,

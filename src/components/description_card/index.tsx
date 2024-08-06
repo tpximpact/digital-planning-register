@@ -1,6 +1,9 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 
+interface DescriptionCardProps {
+  description: string;
+}
 /**
  * This component displays the description passed to it
  * Max description length is 640 characters
@@ -8,7 +11,7 @@ import React, { useRef, useEffect, useState } from "react";
  * @param descrption
  * @returns
  */
-const DescriptionCard = ({ description }: any) => {
+const DescriptionCard = ({ description }: DescriptionCardProps) => {
   const commentContainerRef = useRef<HTMLDivElement>(null);
   const [newDescription, setNewDescription] = useState(description);
   const [continuedText, setContinuedText] = useState<any>();

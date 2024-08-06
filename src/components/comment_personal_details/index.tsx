@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { Config } from "../../../util/type";
+import { Config } from "@/types";
 import {
   emailValidation,
   phoneValidation,
