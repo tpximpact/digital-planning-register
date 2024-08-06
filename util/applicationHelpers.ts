@@ -61,6 +61,11 @@ export const getNonStandardApplicationDetails = (
         ?.determinedAt
     : (application as V2PlanningApplications["data"][0]).determination_date;
 
+  const applicationDeterminedAt = search
+    ? (application as V2PlanningApplicationsSearch["data"][0])?.application
+        ?.determinedAt
+    : (application as V2PlanningApplications["data"][0]).determined_at;
+
   const applicationDecision = search
     ? (application as V2PlanningApplicationsSearch["data"][0])?.application
         ?.decision
@@ -82,6 +87,7 @@ export const getNonStandardApplicationDetails = (
     applicationReceivedDate,
     applicationPublishedAt,
     applicationDeterminationDate,
+    applicationDeterminedAt,
     applicationDecision,
     applicationReference,
   };

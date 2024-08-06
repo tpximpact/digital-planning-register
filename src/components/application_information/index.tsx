@@ -15,6 +15,7 @@ interface ApplicationInformationProps
     | "publishedAt"
     | "decision"
     | "determination_date"
+    | "determined_at"
     | "status"
     | "consultation"
     | "boundary_geojson"
@@ -59,6 +60,7 @@ const ApplicationInformation = ({
   publishedAt,
   decision,
   determination_date,
+  determined_at,
   status,
   consultation,
   boundary_geojson,
@@ -245,7 +247,7 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              {determination_date && decision && (
+              {determined_at && decision && (
                 <>
                   <div className="govuk-heading-s">
                     Decision Date{" "}
@@ -260,14 +262,14 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p className="govuk-body">
-                    {format(new Date(determination_date), "dd MMM yyyy")}
+                    {format(new Date(determined_at), "dd MMM yyyy")}
                   </p>
                 </>
               )}
             </div>
 
             <div className="govuk-grid-column-one-half">
-              {decision && determination_date && (
+              {decision && determined_at && (
                 <>
                   <div className="govuk-heading-s">
                     Decision{" "}
