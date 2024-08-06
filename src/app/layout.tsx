@@ -8,6 +8,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import PhaseBanner from "@/components/phase_banner";
 import Footer from "@/components/footer";
+import CookieBanner from "@/components/cookie_banner";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
       <title>Digital Planning Register</title>
       <Head />
       <body className="govuk-frontend-supported">
+        <CookieBanner />
         <a
           href="#main"
           className="govuk-skip-link"

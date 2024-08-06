@@ -1,5 +1,5 @@
 "use server";
-
+import { cookies } from "next/headers";
 import { handleBopsGetRequest, handleBopsPostRequest } from "@/lib/api";
 import {
   ApiResponse,
@@ -71,4 +71,13 @@ export async function getApplicationSubmission(
     ApiResponse<V2PlanningApplicationsSubmission | null>
   >(council, url);
   return request;
+}
+
+export async function setConsentCookie(value: boolean) {
+  const cookieStore = cookies();
+  cookieStore.set("consentCookie", value.toString(), {
+    path: "/",
+    maxAge: 31536000, // 1 year
+    sameSite: "strict",
+  });
 }
