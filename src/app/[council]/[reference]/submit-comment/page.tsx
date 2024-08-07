@@ -228,14 +228,7 @@ const Comment = ({ params }: Props) => {
       );
       setNewTopics(newlyAddedTopics);
 
-      if (newlyAddedTopics.length > 0) {
-        const firstNewTopicIndex = topics.indexOf(newlyAddedTopics[0]);
-        setCurrentTopicIndex(firstNewTopicIndex);
-        navigateToPage(3, {
-          topicIndex: firstNewTopicIndex,
-          ...(isEditing && { edit: "true" }),
-        });
-      } else if (isEditing) {
+      if (isEditing) {
         navigateToPage(5);
       } else {
         navigateToNextTopic(topics);
