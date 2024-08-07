@@ -71,7 +71,7 @@ const PreSubmission = ({
       <ol className="govuk-list govuk-list--number">
         <li>
           <h3 className="govuk-heading-s">To use your knowledge of the area</h3>
-          <p>
+          <p className="govuk-body">
             You may be able to highlight on-the-ground details we don't know
             about – for example, that a mature tree was left out of a
             developer's plans.
@@ -79,7 +79,7 @@ const PreSubmission = ({
         </li>
         <li>
           <h3 className="govuk-heading-s">To influence the details</h3>
-          <p>
+          <p className="govuk-body">
             Your understanding of an area's needs can help planners decide on
             things like amount of open space, cycling facilities, or what
             materials are appropriate for a scheme.
@@ -89,7 +89,7 @@ const PreSubmission = ({
           <h3 className="govuk-heading-s">
             To make sure we balance our priorities
           </h3>
-          <p>
+          <p className="govuk-body">
             It's useful know which priorities are most important to residents,
             so we can push developers to be more ambitious with their targets.
             Telling us what your priorities are can help planners make that
