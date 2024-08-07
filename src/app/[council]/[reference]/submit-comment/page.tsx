@@ -346,9 +346,9 @@ const Comment = ({ params }: Props) => {
   return (
     <>
       {page < 6 && applicationData && <BackLink />}
-      {page < 6 && (
+      {page <= 6 && (
         <div className="govuk-main-wrapper">
-          {page >= 1 && applicationData && (
+          {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
               council={council}
               reference={reference}
