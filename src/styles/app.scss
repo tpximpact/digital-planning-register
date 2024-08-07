@@ -6,5 +6,6 @@ $govuk-font-family: Arial, Helvetica, sans-serif;
 @import "./components.scss";
 @import "./govuk-components.scss";
 @import "./cookie-policy.scss";
+@import "./components/button";
 
 $govuk-assets-path: "public/assets/";
