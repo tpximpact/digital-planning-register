@@ -1,5 +1,6 @@
 import { NonStandardDocument, V2PlanningApplicationsSubmission } from "@/types";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { descriptionForm } from "../../../util/applicationFormHelpers";
 
 /**
  * This generates a fake document - currently using the NonStandardDocument type
@@ -63,7 +64,9 @@ const Row = ({ description, value }: RowProps) => {
                 {isObject(item) ? (
                   <dl className="govuk-summary-list">
                     {Object.entries(item).map(([key, val], j) => (
-                      <Row key={j} description={key} value={val} />
+                      <>
+                        <Row key={j} description={key} value={val} />
+                      </>
                     ))}
                   </dl>
                 ) : (
@@ -81,13 +84,15 @@ const Row = ({ description, value }: RowProps) => {
 };
 
 const Section = ({ title, data }: SectionProps) => {
+  const test = descriptionForm(data);
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
-        <h3 className="govuk-heading-m">{title}</h3>
+        <h3 className="govuk-heading-m">{title} </h3>
 
         <dl className="govuk-summary-list">
-          {data?.map((item, i) => <Row key={i} {...item} />)}
+          {/* {console.log({ data })} */}
+          {test?.map((item, i) => <Row key={i} {...item} />)}
         </dl>
       </div>
     </div>
@@ -106,7 +111,6 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
             description,
             value: typeof val === "object" ? val : String(val),
           }));
-
           return <Section key={key} title={capitaliseWord(key)} data={data} />;
         })}
       </div>
