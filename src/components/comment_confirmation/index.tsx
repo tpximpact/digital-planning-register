@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import Map from "../map";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { DprBoundaryGeojson } from "@/types";
@@ -6,7 +5,7 @@ import { DprBoundaryGeojson } from "@/types";
 interface CommentConfirmationProps {
   reference: string;
   council: string;
-  site?: { address_1: string; postcode: string };
+  address?: string;
   boundary_geojson?: DprBoundaryGeojson;
   navigateToPage: (page: number, params?: object) => void;
 }
@@ -14,7 +13,7 @@ interface CommentConfirmationProps {
 const CommentConfirmation = ({
   reference,
   council,
-  site,
+  address,
   boundary_geojson,
   navigateToPage,
 }: CommentConfirmationProps) => {
@@ -54,16 +53,13 @@ const CommentConfirmation = ({
           )}
         </div>
         <div className="govuk-grid-column-two-thirds">
-          <h2 className="govuk-heading-m">
-            {" "}
-            {site?.address_1}, {site?.postcode}{" "}
-          </h2>
+          <h2 className="govuk-heading-m">{address}</h2>
           <h2 className="govuk-heading-s">Application Reference</h2>
           <p className="govuk-body">{reference}</p>
           <p className="govuk-body">
             Your feedback helps us improve developments so they meet the needs
             of people in {council ? capitaliseWord(council) : "your council."}.
-            It's important you let us know what you think.
+            It&apos;s important you let us know what you think.
           </p>
         </div>
       </div>
@@ -71,8 +67,8 @@ const CommentConfirmation = ({
         Discover other planning applications in your area
       </h2>
       <p className="govuk-body">
-        If you're interested in learning more about planning applications in
-        your area, you can view all currently active applications and provide
+        If you&apos;re interested in learning more about planning applications
+        in your area, you can view all currently active applications and provide
         comments on them.
       </p>
       <form action={`/${council}`} method="GET">

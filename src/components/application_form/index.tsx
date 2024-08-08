@@ -1,5 +1,6 @@
-import { DprDocument, V2PlanningApplicationsSubmission } from "@/types";
+import { DprDocument } from "@/types";
 import { capitaliseWord } from "../../../util/capitaliseWord";
+import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
 
 /**
  * This generates a fake document - currently using the BopsNonStandardDocument type
@@ -13,10 +14,7 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 export const ApplicationFormObject = (
   council: string,
   reference: string,
-): DprDocument | null => {
-  if (!council || !reference) {
-    return null;
-  }
+): DprDocument => {
   return {
     url: `/${council}/${reference}/application-form`,
     title: "Application form",
@@ -28,7 +26,7 @@ export const ApplicationFormObject = (
 };
 
 interface ApplicationFormProps
-  extends Pick<V2PlanningApplicationsSubmission, "submission"> {}
+  extends Pick<BopsV2PlanningApplicationsSubmission, "submission"> {}
 
 interface RowProps {
   description: string;

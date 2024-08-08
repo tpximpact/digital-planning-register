@@ -1,15 +1,13 @@
+import { getCouncilConfig } from "@/lib/config";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
-import config from "../../../util/config.json";
-import { Config, Council } from "../../../util/type";
 
 const Footer = () => {
   const params = useParams();
   const pathname = usePathname();
   const council = params?.council as string;
 
-  const { ...councils } = config as Config;
-  const currentCouncil = councils[council] as Council | undefined;
+  const currentCouncil = getCouncilConfig(council);
   const privacyPolicy =
     currentCouncil?.pageContent?.privacy_policy?.privacy_policy_link;
   const isCouncilPath = pathname?.includes(`/${council}`);

@@ -2,10 +2,14 @@
  * Helpers related to comments
  */
 
-import { BopsNonStandardDocument } from "@/types";
-import { DprDocument } from "@/types/definitions/documents";
+import { DprDocument } from "@/types";
 import { formatTag } from "../../util/formatTag";
-import { BopsFile } from "@/types/bops-api-v2/schemas/documents";
+import {
+  BopsDocumentsMetadata,
+  BopsNonStandardDocument,
+  BopsFile,
+} from "@/types/api/bops";
+import { DprPaginationBase } from "@/types/definitions/pagination";
 
 /**
  * Converts BOPS documents into our standard format
@@ -35,6 +39,23 @@ export const convertDocumentBopsFile = (document: BopsFile): DprDocument => {
     url: document.url,
     title: document.name ?? "Unnamed document",
     created_at: document.createdAt ?? undefined,
-    ...document.metadata,
+    metadata: {
+      byteSize: document.metadata?.byteSize,
+      contentType: document.metadata?.contentType,
+    },
+  };
+};
+
+/**
+ * Converts Bops documents metadata into our standard format
+ * @param metadata
+ * @returns
+ */
+export const convertBopsDocumentPagination = (
+  metadata: BopsDocumentsMetadata,
+): DprPaginationBase => {
+  return {
+    results: metadata.results,
+    total_results: metadata.totalResults,
   };
 };

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import dynamic from "next/dynamic";
 import { capitaliseWord } from "../../../util/capitaliseWord";
@@ -12,14 +11,14 @@ const DynamicMap = dynamic(() => import("../map"), {
 
 interface CommentHeaderProps {
   boundary_geojson?: DprBoundaryGeojson;
-  site?: { address_1: string; postcode: string };
+  address?: string;
   reference: string;
   council: string;
 }
 
 const CommentHeader: React.FC<CommentHeaderProps> = ({
   boundary_geojson,
-  site,
+  address,
   reference,
   council,
 }) => {
@@ -67,15 +66,13 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
           )}
         </div>
         <div className="govuk-grid-column-two-thirds">
-          <h2 className="govuk-heading-m">
-            {site?.address_1}, {site?.postcode}
-          </h2>
+          <h2 className="govuk-heading-m">{address}</h2>
           <h2 className="govuk-heading-s">Application Reference</h2>
           <p className="govuk-body">{reference}</p>
           <p className="govuk-body">
             Your feedback helps us improve developments so they meet the needs
-            of people in {capitaliseWord(council)}. It's important you let us
-            know what you think.
+            of people in {capitaliseWord(council)}. It&apos;s important you let
+            us know what you think.
           </p>
         </div>
       </div>

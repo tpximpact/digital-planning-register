@@ -1,19 +1,7 @@
+import { BopsBoundaryGeojson } from "../api/bops";
+
 /**
  * This is our custom definition for the boundary geojson object but its identical to the BOPS one...
+ * @todo refine this formate further to be more generic
  */
-export interface DprBoundaryGeojson {
-  type: "FeatureCollection" | "Feature";
-  geometry?: {
-    type: "Polygon" | "MultiPolygon";
-    coordinates: number[][][] | number[][][][];
-  };
-  properties?: { [key: string]: any } | null;
-  features?: {
-    type: string;
-    geometry: {
-      type: "Polygon" | "MultiPolygon";
-      coordinates: number[][][] | number[][][][];
-    };
-    properties: { [key: string]: any } | null;
-  }[];
-}
+export interface DprBoundaryGeojson extends BopsBoundaryGeojson {}

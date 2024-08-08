@@ -2,8 +2,14 @@
  * Helpers related to comments
  */
 
-import { DprComment, BopsNonStandardComment } from "@/types";
+import { DprComment } from "@/types";
+import { BopsComment } from "@/types/api/bops";
 
+/**
+ * Sort comments by newest first
+ * @param comments
+ * @returns
+ */
 export const sortComments = (comments: DprComment[]) => {
   return comments?.sort((a, b) => {
     const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
@@ -17,12 +23,10 @@ export const sortComments = (comments: DprComment[]) => {
  * @param comment
  * @returns
  */
-export const convertCommentBops = (
-  comment: BopsNonStandardComment,
-): DprComment => {
+export const convertCommentBops = (comment: BopsComment): DprComment => {
   return {
     comment: comment.comment,
-    received_at: comment.received_at,
-    sentiment: comment.summary_tag || "",
+    received_at: comment.receivedAt,
+    sentiment: comment.summaryTag || "",
   };
 };

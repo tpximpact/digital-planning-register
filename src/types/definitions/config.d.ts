@@ -3,13 +3,20 @@
  * @todo this can be simplified
  */
 
+export interface SiteConfig {
+  /**
+   * If this is true then show documents from the public documents endpoint (which includes site notices)
+   */
+  documentsPublicEndpoint: boolean;
+}
+
 export interface Council {
   name: string;
   contact?: string;
   logo?: string;
   logowhite?: string;
-  publicComments?: boolean;
-  specialistComments?: boolean;
+  publicComments: boolean;
+  specialistComments: boolean;
   pageContent?: PageContent;
 }
 

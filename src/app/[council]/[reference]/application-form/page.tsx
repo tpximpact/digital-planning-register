@@ -1,5 +1,6 @@
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
-import { ApiResponse, V2PlanningApplicationsSubmission } from "@/types";
+import { ApiResponse } from "@/types";
+import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
@@ -18,7 +19,7 @@ interface ApplicationFormProps {
 
 async function fetchData(
   params: PageParams,
-): Promise<ApiResponse<V2PlanningApplicationsSubmission | null>> {
+): Promise<ApiResponse<BopsV2PlanningApplicationsSubmission | null>> {
   const { reference, council } = params;
   const response = await getApplicationSubmission(reference, council);
   return response;

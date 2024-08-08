@@ -1,76 +1,34 @@
 import dynamic from "next/dynamic";
-import { format } from "date-fns";
-import { capitaliseWord } from "../../../util/capitaliseWord";
-import { definedDecision } from "../../..//util/formatDecision";
-import { definedStatus } from "../../../util/formatStatus";
-import { V2PlanningApplicationsReference } from "@/types";
+import { DprPlanningApplication } from "@/types";
+import DescriptionCard from "../description_card";
+import LandingMap from "../landing_map";
+import { formatDprDate } from "../../../util/formatDates";
+import {
+  definedStatus,
+  definedDecision,
+  formatApplicationType,
+  applicationTypesInfoPointId,
+  applicationStatusesInfoPointId,
+  applicationDecisionInfoPointId,
+} from "@/lib/applications";
+import { ApplicationCardProps } from "../application_card";
 import Link from "next/link";
 
-interface ApplicationInformationProps
-  extends Pick<
-    V2PlanningApplicationsReference,
-    | "application_type"
-    | "site"
-    | "received_date"
-    | "publishedAt"
-    | "decision"
-    | "determination_date"
-    | "determined_at"
-    | "status"
-    | "consultation"
-    | "boundary_geojson"
-    | "description"
-    | "validAt"
-  > {
-  council: string;
-  reference?: string;
-}
-
-function applicationType(application_type: string) {
-  const type: { [key: string]: string } = {
-    prior_approval: "prior_approval",
-    planning_permission: "planning_permission",
-    outline_planning_permission: "outline_planning_permission",
-    lawfulness_certificate: "lawfulness_certificate",
-  };
-  return type[application_type] || "application-types";
-}
-
-function statusApplication(status: string) {
-  const type: { [key: string]: string } = {
-    "Consultation in progress": "consultation-in-progress",
-    "Assessment in progress": "assessment-in-progress",
-    Determined: "determined",
-    Withdrawn: "withdrawn",
-  };
-  return type[status] || "application-statuses";
-}
+interface ApplicationInformationProps extends ApplicationCardProps {}
 
 const DynamicMap = dynamic(() => import("../map"), {
   ssr: false,
   loading: () => <div>Loading map...</div>,
 });
 
-const ApplicationInformation = ({
-  council,
-  reference,
-  application_type,
-  site,
-  received_date,
-  publishedAt,
-  decision,
-  determination_date,
-  determined_at,
-  status,
-  consultation,
-  boundary_geojson,
-  description,
-  validAt,
-}: ApplicationInformationProps) => {
-  const boundaryGeojson = boundary_geojson;
-
-  let geometryType: "Polygon" | "MultiPolygon" | undefined;
-  let coordinates: number[][][] | number[][][][] | undefined;
+/**
+ * @todo a lot of this code is duplicated on the application_card and in the LandingMap component
+ * @param boundaryGeojson
+ * @returns
+ */
+const geojson = (boundaryGeojson: any) => {
+  let geometryType;
+  let coordinates;
 
   if (boundaryGeojson?.type === "Feature") {
     geometryType = boundaryGeojson.geometry?.type;
@@ -93,6 +51,43 @@ const ApplicationInformation = ({
           },
         })
       : null;
+  return geojsonData;
+};
+
+const ApplicationInformation = ({
+  council,
+  application,
+  property,
+  proposal,
+}: ApplicationInformationProps) => {
+  const reference = application.reference;
+  const address = property.address.singleLine;
+
+  const boundary_geojson = property.boundary.site;
+  const applicationType = application.type.description;
+  const applicationStatus = application.status;
+  const applicationStatusDefined = definedStatus(
+    application.status,
+    application.consultation.endDate,
+  );
+  const applicationReceivedAt = application.receivedAt;
+  const applicationValidAt = application.validAt;
+  const applicationPublishedAt = application.publishedAt;
+  const consultationEndDate = application.consultation.endDate;
+  const applicationDecision = application.decision;
+  const applicationDeterminedAt = application.determinedAt;
+  const decisionDate =
+    applicationDecision && applicationDeterminedAt
+      ? formatDprDate(applicationDeterminedAt)
+      : undefined;
+  const decisionDefined =
+    applicationDecision && applicationDeterminedAt
+      ? definedDecision(applicationDecision, applicationType)
+      : undefined;
+
+  const description = proposal.description;
+
+  const geojsonData = geojson(boundary_geojson);
 
   return (
     <div>
@@ -106,9 +101,7 @@ const ApplicationInformation = ({
 
         <div className="govuk-grid-column-two-thirds-from-desktop">
           <div className="govuk-heading-s">Address</div>
-          <p className="govuk-body">
-            {site?.address_1}, {site?.postcode}{" "}
-          </p>
+          <p className="govuk-body">{address}</p>
         </div>
       </div>
 
@@ -120,59 +113,58 @@ const ApplicationInformation = ({
         <div className="govuk-grid-column-two-thirds-from-desktop key-info">
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              <div className="govuk-heading-s">
-                Application Type
-                <a
-                  className="info-icon"
-                  href={`/${council}/planning-process#${applicationType(application_type as string)}`}
-                  title="Understanding application types"
-                  aria-label="Understanding application types"
-                  target="_blank"
-                >
-                  i
-                </a>
-              </div>
-              <p className="govuk-body" id="application-type">
-                {capitaliseWord(application_type?.replace(/_/g, " ") as string)}
-              </p>
+              {applicationType && (
+                <>
+                  <div className="govuk-heading-s">
+                    Application Type
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
+                      title="Understanding application types"
+                      aria-label="Understanding application types"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
+                  <p className="govuk-body" id="application-type">
+                    {formatApplicationType(applicationType)}
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="govuk-grid-column-one-half">
-              <div className="govuk-heading-s">
-                Status
-                <a
-                  className="info-icon"
-                  href={`/${council}/planning-process#${statusApplication(
-                    definedStatus(
-                      status as string,
-                      consultation?.end_date as string,
-                    ),
-                  )}`}
-                  title="Understanding application statuses"
-                  aria-label="Understanding application statuses"
-                  target="_blank"
-                >
-                  i
-                </a>
-              </div>
-
-              <p
-                className="govuk-tag--blue govuk-body"
-                id="application-status"
-                style={{ maxWidth: "fit-content", padding: "2px 10px" }}
-              >
-                {definedStatus(
-                  status as string,
-                  consultation?.end_date as string,
-                )}
-              </p>
+              {applicationStatusDefined && (
+                <>
+                  <div className="govuk-heading-s">
+                    Status
+                    <a
+                      className="info-icon"
+                      href={`/${council}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
+                      title="Understanding application statuses"
+                      aria-label="Understanding application statuses"
+                      target="_blank"
+                    >
+                      i
+                    </a>
+                  </div>
+                  <p
+                    className="govuk-tag--blue govuk-body"
+                    id="application-status"
+                    style={{ maxWidth: "fit-content", padding: "2px 10px" }}
+                  >
+                    {applicationStatusDefined}
+                  </p>
+                </>
+              )}
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
               <div className="govuk-heading-s">
-                Received date
+                Received Date
                 <a
                   className="info-icon"
                   href={`/${council}/planning-process#received-date`}
@@ -184,17 +176,18 @@ const ApplicationInformation = ({
                 </a>
               </div>
               <p className="govuk-body">
-                {received_date
-                  ? format(new Date(received_date as string), "dd MMM yyyy")
+                {/* NB in application card we dont display recieved at if one isn't set */}
+                {applicationReceivedAt
+                  ? formatDprDate(applicationReceivedAt)
                   : "Date not available"}
               </p>
             </div>
 
             <div className="govuk-grid-column-one-half">
-              {validAt && (
+              {applicationValidAt && (
                 <>
                   <div className="govuk-heading-s">
-                    Valid from date{" "}
+                    Valid From Date{" "}
                     <a
                       className="info-icon"
                       href={`/${council}/planning-process#validated-date`}
@@ -205,7 +198,7 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p className="govuk-body">
-                    {format(new Date(validAt), "dd MMM yyyy")}
+                    {formatDprDate(applicationValidAt)}
                   </p>
                 </>
               )}
@@ -214,10 +207,10 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              {publishedAt && (
+              {applicationPublishedAt && (
                 <>
                   <div className="govuk-heading-s">
-                    Published date{" "}
+                    Published Date{" "}
                     <a
                       className="info-icon"
                       href={`/${council}/planning-process#published-date`}
@@ -228,16 +221,16 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p className="govuk-body">
-                    {format(new Date(publishedAt as string), "dd MMM yyyy")}
+                    {formatDprDate(applicationPublishedAt)}
                   </p>
                 </>
               )}
             </div>
             <div className="govuk-grid-column-one-half">
-              {consultation?.end_date && (
+              {consultationEndDate && (
                 <>
                   <div className="govuk-heading-s">
-                    Consultation end date{" "}
+                    Consultation End Date{" "}
                     <a
                       className="info-icon"
                       href={`/${council}/planning-process#consultation-end-date`}
@@ -248,7 +241,7 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p className="govuk-body">
-                    {format(new Date(consultation?.end_date), "dd MMM yyyy")}
+                    {formatDprDate(consultationEndDate)}
                   </p>
                 </>
               )}
@@ -257,7 +250,7 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              {determined_at && decision && (
+              {decisionDate && (
                 <>
                   <div className="govuk-heading-s">
                     Decision Date{" "}
@@ -271,26 +264,19 @@ const ApplicationInformation = ({
                       i
                     </a>
                   </div>
-                  <p className="govuk-body">
-                    {format(new Date(determined_at), "dd MMM yyyy")}
-                  </p>
+                  <p className="govuk-body">{decisionDate}</p>
                 </>
               )}
             </div>
 
             <div className="govuk-grid-column-one-half">
-              {decision && determined_at && (
+              {decisionDefined && (
                 <>
                   <div className="govuk-heading-s">
                     Decision{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#${definedDecision(
-                        decision,
-                        application_type as string,
-                      )
-                        .toLowerCase()
-                        .replace(/ /g, "-")}`}
+                      href={`/${council}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
                       title="Understanding decisions"
                       aria-label="Understanding decisions"
                       target="_blank"
@@ -302,7 +288,7 @@ const ApplicationInformation = ({
                     className="govuk-tag--yellow govuk-body"
                     style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                   >
-                    {definedDecision(decision, application_type as string)}
+                    {decisionDefined}
                   </p>
                 </>
               )}
@@ -314,7 +300,7 @@ const ApplicationInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
-      {status !== "determined" && (
+      {applicationStatus !== "determined" && (
         <div className="govuk-grid-row extra-top-margin">
           <div className="govuk-grid-column-full">
             <Link

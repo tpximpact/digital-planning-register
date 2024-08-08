@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import CouncilCards from "@/components/council_cards";
 
@@ -14,7 +13,7 @@ const Main = () => {
       </p>
       <p className="govuk-body">
         Not all planning applications will be available through this register,
-        and you may need to check individual council's websites to see what
+        and you may need to check individual council&apos;s websites to see what
         records are kept here.
       </p>
 

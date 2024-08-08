@@ -5,11 +5,7 @@ import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import {
-  SearchParams,
-  ApiResponse,
-  V2PublicPlanningApplications,
-} from "@/types";
+import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
 
@@ -17,6 +13,11 @@ const resultsPerPage = 10;
 
 interface PageParams {
   council: string;
+}
+
+interface SearchParams {
+  search: string;
+  page: string;
 }
 
 interface HomeProps {
@@ -27,14 +28,10 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<ApiResponse<V2PublicPlanningApplications | null>> {
+}: HomeProps): Promise<ApiResponse<DprPublicApplicationListings | null>> {
   const { council } = params;
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const search = searchParams?.search as string;
-
-  // console.log("page:", council);
-  // console.log("page:", page);
-  // console.log("search:", search);
 
   const response = await getPublicApplications(
     page,
@@ -51,7 +48,6 @@ export async function generateMetadata({
   searchParams,
 }: HomeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
-  const data = response.data ?? null;
 
   if (!response.data) {
     return {
@@ -66,11 +62,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({ params, searchParams }: HomeProps) {
+export default async function PlanningApplicationListings({
+  params,
+  searchParams,
+}: HomeProps) {
   const response = await fetchData({ params, searchParams });
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const council = params.council;
-  const search = !!(searchParams?.search && searchParams?.search.length >= 3);
   const validationError =
     searchParams?.search && searchParams?.search.length < 3 ? true : false;
 
@@ -115,38 +113,24 @@ export default async function Home({ params, searchParams }: HomeProps) {
         {response?.data?.data && response?.data?.data.length > 0 ? (
           <>
             <div>
-              {response?.data?.data.map((application, i) => {
+              {response?.data?.data.map((application) => {
                 return (
                   <ApplicationCard
-                    key={i}
+                    key={application.application.reference}
                     council={council}
-                    reference={application.application.reference}
-                    address={application.property.address.singleLine}
-                    boundary_geojson={application.property.boundary.site}
-                    description={application.proposal.description}
-                    applicationType={application.application.type.description}
-                    applicationStatus={application.application.status}
-                    consultationEndDate={
-                      application.application.consultation?.endDate
-                    }
-                    applicationReceivedDate={application.application.receivedAt}
-                    applicationPublishedAt={application.application.publishedAt}
-                    applicationDeterminedAt={
-                      application.application.determinedAt
-                    }
-                    applicationDecision={application.application.decision}
+                    {...application}
                   />
                 );
               })}
             </div>
-            {response?.data?.metadata?.total_pages > 1 && (
+            {response?.data?.pagination?.total_pages > 1 && (
               <Pagination
                 currentPage={page - 1}
                 totalItems={
-                  response?.data?.metadata?.total_pages * resultsPerPage
+                  response?.data?.pagination?.total_pages * resultsPerPage
                 }
                 itemsPerPage={resultsPerPage}
-                totalPages={response?.data?.metadata?.total_pages}
+                totalPages={response?.data?.pagination?.total_pages}
                 baseUrl={`/${council}/`}
                 queryParams={searchParams}
               />

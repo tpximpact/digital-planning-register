@@ -8,13 +8,13 @@
  * for now the application-form page does what it needs to do and outputs everything submitted
  */
 
-import { ApplicationOverview } from "../definitions/application-overview";
+import { BopsApplicationOverview } from ".";
 
 /**
  * Alternative to the MUCH more complicated example below
  */
 // export interface ApplicationSubmission {
-//   application: ApplicationOverview;
+//   application: BopsApplicationOverview;
 //   submission: {
 //     data: {
 //       [key: string]: any;
@@ -28,8 +28,8 @@ import { ApplicationOverview } from "../definitions/application-overview";
 //   } | null;
 // }
 
-export interface ApplicationSubmission {
-  application: ApplicationOverview;
+export interface BopsApplicationSubmission {
+  application: BopsApplicationOverview;
   submission: {
     data: {
       applicant: BaseApplicant | Agent;
@@ -906,7 +906,11 @@ type BBox =
   | [number, number, number, number]
   | [number, number, number, number, number, number];
 
-interface Point {
+interface BaseGeometry {
+  [key: string]: any;
+}
+
+interface Point extends BaseGeometry {
   bbox?: BBox;
   coordinates: Position;
   type: "Point";
@@ -972,6 +976,7 @@ type Geometry =
   | Polygon
   | MultiPolygon
   | GeometryCollection;
+
 type GeoJSON = Geometry | Feature | FeatureCollection;
 
 interface GeoBoundary {

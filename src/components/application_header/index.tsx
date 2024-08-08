@@ -1,16 +1,13 @@
 import React from "react";
-import { capitaliseWord } from "../../../util/capitaliseWord";
 
-import { V2PlanningApplicationsReference } from "@/types";
-
-interface ApplicationHeaderProps
-  extends Pick<V2PlanningApplicationsReference, "site"> {
+interface ApplicationHeaderProps {
   reference: string;
+  address: string;
 }
 
 export const ApplicationHeader = ({
   reference,
-  site,
+  address,
 }: ApplicationHeaderProps) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin ">
@@ -20,12 +17,7 @@ export const ApplicationHeader = ({
       </div>
       <div className="govuk-grid-column-one-quarter">
         <h2 className="govuk-heading-s">Address</h2>
-        <div className="govuk-body">
-          {site.address_1 && `${capitaliseWord(site.address_1)}, `}
-          {site.address_2 && `${capitaliseWord(site.address_2)}, `}
-          {site.town && `${capitaliseWord(site.town)}, `}
-          {site.postcode}
-        </div>
+        <div className="govuk-body">{address}</div>
       </div>
     </div>
   );

@@ -4,10 +4,9 @@ import { DprDocument } from "@/types";
 
 interface DocumentCardProps {
   document: DprDocument;
-  formatTag: (tag: string) => string;
 }
 
-export const DocumentCard = ({ document, formatTag }: DocumentCardProps) => {
+export const DocumentCard = ({ document }: DocumentCardProps) => {
   return (
     <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-one-third">

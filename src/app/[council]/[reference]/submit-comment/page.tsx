@@ -10,9 +10,9 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import { getApplicationByReference } from "@/actions";
+import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
-import { DprApplicationDetails } from "@/types";
+import { DprPublicApplicationDetails } from "@/types";
 
 type Props = {
   params: { reference: string; council: string };
@@ -25,7 +25,7 @@ const Comment = ({ params }: Props) => {
   const searchParams = useSearchParams();
   const [page, setPage] = useState(0);
   const [applicationData, setApplicationData] =
-    useState<DprApplicationDetails | null>(null);
+    useState<DprPublicApplicationDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);
@@ -84,12 +84,12 @@ const Comment = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getApplicationByReference(reference, council);
+        const response = await getPublicApplicationDetails(council, reference);
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
           setApplicationData(response.data);
-          if (response?.data?.status === "determined") {
+          if (response?.data?.application.status === "determined") {
             router.push(`/${council}/${reference}`);
           }
         }
@@ -262,6 +262,9 @@ const Comment = ({ params }: Props) => {
       return null;
     }
 
+    const boundary_geojson = applicationData?.property.boundary.site;
+    const address = applicationData?.property.address.singleLine;
+
     const commonProps = {
       reference,
       council,
@@ -298,15 +301,15 @@ const Comment = ({ params }: Props) => {
         return (
           <CommentCheckAnswer
             {...commonProps}
-            applicationId={applicationData.id}
+            applicationId={applicationData.application.id}
           />
         );
       case 6:
         return (
           <CommentConfirmation
             {...commonProps}
-            site={applicationData.site}
-            boundary_geojson={applicationData.boundary_geojson}
+            address={address}
+            boundary_geojson={boundary_geojson}
           />
         );
       default:
@@ -328,6 +331,9 @@ const Comment = ({ params }: Props) => {
     return null;
   }
 
+  const boundary_geojson = applicationData?.property.boundary.site;
+  const address = applicationData?.property.address.singleLine;
+
   // Render the main component
   return (
     <>
@@ -338,8 +344,8 @@ const Comment = ({ params }: Props) => {
             <CommentHeader
               council={council}
               reference={reference}
-              boundary_geojson={applicationData?.boundary_geojson}
-              site={applicationData.site}
+              boundary_geojson={boundary_geojson}
+              address={address}
             />
           )}
           {renderComponent()}

@@ -1,80 +1,159 @@
-import { getApplicationByReference } from "../../../../actions";
-import { BackLink } from "../../../../components/button";
-import ApplicationComments from "../../../../components/application_comments";
-import ApplicationHeader from "../../../../components/application_header";
+import { Metadata } from "next";
+import {
+  ApiResponse,
+  Council,
+  DprComment,
+  DprCommentTypes,
+  DprPagination,
+  DprPublicApplicationDetails,
+} from "@/types";
+import { getPublicApplicationDetails } from "@/actions";
+import NotFound from "@/app/not-found";
+import { getCouncilConfig } from "@/lib/config";
+import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { BackLink } from "@/components/button";
+import ApplicationHeader from "@/components/application_header";
+import CommentsList from "@/components/comments_list";
 import Pagination from "@/components/pagination";
-import { notFound } from "next/navigation";
-import { CommentSearchParams } from "@/types";
+import { createItemPagination } from "@/lib/pagination";
+
+interface CommentSearchParams {
+  page?: string;
+  type?: DprCommentTypes;
+}
+
+interface PlanningApplicationDetailsCommentsProps {
+  params: PageParams;
+  searchParams?: CommentSearchParams | undefined;
+}
 
 interface PageParams {
   council: string;
   reference: string;
 }
 
-interface CommentsProps {
-  params: PageParams;
-  searchParams?: CommentSearchParams | undefined;
+async function fetchData(
+  params: PageParams,
+): Promise<ApiResponse<DprPublicApplicationDetails | null>> {
+  const { reference, council } = params;
+  const response = await getPublicApplicationDetails(council, reference);
+  return response;
 }
 
-export default async function Comments({
-  params: { reference, council },
-  searchParams,
-}: CommentsProps) {
-  const maxDisplayComments = 10;
-  const response = await getApplicationByReference(reference, council);
+export async function generateMetadata({
+  params,
+}: PlanningApplicationDetailsCommentsProps): Promise<Metadata> {
+  const response = await fetchData(params);
+
   if (!response.data) {
-    notFound();
+    return {
+      title: "Error",
+      description: "An error occurred",
+    };
   }
 
-  const type = searchParams?.type ?? "published";
-  const commentsType = type === "consultee" ? "consultee" : "published";
-  const comments =
-    commentsType === "consultee"
-      ? response?.data?.consultee_comments
-      : response?.data?.published_comments;
+  return {
+    title: `Application ${response.data.application.reference}`,
+    description: `${capitaliseWord(params.council)} planning application`,
+  };
+}
 
-  const sortedComments = comments?.sort((a: any, b: any) => {
-    const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
-    const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
-    return dateB - dateA;
-  });
+/**
+ * type must be either published or consultee if its enabled in the config
+ * @param searchParams
+ * @param councilConfig
+ * @returns
+ */
+const setCommentType = (
+  searchParams: CommentSearchParams | undefined,
+  councilConfig: Council | undefined,
+): DprCommentTypes => {
+  let type: DprCommentTypes = "published";
 
-  const totalComments = sortedComments?.length ?? 0;
-  const currentPage = parseInt(searchParams?.page || "1", 10) - 1;
-  const indexOfLastComment = (currentPage + 1) * maxDisplayComments;
-  const indexOfFirstComment = indexOfLastComment - maxDisplayComments;
-  const currentComments = sortedComments?.slice(
-    indexOfFirstComment,
-    indexOfLastComment,
-  );
+  const searchType: DprCommentTypes | undefined = ![
+    "published",
+    "consultee",
+  ].includes(searchParams?.type ?? "published")
+    ? undefined
+    : (searchParams?.type as DprCommentTypes);
 
-  const totalPages = Math.ceil(totalComments / maxDisplayComments);
+  if (councilConfig?.specialistComments && councilConfig?.publicComments) {
+    type = searchType ?? "published";
+  }
+
+  if (councilConfig?.specialistComments && !councilConfig?.publicComments) {
+    type = "consultee";
+  }
+
+  if (!councilConfig?.specialistComments && councilConfig?.publicComments) {
+    type = "published";
+  }
+
+  return type;
+};
+
+export default async function PlanningApplicationDetailsComments({
+  params,
+  searchParams,
+}: PlanningApplicationDetailsCommentsProps) {
+  const response = await fetchData(params);
+  const { reference, council } = params;
+
+  const councilConfig = getCouncilConfig(council);
+  const type = setCommentType(searchParams, councilConfig);
+
+  let comments = null;
+  if (type === "consultee") {
+    comments = response?.data?.application.consultation.consulteeComments;
+  } else {
+    comments = response?.data?.application.consultation.publishedComments;
+  }
+
+  /**
+   * If the application is not found, return a 404 page
+   * Also, if none of the comment types from config are allowed also show not found
+   */
+  if (!response.data) {
+    return <NotFound params={params} />;
+  }
+
+  const totalComments = comments ? comments.length : 0;
+  const currentPage = Number(searchParams?.page ?? 1);
+  const maxDisplayComments = 10;
+
+  const commentData: { pagination: DprPagination; data: DprComment[] } = {
+    pagination: {
+      ...createItemPagination(totalComments, currentPage, maxDisplayComments),
+    },
+    data: comments ? [...comments] : [],
+  };
+
+  const application = response?.data;
+
   return (
     <div>
       <BackLink />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
-          reference={response?.data?.reference}
-          site={response?.data?.site}
-        />
-        <ApplicationComments
-          {...response?.data}
           reference={reference}
-          maxDisplayComments={10}
-          showViewAllButton={false}
-          type={type}
-          comments={currentComments}
-          totalComments={totalComments}
-          currentPage={currentPage}
+          address={application.property.address.singleLine}
+        />
+        <CommentsList
           council={council}
+          reference={reference}
+          type={type}
+          comments={commentData.data}
+          from={commentData.pagination.from - 1}
+          maxDisplayComments={maxDisplayComments}
+          page={commentData.pagination.page - 1}
         />
         <Pagination
-          currentPage={currentPage}
-          totalItems={totalComments}
+          currentPage={commentData.pagination.page - 1}
+          totalItems={commentData.pagination.total_results}
           itemsPerPage={maxDisplayComments}
           baseUrl={`/${council}/${reference}/comments`}
           queryParams={searchParams}
-          totalPages={totalPages}
+          totalPages={commentData.pagination.total_pages}
         />
       </div>
     </div>

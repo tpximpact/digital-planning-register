@@ -12,10 +12,7 @@ describe("CommentConfirmation", () => {
   const defaultProps = {
     reference: "REF-001",
     council: "exampleCouncil",
-    site: {
-      address_1: "123 Main St",
-      postcode: "ABC 123",
-    },
+    address: "123 Main St, ABC 123",
     boundary_geojson: {
       type: "Feature",
       geometry: {
