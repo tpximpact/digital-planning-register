@@ -1,13 +1,15 @@
 import React from "react";
 import { NextIcon, PreviousIcon } from "../../../public/icons";
-import { SearchParams } from "@/types";
 
+/**
+ * @todo queryParams should be a type
+ */
 interface PaginationProps {
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
   baseUrl: string;
-  queryParams: SearchParams | undefined;
+  queryParams: any;
   totalPages: number;
 }
 

@@ -1,8 +1,8 @@
-import { V2PlanningApplicationsReference } from "@/types";
+import { BopsV2PlanningApplicationDetail } from "@/types/api/bops";
 
 interface ApplicationPeopleProps
   extends Pick<
-    V2PlanningApplicationsReference,
+    BopsV2PlanningApplicationDetail,
     | "applicant_first_name"
     | "applicant_last_name"
     | "agent_first_name"

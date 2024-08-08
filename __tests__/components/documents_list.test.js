@@ -1,6 +1,7 @@
-import ApplicationFile from "@/components/application_files";
 import { render, screen } from "@testing-library/react";
+import { mockData } from "../../__mockData__/mockData";
 import "@testing-library/jest-dom";
+import DocumentsList from "@/components/documents_list";
 
 const mockDocuments = [
   {
@@ -50,11 +51,12 @@ const mockDocuments = [
 describe("ApplicationFile", () => {
   test("renders the component with documents", () => {
     render(
-      <ApplicationFile
-        id="123"
-        documents={mockDocuments}
-        showViewAllButton={true}
+      <DocumentsList
+        council="camden"
+        reference={mockData.reference}
         maxDisplayDocuments={6}
+        showMoreButton={true}
+        documents={mockDocuments}
       />,
     );
 
@@ -70,7 +72,13 @@ describe("ApplicationFile", () => {
   });
 
   test("renders the component without documents", () => {
-    render(<ApplicationFile id="123" documents={[]} />);
+    render(
+      <DocumentsList
+        council="camden"
+        reference={mockData.reference}
+        documents={[]}
+      />,
+    );
 
     expect(screen.getByText("Documents")).toBeInTheDocument();
     expect(

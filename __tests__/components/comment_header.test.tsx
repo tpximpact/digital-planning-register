@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import CommentHeader from "../../src/components/comment-header";
 import "@testing-library/jest-dom";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 
 jest.mock("next/dynamic", () => () => {
   const DynamicComponent = (props: any) => (
@@ -29,11 +29,8 @@ describe("CommentHeader", () => {
           ],
         ],
       },
-    } as NonStandardBoundaryGeojson,
-    site: {
-      address_1: "123 Main St",
-      postcode: "ABC 123",
-    },
+    } as DprBoundaryGeojson,
+    address: "123 Main St, ABC 123",
     reference: "REF-001",
     council: "Example Council",
   };

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentConfirmation from "@/components/comment_confirmation";
 import "@testing-library/jest-dom";
-import { NonStandardBoundaryGeojson } from "@/types";
+import { DprBoundaryGeojson } from "@/types";
 
 jest.mock("../../src/components/map", () => {
   return jest.fn(() => <div data-testid="mocked-map">Mocked Map</div>);
@@ -12,10 +12,7 @@ describe("CommentConfirmation", () => {
   const defaultProps = {
     reference: "REF-001",
     council: "exampleCouncil",
-    site: {
-      address_1: "123 Main St",
-      postcode: "ABC 123",
-    },
+    address: "123 Main St, ABC 123",
     boundary_geojson: {
       type: "Feature",
       geometry: {
@@ -29,7 +26,7 @@ describe("CommentConfirmation", () => {
           ],
         ],
       },
-    } as NonStandardBoundaryGeojson,
+    } as DprBoundaryGeojson,
     navigateToPage: jest.fn(),
   };
 
