@@ -1,4 +1,10 @@
 {
+  "barnet": {
+    "name": "Barnet",
+    "logo": "barnetlogo.png",
+    "publicComments": false,
+    "specialistComments": false
+  },
   "buckinghamshire": {
     "name": "Buckinghamshire",
     "logo": "buckinghamshirelogo.svg",
