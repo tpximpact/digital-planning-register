@@ -5,6 +5,7 @@ import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
 import { postComment } from "@/actions";
+import { ButtonLink } from "../button";
 
 const topics_selection = [
   {
@@ -221,14 +222,10 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(1, { edit: true })}
-                    aria-label="Change how you feel about this development"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change how you feel about this development"
+                  />
                 </dd>
               </div>
             </dl>
@@ -246,14 +243,10 @@ const CommentCheckAnswer = ({
                   ))}
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(2, { edit: true })}
-                    aria-label="Change what topics you want to comment on"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change what topics you want to comment on"
+                  />
                 </dd>
               </div>
             </dl>
@@ -276,16 +269,12 @@ const CommentCheckAnswer = ({
                       </p>
                     </dd>
                     <dd className="govuk-summary-list__actions">
-                      <a
-                        className="govuk-link"
-                        href="#"
+                      <ButtonLink
                         onClick={() =>
                           navigateToPage(3, { topicIndex: index, edit: true })
                         }
-                        aria-label={`Change ${topicLabel} comment`}
-                      >
-                        Change
-                      </a>
+                        ariaLabel={`Change ${topicLabel} comment`}
+                      />
                     </dd>
                   </div>
                 </dl>
@@ -301,14 +290,10 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.name}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(4, { edit: true })}
-                    aria-label="Change name"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change name"
+                  />
                 </dd>
               </div>
             </dl>
@@ -320,14 +305,10 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.address}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(4, { edit: true })}
-                    aria-label="Change address"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change address"
+                  />
                 </dd>
               </div>
             </dl>
@@ -339,14 +320,10 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.postcode}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(4, { edit: true })}
-                    aria-label="Change postcode"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change postcode"
+                  />
                 </dd>
               </div>
             </dl>
@@ -358,14 +335,10 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.emailAddress}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(4, { edit: true })}
-                    aria-label="Change email address"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change email address"
+                  />
                 </dd>
               </div>
             </dl>
@@ -379,14 +352,10 @@ const CommentCheckAnswer = ({
                   </p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <a
-                    className="govuk-link"
-                    href="#"
+                  <ButtonLink
                     onClick={() => navigateToPage(4, { edit: true })}
-                    aria-label="Change telephone number"
-                  >
-                    Change
-                  </a>
+                    ariaLabel="Change telephone number"
+                  />
                 </dd>
               </div>
             </dl>

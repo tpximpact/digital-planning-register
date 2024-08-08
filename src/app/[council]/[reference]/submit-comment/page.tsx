@@ -228,14 +228,7 @@ const Comment = ({ params }: Props) => {
       );
       setNewTopics(newlyAddedTopics);
 
-      if (newlyAddedTopics.length > 0) {
-        const firstNewTopicIndex = topics.indexOf(newlyAddedTopics[0]);
-        setCurrentTopicIndex(firstNewTopicIndex);
-        navigateToPage(3, {
-          topicIndex: firstNewTopicIndex,
-          ...(isEditing && { edit: "true" }),
-        });
-      } else if (isEditing) {
+      if (isEditing) {
         navigateToPage(5);
       } else {
         navigateToNextTopic(topics);
@@ -346,9 +339,9 @@ const Comment = ({ params }: Props) => {
   return (
     <>
       {page < 6 && applicationData && <BackLink />}
-      {page < 6 && (
+      {page <= 6 && (
         <div className="govuk-main-wrapper">
-          {page >= 1 && applicationData && (
+          {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
               council={council}
               reference={reference}
