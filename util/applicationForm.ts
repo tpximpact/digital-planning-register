@@ -13,7 +13,6 @@ export function validateSecondTopic(value: any, res: any) {
     "Review and confirm": "Review and Confirm",
     "Pay and send": "Pay and send",
   };
-  console.log(value);
   const topic: any = {
     property: {
       EPC: { description: "EPC", value: res["EPC"]?.known },
@@ -37,15 +36,15 @@ export function validateSecondTopic(value: any, res: any) {
       parking: {
         description: "Parking",
         value: [
-          { cars: res["parking"]?.cars?.count },
-          { vans: res["parking"]?.vans?.count },
-          { buses: res["parking"]?.buses?.count },
-          { other: res["parking"]?.other?.count },
-          { cycles: res["parking"]?.cycles?.count },
-          { carClub: res["parking"]?.carClub?.count },
-          { disabled: res["parking"]?.disabled?.count },
-          { offStreet: res["parking"]?.offStreet?.residential?.count },
-          { motorcycles: res["parking"]?.motorcycles?.count },
+          `cars: ${res["parking"]?.cars?.count}`,
+          `vans: ${res["parking"]?.vans?.count}`,
+          `buses: ${res["parking"]?.buses?.count}`,
+          `other: ${res["parking"]?.other?.count}`,
+          `cycles: ${res["parking"]?.cycles?.count}`,
+          `car club: ${res["parking"]?.carClub?.count}`,
+          `disabled: ${res["parking"]?.disabled?.count}`,
+          `off street: ${res["parking"]?.offStreet?.residential?.count}`,
+          `motorcycles: ${res["parking"]?.motorcycles?.count}`,
         ],
       },
       boundary: {
@@ -111,16 +110,13 @@ export function validateSecondTopic(value: any, res: any) {
   return { subtopic: subtopic[value], value: topic[value] };
 }
 function questions(value: any, key: any) {
-  console.log(key, "key");
   let arr: any = [];
-  //   console.log(value.metadata?.sectionName, key)
   if (value.metadata?.sectionName == key) {
     arr.push({
       description: value.question,
       value: value.responses.map((el) => el.value),
     });
   }
-  //   console.log(arr, 'arr')
   return arr;
 }
 

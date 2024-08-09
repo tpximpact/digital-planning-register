@@ -85,7 +85,7 @@ const Row = ({ description, value, image }: RowProps) => {
         ) : Array.isArray(value) ? (
           <ul>
             {value.map((item, i) => (
-              <li key={i}>
+              <li key={i} className="govuk-body">
                 {isObject(item) ? (
                   <dl className="govuk-summary-list">
                     {Object.entries(item).map(([key, val], j) => (
