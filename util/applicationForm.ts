@@ -36,6 +36,7 @@ export function validateSecondTopic(value: any, res: any) {
       parking: {
         description: "Parking",
         value: [
+          // if has value
           `cars: ${res["parking"]?.cars?.count}`,
           `vans: ${res["parking"]?.vans?.count}`,
           `buses: ${res["parking"]?.buses?.count}`,
@@ -52,12 +53,12 @@ export function validateSecondTopic(value: any, res: any) {
         value: `${res["boundary"]?.area?.squareMetres} m2 / ${res["boundary"]?.area?.hectares} hectares`,
       },
       planning: {
-        description: "Planning designation",
+        description: "Planning designation", //if designation.intersects
         value: res["planning"]?.designations?.map((el: any) => el.description),
       },
       titleNumber: {
-        description: "Title numbera",
-        value: res["titleNumber"]?.known,
+        description: "Title number",
+        value: res["titleNumber"]?.known, //number not know ???
       },
       localAuthority: [
         {
@@ -76,6 +77,36 @@ export function validateSecondTopic(value: any, res: any) {
         description: "Construction dates",
         value: `${res["date"]?.start} to ${res["date"]?.completion}`,
       },
+      extend: {
+        description: "Extension size",
+        value: `${res["extended"]?.area?.squareMetres} m2`,
+      },
+      parking: {
+        description: "Additional parking",
+        value: [
+          // if has value
+          `cars: ${res["parking"]?.cars?.count}`,
+          `vans: ${res["parking"]?.vans?.count}`,
+          `buses: ${res["parking"]?.buses?.count}`,
+          `other: ${res["parking"]?.other?.count}`,
+          `cycles: ${res["parking"]?.cycles?.count}`,
+          `car club: ${res["parking"]?.carClub?.count}`,
+          `disabled: ${res["parking"]?.disabled?.count}`,
+          `off street: ${res["parking"]?.offStreet?.residential?.count}`,
+          `motorcycles: ${res["parking"]?.motorcycles?.count}`,
+        ],
+      },
+      boundary: [
+        {
+          description: "Proposed area",
+          value: `${res["boundary"]?.area?.squareMetres} m2 / ${res["boundary"]?.area?.hectares} hectares`,
+        },
+        {
+          description: "Proposed property boundary",
+          value: res["boundary"]?.site,
+          image: true,
+        },
+      ],
       description: { description: "Description", value: res?.description },
       projectType: {
         description: "Project type",
