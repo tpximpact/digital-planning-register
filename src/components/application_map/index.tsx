@@ -1,9 +1,14 @@
 import { Suspense, lazy } from "react";
-const MapTest = lazy(() =>
-  delayForDemo(import("@/components/application_map/map")),
-);
+const MapTest = lazy(() => import("@/components/application_map/map"));
 import { ApplicationMapMapProps } from "./map";
 
+/**
+ * const MapTest = lazy(() =>
+ *   delayForDemo(import("@/components/application_map/map")),
+ * );
+ * @param promise
+ * @returns
+ */
 function delayForDemo<T>(promise: Promise<T>): Promise<T> {
   return new Promise((resolve) => {
     setTimeout(resolve, 2000);
