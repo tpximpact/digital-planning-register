@@ -4,7 +4,7 @@ import CommentConfirmation from "@/components/comment_confirmation";
 import "@testing-library/jest-dom";
 import { DprBoundaryGeojson } from "@/types";
 
-jest.mock("../../src/components/map", () => {
+jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mocked-map">Mocked Map</div>);
 });
 
