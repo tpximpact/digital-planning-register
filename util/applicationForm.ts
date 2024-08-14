@@ -1,4 +1,17 @@
-export function validateSecondTopic(value: any, res: any) {
+import { formatDprDate } from "./formatDates";
+import { capitaliseWord } from "./capitaliseWord";
+
+function certificate(value: string) {
+  const certificateValue: { [key: string]: string } = {
+    a: "Certificate A - Sole owner",
+    b: "Certificate B - Not a sole owner",
+    c: "Certificate C - Some unkown owners",
+    d: "Certificate D - Unkown owners",
+  };
+  return certificateValue[value] || "";
+}
+
+export function validateSecondTopic(value: string, res: any) {
   const subtopic: any = {
     property: "Property",
     proposal: "Proposal",
@@ -13,7 +26,7 @@ export function validateSecondTopic(value: any, res: any) {
     "Review and confirm": "Review and Confirm",
     "Pay and send": "Pay and send",
   };
-  const topic: any = {
+  const topic: { [key: string]: any } = {
     property: {
       EPC: { description: "EPC", value: res["EPC"]?.known },
       type: { description: "Property type", value: res["type"]?.description },
@@ -35,30 +48,25 @@ export function validateSecondTopic(value: any, res: any) {
       ],
       parking: {
         description: "Parking",
-        value: [
-          // if has value
-          `cars: ${res["parking"]?.cars?.count}`,
-          `vans: ${res["parking"]?.vans?.count}`,
-          `buses: ${res["parking"]?.buses?.count}`,
-          `other: ${res["parking"]?.other?.count}`,
-          `cycles: ${res["parking"]?.cycles?.count}`,
-          `car club: ${res["parking"]?.carClub?.count}`,
-          `disabled: ${res["parking"]?.disabled?.count}`,
-          `off street: ${res["parking"]?.offStreet?.residential?.count}`,
-          `motorcycles: ${res["parking"]?.motorcycles?.count}`,
-        ],
+        value:
+          res["parking"] &&
+          Object.entries(res["parking"]).map(([key, val]: any) =>
+            val.count > 0 ? `${key}: ${val.count} ` : "",
+          ),
       },
       boundary: {
         description: "Area",
         value: `${res["boundary"]?.area?.squareMetres} m2 / ${res["boundary"]?.area?.hectares} hectares`,
       },
       planning: {
-        description: "Planning designation", //if designation.intersects
-        value: res["planning"]?.designations?.map((el: any) => el.description),
+        description: "Planning designation",
+        value: res["planning"]?.designations
+          ?.filter((el: { intersects: string }) => el.intersects)
+          .map((el: { description: string }) => el.description),
       },
       titleNumber: {
         description: "Title number",
-        value: res["titleNumber"]?.known, //number not know ???
+        value: res["titleNumber"]?.number ? res["titleNumber"]?.number : "",
       },
       localAuthority: [
         {
@@ -75,26 +83,19 @@ export function validateSecondTopic(value: any, res: any) {
     proposal: {
       date: {
         description: "Construction dates",
-        value: `${res["date"]?.start} to ${res["date"]?.completion}`,
+        value: `${res["date"]?.start && formatDprDate(res["date"]?.start)} to ${res["date"]?.completion && formatDprDate(res["date"]?.completion)}`,
       },
       extend: {
         description: "Extension size",
-        value: `${res["extended"]?.area?.squareMetres} m2`,
+        value: res["extend"] ? `${res["extend"]?.area?.squareMetres} m2` : "",
       },
       parking: {
         description: "Additional parking",
-        value: [
-          // if has value
-          `cars: ${res["parking"]?.cars?.count}`,
-          `vans: ${res["parking"]?.vans?.count}`,
-          `buses: ${res["parking"]?.buses?.count}`,
-          `other: ${res["parking"]?.other?.count}`,
-          `cycles: ${res["parking"]?.cycles?.count}`,
-          `car club: ${res["parking"]?.carClub?.count}`,
-          `disabled: ${res["parking"]?.disabled?.count}`,
-          `off street: ${res["parking"]?.offStreet?.residential?.count}`,
-          `motorcycles: ${res["parking"]?.motorcycles?.count}`,
-        ],
+        value:
+          res["parking"] &&
+          Object.entries(res["parking"]).map(([key, val]: any) =>
+            val.count > 0 ? `${key}: +${val.count} ` : "",
+          ),
       },
       boundary: [
         {
@@ -110,23 +111,48 @@ export function validateSecondTopic(value: any, res: any) {
       description: { description: "Description", value: res?.description },
       projectType: {
         description: "Project type",
-        value: res?.projectType?.map((el) => el.description),
+        value: res?.projectType?.map(
+          (el: { description: string }) => el.description,
+        ),
       },
-      // boundary: { description: "Construction dates", value: ""}
     },
     applicant: {
-      type: { description: "Applicant type", value: res?.type },
+      name: {
+        description: "Applicant name",
+        value: `${res.name?.first} ${res.name?.last}`,
+      },
+      type: { description: "Applicant type", value: res.type },
       address: {
         description: "Applicant address",
         value: res?.address?.sameAsSiteAddress && "Same as site address",
       },
+      ownership: {
+        description: "Ownership",
+        value: certificate(res.ownership?.certificate),
+      },
       siteContact: {
         description: "Site contact",
-        value: res?.siteContact?.role,
+        value: capitaliseWord(res?.siteContact?.role),
+      },
+      agent: {
+        description: "Agent name",
+        value: res?.agent
+          ? `${res.agent?.name?.first} ${res.agent?.name?.last}`
+          : "",
       },
     },
     application: {
       type: { description: "Application type", value: res?.type?.description },
+      preApp: {
+        description: "Pre-application advice",
+        value: res?.preApp
+          ? [
+              res?.preApp?.summary,
+              `Date: ${res?.preApp?.date}`,
+              `Reference: ${res?.preApp?.reference}`,
+            ]
+          : "",
+      },
     },
     files: file(res),
     "The property": questions(res, value),
@@ -140,24 +166,25 @@ export function validateSecondTopic(value: any, res: any) {
 
   return { subtopic: subtopic[value], value: topic[value] };
 }
-function questions(value: any, key: any) {
+function questions(value: any, key: string) {
   let arr: any = [];
   if (value.metadata?.sectionName == key) {
     arr.push({
       description: value.question,
-      value: value.responses.map((el) => el.value),
+      value: value.responses.map((el: { value: string }) => el.value),
     });
   }
   return arr;
 }
 
 function file(value: any) {
+  let arr: any = [];
   const filesDoc =
-    value.type &&
-    Object.entries(value?.type).map(([key, val], i) => {
+    value &&
+    Object.entries(value).map(([key, val]: any, i) => {
       return {
         description: "File upload",
-        value: `${val?.description}: ${val?.value}`,
+        value: `${val?.type?.[0]?.description}: ${val?.type?.[0]?.value}`,
       };
     });
   return filesDoc;

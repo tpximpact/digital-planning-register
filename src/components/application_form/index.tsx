@@ -1,5 +1,4 @@
 import { DprDocument } from "@/types";
-import { capitaliseWord } from "../../../util/capitaliseWord";
 import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
 import { validateSecondTopic } from "../../../util/applicationForm";
 import Map from "../map";
@@ -33,6 +32,7 @@ interface ApplicationFormProps
 interface RowProps {
   description: string;
   value: any;
+  image?: boolean;
 }
 
 interface SectionProps {
@@ -45,7 +45,6 @@ const isObject = (value: any): boolean => {
 };
 
 const Row = ({ description, value, image }: RowProps) => {
-  // console.log({ value }, { description }, "val");
   const boundaryGeojson = value;
 
   let geometryType;
@@ -114,13 +113,15 @@ const Section = ({ title, data }: any) => {
 
         <dl className="govuk-summary-list">
           {data?.length
-            ? data?.map((item, i) => <Row key={i} {...item} />)
+            ? data?.map((item: any, i: number) => <Row key={i} {...item} />)
             : isObject(data) &&
               Object.entries(data).map(([key, val], i) =>
                 Array.isArray(val) ? (
                   val.map((el, i) => <Row key={i} {...el} />)
                 ) : (
-                  <Row key={i} {...val} />
+                  <>
+                    <Row key={i} {...(val as RowProps)} />
+                  </>
                 ),
               )}
         </dl>
@@ -133,45 +134,9 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
   if (!submission) {
     return null;
   }
-  // validateMainTopic(submission);
-  const title = [
-    "Property",
-    "Proposal",
-    "Applicant",
-    // agent: "Applicant's agent",
-    "Application",
-    "Files",
-
-    "The Property",
-    "About you",
-    "The Project",
-    "Your application",
-    "Upload your documents",
-    "Review and Confirm",
-    "Pay and send",
-  ];
   const arr: any = [];
-  // Object.entries(submission.data).map(([key, value]) => {
-  //   const data = Object.entries(value).map(([description, val]) =>
-  //     validateSecondTopic(description, val),
-  //   );
-  //   arr.push(...data);
-  // });
-  // console.log(submission.responses)
-  // Object.entries(submission).map(([key, value]) => {
-  //   // console.log(key)
-  //   const data =
-  //     key !== "data" &&
-  //     Object.entries(value).map(([description, val]) => ({
-  //       description,
-  //       value: typeof val === "object" ? val : String(val),
-  //     }));
-  //   arr.push(data);
-  // });
-  // console.log(arr);
-  // console.log(submission);
+
   Object.entries(submission).map(([key, val], i) => {
-    // console.log(val);
     switch (key) {
       case "data":
         Object.entries(val).map(([key, value], i) => {
@@ -180,24 +145,13 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
         });
         return arr;
       case "files":
-        Object.entries(val).map(([key, value], i) => {
-          const data = validateSecondTopic("files", value);
-          return arr.push(data);
-        });
+        const data = validateSecondTopic("files", val);
+        arr.push(data);
         return arr;
-      case "metadata":
-        Object.entries(val).map(([key, value], i) => {
-          // console.log(value, 'key')
-          // const data = validateSecondTopic("files", value);
-          // return arr.push(data);
-        });
-        return 3;
       case "responses":
         let cleanData: any = [];
         Object.entries(val).map(([key, value], i) => {
-          // console.log(value, 'key')
           const data = validateSecondTopic(value?.metadata?.sectionName, value);
-          // console.log(data, 'data')
           if (cleanData[cleanData.length - 1]?.subtopic == data.subtopic) {
             cleanData[cleanData.length - 1]?.value?.push(data.value[0]);
           } else {
@@ -207,28 +161,16 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
         });
         arr.push(...cleanData);
         return arr;
+      default:
+        return;
     }
   });
   return (
     <div className="govuk-grid-row faux-document">
       <div className="govuk-grid-column-full">
-        {/* {console.log(arr)} */}
-        {/* {console.log(arr)} */}
-        {arr.map((el, i) => (
+        {arr.map((el: any, i: number) => (
           <Section title={el.subtopic} data={el.value} key={i} />
         ))}
-        {/* {Object.entries(submission.data).map(([key, value]) => {
-          const data = Object.entries(value).map(([description, val]) => ({
-            description,
-            value: typeof val === "object" ? val : String(val),
-          }));
-
-          return <Section key={key} title={capitaliseWord(key)} data={arr} />;
-        })} */}
-        {/* {title.map((el, i) => (
-          <Section title={el} data={submission} key={i} />
-        ))} */}
-        {/* <Section  title={capitaliseWord(key)} data={data} />; */}
       </div>
     </div>
   );
