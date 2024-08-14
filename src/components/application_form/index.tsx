@@ -1,6 +1,6 @@
 import { DprDocument } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
-import { validateSecondTopic } from "../../../util/applicationForm";
+import { convertApplicationFormBops } from "../../lib/applicationForm";
 import Map from "../map";
 
 /**
@@ -119,9 +119,7 @@ const Section = ({ title, data }: any) => {
                 Array.isArray(val) ? (
                   val.map((el, i) => <Row key={i} {...el} />)
                 ) : (
-                  <>
-                    <Row key={i} {...(val as RowProps)} />
-                  </>
+                  <Row key={i} {...(val as RowProps)} />
                 ),
               )}
         </dl>
@@ -140,18 +138,21 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
     switch (key) {
       case "data":
         Object.entries(val).map(([key, value], i) => {
-          const data = validateSecondTopic(key, value);
+          const data = convertApplicationFormBops(key, value);
           return data.subtopic !== undefined && arr.push(data);
         });
         return arr;
       case "files":
-        const data = validateSecondTopic("files", val);
+        const data = convertApplicationFormBops("files", val);
         arr.push(data);
         return arr;
       case "responses":
         let cleanData: any = [];
         Object.entries(val).map(([key, value], i) => {
-          const data = validateSecondTopic(value?.metadata?.sectionName, value);
+          const data = convertApplicationFormBops(
+            value?.metadata?.sectionName,
+            value,
+          );
           if (cleanData[cleanData.length - 1]?.subtopic == data.subtopic) {
             cleanData[cleanData.length - 1]?.value?.push(data.value[0]);
           } else {

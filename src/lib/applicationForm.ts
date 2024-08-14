@@ -1,5 +1,5 @@
-import { formatDprDate } from "./formatDates";
-import { capitaliseWord } from "./capitaliseWord";
+import { formatDprDate } from "../../util/formatDates";
+import { capitaliseWord } from "../../util/capitaliseWord";
 
 function certificate(value: string) {
   const certificateValue: { [key: string]: string } = {
@@ -11,7 +11,7 @@ function certificate(value: string) {
   return certificateValue[value] || "";
 }
 
-export function validateSecondTopic(value: string, res: any) {
+export function convertApplicationFormBops(value: string, res: any) {
   const subtopic: any = {
     property: "Property",
     proposal: "Proposal",
