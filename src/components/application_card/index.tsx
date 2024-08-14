@@ -1,47 +1,52 @@
-import { NonStandardBoundaryGeojson } from "@/types";
-import { capitaliseWord } from "../../../util/capitaliseWord";
-import { definedDecision } from "../../../util/formatDecision";
-import { definedStatus } from "../../../util/formatStatus";
+import { DprPlanningApplication } from "@/types";
 import DescriptionCard from "../description_card";
 import LandingMap from "../landing_map";
-import { format } from "date-fns";
+import { formatDprDate } from "../../../util/formatDates";
+import {
+  definedStatus,
+  definedDecision,
+  formatApplicationType,
+} from "@/lib/applications";
 
-export interface ApplicationCardProps {
+export interface ApplicationCardProps extends DprPlanningApplication {
   council: string;
-  reference: string;
-  address: string;
-  boundary_geojson: NonStandardBoundaryGeojson;
-  description: string;
-  applicationType: string;
-  applicationStatus: string;
-  consultationEndDate: string | null;
-  applicationReceivedDate: string;
-  applicationPublishedAt: string | null | undefined;
-  applicationDeterminationDate: string | null | undefined;
-  applicationDeterminedAt: string | null | undefined;
-  applicationDecision: string | null | undefined;
-  applicationReference: string;
 }
 
 const ApplicationCard = ({
   council,
-  reference,
-  address,
-  boundary_geojson,
-  description,
-  applicationType,
-  applicationStatus,
-  consultationEndDate,
-  applicationReceivedDate,
-  applicationPublishedAt,
-  applicationDeterminationDate,
-  applicationDeterminedAt,
-  applicationDecision,
-  applicationReference,
+  application,
+  property,
+  proposal,
 }: ApplicationCardProps) => {
+  const reference = application.reference;
+  const address = property.address.singleLine;
+  const boundary_geojson = property.boundary.site;
+  const description = proposal.description;
+  const applicationType = application.type.description;
+  const applicationStatusDefined = definedStatus(
+    application.status,
+    application.consultation.endDate,
+  );
+  const applicationReceivedAt = application.receivedAt;
+  const applicationPublishedAt = application.publishedAt;
+  const consultationEndDate = application.consultation.endDate;
+  const applicationDecision = application.decision;
+  const applicationDeterminedAt = application.determinedAt;
+
+  const decisionDate =
+    applicationDecision && applicationDeterminedAt
+      ? formatDprDate(applicationDeterminedAt)
+      : undefined;
+
+  const decisionDefined =
+    applicationDecision && applicationDeterminedAt
+      ? definedDecision(applicationDecision, applicationType)
+      : undefined;
+
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin search-card">
       <div className="govuk-grid-column-full">
+        {/* row 1 - reference and address */}
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <div className="govuk-heading-s">Application Reference</div>
@@ -52,6 +57,7 @@ const ApplicationCard = ({
             <p className="govuk-body">{address}</p>
           </div>
         </div>
+
         <div className="govuk-grid-row">
           {boundary_geojson && (
             <div className="govuk-grid-column-one-third landing-map">
@@ -63,52 +69,47 @@ const ApplicationCard = ({
             <DescriptionCard description={description} />
           </div>
         </div>
+
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
-            <div className="govuk-heading-s">Application type</div>
-            <p className="govuk-body">
-              {applicationType &&
-                capitaliseWord(applicationType.replace(/_/g, " "))}
-            </p>
-          </div>
-
-          <div className="govuk-grid-column-one-third">
-            {applicationStatus && consultationEndDate && (
+            {applicationType && (
               <>
-                <h2 className="govuk-heading-s">Status</h2>
+                <div className="govuk-heading-s">Application Type</div>
                 <p className="govuk-body">
-                  {definedStatus(applicationStatus, consultationEndDate)}
+                  {formatApplicationType(applicationType)}
                 </p>
               </>
             )}
           </div>
 
           <div className="govuk-grid-column-one-third">
-            {applicationReceivedDate && (
+            {applicationStatusDefined && (
               <>
-                <h2 className="govuk-heading-s">Received date</h2>
+                <h2 className="govuk-heading-s">Status</h2>
+                <p className="govuk-body">{applicationStatusDefined}</p>
+              </>
+            )}
+          </div>
+
+          <div className="govuk-grid-column-one-third">
+            {applicationReceivedAt && (
+              <>
+                <h2 className="govuk-heading-s">Received Date</h2>
                 <p className="govuk-body">
-                  {applicationReceivedDate &&
-                    `${format(
-                      new Date(applicationReceivedDate),
-                      "dd MMM yyyy",
-                    )}`}
+                  {formatDprDate(applicationReceivedAt)}
                 </p>
               </>
             )}
           </div>
         </div>
+
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             {applicationPublishedAt && (
               <>
                 <div className="govuk-heading-s">Published Date</div>
                 <p className="govuk-body">
-                  {applicationPublishedAt &&
-                    `${format(
-                      new Date(applicationPublishedAt),
-                      "dd MMM yyyy",
-                    )}`}
+                  {formatDprDate(applicationPublishedAt)}
                 </p>
               </>
             )}
@@ -118,42 +119,33 @@ const ApplicationCard = ({
               <>
                 <div className="govuk-heading-s">Consultation End Date</div>
                 <p className="govuk-body">
-                  {consultationEndDate &&
-                    `${format(new Date(consultationEndDate), "dd MMM yyyy")}`}
+                  {formatDprDate(consultationEndDate)}
                 </p>
               </>
             )}
           </div>
           <div className="govuk-grid-column-one-third">
-            {applicationDeterminedAt && applicationDecision && (
+            {decisionDate && (
               <>
                 <div className="govuk-heading-s">Decision Date</div>
-                <p className="govuk-body">
-                  {applicationDeterminedAt &&
-                    `${format(
-                      new Date(applicationDeterminedAt),
-                      "dd MMM yyyy",
-                    )}`}
-                </p>
+                <p className="govuk-body">{decisionDate}</p>
               </>
             )}
           </div>
           <div className="govuk-grid-column-one-third">
-            {applicationDeterminedAt && applicationDecision && (
+            {decisionDefined && (
               <>
                 <div className="govuk-heading-s">Decision</div>
-                <p className="govuk-body">
-                  {applicationDeterminedAt &&
-                    definedDecision(applicationDecision, applicationType)}
-                </p>
+                <p className="govuk-body">{decisionDefined}</p>
               </>
             )}
           </div>
         </div>
+
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <a
-              href={`/${council}/${applicationReference}`}
+              href={`/${council}/${reference}`}
               className="govuk-button govuk-button--secondary blue-button"
             >
               View details

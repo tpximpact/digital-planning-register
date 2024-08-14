@@ -106,3 +106,5 @@ For example, for Camden and Southwark data:
 |            CAMDEN_API_KEY            |  ###  |
 | NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE |  ###  |
 |       BUCKINGHAMSHIRE_API_KEY        |  ###  |
+|     NEXT_PUBLIC_BOPS_API_BARNET      |  ###  |
+|            BARNET_API_KEY            |  ###  |

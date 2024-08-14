@@ -1,24 +1,23 @@
 import React from "react";
-import { getApplicationsByCouncil, searchApplication } from "../../actions";
+import { getPublicApplications } from "../../actions";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import {
-  SearchParams,
-  ApiResponse,
-  V2PlanningApplications,
-  V2PlanningApplicationsSearch,
-} from "@/types";
+import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
-import { getNonStandardApplicationDetails } from "../../../util/applicationHelpers";
 
 const resultsPerPage = 10;
 
 interface PageParams {
   council: string;
+}
+
+interface SearchParams {
+  search: string;
+  page: string;
 }
 
 interface HomeProps {
@@ -29,37 +28,19 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<
-  ApiResponse<V2PlanningApplications | V2PlanningApplicationsSearch | null>
-> {
+}: HomeProps): Promise<ApiResponse<DprPublicApplicationListings | null>> {
   const { council } = params;
-  const page = parseInt(searchParams?.page as string) || 1;
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const search = searchParams?.search as string;
 
-  // console.log("page:", council);
-  // console.log("page:", page);
-  // console.log("search:", search);
+  const response = await getPublicApplications(
+    page,
+    resultsPerPage,
+    council,
+    search,
+  );
 
-  /**
-   * @todo endpoints for these will change to be the same /api/v2/public/planning_applications/search?page=1&maxresults=10
-   * Currently these two endpoints return different data structures, getApplicationsByCouncil is a non standard soon to be deprecated one, searchApplication is closer to the final form
-   */
-  if (search && search.length >= 3) {
-    const response = await searchApplication(
-      search,
-      council,
-      page,
-      resultsPerPage,
-    );
-    return response;
-  } else {
-    const response = await getApplicationsByCouncil(
-      page,
-      resultsPerPage,
-      council,
-    );
-    return response;
-  }
+  return response;
 }
 
 export async function generateMetadata({
@@ -67,7 +48,6 @@ export async function generateMetadata({
   searchParams,
 }: HomeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
-  const data = response.data ?? null;
 
   if (!response.data) {
     return {
@@ -82,11 +62,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({ params, searchParams }: HomeProps) {
+export default async function PlanningApplicationListings({
+  params,
+  searchParams,
+}: HomeProps) {
   const response = await fetchData({ params, searchParams });
-  const page = parseInt(searchParams?.page || "1");
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const council = params.council;
-  const search = !!(searchParams?.search && searchParams?.search.length >= 3);
   const validationError =
     searchParams?.search && searchParams?.search.length < 3 ? true : false;
 
@@ -131,24 +113,24 @@ export default async function Home({ params, searchParams }: HomeProps) {
         {response?.data?.data && response?.data?.data.length > 0 ? (
           <>
             <div>
-              {response?.data?.data.map((application, i) => {
+              {response?.data?.data.map((application) => {
                 return (
                   <ApplicationCard
-                    key={i}
+                    key={application.application.reference}
                     council={council}
-                    {...getNonStandardApplicationDetails(search, application)}
+                    {...application}
                   />
                 );
               })}
             </div>
-            {response?.data?.metadata?.total_pages > 1 && (
+            {response?.data?.pagination?.total_pages > 1 && (
               <Pagination
                 currentPage={page - 1}
                 totalItems={
-                  response?.data?.metadata?.total_pages * resultsPerPage
+                  response?.data?.pagination?.total_pages * resultsPerPage
                 }
                 itemsPerPage={resultsPerPage}
-                totalPages={response?.data?.metadata?.total_pages}
+                totalPages={response?.data?.pagination?.total_pages}
                 baseUrl={`/${council}/`}
                 queryParams={searchParams}
               />

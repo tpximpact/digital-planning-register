@@ -34,6 +34,24 @@ export const BackLink = ({ link }: { link?: string }) => {
   );
 };
 
+export const ButtonLink = ({
+  ariaLabel,
+  onClick,
+}: {
+  ariaLabel: string;
+  onClick: () => void;
+}) => {
+  return (
+    <button
+      className="govuk-link button-link-change"
+      onClick={onClick}
+      aria-label={ariaLabel}
+    >
+      Change
+    </button>
+  );
+};
+
 interface ButtonProps {
   iconClass?: string;
   content: string;

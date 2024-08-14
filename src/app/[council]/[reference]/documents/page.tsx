@@ -1,72 +1,128 @@
-import { getApplicationByReference } from "@/actions";
-import ApplicationFile from "@/components/application_files";
+import { Metadata } from "next";
+import {
+  ApiResponse,
+  DprDocument,
+  DprPagination,
+  DprPublicApplicationDetails,
+  DprPublicApplicationDocuments,
+} from "@/types";
+import {
+  getPublicApplicationDetails,
+  getPublicApplicationDocuments,
+} from "@/actions";
+import NotFound from "@/app/not-found";
+import { capitaliseWord } from "../../../../../util/capitaliseWord";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
-import { notFound } from "next/navigation";
-import { SearchParams } from "@/types";
-import { ApplicationFormObject } from "@/components/application_form";
+import { createItemPagination } from "@/lib/pagination";
+import DocumentsList from "@/components/documents_list";
+import { siteConfig } from "@/lib/config";
+
+interface CommentSearchParams {
+  page?: string;
+}
+
+interface PlanningApplicationDetailsDocumentsProps {
+  params: PageParams;
+  searchParams?: CommentSearchParams | undefined;
+}
 
 interface PageParams {
   council: string;
   reference: string;
 }
 
-interface DocumentsProps {
-  params: PageParams;
-  searchParams?: SearchParams | undefined;
+async function fetchData(params: PageParams): Promise<{
+  applicationResponse: ApiResponse<DprPublicApplicationDetails | null>;
+  documentResponse: ApiResponse<DprPublicApplicationDocuments | null>;
+}> {
+  const { reference, council } = params;
+  const [applicationResponse, documentResponse] = await Promise.all([
+    getPublicApplicationDetails(council, reference),
+    getPublicApplicationDocuments(council, reference),
+  ]);
+  return { applicationResponse, documentResponse };
 }
 
-export default async function Documents({
-  params: { reference, council },
-  searchParams,
-}: DocumentsProps) {
-  const maxDisplayDocuments = 12;
-  const response = await getApplicationByReference(reference, council);
-  if (!response.data) {
-    notFound();
+export async function generateMetadata({
+  params,
+}: PlanningApplicationDetailsDocumentsProps): Promise<Metadata> {
+  const { applicationResponse } = await fetchData(params);
+
+  if (!applicationResponse.data) {
+    return {
+      title: "Error",
+      description: "An error occurred",
+    };
   }
 
-  const currentPage = parseInt(searchParams?.page || "1", 10) - 1;
-  const indexOfLastDocument = (currentPage + 1) * maxDisplayDocuments;
-  const indexOfFirstDocument = indexOfLastDocument - maxDisplayDocuments;
+  return {
+    title: `Application ${applicationResponse.data.application.reference}`,
+    description: `${capitaliseWord(params.council)} planning application`,
+  };
+}
 
-  // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
-  const documents = applicationFormDocument
-    ? [applicationFormDocument, ...response.data.documents]
-    : response.data.documents ?? [];
+export default async function PlanningApplicationDetailsDocuments({
+  params,
+  searchParams,
+}: PlanningApplicationDetailsDocumentsProps) {
+  const { applicationResponse, documentResponse } = await fetchData(params);
+  const { reference, council } = params;
 
-  const currentDocuments = documents.slice(
-    indexOfFirstDocument,
-    indexOfLastDocument,
-  );
+  if (!applicationResponse.data) {
+    return <NotFound params={params} />;
+  }
 
-  const totalPages = Math.ceil(documents.length / maxDisplayDocuments);
+  /**
+   * If the application is not found, return a 404 page
+   * Also, if none of the comment types from config are allowed also show not found
+   */
+  if (!applicationResponse.data) {
+    return <NotFound params={params} />;
+  }
+
+  const application = applicationResponse.data;
+  const documents = siteConfig.documentsPublicEndpoint
+    ? documentResponse?.data?.files
+    : application.application.documents;
+
+  const totalDocuments = documents ? documents.length : 0;
+  const currentPage = Number(searchParams?.page ?? 1);
+  const maxDisplayDocuments = 10;
+
+  const documentData: { pagination: DprPagination; data: DprDocument[] } = {
+    pagination: {
+      ...createItemPagination(totalDocuments, currentPage, maxDisplayDocuments),
+    },
+    data: documents ? [...documents] : [],
+  };
 
   return (
     <div>
       <BackLink />
-      <ApplicationHeader
-        reference={response?.data.reference}
-        site={response?.data.site}
-      />
-      <ApplicationFile
-        {...response?.data}
-        council={council}
-        reference={reference}
-        showViewAllButton={false}
-        documents={currentDocuments}
-        maxDisplayDocuments={maxDisplayDocuments}
-      />
-      <Pagination
-        currentPage={currentPage}
-        totalItems={documents.length}
-        itemsPerPage={maxDisplayDocuments}
-        baseUrl={`/${council}/${reference}/documents`}
-        queryParams={searchParams}
-        totalPages={totalPages}
-      />
+      <div className="govuk-main-wrapper">
+        <ApplicationHeader
+          reference={reference}
+          address={application.property.address.singleLine}
+        />
+        <DocumentsList
+          council={council}
+          reference={reference}
+          documents={documentData.data ?? null}
+          from={documentData.pagination.from - 1}
+          maxDisplayDocuments={maxDisplayDocuments}
+          page={documentData.pagination.page - 1}
+        />
+        <Pagination
+          currentPage={documentData.pagination.page - 1}
+          totalItems={documentData.pagination.total_results}
+          itemsPerPage={maxDisplayDocuments}
+          baseUrl={`/${council}/${reference}/documents`}
+          queryParams={searchParams}
+          totalPages={documentData.pagination.total_pages}
+        />
+      </div>
     </div>
   );
 }

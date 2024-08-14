@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React from "react";
 import config from "../../../util/config.json";
@@ -34,7 +33,7 @@ const PreSubmission = ({
         What you need to know before you comment
       </h1>
       <h2 className="govuk-heading-m">
-        What isn't considered in planning approval
+        What isn&apos;t considered in planning approval
       </h2>
       <p className="govuk-body">
         There are issues that may be of concern to you, and are very important,
@@ -43,8 +42,8 @@ const PreSubmission = ({
       </p>
       <ul className="govuk-list govuk-list--bullet">
         <li>
-          disputes about civil matters, such as building freeholds or the 'right
-          to light'
+          disputes about civil matters, such as building freeholds or the
+          &apos;right to light&apos;
         </li>
         <li>loss of property value</li>
         <li>
@@ -71,17 +70,17 @@ const PreSubmission = ({
       <ol className="govuk-list govuk-list--number">
         <li>
           <h3 className="govuk-heading-s">To use your knowledge of the area</h3>
-          <p>
-            You may be able to highlight on-the-ground details we don't know
-            about – for example, that a mature tree was left out of a
-            developer's plans.
+          <p className="govuk-body">
+            You may be able to highlight on-the-ground details we don&apos;t
+            know about - for example, that a mature tree was left out of a
+            developer&apos;s plans.
           </p>
         </li>
         <li>
           <h3 className="govuk-heading-s">To influence the details</h3>
-          <p>
-            Your understanding of an area's needs can help planners decide on
-            things like amount of open space, cycling facilities, or what
+          <p className="govuk-body">
+            Your understanding of an area&apos;s needs can help planners decide
+            on things like amount of open space, cycling facilities, or what
             materials are appropriate for a scheme.
           </p>
         </li>
@@ -89,11 +88,11 @@ const PreSubmission = ({
           <h3 className="govuk-heading-s">
             To make sure we balance our priorities
           </h3>
-          <p>
-            It's useful know which priorities are most important to residents,
-            so we can push developers to be more ambitious with their targets.
-            Telling us what your priorities are can help planners make that
-            decision.
+          <p className="govuk-body">
+            It&apos;s useful know which priorities are most important to
+            residents, so we can push developers to be more ambitious with their
+            targets. Telling us what your priorities are can help planners make
+            that decision.
           </p>
         </li>
       </ol>
@@ -117,7 +116,7 @@ const PreSubmission = ({
         part of this process, your comments will be posted online for the public
         to see. We will not include your name, address, telephone number or
         email address. The case officer will summarise their findings in the
-        officer's report and decision notice.
+        officer&apos;s report and decision notice.
       </p>
       <form onSubmit={handleSubmit}>
         <button

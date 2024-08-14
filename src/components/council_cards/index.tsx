@@ -1,10 +1,10 @@
 import CouncilLogo from "../council_logo";
-import config from "../../../util/config.json";
 import Link from "next/link";
-import { Config } from "@/types";
+import { getConfig } from "@/lib/config";
 
 export const CouncilCards = () => {
-  const councilConfig = config as Config;
+  const councilConfig = getConfig();
+
   const councils = Object.keys(councilConfig);
 
   return (

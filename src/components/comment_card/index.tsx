@@ -1,10 +1,10 @@
 "use client";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import React, { useState, useEffect, useRef } from "react";
-import { NonStandardComment } from "@/types";
+import { DprComment } from "@/types";
 
 interface CommentCardProps {
-  comment: NonStandardComment;
+  comment: DprComment;
   commentNumber: number;
 }
 
@@ -56,13 +56,13 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
                 )}
               </em>
             </p>
-            {comment.summary_tag && (
+            {comment.sentiment && (
               <div>
                 <div className="govuk-heading-s">
                   Sentiment towards this application
                 </div>
                 <p className="govuk-body">
-                  {capitaliseWord(comment.summary_tag)}
+                  {capitaliseWord(comment.sentiment)}
                 </p>
               </div>
             )}

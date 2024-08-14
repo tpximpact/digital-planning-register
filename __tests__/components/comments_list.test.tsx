@@ -1,24 +1,23 @@
-// ApplicationComments.test.tsx
+// CommentsList.test.tsx
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import ApplicationComments from "@/components/application_comments";
 import { mockData } from "../../__mockData__/mockData";
 import "@testing-library/jest-dom";
 import config from "../../util/config.json";
+import CommentsList from "@/components/comments_list";
 
 config["camden"].specialistComments = true;
 export default config;
 
-describe("ApplicationComments", () => {
+describe("CommentsList", () => {
   it("renders consultee comments correctly", () => {
     render(
-      <ApplicationComments
+      <CommentsList
         council="camden"
-        {...mockData}
-        id={mockData.id}
+        reference={mockData.reference}
         type="consultee"
         maxDisplayComments={10}
-        showViewAllButton={true}
+        showMoreButton={true}
         comments={mockData.consultee_comments}
       />,
     );
@@ -32,13 +31,12 @@ describe("ApplicationComments", () => {
 
   it("renders published comments correctly", () => {
     render(
-      <ApplicationComments
-        {...mockData}
+      <CommentsList
         council="camden"
-        id={mockData.id}
+        reference={mockData.reference}
         type="published"
         maxDisplayComments={10}
-        showViewAllButton={true}
+        showMoreButton={true}
         comments={mockData.published_comments}
       />,
     );
@@ -52,12 +50,11 @@ describe("ApplicationComments", () => {
 
   it("renders no comments message for consultee comments", () => {
     render(
-      <ApplicationComments
-        {...mockData}
+      <CommentsList
         council="camden"
-        comments={[]}
-        id={mockData.id}
+        reference={mockData.reference}
         type="consultee"
+        comments={[]}
       />,
     );
 
@@ -70,12 +67,11 @@ describe("ApplicationComments", () => {
 
   it("renders no comments message for published comments", () => {
     render(
-      <ApplicationComments
-        {...mockData}
+      <CommentsList
         council="camden"
-        comments={[]}
-        id={mockData.id}
+        reference={mockData.reference}
         type="published"
+        comments={[]}
       />,
     );
 

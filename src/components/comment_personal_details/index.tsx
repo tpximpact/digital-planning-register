@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
@@ -293,8 +292,8 @@ const CommentPersonalDetails = ({
                 email address.
               </p>
               <p className="govuk-body">
-                We'll make sure any other personal or sensitive information is
-                removed where needed, in line with the{" "}
+                We&apos;ll make sure any other personal or sensitive information
+                is removed where needed, in line with the{" "}
                 <a
                   className="govuk-link govuk-link--no-visited-state"
                   href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"

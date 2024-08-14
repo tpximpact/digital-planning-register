@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useEffect, useState } from "react";
 
@@ -125,9 +124,9 @@ const CommentTopicSelection = ({
               <div className="govuk-details__text">
                 <p className="govuk-body">
                   As part of the negotiation, the case officer can take into
-                  consideration all comments which are 'material considerations'
-                  to the proposed development. These include (but aren't limited
-                  to):
+                  consideration all comments which are &apos;material
+                  considerations&apos; to the proposed development. These
+                  include (but aren&apos;t limited to):
                 </p>
                 <ul className="govuk-list govuk-list--bullet">
                   <li>overlooking/loss of privacy</li>
@@ -139,7 +138,7 @@ const CommentTopicSelection = ({
                   <li>scale of buildings and structures</li>
                   <li>layout and density of building</li>
                   <li>design, appearance and materials</li>
-                  <li>disabled persons' access</li>
+                  <li>disabled persons&apos; access</li>
                   <li>
                     previous planning decisions (including appeal decisions)
                   </li>
@@ -147,19 +146,19 @@ const CommentTopicSelection = ({
                 </ul>
                 <p className="govuk-body">
                   Issues such as loss of private view or negative impact on
-                  property values, or civil matters like 'right to light', party
-                  walls and property damage are not considered 'material
-                  planning considerations'.
+                  property values, or civil matters like &apos;right to
+                  light&apos;, party walls and property damage are not
+                  considered &apos;material planning considerations&apos;.
                 </p>
                 <p className="govuk-body">
                   The case officer will summarise their findings in the
-                  officer's report and/or decision notice.
+                  officer&apos;s report and/or decision notice.
                 </p>
                 <p className="govuk-body">
-                  We won't acknowledge receipt of your comments, or get in touch
-                  with you directly about the issues you've raised. You can
-                  check the officer's report or decision notice to see if your,
-                  and other, comments have been logged.
+                  We won&apos;t acknowledge receipt of your comments, or get in
+                  touch with you directly about the issues you&apos;ve raised.
+                  You can check the officer&apos;s report or decision notice to
+                  see if your, and other, comments have been logged.
                 </p>
               </div>
             </details>

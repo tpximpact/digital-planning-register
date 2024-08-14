@@ -1,40 +1,49 @@
-import { getApplicationByReference } from "../../../actions/index";
-import { BackLink } from "@/components/button";
-import ApplicationInformation from "@/components/application_information";
-import ApplicationFile from "@/components/application_files";
-import ApplicationPeople from "@/components/application_people";
-import ApplicationComments from "@/components/application_comments";
-import { NonStandardComment } from "@/types";
-import { Config, ApiResponse, V2PlanningApplicationsReference } from "@/types";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
-import NotFound from "@/app/not-found";
-import config from "../../../../util/config.json";
 import { Metadata } from "next";
-import { ApplicationFormObject } from "@/components/application_form";
+import { capitaliseWord } from "../../../../util/capitaliseWord";
+import {
+  ApiResponse,
+  DprPublicApplicationDetails,
+  DprPublicApplicationDocuments,
+} from "@/types";
+import {
+  getPublicApplicationDetails,
+  getPublicApplicationDocuments,
+} from "@/actions";
+import { BackLink } from "@/components/button";
+import NotFound from "@/app/not-found";
+import { getCouncilConfig, siteConfig } from "@/lib/config";
+import ApplicationInformation from "@/components/application_information";
+import CommentsList from "@/components/comments_list";
+import ApplicationPeople from "@/components/application_people";
+import DocumentsList from "@/components/documents_list";
+
+interface PlanningApplicationDetailsProps {
+  params: PageParams;
+}
 
 interface PageParams {
   council: string;
   reference: string;
 }
 
-interface ApplicationProps {
-  params: PageParams;
-}
-
-async function fetchData(
-  params: PageParams,
-): Promise<ApiResponse<V2PlanningApplicationsReference | null>> {
+async function fetchData(params: PageParams): Promise<{
+  applicationResponse: ApiResponse<DprPublicApplicationDetails | null>;
+  documentResponse: ApiResponse<DprPublicApplicationDocuments | null>;
+}> {
   const { reference, council } = params;
-  const response = await getApplicationByReference(reference, council);
-  return response;
+  const [applicationResponse, documentResponse] = await Promise.all([
+    getPublicApplicationDetails(council, reference),
+    getPublicApplicationDocuments(council, reference),
+  ]);
+  return { applicationResponse, documentResponse };
 }
 
 export async function generateMetadata({
   params,
-}: ApplicationProps): Promise<Metadata> {
-  const response = await fetchData(params);
+}: PlanningApplicationDetailsProps): Promise<Metadata> {
+  const { applicationResponse } = await fetchData(params);
 
-  if (!response.data) {
+  if (!applicationResponse.data) {
     return {
       title: "Error",
       description: "An error occurred",
@@ -42,80 +51,65 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Application ${response.data.reference}`,
+    title: `Application ${applicationResponse.data.application.reference}`,
     description: `${capitaliseWord(params.council)} planning application`,
   };
 }
 
-export default async function Application({ params }: ApplicationProps) {
-  const response = await fetchData(params);
+export default async function PlanningApplicationDetails({
+  params,
+}: PlanningApplicationDetailsProps) {
+  const { applicationResponse, documentResponse } = await fetchData(params);
   const { reference, council } = params;
 
-  if (!response.data) {
+  if (!applicationResponse.data) {
     return <NotFound params={params} />;
   }
 
-  const sortComments = (comments: NonStandardComment[]) => {
-    return comments?.sort((a, b) => {
-      const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
-      const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
-      return dateB - dateA;
-    });
-  };
+  const application = applicationResponse.data;
 
-  const consulteeComments = sortComments(response.data?.consultee_comments);
-  const publishedComments = sortComments(response.data?.published_comments);
-  const councilConfig: Config = config;
+  const councilConfig = getCouncilConfig(council);
 
-  const publicComments = councilConfig[council]?.publicComments;
-  const specialistComments = councilConfig[council]?.specialistComments;
-
-  // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
-  const documents = applicationFormDocument
-    ? [applicationFormDocument, ...response.data.documents]
-    : response.data.documents;
+  const documents = siteConfig.documentsPublicEndpoint
+    ? documentResponse?.data?.files
+    : application.application.documents;
 
   return (
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
-        <ApplicationInformation
-          {...response.data}
-          reference={reference}
-          council={council}
-        />
+        {/* <ApplicationCard council={council} {...application} /> */}
+        <ApplicationInformation council={council} {...application} />
         {/* <ApplicationLocation /> */}
-        {/* <ApplicationDetails {...response.data} /> */}
-        <ApplicationFile
-          documents={documents}
-          reference={reference}
-          maxDisplayDocuments={6}
+        {/* <ApplicationDetails {...application} /> */}
+        <DocumentsList
           council={council}
+          reference={reference}
+          showMoreButton={true}
+          documents={documents ?? null}
         />
-        <ApplicationPeople {...response.data} />
-        {specialistComments && (
-          <ApplicationComments
+        <ApplicationPeople
+          applicant_first_name={application.application.applicant_first_name}
+          applicant_last_name={application.application.applicant_last_name}
+          agent_first_name={application.application.agent_first_name}
+          agent_last_name={application.application.agent_last_name}
+        />
+        {councilConfig?.specialistComments && (
+          <CommentsList
             council={council}
             reference={reference}
-            maxDisplayComments={3}
-            showViewAllButton={true}
             type="consultee"
-            comments={consulteeComments}
-            currentPage={0}
-            totalComments={consulteeComments?.length}
+            showMoreButton={true}
+            comments={application.application.consultation.consulteeComments}
           />
         )}
-        {publicComments && (
-          <ApplicationComments
+        {councilConfig?.publicComments && (
+          <CommentsList
             council={council}
             reference={reference}
-            maxDisplayComments={3}
-            showViewAllButton={true}
             type="published"
-            comments={publishedComments}
-            currentPage={0}
-            totalComments={publishedComments?.length}
+            showMoreButton={true}
+            comments={application.application.consultation.publishedComments}
           />
         )}
         {/* <ApplicationConstraints /> */}
