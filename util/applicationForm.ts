@@ -178,7 +178,6 @@ function questions(value: any, key: string) {
 }
 
 function file(value: any) {
-  let arr: any = [];
   const filesDoc =
     value &&
     Object.entries(value).map(([key, val]: any, i) => {
