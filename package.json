@@ -46,5 +46,10 @@
     "pa11y-ci": "^3.1.0",
     "typescript": "^5",
     "wait-on": "^7.2.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

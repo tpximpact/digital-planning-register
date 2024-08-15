@@ -33,6 +33,8 @@ jobs:
         run: npx wait-on http://localhost:3000
 
       - name: Run pa11y-ci
+        env:
+          NODE_ENV: test
         run: |
           npm install -g pa11y-ci
           pa11y-ci --config .pa11yci
