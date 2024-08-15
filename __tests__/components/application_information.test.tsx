@@ -3,7 +3,7 @@ import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { DprPublicApplicationDetails } from "@/types";
 
-jest.mock("../../src/components/map", () => {
+jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mockMap"></div>);
 });
 

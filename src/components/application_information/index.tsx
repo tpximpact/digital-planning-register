@@ -1,7 +1,3 @@
-import dynamic from "next/dynamic";
-import { DprPlanningApplication } from "@/types";
-import DescriptionCard from "../description_card";
-import LandingMap from "../landing_map";
 import { formatDprDate } from "../../../util/formatDates";
 import {
   definedStatus,
@@ -13,46 +9,9 @@ import {
 } from "@/lib/applications";
 import { ApplicationCardProps } from "../application_card";
 import Link from "next/link";
+import ApplicationMap from "../application_map";
 
 interface ApplicationInformationProps extends ApplicationCardProps {}
-
-const DynamicMap = dynamic(() => import("../map"), {
-  ssr: false,
-  loading: () => <div>Loading map...</div>,
-});
-
-/**
- * @todo a lot of this code is duplicated on the application_card and in the LandingMap component
- * @param boundaryGeojson
- * @returns
- */
-const geojson = (boundaryGeojson: any) => {
-  let geometryType;
-  let coordinates;
-
-  if (boundaryGeojson?.type === "Feature") {
-    geometryType = boundaryGeojson.geometry?.type;
-    coordinates = boundaryGeojson.geometry?.coordinates;
-  } else if (boundaryGeojson?.type === "FeatureCollection") {
-    const features = boundaryGeojson.features;
-    if (features && features.length > 0) {
-      geometryType = features[0].geometry?.type;
-      coordinates = features[0].geometry?.coordinates;
-    }
-  }
-
-  const geojsonData =
-    geometryType && coordinates
-      ? JSON.stringify({
-          type: "Feature",
-          geometry: {
-            type: geometryType,
-            coordinates,
-          },
-        })
-      : null;
-  return geojsonData;
-};
 
 const ApplicationInformation = ({
   council,
@@ -87,8 +46,6 @@ const ApplicationInformation = ({
 
   const description = proposal.description;
 
-  const geojsonData = geojson(boundary_geojson);
-
   return (
     <div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -107,7 +64,7 @@ const ApplicationInformation = ({
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third app-map">
-          {geojsonData && <DynamicMap geojsonData={geojsonData} />}
+          {boundary_geojson && <ApplicationMap mapData={boundary_geojson} />}
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop key-info">

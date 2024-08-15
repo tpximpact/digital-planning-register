@@ -1,12 +1,12 @@
 import { DprPlanningApplication } from "@/types";
 import DescriptionCard from "../description_card";
-import LandingMap from "../landing_map";
 import { formatDprDate } from "../../../util/formatDates";
 import {
   definedStatus,
   definedDecision,
   formatApplicationType,
 } from "@/lib/applications";
+import ApplicationMap from "../application_map";
 
 export interface ApplicationCardProps extends DprPlanningApplication {
   council: string;
@@ -60,8 +60,8 @@ const ApplicationCard = ({
 
         <div className="govuk-grid-row">
           {boundary_geojson && (
-            <div className="govuk-grid-column-one-third landing-map">
-              <LandingMap boundary_geojson={boundary_geojson} />
+            <div className="govuk-grid-column-one-third">
+              <ApplicationMap staticMap={true} mapData={boundary_geojson} />
             </div>
           )}
           <div className="govuk-grid-column-two-thirds">
