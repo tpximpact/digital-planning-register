@@ -1,8 +1,7 @@
 import { DprDocument } from "@/types";
-import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
-import { convertApplicationFormBops } from "../../lib/applicationForm";
-import Map from "../map";
-
+import ApplicationMap from "../application_map";
+import { convertApplicationSubmissionBops } from "@/lib/applicationSubmission";
+import { RowProps, ApplicationFormProps } from "@/types";
 /**
  * This generates a fake document - currently using the BopsNonStandardDocument type
  * @todo this will soon not be compatible with the new document type
@@ -26,55 +25,17 @@ export const ApplicationFormObject = (
   };
 };
 
-interface ApplicationFormProps
-  extends Pick<BopsV2PlanningApplicationsSubmission, "submission"> {}
-
-interface RowProps {
-  description: string;
-  value: any;
-  image?: boolean;
-}
-
-interface SectionProps {
-  title: string;
-  data: RowProps[];
-}
-
-const isObject = (value: any): boolean => {
+const isObject = (value: RowProps): boolean => {
   return value && typeof value === "object" && !Array.isArray(value);
 };
 
 const Row = ({ description, value, image }: RowProps) => {
-  const boundaryGeojson = value;
-
-  let geometryType;
-  let coordinates;
-
-  if (boundaryGeojson?.type === "Feature") {
-    geometryType = boundaryGeojson.geometry?.type;
-    coordinates = boundaryGeojson.geometry?.coordinates;
-  } else if (boundaryGeojson?.type === "FeatureCollection") {
-    const features = boundaryGeojson.features;
-    if (features && features.length > 0) {
-      geometryType = features[0].geometry?.type;
-      coordinates = features[0].geometry?.coordinates;
-    }
-  }
-
   return (
     <div className="govuk-summary-list__row">
       <dt className="govuk-summary-list__key">{description}</dt>
       <dd className="govuk-summary-list__value">
-        {image && geometryType && coordinates ? (
-          <Map
-            geojsonData={JSON.stringify({
-              type: "Feature",
-              geometry: {
-                type: geometryType,
-                coordinates,
-              },
-            })}
-          />
+        {image ? (
+          <ApplicationMap mapData={value} />
         ) : isObject(value) ? (
           <dl className="govuk-summary-list">
             {Object.entries(value).map(([key, val], i) => (
@@ -113,7 +74,9 @@ const Section = ({ title, data }: any) => {
 
         <dl className="govuk-summary-list">
           {data?.length
-            ? data?.map((item: any, i: number) => <Row key={i} {...item} />)
+            ? data?.map((item: RowProps, i: number) => (
+                <Row key={i} {...item} />
+              ))
             : isObject(data) &&
               Object.entries(data).map(([key, val], i) =>
                 Array.isArray(val) ? (
@@ -132,44 +95,11 @@ const ApplicationForm = ({ submission }: ApplicationFormProps) => {
   if (!submission) {
     return null;
   }
-  const arr: any = [];
-
-  Object.entries(submission).map(([key, val], i) => {
-    switch (key) {
-      case "data":
-        Object.entries(val).map(([key, value], i) => {
-          const data = convertApplicationFormBops(key, value);
-          return data.subtopic !== undefined && arr.push(data);
-        });
-        return arr;
-      case "files":
-        const data = convertApplicationFormBops("files", val);
-        arr.push(data);
-        return arr;
-      case "responses":
-        let cleanData: any = [];
-        Object.entries(val).map(([key, value], i) => {
-          const data = convertApplicationFormBops(
-            value?.metadata?.sectionName,
-            value,
-          );
-          if (cleanData[cleanData.length - 1]?.subtopic == data.subtopic) {
-            cleanData[cleanData.length - 1]?.value?.push(data.value[0]);
-          } else {
-            cleanData.push(data);
-          }
-          return cleanData;
-        });
-        arr.push(...cleanData);
-        return arr;
-      default:
-        return;
-    }
-  });
+  const applicationSubmission = convertApplicationSubmissionBops(submission);
   return (
     <div className="govuk-grid-row faux-document">
       <div className="govuk-grid-column-full">
-        {arr.map((el: any, i: number) => (
+        {applicationSubmission?.map((el: any, i: number) => (
           <Section title={el.subtopic} data={el.value} key={i} />
         ))}
       </div>

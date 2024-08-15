@@ -12,7 +12,7 @@ function certificate(value: string) {
 }
 
 export function convertApplicationFormBops(value: string, res: any) {
-  const subtopic: any = {
+  const subtopic: { [key: string]: string } = {
     property: "Property",
     proposal: "Proposal",
     applicant: "Applicant",

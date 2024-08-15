@@ -18,6 +18,7 @@ export * from "./definitions/comment";
 export * from "./definitions/config";
 export * from "./definitions/pagination";
 export * from "./definitions/document";
+export * from "./definitions/application-form";
 
 // export * from "./definitions/search";
 export * from "./definitions/boundary-geojson";
