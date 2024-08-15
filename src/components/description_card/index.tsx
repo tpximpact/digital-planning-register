@@ -22,7 +22,7 @@ const DescriptionCard = ({ description }: DescriptionCardProps) => {
       if (current) {
         const getMap = current
           ?.closest(".govuk-grid-row")
-          ?.querySelector(".landing-map");
+          ?.querySelector("#osl-map");
         const getMapHeight = getMap?.clientHeight ?? 0;
         const isOverflow = current.scrollHeight > getMapHeight;
         const currDescription =

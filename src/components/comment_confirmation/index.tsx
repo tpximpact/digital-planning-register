@@ -1,6 +1,6 @@
-import Map from "../map";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { DprBoundaryGeojson } from "@/types";
+import ApplicationMap from "../application_map";
 
 interface CommentConfirmationProps {
   reference: string;
@@ -17,40 +17,14 @@ const CommentConfirmation = ({
   boundary_geojson,
   navigateToPage,
 }: CommentConfirmationProps) => {
-  const boundaryGeojson = boundary_geojson;
-
-  let geometryType;
-  let coordinates;
-
-  if (boundaryGeojson?.type === "Feature") {
-    geometryType = boundaryGeojson.geometry?.type;
-    coordinates = boundaryGeojson.geometry?.coordinates;
-  } else if (boundaryGeojson?.type === "FeatureCollection") {
-    const features = boundaryGeojson.features;
-    if (features && features.length > 0) {
-      geometryType = features[0].geometry?.type;
-      coordinates = features[0].geometry?.coordinates;
-    }
-  }
-
   return (
     <>
       <div className="govuk-panel govuk-panel--confirmation">
         <h1 className="govuk-panel__title">Comment submitted</h1>
       </div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-third">
-          {geometryType && coordinates && (
-            <Map
-              geojsonData={JSON.stringify({
-                type: "Feature",
-                geometry: {
-                  type: geometryType,
-                  coordinates,
-                },
-              })}
-            />
-          )}
+        <div className="govuk-grid-column-one-third grid-row-extra-bottom-margin">
+          {boundary_geojson && <ApplicationMap mapData={boundary_geojson} />}
         </div>
         <div className="govuk-grid-column-two-thirds">
           <h2 className="govuk-heading-m">{address}</h2>
