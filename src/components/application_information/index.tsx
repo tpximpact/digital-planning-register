@@ -2,10 +2,12 @@ import { formatDprDate } from "../../../util/formatDates";
 import {
   definedStatus,
   definedDecision,
+  definedStatusClass,
   formatApplicationType,
   applicationTypesInfoPointId,
   applicationStatusesInfoPointId,
   applicationDecisionInfoPointId,
+  definedDecisionClass,
 } from "@/lib/applications";
 import { ApplicationCardProps } from "../application_card";
 import Link from "next/link";
@@ -107,7 +109,7 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p
-                    className="govuk-tag--blue govuk-body"
+                    className={`govuk-body ${definedStatusClass(applicationStatusDefined)}`}
                     id="application-status"
                     style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                   >
@@ -242,7 +244,7 @@ const ApplicationInformation = ({
                     </a>
                   </div>
                   <p
-                    className="govuk-tag--yellow govuk-body"
+                    className={`govuk-body ${definedDecisionClass(decisionDefined)}`}
                     style={{ maxWidth: "fit-content", padding: "2px 10px" }}
                   >
                     {decisionDefined}
