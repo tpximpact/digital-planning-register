@@ -113,6 +113,16 @@ export default async function PlanningApplicationListings({
         {response?.data?.data && response?.data?.data.length > 0 ? (
           <>
             <div>
+              {response?.data?.data.map((application, i) => {
+                return (
+                  <a
+                    key={i}
+                    href={`${council}/${application.application.reference}/application-form`}
+                  >
+                    form
+                  </a>
+                );
+              })}
               {response?.data?.data.map((application) => {
                 return (
                   <ApplicationCard
