@@ -1,3 +1,4 @@
+"use server";
 export async function handleBopsGetRequest<T>(
   council: string,
   url: string,
@@ -41,6 +42,7 @@ export async function handleBopsGetRequest<T>(
       }
 
       const data = await response.json();
+
       return {
         data,
         status: {

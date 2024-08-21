@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import PhaseBanner from "@/components/phase_banner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
+import { DprAnalytics } from "@/lib/DprAnalytics";
 
 export default function RootLayout({
   children,
@@ -26,6 +27,7 @@ export default function RootLayout({
       <title>Digital Planning Register</title>
       <Head />
       <body className="govuk-frontend-supported">
+        <DprAnalytics />
         <CookieBanner />
         <a
           href="#main"

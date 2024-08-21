@@ -4,8 +4,9 @@
     "logo": "barnetlogo.png",
     "publicComments": false,
     "specialistComments": false,
+    "analytics": false,
     "pageContent": {
-     "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices"
       }
     }
@@ -15,8 +16,9 @@
     "logo": "buckinghamshirelogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "analytics": false,
     "pageContent": {
-    "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-information-for-specific-services%20/"
       }
     }
@@ -28,6 +30,9 @@
     "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
     "specialistComments": false,
+    "analytics": {
+      "type": "gtm"
+    },
     "pageContent": {
       "council_reference_submit_comment_pre_submission": {
         "what_happens_to_your_comments_link": "https://www.camden.gov.uk/commenting-planning-application"
@@ -52,8 +57,9 @@
     "logo": "gatesheadlogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "analytics": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.gateshead.gov.uk/article/3711/Corporate-Privacy-Notice"
       }
     }
@@ -63,8 +69,9 @@
     "logo": "lambethlogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "analytics": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.lambeth.gov.uk/about-council/privacy-data-protection?utm_source=footer&utm_campaign=privacy"
       }
     }
@@ -74,8 +81,9 @@
     "logo": "southwarklogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "analytics": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.southwark.gov.uk/terms-and-disclaimer/corporate-data-privacy-notice"
       }
     }
