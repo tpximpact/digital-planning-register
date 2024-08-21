@@ -30,18 +30,34 @@ export async function getPublicApplications(
     params.append("q", search);
   }
   const url = `public/planning_applications/search?${params.toString()}`;
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
-  >(council, url);
+  console.log("Attempting to fetch public applications:", url);
+  console.log("Full request details:", {
+    page,
+    resultsPerPage,
+    council,
+    search,
+    constructedUrl: url,
+  });
 
-  const { data: planningApplications = [], ...restData } = request.data || {};
+  try {
+    const request = await handleBopsGetRequest<
+      ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
+    >(council, url);
 
-  const convertedData = {
-    pagination: request.data?.metadata ?? defaultPagination,
-    data: planningApplications.map((application) =>
-      convertPlanningApplicationBops(council, application),
-    ),
-  };
+    // console.log("Response received:", JSON.stringify(request, null, 2));
 
-  return { ...request, data: convertedData };
+    const { data: planningApplications = [], ...restData } = request.data || {};
+
+    const convertedData = {
+      pagination: request.data?.metadata ?? defaultPagination,
+      data: planningApplications.map((application) =>
+        convertPlanningApplicationBops(council, application),
+      ),
+    };
+
+    return { ...request, data: convertedData };
+  } catch (error) {
+    console.error("Error in getPublicApplications:", error);
+    throw error;
+  }
 }

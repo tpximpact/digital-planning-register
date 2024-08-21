@@ -16,25 +16,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+
   if (typeof window !== "undefined") {
     const govUk = require("govuk-frontend");
     govUk.initAll();
-
-    if (
-      process.env.NODE_ENV === "development" ||
-      process.env.NODE_ENV === "test"
-    ) {
-      const { worker } = require("../../mocks/browser");
-      worker.start({
-        onUnhandledRequest: "bypass",
-        serviceWorker: {
-          url: "/mockServiceWorker.js",
-        },
-      });
-      console.log("MSW started");
-    }
   }
 
+  useEffect(() => {
+    async function initiateMockAPI() {
+      if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+        if (
+          process.env.NODE_ENV === "development" ||
+          process.env.NODE_ENV === "test"
+        ) {
+          const initMocks = (await import("../../mocks")).default;
+          await initMocks();
+        }
+      }
+    }
+
+    initiateMockAPI();
+  }, []);
   return (
     <html lang="en">
       <title>Digital Planning Register</title>
