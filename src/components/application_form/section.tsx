@@ -8,7 +8,6 @@ export const Section = ({
   subtopic,
   value,
 }: DprApplicationSubmissionSubtopic) => {
-  console.log(value);
   // if value is an array it will be an array of DprApplicationSubmissionSubtopicValue
   const renderRow = (
     value: DprApplicationSubmissionSubtopicValue[],
