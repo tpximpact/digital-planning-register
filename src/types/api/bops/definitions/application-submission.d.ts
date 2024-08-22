@@ -9,7 +9,9 @@
  */
 
 import { BopsApplicationOverview } from ".";
+import { BopsApplicationSubmissionResponses } from "./application-submission--responses";
 
+export * from "./application-submission--responses";
 /**
  * Alternative to the MUCH more complicated example below
  */
@@ -29,22 +31,85 @@ import { BopsApplicationOverview } from ".";
 // }
 
 export interface BopsApplicationSubmission {
-  application: BopsApplicationOverview;
-  submission: {
-    data: {
-      applicant: BaseApplicant | Agent;
-      application: BaseApplication | LondonApplication;
-      files?: FilesAsData;
-      property: UKProperty | LondonProperty;
-      proposal: BaseProposal | LondonProposal;
-      user: User;
-    };
-    preAssessment?: any[];
-    responses?: QuestionAndResponses[];
-    files?: File[];
-    metadata: AnyProviderMetadata | PlanXMetadata;
-  } | null;
+  data: {
+    applicant: BaseApplicant | Agent;
+    application: BaseApplication | LondonApplication;
+    files?: FilesAsData;
+    property: UKProperty | LondonProperty;
+    proposal: BaseProposal | LondonProposal;
+    user: User;
+  };
+  preAssessment?: any[];
+  responses?: BopsApplicationSubmissionResponses[];
+  files?: BopsApplicationSubmissionFile[];
+  metadata: AnyProviderMetadata | PlanXMetadata;
 }
+
+///// Shared
+
+export interface PolicyRef {
+  text: string;
+  url?: string;
+}
+
+export interface Response {
+  metadata?: ResponseMetaData;
+  value: string;
+}
+
+interface ResponseMetaData {
+  flags?: string[];
+  options?: string[] | Response[];
+}
+
+interface FileType {
+  description: string;
+  value: string;
+}
+
+//////
+
+///// Responses
+
+export interface BopsApplicationSubmissionResponses {
+  metadata?: QuestionMetaData;
+  question: string;
+  responses: Response[] | string;
+}
+
+interface QuestionMetaData {
+  autoAnswered?: boolean;
+  policyRefs?: PolicyRef[];
+  sectionName?: string;
+}
+
+///////
+
+///// Files
+
+export interface BopsApplicationSubmissionFile {
+  description?: string;
+  name: string;
+  type: FileType[];
+}
+
+///////
+
+///// Files
+
+///////
+
+///// Files
+
+///////
+
+///// Files
+
+///////
+
+///// Files
+
+///////
 
 interface AnyProviderMetadata {
   id: string;
@@ -1036,39 +1101,6 @@ interface User {
   role: "applicant" | "agent" | "proxy";
 }
 
-interface File {
-  description?: string;
-  name: string;
-  type: FileType[];
-}
-
-interface QuestionAndResponses {
-  metadata?: QuestionMetaData;
-  question: string;
-  responses: Response[] | string;
-}
-
-interface QuestionMetaData {
-  autoAnswered?: boolean;
-  policyRefs?: PolicyRef[];
-  sectionName?: string;
-}
-
-interface PolicyRef {
-  text: string;
-  url?: string;
-}
-
-interface Response {
-  metadata?: ResponseMetaData;
-  value: string;
-}
-
-interface ResponseMetaData {
-  flags?: string[];
-  options?: string[] | Response[];
-}
-
 interface Service {
   fee: FeeExplanation | FeeExplanationNotApplicable;
   files: RequestedFiles;
@@ -1080,11 +1112,6 @@ interface RequestedFiles {
   optional: FileType[];
   recommended: FileType[];
   required: FileType[];
-}
-
-interface FileType {
-  description: string;
-  value: string;
 }
 
 interface FeeExplanationNotApplicable {
