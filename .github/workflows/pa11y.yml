@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  NEXT_PUBLIC_API_MOCKING: enabled
+  NODE_ENV: test
+
 jobs:
   pa11y:
     runs-on: ubuntu-latest
@@ -25,21 +29,25 @@ jobs:
 
       - name: Build the application
         run: npm run build
-
-      - name: Start the application
         env:
           NEXT_PUBLIC_API_MOCKING: enabled
+          NODE_ENV: test
+
+      - name: Start the application
         run: npm start & echo $! > pid.txt
 
       - name: Wait for the application to start
         run: npx wait-on http://localhost:3000
 
       - name: Run pa11y-ci
-        env:
-          NODE_ENV: test
         run: |
           npm install -g pa11y-ci
           pa11y-ci --config .pa11yci
 
       - name: Stop the application
         run: kill $(cat pid.txt)
+
+      - name: Log environment for debugging
+        run: |
+          echo "NEXT_PUBLIC_API_MOCKING: $NEXT_PUBLIC_API_MOCKING"
+          echo "NODE_ENV: $NODE_ENV"
