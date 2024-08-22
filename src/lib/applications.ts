@@ -166,6 +166,20 @@ export function definedStatus(status: string, end_date: string | null) {
 }
 
 /**
+ * @param {string} status - The status formatted
+ * @returns {string} - Class that define the status color
+ */
+export function definedStatusClass(status: string) {
+  const statusDefined: { [key: string]: string } = {
+    Determined: "positive",
+    "Consultation in progress": "neutral",
+    "Assessment in progress": "neutral",
+  };
+
+  return statusDefined[status];
+}
+
+/**
  * Returns a formatted decision string based on the application type.
  *
  * For "prior_approval" application types, it returns a specific message
@@ -185,6 +199,23 @@ export function definedDecision(decision: string, application_type: string) {
   return application_type === "prior_approval"
     ? prior_approval_decision[decision]
     : capitaliseWord(decision);
+}
+
+/**
+ * @param {string} decision - The decision formatted
+ * @returns {string} - Class that will define the decision color
+ */
+
+export function definedDecisionClass(decision: string) {
+  const decisionDefined: { [key: string]: string } = {
+    Granted: "positive",
+    "Prior approval required and approved": "positive",
+    "Prior approval not required": "positive",
+    "Prior approval required and refused": "negative",
+    Refused: "negative",
+  };
+
+  return decisionDefined[decision];
 }
 
 /**

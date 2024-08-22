@@ -3,13 +3,23 @@
     "name": "Barnet",
     "logo": "barnetlogo.png",
     "publicComments": false,
-    "specialistComments": false
+    "specialistComments": false,
+    "pageContent": {
+     "privacy_policy": {
+        "privacy_policy_link": "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices"
+      }
+    }
   },
   "buckinghamshire": {
     "name": "Buckinghamshire",
     "logo": "buckinghamshirelogo.svg",
     "publicComments": false,
-    "specialistComments": false
+    "specialistComments": false,
+    "pageContent": {
+    "privacy_policy": {
+        "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-information-for-specific-services%20/"
+      }
+    }
   },
   "camden": {
     "name": "Camden",
@@ -41,18 +51,33 @@
     "name": "Gateshead",
     "logo": "gatesheadlogo.svg",
     "publicComments": false,
-    "specialistComments": false
+    "specialistComments": false,
+    "pageContent": {
+        "privacy_policy": {
+        "privacy_policy_link": "https://www.gateshead.gov.uk/article/3711/Corporate-Privacy-Notice"
+      }
+    }
   },
   "lambeth": {
     "name": "Lambeth",
     "logo": "lambethlogo.svg",
     "publicComments": false,
-    "specialistComments": false
+    "specialistComments": false,
+    "pageContent": {
+        "privacy_policy": {
+        "privacy_policy_link": "https://www.lambeth.gov.uk/about-council/privacy-data-protection?utm_source=footer&utm_campaign=privacy"
+      }
+    }
   },
   "southwark": {
     "name": "Southwark",
     "logo": "southwarklogo.svg",
     "publicComments": false,
-    "specialistComments": false
+    "specialistComments": false,
+    "pageContent": {
+        "privacy_policy": {
+        "privacy_policy_link": "https://www.southwark.gov.uk/terms-and-disclaimer/corporate-data-privacy-notice"
+      }
+    }
   }
 }
