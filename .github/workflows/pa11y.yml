@@ -45,9 +45,3 @@ jobs:
 
       - name: Stop the application
         run: kill $(cat pid.txt)
-
-      - name: Log non-sensitive environment variables for debugging
-        run: |
-          echo "NODE_ENV: $NODE_ENV"
-          echo "NEXT_PUBLIC_API_MOCKING: $NEXT_PUBLIC_API_MOCKING"
-          # Do not log sensitive information from secrets

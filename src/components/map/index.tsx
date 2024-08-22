@@ -68,7 +68,7 @@ const Map = ({
   }, [onlyWidth, page]);
 
   return (
-    <div role="region" aria-label="map" id="osl-map">
+    <div role="region" aria-label="map" className="osl-map">
       <my-map
         role="application"
         zoom={zoom}
