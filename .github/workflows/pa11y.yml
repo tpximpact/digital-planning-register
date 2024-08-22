@@ -11,6 +11,12 @@ jobs:
     container:
       image: buildkite/puppeteer:10.0.0
 
+    env:
+      NODE_ENV: test
+      NEXT_PUBLIC_API_MOCKING: enabled
+      NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_STAGE_BOPS_API_URL }}
+      CAMDEN_API_KEY: ${{ secrets.CAMDEN_STAGE_API_KEY }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -24,10 +30,10 @@ jobs:
         run: npm ci
 
       - name: Build the application
-        run: NODE_ENV=test NEXT_PUBLIC_API_MOCKING=enabled npm run build
+        run: npm run build
 
       - name: Start the application
-        run: NODE_ENV=test NEXT_PUBLIC_API_MOCKING=enabled npm start & echo $! > pid.txt
+        run: npm start & echo $! > pid.txt
 
       - name: Wait for the application to start
         run: npx wait-on http://localhost:3000
@@ -35,12 +41,13 @@ jobs:
       - name: Run pa11y-ci
         run: |
           npm install -g pa11y-ci
-          NODE_ENV=test NEXT_PUBLIC_API_MOCKING=enabled pa11y-ci --config .pa11yci
+          pa11y-ci --config .pa11yci
 
       - name: Stop the application
         run: kill $(cat pid.txt)
 
-      - name: Log environment for debugging
+      - name: Log non-sensitive environment variables for debugging
         run: |
-          echo "NEXT_PUBLIC_API_MOCKING: $NEXT_PUBLIC_API_MOCKING"
           echo "NODE_ENV: $NODE_ENV"
+          echo "NEXT_PUBLIC_API_MOCKING: $NEXT_PUBLIC_API_MOCKING"
+          # Do not log sensitive information from secrets
