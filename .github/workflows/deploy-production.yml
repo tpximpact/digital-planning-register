@@ -2,8 +2,7 @@ name: build and deploy
 
 on:
   push:
-    # tags: ["release-v*.*.*"]
-    # branches: ["DSNPI-612-setup-in-heroku"]
+    tags: ["release-v*.*.*"]
 
 jobs:
   build-and-deploy-staging:
