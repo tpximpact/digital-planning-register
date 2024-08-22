@@ -12,7 +12,8 @@ import { Section } from "@/components/application_form/section";
 import ApplicationForm from "@/components/application_form";
 
 // Mock the ApplicationMap component
-jest.mock("../../src/components/application_map", () => (
+// eslint-disable-next-line react/display-name
+jest.mock("../../src/components/application_map", () => () => (
   <div>Mocked ApplicationMap</div>
 ));
 
