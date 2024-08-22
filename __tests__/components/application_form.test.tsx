@@ -12,7 +12,7 @@ import { Section } from "@/components/application_form/section";
 import ApplicationForm from "@/components/application_form";
 
 // Mock the ApplicationMap component
-jest.mock("../../src/components/application_map", () => () => (
+jest.mock("../../src/components/application_map", () => (
   <div>Mocked ApplicationMap</div>
 ));
 
