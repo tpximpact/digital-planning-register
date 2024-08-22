@@ -2,9 +2,7 @@ import { http, HttpResponse } from "msw";
 
 export const handlers = [
   http.get("*/public/planning_applications/search*", async ({ request }) => {
-    console.log("MSW intercepted request:", request.url);
     const url = new URL(request.url);
-    console.log("Search params:", Object.fromEntries(url.searchParams));
     return HttpResponse.json({
       metadata: {
         page: 1,
@@ -28,8 +26,8 @@ export const handlers = [
               value: "pp.full.householder",
               description: "planning_permission",
             },
-            reference: "24-00100-HAPP",
-            fullReference: "PlanX-24-00100-HAPP",
+            reference: "23-00101-LDCP",
+            fullReference: "PlanX-23-00101-LDCP",
             targetDate: "2024-05-15",
             receivedAt: "2024-04-17T00:00:00.000+01:00",
             validAt: "2024-04-12T00:00:00.000+01:00",
@@ -108,7 +106,7 @@ export const handlers = [
             validAt: "2024-04-19T00:00:00.000+01:00",
             published_at: "2024-04-19T00:00:00.000+01:00",
             determinedAt: "2024-04-20T00:00:00.000+01:00",
-            status: "determined",
+            status: "in_assessment",
             decision: "granted",
             consultation: {
               startDate: "2024-03-12",
@@ -156,23 +154,21 @@ export const handlers = [
     `*public/planning_applications/*`,
 
     async ({ request }) => {
-      console.log("MSW intercepted public planning application details");
-      console.log("Full URL:", request.url);
       return HttpResponse.json({
         application: {
           type: {
-            value: "pa.part1.classA",
-            description: "prior_approval",
+            value: "pp.full.householder",
+            description: "planning_permission",
           },
-          reference: "23-00112-PA1A",
-          fullReference: "CMD-23-00112-PA1A",
+          reference: "23-00101-LDCP",
+          fullReference: "CMD-23-00101-LDCP",
           targetDate: "2023-09-12",
           receivedAt: "2023-08-08T13:33:41.265+01:00",
           validAt: "2023-08-08T00:00:00.000+01:00",
           publishedAt: "2023-08-08T00:00:00.000+01:00",
           determinedAt: "2024-06-12T17:57:10.534+01:00",
           decision: "granted",
-          status: "determined",
+          status: "in_assessment",
           consultation: {
             startDate: "2023-08-09",
             endDate: "2023-08-30",
@@ -180,7 +176,7 @@ export const handlers = [
               "https://camden.bops-applicants-staging.services/planning_applications/2032",
             publishedComments: [
               {
-                comment: "Test Test ",
+                comment: "Test Test Comment",
                 receivedAt: "2023-06-11T00:00:00.000+01:00",
                 summaryTag: "objection",
               },
@@ -192,8 +188,8 @@ export const handlers = [
           address: {
             latitude: "51.4842536",
             longitude: "-0.0764165",
-            title: "11 Abbey Gardens",
-            singleLine: "11 Abbey Gardens, London, SE16 3RQ",
+            title: "511 Test Village",
+            singleLine: "511 Test Village, London, SE16 3RQ",
             uprn: "100081043511",
             town: "London",
             postcode: "SE16 3RQ",
@@ -224,8 +220,6 @@ export const handlers = [
 
   // Handler for private planning application details
   http.get(`*/planning_applications/*`, async ({ request }) => {
-    console.log("MSW intercepted private planning application details");
-    console.log("Full URL:", request.url);
     return HttpResponse.json({
       agent_first_name: "Jennifer",
       agent_last_name: "Harper",
@@ -253,7 +247,7 @@ export const handlers = [
       result_override: "This was my reason for rejecting the result",
       returned_at: null,
       started_at: null,
-      status: "determined",
+      status: "in_assessment",
       target_date: "2023-09-12",
       withdrawn_at: null,
       work_status: "proposed",
@@ -272,10 +266,10 @@ export const handlers = [
         },
       },
       application_type: "prior_approval",
-      reference: "23-00112-PA1A",
-      reference_in_full: "CMD-23-00112-PA1A",
+      reference: "23-00101-LDCP",
+      reference_in_full: "CMD-23-00101-LDCP",
       site: {
-        address_1: "11 Abbey Gardens",
+        address_1: "511 Test Village",
         address_2: "Southwark",
         county: null,
         town: "London",
@@ -291,7 +285,7 @@ export const handlers = [
       documents: [],
       published_comments: [
         {
-          comment: "Test Test ",
+          comment: "Test Test Comment",
           received_at: "2023-06-11T00:00:00.000+01:00",
           summary_tag: "objection",
         },
@@ -307,23 +301,21 @@ export const handlers = [
   http.get(
     `*/public/planning_applications/*/documents`,
     async ({ request }) => {
-      console.log("MSW intercepted documents request");
-      console.log("Full URL:", request.url);
       return HttpResponse.json({
         application: {
           type: {
             value: "pa.part1.classA",
             description: "prior_approval",
           },
-          reference: "23-00112-PA1A",
-          fullReference: "CMD-23-00112-PA1A",
+          reference: "23-00101-LDCP",
+          fullReference: "CMD-23-00101-LDCP",
           targetDate: "2023-09-12",
           receivedAt: "2023-08-08T13:33:41.265+01:00",
           validAt: "2023-08-08T00:00:00.000+01:00",
           publishedAt: "2023-08-08T00:00:00.000+01:00",
           determinedAt: "2024-06-12T17:57:10.534+01:00",
           decision: "granted",
-          status: "determined",
+          status: "in_assessment",
           consultation: {
             startDate: "2023-08-09",
             endDate: "2023-08-30",
@@ -331,7 +323,7 @@ export const handlers = [
               "https://camden.bops-applicants-staging.services/planning_applications/2032",
             publishedComments: [
               {
-                comment: "Test Test ",
+                comment: "Test Test Comment",
                 receivedAt: "2023-06-11T00:00:00.000+01:00",
                 summaryTag: "objection",
               },
@@ -345,9 +337,19 @@ export const handlers = [
           totalResults: 0,
         },
         decisionNotice: {
-          name: "decision-notice-CMD-23-00112-PA1A.pdf",
+          name: "decision-notice-CMD-23-00101-LDCP.pdf",
           url: "https://camden.bops-staging.services/api/v1/planning_applications/2032/decision_notice.pdf",
         },
+      });
+    },
+  ),
+
+  http.post(
+    `*/planning_applications/*/neighbour_responses`,
+    async ({ request }) => {
+      return HttpResponse.json({
+        id: "23-00101-LDCP",
+        message: "Response submitted",
       });
     },
   ),

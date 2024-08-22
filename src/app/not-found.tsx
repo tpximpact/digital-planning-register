@@ -1,3 +1,4 @@
+"use client";
 import { BackLink } from "@/components/button";
 import NotFoundLink from "@/components/not_found_link";
 
@@ -21,6 +22,8 @@ export default function NotFound({ params }: NotFoundProps) {
           If you are having problems finding what you need, you can:
         </p>
         <NotFoundLink params={params} />
+        <button onClick={() => {}}></button> {/* Empty button */}
+        <div role="button">Not a real button</div> {/* Improper use of role */}
       </div>
     </>
   );

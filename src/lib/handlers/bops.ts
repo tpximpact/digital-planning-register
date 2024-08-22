@@ -8,8 +8,6 @@ export async function handleBopsGetRequest<T>(
   const councilApi =
     "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase() + (v1 ? "_V1" : "");
 
-  console.log("handleBopsGetRequest called with:", { council, url, v1 });
-
   if (!process.env[councilApi]) {
     return {
       data: null,
@@ -21,17 +19,12 @@ export async function handleBopsGetRequest<T>(
     } as T;
   } else {
     try {
-      const fullUrl = `${process.env[councilApi]}${url}`;
-      console.log("Fetching from full URL:", fullUrl);
-
       const response = await fetch(`${process.env[councilApi]}${url}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${process.env[apiKey]}`,
         },
       });
-
-      console.log("Response status:", response.status);
 
       if (!response.ok) {
         // Handle non-2xx HTTP responses

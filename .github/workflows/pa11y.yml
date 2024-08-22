@@ -27,6 +27,8 @@ jobs:
         run: npm run build
 
       - name: Start the application
+        env:
+          NEXT_PUBLIC_API_MOCKING: enabled
         run: npm start & echo $! > pid.txt
 
       - name: Wait for the application to start

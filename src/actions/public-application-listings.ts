@@ -30,21 +30,11 @@ export async function getPublicApplications(
     params.append("q", search);
   }
   const url = `public/planning_applications/search?${params.toString()}`;
-  console.log("Attempting to fetch public applications:", url);
-  console.log("Full request details:", {
-    page,
-    resultsPerPage,
-    council,
-    search,
-    constructedUrl: url,
-  });
 
   try {
     const request = await handleBopsGetRequest<
       ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
     >(council, url);
-
-    // console.log("Response received:", JSON.stringify(request, null, 2));
 
     const { data: planningApplications = [], ...restData } = request.data || {};
 
