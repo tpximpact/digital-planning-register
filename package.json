@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --debug",
     "start": "next start",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --quiet",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky",
+    "prepare": "node .husky/install.mjs",
     "build-start": "npm run build && npm run start",
     "pa11y-wait-on-start": "wait-on http://localhost:3000 && npm run pa11y",
     "run-pa11y": "npm run build && npm run start & npm run pa11y-wait-on-start",
@@ -26,7 +26,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-paginate": "8.2.0",
-    "sass": "^1.71.1"
+    "sass": "^1.71.1",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
