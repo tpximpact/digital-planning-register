@@ -164,7 +164,7 @@ const formatOwnership = (
 
   return [
     {
-      description: "Certificate",
+      description: "Ownership",
       value: data?.certificate
         ? certificateValue[data?.certificate] || null
         : null,
