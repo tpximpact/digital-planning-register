@@ -24,6 +24,11 @@ export default function RootLayout({
 
   useEffect(() => {
     async function initiateMockAPI() {
+      console.log("Client-side - NODE_ENV:", process.env.NODE_ENV);
+      console.log(
+        "Client-side - NEXT_PUBLIC_API_MOCKING:",
+        process.env.NEXT_PUBLIC_API_MOCKING,
+      );
       if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
         const initMocks = (await import("../../mocks")).default;
         await initMocks();
