@@ -1,4 +1,6 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   experimental: {
     instrumentationHook: process.env.NEXT_PUBLIC_API_MOCKING === "enabled",
   },

@@ -2,7 +2,7 @@ import { Config, Council, SiteConfig } from "@/types";
 import config from "../../util/config.json";
 
 export const siteConfig: SiteConfig = {
-  documentsPublicEndpoint: false,
+  documentsPublicEndpoint: true,
 };
 
 /**
