@@ -1,257 +1,55 @@
 import { http, HttpResponse } from "msw";
+import { faker } from "@faker-js/faker";
 
-export const handlers = [
-  http.get("*/public/planning_applications/search*", async ({ request }) => {
-    const url = new URL(request.url);
-    return HttpResponse.json({
-      metadata: {
-        page: 1,
-        results: 2,
-        from: 1,
-        to: 1,
-        total_pages: 1,
-        total_results: 2,
+const fakeApplication = {
+  type: {
+    value: "pp.full.householder",
+    description: "planning_permission",
+  },
+  reference: faker.string.alphanumeric(10),
+  fullReference: faker.string.alphanumeric(10),
+  targetDate: faker.date.future().toISOString(),
+  receivedAt: faker.date.past().toISOString(),
+  validAt: faker.date.past().toISOString(),
+  publishedAt: faker.date.past().toISOString(),
+  determinedAt: null,
+  decision: null,
+  status: "in_assessment",
+  consultation: {
+    startDate: faker.date.past().toISOString(),
+    endDate: faker.date.future().toISOString(),
+    publicUrl: faker.internet.url(),
+    publishedComments: [
+      {
+        comment: faker.lorem.sentence(),
+        receivedAt: faker.date.past().toISOString(),
+        summaryTag: "objection",
       },
-      links: {
-        first:
-          "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2",
-        last: "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=5&maxresults=2",
-        prev: "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=1&maxresults=2",
-        next: "https://southwark.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=2",
+    ],
+    consulteeComments: [
+      {
+        comment: faker.lorem.sentence(),
       },
-      data: [
-        {
-          application: {
-            type: {
-              value: "pp.full.householder",
-              description: "planning_permission",
-            },
-            reference: "23-00101-LDCP",
-            fullReference: "PlanX-23-00101-LDCP",
-            targetDate: "2024-05-15",
-            receivedAt: "2024-04-17T00:00:00.000+01:00",
-            validAt: "2024-04-12T00:00:00.000+01:00",
-            publishedAt: "2024-04-12T00:00:00.000+01:00",
-            determinedAt: null,
-            decision: null,
-            status: "in_assessment",
-            consultation: {
-              startDate: "2024-04-15",
-              endDate: "2024-05-07",
-            },
-          },
-          property: {
-            address: {
-              latitude: 84.3630530473182,
-              longitude: -105.7502386387352,
-              title: "511 Test Village",
-              singleLine: "511 Test Village, West Rod, 66983",
-              uprn: "00565512",
-              town: "West Rod",
-              postcode: "66983",
-            },
-            boundary: {
-              site: {
-                type: "FeatureCollection",
-                features: [
-                  {
-                    type: "Feature",
-                    geometry: {
-                      type: "Polygon",
-                      coordinates: [
-                        [
-                          [-0.07739927369747812, 51.501345554406896],
-                          [-0.0778893839394212, 51.501002280754676],
-                          [-0.07690508968054104, 51.50102474569704],
-                          [-0.07676672973966252, 51.50128963605792],
-                          [-0.07739927369747812, 51.501345554406896],
-                        ],
-                      ],
-                    },
-                    properties: {
-                      color: "#d870fc",
-                    },
-                  },
-                  {
-                    type: "Feature",
-                    geometry: {
-                      type: "Polygon",
-                      coordinates: [
-                        [
-                          [30, 10],
-                          [40, 40],
-                          [30, 10],
-                        ],
-                      ],
-                    },
-                    properties: {},
-                  },
-                ],
-              },
-            },
-          },
-          proposal: {
-            description: "householder extension",
-          },
-        },
-        {
-          application: {
-            type: {
-              value: "pp.full.householder",
-              description: "planning_permission",
-            },
-            reference: "24-00106-HAPP",
-            fullReference: "PlanX-24-00106-HAPP",
-            receivedAt: "2024-04-18T00:00:00.000+01:00",
-            validAt: "2024-04-19T00:00:00.000+01:00",
-            published_at: "2024-04-19T00:00:00.000+01:00",
-            determinedAt: "2024-04-20T00:00:00.000+01:00",
-            status: "in_assessment",
-            decision: "granted",
-            consultation: {
-              startDate: "2024-03-12",
-              endDate: "2024-04-02",
-            },
-          },
-          property: {
-            address: {
-              latitude: -37.54605786072338,
-              longitude: -149.12320338972793,
-              title: "41874 Dare Parks",
-              singleLine: "41874 Dare Parks, Rosetteside, 23463-4689",
-              uprn: "00595249",
-              town: "Rosetteside",
-              postcode: "23463-4689",
-            },
-            boundary: {
-              site: {
-                type: "Feature",
-                geometry: {
-                  type: "Polygon",
-                  coordinates: [
-                    [
-                      [-0.054597, 51.537331],
-                      [-0.054588, 51.537287],
-                      [-0.054453, 51.537313],
-                      [-0.054597, 51.537331],
-                    ],
-                  ],
-                },
-                properties: null,
-              },
-            },
-          },
-          proposal: {
-            description: "Build a roof extension.",
-          },
-        },
-      ],
-    });
-  }),
-
-  // Handler for public planning application details
-  http.get(
-    `*public/planning_applications/*`,
-
-    async ({ request }) => {
-      return HttpResponse.json({
-        application: {
-          type: {
-            value: "pp.full.householder",
-            description: "planning_permission",
-          },
-          reference: "23-00101-LDCP",
-          fullReference: "CMD-23-00101-LDCP",
-          targetDate: "2023-09-12",
-          receivedAt: "2023-08-08T13:33:41.265+01:00",
-          validAt: "2023-08-08T00:00:00.000+01:00",
-          publishedAt: "2023-08-08T00:00:00.000+01:00",
-          determinedAt: "2024-06-12T17:57:10.534+01:00",
-          decision: "granted",
-          status: "in_assessment",
-          consultation: {
-            startDate: "2023-08-09",
-            endDate: "2023-08-30",
-            publicUrl:
-              "https://camden.bops-applicants-staging.services/planning_applications/2032",
-            publishedComments: [
-              {
-                comment: "Test Test Comment",
-                receivedAt: "2023-06-11T00:00:00.000+01:00",
-                summaryTag: "objection",
-              },
-            ],
-            consulteeComments: [],
-          },
-        },
-        property: {
-          address: {
-            latitude: "51.4842536",
-            longitude: "-0.0764165",
-            title: "511 Test Village",
-            singleLine: "511 Test Village, London, SE16 3RQ",
-            uprn: "100081043511",
-            town: "London",
-            postcode: "SE16 3RQ",
-          },
-          boundary: {
-            site: {
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [-0.07716178894042969, 51.50094238217541],
-                    [-0.07645905017852783, 51.50053497847238],
-                    [-0.07615327835083008, 51.50115276135022],
-                    [-0.07716178894042969, 51.50094238217541],
-                  ],
-                ],
-              },
-            },
-          },
-        },
-        proposal: {
-          description: "Add a rear extension",
-        },
-      });
+    ],
+  },
+  property: {
+    address: {
+      latitude: faker.location.latitude(),
+      longitude: faker.location.longitude(),
+      title: faker.location.streetAddress(),
+      get town() {
+        return faker.location.city();
+      },
+      get postcode() {
+        return faker.location.zipCode();
+      },
+      get singleLine() {
+        return `${this.title}, ${this.town}, ${this.postcode}`;
+      },
+      uprn: faker.string.numeric(10),
     },
-  ),
-
-  // Handler for private planning application details
-  http.get(`*/planning_applications/*`, async ({ request }) => {
-    return HttpResponse.json({
-      agent_first_name: "Jennifer",
-      agent_last_name: "Harper",
-      agent_phone: "237878889",
-      agent_email: "agent@example.com",
-      applicant_first_name: "Johnny",
-      applicant_last_name: "Manteras",
-      user_role: "agent",
-      awaiting_determination_at: "2023-08-17T11:45:24.571+01:00",
-      to_be_reviewed_at: null,
-      created_at: "2023-08-08T13:33:41.265+01:00",
-      description: "Add a rear extension",
-      determined_at: "2024-06-12T17:57:10.534+01:00",
-      determination_date: "2024-06-12T00:00:00.000+01:00",
-      id: 2032,
-      invalidated_at: null,
-      in_assessment_at: "2023-08-17T11:45:08.643+01:00",
-      payment_reference: "PAY1",
-      payment_amount: "0.0",
-      result_flag: "Planning permission / Permission needed",
-      result_heading:
-        "It looks like these changes will need planning permission",
-      result_description:
-        "Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate",
-      result_override: "This was my reason for rejecting the result",
-      returned_at: null,
-      started_at: null,
-      status: "in_assessment",
-      target_date: "2023-09-12",
-      withdrawn_at: null,
-      work_status: "proposed",
-      boundary_geojson: {
+    boundary: {
+      site: {
         type: "Feature",
         geometry: {
           type: "Polygon",
@@ -265,113 +63,242 @@ export const handlers = [
           ],
         },
       },
-      application_type: "prior_approval",
-      reference: "23-00101-LDCP",
-      reference_in_full: "CMD-23-00101-LDCP",
-      site: {
-        address_1: "511 Test Village",
-        address_2: "Southwark",
-        county: null,
-        town: "London",
-        postcode: "SE16 3RQ",
-        uprn: "100081043511",
-        latitude: "51.4842536",
-        longitude: "-0.0764165",
+    },
+  },
+  proposal: {
+    description: faker.lorem.sentence(),
+  },
+  agent_first_name: faker.person.firstName(),
+  agent_last_name: faker.person.lastName(),
+  agent_phone: faker.phone.number(),
+  agent_email: faker.internet.email(),
+  applicant_first_name: faker.person.firstName(),
+  applicant_last_name: faker.person.lastName(),
+  user_role: "agent",
+  awaiting_determination_at: faker.date.future().toISOString(),
+  to_be_reviewed_at: null,
+  created_at: faker.date.past().toISOString(),
+  get description() {
+    return this.proposal.description;
+  },
+  determined_at: null,
+  determination_date: faker.date.future().toISOString(),
+  id: faker.number.int(),
+  invalidated_at: null,
+  in_assessment_at: faker.date.past().toISOString(),
+  payment_reference: "PAY1",
+  payment_amount: "0.0",
+  result_flag: "Planning permission / Permission needed",
+  result_heading: faker.lorem.sentence(),
+  result_description: faker.lorem.sentence(),
+  result_override: faker.lorem.sentence(),
+  returned_at: null,
+  started_at: null,
+  target_date: faker.date.future().toISOString(),
+  withdrawn_at: null,
+  work_status: "proposed",
+  boundary_geojson: {
+    type: "Feature",
+    geometry: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-0.07716178894042969, 51.50094238217541],
+          [-0.07645905017852783, 51.50053497847238],
+          [-0.07615327835083008, 51.50115276135022],
+          [-0.07716178894042969, 51.50094238217541],
+        ],
+      ],
+    },
+  },
+  documents: [],
+  application_type: "prior_approval",
+  make_public: true,
+};
+
+export const handlers = [
+  // Handler for endpoint that retrieves planning applications based on a search criteria
+  http.get("*/public/planning_applications/search*", async () => {
+    return HttpResponse.json({
+      metadata: {
+        page: 1,
+        results: 2,
+        from: 1,
+        to: 1,
+        total_pages: 1,
+        total_results: 2,
       },
-      received_date: "2023-08-08T13:33:41.265+01:00",
-      validAt: "2023-08-08T00:00:00.000+01:00",
-      publishedAt: "2023-08-08T00:00:00.000+01:00",
-      decision: "granted",
-      documents: [],
-      published_comments: [
+      data: [
         {
-          comment: "Test Test Comment",
-          received_at: "2023-06-11T00:00:00.000+01:00",
-          summary_tag: "objection",
+          application: {
+            type: fakeApplication.type,
+            reference: fakeApplication.reference,
+            fullReference: fakeApplication.fullReference,
+            targetDate: fakeApplication.targetDate,
+            receivedAt: fakeApplication.receivedAt,
+            validAt: fakeApplication.validAt,
+            publishedAt: fakeApplication.publishedAt,
+            determinedAt: fakeApplication.determinedAt,
+            decision: fakeApplication.decision,
+            status: fakeApplication.status,
+            consultation: {
+              startDate: fakeApplication.consultation.startDate,
+              endDate: fakeApplication.consultation.endDate,
+            },
+          },
+          property: fakeApplication.property,
+          proposal: fakeApplication.proposal,
         },
       ],
-      consultee_comments: [],
-      consultation: {
-        end_date: "2023-08-30",
-      },
-      make_public: true,
     });
   }),
 
+  // Handler for endpoint that retrieves a planning application given a reference
   http.get(
-    `*/public/planning_applications/*/documents`,
-    async ({ request }) => {
+    `*public/planning_applications/*`,
+
+    async () => {
       return HttpResponse.json({
         application: {
-          type: {
-            value: "pa.part1.classA",
-            description: "prior_approval",
-          },
-          reference: "23-00101-LDCP",
-          fullReference: "CMD-23-00101-LDCP",
-          targetDate: "2023-09-12",
-          receivedAt: "2023-08-08T13:33:41.265+01:00",
-          validAt: "2023-08-08T00:00:00.000+01:00",
-          publishedAt: "2023-08-08T00:00:00.000+01:00",
-          determinedAt: "2024-06-12T17:57:10.534+01:00",
-          decision: "granted",
-          status: "in_assessment",
+          type: fakeApplication.type,
+          reference: fakeApplication.reference,
+          fullReference: fakeApplication.fullReference,
+          targetDate: fakeApplication.targetDate,
+          receivedAt: fakeApplication.receivedAt,
+          validAt: fakeApplication.validAt,
+          publishedAt: fakeApplication.publishedAt,
+          determinedAt: fakeApplication.determinedAt,
+          decision: fakeApplication.decision,
+          status: fakeApplication.status,
           consultation: {
-            startDate: "2023-08-09",
-            endDate: "2023-08-30",
-            publicUrl:
-              "https://camden.bops-applicants-staging.services/planning_applications/2032",
-            publishedComments: [
-              {
-                comment: "Test Test Comment",
-                receivedAt: "2023-06-11T00:00:00.000+01:00",
-                summaryTag: "objection",
-              },
-            ],
-            consulteeComments: [],
+            startDate: fakeApplication.consultation.startDate,
+            endDate: fakeApplication.consultation.endDate,
+            publicUrl: fakeApplication.consultation.publicUrl,
+            publishedComments: fakeApplication.consultation.publishedComments,
+            consulteeComments: fakeApplication.consultation.consulteeComments,
           },
         },
-        files: [],
-        metadata: {
-          results: 0,
-          totalResults: 0,
-        },
-        decisionNotice: {
-          name: "decision-notice-CMD-23-00101-LDCP.pdf",
-          url: "https://camden.bops-staging.services/api/v1/planning_applications/2032/decision_notice.pdf",
-        },
+        property: fakeApplication.property,
+        proposal: fakeApplication.proposal,
       });
     },
   ),
 
-  http.get(`*/planning_applications/*/submission`, async ({ request }) => {
+  // Handler for endpoint that retrieves a private planning application given a reference
+  http.get(`*/planning_applications/*`, async () => {
+    return HttpResponse.json({
+      agent_first_name: fakeApplication.agent_first_name,
+      agent_last_name: fakeApplication.agent_last_name,
+      agent_phone: fakeApplication.agent_phone,
+      agent_email: fakeApplication.agent_email,
+      applicant_first_name: fakeApplication.applicant_first_name,
+      applicant_last_name: fakeApplication.applicant_last_name,
+      user_role: fakeApplication.user_role,
+      awaiting_determination_at: fakeApplication.awaiting_determination_at,
+      to_be_reviewed_at: fakeApplication.to_be_reviewed_at,
+      created_at: fakeApplication.created_at,
+      description: fakeApplication.description,
+      determined_at: fakeApplication.determined_at,
+      determination_date: fakeApplication.determination_date,
+      id: fakeApplication.id,
+      invalidated_at: fakeApplication.invalidated_at,
+      in_assessment_at: fakeApplication.in_assessment_at,
+      payment_reference: fakeApplication.payment_reference,
+      payment_amount: fakeApplication.payment_amount,
+      result_flag: fakeApplication.result_flag,
+      result_heading: fakeApplication.result_heading,
+      result_description: fakeApplication.result_description,
+      result_override: fakeApplication.result_override,
+      returned_at: fakeApplication.returned_at,
+      started_at: fakeApplication.started_at,
+      status: fakeApplication.status,
+      target_date: fakeApplication.target_date,
+      withdrawn_at: fakeApplication.withdrawn_at,
+      work_status: fakeApplication.work_status,
+      boundary_geojson: fakeApplication.boundary_geojson,
+      application_type: fakeApplication.application_type,
+      reference: fakeApplication.reference,
+      reference_in_full: fakeApplication.fullReference,
+      site: {
+        address_1: fakeApplication.property.address.title,
+        address_2: fakeApplication.property.address.town,
+        county: null,
+        town: fakeApplication.property.address.town,
+        postcode: fakeApplication.property.address.postcode,
+        uprn: fakeApplication.property.address.uprn,
+        latitude: fakeApplication.property.address.latitude,
+        longitude: fakeApplication.property.address.longitude,
+      },
+      received_date: fakeApplication.receivedAt,
+      validAt: fakeApplication.validAt,
+      publishedAt: fakeApplication.publishedAt,
+      decision: fakeApplication.decision,
+      documents: fakeApplication.documents,
+      published_comments: fakeApplication.consultation.publishedComments,
+      consultee_comments: fakeApplication.consultation.consulteeComments,
+      consultation: {
+        end_date: fakeApplication.consultation.endDate,
+      },
+      make_public: fakeApplication.make_public,
+    });
+  }),
+
+  // Handler for endpoint that retrieves documents for a planning application
+  http.get(`*/public/planning_applications/*/documents`, async () => {
     return HttpResponse.json({
       application: {
-        type: {
-          value: "pp.full.householder",
-          description: "planning_permission",
-        },
-        reference: "24-00107-HAPP",
-        fullReference: "PlanX-24-00107-HAPP",
-        targetDate: "2024-05-15",
-        receivedAt: "2024-04-17T00:00:00.000+01:00",
-        validAt: "2024-04-12T00:00:00.000+01:00",
-        publishedAt: null,
-        determinedAt: null,
-        status: "in_assessment",
-        decision: null,
+        type: fakeApplication.type,
+        reference: fakeApplication.reference,
+        fullReference: fakeApplication.fullReference,
+        targetDate: fakeApplication.targetDate,
+        receivedAt: fakeApplication.receivedAt,
+        validAt: fakeApplication.validAt,
+        publishedAt: fakeApplication.publishedAt,
+        determinedAt: fakeApplication.determinedAt,
+        decision: fakeApplication.decision,
+        status: fakeApplication.status,
         consultation: {
-          startDate: "2024-04-15",
-          endDate: "2024-05-07",
+          startDate: fakeApplication.consultation.startDate,
+          endDate: fakeApplication.consultation.endDate,
+          publicUrl: fakeApplication.consultation.publicUrl,
+          publishedComments: fakeApplication.consultation.publishedComments,
+          consulteeComments: fakeApplication.consultation.consulteeComments,
+        },
+      },
+      files: [],
+      metadata: {
+        results: 0,
+        totalResults: 0,
+      },
+      decisionNotice: {
+        name: `decision-notice-${fakeApplication.reference}.pdf`,
+        url: faker.internet.url(),
+      },
+    });
+  }),
+  // Handler for endpoint that retrieves the planning application submission given a reference
+  http.get(`*/planning_applications/*/submission`, async () => {
+    return HttpResponse.json({
+      application: {
+        type: fakeApplication.type,
+        reference: fakeApplication.reference,
+        fullReference: fakeApplication.fullReference,
+        targetDate: fakeApplication.targetDate,
+        receivedAt: fakeApplication.receivedAt,
+        validAt: fakeApplication.validAt,
+        publishedAt: fakeApplication.publishedAt,
+        determinedAt: fakeApplication.determinedAt,
+        status: fakeApplication.status,
+        decision: fakeApplication.decision,
+        consultation: {
+          startDate: fakeApplication.consultation.startDate,
+          endDate: fakeApplication.consultation.endDate,
         },
       },
       submission: {
         data: {
           application: {
-            type: {
-              value: "pp.full.householder",
-              description: "Planning Permission - Full householder",
-            },
+            type: fakeApplication.type,
             fee: "REDACTED",
             declaration: {
               accurate: true,
@@ -937,13 +864,11 @@ export const handlers = [
     });
   }),
 
-  http.post(
-    `*/planning_applications/*/neighbour_responses`,
-    async ({ request }) => {
-      return HttpResponse.json({
-        id: "23-00101-LDCP",
-        message: "Response submitted",
-      });
-    },
-  ),
+  // Handler for endpoint that creates new neighbour response
+  http.post(`*/planning_applications/*/neighbour_responses`, async () => {
+    return HttpResponse.json({
+      id: fakeApplication.reference,
+      message: "Response submitted",
+    });
+  }),
 ];
