@@ -1,11 +1,11 @@
-name: build and deploy
+name: build and deploy production
 
 on:
   push:
     tags: ["release-v*.*.*"]
 
 jobs:
-  build-and-deploy-staging:
+  build-and-deploy-production:
     runs-on: ubuntu-latest
     environment: production
 
