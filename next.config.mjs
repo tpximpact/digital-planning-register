@@ -8,9 +8,4 @@ const nextConfig = {
   },
 };
 
-console.log(
-  "Instrumentation Hook Enabled:",
-  process.env.NEXT_PUBLIC_API_MOCKING === "enabled",
-);
-
 export default nextConfig;
