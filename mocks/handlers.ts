@@ -18,7 +18,7 @@ const fakeApplication = {
   consultation: {
     startDate: faker.date.past().toISOString(),
     endDate: faker.date.future().toISOString(),
-    publicUrl: faker.internet.url(),
+    publicUrl: null,
     publishedComments: [
       {
         comment: faker.lorem.sentence(),

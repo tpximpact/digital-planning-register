@@ -1,5 +1,4 @@
 const nextConfig = {
-  reactStrictMode: true,
   experimental: {
     instrumentationHook: process.env.NEXT_PUBLIC_API_MOCKING === "enabled",
   },
