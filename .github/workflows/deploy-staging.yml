@@ -1,4 +1,4 @@
-name: build and deploy
+name: build and deploy staging
 
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
+          stack: "container"
         env: 
           # BARNET
           HD_BARNET_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
