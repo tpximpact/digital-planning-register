@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-deploy-staging:
     runs-on: ubuntu-latest
+    environment: staging
 
     steps:
       - uses: docker/setup-buildx-action@v3
@@ -17,15 +18,27 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.13.15
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_STAGE_APP_NAME }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
-        env:
-          HD_NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_STAGE_BOPS_API_URL }}
-          HD_NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.SOUTHWARK_STAGE_BOPS_API_URL }}
-          HD_NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE: ${{ secrets.BUCKINGHAMSHIRE_STAGE_BOPS_API_URL }}
-          HD_NEXT_PUBLIC_BOPS_API_BARNET: ${{ secrets.BARNET_STAGE_BOPS_API_URL }}
-          HD_SOUTHWARK_API_KEY: ${{ secrets.SOUTHWARK_STAGE_API_KEY }}
-          HD_CAMDEN_API_KEY: ${{ secrets.CAMDEN_STAGE_API_KEY }}
-          HD_BUCKINGHAMSHIRE_API_KEY: ${{ secrets.BUCKINGHAMSHIRE_STAGE_API_KEY }}
-          HD_BARNET_API_KEY: ${{ secrets.BARNET_STAGE_API_KEY }}
+        env: 
+          # BARNET
+          HD_BARNET_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_BARNET: ${{ secrets.BARNET_BOPS_API_URL }}
+          # BUCKINGHAMSHIRE
+          HD_BUCKINGHAMSHIRE_API_KEY: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_URL }}
+          # CAMDEN
+          HD_CAMDEN_API_KEY: ${{ secrets.CAMDEN_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_BOPS_API_URL }}
+          HD_NEXT_PUBLIC_BOPS_API_CAMDEN_V1: ${{ secrets.CAMDEN_BOPS_API_URL_V1 }}
+          # GATESHEAD
+          HD_GATESHEAD_API_KEY: ${{ secrets.GATESHEAD_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_GATESHEAD: ${{ secrets.GATESHEAD_BOPS_API_URL }}
+          # LAMBETH
+          HD_LAMBETH_API_KEY: ${{ secrets.LAMBETH_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_LAMBETH: ${{ secrets.LAMBETH_BOPS_API_URL }}
+          # SOUTHWARK
+          HD_SOUTHWARK_API_KEY: ${{ secrets.SOUTHWARK_BOPS_API_KEY }}
+          HD_NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.SOUTHWARK_BOPS_API_URL }}
+
