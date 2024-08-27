@@ -288,8 +288,7 @@ const CommentPersonalDetails = ({
               </p>
               <p className="govuk-body">
                 Your comments will be made available online for the public to
-                see. We will not include your name, address, telephone number or
-                email address.
+                see.
               </p>
               <p className="govuk-body">
                 We&apos;ll make sure any other personal or sensitive information
