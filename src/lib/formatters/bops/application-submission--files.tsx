@@ -44,9 +44,11 @@ export const BopsFiles = (files: any) => {
 
   return files.map((file: any) => {
     const firstType = file.type?.[0];
+    const fileDecoded = decodeURIComponent(file?.name)?.split("/");
+
     return {
       description: "File upload",
-      value: `${firstType?.description}: ${firstType?.value}`,
+      value: `${firstType?.description}: ${fileDecoded[fileDecoded.length - 1]}`,
     };
   });
 };
