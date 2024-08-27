@@ -42,7 +42,6 @@ export const ApplicationFormObject = (
     title: "Application form",
     metadata: {
       contentType: "text/html",
-      byteSize: 0,
     },
   };
 };

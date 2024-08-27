@@ -34,18 +34,15 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
           {document?.metadata?.contentType && (
             <>
               {document?.metadata?.contentType !== "text/html"
-                ? document.metadata.contentType?.split("/").pop()?.toUpperCase()
+                ? document.metadata.contentType
+                    ?.split("/")
+                    .pop()
+                    ?.toUpperCase() + ", "
                 : document.metadata.contentType.toUpperCase()}
-              ,{" "}
             </>
           )}
           {document?.metadata?.byteSize && (
-            <>
-              {document?.metadata?.byteSize !== 0
-                ? formatFileSize(document.metadata.byteSize)
-                : "0 KB"}
-              ,{" "}
-            </>
+            <>{formatFileSize(document.metadata.byteSize)}, </>
           )}
 
           {document?.created_at && (
