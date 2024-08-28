@@ -10,8 +10,8 @@ export interface DprDocument {
    */
   created_at?: string;
   metadata?: {
-    byteSize: number;
-    contentType: string;
+    byteSize?: number;
+    contentType?: string;
   };
 }
 
