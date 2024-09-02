@@ -61,20 +61,9 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByText("You need to consent")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
-
-    // Check that setHasUnsavedChanges was called with false
-    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(false);
-
-    // Reset the mock to check if it's called again
-    defaultProps.setHasUnsavedChanges.mockClear();
-
-    // Trigger a change to see if setHasUnsavedChanges is called with true
-    fireEvent.change(screen.getByLabelText("Name"), {
-      target: { value: "John Doe" },
-    });
-
-    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
+    expect(defaultProps.setHasUnsavedChanges).not.toHaveBeenCalled();
   });
+
   it("navigates to the next page, updates progress, and resets unsaved changes when the form is submitted with valid data", () => {
     render(<CommentPersonalDetails {...defaultProps} />);
     fireEvent.change(screen.getByLabelText("Name"), {

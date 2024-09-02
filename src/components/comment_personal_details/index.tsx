@@ -53,10 +53,6 @@ const CommentPersonalDetails = ({
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {},
   );
-  const [initialDetails, setInitialDetails] = useState<PersonalDetails | null>(
-    null,
-  );
-  const isInitialMount = useRef(true);
 
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
@@ -73,28 +69,13 @@ const CommentPersonalDetails = ({
       ?.planning_service_privacy_statement_link;
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      const storedDetails = sessionStorage.getItem(
-        `personalDetails_${reference}`,
-      );
-      if (storedDetails) {
-        const parsedDetails = JSON.parse(storedDetails);
-        setPersonalDetails(parsedDetails);
-        setInitialDetails(parsedDetails);
-      } else {
-        setInitialDetails(personalDetails);
-      }
+    const storedDetails = sessionStorage.getItem(
+      `personalDetails_${reference}`,
+    );
+    if (storedDetails) {
+      setPersonalDetails(JSON.parse(storedDetails));
     }
-  }, [reference, personalDetails]);
-
-  useEffect(() => {
-    if (initialDetails) {
-      const hasChanges =
-        JSON.stringify(personalDetails) !== JSON.stringify(initialDetails);
-      setHasUnsavedChanges(hasChanges);
-    }
-  }, [personalDetails, initialDetails, setHasUnsavedChanges]);
+  }, [reference]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -102,6 +83,8 @@ const CommentPersonalDetails = ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+    setHasUnsavedChanges(true);
+    setValidationErrors({});
   };
 
   const validatePersonalDetails = (): boolean => {
