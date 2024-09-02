@@ -13,6 +13,7 @@ import { BackLink } from "@/components/button";
 import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
 import { DprPublicApplicationDetails } from "@/types";
+import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 
 type Props = {
   params: { reference: string; council: string };
@@ -36,6 +37,7 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(false);
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -185,11 +187,14 @@ const Comment = ({ params }: Props) => {
     [router, submissionComplete, reference],
   );
 
-  // Function to update the maximum allowed page
-  const updateProgress = useCallback((completedPage: number) => {
-    setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
-  }, []);
-
+  // Function to update the maximum allowed page and set the hasUnsavedChanges flag
+  const updateProgress = useCallback(
+    (completedPage: number) => {
+      setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
+      setHasUnsavedChanges(false);
+    },
+    [setHasUnsavedChanges],
+  );
   // Function to navigate to the next uncommented topic
   const navigateToNextTopic = useMemo(
     () => (topics: string[]) => {
@@ -271,6 +276,7 @@ const Comment = ({ params }: Props) => {
       navigateToPage,
       updateProgress,
       isEditing,
+      setHasUnsavedChanges,
     };
 
     switch (page) {

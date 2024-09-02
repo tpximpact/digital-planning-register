@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
@@ -33,12 +33,14 @@ const CommentPersonalDetails = ({
   navigateToPage,
   isEditing,
   updateProgress,
+  setHasUnsavedChanges,
 }: {
   council: string;
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
   updateProgress: (completedPage: number) => void;
+  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void;
 }) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "",
@@ -51,6 +53,10 @@ const CommentPersonalDetails = ({
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {},
   );
+  const [initialDetails, setInitialDetails] = useState<PersonalDetails | null>(
+    null,
+  );
+  const isInitialMount = useRef(true);
 
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
@@ -67,13 +73,28 @@ const CommentPersonalDetails = ({
       ?.planning_service_privacy_statement_link;
 
   useEffect(() => {
-    const storedDetails = sessionStorage.getItem(
-      `personalDetails_${reference}`,
-    );
-    if (storedDetails) {
-      setPersonalDetails(JSON.parse(storedDetails));
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      const storedDetails = sessionStorage.getItem(
+        `personalDetails_${reference}`,
+      );
+      if (storedDetails) {
+        const parsedDetails = JSON.parse(storedDetails);
+        setPersonalDetails(parsedDetails);
+        setInitialDetails(parsedDetails);
+      } else {
+        setInitialDetails(personalDetails);
+      }
     }
-  }, [reference]);
+  }, [reference, personalDetails]);
+
+  useEffect(() => {
+    if (initialDetails) {
+      const hasChanges =
+        JSON.stringify(personalDetails) !== JSON.stringify(initialDetails);
+      setHasUnsavedChanges(hasChanges);
+    }
+  }, [personalDetails, initialDetails, setHasUnsavedChanges]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -113,6 +134,7 @@ const CommentPersonalDetails = ({
         JSON.stringify(personalDetails),
       );
       updateProgress(4);
+      setHasUnsavedChanges(false);
       navigateToPage(5);
     }
   };
