@@ -4,7 +4,7 @@ import CouncilSelector from "../council_selector";
 interface MenuProps {
   currentPath: string;
   council: string;
-  isShowDSN: boolean;
+  isShowDSN?: boolean;
 }
 
 const Menu = ({ currentPath, council, isShowDSN }: MenuProps) => {
