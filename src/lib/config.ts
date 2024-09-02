@@ -5,12 +5,19 @@ export const siteConfig: SiteConfig = {
   documentsPublicEndpoint: true,
 };
 
-/**
- * Helper function to get config
- * @returns
- */
-export const getConfig = (): Config => {
-  return config;
+export const updateCouncilConfig = (
+  council: string,
+  councilConfig: Council,
+): Council => {
+  const councilApi = "NEXT_PUBLIC_" + council.toUpperCase() + "_SELECTABLE";
+
+  return {
+    isSelectable:
+      process.env[councilApi] == "" || !process.env[councilApi]
+        ? "true"
+        : process.env[councilApi],
+    ...councilConfig,
+  };
 };
 
 /**
@@ -21,5 +28,7 @@ export const getConfig = (): Config => {
 export const getCouncilConfig = (council: string): Council | undefined => {
   const councilConfig: Config = config;
 
-  return councilConfig[council] ? councilConfig[council] : undefined;
+  return councilConfig[council]
+    ? updateCouncilConfig(council, councilConfig[council])
+    : undefined;
 };

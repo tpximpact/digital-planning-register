@@ -5,6 +5,9 @@ import { handleBopsGetRequest } from "@/lib/handlers";
 import { defaultPagination } from "@/lib/pagination";
 import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/types/api/bops";
+import { updateCouncilConfig } from "@/lib/config";
+import { Config } from "@/types";
+import config from "../../util/config.json";
 
 /**
  * Get list of public applications, also used for search
@@ -45,3 +48,15 @@ export async function getPublicApplications(
 
   return { ...request, data: convertedData };
 }
+
+export const getConfig = async (): Promise<Config> => {
+  const councilConfig: Config = config;
+
+  Object.keys(config).forEach((council) => {
+    councilConfig[council] = updateCouncilConfig(
+      council,
+      councilConfig[council],
+    );
+  });
+  return config;
+};

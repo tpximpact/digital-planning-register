@@ -1,25 +1,38 @@
 import CouncilLogo from "../council_logo";
 import Link from "next/link";
-import { getConfig } from "@/lib/config";
+import { getConfig } from "@/actions";
+import { useState, useEffect } from "react";
+import { Config } from "@/types";
 
 export const CouncilCards = () => {
-  const councilConfig = getConfig();
+  const [councilConfig, setCouncilConfig] = useState<Config>({});
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      const config = await getConfig();
+      setCouncilConfig(config);
+    };
+
+    fetchConfig();
+  }, []);
 
   const councils = Object.keys(councilConfig);
 
   return (
     <div className="logos-container">
       {councils.map((council) => {
-        const { name, logo } = councilConfig[council];
+        const { name, logo, isSelectable } = councilConfig[council];
         return (
-          <Link
-            href={`/${council}`}
-            className="govuk-button govuk-button--secondary"
-            title={`${name} Council`}
-            key={council}
-          >
-            <CouncilLogo councilName={name} logoFileName={logo} />
-          </Link>
+          isSelectable == "true" && (
+            <Link
+              href={`/${council}`}
+              className="govuk-button govuk-button--secondary"
+              title={`${name} Council`}
+              key={council}
+            >
+              <CouncilLogo councilName={name} logoFileName={logo} />
+            </Link>
+          )
         );
       })}
     </div>

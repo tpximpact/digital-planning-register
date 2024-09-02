@@ -18,6 +18,7 @@ export interface Council {
   publicComments: boolean;
   specialistComments: boolean;
   pageContent?: PageContent;
+  isSelectable?: boolean | string;
 }
 
 export interface Config {

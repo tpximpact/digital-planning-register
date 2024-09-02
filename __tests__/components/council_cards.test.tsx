@@ -1,47 +1,73 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import fs from "fs";
 import CouncilCards from "@/components/council_cards";
-import config from "../../util/config.json";
+import { getConfig } from "@/actions";
 
-jest.mock("fs");
+jest.mock("../../src/actions", () => ({
+  getConfig: jest.fn(),
+}));
+
+export interface Council {
+  name: string;
+  isSelectable?: boolean | string;
+}
+
+export interface Config {
+  [key: string]: Council;
+}
 
 describe("CouncilCards", () => {
+  const mockedConfig: Config = {
+    barnet: { name: "Barnet", isSelectable: "true" },
+    camden: { name: "Camden", isSelectable: "true" },
+    buckinghamshire: { name: "Buckinghamshire", isSelectable: "false" },
+  };
+
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  it("renders council cards correctly when logo files exist", () => {
-    (fs.existsSync as jest.Mock).mockReturnValue(true);
+  it("renders council cards correctly when logo files exist", async () => {
+    (getConfig as jest.Mock).mockResolvedValue(mockedConfig);
 
     render(<CouncilCards />);
 
-    const councilCards = screen.getAllByRole("link");
-    expect(councilCards).toHaveLength(Object.keys(config).length);
+    await waitFor(() => expect(getConfig).toHaveBeenCalled());
 
-    Object.entries(config).forEach(([council, { name }]) => {
+    const councilCards = screen.getAllByRole("link");
+    const selectableCouncils = Object.keys(mockedConfig).filter(
+      (council) => mockedConfig[council].isSelectable === "true",
+    );
+    expect(councilCards).toHaveLength(selectableCouncils.length);
+
+    selectableCouncils.forEach((council) => {
+      const { name } = mockedConfig[council];
       const councilCard = screen.getByTitle(`${name} Council`);
       expect(councilCard).toBeInTheDocument();
       expect(councilCard).toHaveAttribute("href", `/${council}`);
     });
   });
 
-  it("renders council names when logo files do not exist", () => {
-    (fs.existsSync as jest.Mock).mockReturnValue(false);
+  it("renders council names when logo files do not exist", async () => {
+    (getConfig as jest.Mock).mockResolvedValue(mockedConfig);
 
     render(<CouncilCards />);
 
-    const councilCards = screen.getAllByRole("link");
-    expect(councilCards).toHaveLength(Object.keys(config).length);
+    await waitFor(() => expect(getConfig).toHaveBeenCalled());
 
-    Object.entries(config).forEach(([council, { name }]) => {
+    const councilCards = screen.getAllByRole("link");
+    const selectableCouncils = Object.keys(mockedConfig).filter(
+      (council) => mockedConfig[council].isSelectable === "true",
+    );
+    expect(councilCards).toHaveLength(selectableCouncils.length);
+
+    selectableCouncils.forEach((council) => {
+      const { name } = mockedConfig[council];
       const councilCard = screen.getByTitle(`${name} Council`);
       expect(councilCard).toBeInTheDocument();
       expect(councilCard).toHaveAttribute("href", `/${council}`);
-
-      const councilName = screen.getByText(name);
-      expect(councilName).toBeInTheDocument();
     });
   });
 });

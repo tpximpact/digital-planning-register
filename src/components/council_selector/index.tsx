@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
-import config from "../../../util/config.json";
-import { Config } from "@/types";
+import { getConfig } from "@/actions";
 
 interface CouncilSelectorProps {
   currentPath: string;
 }
 
 const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
-  const councilConfig = config as Config;
-  const councilOptions = Object.keys(councilConfig);
   const [selectedCouncil, setSelectedCouncil] = useState(
     currentPath.split("/")[1] || "select",
   );
+  const [councilOptions, setCouncilOptions] = useState<string[]>();
 
   useEffect(() => {
     document.documentElement.className = "js-enabled";
     setSelectedCouncil(currentPath.split("/")[1]);
+    const updateCouncilSelector = async () => {
+      const councilConfig = await getConfig();
+      const councilOptions = Object.keys(councilConfig);
+      const filteredCouncilConfig = councilOptions.filter(
+        (councilKey) => councilConfig[councilKey].isSelectable == "true",
+      );
+      setCouncilOptions(filteredCouncilConfig);
+    };
+    updateCouncilSelector();
   }, [currentPath]);
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +47,9 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
               autoComplete="on"
             >
               <option value="select">Select your council</option>
-              {councilOptions.map((councilKey) => (
+              {councilOptions?.map((councilKey) => (
                 <option key={councilKey} value={councilKey}>
-                  {councilConfig[councilKey].name}
+                  {councilKey}
                 </option>
               ))}
             </select>
@@ -65,10 +72,14 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
         autoComplete="on"
       >
         <option value="select">Select your council</option>
-        {councilOptions.map((councilKey) => (
-          <option key={councilKey} value={councilKey}>
-            {councilConfig[councilKey].name}
-          </option>
+        {councilOptions?.map((councilKey) => (
+          <>
+            {
+              <option key={councilKey} value={councilKey}>
+                {councilKey}
+              </option>
+            }
+          </>
         ))}
       </select>
     </>
