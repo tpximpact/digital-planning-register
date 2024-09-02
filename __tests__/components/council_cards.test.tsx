@@ -32,7 +32,7 @@ describe("CouncilCards", () => {
   it("renders council cards correctly when logo files exist", async () => {
     (getConfig as jest.Mock).mockResolvedValue(mockedConfig);
 
-    render(<CouncilCards />);
+    render(await CouncilCards());
 
     await waitFor(() => expect(getConfig).toHaveBeenCalled());
 
@@ -53,7 +53,7 @@ describe("CouncilCards", () => {
   it("renders council names when logo files do not exist", async () => {
     (getConfig as jest.Mock).mockResolvedValue(mockedConfig);
 
-    render(<CouncilCards />);
+    render(await CouncilCards());
 
     await waitFor(() => expect(getConfig).toHaveBeenCalled());
 

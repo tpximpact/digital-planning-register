@@ -1,20 +1,9 @@
 import CouncilLogo from "../council_logo";
 import Link from "next/link";
 import { getConfig } from "@/actions";
-import { useState, useEffect } from "react";
-import { Config } from "@/types";
 
-export const CouncilCards = () => {
-  const [councilConfig, setCouncilConfig] = useState<Config>({});
-
-  useEffect(() => {
-    const fetchConfig = async () => {
-      const config = await getConfig();
-      setCouncilConfig(config);
-    };
-
-    fetchConfig();
-  }, []);
+export const CouncilCards = async () => {
+  const councilConfig = await getConfig();
 
   const councils = Object.keys(councilConfig);
 
