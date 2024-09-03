@@ -9,6 +9,9 @@ describe("CommentTextEntry", () => {
     currentTopic: "design",
     onContinue: jest.fn(),
     updateProgress: jest.fn(),
+    setHasUnsavedChanges: jest.fn(),
+    currentTopicIndex: 0,
+    totalTopics: 1,
   };
 
   beforeEach(() => {
@@ -55,6 +58,7 @@ describe("CommentTextEntry", () => {
     expect(sessionStorage.getItem("comment_design_REF-001")).toBe(
       "This is a valid comment.",
     );
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(false);
   });
 
   it("loads the stored comment from sessionStorage when available", () => {
@@ -105,5 +109,19 @@ describe("CommentTextEntry", () => {
         "Comment on the design, size or height of new buildings or extensions",
       ),
     ).toHaveValue(longComment);
+  });
+
+  it("sets hasUnsavedChanges to true when the comment is modified", () => {
+    render(<CommentTextEntry {...defaultProps} />);
+    fireEvent.change(
+      screen.getByLabelText(
+        "Comment on the design, size or height of new buildings or extensions",
+      ),
+      {
+        target: { value: "New comment" },
+      },
+    );
+
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
   });
 });

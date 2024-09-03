@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
@@ -33,12 +33,14 @@ const CommentPersonalDetails = ({
   navigateToPage,
   isEditing,
   updateProgress,
+  setHasUnsavedChanges,
 }: {
   council: string;
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
   updateProgress: (completedPage: number) => void;
+  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void;
 }) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "",
@@ -81,6 +83,8 @@ const CommentPersonalDetails = ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+    setHasUnsavedChanges(true);
+    setValidationErrors({});
   };
 
   const validatePersonalDetails = (): boolean => {
@@ -113,6 +117,7 @@ const CommentPersonalDetails = ({
         JSON.stringify(personalDetails),
       );
       updateProgress(4);
+      setHasUnsavedChanges(false);
       navigateToPage(5);
     }
   };

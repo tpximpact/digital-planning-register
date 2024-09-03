@@ -24,6 +24,7 @@ describe("CommentPersonalDetails", () => {
     navigateToPage: jest.fn(),
     isEditing: false,
     updateProgress: jest.fn(),
+    setHasUnsavedChanges: jest.fn(),
   };
 
   beforeEach(() => {
@@ -60,9 +61,10 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByText("You need to consent")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
+    expect(defaultProps.setHasUnsavedChanges).not.toHaveBeenCalled();
   });
 
-  it("navigates to the next page and updates progress when the form is submitted with valid data", () => {
+  it("navigates to the next page, updates progress, and resets unsaved changes when the form is submitted with valid data", () => {
     render(<CommentPersonalDetails {...defaultProps} />);
     fireEvent.change(screen.getByLabelText("Name"), {
       target: { value: "John Doe" },
@@ -84,6 +86,7 @@ describe("CommentPersonalDetails", () => {
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(5);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(4);
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(false);
     const storedData = sessionStorage.getItem("personalDetails_REF-001");
     expect(storedData && JSON.parse(storedData)).toEqual({
       name: "John Doe",
@@ -119,5 +122,21 @@ describe("CommentPersonalDetails", () => {
       "09876543210",
     );
     expect(screen.getByLabelText(/I consent to/)).toBeChecked();
+  });
+
+  it("sets hasUnsavedChanges to true when any field is modified", () => {
+    render(<CommentPersonalDetails {...defaultProps} />);
+    fireEvent.change(screen.getByLabelText("Name"), {
+      target: { value: "John Doe" },
+    });
+
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("sets hasUnsavedChanges to true when consent checkbox is toggled", () => {
+    render(<CommentPersonalDetails {...defaultProps} />);
+    fireEvent.click(screen.getByLabelText(/I consent to/));
+
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
   });
 });

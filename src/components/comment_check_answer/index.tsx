@@ -5,6 +5,7 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
 import { postComment } from "@/actions";
 import { ButtonLink } from "../button";
+import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 
 const topics_selection = [
   {
@@ -71,6 +72,8 @@ const CommentCheckAnswer = ({
     { topic: string; comment: string }[]
   >([]);
   const [submissionError, setSubmissionError] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(false);
+  const [hasLoadedData, setHasLoadedData] = useState(false);
 
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
@@ -89,25 +92,36 @@ const CommentCheckAnswer = ({
     councilConfig[council]?.contact || "https://www.gov.uk/";
 
   useEffect(() => {
-    setSentiment(sessionStorage.getItem(`sentiment_${reference}`) || "");
-    setSelectedTopics(
-      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
-    );
-    const storedPersonalDetails = sessionStorage.getItem(
-      `personalDetails_${reference}`,
-    );
-    if (storedPersonalDetails) {
-      setPersonalDetails(JSON.parse(storedPersonalDetails));
-    }
+    const loadData = () => {
+      setSentiment(sessionStorage.getItem(`sentiment_${reference}`) || "");
+      setSelectedTopics(
+        sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
+      );
+      const storedPersonalDetails = sessionStorage.getItem(
+        `personalDetails_${reference}`,
+      );
+      if (storedPersonalDetails) {
+        setPersonalDetails(JSON.parse(storedPersonalDetails));
+      }
 
-    const storedTopics =
-      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
-    const loadedComments = storedTopics.map((topic) => ({
-      topic,
-      comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
-    }));
-    setComments(loadedComments);
+      const storedTopics =
+        sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
+      const loadedComments = storedTopics.map((topic) => ({
+        topic,
+        comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
+      }));
+      setComments(loadedComments);
+      setHasLoadedData(true);
+    };
+
+    loadData();
   }, [reference]);
+
+  useEffect(() => {
+    if (hasLoadedData) {
+      setHasUnsavedChanges(true);
+    }
+  }, [hasLoadedData, setHasUnsavedChanges]);
 
   const formatSelectedTopics = (topics: string[]) => {
     return topics
@@ -153,6 +167,7 @@ const CommentCheckAnswer = ({
           }
         });
         updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
+        setHasUnsavedChanges(false);
         navigateToPage(6);
       } else {
         throw new Error("Submission failed");

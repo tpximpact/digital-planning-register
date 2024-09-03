@@ -8,6 +8,7 @@ describe("CommentTopicSelection", () => {
     reference: "REF-001",
     onTopicSelection: jest.fn(),
     updateProgress: jest.fn(),
+    setHasUnsavedChanges: jest.fn(),
   };
 
   beforeEach(() => {
@@ -42,9 +43,10 @@ describe("CommentTopicSelection", () => {
     ).toBeInTheDocument();
     expect(defaultProps.onTopicSelection).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
+    expect(defaultProps.setHasUnsavedChanges).not.toHaveBeenCalled();
   });
 
-  it("calls onTopicSelection and updateProgress when topics are selected and the form is submitted", () => {
+  it("calls onTopicSelection, updateProgress, and setHasUnsavedChanges when topics are selected and the form is submitted", () => {
     render(<CommentTopicSelection {...defaultProps} />);
     fireEvent.click(
       screen.getByLabelText(
@@ -62,6 +64,7 @@ describe("CommentTopicSelection", () => {
     expect(sessionStorage.getItem("selectedTopics_REF-001")).toBe(
       "design,traffic",
     );
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(false);
   });
 
   it("loads the stored topics from sessionStorage when available", () => {
@@ -85,5 +88,29 @@ describe("CommentTopicSelection", () => {
     expect(sessionStorage.getItem("comment_other_REF-001")).toBe(
       "Other comment",
     );
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("sets hasUnsavedChanges to true when a topic is selected", () => {
+    render(<CommentTopicSelection {...defaultProps} />);
+    fireEvent.click(
+      screen.getByLabelText(
+        "Design, size or height of new buildings or extensions",
+      ),
+    );
+
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
+  });
+
+  it("sets hasUnsavedChanges to true when a topic is deselected", () => {
+    sessionStorage.setItem("selectedTopics_REF-001", "design");
+    render(<CommentTopicSelection {...defaultProps} />);
+    fireEvent.click(
+      screen.getByLabelText(
+        "Design, size or height of new buildings or extensions",
+      ),
+    );
+
+    expect(defaultProps.setHasUnsavedChanges).toHaveBeenCalledWith(true);
   });
 });
