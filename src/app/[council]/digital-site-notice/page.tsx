@@ -1,4 +1,14 @@
-const DigitalSiteNotice = () => {
+import { Config } from "@/types";
+import config from "../../../../util/config.json";
+
+type Props = {
+  params: { reference: string; council: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const DigitalSiteNotice = ({ params }: Props) => {
+  const council = params.council;
+  const councilConfig = config as Config;
   return (
     <div className="govuk-main-wrapper">
       <h1 className="govuk-heading-xl small-bottom-margin">
@@ -11,6 +21,20 @@ const DigitalSiteNotice = () => {
         is to make it easier for you to access the information most important to
         the local community.
       </p>
+
+      {councilConfig[council]?.pageContent?.digital_site_notice
+        ?.sign_up_for_alerts_link && (
+        <a
+          className="govuk-button govuk-button--secondary"
+          target="_blank"
+          href={
+            councilConfig[council]?.pageContent?.digital_site_notice
+              ?.sign_up_for_alerts_link
+          }
+        >
+          Sign up for alerts on applications near you
+        </a>
+      )}
     </div>
   );
 };

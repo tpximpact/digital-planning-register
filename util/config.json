@@ -6,7 +6,7 @@
     "specialistComments": false,
     "isShowDSN": false,
     "pageContent": {
-     "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices"
       }
     }
@@ -18,7 +18,7 @@
     "specialistComments": false,
     "isShowDSN": false,
     "pageContent": {
-    "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-policy/"
       }
     }
@@ -47,6 +47,9 @@
       },
       "privacy_policy": {
         "privacy_policy_link": "https://www.camden.gov.uk/data-protection-privacy-and-cookies"
+      },
+      "digital_site_notice": {
+        "sign_up_for_alerts_link": "https://accountforms.camden.gov.uk/alert-web/select.xhtml?alertType=PLANNING"
       }
     }
   },
@@ -56,7 +59,7 @@
     "publicComments": false,
     "specialistComments": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.gateshead.gov.uk/article/3711/Corporate-Privacy-Notice"
       }
     }
@@ -67,7 +70,7 @@
     "publicComments": false,
     "specialistComments": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.lambeth.gov.uk/about-council/privacy-data-protection?utm_source=footer&utm_campaign=privacy"
       }
     }
@@ -77,8 +80,9 @@
     "logo": "southwarklogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "isShowDSN": false,
     "pageContent": {
-        "privacy_policy": {
+      "privacy_policy": {
         "privacy_policy_link": "https://www.southwark.gov.uk/terms-and-disclaimer/corporate-data-privacy-notice"
       }
     }
