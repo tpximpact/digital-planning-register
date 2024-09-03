@@ -2,8 +2,7 @@ import { Config } from "@/types";
 import config from "../../../../util/config.json";
 
 type Props = {
-  params: { reference: string; council: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { council: string };
 };
 
 const DigitalSiteNotice = ({ params }: Props) => {
