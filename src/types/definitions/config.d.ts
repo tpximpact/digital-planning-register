@@ -19,6 +19,7 @@ export interface Council {
   specialistComments: boolean;
   pageContent?: PageContent;
   isSelectable?: boolean | string;
+  isShowDSN?: boolean;
 }
 
 export interface Config {

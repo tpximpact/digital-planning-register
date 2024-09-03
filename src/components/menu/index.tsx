@@ -4,9 +4,10 @@ import CouncilSelector from "../council_selector";
 interface MenuProps {
   currentPath: string;
   council: string;
+  isShowDSN?: boolean;
 }
 
-const Menu = ({ currentPath, council }: MenuProps) => {
+const Menu = ({ currentPath, council, isShowDSN }: MenuProps) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
       <ul
@@ -29,6 +30,23 @@ const Menu = ({ currentPath, council }: MenuProps) => {
                 Application search
               </Link>
             </li>
+            {isShowDSN && (
+              <li
+                className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/digital-site-notice" && "current-item"}`}
+              >
+                <Link
+                  className="govuk-header__link nav-link"
+                  href={
+                    council
+                      ? `/${council.toLowerCase()}/digital-site-notice`
+                      : "/"
+                  }
+                  role="link"
+                >
+                  Digital site notice
+                </Link>
+              </li>
+            )}
             <li
               className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/planning-process" && "current-item"}`}
             >

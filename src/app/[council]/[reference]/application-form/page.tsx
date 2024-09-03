@@ -37,7 +37,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Application ${response.data.application.reference}`,
+    title: `Application ${response?.data?.application?.reference}`,
     description: `${capitaliseWord(params.council)} planning application`,
   };
 }
@@ -71,13 +71,13 @@ export default async function ApplicationFormPage({
 
         <div className="govuk-grid-column-one-half">
           <h2 className="govuk-heading-m">Submitted</h2>
-          <p>
+          <div>
             {submittedAt ? (
               formatDprDateTime(submittedAt)
             ) : (
               <p className="govuk-body">Date not available</p>
             )}
-          </p>
+          </div>
         </div>
       </div>
       {applicationSubmissionData ? (

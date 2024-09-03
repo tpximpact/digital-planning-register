@@ -61,7 +61,6 @@ export async function handleBopsGetRequest<T>(
     }
   }
 }
-
 export async function handleBopsPostRequest<T>(
   council: string,
   url: string,

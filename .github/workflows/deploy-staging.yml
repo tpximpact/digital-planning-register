@@ -1,8 +1,9 @@
 name: build and deploy staging
 
-on:
-  push:
-    branches: ["main"]
+# Temporarily disabled until user research sessions are complete
+# on:
+#   # push:
+#   #   branches: ["main"]
 
 jobs:
   build-and-deploy-staging:
@@ -22,7 +23,7 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
           stack: "container"
-        env: 
+        env:
           # BARNET
           HD_BARNET_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
           HD_NEXT_PUBLIC_BOPS_API_BARNET: ${{ secrets.BARNET_BOPS_API_URL }}
@@ -42,4 +43,3 @@ jobs:
           # SOUTHWARK
           HD_SOUTHWARK_API_KEY: ${{ secrets.SOUTHWARK_BOPS_API_KEY }}
           HD_NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.SOUTHWARK_BOPS_API_URL }}
-

@@ -3,7 +3,7 @@ import "./globals.css";
 import "@/styles/app.scss";
 import Header from "../components/header";
 import Head from "../components/head";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import React from "react";
 import { usePathname } from "next/navigation";
 import PhaseBanner from "@/components/phase_banner";
@@ -21,6 +21,17 @@ export default function RootLayout({
     const govUk = require("govuk-frontend");
     govUk.initAll();
   }
+
+  useEffect(() => {
+    async function initiateMockAPI() {
+      if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+        const initMocks = (await import("../../mocks")).default;
+        await initMocks();
+      }
+    }
+
+    initiateMockAPI();
+  }, []);
   return (
     <html lang="en">
       <title>Digital Planning Register</title>
