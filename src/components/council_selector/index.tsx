@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getConfig } from "@/actions";
+import { capitalizeFirstLetter } from "@/util";
 
 interface CouncilSelectorProps {
   currentPath: string;
@@ -49,7 +50,7 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
               <option value="select">Select your council</option>
               {councilOptions?.map((councilKey) => (
                 <option key={councilKey} value={councilKey}>
-                  {councilKey}
+                  {capitalizeFirstLetter(councilKey)}
                 </option>
               ))}
             </select>
@@ -73,13 +74,9 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
       >
         <option value="select">Select your council</option>
         {councilOptions?.map((councilKey) => (
-          <>
-            {
-              <option key={councilKey} value={councilKey}>
-                {councilKey}
-              </option>
-            }
-          </>
+          <option key={councilKey} value={councilKey}>
+            {capitalizeFirstLetter(councilKey)}
+          </option>
         ))}
       </select>
     </>

@@ -4,6 +4,7 @@ import "@testing-library/jest-dom";
 import CouncilSelector from "@/components/council_selector";
 import config from "../../util/config.json";
 import { getConfig } from "@/actions";
+import { capitalizeFirstLetter } from "@/util";
 
 export interface Council {
   name: string;
@@ -62,7 +63,9 @@ describe("CouncilSelector", () => {
     // Check the other options correspond to selectable councils
     selectableCouncils.forEach((councilKey, index) => {
       expect(options[index + 1]).toHaveValue(councilKey);
-      expect(options[index + 1]).toHaveTextContent(councilKey);
+      expect(options[index + 1]).toHaveTextContent(
+        capitalizeFirstLetter(councilKey),
+      );
     });
   });
 });
