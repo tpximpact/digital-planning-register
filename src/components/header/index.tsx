@@ -19,6 +19,7 @@ const Header = ({ currentPath }: HeaderProps) => {
   const councilConfig = config as Config;
   const logo = councilConfig[council]?.logowhite;
   const name = councilConfig[council]?.name;
+  const isShowDSN = councilConfig[council]?.isShowDSN;
   const logoPath =
     logo &&
     logo !== "" &&
@@ -72,11 +73,15 @@ const Header = ({ currentPath }: HeaderProps) => {
       </div>
       {isExtended && (
         <div className="menu" id="navigation" aria-label="Navigation Menu">
-          <Menu currentPath={currentPath} council={name} />
+          <Menu
+            currentPath={currentPath}
+            council={name}
+            isShowDSN={isShowDSN}
+          />
         </div>
       )}
       <div className="menu-desktop" id="navigation-desktop">
-        <Menu currentPath={currentPath} council={name} />
+        <Menu currentPath={currentPath} council={name} isShowDSN={isShowDSN} />
       </div>
     </header>
   );

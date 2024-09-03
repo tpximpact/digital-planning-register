@@ -4,6 +4,7 @@
     "logo": "barnetlogo.png",
     "publicComments": false,
     "specialistComments": false,
+    "isShowDSN": false,
     "pageContent": {
      "privacy_policy": {
         "privacy_policy_link": "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices"
@@ -15,6 +16,7 @@
     "logo": "buckinghamshirelogo.svg",
     "publicComments": false,
     "specialistComments": false,
+    "isShowDSN": false,
     "pageContent": {
     "privacy_policy": {
         "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-policy/"
@@ -28,6 +30,7 @@
     "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
     "specialistComments": false,
+    "isShowDSN": false,
     "pageContent": {
       "council_reference_submit_comment_pre_submission": {
         "what_happens_to_your_comments_link": "https://www.camden.gov.uk/commenting-planning-application"
