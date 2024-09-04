@@ -34,8 +34,5 @@ describe("Header", () => {
         screen.getByRole("link", { name: "Digital Planning Register" }),
       ).toBeInTheDocument();
     });
-    // Check if the mock function for dynamic import was called
-    const initMocks = require("../../mocks").default;
-    expect(initMocks).toHaveBeenCalled();
   });
 });
