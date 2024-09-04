@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import config from "../../../util/config.json";
 import { Config } from "@/types";
 import path from "path";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 interface HeaderProps {
@@ -19,6 +19,11 @@ const Header = ({ councilConfig }: HeaderProps) => {
   const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
 
+  if (typeof window !== "undefined") {
+    const govUk = require("govuk-frontend");
+    govUk.initAll();
+  }
+
   const logo = councilConfig[council]?.logowhite;
   const name = councilConfig[council]?.name;
   const isShowDSN = councilConfig[council]?.isShowDSN;
@@ -26,6 +31,17 @@ const Header = ({ councilConfig }: HeaderProps) => {
     logo &&
     logo !== "" &&
     path.join(process.cwd(), "public", "images", "logos", logo);
+
+  useEffect(() => {
+    async function initiateMockAPI() {
+      if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+        const initMocks = (await import("../../../mocks")).default;
+        await initMocks();
+      }
+    }
+
+    initiateMockAPI();
+  }, []);
 
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
