@@ -1,13 +1,20 @@
 import Link from "next/link";
 import CouncilSelector from "../council_selector";
+import { Config } from "@/types";
 
 interface MenuProps {
   currentPath: string;
   council: string;
   isShowDSN?: boolean;
+  councilConfig: Config;
 }
 
-const Menu = ({ currentPath, council, isShowDSN }: MenuProps) => {
+const Menu = ({
+  currentPath,
+  council,
+  isShowDSN,
+  councilConfig,
+}: MenuProps) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
       <ul
@@ -15,7 +22,10 @@ const Menu = ({ currentPath, council, isShowDSN }: MenuProps) => {
         className="govuk-header__navigation-list govuk-width-container"
       >
         <li className="govuk-header__navigation-item no-space">
-          <CouncilSelector currentPath={currentPath} />
+          <CouncilSelector
+            currentPath={currentPath}
+            councilConfig={councilConfig}
+          />
         </li>
         {currentPath !== "/" && (
           <>
