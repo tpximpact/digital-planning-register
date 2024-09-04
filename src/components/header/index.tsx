@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Menu from "../menu";
 import Image from "next/image";
@@ -6,17 +7,18 @@ import config from "../../../util/config.json";
 import { Config } from "@/types";
 import path from "path";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
-  currentPath: string;
+  councilConfig: Config;
 }
 
-const Header = ({ currentPath }: HeaderProps) => {
+const Header = ({ councilConfig }: HeaderProps) => {
   const params = useParams();
+  const currentPath = usePathname();
   const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
 
-  const councilConfig = config as Config;
   const logo = councilConfig[council]?.logowhite;
   const name = councilConfig[council]?.name;
   const isShowDSN = councilConfig[council]?.isShowDSN;
@@ -77,11 +79,17 @@ const Header = ({ currentPath }: HeaderProps) => {
             currentPath={currentPath}
             council={name}
             isShowDSN={isShowDSN}
+            councilConfig={councilConfig}
           />
         </div>
       )}
       <div className="menu-desktop" id="navigation-desktop">
-        <Menu currentPath={currentPath} council={name} isShowDSN={isShowDSN} />
+        <Menu
+          currentPath={currentPath}
+          council={name}
+          isShowDSN={isShowDSN}
+          councilConfig={councilConfig}
+        />
       </div>
     </header>
   );

@@ -32,3 +32,15 @@ export const getCouncilConfig = (council: string): Council | undefined => {
     ? updateCouncilConfig(council, councilConfig[council])
     : undefined;
 };
+
+export const getConfig = async (): Promise<Config> => {
+  const councilConfig: Config = config;
+
+  Object.keys(config).forEach((council) => {
+    councilConfig[council] = updateCouncilConfig(
+      council,
+      councilConfig[council],
+    );
+  });
+  return config;
+};
