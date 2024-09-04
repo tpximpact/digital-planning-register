@@ -1,6 +1,6 @@
 import CouncilLogo from "../council_logo";
 import Link from "next/link";
-import { getConfig } from "@/actions";
+import { getConfig } from "@/lib/config";
 
 export const CouncilCards = async () => {
   const councilConfig = await getConfig();

@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { getConfig } from "@/actions";
 import { capitalizeFirstLetter } from "@/util";
+import { Config } from "@/types";
 
 interface CouncilSelectorProps {
   currentPath: string;
+  councilConfig: Config;
 }
 
-const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
+const CouncilSelector = ({
+  currentPath,
+  councilConfig,
+}: CouncilSelectorProps) => {
   const [selectedCouncil, setSelectedCouncil] = useState(
     currentPath.split("/")[1] || "select",
   );
-  const [councilOptions, setCouncilOptions] = useState<string[]>();
+
+  const councilKeys = Object.keys(councilConfig);
+  const councilOptions = councilKeys.filter(
+    (councilKey) => councilConfig[councilKey].isSelectable == "true",
+  );
 
   useEffect(() => {
     document.documentElement.className = "js-enabled";
     setSelectedCouncil(currentPath.split("/")[1]);
-    const updateCouncilSelector = async () => {
-      const councilConfig = await getConfig();
-      const councilOptions = Object.keys(councilConfig);
-      const filteredCouncilConfig = councilOptions.filter(
-        (councilKey) => councilConfig[councilKey].isSelectable == "true",
-      );
-      setCouncilOptions(filteredCouncilConfig);
-    };
-    updateCouncilSelector();
   }, [currentPath]);
 
   const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,7 +47,7 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
               autoComplete="on"
             >
               <option value="select">Select your council</option>
-              {councilOptions?.map((councilKey) => (
+              {councilOptions?.map((councilKey: string) => (
                 <option key={councilKey} value={councilKey}>
                   {capitalizeFirstLetter(councilKey)}
                 </option>
@@ -73,7 +72,7 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
         autoComplete="on"
       >
         <option value="select">Select your council</option>
-        {councilOptions?.map((councilKey) => (
+        {councilOptions?.map((councilKey: string) => (
           <option key={councilKey} value={councilKey}>
             {capitalizeFirstLetter(councilKey)}
           </option>
