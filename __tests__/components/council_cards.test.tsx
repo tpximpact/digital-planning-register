@@ -1,11 +1,10 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import fs from "fs";
 import CouncilCards from "@/components/council_cards";
-import { getConfig } from "@/actions";
+import { getConfig } from "@/lib/config";
 
-jest.mock("../../src/actions", () => ({
+jest.mock("../../src/lib/config", () => ({
   getConfig: jest.fn(),
 }));
 
