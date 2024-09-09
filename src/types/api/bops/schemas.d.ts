@@ -19,6 +19,19 @@ export interface BopsV2PublicPlanningApplicationsSearch {
   data: BopsPlanningApplication[];
 }
 
+interface DeterminedStatus {
+  code: number;
+  message: string;
+}
+/**
+ * GET /api/v2/planning_applications/determined
+ */
+export interface BopsV2Determined {
+  metadata: BopsSearchMetadata;
+  data: DSNPlanningApplication[];
+  status: DeterminedStatus;
+}
+
 /**
  * GET /api/v2/public/planning_applications/{reference}
  */
