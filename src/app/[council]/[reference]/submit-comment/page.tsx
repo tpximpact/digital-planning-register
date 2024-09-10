@@ -14,6 +14,7 @@ import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
 import { DprPublicApplicationDetails } from "@/types";
 import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 type Props = {
   params: { reference: string; council: string };
@@ -344,10 +345,11 @@ const Comment = ({ params }: Props) => {
 
   // Render the main component
   return (
-    <>
-      {page < 6 && applicationData && <BackLink />}
+    <MainContentTemplate
+      backButton={page < 6 && applicationData && <BackLink />}
+    >
       {page <= 6 && (
-        <div className="govuk-main-wrapper">
+        <>
           {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
               council={council}
@@ -357,9 +359,9 @@ const Comment = ({ params }: Props) => {
             />
           )}
           {renderComponent()}
-        </div>
+        </>
       )}
-    </>
+    </MainContentTemplate>
   );
 };
 

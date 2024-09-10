@@ -3,17 +3,15 @@ import Link from "next/link";
 import Menu from "../menu";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import config from "../../../util/config.json";
-import { Config } from "@/types";
 import path from "path";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { getConfig } from "@/lib/config";
 
-interface HeaderProps {
-  councilConfig: Config;
-}
+interface HeaderProps {}
 
-const Header = ({ councilConfig }: HeaderProps) => {
+const Header = ({}: HeaderProps) => {
+  const councilConfig = getConfig();
   const params = useParams();
   const currentPath = usePathname();
   const council = params?.council as string;

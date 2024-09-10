@@ -1,9 +1,10 @@
 import React from "react";
 import CouncilCards from "@/components/council_cards";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 const Main = () => {
   return (
-    <div className="govuk-main-wrapper">
+    <MainContentTemplate>
       <h1 className="govuk-heading-l">
         Welcome to the Digital Planning Register
       </h1>
@@ -22,7 +23,7 @@ const Main = () => {
         area
       </h2>
       <CouncilCards />
-    </div>
+    </MainContentTemplate>
   );
 };
 

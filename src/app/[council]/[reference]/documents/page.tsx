@@ -18,6 +18,7 @@ import Pagination from "@/components/pagination";
 import { createItemPagination } from "@/lib/pagination";
 import DocumentsList from "@/components/documents_list";
 import { siteConfig } from "@/lib/config";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 interface CommentSearchParams {
   page?: string;
@@ -99,30 +100,27 @@ export default async function PlanningApplicationDetailsDocuments({
   };
 
   return (
-    <div>
-      <BackLink />
-      <div className="govuk-main-wrapper">
-        <ApplicationHeader
-          reference={reference}
-          address={application.property.address.singleLine}
-        />
-        <DocumentsList
-          council={council}
-          reference={reference}
-          documents={documentData.data ?? null}
-          from={documentData.pagination.from - 1}
-          maxDisplayDocuments={maxDisplayDocuments}
-          page={documentData.pagination.page - 1}
-        />
-        <Pagination
-          currentPage={documentData.pagination.page - 1}
-          totalItems={documentData.pagination.total_results}
-          itemsPerPage={maxDisplayDocuments}
-          baseUrl={`/${council}/${reference}/documents`}
-          queryParams={searchParams}
-          totalPages={documentData.pagination.total_pages}
-        />
-      </div>
-    </div>
+    <MainContentTemplate backButton={<BackLink />}>
+      <ApplicationHeader
+        reference={reference}
+        address={application.property.address.singleLine}
+      />
+      <DocumentsList
+        council={council}
+        reference={reference}
+        documents={documentData.data ?? null}
+        from={documentData.pagination.from - 1}
+        maxDisplayDocuments={maxDisplayDocuments}
+        page={documentData.pagination.page - 1}
+      />
+      <Pagination
+        currentPage={documentData.pagination.page - 1}
+        totalItems={documentData.pagination.total_results}
+        itemsPerPage={maxDisplayDocuments}
+        baseUrl={`/${council}/${reference}/documents`}
+        queryParams={searchParams}
+        totalPages={documentData.pagination.total_pages}
+      />
+    </MainContentTemplate>
   );
 }

@@ -16,6 +16,7 @@ import ApplicationHeader from "@/components/application_header";
 import CommentsList from "@/components/comments_list";
 import Pagination from "@/components/pagination";
 import { createItemPagination } from "@/lib/pagination";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 interface CommentSearchParams {
   page?: string;
@@ -131,31 +132,28 @@ export default async function PlanningApplicationDetailsComments({
   const application = response?.data;
 
   return (
-    <div>
-      <BackLink />
-      <div className="govuk-main-wrapper">
-        <ApplicationHeader
-          reference={reference}
-          address={application.property.address.singleLine}
-        />
-        <CommentsList
-          council={council}
-          reference={reference}
-          type={type}
-          comments={commentData.data}
-          from={commentData.pagination.from - 1}
-          maxDisplayComments={maxDisplayComments}
-          page={commentData.pagination.page - 1}
-        />
-        <Pagination
-          currentPage={commentData.pagination.page - 1}
-          totalItems={commentData.pagination.total_results}
-          itemsPerPage={maxDisplayComments}
-          baseUrl={`/${council}/${reference}/comments`}
-          queryParams={searchParams}
-          totalPages={commentData.pagination.total_pages}
-        />
-      </div>
-    </div>
+    <MainContentTemplate backButton={<BackLink />}>
+      <ApplicationHeader
+        reference={reference}
+        address={application.property.address.singleLine}
+      />
+      <CommentsList
+        council={council}
+        reference={reference}
+        type={type}
+        comments={commentData.data}
+        from={commentData.pagination.from - 1}
+        maxDisplayComments={maxDisplayComments}
+        page={commentData.pagination.page - 1}
+      />
+      <Pagination
+        currentPage={commentData.pagination.page - 1}
+        totalItems={commentData.pagination.total_results}
+        itemsPerPage={maxDisplayComments}
+        baseUrl={`/${council}/${reference}/comments`}
+        queryParams={searchParams}
+        totalPages={commentData.pagination.total_pages}
+      />
+    </MainContentTemplate>
   );
 }

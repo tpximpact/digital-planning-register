@@ -16,6 +16,7 @@ import ApplicationInformation from "@/components/application_information";
 import CommentsList from "@/components/comments_list";
 import ApplicationPeople from "@/components/application_people";
 import DocumentsList from "@/components/documents_list";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 interface PlanningApplicationDetailsProps {
   params: PageParams;
@@ -75,45 +76,42 @@ export default async function PlanningApplicationDetails({
     : application.application.documents;
 
   return (
-    <>
-      <BackLink />
-      <div className="govuk-main-wrapper">
-        {/* <ApplicationCard council={council} {...application} /> */}
-        <ApplicationInformation council={council} {...application} />
-        {/* <ApplicationLocation /> */}
-        {/* <ApplicationDetails {...application} /> */}
-        <DocumentsList
+    <MainContentTemplate backButton={<BackLink />}>
+      {/* <ApplicationCard council={council} {...application} /> */}
+      <ApplicationInformation council={council} {...application} />
+      {/* <ApplicationLocation /> */}
+      {/* <ApplicationDetails {...application} /> */}
+      <DocumentsList
+        council={council}
+        reference={reference}
+        showMoreButton={true}
+        documents={documents ?? null}
+      />
+      <ApplicationPeople
+        applicant_first_name={application.application.applicant_first_name}
+        applicant_last_name={application.application.applicant_last_name}
+        agent_first_name={application.application.agent_first_name}
+        agent_last_name={application.application.agent_last_name}
+      />
+      {councilConfig?.specialistComments && (
+        <CommentsList
           council={council}
           reference={reference}
+          type="consultee"
           showMoreButton={true}
-          documents={documents ?? null}
+          comments={application.application.consultation.consulteeComments}
         />
-        <ApplicationPeople
-          applicant_first_name={application.application.applicant_first_name}
-          applicant_last_name={application.application.applicant_last_name}
-          agent_first_name={application.application.agent_first_name}
-          agent_last_name={application.application.agent_last_name}
+      )}
+      {councilConfig?.publicComments && (
+        <CommentsList
+          council={council}
+          reference={reference}
+          type="published"
+          showMoreButton={true}
+          comments={application.application.consultation.publishedComments}
         />
-        {councilConfig?.specialistComments && (
-          <CommentsList
-            council={council}
-            reference={reference}
-            type="consultee"
-            showMoreButton={true}
-            comments={application.application.consultation.consulteeComments}
-          />
-        )}
-        {councilConfig?.publicComments && (
-          <CommentsList
-            council={council}
-            reference={reference}
-            type="published"
-            showMoreButton={true}
-            comments={application.application.consultation.publishedComments}
-          />
-        )}
-        {/* <ApplicationConstraints /> */}
-      </div>
-    </>
+      )}
+      {/* <ApplicationConstraints /> */}
+    </MainContentTemplate>
   );
 }

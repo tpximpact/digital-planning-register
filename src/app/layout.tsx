@@ -1,40 +1,23 @@
-// "use client";
-import "./globals.css";
-import "@/styles/app.scss";
-import Header from "../components/header";
 import Head from "../components/head";
-import { Suspense } from "react";
-import React from "react";
-import { PhaseBanner } from "@/components/govuk/PhaseBanner";
-import Footer from "@/components/footer";
-import CookieBanner from "@/components/cookie_banner";
-import { getConfig } from "@/lib/config";
+import { BaseTemplate } from "@/components/templates/BaseTemplate";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Digital Planning Register",
+  description: `Showing planning applications`,
+};
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const councilConfig = await getConfig();
   return (
-    <html lang="en">
+    <html lang="en" className="govuk-template">
       <title>Digital Planning Register</title>
       <Head />
-      <body className="govuk-frontend-supported">
-        <CookieBanner />
-        <a
-          href="#main"
-          className="govuk-skip-link"
-          data-module="govuk-skip-link"
-        >
-          Skip to main content
-        </a>
-        <Header councilConfig={councilConfig} />
-        <main className="govuk-width-container" id="main">
-          <PhaseBanner />
-          <Suspense>{children}</Suspense>
-        </main>
-        <Footer />
+      <body className="govuk-template__body">
+        <BaseTemplate>{children}</BaseTemplate>
       </body>
     </html>
   );

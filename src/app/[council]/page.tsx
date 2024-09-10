@@ -8,6 +8,7 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 const resultsPerPage = 10;
 
@@ -77,69 +78,68 @@ export default async function PlanningApplicationListings({
   }
 
   return (
-    <>
-      {!response?.data && <BackLink />}
-      <div className="govuk-main-wrapper">
-        <form action={`/${council}`} method="get" className="govuk-grid-row">
-          <div className="govuk-grid-column-one-half">
-            <div className="govuk-form-group">
-              <h1 className="govuk-label-wrapper">
-                <label className="govuk-label" htmlFor="search">
-                  Search by application reference, address or description
-                </label>
-              </h1>
-              <input
-                className="govuk-input"
-                id="search"
-                name="search"
-                type="text"
-                defaultValue={searchParams?.search || ""}
-                autoComplete="on"
-              />
-              {validationError && (
-                <p id="search-error" className="govuk-error-message">
-                  <span className="govuk-visually-hidden">Error:</span> Enter at
-                  least 3 characters to search
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="govuk-grid-column-one-quarter search-bar-buttons">
-            <button className="govuk-button" type="submit">
-              Search
-            </button>
-          </div>
-        </form>
-        {response?.data?.data && response?.data?.data.length > 0 ? (
-          <>
-            <div>
-              {response?.data?.data.map((application) => {
-                return (
-                  <ApplicationCard
-                    key={application.application.reference}
-                    council={council}
-                    {...application}
-                  />
-                );
-              })}
-            </div>
-            {response?.data?.pagination?.total_pages > 1 && (
-              <Pagination
-                currentPage={page - 1}
-                totalItems={
-                  response?.data?.pagination?.total_pages * resultsPerPage
-                }
-                itemsPerPage={resultsPerPage}
-                totalPages={response?.data?.pagination?.total_pages}
-                baseUrl={`/${council}/`}
-                queryParams={searchParams}
-              />
+    <MainContentTemplate
+      backButton={response?.data?.data.length === 0 && <BackLink />}
+    >
+      <form action={`/${council}`} method="get" className="govuk-grid-row">
+        <div className="govuk-grid-column-one-half">
+          <div className="govuk-form-group">
+            <h1 className="govuk-label-wrapper">
+              <label className="govuk-label" htmlFor="search">
+                Search by application reference, address or description
+              </label>
+            </h1>
+            <input
+              className="govuk-input"
+              id="search"
+              name="search"
+              type="text"
+              defaultValue={searchParams?.search || ""}
+              autoComplete="on"
+            />
+            {validationError && (
+              <p id="search-error" className="govuk-error-message">
+                <span className="govuk-visually-hidden">Error:</span> Enter at
+                least 3 characters to search
+              </p>
             )}
-          </>
-        ) : (
-          <NoResult council={council} />
-        )}
-      </div>
-    </>
+          </div>
+        </div>
+        <div className="govuk-grid-column-one-quarter search-bar-buttons">
+          <button className="govuk-button" type="submit">
+            Search
+          </button>
+        </div>
+      </form>
+      {response?.data?.data && response?.data?.data.length > 0 ? (
+        <>
+          <div>
+            {response?.data?.data.map((application) => {
+              return (
+                <ApplicationCard
+                  key={application.application.reference}
+                  council={council}
+                  {...application}
+                />
+              );
+            })}
+          </div>
+          {response?.data?.pagination?.total_pages > 1 && (
+            <Pagination
+              currentPage={page - 1}
+              totalItems={
+                response?.data?.pagination?.total_pages * resultsPerPage
+              }
+              itemsPerPage={resultsPerPage}
+              totalPages={response?.data?.pagination?.total_pages}
+              baseUrl={`/${council}/`}
+              queryParams={searchParams}
+            />
+          )}
+        </>
+      ) : (
+        <NoResult council={council} />
+      )}
+    </MainContentTemplate>
   );
 }

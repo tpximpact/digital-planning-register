@@ -6,6 +6,7 @@ import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
 import { getApplicationSubmission } from "@/actions";
 import { formatDprDateTime } from "../../../../../util/formatDates";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 interface PageParams {
   council: string;
@@ -56,8 +57,7 @@ export default async function ApplicationFormPage({
   const applicationSubmissionData = response?.data?.submission?.data;
 
   return (
-    <div className="govuk-main-wrapper">
-      <BackLink />
+    <MainContentTemplate backButton={<BackLink />}>
       <h1 className="govuk-heading-xl">Application form as submitted</h1>
       <p className="govuk-body">
         This is the full application form as submitted by the applicant to the
@@ -85,6 +85,6 @@ export default async function ApplicationFormPage({
       ) : (
         <p className="govuk-body">Submission data not available</p>
       )}
-    </div>
+    </MainContentTemplate>
   );
 }

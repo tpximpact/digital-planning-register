@@ -9,6 +9,7 @@ import Pagination from "@/components/pagination";
 import { Config } from "@/types";
 import config from "../../../../util/config.json";
 import { redirect } from "next/navigation";
+import { MainContentTemplate } from "@/components/templates/MainContentTemplate";
 
 const resultsPerPage = 10;
 
@@ -79,7 +80,7 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
   }
 
   return (
-    <div className="govuk-main-wrapper">
+    <MainContentTemplate>
       <h1 className="govuk-heading-xl small-bottom-margin">
         Find digital site notices near you
       </h1>
@@ -149,7 +150,7 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
         baseUrl={`/${council}/digital-site-notice`}
         queryParams={searchParams}
       />
-    </div>
+    </MainContentTemplate>
   );
 };
 

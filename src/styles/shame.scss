@@ -1,3 +1,7 @@
+// the ol' classic! https://csswizardry.com/2013/04/shame-css/
+
+/// this was globals.css
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -38,8 +42,6 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -58,3 +60,4 @@ a {
   text-decoration: none;
 }
 
+@import "./app.scss";
