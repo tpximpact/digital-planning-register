@@ -1,12 +1,12 @@
 {
   "extends": [
+    "plugin:storybook/recommended",
+    "plugin:jsx-a11y/recommended",
     "next/core-web-vitals",
-    "prettier",
-    "plugin:storybook/recommended"
-  ],
-  "plugins": [
+    "next/typescript",
     "prettier"
   ],
+  "plugins": ["prettier", "jsx-a11y"],
   "rules": {
     "prettier/prettier": "error"
   }
