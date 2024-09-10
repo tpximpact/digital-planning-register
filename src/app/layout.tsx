@@ -5,7 +5,7 @@ import Header from "../components/header";
 import Head from "../components/head";
 import { Suspense } from "react";
 import React from "react";
-import PhaseBanner from "@/components/phase_banner";
+import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
 import { getConfig } from "@/lib/config";

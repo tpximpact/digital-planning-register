@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import PhaseBanner from "@/components/phase_banner";
+import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 import "@testing-library/jest-dom";
 
 describe("PhaseBanner", () => {
