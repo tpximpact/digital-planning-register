@@ -15,12 +15,10 @@ interface Site {
 interface DSNPlanningApplication {
   site_notice_content: string;
   site: Site;
-}
-interface DSNApplication {
-  pagination: DprPagination;
-  data: DSNPlanningApplication[];
+  reference: string;
+  boundary_geojson: DprBoundaryGeojson;
 }
 export interface DSNApplicationListings {
   pagination: DprPagination;
-  data: DprPlanningApplication[];
+  data: DSNPlanningApplication[];
 }
