@@ -1,3 +1,4 @@
+import Script from "next/script";
 import Head from "../components/head";
 import { BaseTemplate } from "@/components/templates/BaseTemplate";
 import type { Metadata } from "next";
@@ -18,6 +19,9 @@ export default async function RootLayout({
       <Head />
       <body className="govuk-template__body">
         <BaseTemplate>{children}</BaseTemplate>
+        <Script id="js-detection" strategy="beforeInteractive">
+          {`document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');`}
+        </Script>
       </body>
     </html>
   );

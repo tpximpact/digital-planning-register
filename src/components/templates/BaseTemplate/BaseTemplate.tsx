@@ -1,4 +1,3 @@
-import Script from "next/script";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
@@ -23,10 +22,6 @@ export const BaseTemplate = ({ children }: Readonly<BaseTemplateProps>) => {
       </div>
 
       <Footer />
-
-      <Script id="js-detection" strategy="beforeInteractive">
-        {`document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');`}
-      </Script>
     </>
   );
 };
