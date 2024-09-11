@@ -28,7 +28,8 @@ export async function getDSNApplication(
   if (search) {
     params.append("q", search);
   }
-  const url = `planning_applications/determined?${params.toString()}`;
+
+  const url = `planning_applications?${params.toString()}`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2Determined | null>
   >(council, url);
