@@ -1,9 +1,8 @@
 name: build and deploy staging
 
-# Temporarily disabled until user research sessions are complete
-# on:
-#   # push:
-#   #   branches: ["main"]
+on:
+  push:
+    branches: ["main"]
 
 jobs:
   build-and-deploy-staging:
@@ -25,21 +24,21 @@ jobs:
           stack: "container"
         env:
           # BARNET
-          HD_BARNET_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_BARNET: ${{ secrets.BARNET_BOPS_API_URL }}
+          HD_BARNET_BOPS_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
+          HD_BARNET_BOPS_API_URL: ${{ secrets.BARNET_BOPS_API_URL }}
           # BUCKINGHAMSHIRE
-          HD_BUCKINGHAMSHIRE_API_KEY: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_URL }}
+          HD_BUCKINGHAMSHIRE_BOPS_API_KEY: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_KEY }}
+          HD_BUCKINGHAMSHIRE_BOPS_API_URL: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_URL }}
           # CAMDEN
-          HD_CAMDEN_API_KEY: ${{ secrets.CAMDEN_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_BOPS_API_URL }}
-          HD_NEXT_PUBLIC_BOPS_API_CAMDEN_V1: ${{ secrets.CAMDEN_BOPS_API_URL_V1 }}
+          HD_CAMDEN_BOPS_API_KEY: ${{ secrets.CAMDEN_BOPS_API_KEY }}
+          HD_CAMDEN_BOPS_API_URL: ${{ secrets.CAMDEN_BOPS_API_URL }}
+          HD_CAMDEN_BOPS_API_URL_V1: ${{ secrets.CAMDEN_BOPS_API_URL_V1 }}
           # GATESHEAD
-          HD_GATESHEAD_API_KEY: ${{ secrets.GATESHEAD_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_GATESHEAD: ${{ secrets.GATESHEAD_BOPS_API_URL }}
+          HD_GATESHEAD_BOPS_API_KEY: ${{ secrets.GATESHEAD_BOPS_API_KEY }}
+          HD_GATESHEAD_BOPS_API_URL: ${{ secrets.GATESHEAD_BOPS_API_URL }}
           # LAMBETH
-          HD_LAMBETH_API_KEY: ${{ secrets.LAMBETH_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_LAMBETH: ${{ secrets.LAMBETH_BOPS_API_URL }}
+          HD_LAMBETH_BOPS_API_KEY: ${{ secrets.LAMBETH_BOPS_API_KEY }}
+          HD_LAMBETH_BOPS_API_URL: ${{ secrets.LAMBETH_BOPS_API_URL }}
           # SOUTHWARK
-          HD_SOUTHWARK_API_KEY: ${{ secrets.SOUTHWARK_BOPS_API_KEY }}
-          HD_NEXT_PUBLIC_BOPS_API_SOUTHWARK: ${{ secrets.SOUTHWARK_BOPS_API_URL }}
+          HD_SOUTHWARK_BOPS_API_KEY: ${{ secrets.SOUTHWARK_BOPS_API_KEY }}
+          HD_SOUTHWARK_BOPS_API_URL: ${{ secrets.SOUTHWARK_BOPS_API_URL }}
