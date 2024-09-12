@@ -6,6 +6,8 @@ import { Metadata } from "next";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "../../not-found";
 import Pagination from "@/components/pagination";
+import { Config } from "@/types";
+import config from "../../../../util/config.json";
 
 const resultsPerPage = 10;
 
@@ -58,6 +60,7 @@ export async function generateMetadata({
   };
 }
 const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
+  const councilConfig = config as Config;
   const response = await fetchData({ params, searchParams });
   const applications = response?.data?.data;
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
@@ -81,6 +84,19 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
         is to make it easier for you to access the information most important to
         the local community.
       </p>
+      {councilConfig[council]?.pageContent?.digital_site_notice
+        ?.sign_up_for_alerts_link && (
+        <a
+          className="govuk-button govuk-button--secondary"
+          target="_blank"
+          href={
+            councilConfig[council]?.pageContent?.digital_site_notice
+              ?.sign_up_for_alerts_link
+          }
+        >
+          Sign up for alerts on applications near you
+        </a>
+      )}
       <div className="govuk-grid-row grid-row-extra-bottom-margin ">
         {applications &&
           applications?.map((application, index) => (
