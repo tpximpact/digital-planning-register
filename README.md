@@ -85,26 +85,16 @@ The project structure follows the Next.js App Router conventions and includes a 
 
 ## Environment setup
 
+`cp -rp sample.env .env`
+
 Ensure that the .env or .env.local file also has the following environment variables:
 
-|          Variable Name          | Value |
-| :-----------------------------: | :---: |
-| NEXT_PUBLIC_BOPS_API\_[COUNCIL] |  ###  |
-|       [COUNCIL]\_API_KEY        |  ###  |
+|     Variable Name     | Value |
+| :-------------------: | :---: |
+|  [COUNCIL]\_API_URL   |  ###  |
+| [COUNCIL]\_API_URL_V1 |  ###  |
+|  [COUNCIL]\_API_KEY   |  ###  |
 
 Please ensure you replace [COUNCIL] with the council name.
 
 Each council has its own set of environment variables that specify the API URL and the required API key. If you require access to multiple councils, you can do this by duplicating the variables and adding the relevant council name.
-
-For example, for Camden and Southwark data:
-
-|            Variable Name             | Value |
-| :----------------------------------: | :---: |
-|    NEXT_PUBLIC_BOPS_API_SOUTHWARK    |  ###  |
-|          SOUTHWARK_API_KEY           |  ###  |
-|     NEXT_PUBLIC_BOPS_API_CAMDEN      |  ###  |
-|            CAMDEN_API_KEY            |  ###  |
-| NEXT_PUBLIC_BOPS_API_BUCKINGHAMSHIRE |  ###  |
-|       BUCKINGHAMSHIRE_API_KEY        |  ###  |
-|     NEXT_PUBLIC_BOPS_API_BARNET      |  ###  |
-|            BARNET_API_KEY            |  ###  |
