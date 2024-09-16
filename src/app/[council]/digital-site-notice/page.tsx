@@ -102,7 +102,10 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
           applications?.map((application, index) => (
             <div key={index} className="govuk-grid-column-one-third">
               <a href={`/${council}/${application.reference}`}>
-                <ApplicationMap mapData={application.boundary_geojson} />
+                <ApplicationMap
+                  mapData={application.boundary_geojson}
+                  staticMap={true}
+                />
                 <div className="govuk-link govuk-link--no-visited-state govuk-heading-m dsn-link">
                   {application.site.address_1}
                 </div>
