@@ -1,5 +1,6 @@
 import { Config } from "@/types";
 import config from "../../../../util/config.json";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { council: string };
@@ -8,6 +9,9 @@ type Props = {
 const DigitalSiteNotice = ({ params }: Props) => {
   const council = params.council;
   const councilConfig = config as Config;
+  if (!councilConfig[council].isShowDSN) {
+    redirect(`/${council}`);
+  }
   return (
     <div className="govuk-main-wrapper">
       <h1 className="govuk-heading-xl small-bottom-margin">
