@@ -42,10 +42,16 @@ const ApplicationCard = ({
     applicationDecision && applicationDeterminedAt
       ? definedDecision(applicationDecision, applicationType)
       : undefined;
+  const digitalSiteNotice = application.digitalSiteNotice;
 
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin search-card">
       <div className="govuk-grid-column-full">
+        {digitalSiteNotice && (
+          <div className="govuk-notification-banner govuk-notification-banner--success">
+            I have a notice
+          </div>
+        )}
         {/* row 1 - reference and address */}
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">

@@ -30,7 +30,7 @@
     "logowhite": "camdenlogowhite.svg",
     "publicComments": true,
     "specialistComments": false,
-    "isShowDSN": false,
+    "isShowDSN": true,
     "pageContent": {
       "council_reference_submit_comment_pre_submission": {
         "what_happens_to_your_comments_link": "https://www.camden.gov.uk/commenting-planning-application"

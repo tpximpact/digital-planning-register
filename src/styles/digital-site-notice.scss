@@ -1,3 +1,45 @@
 .small-bottom-margin {
-    margin-bottom:.5em;
+  margin-bottom: 0.5em;
+}
+
+// DSN impact
+.impact-wrap {
+  box-sizing: border-box;
+  background-color: #1d70b8;
+  padding: 20px 0;
+  width: 99.4vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.impact-wrap * {
+  color: #fff;
+}
+
+.impact-wrap > div {
+  max-width: 62rem;
+  padding: 0 20px;
+}
+
+.impact-info {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 30px;
+}
+
+.impact-item-container {
+  width: 18rem;
+}
+
+.wrap-impact-item {
+  display: flex;
+  justify-content: space-between;
 }

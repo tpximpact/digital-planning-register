@@ -119,7 +119,7 @@ const fakeApplication = {
 export const handlers = [
   // Handler for endpoint that retrieves planning applications based on a search criteria
   http.get("*/public/planning_applications/search*", async () => {
-    return HttpResponse.json({
+    const response = {
       metadata: {
         page: 1,
         results: 2,
@@ -133,6 +133,35 @@ export const handlers = [
           application: {
             type: fakeApplication.type,
             reference: fakeApplication.reference,
+            // digitalSiteNotice: "123",
+            digitalSiteNotice: {
+              name: "Digital Site Notice Title",
+              proposedLandUse: {
+                classA: false,
+                classB: true,
+                classC: false,
+                classD: false,
+                classE: false,
+              },
+              height: 5,
+              constructionTime: "2024-2028",
+              showHousing: true,
+              housing: {
+                residentialUnits: 5,
+                affordableResidentialUnits: 3,
+              },
+              showOpenSpace: true,
+              openSpaceArea: 3,
+              showJobs: true,
+              jobs: {
+                min: 1,
+                max: 5,
+              },
+              showCarbon: true,
+              carbonEmissions: 5,
+              showAccess: true,
+              access: "This is a paragraph about access",
+            },
             fullReference: fakeApplication.fullReference,
             targetDate: fakeApplication.targetDate,
             receivedAt: fakeApplication.receivedAt,
@@ -150,7 +179,12 @@ export const handlers = [
           proposal: fakeApplication.proposal,
         },
       ],
-    });
+    };
+    console.log(
+      "MSW handler returning response:",
+      JSON.stringify(response, null, 2),
+    );
+    return HttpResponse.json(response);
   }),
 
   // Handler for endpoint that retrieves a planning application given a reference
@@ -177,6 +211,35 @@ export const handlers = [
             publishedComments: fakeApplication.consultation.publishedComments,
             consulteeComments: fakeApplication.consultation.consulteeComments,
           },
+          digitalSiteNotice: {
+            name: "Digital Site Notice Title",
+            proposedLandUse: {
+              classA: false,
+              classB: true,
+              classC: false,
+              classD: false,
+              classE: false,
+            },
+            height: 5,
+            constructionTime: "2024-2028",
+            showHousing: true,
+            housing: {
+              residentialUnits: 5,
+              affordableResidentialUnits: 3,
+            },
+            showOpenSpace: true,
+            openSpaceArea: 3,
+            showJobs: true,
+            jobs: {
+              min: 1,
+              max: 5,
+            },
+            showCarbon: true,
+            carbonEmissions: 5,
+            showAccess: true,
+            access: "This is a paragraph about access",
+          },
+          // digitalSiteNotice: "123",
         },
         property: fakeApplication.property,
         proposal: fakeApplication.proposal,
@@ -238,6 +301,35 @@ export const handlers = [
       consultee_comments: fakeApplication.consultation.consulteeComments,
       consultation: {
         end_date: fakeApplication.consultation.endDate,
+      },
+      // digitalSiteNotice: "123",
+      digitalSiteNotice: {
+        name: "Digital Site Notice Title",
+        proposedLandUse: {
+          classA: false,
+          classB: true,
+          classC: false,
+          classD: false,
+          classE: false,
+        },
+        height: 5,
+        constructionTime: "2024-2028",
+        showHousing: true,
+        housing: {
+          residentialUnits: 5,
+          affordableResidentialUnits: 3,
+        },
+        showOpenSpace: true,
+        openSpaceArea: 3,
+        showJobs: true,
+        jobs: {
+          min: 1,
+          max: 5,
+        },
+        showCarbon: true,
+        carbonEmissions: 5,
+        showAccess: true,
+        access: "This is a paragraph about access",
       },
       make_public: fakeApplication.make_public,
     });
