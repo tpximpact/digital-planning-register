@@ -5,7 +5,6 @@ import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
 import { postComment } from "@/actions";
 import { ButtonLink } from "../button";
-import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 
 const topics_selection = [
   {
@@ -72,7 +71,6 @@ const CommentCheckAnswer = ({
     { topic: string; comment: string }[]
   >([]);
   const [submissionError, setSubmissionError] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(false);
   const [hasLoadedData, setHasLoadedData] = useState(false);
 
   const councilConfig: Config = config;
@@ -116,12 +114,6 @@ const CommentCheckAnswer = ({
 
     loadData();
   }, [reference]);
-
-  useEffect(() => {
-    if (hasLoadedData) {
-      setHasUnsavedChanges(true);
-    }
-  }, [hasLoadedData, setHasUnsavedChanges]);
 
   const formatSelectedTopics = (topics: string[]) => {
     return topics
@@ -167,7 +159,6 @@ const CommentCheckAnswer = ({
           }
         });
         updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
-        setHasUnsavedChanges(false);
         navigateToPage(6);
       } else {
         throw new Error("Submission failed");

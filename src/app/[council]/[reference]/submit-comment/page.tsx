@@ -37,7 +37,10 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(
+    false,
+    page,
+  );
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -276,7 +279,6 @@ const Comment = ({ params }: Props) => {
       navigateToPage,
       updateProgress,
       isEditing,
-      setHasUnsavedChanges,
     };
 
     switch (page) {

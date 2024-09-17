@@ -19,12 +19,10 @@ const CommentTopicSelection = ({
   reference,
   onTopicSelection,
   updateProgress,
-  setHasUnsavedChanges,
 }: {
   reference: string;
   onTopicSelection: (topics: string[]) => void;
   updateProgress: (completedPage: number) => void;
-  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void;
 }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
@@ -44,7 +42,6 @@ const CommentTopicSelection = ({
         selectedTopics.join(","),
       );
       updateProgress(2);
-      setHasUnsavedChanges(false);
       onTopicSelection(selectedTopics);
     } else {
       setValidationError(true);
@@ -61,7 +58,6 @@ const CommentTopicSelection = ({
         return [...prev, topic];
       }
     });
-    setHasUnsavedChanges(true);
     setValidationError(false);
   };
 
