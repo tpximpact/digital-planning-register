@@ -22,7 +22,7 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
         />
       </div>
       <div className="govuk-grid-column-two-thirds">
-        <p className="govuk-body">
+        <p className="govuk-body document-title-link">
           <a
             href={document?.url}
             className="govuk-link govuk-link--no-visited-state"
