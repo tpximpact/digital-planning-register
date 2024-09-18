@@ -43,6 +43,15 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
+    applicant: {
+      type: application.applicant?.type,
+      address: application.applicant?.address?.sameAsSiteAddress
+        ? application.property.address.singleLine
+        : "",
+      agent: {
+        address: `${application.applicant?.agent?.address.line1}, ${application.applicant?.agent?.address.town}, ${application.applicant?.agent?.address.postcode}`,
+      },
+    },
   };
 };
 
@@ -73,7 +82,6 @@ export const convertPlanningApplicationOverviewBops = (
 
   // add fake application form document
   const applicationFormDocument = ApplicationFormObject(council, reference);
-
   return {
     reference: application.reference,
     type: {

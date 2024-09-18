@@ -6,6 +6,21 @@ import { DprDocument } from "./document";
  * This interface represents a minimal application object
  * @todo this should align closely with ODP not BOPS
  */
+
+interface AgentAddress {
+  town: string;
+  line1: string;
+  postcode: string;
+}
+interface Agent {
+  address: string;
+}
+/** we don't have any schema showing the options in Bops
+ * @todo update the right schema when we get from Bops
+ */
+interface ApplicantAddress {
+  sameAsSiteAddress: boolean;
+}
 export interface DprPlanningApplication {
   application: DprPlanningApplicationOverview;
   property: {
@@ -18,6 +33,11 @@ export interface DprPlanningApplication {
   };
   proposal: {
     description: string;
+  };
+  applicant: {
+    type: string;
+    address: string;
+    agent: Agent;
   };
 }
 
