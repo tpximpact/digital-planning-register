@@ -7,6 +7,7 @@ on:
 jobs:
   pa11y:
     runs-on: ubuntu-latest
+    environment: test
 
     container:
       image: buildkite/puppeteer:10.0.0
@@ -14,8 +15,8 @@ jobs:
     env:
       NODE_ENV: test
       NEXT_PUBLIC_API_MOCKING: enabled
-      NEXT_PUBLIC_BOPS_API_CAMDEN: ${{ secrets.CAMDEN_STAGE_BOPS_API_URL }}
-      CAMDEN_API_KEY: ${{ secrets.CAMDEN_STAGE_API_KEY }}
+      CAMDEN_BOPS_API_URL: ${{ secrets.CAMDEN_BOPS_API_URL }}
+      CAMDEN_BOPS_API_KEY: ${{ secrets.CAMDEN_BOPS_API_KEY }}
 
     steps:
       - name: Check out code
