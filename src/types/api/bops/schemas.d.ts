@@ -48,8 +48,11 @@ export interface BopsV2PlanningApplicationDetail
     | "id"
     | "applicant_first_name"
     | "applicant_last_name"
+    | "applicant_type"
+    | "applicant_address"
     | "agent_first_name"
     | "agent_last_name"
+    | "agent_address"
     | "documents"
   > {}
 
