@@ -9,7 +9,7 @@ type Props = {
 const DigitalSiteNotice = ({ params }: Props) => {
   const council = params.council;
   const councilConfig = config as Config;
-  if (!councilConfig[council].isShowDSN) {
+  if (!councilConfig[council]?.isShowDSN) {
     redirect(`/${council}`);
   }
   return (
