@@ -93,6 +93,9 @@ export default async function PlanningApplicationDetails({
           applicant_last_name={application.application.applicant_last_name}
           agent_first_name={application.application.agent_first_name}
           agent_last_name={application.application.agent_last_name}
+          applicant_type={application.applicant.type}
+          applicant_address={application.applicant.address}
+          agent_address={application.applicant.agent.address}
         />
         {councilConfig?.specialistComments && (
           <CommentsList
