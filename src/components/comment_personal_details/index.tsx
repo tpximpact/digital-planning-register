@@ -33,14 +33,12 @@ const CommentPersonalDetails = ({
   navigateToPage,
   isEditing,
   updateProgress,
-  setHasUnsavedChanges,
 }: {
   council: string;
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
   updateProgress: (completedPage: number) => void;
-  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void;
 }) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "",
@@ -83,7 +81,6 @@ const CommentPersonalDetails = ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    setHasUnsavedChanges(true);
     setValidationErrors({});
   };
 
@@ -117,7 +114,6 @@ const CommentPersonalDetails = ({
         JSON.stringify(personalDetails),
       );
       updateProgress(4);
-      setHasUnsavedChanges(false);
       navigateToPage(5);
     }
   };
