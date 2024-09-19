@@ -8,6 +8,7 @@ import NotFound from "../../not-found";
 import Pagination from "@/components/pagination";
 import { Config } from "@/types";
 import config from "../../../../util/config.json";
+import { redirect } from "next/navigation";
 
 const resultsPerPage = 10;
 
@@ -61,6 +62,7 @@ export async function generateMetadata({
 }
 const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
   const councilConfig = config as Config;
+
   const response = await fetchData({ params, searchParams });
   const applications = response?.data?.data;
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
@@ -70,6 +72,10 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
 
   if (response?.status?.code !== 200) {
     return <NotFound params={params} />;
+  }
+
+  if (!councilConfig[council]?.isShowDSN) {
+    redirect(`/${council}`);
   }
 
   return (
