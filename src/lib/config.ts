@@ -10,13 +10,12 @@ export const updateCouncilConfig = (
   councilConfig: Council,
 ): Council => {
   const councilApi = "NEXT_PUBLIC_" + council.toUpperCase() + "_SELECTABLE";
-
   return {
+    ...councilConfig,
     isSelectable:
       process.env[councilApi] == "" || !process.env[councilApi]
         ? "true"
         : process.env[councilApi],
-    ...councilConfig,
   };
 };
 
@@ -27,7 +26,6 @@ export const updateCouncilConfig = (
  */
 export const getCouncilConfig = (council: string): Council | undefined => {
   const councilConfig: Config = config;
-
   return councilConfig[council]
     ? updateCouncilConfig(council, councilConfig[council])
     : undefined;

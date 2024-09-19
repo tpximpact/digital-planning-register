@@ -26,7 +26,6 @@ const CommentTextEntry = ({
   updateProgress,
   currentTopicIndex,
   totalTopics,
-  setHasUnsavedChanges,
 }: {
   reference: string;
   currentTopic: string;
@@ -34,7 +33,6 @@ const CommentTextEntry = ({
   updateProgress: (completedPage: number) => void;
   currentTopicIndex: number;
   totalTopics: number;
-  setHasUnsavedChanges: (hasUnsavedChanges: boolean) => void;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
@@ -67,7 +65,6 @@ const CommentTextEntry = ({
       setNormalisedCharCount(newCount);
       setIsMaxLength(newCount === MAX_COMMENT_LENGTH);
       setValidationError(false);
-      setHasUnsavedChanges(true);
     } else {
       setIsMaxLength(true);
     }
@@ -78,7 +75,6 @@ const CommentTextEntry = ({
     if (comment && normalisedCharCount <= MAX_COMMENT_LENGTH) {
       sessionStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
       updateProgress(3);
-      setHasUnsavedChanges(false);
       onContinue();
     } else {
       setValidationError(true);

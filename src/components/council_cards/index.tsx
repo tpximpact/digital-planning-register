@@ -12,7 +12,7 @@ export const CouncilCards = async () => {
       {councils.map((council) => {
         const { name, logo, isSelectable } = councilConfig[council];
         return (
-          isSelectable == "true" && (
+          isSelectable?.toString() == "true" && (
             <Link
               href={`/${council}`}
               className="govuk-button govuk-button--secondary"

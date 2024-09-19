@@ -1,23 +1,21 @@
 import { useState, useEffect } from "react";
 
-const useUnsavedChanges = (initialUnsavedState = false) => {
+const useUnsavedChanges = (initialUnsavedState = false, currentPage = 0) => {
   const [hasUnsavedChanges, setHasUnsavedChanges] =
     useState(initialUnsavedState);
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (hasUnsavedChanges) {
+      if (currentPage > 1 || (currentPage > 1 && hasUnsavedChanges)) {
         event.preventDefault();
-        return;
       }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hasUnsavedChanges]);
+  }, [hasUnsavedChanges, currentPage]);
 
   return [hasUnsavedChanges, setHasUnsavedChanges] as const;
 };

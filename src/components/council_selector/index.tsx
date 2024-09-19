@@ -17,7 +17,8 @@ const CouncilSelector = ({
 
   const councilKeys = Object.keys(councilConfig);
   const councilOptions = councilKeys.filter(
-    (councilKey) => councilConfig[councilKey].isSelectable == "true",
+    (councilKey) =>
+      councilConfig[councilKey].isSelectable?.toString() == "true",
   );
 
   useEffect(() => {
