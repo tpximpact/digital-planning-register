@@ -10,6 +10,7 @@ import PhaseBanner from "@/components/phase_banner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
 import { DprAnalytics } from "@/lib/DprAnalytics";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 export default function RootLayout({
   children,
