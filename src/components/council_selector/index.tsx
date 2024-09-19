@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
-import config from "../../../util/config.json";
+import { capitalizeFirstLetter } from "@/util";
 import { Config } from "@/types";
 
 interface CouncilSelectorProps {
   currentPath: string;
+  councilConfig: Config;
 }
 
-const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
-  const councilConfig = config as Config;
-  const councilOptions = Object.keys(councilConfig);
+const CouncilSelector = ({
+  currentPath,
+  councilConfig,
+}: CouncilSelectorProps) => {
   const [selectedCouncil, setSelectedCouncil] = useState(
     currentPath.split("/")[1] || "select",
+  );
+
+  const councilKeys = Object.keys(councilConfig);
+  const councilOptions = councilKeys.filter(
+    (councilKey) =>
+      councilConfig[councilKey].isSelectable?.toString() == "true",
   );
 
   useEffect(() => {
@@ -40,9 +48,9 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
               autoComplete="on"
             >
               <option value="select">Select your council</option>
-              {councilOptions.map((councilKey) => (
+              {councilOptions?.map((councilKey: string) => (
                 <option key={councilKey} value={councilKey}>
-                  {councilConfig[councilKey].name}
+                  {capitalizeFirstLetter(councilKey)}
                 </option>
               ))}
             </select>
@@ -65,9 +73,9 @@ const CouncilSelector = ({ currentPath }: CouncilSelectorProps) => {
         autoComplete="on"
       >
         <option value="select">Select your council</option>
-        {councilOptions.map((councilKey) => (
+        {councilOptions?.map((councilKey: string) => (
           <option key={councilKey} value={councilKey}>
-            {councilConfig[councilKey].name}
+            {capitalizeFirstLetter(councilKey)}
           </option>
         ))}
       </select>

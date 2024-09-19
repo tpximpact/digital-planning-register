@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Menu from "../menu";
 import Image from "next/image";
@@ -5,24 +6,42 @@ import { useParams } from "next/navigation";
 import config from "../../../util/config.json";
 import { Config } from "@/types";
 import path from "path";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
-  currentPath: string;
+  councilConfig: Config;
 }
 
-const Header = ({ currentPath }: HeaderProps) => {
+const Header = ({ councilConfig }: HeaderProps) => {
   const params = useParams();
+  const currentPath = usePathname();
   const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
 
-  const councilConfig = config as Config;
+  if (typeof window !== "undefined") {
+    const govUk = require("govuk-frontend");
+    govUk.initAll();
+  }
+
   const logo = councilConfig[council]?.logowhite;
   const name = councilConfig[council]?.name;
+  const isShowDSN = councilConfig[council]?.isShowDSN;
   const logoPath =
     logo &&
     logo !== "" &&
     path.join(process.cwd(), "public", "images", "logos", logo);
+
+  useEffect(() => {
+    async function initiateMockAPI() {
+      if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+        const initMocks = (await import("../../../mocks")).default;
+        await initMocks();
+      }
+    }
+
+    initiateMockAPI();
+  }, []);
 
   return (
     <header className="govuk-header" role="banner" data-module="govuk-header">
@@ -72,11 +91,21 @@ const Header = ({ currentPath }: HeaderProps) => {
       </div>
       {isExtended && (
         <div className="menu" id="navigation" aria-label="Navigation Menu">
-          <Menu currentPath={currentPath} council={name} />
+          <Menu
+            currentPath={currentPath}
+            council={name}
+            isShowDSN={isShowDSN}
+            councilConfig={councilConfig}
+          />
         </div>
       )}
       <div className="menu-desktop" id="navigation-desktop">
-        <Menu currentPath={currentPath} council={name} />
+        <Menu
+          currentPath={currentPath}
+          council={name}
+          isShowDSN={isShowDSN}
+          councilConfig={councilConfig}
+        />
       </div>
     </header>
   );

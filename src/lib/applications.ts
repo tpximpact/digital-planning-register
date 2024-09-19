@@ -1,5 +1,8 @@
 import { isAfter, isBefore, isEqual } from "date-fns";
-import { DprPlanningApplication } from "@/types";
+import {
+  DprPlanningApplication,
+  DprPlanningApplicationOverview,
+} from "@/types";
 import { capitaliseWord } from "../../util/capitaliseWord";
 import { contentApplicationTypes } from "@/app/[council]/planning-process/content-application-types";
 import { contentApplicationStatuses } from "@/app/[council]/planning-process/content-application-statuses";
@@ -7,6 +10,7 @@ import { PageContent } from "@/app/[council]/planning-process/page";
 import { convertCommentBops, sortComments } from "./comments";
 import {
   BopsPlanningApplication,
+  BopsApplicationOverview,
   BopsV2PlanningApplicationDetail,
 } from "@/types/api/bops";
 import { ApplicationFormObject } from "@/components/application_form";
@@ -22,55 +26,12 @@ export const convertPlanningApplicationBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
-  const { consulteeComments = [], publishedComments = [] } =
-    application.application.consultation || {};
-
-  const consultee_comments =
-    consulteeComments && consulteeComments.length > 0
-      ? sortComments(consulteeComments?.map(convertCommentBops))
-      : null;
-
-  const published_comments =
-    publishedComments && publishedComments.length > 0
-      ? sortComments(publishedComments?.map(convertCommentBops))
-      : null;
-
-  const reference = application.application.reference;
-
-  // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
-
   return {
-    application: {
-      reference: application.application.reference,
-      type: {
-        description: application.application.type.description,
-      },
-      status: application.application.status,
-      consultation: {
-        endDate: application.application.consultation?.endDate ?? null,
-        consulteeComments: consultee_comments,
-        publishedComments: published_comments,
-      },
-      receivedAt: application.application.receivedAt,
-      validAt: application.application.validAt ?? null,
-      publishedAt: application.application.publishedAt ?? null,
-      determinedAt: application.application.determinedAt ?? null,
-      decision: application.application.decision ?? null,
-
-      // missing fields from public endpoint
-      id: privateApplication?.id ?? 0,
-      applicant_first_name: privateApplication?.applicant_first_name ?? "",
-      applicant_last_name: privateApplication?.applicant_last_name ?? "",
-      agent_first_name: privateApplication?.agent_first_name ?? "",
-      agent_last_name: privateApplication?.agent_last_name ?? "",
-      documents: privateApplication?.documents
-        ? [
-            applicationFormDocument,
-            ...privateApplication.documents.map(convertDocumentBopsNonStandard),
-          ]
-        : null,
-    },
+    application: convertPlanningApplicationOverviewBops(
+      council,
+      application.application,
+      privateApplication,
+    ),
     property: {
       address: {
         singleLine: application.property.address.singleLine,
@@ -82,6 +43,66 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
+  };
+};
+
+/**
+ * Converts BOPS application overview into our standard format
+ * @param comment
+ * @returns
+ */
+export const convertPlanningApplicationOverviewBops = (
+  council: string,
+  application: BopsApplicationOverview,
+  privateApplication?: BopsV2PlanningApplicationDetail | null,
+): DprPlanningApplicationOverview => {
+  const { consulteeComments = [], publishedComments = [] } =
+    application.consultation || {};
+
+  const consultee_comments =
+    consulteeComments && consulteeComments.length > 0
+      ? sortComments(consulteeComments?.map(convertCommentBops))
+      : null;
+
+  const published_comments =
+    publishedComments && publishedComments.length > 0
+      ? sortComments(publishedComments?.map(convertCommentBops))
+      : null;
+
+  const reference = application.reference;
+
+  // add fake application form document
+  const applicationFormDocument = ApplicationFormObject(council, reference);
+
+  return {
+    reference: application.reference,
+    type: {
+      description: application.type.description,
+    },
+    status: application.status,
+    consultation: {
+      endDate: application.consultation?.endDate ?? null,
+      consulteeComments: consultee_comments,
+      publishedComments: published_comments,
+    },
+    receivedAt: application.receivedAt,
+    validAt: application.validAt ?? null,
+    publishedAt: application.publishedAt ?? null,
+    determinedAt: application.determinedAt ?? null,
+    decision: application.decision ?? null,
+
+    // missing fields from public endpoint
+    id: privateApplication?.id ?? 0,
+    applicant_first_name: privateApplication?.applicant_first_name ?? "",
+    applicant_last_name: privateApplication?.applicant_last_name ?? "",
+    agent_first_name: privateApplication?.agent_first_name ?? "",
+    agent_last_name: privateApplication?.agent_last_name ?? "",
+    documents: privateApplication?.documents
+      ? [
+          applicationFormDocument,
+          ...privateApplication.documents.map(convertDocumentBopsNonStandard),
+        ]
+      : null,
   };
 };
 
@@ -166,6 +187,20 @@ export function definedStatus(status: string, end_date: string | null) {
 }
 
 /**
+ * @param {string} status - The status formatted
+ * @returns {string} - Class that define the status color
+ */
+export function definedStatusClass(status: string) {
+  const statusDefined: { [key: string]: string } = {
+    Determined: "positive",
+    "Consultation in progress": "neutral",
+    "Assessment in progress": "neutral",
+  };
+
+  return statusDefined[status];
+}
+
+/**
  * Returns a formatted decision string based on the application type.
  *
  * For "prior_approval" application types, it returns a specific message
@@ -185,6 +220,23 @@ export function definedDecision(decision: string, application_type: string) {
   return application_type === "prior_approval"
     ? prior_approval_decision[decision]
     : capitaliseWord(decision);
+}
+
+/**
+ * @param {string} decision - The decision formatted
+ * @returns {string} - Class that will define the decision color
+ */
+
+export function definedDecisionClass(decision: string) {
+  const decisionDefined: { [key: string]: string } = {
+    Granted: "positive",
+    "Prior approval required and approved": "positive",
+    "Prior approval not required": "positive",
+    "Prior approval required and refused": "negative",
+    Refused: "negative",
+  };
+
+  return decisionDefined[decision];
 }
 
 /**

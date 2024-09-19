@@ -82,7 +82,7 @@ const ApplicationMapMap = ({
   if (isClient) {
     if (geojsonData) {
       return (
-        <div role="region" aria-label="map" id="osl-map">
+        <div role="region" aria-label="map" className="osl-map">
           <my-map
             role="application"
             geojsonData={geojsonData}

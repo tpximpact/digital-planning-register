@@ -1,12 +1,20 @@
 import Link from "next/link";
 import CouncilSelector from "../council_selector";
+import { Config } from "@/types";
 
 interface MenuProps {
   currentPath: string;
   council: string;
+  isShowDSN?: boolean;
+  councilConfig: Config;
 }
 
-const Menu = ({ currentPath, council }: MenuProps) => {
+const Menu = ({
+  currentPath,
+  council,
+  isShowDSN,
+  councilConfig,
+}: MenuProps) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
       <ul
@@ -14,7 +22,10 @@ const Menu = ({ currentPath, council }: MenuProps) => {
         className="govuk-header__navigation-list govuk-width-container"
       >
         <li className="govuk-header__navigation-item no-space">
-          <CouncilSelector currentPath={currentPath} />
+          <CouncilSelector
+            currentPath={currentPath}
+            councilConfig={councilConfig}
+          />
         </li>
         {currentPath !== "/" && (
           <>
@@ -29,6 +40,23 @@ const Menu = ({ currentPath, council }: MenuProps) => {
                 Application search
               </Link>
             </li>
+            {isShowDSN && (
+              <li
+                className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/digital-site-notice" && "current-item"}`}
+              >
+                <Link
+                  className="govuk-header__link nav-link"
+                  href={
+                    council
+                      ? `/${council.toLowerCase()}/digital-site-notice`
+                      : "/"
+                  }
+                  role="link"
+                >
+                  Digital site notice
+                </Link>
+              </li>
+            )}
             <li
               className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/planning-process" && "current-item"}`}
             >

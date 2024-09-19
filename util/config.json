@@ -5,6 +5,7 @@
     "publicComments": false,
     "specialistComments": false,
     "analytics": false,
+    "isShowDSN": false,
     "pageContent": {
       "privacy_policy": {
         "privacy_policy_link": "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices"
@@ -17,9 +18,10 @@
     "publicComments": false,
     "specialistComments": false,
     "analytics": false,
+    "isShowDSN": false,
     "pageContent": {
       "privacy_policy": {
-        "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-information-for-specific-services%20/"
+        "privacy_policy_link": "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-policy/"
       }
     }
   },
@@ -33,6 +35,7 @@
     "analytics": {
       "type": "gtm"
     },
+    "isShowDSN": false,
     "pageContent": {
       "council_reference_submit_comment_pre_submission": {
         "what_happens_to_your_comments_link": "https://www.camden.gov.uk/commenting-planning-application"
@@ -49,6 +52,9 @@
       },
       "privacy_policy": {
         "privacy_policy_link": "https://www.camden.gov.uk/data-protection-privacy-and-cookies"
+      },
+      "digital_site_notice": {
+        "sign_up_for_alerts_link": "https://accountforms.camden.gov.uk/alert-web/select.xhtml?alertType=PLANNING"
       }
     }
   },
@@ -82,6 +88,7 @@
     "publicComments": false,
     "specialistComments": false,
     "analytics": false,
+    "isShowDSN": false,
     "pageContent": {
       "privacy_policy": {
         "privacy_policy_link": "https://www.southwark.gov.uk/terms-and-disclaimer/corporate-data-privacy-notice"

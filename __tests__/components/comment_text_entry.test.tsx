@@ -9,6 +9,8 @@ describe("CommentTextEntry", () => {
     currentTopic: "design",
     onContinue: jest.fn(),
     updateProgress: jest.fn(),
+    currentTopicIndex: 0,
+    totalTopics: 1,
   };
 
   beforeEach(() => {

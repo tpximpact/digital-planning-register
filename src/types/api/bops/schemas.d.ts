@@ -5,6 +5,7 @@ import {
   BopsPlanningApplication,
   BopsSearchLinks,
   BopsSearchMetadata,
+  BopsApplicationSubmission,
 } from "./definitions/application";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
 
@@ -16,6 +17,19 @@ export interface BopsV2PublicPlanningApplicationsSearch {
   metadata: BopsSearchMetadata;
   links: BopsSearchLinks;
   data: BopsPlanningApplication[];
+}
+
+interface DeterminedStatus {
+  code: number;
+  message: string;
+}
+/**
+ * GET /api/v2/planning_applications/determined
+ */
+export interface BopsV2Determined {
+  metadata: BopsSearchMetadata;
+  data: DSNPlanningApplication[];
+  status: DeterminedStatus;
 }
 
 /**
@@ -54,8 +68,10 @@ export interface BopsV2PublicPlanningApplicationDocuments {
 /**
  * GET /api/v2/planning_applications/{reference}/submission
  */
-export interface BopsV2PlanningApplicationsSubmission
-  extends BopsApplicationSubmission {}
+export interface BopsV2PlanningApplicationsSubmission {
+  application: BopsApplicationOverview;
+  submission: BopsApplicationSubmissionData | null;
+}
 
 /**
  * POST /api/v1/planning_applications/{id}/neighbour_responses

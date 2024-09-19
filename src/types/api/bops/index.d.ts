@@ -6,3 +6,4 @@ export * from "./definitions/application";
 export * from "./definitions/boundary-geojson";
 export * from "./definitions/document";
 export * from "./definitions/comment";
+export * from "./definitions/application-submission";

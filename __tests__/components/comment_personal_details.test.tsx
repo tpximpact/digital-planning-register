@@ -62,7 +62,7 @@ describe("CommentPersonalDetails", () => {
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
   });
 
-  it("navigates to the next page and updates progress when the form is submitted with valid data", () => {
+  it("navigates to the next page, updates progress when the form is submitted with valid data", () => {
     render(<CommentPersonalDetails {...defaultProps} />);
     fireEvent.change(screen.getByLabelText("Name"), {
       target: { value: "John Doe" },

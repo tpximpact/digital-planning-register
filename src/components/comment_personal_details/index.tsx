@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
@@ -81,6 +81,7 @@ const CommentPersonalDetails = ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+    setValidationErrors({});
   };
 
   const validatePersonalDetails = (): boolean => {
@@ -288,8 +289,7 @@ const CommentPersonalDetails = ({
               </p>
               <p className="govuk-body">
                 Your comments will be made available online for the public to
-                see. We will not include your name, address, telephone number or
-                email address.
+                see.
               </p>
               <p className="govuk-body">
                 We&apos;ll make sure any other personal or sensitive information

@@ -5,9 +5,13 @@ export async function handleBopsGetRequest<T>(
   v1?: boolean,
 ): Promise<T> {
   v1 = v1 ?? false;
-  const apiKey = council.toUpperCase() + "_API_KEY";
-  const councilApi =
-    "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase() + (v1 ? "_V1" : "");
+
+  // COUNCIL_BOPS_API_KEY=
+  const apiKey = `${council.toUpperCase()}_BOPS_API_KEY`;
+
+  // COUNCIL_BOPS_API_URL=
+  // COUNCIL_BOPS_API_URL_V1=
+  const councilApi = `${council.toUpperCase()}_BOPS_API_URL${v1 ? "_V1" : ""}`;
 
   if (!process.env[councilApi]) {
     return {
@@ -63,7 +67,6 @@ export async function handleBopsGetRequest<T>(
     }
   }
 }
-
 export async function handleBopsPostRequest<T>(
   council: string,
   url: string,
@@ -71,9 +74,13 @@ export async function handleBopsPostRequest<T>(
   v1?: boolean,
 ): Promise<T> {
   v1 = v1 ?? false;
-  const apiKey = council.toUpperCase() + "_API_KEY";
-  const councilApi =
-    "NEXT_PUBLIC_BOPS_API_" + council.toUpperCase() + (v1 ? "_V1" : "");
+
+  // COUNCIL_BOPS_API_KEY=
+  const apiKey = `${council.toUpperCase()}_BOPS_API_KEY`;
+
+  // COUNCIL_BOPS_API_URL=
+  // COUNCIL_BOPS_API_URL_V1=
+  const councilApi = `${council.toUpperCase()}_BOPS_API_URL${v1 ? "_V1" : ""}`;
 
   if (!process.env[councilApi]) {
     return {

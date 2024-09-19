@@ -1,12 +1,11 @@
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
-import { ApiResponse } from "@/types";
-import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
+import { ApiResponse, DprApplicationSubmission } from "@/types";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
-import { format } from "date-fns";
 import { getApplicationSubmission } from "@/actions";
+import { formatDprDateTime } from "../../../../../util/formatDates";
 
 interface PageParams {
   council: string;
@@ -19,7 +18,7 @@ interface ApplicationFormProps {
 
 async function fetchData(
   params: PageParams,
-): Promise<ApiResponse<BopsV2PlanningApplicationsSubmission | null>> {
+): Promise<ApiResponse<DprApplicationSubmission | null>> {
   const { reference, council } = params;
   const response = await getApplicationSubmission(reference, council);
   return response;
@@ -38,7 +37,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Application ${response.data.application.reference}`,
+    title: `Application ${response?.data?.application?.reference}`,
     description: `${capitaliseWord(params.council)} planning application`,
   };
 }
@@ -52,6 +51,9 @@ export default async function ApplicationFormPage({
   if (!response.data) {
     return <NotFound params={params} />;
   }
+
+  const submittedAt = response?.data?.submission?.metadata.submittedAt;
+  const applicationSubmissionData = response?.data?.submission?.data;
 
   return (
     <div className="govuk-main-wrapper">
@@ -69,18 +71,20 @@ export default async function ApplicationFormPage({
 
         <div className="govuk-grid-column-one-half">
           <h2 className="govuk-heading-m">Submitted</h2>
-          <p>
-            {/* @todo date format should be 2 May 2024 at 3:14pm */}
-            {response?.data?.submission?.metadata.submittedAt
-              ? format(
-                  new Date(response.data.submission.metadata.submittedAt),
-                  "dd MMM yyyy hh:mm aa",
-                )
-              : "Date not available"}
-          </p>
+          <div>
+            {submittedAt ? (
+              formatDprDateTime(submittedAt)
+            ) : (
+              <p className="govuk-body">Date not available</p>
+            )}
+          </div>
         </div>
       </div>
-      <ApplicationForm {...response.data} />
+      {applicationSubmissionData ? (
+        <ApplicationForm submissionData={applicationSubmissionData} />
+      ) : (
+        <p className="govuk-body">Submission data not available</p>
+      )}
     </div>
   );
 }

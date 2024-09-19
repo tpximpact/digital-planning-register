@@ -1,6 +1,7 @@
 import Image from "next/image";
 import file from "../../../public/images/file-icon-default.svg";
 import { DprDocument } from "@/types";
+import formatFileSize from "../../../util/formatFileSize";
 
 interface DocumentCardProps {
   document: DprDocument;
@@ -21,7 +22,7 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
         />
       </div>
       <div className="govuk-grid-column-two-thirds">
-        <p className="govuk-body">
+        <p className="govuk-body document-title-link">
           <a
             href={document?.url}
             className="govuk-link govuk-link--no-visited-state"
@@ -29,21 +30,36 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
             {document?.title}
           </a>
         </p>
-        {document?.created_at && (
-          <p className="govuk-hint">
-            uploaded{" "}
-            {new Date(document?.created_at).toLocaleDateString("en-GB", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        )}
-        {document?.metadata?.contentType !== "text/html" && (
-          <p className="govuk-hint">
-            This file may not be suitable for users of assistive technology.
-          </p>
-        )}
+        <p className="govuk-hint">
+          {document?.metadata?.contentType && (
+            <>
+              {document?.metadata?.contentType !== "text/html"
+                ? document.metadata.contentType
+                    ?.split("/")
+                    .pop()
+                    ?.toUpperCase() + ", "
+                : document.metadata.contentType.toUpperCase()}
+            </>
+          )}
+          {document?.metadata?.byteSize && (
+            <>{formatFileSize(document.metadata.byteSize)}, </>
+          )}
+
+          {document?.created_at && (
+            <>
+              uploaded{" "}
+              {new Date(document.created_at).toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </>
+          )}
+        </p>
+        <p className="govuk-hint">
+          {document?.metadata?.contentType !== "text/html" &&
+            "This file may not be suitable for users of assistive technology."}
+        </p>
       </div>
     </div>
   );

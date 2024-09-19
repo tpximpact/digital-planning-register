@@ -71,6 +71,7 @@ const CommentCheckAnswer = ({
     { topic: string; comment: string }[]
   >([]);
   const [submissionError, setSubmissionError] = useState(false);
+  const [hasLoadedData, setHasLoadedData] = useState(false);
 
   const councilConfig: Config = config;
   const contactPlanningAdviceLink =
@@ -89,24 +90,29 @@ const CommentCheckAnswer = ({
     councilConfig[council]?.contact || "https://www.gov.uk/";
 
   useEffect(() => {
-    setSentiment(sessionStorage.getItem(`sentiment_${reference}`) || "");
-    setSelectedTopics(
-      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
-    );
-    const storedPersonalDetails = sessionStorage.getItem(
-      `personalDetails_${reference}`,
-    );
-    if (storedPersonalDetails) {
-      setPersonalDetails(JSON.parse(storedPersonalDetails));
-    }
+    const loadData = () => {
+      setSentiment(sessionStorage.getItem(`sentiment_${reference}`) || "");
+      setSelectedTopics(
+        sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [],
+      );
+      const storedPersonalDetails = sessionStorage.getItem(
+        `personalDetails_${reference}`,
+      );
+      if (storedPersonalDetails) {
+        setPersonalDetails(JSON.parse(storedPersonalDetails));
+      }
 
-    const storedTopics =
-      sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
-    const loadedComments = storedTopics.map((topic) => ({
-      topic,
-      comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
-    }));
-    setComments(loadedComments);
+      const storedTopics =
+        sessionStorage.getItem(`selectedTopics_${reference}`)?.split(",") || [];
+      const loadedComments = storedTopics.map((topic) => ({
+        topic,
+        comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
+      }));
+      setComments(loadedComments);
+      setHasLoadedData(true);
+    };
+
+    loadData();
   }, [reference]);
 
   const formatSelectedTopics = (topics: string[]) => {
@@ -381,8 +387,7 @@ const CommentCheckAnswer = ({
                 </p>
                 <p className="govuk-body">
                   Your comments will be made available online for the public to
-                  see. We will not include your name, address, telephone number
-                  or email address.
+                  see.
                 </p>
                 <p className="govuk-body">
                   We&apos;ll make sure any other personal or sensitive

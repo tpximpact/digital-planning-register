@@ -114,8 +114,7 @@ const PreSubmission = ({
         )}{" "}
         into account when deciding whether or not to approve the application. As
         part of this process, your comments will be posted online for the public
-        to see. We will not include your name, address, telephone number or
-        email address. The case officer will summarise their findings in the
+        to see. The case officer will summarise their findings in the
         officer&apos;s report and decision notice.
       </p>
       <form onSubmit={handleSubmit}>

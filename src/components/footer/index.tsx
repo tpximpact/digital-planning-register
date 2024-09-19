@@ -1,3 +1,4 @@
+"use client";
 import { getCouncilConfig } from "@/lib/config";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";

@@ -2,15 +2,21 @@ import { Config, Council, SiteConfig } from "@/types";
 import config from "../../util/config.json";
 
 export const siteConfig: SiteConfig = {
-  documentsPublicEndpoint: false,
+  documentsPublicEndpoint: true,
 };
 
-/**
- * Helper function to get config
- * @returns
- */
-export const getConfig = (): Config => {
-  return config;
+export const updateCouncilConfig = (
+  council: string,
+  councilConfig: Council,
+): Council => {
+  const councilApi = "NEXT_PUBLIC_" + council.toUpperCase() + "_SELECTABLE";
+  return {
+    ...councilConfig,
+    isSelectable:
+      process.env[councilApi] == "" || !process.env[councilApi]
+        ? "true"
+        : process.env[councilApi],
+  };
 };
 
 /**
@@ -20,6 +26,19 @@ export const getConfig = (): Config => {
  */
 export const getCouncilConfig = (council: string): Council | undefined => {
   const councilConfig: Config = config;
+  return councilConfig[council]
+    ? updateCouncilConfig(council, councilConfig[council])
+    : undefined;
+};
 
-  return councilConfig[council] ? councilConfig[council] : undefined;
+export const getConfig = async (): Promise<Config> => {
+  const councilConfig: Config = config;
+
+  Object.keys(config).forEach((council) => {
+    councilConfig[council] = updateCouncilConfig(
+      council,
+      councilConfig[council],
+    );
+  });
+  return config;
 };

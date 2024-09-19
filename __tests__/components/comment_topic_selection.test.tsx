@@ -44,7 +44,7 @@ describe("CommentTopicSelection", () => {
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
   });
 
-  it("calls onTopicSelection and updateProgress when topics are selected and the form is submitted", () => {
+  it("calls onTopicSelection, updateProgress", () => {
     render(<CommentTopicSelection {...defaultProps} />);
     fireEvent.click(
       screen.getByLabelText(
