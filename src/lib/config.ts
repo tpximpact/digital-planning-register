@@ -9,13 +9,21 @@ export const updateCouncilConfig = (
   council: string,
   councilConfig: Council,
 ): Council => {
-  const councilApi = "NEXT_PUBLIC_" + council.toUpperCase() + "_SELECTABLE";
+  const councilApiSelectable =
+    "NEXT_PUBLIC_" + council.toUpperCase() + "_SELECTABLE";
+  const councilApiKey = council.toUpperCase() + "_BOPS_API_KEY";
+  const councilApiURL = council.toUpperCase() + "_BOPS_API_URL";
+
+  const isSelectable =
+    process.env[councilApiKey] && process.env[councilApiURL]
+      ? process.env[councilApiSelectable] == "" ||
+        !process.env[councilApiSelectable]
+        ? "true"
+        : process.env[councilApiSelectable]
+      : "false";
   return {
     ...councilConfig,
-    isSelectable:
-      process.env[councilApi] == "" || !process.env[councilApi]
-        ? "true"
-        : process.env[councilApi],
+    isSelectable,
   };
 };
 
