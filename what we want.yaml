@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: Applicant and Agent data
+  version: 0.0.1
+tags:
+  - name: current
+    description: Current schema
+  - name: required
+    description: Required schema
+paths:
+  "/api/v2/planning_applications/{id}":
+    get:
+      summary: Retrieves a planning application
+      tags:
+        - current
+      parameters:
+        - name: id
+          in: path
+          schema:
+            oneOf:
+              - type: string
+                pattern: d{2}-d{5}-[A-Za-z0-9]+
+              - type: integer
+            description: The planning application reference or ID
+          required: true
+      responses:
+        "200":
+          description: returns a planning application given a reference
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BopsPrivatePlanningApplicationsEndpointResponse"
+  "/api/v2/public/planning_applications/{reference}":
+    get:
+      summary: Retrieves a planning application
+      tags:
+        - current
+      parameters:
+        - name: reference
+          in: path
+          schema:
+            type: string
+            description: The planning application reference
+          required: true
+      responses:
+        "200":
+          description: returns a planning application given a reference
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BopsPublicPlanningApplicationsEndpointResponse"
+
+components:
+  schemas:
+    BopsPrivatePlanningApplicationsEndpointResponse:
+      properties:
+        agent_first_name:
+          type: string
+        agent_last_name:
+          type: string
+        agent_phone:
+          type: string
+        agent_email:
+          type: string
+        applicant_first_name:
+          type: string
+        applicant_last_name:
+          type: string
+    BopsPublicPlanningApplicationsEndpointResponse:
+      properties:
+        application:
+          type: object
+        property:
+          type: object
+        proposal:
+          type: object
+        applicant:
+          type: object
+          properties:
+            address:
+              nullable: true
+              anyOf:
+                - $ref: "#/definitions/Address"
+            agent:
+              anyOf:
+                - type: object
+                  nullable: true
+                  properties:
+                    address:
+                      nullable: true
+                      anyOf:
+                        - $ref: "#/definitions/Address"
+            ownership:
+              nullable: true
+              anyOf:
+                - $ref: "#/definitions/Ownership"
+            type:
+              nullable: true
+              anyOf:
+                - type: string
+          required:
+            - type
+            - address
+            - ownership
+            - agent
+
+# nothing new here - pinched straight from https://camden.bops-staging.services/api/docs/v2/swagger_doc.yaml
+definitions:
+  Address:
+    "$id": "#Address"
+    additionalProperties: false
+    description:
+      Address information for a person associated with this application
+      not at the property address
+    properties:
+      country:
+        type: string
+      county:
+        type: string
+      line1:
+        type: string
+      line2:
+        type: string
+      postcode:
+        type: string
+      town:
+        type: string
+    required:
+      - line1
+      - town
+      - postcode
+    type: object
+  Ownership:
+    "$id": "#Ownership"
+    additionalProperties: false
+    description:
+      Information about the ownership certificate and property owners,
+      if different than the applicant
+    properties:
+      agriculturalTenants:
+        description: Does the land have any agricultural tenants?
+        type: boolean
+      certificate:
+        enum:
+          - a
+          - b
+          - c
+          - d
+        type: string
+      declaration:
+        additionalProperties: false
+        description:
+          Declaration of the accuracy of the ownership certificate, including
+          reasonable steps taken to find all owners and publish notice
+        properties:
+          accurate:
+            const: true
+            type: boolean
+        required:
+          - accurate
+        type: object
+      interest:
+        enum:
+          - owner
+          - owner.sole
+          - owner.co
+          - tenant
+          - occupier
+          - other
+        type: string
+      noticeGiven:
+        description: Has requisite notice been given to all the known owners and
+          agricultural tenants?
+        type: boolean
+      noticePublished:
+        additionalProperties: false
+        description:
+          Has a notice of the application been published in a newspaper
+          circulating in the area where the land is situated?
+        properties:
+          date:
+            "$ref": "#/definitions/Date"
+          newspaperName:
+            type: string
+          status:
+            type: boolean
+        required:
+          - status
+        type: object
+      owners:
+        items:
+          "$ref": "#/definitions/Owners"
+        type: array
+      ownersKnown:
+        description:
+          Do you know the names and addresses of all owners and agricultural
+          tenants?
+        enum:
+          - all
+          - some
+          - none
+        type: string
+    type: object
+  Date:
+    format: date
+    type: string
+  Owners:
+    "$id": "#Owners"
+    anyOf:
+      - "$ref": "#/definitions/OwnersNoticeGiven"
+      - "$ref": "#/definitions/OwnersNoNoticeGiven"
+      - "$ref": "#/definitions/OwnersNoticeDate"
+    description:
+      Names and addresses of all known owners and agricultural tenants,
+      including confirmation or date of notice, or reason requisite notice has not
+      been given if applicable
+  OwnersNoNoticeGiven:
+    additionalProperties: false
+    properties:
+      address:
+        anyOf:
+          - "$ref": "#/definitions/Address"
+          - type: string
+      interest:
+        enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+        type: string
+      name:
+        type: string
+      noNoticeReason:
+        type: string
+      noticeGiven:
+        const: false
+        type: boolean
+    required:
+      - address
+      - name
+      - noNoticeReason
+      - noticeGiven
+    type: object
+  OwnersNoticeDate:
+    additionalProperties: false
+    properties:
+      address:
+        anyOf:
+          - "$ref": "#/definitions/Address"
+          - type: string
+      interest:
+        enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+        type: string
+      name:
+        type: string
+      noticeDate:
+        "$ref": "#/definitions/Date"
+    required:
+      - address
+      - name
+      - noticeDate
+    type: object
+  OwnersNoticeGiven:
+    additionalProperties: false
+    properties:
+      address:
+        anyOf:
+          - "$ref": "#/definitions/Address"
+          - type: string
+      interest:
+        enum:
+          - owner
+          - tenant
+          - occupier
+          - other
+        type: string
+      name:
+        type: string
+      noticeGiven:
+        const: true
+        type: boolean
+    required:
+      - address
+      - name
+      - noticeGiven
+    type: object

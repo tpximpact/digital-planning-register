@@ -2,25 +2,6 @@ import { DprBoundaryGeojson } from "./boundary-geojson";
 import { DprComment } from "./comments";
 import { DprDocument } from "./document";
 
-/**
- * This interface represents a minimal application object
- * @todo this should align closely with ODP not BOPS
- */
-
-interface AgentAddress {
-  town: string;
-  line1: string;
-  postcode: string;
-}
-interface Agent {
-  address: string;
-}
-/** we don't have any schema showing the options in Bops
- * @todo update the right schema when we get from Bops
- */
-interface ApplicantAddress {
-  sameAsSiteAddress: boolean;
-}
 export interface DprPlanningApplication {
   application: DprPlanningApplicationOverview;
   property: {
@@ -34,11 +15,7 @@ export interface DprPlanningApplication {
   proposal: {
     description: string;
   };
-  applicant: {
-    type: string;
-    address: string;
-    agent: Agent;
-  };
+  applicant: DprPlanningApplicationApplicant;
 }
 
 export interface DprPlanningApplicationOverview {
@@ -89,4 +66,85 @@ export interface DprPlanningApplicationOverview {
    * @todo this is missing from the public BOPS response BUT we have a new public endpoint for them
    */
   documents: DprDocument[] | null;
+}
+
+export interface DprPlanningApplicationApplicant {
+  name: {
+    first: string;
+    last: string;
+    /**
+     * Should we use this
+     */
+    title: string;
+  };
+  /**
+   * Added unknown as a type
+   */
+  type:
+    | "individual"
+    | "company"
+    | "charity"
+    | "public"
+    | "parishCouncil"
+    | "unknown";
+  ownership?: {
+    interest:
+      | "owner"
+      | "owner.sole"
+      | "owner.co"
+      | "tenant"
+      | "occupier"
+      | "other";
+  };
+  company?: {
+    name: string;
+  };
+  /**
+   * if we need to show the address for sameAsSiteAddress: true then we can probably use the second address object shown here
+   * UserAddress
+   * Can be null atm while we wait for bops
+   */
+  address:
+    | {
+        sameAsSiteAddress: true;
+      }
+    | {
+        sameAsSiteAddress: false;
+        country?: string;
+        county?: string;
+        line1: string;
+        line2?: string;
+        postcode: string;
+        town: string;
+      }
+    | null;
+  /**
+   * optional since only `Agent` has agent fields
+   */
+  agent?: {
+    name: {
+      first: string;
+      last: string;
+      /**
+       * Should we use this
+       */
+      title: string;
+    };
+
+    company?: {
+      name: string;
+    };
+
+    /**
+     * Address
+     */
+    address: {
+      country?: string;
+      county?: string;
+      line1: string;
+      line2?: string;
+      postcode: string;
+      town: string;
+    };
+  };
 }

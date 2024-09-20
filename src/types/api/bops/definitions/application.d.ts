@@ -5,7 +5,7 @@
 import { BopsBoundaryGeojson } from "./boundary-geojson";
 import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
-import { ApplicantAddress } from "@/types/definitions/planning-application";
+import { BopsBaseApplicant, BopsAgent } from "./../components";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -72,11 +72,7 @@ export interface BopsPlanningApplication {
   proposal: {
     description: string;
   };
-  applicant: {
-    type: string;
-    address: ApplicantAddress;
-    agent: Agent;
-  };
+  applicant: BopsBaseApplicant | BopsAgent;
 }
 
 /**
@@ -86,9 +82,6 @@ export interface BopsPlanningApplication {
 interface BopsNonStandardApplication {
   agent_first_name: string;
   agent_last_name: string;
-  agent_address: string;
-  applicant_type: string;
-  applicant_address: string;
   agent_phone: string;
   agent_email: string;
   applicant_first_name: string;

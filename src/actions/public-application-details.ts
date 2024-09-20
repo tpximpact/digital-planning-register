@@ -32,6 +32,12 @@ export async function getPublicApplicationDetails(
     ),
   ]);
 
+  console.log("\n\n\n\n");
+  console.log("request");
+  console.log(request);
+  console.log("missing_data_request");
+  console.log(missing_data_request);
+
   const convertedData = request?.data
     ? convertPlanningApplicationBops(
         council,
@@ -39,6 +45,9 @@ export async function getPublicApplicationDetails(
         missing_data_request?.data,
       )
     : null;
+
+  console.log("convertedData");
+  console.log(convertedData?.applicant);
 
   return { ...request, data: convertedData };
 }

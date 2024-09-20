@@ -1,0 +1,289 @@
+The old end point that we're aiming to moving away from `https://camden.bops-staging.services/api/v2/planning_applications/24-00136-HAPP` returned 
+
+```json
+{
+  "agent_first_name": "string",
+  "agent_last_name": "string",
+  "agent_phone": "string",
+  "agent_email": "string",
+  "applicant_first_name": "string",
+  "applicant_last_name": "string"
+}
+```
+
+The new endpoint returns 
+
+```json
+{
+    "applicant": {
+      "type": "individual",
+      "name": {
+        "first": "David",
+        "last": "Bowie"
+      },
+      "email": "ziggy@example.com",
+      "phone": {
+        "primary": "Not provided by agent"
+      },
+      "address": {
+        "sameAsSiteAddress": true
+      },
+      "siteContact": {
+        "role": "proxy"
+      },
+      "interest": "owner.sole",
+      "ownership": {
+        "certificate": "a"
+      },
+      "agent": {
+        "name": {
+          "first": "Ziggy",
+          "last": "Stardust"
+        },
+        "email": "ziggy@example.com",
+        "phone": {
+          "primary": "01100 0110 0011"
+        },
+        "address": {
+          "line1": "40 Stansfield Road",
+          "line2": "Brixton",
+          "town": "London",
+          "county": "Greater London",
+          "postcode": "SW9 9RZ",
+          "country": "UK"
+        }
+      }
+    },
+  }
+```
+
+or 
+
+```json
+{
+"applicant": {
+  "type": "company",
+  "name": {
+    "first": "William",
+    "last": "Shakespeare"
+  },
+  "email": "thebard@example.com",
+  "phone": {
+    "primary": "2830407283"
+  },
+  "company": {
+    "name": "Lord Chamberlain's Men"
+  },
+  "address": {
+    "sameAsSiteAddress": true
+  },
+  "siteContact": {
+    "role": "applicant"
+  }
+},
+}
+```
+
+
+
+```json
+{
+  "Applicant": {
+    "$id": "#Applicant",
+    "anyOf": [
+      {
+        "$ref": "#/definitions/BaseApplicant"
+      },
+      {
+        "$ref": "#/definitions/Agent"
+      }
+    ],
+    "description": "The user who completed the application either for themself or on behalf of someone else"
+  },
+  "BaseApplicant": {
+    "$id": "#BaseApplicant",
+    "additionalProperties": false,
+    "description": "Information about the user who completed the application for themself, or information about the person who the user applied on behalf of",
+    "properties": {
+      "address": {
+        "$ref": "#/definitions/UserAddress"
+      },
+      "company": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"],
+        "type": "object"
+      },
+      "email": {
+        "$ref": "#/definitions/Email"
+      },
+      "maintenanceContact": {
+        "$ref": "#/definitions/MaintenanceContact"
+      },
+      "name": {
+        "additionalProperties": false,
+        "properties": {
+          "first": {
+            "type": "string"
+          },
+          "last": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": ["first", "last"],
+        "type": "object"
+      },
+      "ownership": {
+        "$ref": "#/definitions/Ownership"
+      },
+      "phone": {
+        "additionalProperties": false,
+        "properties": {
+          "primary": {
+            "type": "string"
+          }
+        },
+        "required": ["primary"],
+        "type": "object"
+      },
+      "siteContact": {
+        "$ref": "#/definitions/SiteContact"
+      },
+      "type": {
+        "enum": ["individual", "company", "charity", "public", "parishCouncil"],
+        "type": "string"
+      }
+    },
+    "required": ["type", "name", "email", "phone", "address", "siteContact"],
+    "type": "object"
+  },
+  "Agent": {
+    "$id": "#Agent",
+    "additionalProperties": false,
+    "description": "Information about the agent or proxy who completed the application on behalf of someone else",
+    "properties": {
+      "address": {
+        "$ref": "#/definitions/UserAddress"
+      },
+      "agent": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/definitions/Address"
+          },
+          "company": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": ["name"],
+            "type": "object"
+          },
+          "email": {
+            "$ref": "#/definitions/Email"
+          },
+          "name": {
+            "additionalProperties": false,
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": ["first", "last"],
+            "type": "object"
+          },
+          "phone": {
+            "additionalProperties": false,
+            "properties": {
+              "primary": {
+                "type": "string"
+              }
+            },
+            "required": ["primary"],
+            "type": "object"
+          }
+        },
+        "required": ["name", "email", "phone", "address"],
+        "type": "object"
+      },
+      "company": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"],
+        "type": "object"
+      },
+      "email": {
+        "$ref": "#/definitions/Email"
+      },
+      "maintenanceContact": {
+        "$ref": "#/definitions/MaintenanceContact"
+      },
+      "name": {
+        "additionalProperties": false,
+        "properties": {
+          "first": {
+            "type": "string"
+          },
+          "last": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": ["first", "last"],
+        "type": "object"
+      },
+      "ownership": {
+        "$ref": "#/definitions/Ownership"
+      },
+      "phone": {
+        "additionalProperties": false,
+        "properties": {
+          "primary": {
+            "type": "string"
+          }
+        },
+        "required": ["primary"],
+        "type": "object"
+      },
+      "siteContact": {
+        "$ref": "#/definitions/SiteContact"
+      },
+      "type": {
+        "enum": ["individual", "company", "charity", "public", "parishCouncil"],
+        "type": "string"
+      }
+    },
+    "required": [
+      "address",
+      "agent",
+      "email",
+      "name",
+      "phone",
+      "siteContact",
+      "type"
+    ],
+    "type": "object"
+  }
+}
+```
