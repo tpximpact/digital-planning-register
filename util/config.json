@@ -1,7 +1,7 @@
 {
   "barnet": {
     "name": "Barnet",
-    "logo": "barnetlogo.png",
+    "logo": "barnetlogo.svg",
     "publicComments": false,
     "specialistComments": false,
     "isShowDSN": false,
