@@ -21,9 +21,14 @@ const fakeApplication = {
     publicUrl: null,
     publishedComments: [
       {
-        comment: faker.lorem.sentence(),
+        comment: faker.lorem.paragraph(),
         receivedAt: faker.date.past().toISOString(),
         summaryTag: "objection",
+      },
+      {
+        comment: faker.lorem.sentence(),
+        receivedAt: faker.date.past().toISOString(),
+        summaryTag: "neutral",
       },
     ],
     consulteeComments: [
@@ -117,8 +122,8 @@ const fakeApplication = {
 };
 
 export const handlers = [
-  // Handler for endpoint that retrieves planning applications based on a search criteria
   http.get("*/public/planning_applications/search*", async () => {
+    // const response = generateSearchResults(20);
     const response = {
       metadata: {
         page: 1,
@@ -133,9 +138,8 @@ export const handlers = [
           application: {
             type: fakeApplication.type,
             reference: fakeApplication.reference,
-            // digitalSiteNotice: "123",
             digitalSiteNotice: {
-              name: "Digital Site Notice Title",
+              name: "Application Title",
               proposedLandUse: {
                 classA: false,
                 classB: true,
@@ -184,6 +188,12 @@ export const handlers = [
       "MSW handler returning response:",
       JSON.stringify(response, null, 2),
     );
+    console.log(response);
+    return HttpResponse.json(response);
+  }),
+  // Handler for endpoint that retrieves planning applications based on a search criteria
+  http.get("*/public/planning_applications/advanced-search*", async () => {
+    const response = generateSearchResults(20);
     return HttpResponse.json(response);
   }),
 
@@ -237,9 +247,8 @@ export const handlers = [
             showCarbon: true,
             carbonEmissions: 5,
             showAccess: true,
-            access: "This is a paragraph about access",
+            access: faker.lorem.paragraph(),
           },
-          // digitalSiteNotice: "123",
         },
         property: fakeApplication.property,
         proposal: fakeApplication.proposal,
@@ -302,7 +311,6 @@ export const handlers = [
       consultation: {
         end_date: fakeApplication.consultation.endDate,
       },
-      // digitalSiteNotice: "123",
       digitalSiteNotice: {
         name: "Digital Site Notice Title",
         proposedLandUse: {
@@ -329,7 +337,7 @@ export const handlers = [
         showCarbon: true,
         carbonEmissions: 5,
         showAccess: true,
-        access: "This is a paragraph about access",
+        access: faker.lorem.paragraph(),
       },
       make_public: fakeApplication.make_public,
     });
@@ -964,3 +972,155 @@ export const handlers = [
     });
   }),
 ];
+
+function generateSearchResults(count = 10) {
+  const generateFakeApplication = () => ({
+    type: {
+      value: "pp.full.householder",
+      description: "planning_permission",
+    },
+    reference: faker.string.alphanumeric(8).toUpperCase(),
+    fullReference: faker.string.alphanumeric(12).toUpperCase(),
+    description: faker.lorem.paragraph(),
+    targetDate: faker.date.future().toISOString(),
+    receivedAt: faker.date.past().toISOString(),
+    validAt: faker.date.past().toISOString(),
+    publishedAt: faker.date.past().toISOString(),
+    determinedAt: faker.date.future().toISOString(),
+    decision: faker.helpers.arrayElement([
+      "Granted",
+      "Refused",
+      "Withdrawn",
+      "Pending",
+    ]),
+    status: "in_assessment",
+    consultation: {
+      startDate: faker.date.past().toISOString(),
+      endDate: faker.date.future().toISOString(),
+    },
+    property: {
+      address: {
+        latitude: faker.location.latitude(),
+        longitude: faker.location.longitude(),
+        title: faker.location.streetAddress(),
+        get town() {
+          return faker.location.city();
+        },
+        get postcode() {
+          return faker.location.zipCode();
+        },
+        get singleLine() {
+          return `${this.title}, ${this.town}, ${this.postcode}`;
+        },
+        uprn: faker.string.numeric(10),
+      },
+      boundary: {
+        site: {
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-0.07716178894042969, 51.50094238217541],
+                [-0.07645905017852783, 51.50053497847238],
+                [-0.07615327835083008, 51.50115276135022],
+                [-0.07716178894042969, 51.50094238217541],
+              ],
+            ],
+          },
+        },
+      },
+    },
+    proposal: {
+      description: faker.lorem.sentence(),
+    },
+    boundary_geojson: fakeApplication.boundary_geojson,
+  });
+
+  const generateDigitalSiteNoticeData = () => ({
+    name: faker.lorem.words(2),
+    proposedLandUse: {
+      classA: faker.datatype.boolean(),
+      classB: faker.datatype.boolean(),
+      classC: faker.datatype.boolean(),
+      classD: faker.datatype.boolean(),
+      classE: faker.datatype.boolean(),
+    },
+    height: faker.number.int({ min: 1, max: 100 }),
+    constructionTime: `${faker.date.future().getFullYear()}-${faker.date.future().getFullYear() + 4}`,
+    showHousing: faker.datatype.boolean(),
+    housing: {
+      residentialUnits: faker.number.int({ min: 1, max: 1000 }),
+      affordableResidentialUnits: faker.number.int({ min: 1, max: 500 }),
+    },
+    showOpenSpace: faker.datatype.boolean(),
+    openSpaceArea: faker.number.int({ min: 1, max: 100 }),
+    showJobs: faker.datatype.boolean(),
+    jobs: {
+      min: faker.number.int({ min: 1, max: 50 }),
+      max: faker.number.int({ min: 51, max: 1000 }),
+    },
+    showCarbon: faker.datatype.boolean(),
+    carbonEmissions: faker.number.int({ min: 1, max: 1000 }),
+    showAccess: faker.datatype.boolean(),
+    access: faker.lorem.paragraph(),
+  });
+
+  const results = Array.from({ length: count }, () => {
+    const fakeApplication = generateFakeApplication();
+    return {
+      application: {
+        ...fakeApplication,
+        digitalSiteNotice: generateDigitalSiteNoticeData(),
+      },
+      property: {
+        address: {
+          latitude: faker.location.latitude(),
+          longitude: faker.location.longitude(),
+          title: faker.location.streetAddress(),
+          get town() {
+            return faker.location.city();
+          },
+          get postcode() {
+            return faker.location.zipCode();
+          },
+          get singleLine() {
+            return `${this.title}, ${this.town}, ${this.postcode}`;
+          },
+          uprn: faker.string.numeric(10),
+        },
+        boundary: {
+          site: {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [-0.07716178894042969, 51.50094238217541],
+                  [-0.07645905017852783, 51.50053497847238],
+                  [-0.07615327835083008, 51.50115276135022],
+                  [-0.07716178894042969, 51.50094238217541],
+                ],
+              ],
+            },
+          },
+        },
+      },
+      proposal: {
+        description: faker.lorem.paragraph(),
+      },
+    };
+  });
+
+  return {
+    metadata: {
+      page: 1,
+      results: count,
+      from: 1,
+      to: count,
+      total_pages: 1,
+      total_results: count,
+    },
+    data: results,
+  };
+}

@@ -45,3 +45,34 @@ export async function getPublicApplications(
 
   return { ...request, data: convertedData };
 }
+
+export async function getPublicApplicationsAdvanced(
+  page: number = 1,
+  resultsPerPage: number = 10,
+  council: string,
+  search?: string,
+): Promise<ApiResponse<DprPublicApplicationListings | null>> {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    maxresults: resultsPerPage.toString(),
+  });
+
+  if (search) {
+    params.append("q", search);
+  }
+  const url = `public/planning_applications/advanced-search?${params.toString()}`;
+  const request = await handleBopsGetRequest<
+    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
+  >(council, url);
+
+  const { data: planningApplications = [], ...restData } = request.data || {};
+
+  const convertedData = {
+    pagination: request.data?.metadata ?? defaultPagination,
+    data: planningApplications.map((application) =>
+      convertPlanningApplicationBops(council, application),
+    ),
+  };
+
+  return { ...request, data: convertedData };
+}
