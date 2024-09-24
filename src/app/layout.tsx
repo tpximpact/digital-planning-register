@@ -20,7 +20,6 @@ export default async function RootLayout({
   const councilConfig = await getConfig();
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="GTM-PT3GFDF8" />
       <title>Digital Planning Register</title>
       <Head />
       <body className="govuk-frontend-supported">
