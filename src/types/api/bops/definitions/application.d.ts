@@ -25,7 +25,6 @@ export interface BopsApplicationOverview {
   determinedAt?: string | null;
   status: string;
   decision?: string | null;
-  digitalSiteNotice: DigitalSiteNotice | null;
   consultation: {
     startDate: string | null;
     endDate: string | null;
@@ -56,7 +55,6 @@ export interface BopsApplicationOverview {
 
 export interface BopsPlanningApplication {
   application: BopsApplicationOverview;
-  digitalSiteNotice: DigitalSiteNotice | null;
   property: {
     address: {
       latitude: number;
@@ -74,6 +72,7 @@ export interface BopsPlanningApplication {
   proposal: {
     description: string;
   };
+  digitalSiteNotice?: DigitalSiteNotice;
 }
 
 /**
@@ -137,7 +136,6 @@ interface BopsNonStandardApplication {
   };
   make_public: boolean;
   decision: string;
-  digitalSiteNotice: DigitalSiteNotice | null;
 }
 
 /**

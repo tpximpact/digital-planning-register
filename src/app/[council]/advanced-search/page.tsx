@@ -16,8 +16,6 @@ interface PageParams {
 }
 
 interface SearchParams {
-  search?: string;
-  page?: string;
   reference?: string;
   address?: string;
   postcode?: string;
@@ -26,7 +24,14 @@ interface SearchParams {
   date4?: string;
   date5?: string;
   date6?: string;
+  date7?: string;
+  date8?: string;
+  date9?: string;
+  date10?: string;
+  date11?: string;
+  date12?: string;
   sort?: string;
+  page?: string;
 }
 
 interface HomeProps {
@@ -40,35 +45,20 @@ async function fetchData({
 }: HomeProps): Promise<ApiResponse<DprPublicApplicationListings | null>> {
   const { council } = params;
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-  const search = searchParams?.search as string;
+
+  const searchTerms = Object.entries(searchParams || {})
+    .filter(([key, value]) => value && key !== "page" && key !== "sort")
+    .map(([key, value]) => `${key}:${value}`)
+    .join(" ");
 
   const response = await getPublicApplicationsAdvanced(
     page,
     resultsPerPage,
     council,
-    search,
+    searchTerms,
   );
 
   return response;
-}
-
-export async function generateMetadata({
-  params,
-  searchParams,
-}: HomeProps): Promise<Metadata> {
-  const response = await fetchData({ params, searchParams });
-
-  if (!response.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
-
-  return {
-    title: "Digital Planning Register",
-    description: `${capitaliseWord(params.council)} planning applications`,
-  };
 }
 
 export default async function AdvancedSearch({
@@ -78,8 +68,6 @@ export default async function AdvancedSearch({
   const response = await fetchData({ params, searchParams });
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const council = params.council;
-  const validationError =
-    searchParams?.search && searchParams?.search.length < 3 ? true : false;
 
   if (response?.status?.code !== 200) {
     return <NotFound params={params} />;
@@ -87,10 +75,9 @@ export default async function AdvancedSearch({
 
   return (
     <>
-      {!response?.data && <BackLink />}
       <div className="govuk-main-wrapper">
         <form
-          action={`/${council}`}
+          action={`/${council}/advanced-search`}
           method="get"
           className="govuk-grid-row grid-row-extra-bottom-margin"
         >
@@ -177,7 +164,7 @@ export default async function AdvancedSearch({
                 </label>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-5"
+                  id="date5"
                   name="date5"
                   type="date"
                   defaultValue={searchParams?.date5 || ""}
@@ -185,7 +172,7 @@ export default async function AdvancedSearch({
                 <p className="inline-block">to</p>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-6"
+                  id="date6"
                   name="date6"
                   type="date"
                   defaultValue={searchParams?.date6 || ""}
@@ -197,7 +184,7 @@ export default async function AdvancedSearch({
                 </label>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-3"
+                  id="date3"
                   name="date3"
                   type="date"
                   defaultValue={searchParams?.date3 || ""}
@@ -205,7 +192,7 @@ export default async function AdvancedSearch({
                 <p className="inline-block">to</p>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-4"
+                  id="date4"
                   name="date4"
                   type="date"
                   defaultValue={searchParams?.date4 || ""}
@@ -216,63 +203,63 @@ export default async function AdvancedSearch({
             {/* More dates */}
             <div className="govuk-grid-row average-bottom-margin">
               <div className="govuk-grid-column-one-third">
-                <label className="govuk-label" htmlFor="date3">
+                <label className="govuk-label" htmlFor="date7">
                   Published date
                 </label>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-3"
-                  name="date3"
+                  id="date7"
+                  name="date7"
                   type="date"
-                  defaultValue={searchParams?.date3 || ""}
+                  defaultValue={searchParams?.date7 || ""}
                 />
                 <p className="inline-block">to</p>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-4"
-                  name="date4"
+                  id="date8"
+                  name="date8"
                   type="date"
-                  defaultValue={searchParams?.date4 || ""}
+                  defaultValue={searchParams?.date8 || ""}
                 />
               </div>
               <div className="govuk-grid-column-one-third">
-                <label className="govuk-label" htmlFor="date5">
+                <label className="govuk-label" htmlFor="date9">
                   Consultation end date
                 </label>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-5"
-                  name="date5"
+                  id="date9"
+                  name="date9"
                   type="date"
-                  defaultValue={searchParams?.date5 || ""}
+                  defaultValue={searchParams?.date9 || ""}
                 />
                 <p className="inline-block">to</p>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-6"
-                  name="date6"
+                  id="date10"
+                  name="date10"
                   type="date"
-                  defaultValue={searchParams?.date6 || ""}
+                  defaultValue={searchParams?.date10 || ""}
                 />
               </div>
               <div className="govuk-grid-column-one-third">
-                <label className="govuk-label" htmlFor="date3">
+                <label className="govuk-label" htmlFor="date11">
                   Decision date
                 </label>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-3"
-                  name="date3"
+                  id="date11"
+                  name="date11"
                   type="date"
-                  defaultValue={searchParams?.date3 || ""}
+                  defaultValue={searchParams?.date11 || ""}
                 />
                 <p className="inline-block">to</p>
                 <input
                   className="govuk-input govuk-input--width-5 inline-block"
-                  id="date-4"
-                  name="date4"
+                  id="date12"
+                  name="date12"
                   type="date"
-                  defaultValue={searchParams?.date4 || ""}
+                  defaultValue={searchParams?.date12 || ""}
                 />
               </div>
             </div>
@@ -288,25 +275,31 @@ export default async function AdvancedSearch({
                     className="govuk-select"
                     id="sort"
                     name="sort"
-                    defaultValue={searchParams?.sort || "published"}
+                    defaultValue={searchParams?.sort || "received_newest"}
                   >
                     <optgroup label="By received date">
-                      <option value="published">Newest to oldest</option>
-                      <option value="updated">Oldest to newest</option>
+                      <option value="received_newest">Newest to oldest</option>
+                      <option value="received_oldest">Oldest to newest</option>
                     </optgroup>
                     <optgroup label="By decision date">
-                      <option value="published">Newest to oldest</option>
-                      <option value="updated">Oldest to newest</option>
+                      <option value="decision_newest">Newest to oldest</option>
+                      <option value="decision_oldest">Oldest to newest</option>
                     </optgroup>
                     <optgroup label="By consultation end date">
-                      <option value="published">Newest to oldest</option>
-                      <option value="updated">Oldest to newest</option>
+                      <option value="consultation_newest">
+                        Newest to oldest
+                      </option>
+                      <option value="consultation_oldest">
+                        Oldest to newest
+                      </option>
                     </optgroup>
                     <optgroup label="By status">
-                      <option value="published">
+                      <option value="status_newest">
                         Most to least progressed
                       </option>
-                      <option value="updated">Least to most progressed</option>
+                      <option value="status_oldest">
+                        Least to most progressed
+                      </option>
                     </optgroup>
                   </select>
                 </div>
@@ -321,13 +314,6 @@ export default async function AdvancedSearch({
                 </button>
               </div>
             </div>
-
-            {validationError && (
-              <p id="search-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error:</span> Enter at
-                least 3 characters to search
-              </p>
-            )}
           </div>
         </form>
         {response?.data?.data && response?.data?.data.length > 0 ? (
@@ -351,7 +337,7 @@ export default async function AdvancedSearch({
                 }
                 itemsPerPage={resultsPerPage}
                 totalPages={response?.data?.pagination?.total_pages}
-                baseUrl={`/${council}/`}
+                baseUrl={`/${council}/advanced-search`}
                 queryParams={searchParams}
               />
             )}

@@ -1,129 +1,14 @@
 import { http, HttpResponse } from "msw";
 import { faker } from "@faker-js/faker";
+import { BopsPlanningApplication } from "@/types/api/bops/definitions/application";
+import { generateMockApplications } from "./generateMockApplications";
 
-const fakeApplication = {
-  type: {
-    value: "pp.full.householder",
-    description: "planning_permission",
-  },
-  reference: faker.string.alphanumeric(10),
-  fullReference: faker.string.alphanumeric(10),
-  targetDate: faker.date.future().toISOString(),
-  receivedAt: faker.date.past().toISOString(),
-  validAt: faker.date.past().toISOString(),
-  publishedAt: faker.date.past().toISOString(),
-  determinedAt: null,
-  decision: null,
-  status: "in_assessment",
-  consultation: {
-    startDate: faker.date.past().toISOString(),
-    endDate: faker.date.future().toISOString(),
-    publicUrl: null,
-    publishedComments: [
-      {
-        comment: faker.lorem.paragraph(),
-        receivedAt: faker.date.past().toISOString(),
-        summaryTag: "objection",
-      },
-      {
-        comment: faker.lorem.sentence(),
-        receivedAt: faker.date.past().toISOString(),
-        summaryTag: "neutral",
-      },
-    ],
-    consulteeComments: [
-      {
-        comment: faker.lorem.sentence(),
-      },
-    ],
-  },
-  property: {
-    address: {
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      title: faker.location.streetAddress(),
-      get town() {
-        return faker.location.city();
-      },
-      get postcode() {
-        return faker.location.zipCode();
-      },
-      get singleLine() {
-        return `${this.title}, ${this.town}, ${this.postcode}`;
-      },
-      uprn: faker.string.numeric(10),
-    },
-    boundary: {
-      site: {
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [
-            [
-              [-0.07716178894042969, 51.50094238217541],
-              [-0.07645905017852783, 51.50053497847238],
-              [-0.07615327835083008, 51.50115276135022],
-              [-0.07716178894042969, 51.50094238217541],
-            ],
-          ],
-        },
-      },
-    },
-  },
-  proposal: {
-    description: faker.lorem.sentence(),
-  },
-  agent_first_name: faker.person.firstName(),
-  agent_last_name: faker.person.lastName(),
-  agent_phone: faker.phone.number(),
-  agent_email: faker.internet.email(),
-  applicant_first_name: faker.person.firstName(),
-  applicant_last_name: faker.person.lastName(),
-  user_role: "agent",
-  awaiting_determination_at: faker.date.future().toISOString(),
-  to_be_reviewed_at: null,
-  created_at: faker.date.past().toISOString(),
-  get description() {
-    return this.proposal.description;
-  },
-  determined_at: null,
-  determination_date: faker.date.future().toISOString(),
-  id: faker.number.int(),
-  invalidated_at: null,
-  in_assessment_at: faker.date.past().toISOString(),
-  payment_reference: "PAY1",
-  payment_amount: "0.0",
-  result_flag: "Planning permission / Permission needed",
-  result_heading: faker.lorem.sentence(),
-  result_description: faker.lorem.sentence(),
-  result_override: faker.lorem.sentence(),
-  returned_at: null,
-  started_at: null,
-  target_date: faker.date.future().toISOString(),
-  withdrawn_at: null,
-  work_status: "proposed",
-  boundary_geojson: {
-    type: "Feature",
-    geometry: {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-0.07716178894042969, 51.50094238217541],
-          [-0.07645905017852783, 51.50053497847238],
-          [-0.07615327835083008, 51.50115276135022],
-          [-0.07716178894042969, 51.50094238217541],
-        ],
-      ],
-    },
-  },
-  documents: [],
-  application_type: "prior_approval",
-  make_public: true,
-};
+// Generate mock data
+const mockApplications = generateMockApplications(100);
 
 export const handlers = [
+  // Handler for searching planning applications
   http.get("*/public/planning_applications/search*", async () => {
-    // const response = generateSearchResults(20);
     const response = {
       metadata: {
         page: 1,
@@ -133,994 +18,206 @@ export const handlers = [
         total_pages: 1,
         total_results: 2,
       },
-      data: [
+      data: mockApplications,
+    };
+    return HttpResponse.json(response);
+  }),
+
+  // Handler for retrieving documents for a planning application
+  http.get("*/public/planning_applications/*/documents", async () => {
+    const response = {
+      application: mockApplications[0].application,
+      files: [
         {
-          application: {
-            type: fakeApplication.type,
-            reference: fakeApplication.reference,
-            digitalSiteNotice: {
-              name: "Application Title",
-              proposedLandUse: {
-                classA: false,
-                classB: true,
-                classC: false,
-                classD: false,
-                classE: false,
-              },
-              height: 5,
-              constructionTime: "2024-2028",
-              showHousing: true,
-              housing: {
-                residentialUnits: 5,
-                affordableResidentialUnits: 3,
-              },
-              showOpenSpace: true,
-              openSpaceArea: 3,
-              showJobs: true,
-              jobs: {
-                min: 1,
-                max: 5,
-              },
-              showCarbon: true,
-              carbonEmissions: 5,
-              showAccess: true,
-              access: "This is a paragraph about access",
+          name: "document1.pdf",
+          url: faker.internet.url(),
+          type: [
+            {
+              value: "elevations.proposed",
+              description: "Elevations - proposed",
             },
-            fullReference: fakeApplication.fullReference,
-            targetDate: fakeApplication.targetDate,
-            receivedAt: fakeApplication.receivedAt,
-            validAt: fakeApplication.validAt,
-            publishedAt: fakeApplication.publishedAt,
-            determinedAt: fakeApplication.determinedAt,
-            decision: fakeApplication.decision,
-            status: fakeApplication.status,
-            consultation: {
-              startDate: fakeApplication.consultation.startDate,
-              endDate: fakeApplication.consultation.endDate,
-            },
+            { value: "sections.proposed", description: "Sections - proposed" },
+          ],
+          createdAt: faker.date.past().toISOString(),
+          applicantDescription: null,
+          metadata: {
+            byteSize: 123456,
+            contentType: "application/pdf",
+            thumbnailUrl: faker.image.urlPicsumPhotos(),
           },
-          property: fakeApplication.property,
-          proposal: fakeApplication.proposal,
+        },
+        {
+          name: "document2.pdf",
+          url: faker.internet.url(),
+          type: [
+            {
+              value: "elevations.existing",
+              description: "Elevations - existing",
+            },
+            { value: "sections.existing", description: "Sections - existing" },
+          ],
+          createdAt: faker.date.past().toISOString(),
+          applicantDescription: null,
+          metadata: {
+            byteSize: 123456,
+            contentType: "application/pdf",
+            thumbnailUrl: faker.image.urlPicsumPhotos(),
+          },
+        },
+        {
+          name: "document3.pdf",
+          url: faker.internet.url(),
+          type: [
+            {
+              value: "elevations.proposed",
+              description: "Elevations - proposed",
+            },
+            { value: "sections.proposed", description: "Sections - proposed" },
+          ],
+          createdAt: faker.date.past().toISOString(),
+          applicantDescription: null,
+          metadata: {
+            byteSize: 123456,
+            contentType: "application/pdf",
+            thumbnailUrl: faker.image.urlPicsumPhotos(),
+          },
         },
       ],
-    };
-    console.log(
-      "MSW handler returning response:",
-      JSON.stringify(response, null, 2),
-    );
-    console.log(response);
-    return HttpResponse.json(response);
-  }),
-  // Handler for endpoint that retrieves planning applications based on a search criteria
-  http.get("*/public/planning_applications/advanced-search*", async () => {
-    const response = generateSearchResults(20);
-    return HttpResponse.json(response);
-  }),
-
-  // Handler for endpoint that retrieves a planning application given a reference
-  http.get(
-    `*public/planning_applications/*`,
-
-    async () => {
-      return HttpResponse.json({
-        application: {
-          type: fakeApplication.type,
-          reference: fakeApplication.reference,
-          fullReference: fakeApplication.fullReference,
-          targetDate: fakeApplication.targetDate,
-          receivedAt: fakeApplication.receivedAt,
-          validAt: fakeApplication.validAt,
-          publishedAt: fakeApplication.publishedAt,
-          determinedAt: fakeApplication.determinedAt,
-          decision: fakeApplication.decision,
-          status: fakeApplication.status,
-          consultation: {
-            startDate: fakeApplication.consultation.startDate,
-            endDate: fakeApplication.consultation.endDate,
-            publicUrl: fakeApplication.consultation.publicUrl,
-            publishedComments: fakeApplication.consultation.publishedComments,
-            consulteeComments: fakeApplication.consultation.consulteeComments,
-          },
-          digitalSiteNotice: {
-            name: "Digital Site Notice Title",
-            proposedLandUse: {
-              classA: false,
-              classB: true,
-              classC: false,
-              classD: false,
-              classE: false,
-            },
-            height: 5,
-            constructionTime: "2024-2028",
-            showHousing: true,
-            housing: {
-              residentialUnits: 5,
-              affordableResidentialUnits: 3,
-            },
-            showOpenSpace: true,
-            openSpaceArea: 3,
-            showJobs: true,
-            jobs: {
-              min: 1,
-              max: 5,
-            },
-            showCarbon: true,
-            carbonEmissions: 5,
-            showAccess: true,
-            access: faker.lorem.paragraph(),
-          },
-        },
-        property: fakeApplication.property,
-        proposal: fakeApplication.proposal,
-      });
-    },
-  ),
-
-  // Handler for endpoint that retrieves a private planning application given a reference
-  http.get(`*/planning_applications/*`, async () => {
-    return HttpResponse.json({
-      agent_first_name: fakeApplication.agent_first_name,
-      agent_last_name: fakeApplication.agent_last_name,
-      agent_phone: fakeApplication.agent_phone,
-      agent_email: fakeApplication.agent_email,
-      applicant_first_name: fakeApplication.applicant_first_name,
-      applicant_last_name: fakeApplication.applicant_last_name,
-      user_role: fakeApplication.user_role,
-      awaiting_determination_at: fakeApplication.awaiting_determination_at,
-      to_be_reviewed_at: fakeApplication.to_be_reviewed_at,
-      created_at: fakeApplication.created_at,
-      description: fakeApplication.description,
-      determined_at: fakeApplication.determined_at,
-      determination_date: fakeApplication.determination_date,
-      id: fakeApplication.id,
-      invalidated_at: fakeApplication.invalidated_at,
-      in_assessment_at: fakeApplication.in_assessment_at,
-      payment_reference: fakeApplication.payment_reference,
-      payment_amount: fakeApplication.payment_amount,
-      result_flag: fakeApplication.result_flag,
-      result_heading: fakeApplication.result_heading,
-      result_description: fakeApplication.result_description,
-      result_override: fakeApplication.result_override,
-      returned_at: fakeApplication.returned_at,
-      started_at: fakeApplication.started_at,
-      status: fakeApplication.status,
-      target_date: fakeApplication.target_date,
-      withdrawn_at: fakeApplication.withdrawn_at,
-      work_status: fakeApplication.work_status,
-      boundary_geojson: fakeApplication.boundary_geojson,
-      application_type: fakeApplication.application_type,
-      reference: fakeApplication.reference,
-      reference_in_full: fakeApplication.fullReference,
-      site: {
-        address_1: fakeApplication.property.address.title,
-        address_2: fakeApplication.property.address.town,
-        county: null,
-        town: fakeApplication.property.address.town,
-        postcode: fakeApplication.property.address.postcode,
-        uprn: fakeApplication.property.address.uprn,
-        latitude: fakeApplication.property.address.latitude,
-        longitude: fakeApplication.property.address.longitude,
-      },
-      received_date: fakeApplication.receivedAt,
-      validAt: fakeApplication.validAt,
-      publishedAt: fakeApplication.publishedAt,
-      decision: fakeApplication.decision,
-      documents: fakeApplication.documents,
-      published_comments: fakeApplication.consultation.publishedComments,
-      consultee_comments: fakeApplication.consultation.consulteeComments,
-      consultation: {
-        end_date: fakeApplication.consultation.endDate,
-      },
-      digitalSiteNotice: {
-        name: "Digital Site Notice Title",
-        proposedLandUse: {
-          classA: false,
-          classB: true,
-          classC: false,
-          classD: false,
-          classE: false,
-        },
-        height: 5,
-        constructionTime: "2024-2028",
-        showHousing: true,
-        housing: {
-          residentialUnits: 5,
-          affordableResidentialUnits: 3,
-        },
-        showOpenSpace: true,
-        openSpaceArea: 3,
-        showJobs: true,
-        jobs: {
-          min: 1,
-          max: 5,
-        },
-        showCarbon: true,
-        carbonEmissions: 5,
-        showAccess: true,
-        access: faker.lorem.paragraph(),
-      },
-      make_public: fakeApplication.make_public,
-    });
-  }),
-
-  // Handler for endpoint that retrieves documents for a planning application
-  http.get(`*/public/planning_applications/*/documents`, async () => {
-    return HttpResponse.json({
-      application: {
-        type: fakeApplication.type,
-        reference: fakeApplication.reference,
-        fullReference: fakeApplication.fullReference,
-        targetDate: fakeApplication.targetDate,
-        receivedAt: fakeApplication.receivedAt,
-        validAt: fakeApplication.validAt,
-        publishedAt: fakeApplication.publishedAt,
-        determinedAt: fakeApplication.determinedAt,
-        decision: fakeApplication.decision,
-        status: fakeApplication.status,
-        consultation: {
-          startDate: fakeApplication.consultation.startDate,
-          endDate: fakeApplication.consultation.endDate,
-          publicUrl: fakeApplication.consultation.publicUrl,
-          publishedComments: fakeApplication.consultation.publishedComments,
-          consulteeComments: fakeApplication.consultation.consulteeComments,
-        },
-      },
-      files: [],
       metadata: {
-        results: 0,
-        totalResults: 0,
+        results: 1,
+        totalResults: 1,
       },
       decisionNotice: {
-        name: `decision-notice-${fakeApplication.reference}.pdf`,
+        name: `decision-notice-${mockApplications[0].application.reference}.pdf`,
         url: faker.internet.url(),
       },
-    });
-  }),
-  // Handler for endpoint that retrieves the planning application submission given a reference
-  http.get(`*/planning_applications/*/submission`, async () => {
-    return HttpResponse.json({
-      application: {
-        type: fakeApplication.type,
-        reference: fakeApplication.reference,
-        fullReference: fakeApplication.fullReference,
-        targetDate: fakeApplication.targetDate,
-        receivedAt: fakeApplication.receivedAt,
-        validAt: fakeApplication.validAt,
-        publishedAt: fakeApplication.publishedAt,
-        determinedAt: fakeApplication.determinedAt,
-        status: fakeApplication.status,
-        decision: fakeApplication.decision,
-        consultation: {
-          startDate: fakeApplication.consultation.startDate,
-          endDate: fakeApplication.consultation.endDate,
-        },
-      },
-      submission: {
-        data: {
-          application: {
-            type: fakeApplication.type,
-            fee: "REDACTED",
-            declaration: {
-              accurate: true,
-              connection: {
-                value: "none",
-              },
-            },
-          },
-          user: {
-            role: "proxy",
-          },
-          applicant: {
-            type: "individual",
-            name: {
-              first: "David",
-              last: "Bowie",
-            },
-            email: "REDACTED",
-            phone: {
-              primary: "REDACTED",
-            },
-            address: {
-              sameAsSiteAddress: true,
-            },
-            siteContact: {
-              role: "proxy",
-            },
-            ownership: {
-              interest: "owner.sole",
-              certificate: "a",
-              agriculturalTenants: false,
-              declaration: {
-                accurate: true,
-              },
-            },
-            agent: {
-              name: {
-                first: "Ziggy",
-                last: "Stardust",
-              },
-              email: "REDACTED",
-              phone: {
-                primary: "REDACTED",
-              },
-              address: {
-                line1: "40 Stansfield Road",
-                line2: "Brixton",
-                town: "London",
-                county: "Greater London",
-                postcode: "SW9 9RZ",
-                country: "UK",
-              },
-            },
-          },
-          property: {
-            address: {
-              latitude: 51.4656522,
-              longitude: -0.1185926,
-              x: 530787,
-              y: 175754,
-              title: "40, STANSFIELD ROAD, LONDON",
-              singleLine: "40, STANSFIELD ROAD, LONDON, SW9 9RZ",
-              source: "Ordnance Survey",
-              uprn: "100021892955",
-              usrn: "21901294",
-              pao: "40",
-              street: "STANSFIELD ROAD",
-              town: "LONDON",
-              postcode: "SW9 9RZ",
-            },
-            boundary: {
-              site: {
-                type: "Feature",
-                geometry: {
-                  type: "Polygon",
-                  coordinates: [
-                    [
-                      [-0.1186569035053321, 51.465703531871384],
-                      [-0.1185938715934822, 51.465724418998775],
-                      [-0.1184195280075143, 51.46552473766957],
-                      [-0.11848390102387167, 51.4655038504508],
-                      [-0.1186569035053321, 51.465703531871384],
-                    ],
-                  ],
-                },
-                properties: null,
-              },
-              area: {
-                hectares: 0.012592,
-                squareMetres: 125.92,
-              },
-            },
-            planning: {
-              sources: [
-                "https://api.editor.planx.dev/gis/lambeth?geom=POLYGON+%28%28-0.1186569035053321+51.465703531871384%2C+-0.1185938715934822+51.465724418998775%2C+-0.1184195280075143+51.46552473766957%2C+-0.11848390102387167+51.4655038504508%2C+-0.1186569035053321+51.465703531871384%29%29&analytics=false&sessionId=81bcaa0f-baf5-4573-ba0a-ea868c573faf",
-                "https://api.editor.planx.dev/roads?usrn=21901294",
-              ],
-              designations: [
-                {
-                  value: "article4",
-                  description: "Article 4 Direction area",
-                  intersects: false,
-                },
-                {
-                  value: "article4.caz",
-                  description: "Central Activities Zone (CAZ)",
-                  intersects: false,
-                },
-                {
-                  value: "tpo",
-                  description: "Tree Preservation Order (TPO) or zone",
-                  intersects: false,
-                },
-                {
-                  value: "listed",
-                  description: "Listed Building",
-                  intersects: false,
-                },
-                {
-                  value: "monument",
-                  description: "Site of a Scheduled Monument",
-                  intersects: false,
-                },
-                {
-                  value: "designated",
-                  description: "Designated land",
-                  intersects: false,
-                },
-                {
-                  value: "nature.SAC",
-                  description: "Special Area of Conservation (SAC)",
-                  intersects: false,
-                },
-                {
-                  value: "nature.ASNW",
-                  description: "Ancient Semi-Natural Woodland (ASNW)",
-                  intersects: false,
-                },
-                {
-                  value: "nature.SSSI",
-                  description: "Site of Special Scientific Interest (SSSI)",
-                  intersects: false,
-                },
-                {
-                  value: "locallyListed",
-                  description: "Locally Listed Building",
-                  intersects: false,
-                },
-                {
-                  value: "nature.SPA",
-                  description: "Special Protection Area (SPA)",
-                  intersects: false,
-                },
-                {
-                  value: "designated.WHS",
-                  description: "UNESCO World Heritage Site or buffer zone",
-                  intersects: false,
-                },
-                {
-                  value: "registeredPark",
-                  description: "Historic Park or Garden",
-                  intersects: false,
-                },
-                {
-                  value: "designated.AONB",
-                  description: "Area of Outstanding Natural Beauty (AONB)",
-                  intersects: false,
-                },
-                {
-                  value: "designated.nationalPark",
-                  description: "National Park",
-                  intersects: false,
-                },
-                {
-                  value: "designated.conservationArea",
-                  description: "Conservation Area",
-                  intersects: false,
-                },
-                {
-                  value: "designated.nationalPark.broads",
-                  description: "National Park - Broads",
-                  intersects: false,
-                },
-                {
-                  value: "road.classified",
-                  description: "Classified Road",
-                  intersects: false,
-                },
-              ],
-            },
-            localAuthorityDistrict: ["Lambeth"],
-            region: "London",
-            type: {
-              value: "residential.dwelling.house.terrace",
-              description: "Terrace",
-            },
-            titleNumber: {
-              known: "No",
-            },
-            EPC: {
-              known: "No",
-            },
-            parking: {
-              cars: {
-                count: 1,
-              },
-              cycles: {
-                count: 2,
-              },
-            },
-          },
-          proposal: {
-            projectType: [
-              {
-                value: "extend.roof.dormer",
-                description: "Add a roof dormer",
-              },
-            ],
-            description:
-              "Roof extension to the rear of the property, incorporating starship launchpad.",
-            boundary: {
-              site: {
-                type: "Feature",
-                geometry: {
-                  type: "Polygon",
-                  coordinates: [
-                    [
-                      [-0.1186569035053321, 51.465703531871384],
-                      [-0.1185938715934822, 51.465724418998775],
-                      [-0.1184195280075143, 51.46552473766957],
-                      [-0.11848390102387167, 51.4655038504508],
-                      [-0.1186569035053321, 51.465703531871384],
-                    ],
-                  ],
-                },
-                properties: null,
-              },
-              area: {
-                hectares: 0.012592,
-                squareMetres: 125.92,
-              },
-            },
-            date: {
-              start: "2024-05-01",
-              completion: "2024-05-02",
-            },
-            extend: {
-              area: {
-                squareMetres: 45,
-              },
-            },
-            parking: {
-              cars: {
-                count: 1,
-                difference: 0,
-              },
-              cycles: {
-                count: 2,
-                difference: 0,
-              },
-            },
-          },
-        },
-        preAssessment: [],
-        responses: [
-          {
-            question: "Is the property in Lambeth?",
-            responses: [
-              {
-                value: "Yes",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "The property",
-            },
-          },
-          {
-            question: "What type of property is it?",
-            responses: [
-              {
-                value: "House",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "The property",
-            },
-          },
-          {
-            question: "What type of house it is?",
-            responses: [
-              {
-                value: "Terrace",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "The property",
-            },
-          },
-          {
-            question: "Is the property in a flood zone?",
-            responses: [
-              {
-                value: "No",
-              },
-            ],
-            metadata: {
-              sectionName: "The property",
-            },
-          },
-          {
-            question: "Heritage Statement needed?",
-            responses: [
-              {
-                value: "No",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "About the project",
-            },
-          },
-          {
-            question: "Is the property in a flood zone?",
-            responses: [
-              {
-                value: "No",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "About the project",
-            },
-          },
-          {
-            question: "What type of application is it?",
-            responses: [
-              {
-                value: "Apply for planning permission",
-              },
-            ],
-            metadata: {
-              autoAnswered: true,
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Your contact details",
-            responses: [
-              {
-                value: "REDACTED",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Is this a test?",
-            responses: [
-              {
-                value: "No",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Are you applying on behalf of someone else?",
-            responses: [
-              {
-                value: "Yes",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Which of these best describes you?",
-            responses: [
-              {
-                value: "Friend or relative",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Your contact address",
-            responses: [
-              {
-                value:
-                  "40 Stansfield Road, Brixton, London, Greater London, SW9 9RZ, UK",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-          {
-            question: "Which of these best describes the applicant?",
-            responses: [
-              {
-                value: "Private individual",
-              },
-            ],
-            metadata: {
-              sectionName: "About you",
-            },
-          },
-        ],
-        files: [
-          {
-            name: "https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf",
-            type: [
-              {
-                value: "roofPlan.existing",
-                description: "Roof plan - existing",
-              },
-              {
-                value: "roofPlan.proposed",
-                description: "Roof plan - proposed",
-              },
-            ],
-          },
-          {
-            name: "https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf",
-            type: [
-              {
-                value: "sitePlan.existing",
-                description: "Site plan - existing",
-              },
-              {
-                value: "sitePlan.proposed",
-                description: "Site plan - proposed",
-              },
-            ],
-          },
-          {
-            name: "https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf",
-            type: [
-              {
-                value: "elevations.existing",
-                description: "Elevations - existing",
-              },
-              {
-                value: "elevations.proposed",
-                description: "Elevations - proposed",
-              },
-            ],
-          },
-          {
-            name: "https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf",
-            type: [
-              {
-                value: "floorPlan.existing",
-                description: "Floor plan - existing",
-              },
-              {
-                value: "floorPlan.proposed",
-                description: "Floor plan - proposed",
-              },
-            ],
-          },
-        ],
-        metadata: {
-          organisation: "LBH",
-          id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf",
-          source: "PlanX",
-          service: {
-            flowId: "01e38c5d-e701-4e44-acdc-4d6b5cc3b854",
-            url: "https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview",
-            files: {
-              required: [
-                {
-                  value: "roofPlan.existing",
-                  description: "Roof plan - existing",
-                },
-                {
-                  value: "roofPlan.proposed",
-                  description: "Roof plan - proposed",
-                },
-                {
-                  value: "sitePlan.existing",
-                  description: "Site plan - existing",
-                },
-                {
-                  value: "sitePlan.proposed",
-                  description: "Site plan - proposed",
-                },
-                {
-                  value: "elevations.existing",
-                  description: "Elevations - existing",
-                },
-                {
-                  value: "elevations.proposed",
-                  description: "Elevations - proposed",
-                },
-              ],
-              recommended: [
-                {
-                  value: "floorPlan.existing",
-                  description: "Floor plan - existing",
-                },
-                {
-                  value: "floorPlan.proposed",
-                  description: "Floor plan - proposed",
-                },
-              ],
-              optional: [],
-            },
-            fee: {
-              category: {
-                sixAndSeven: [
-                  {
-                    description:
-                      "The fee to apply for planning permission to alter or extend a single home is £258.",
-                    policyRefs: [
-                      {
-                        text: "UK Statutory Instruments 2023 No. 1197",
-                        url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
-                      },
-                    ],
-                  },
-                ],
-              },
-              calculated: [
-                {
-                  description:
-                    "The fee to apply for planning permission to alter or extend a single home is £258.",
-                  policyRefs: [
-                    {
-                      text: "UK Statutory Instruments 2023 No. 1197",
-                      url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
-                    },
-                  ],
-                },
-              ],
-              payable: [
-                {
-                  description:
-                    "The fee to apply for planning permission to alter or extend a single home is £258.",
-                  policyRefs: [
-                    {
-                      text: "UK Statutory Instruments 2023 No. 1197",
-                      url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-          submittedAt: "2023-10-02T00:00:00.00Z",
-          schema:
-            "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.0/schema.json",
-        },
-      },
-    });
+    };
+    return HttpResponse.json(response);
   }),
 
-  // Handler for endpoint that creates new neighbour response
-  http.post(`*/planning_applications/*/neighbour_responses`, async () => {
+  // Handler for creating new neighbour response
+  http.post("*/planning_applications/*/neighbour_responses", async () => {
     return HttpResponse.json({
-      id: fakeApplication.reference,
+      id: mockApplications[0].application.reference,
       message: "Response submitted",
     });
   }),
-];
 
-function generateSearchResults(count = 10) {
-  const generateFakeApplication = () => ({
-    type: {
-      value: "pp.full.householder",
-      description: "planning_permission",
-    },
-    reference: faker.string.alphanumeric(8).toUpperCase(),
-    fullReference: faker.string.alphanumeric(12).toUpperCase(),
-    description: faker.lorem.paragraph(),
-    targetDate: faker.date.future().toISOString(),
-    receivedAt: faker.date.past().toISOString(),
-    validAt: faker.date.past().toISOString(),
-    publishedAt: faker.date.past().toISOString(),
-    determinedAt: faker.date.future().toISOString(),
-    decision: faker.helpers.arrayElement([
-      "Granted",
-      "Refused",
-      "Withdrawn",
-      "Pending",
-    ]),
-    status: "in_assessment",
-    consultation: {
-      startDate: faker.date.past().toISOString(),
-      endDate: faker.date.future().toISOString(),
-    },
-    property: {
-      address: {
-        latitude: faker.location.latitude(),
-        longitude: faker.location.longitude(),
-        title: faker.location.streetAddress(),
-        get town() {
-          return faker.location.city();
-        },
-        get postcode() {
-          return faker.location.zipCode();
-        },
-        get singleLine() {
-          return `${this.title}, ${this.town}, ${this.postcode}`;
-        },
-        uprn: faker.string.numeric(10),
-      },
-      boundary: {
-        site: {
-          type: "Feature",
-          geometry: {
-            type: "Polygon",
-            coordinates: [
-              [
-                [-0.07716178894042969, 51.50094238217541],
-                [-0.07645905017852783, 51.50053497847238],
-                [-0.07615327835083008, 51.50115276135022],
-                [-0.07716178894042969, 51.50094238217541],
-              ],
-            ],
-          },
-        },
-      },
-    },
-    proposal: {
-      description: faker.lorem.sentence(),
-    },
-    boundary_geojson: fakeApplication.boundary_geojson,
-  });
+  // Handler for retrieving planning applications via advanced search (the filtering happens here whilst we don't have a real API)
+  http.get(
+    "*/public/planning_applications/advanced-search",
+    async ({ request }) => {
+      const url = new URL(request.url);
+      const searchParams = Object.fromEntries(url.searchParams.entries());
 
-  const generateDigitalSiteNoticeData = () => ({
-    name: faker.lorem.words(2),
-    proposedLandUse: {
-      classA: faker.datatype.boolean(),
-      classB: faker.datatype.boolean(),
-      classC: faker.datatype.boolean(),
-      classD: faker.datatype.boolean(),
-      classE: faker.datatype.boolean(),
-    },
-    height: faker.number.int({ min: 1, max: 100 }),
-    constructionTime: `${faker.date.future().getFullYear()}-${faker.date.future().getFullYear() + 4}`,
-    showHousing: faker.datatype.boolean(),
-    housing: {
-      residentialUnits: faker.number.int({ min: 1, max: 1000 }),
-      affordableResidentialUnits: faker.number.int({ min: 1, max: 500 }),
-    },
-    showOpenSpace: faker.datatype.boolean(),
-    openSpaceArea: faker.number.int({ min: 1, max: 100 }),
-    showJobs: faker.datatype.boolean(),
-    jobs: {
-      min: faker.number.int({ min: 1, max: 50 }),
-      max: faker.number.int({ min: 51, max: 1000 }),
-    },
-    showCarbon: faker.datatype.boolean(),
-    carbonEmissions: faker.number.int({ min: 1, max: 1000 }),
-    showAccess: faker.datatype.boolean(),
-    access: faker.lorem.paragraph(),
-  });
+      console.log(searchParams, "searchParams");
 
-  const results = Array.from({ length: count }, () => {
-    const fakeApplication = generateFakeApplication();
-    return {
-      application: {
-        ...fakeApplication,
-        digitalSiteNotice: generateDigitalSiteNoticeData(),
-      },
-      property: {
-        address: {
-          latitude: faker.location.latitude(),
-          longitude: faker.location.longitude(),
-          title: faker.location.streetAddress(),
-          get town() {
-            return faker.location.city();
-          },
-          get postcode() {
-            return faker.location.zipCode();
-          },
-          get singleLine() {
-            return `${this.title}, ${this.town}, ${this.postcode}`;
-          },
-          uprn: faker.string.numeric(10),
-        },
-        boundary: {
-          site: {
-            type: "Feature",
-            geometry: {
-              type: "Polygon",
-              coordinates: [
-                [
-                  [-0.07716178894042969, 51.50094238217541],
-                  [-0.07645905017852783, 51.50053497847238],
-                  [-0.07615327835083008, 51.50115276135022],
-                  [-0.07716178894042969, 51.50094238217541],
-                ],
-              ],
+      const page = parseInt(searchParams.page || "1");
+      const maxresults = parseInt(searchParams.maxresults || "10");
+
+      const searchCriteria = searchParams.q
+        ? searchParams.q.split(" ").reduce(
+            (acc, curr) => {
+              const [key, value] = curr.split(":");
+              acc[key] = value;
+              return acc;
             },
-          },
-        },
-      },
-      proposal: {
-        description: faker.lorem.paragraph(),
-      },
-    };
-  });
+            {} as Record<string, string>,
+          )
+        : {};
 
-  return {
-    metadata: {
-      page: 1,
-      results: count,
-      from: 1,
-      to: count,
-      total_pages: 1,
-      total_results: count,
+      console.log(searchCriteria, "parsed search criteria");
+      console.log(mockApplications, "mockApplications");
+
+      let filteredApplications = mockApplications.filter(
+        (app: BopsPlanningApplication) => {
+          // Reference
+          if (
+            searchCriteria.reference &&
+            !app.application.reference
+              .toLowerCase()
+              .includes(searchCriteria.reference.toLowerCase())
+          ) {
+            return false;
+          }
+
+          // Address
+          if (
+            searchCriteria.address &&
+            !app.property.address.singleLine
+              .toLowerCase()
+              .includes(searchCriteria.address.toLowerCase())
+          ) {
+            return false;
+          }
+
+          // Postcode
+          if (
+            searchCriteria.postcode &&
+            !app.property.address.postcode
+              .toLowerCase()
+              .includes(searchCriteria.postcode.toLowerCase())
+          ) {
+            return false;
+          }
+
+          // Description
+          if (
+            searchCriteria.description &&
+            !app.proposal.description
+              .toLowerCase()
+              .includes(searchCriteria.description.toLowerCase())
+          ) {
+            return false;
+          }
+          return true;
+        },
+      );
+
+      // Pagination
+      const startIndex = (page - 1) * maxresults;
+      const paginatedResults = filteredApplications.slice(
+        startIndex,
+        startIndex + maxresults,
+      );
+
+      const response = {
+        status: { code: 200, message: "Success" },
+        data: paginatedResults,
+        metadata: {
+          page,
+          results: paginatedResults.length,
+          from: startIndex + 1,
+          to: startIndex + paginatedResults.length,
+          total_pages: Math.ceil(filteredApplications.length / maxresults),
+          total_results: filteredApplications.length,
+        },
+      };
+
+      return HttpResponse.json(response);
     },
-    data: results,
-  };
-}
+  ),
+
+  http.get("*/public/planning_applications/*", async () => {
+    return HttpResponse.json(mockApplications[0]);
+  }),
+
+  // Handler for retrieving a private planning application
+  http.get("*/planning_applications/*", async () => {
+    const app = mockApplications[0];
+    return HttpResponse.json({
+      ...app.application,
+      ...app.property,
+      ...app.proposal,
+      ...app.digitalSiteNotice,
+      agent_first_name: faker.person.firstName(),
+      agent_last_name: faker.person.lastName(),
+      agent_phone: faker.phone.number(),
+      agent_email: faker.internet.email(),
+      applicant_first_name: faker.person.firstName(),
+      applicant_last_name: faker.person.lastName(),
+      user_role: "agent",
+      make_public: true,
+    });
+  }),
+];

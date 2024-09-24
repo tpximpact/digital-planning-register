@@ -91,7 +91,6 @@ export const convertPlanningApplicationOverviewBops = (
     publishedAt: application.publishedAt ?? null,
     determinedAt: application.determinedAt ?? null,
     decision: application.decision ?? null,
-    digitalSiteNotice: application.digitalSiteNotice,
 
     // missing fields from public endpoint
     id: privateApplication?.id ?? 0,

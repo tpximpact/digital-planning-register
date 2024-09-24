@@ -22,6 +22,7 @@ const ApplicationInformation = ({
   application,
   property,
   proposal,
+  digitalSiteNotice,
 }: ApplicationInformationProps) => {
   const reference = application.reference;
   const address = property.address.singleLine;
@@ -49,8 +50,6 @@ const ApplicationInformation = ({
       : undefined;
 
   const description = proposal.description;
-
-  const digitalSiteNotice = application.digitalSiteNotice;
 
   return (
     <div>

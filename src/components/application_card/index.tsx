@@ -17,6 +17,7 @@ const ApplicationCard = ({
   application,
   property,
   proposal,
+  digitalSiteNotice,
 }: ApplicationCardProps) => {
   const reference = application.reference;
   const address = property.address.singleLine;
@@ -42,7 +43,6 @@ const ApplicationCard = ({
     applicationDecision && applicationDeterminedAt
       ? definedDecision(applicationDecision, applicationType)
       : undefined;
-  const digitalSiteNotice = application.digitalSiteNotice;
 
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin search-card">

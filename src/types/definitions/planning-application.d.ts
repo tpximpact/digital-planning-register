@@ -19,7 +19,7 @@ export interface DprPlanningApplication {
   proposal: {
     description: string;
   };
-  digitalSiteNotice: DigitalSiteNotice | null;
+  digitalSiteNotice: DigitalSiteNotice;
 }
 
 export interface DprPlanningApplicationOverview {
@@ -44,7 +44,6 @@ export interface DprPlanningApplicationOverview {
   determinedAt?: string | null;
   decision?: string | null;
   validAt: string | null;
-  digitalSiteNotice: DigitalSiteNotice | null;
 
   /**
    * @todo this is missing from the public BOPS response
@@ -71,39 +70,4 @@ export interface DprPlanningApplicationOverview {
    * @todo this is missing from the public BOPS response BUT we have a new public endpoint for them
    */
   documents: DprDocument[] | null;
-}
-
-interface ProposedLandUse {
-  classA: boolean;
-  classB: boolean;
-  classC: boolean;
-  classD: boolean;
-  classE: boolean;
-}
-
-interface Housing {
-  residentialUnits: number;
-  affordableResidentialUnits: number;
-}
-
-interface Jobs {
-  min: number;
-  max: number;
-}
-
-interface DigitalSiteNotice {
-  name: string;
-  proposedLandUse: ProposedLandUse;
-  height: number;
-  constructionTime: string;
-  showHousing: boolean;
-  housing: Housing;
-  showOpenSpace: boolean;
-  openSpaceArea: number;
-  showJobs: boolean;
-  jobs: Jobs;
-  showCarbon: boolean;
-  carbonEmissions: number;
-  showAccess: boolean;
-  access: string;
 }

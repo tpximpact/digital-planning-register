@@ -74,12 +74,17 @@ export default async function PlanningApplicationDetails({
     ? documentResponse?.data?.files
     : application.application.documents;
 
+  const digitalSiteNotice = applicationResponse.data.digitalSiteNotice;
   return (
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
         {/* <ApplicationCard council={council} {...application} /> */}
-        <ApplicationInformation council={council} {...application} />
+        <ApplicationInformation
+          council={council}
+          {...application}
+          digitalSiteNotice={digitalSiteNotice}
+        />
         {/* <ApplicationLocation /> */}
         {/* <ApplicationDetails {...application} /> */}
         <DocumentsList

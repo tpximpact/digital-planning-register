@@ -69,8 +69,8 @@ export async function getPublicApplicationsAdvanced(
 
   const convertedData = {
     pagination: request.data?.metadata ?? defaultPagination,
-    data: planningApplications.map((application) =>
-      convertPlanningApplicationBops(council, application),
+    data: (Array.isArray(planningApplications) ? planningApplications : []).map(
+      (application) => convertPlanningApplicationBops(council, application),
     ),
   };
 
