@@ -10,9 +10,9 @@ export const CouncilCards = async () => {
   return (
     <div className="logos-container">
       {councils.map((council) => {
-        const { name, logo, isSelectable } = councilConfig[council];
+        const { name, logo, visibility } = councilConfig[council];
         return (
-          isSelectable?.toString() == "true" && (
+          visibility == "public" && (
             <Link
               href={`/${council}`}
               className="govuk-button govuk-button--secondary"
