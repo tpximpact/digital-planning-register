@@ -9,6 +9,8 @@ import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
 import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
+import { Config } from "@/types";
+import config from "../../../util/config.json";
 
 const resultsPerPage = 10;
 
@@ -62,10 +64,14 @@ export default async function PlanningApplicationListings({
   const response = await fetchData({ params, searchParams });
   const page = searchParams?.page ? searchParams.page : 1;
   const council = params.council;
+  const councilConfig = config as Config;
   const validationError =
     searchParams?.query && searchParams?.query.length < 3 ? true : false;
 
-  if (response?.status?.code !== 200) {
+  if (
+    response?.status?.code !== 200 ||
+    councilConfig[council]?.visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 
