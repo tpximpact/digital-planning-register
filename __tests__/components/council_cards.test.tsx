@@ -10,7 +10,7 @@ jest.mock("../../src/lib/config", () => ({
 
 export interface Council {
   name: string;
-  isSelectable?: boolean | string;
+  visibility: "public" | "private" | "unlisted";
 }
 
 export interface Config {
@@ -19,9 +19,9 @@ export interface Config {
 
 describe("CouncilCards", () => {
   const mockedConfig: Config = {
-    barnet: { name: "Barnet", isSelectable: "true" },
-    camden: { name: "Camden", isSelectable: "true" },
-    buckinghamshire: { name: "Buckinghamshire", isSelectable: "false" },
+    barnet: { name: "Barnet", visibility: "public" },
+    camden: { name: "Camden", visibility: "public" },
+    buckinghamshire: { name: "Buckinghamshire", visibility: "private" },
   };
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe("CouncilCards", () => {
 
     const councilCards = screen.getAllByRole("link");
     const selectableCouncils = Object.keys(mockedConfig).filter(
-      (council) => mockedConfig[council].isSelectable === "true",
+      (council) => mockedConfig[council].visibility === "public",
     );
     expect(councilCards).toHaveLength(selectableCouncils.length);
 
@@ -58,7 +58,7 @@ describe("CouncilCards", () => {
 
     const councilCards = screen.getAllByRole("link");
     const selectableCouncils = Object.keys(mockedConfig).filter(
-      (council) => mockedConfig[council].isSelectable === "true",
+      (council) => mockedConfig[council].visibility === "public",
     );
     expect(councilCards).toHaveLength(selectableCouncils.length);
 

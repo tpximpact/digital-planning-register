@@ -18,7 +18,7 @@ export interface Council {
   publicComments: boolean;
   specialistComments: boolean;
   pageContent?: PageContent;
-  isSelectable?: boolean | string;
+  visibility: "public" | "private" | "unlisted";
   isShowDSN?: boolean;
 }
 
