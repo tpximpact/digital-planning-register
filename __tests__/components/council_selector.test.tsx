@@ -9,19 +9,19 @@ import { Config } from "@/types";
 const mockedConfig: Config = {
   barnet: {
     name: "Barnet",
-    isSelectable: "true",
+    visibility: "public",
     publicComments: false,
     specialistComments: false,
   },
   camden: {
     name: "Camden",
-    isSelectable: "true",
+    visibility: "public",
     specialistComments: false,
     publicComments: false,
   },
   buckinghamshire: {
     name: "Buckinghamshire",
-    isSelectable: "false",
+    visibility: "private",
     specialistComments: false,
     publicComments: false,
   },
@@ -40,7 +40,7 @@ describe("CouncilSelector", () => {
 
     // Check that the number of options corresponds to selectable councils + the default "Select your council"
     const selectableCouncils = Object.keys(mockedConfig).filter(
-      (councilKey) => mockedConfig[councilKey].isSelectable === "true",
+      (councilKey) => mockedConfig[councilKey].visibility === "public",
     );
     const options = screen.getAllByRole("option");
 

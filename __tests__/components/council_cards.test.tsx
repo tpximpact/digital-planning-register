@@ -47,7 +47,7 @@ describe("CouncilCards", () => {
 
     const councilCards = screen.getAllByRole("link");
     const selectableCouncils = Object.keys(mockedConfig).filter(
-      (council) => mockedConfig[council].isSelectable === "true",
+      (council) => mockedConfig[council].visibility === "public",
     );
     expect(councilCards).toHaveLength(selectableCouncils.length);
 
@@ -68,7 +68,7 @@ describe("CouncilCards", () => {
 
     const councilCards = screen.getAllByRole("link");
     const selectableCouncils = Object.keys(mockedConfig).filter(
-      (council) => mockedConfig[council].isSelectable === "true",
+      (council) => mockedConfig[council].visibility === "public",
     );
     expect(councilCards).toHaveLength(selectableCouncils.length);
 
