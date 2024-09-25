@@ -7,15 +7,15 @@ import {
   DprPagination,
   DprPublicApplicationDetails,
 } from "@/types";
-import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
-import { getCouncilConfig } from "@/lib/config";
+import { getCouncilConfig, getCouncilDataSource } from "@/lib/config";
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import CommentsList from "@/components/comments_list";
 import Pagination from "@/components/pagination";
 import { createItemPagination } from "@/lib/pagination";
+import { ApiV1 } from "@/api";
 
 interface CommentSearchParams {
   page?: string;
@@ -36,7 +36,11 @@ async function fetchData(
   params: PageParams,
 ): Promise<ApiResponse<DprPublicApplicationDetails | null>> {
   const { reference, council } = params;
-  const response = await getPublicApplicationDetails(council, reference);
+  const response = await ApiV1.show(
+    getCouncilDataSource(council),
+    council,
+    reference,
+  );
   return response;
 }
 

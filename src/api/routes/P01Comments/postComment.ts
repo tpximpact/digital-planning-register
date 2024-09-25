@@ -14,7 +14,7 @@ import { LocalV1 } from "@/api/handlers/local";
  * /api/P01/postComment:
  *  post:
  *   tags:
- *     - P01
+ *     - P01 Comment Submission
  *   summary: Submit comment for a planning application
  *   description: |
  *     Submit a comment for a planning application, currently sends to v1 BOPS API

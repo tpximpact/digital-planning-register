@@ -4,8 +4,9 @@ import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
-import { getApplicationSubmission } from "@/actions";
 import { formatDprDateTime } from "../../../../../util/formatDates";
+import { ApiV1 } from "@/api";
+import { getCouncilDataSource } from "@/lib/config";
 
 interface PageParams {
   council: string;
@@ -20,7 +21,11 @@ async function fetchData(
   params: PageParams,
 ): Promise<ApiResponse<DprApplicationSubmission | null>> {
   const { reference, council } = params;
-  const response = await getApplicationSubmission(council, reference);
+  const response = await ApiV1.applicationSubmission(
+    getCouncilDataSource(council),
+    council,
+    reference,
+  );
   return response;
 }
 

@@ -15,7 +15,10 @@ export interface ApiResponse<T> {
 
 export interface SearchParams {
   query?: string;
-  type?: "dsn";
   page: number;
   resultsPerPage: number;
+  /**
+   * beginning of advanced search P05
+   */
+  type?: "dsn";
 }

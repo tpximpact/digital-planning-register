@@ -1,5 +1,4 @@
-import { getConfig, getCouncilConfig } from "@/lib/config";
-import { da } from "@faker-js/faker";
+import { getConfig } from "@/lib/config";
 import { createSwaggerSpec } from "next-swagger-doc";
 
 export async function getApiDocs() {
@@ -71,6 +70,10 @@ export async function getApiDocs() {
           name: "P01 Comment Submission",
           description: "DPR P01 - comment submission requirements DSNPI-448",
         },
+        {
+          name: "P05 Advanced Search",
+          description: "DPR P05 - Advanced search",
+        },
       ],
       components: {
         schemas: {
@@ -79,6 +82,10 @@ export async function getApiDocs() {
             properties: {},
           },
           Documents: {
+            type: "object",
+            properties: {},
+          },
+          ApplicationDetails: {
             type: "object",
             properties: {},
           },
@@ -173,6 +180,15 @@ export async function getApiDocs() {
               type: "string",
             },
           },
+          searchType: {
+            name: "searchType",
+            in: "query",
+            required: false,
+            schema: {
+              type: "string",
+              enum: ["dsn"],
+            },
+          },
           id: {
             name: "id",
             in: "query",
@@ -181,26 +197,6 @@ export async function getApiDocs() {
               type: "integer",
             },
           },
-          // skipParam: {
-          //   name: "skip",
-          //   in: "query",
-          //   description: "number of items to skip",
-          //   required: true,
-          //   schema: {
-          //     type: "integer",
-          //     format: "int32",
-          //   },
-          // },
-          // limitParam: {
-          //   name: "limit",
-          //   in: "query",
-          //   description: "max records to return",
-          //   required: true,
-          //   schema: {
-          //     type: "integer",
-          //     format: "int32",
-          //   },
-          // },
         },
         responses: {
           ApiError: {
@@ -233,14 +229,16 @@ export async function getApiDocs() {
               },
             },
           },
-        },
-        securitySchemes: {
-          // @todo only we need this api
-          // api_key: {
-          //   type: "apiKey",
-          //   name: "api_key",
-          //   in: "header",
-          // },
+          ApplicationDetails: {
+            description: "ApplicationDetails",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApplicationDetails",
+                },
+              },
+            },
+          },
         },
       },
     },

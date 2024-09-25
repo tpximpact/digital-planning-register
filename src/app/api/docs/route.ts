@@ -221,6 +221,38 @@ export async function GET(request: NextRequest, params: Record<string, any>) {
           // },
         ],
       },
+      getPlanningApplications: {
+        url: `${url}/api/docs?handler=BopsV2&method=getPlanningApplications`,
+        description: "getPlanningApplications",
+        arguments: ["council", "page", "resultsPerPage", "searchQuery"],
+        run: async (args: [any, any, any, any]) => {
+          const searchObj = {
+            page: args[1],
+            resultsPerPage: args[2],
+            query: args[3],
+            type: "dsn",
+          };
+          return await BopsV2.getPlanningApplications(args[0], searchObj);
+        },
+        examples: [
+          {
+            url: `${url}/api/docs?handler=BopsV2&method=getPlanningApplications&page=1&resultsPerPage=10&council=camden`,
+            description: "getPlanningApplications page 1",
+          },
+          {
+            url: `${url}/api/docs?handler=BopsV2&method=getPlanningApplications&page=3&resultsPerPage=10&council=camden`,
+            description: "getPlanningApplications page 3",
+          },
+          {
+            url: `${url}/api/docs?handler=BopsV2&method=getPlanningApplications&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP`,
+            description: "getPlanningApplications search w results",
+          },
+          {
+            url: `${url}/api/docs?handler=BopsV2&method=getPlanningApplications&page=1&resultsPerPage=10&council=camden&searchQuery=noresultsplease`,
+            description: "getPlanningApplications search no results",
+          },
+        ],
+      },
       getPublicApplicationDetails: {
         url: `${url}/api/docs?handler=BopsV2&method=getPublicApplicationDetails`,
         description: "getPublicApplicationDetails",
@@ -437,14 +469,13 @@ export async function GET(request: NextRequest, params: Record<string, any>) {
           "page",
           "resultsPerPage",
           "searchQuery",
-          "type",
+          "searchType",
         ],
         run: async (args: [any, any, any, any]) => {
           const searchObj = {
             page: args[2],
             resultsPerPage: args[3],
             query: args[4],
-            type: args[5],
           };
           return await ApiV1.search(args[0], args[1], searchObj);
         },
@@ -466,28 +497,8 @@ export async function GET(request: NextRequest, params: Record<string, any>) {
             description: "BOPS applications search no results",
           },
           {
-            url: `${url}/api/docs?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchType=dsn`,
-            description: "BOPS list DSN applications page 1",
-          },
-          {
-            url: `${url}/api/docs?handler=ApiV1&method=search&page=3&resultsPerPage=10&source=bops&council=camden&searchType=dsn`,
-            description: "BOPS list DSN applications page 3",
-          },
-          // {
-          //   url: `${url}/api/docs?handler=ApiV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP&searchType=dsn`,
-          //   description: "BOPS DSN applications search w results",
-          // },
-          // {
-          //   url: `${url}/api/docs?handler=ApiV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=noresultsplease&searchType=dsn`,
-          //   description: "BOPS DSN applications search no results",
-          // },
-          {
             url: `${url}/api/docs?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=local&council=camden`,
             description: "Local list applications page 1",
-          },
-          {
-            url: `${url}/api/docs?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=local&council=camden&searchType=dsn`,
-            description: "Local list DSN applications page 1",
           },
         ],
       },
@@ -527,6 +538,71 @@ export async function GET(request: NextRequest, params: Record<string, any>) {
           const apiData = {};
           return await ApiP01.postComment(...args, apiData);
         },
+      },
+    },
+    ApiP05: {
+      search: {
+        url: `${url}/api/docs?handler=ApiP05&method=search`,
+        description: "search",
+        arguments: [
+          "source",
+          "council",
+          "page",
+          "resultsPerPage",
+          "searchQuery",
+          "searchType",
+        ],
+        run: async (args: [any, any, any, any]) => {
+          const searchObj = {
+            page: args[2],
+            resultsPerPage: args[3],
+            query: args[4],
+            type: args[5],
+          };
+          return await ApiV1.search(args[0], args[1], searchObj);
+        },
+        examples: [
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&source=bops&&council=camden`,
+            description: "BOPS list applications page 1",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=3&resultsPerPage=10&source=bops&&council=camden`,
+            description: "BOPS list applications page 3",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP`,
+            description: "BOPS applications search w results",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=noresultsplease`,
+            description: "BOPS applications search no results",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchType=dsn`,
+            description: "BOPS list DSN applications page 1",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=3&resultsPerPage=10&source=bops&council=camden&searchType=dsn`,
+            description: "BOPS list DSN applications page 3",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP&searchType=dsn`,
+            description: "BOPS DSN applications search w results",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=noresultsplease&searchType=dsn`,
+            description: "BOPS DSN applications search no results",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&source=local&council=camden`,
+            description: "Local list applications page 1",
+          },
+          {
+            url: `${url}/api/docs?handler=ApiP05&method=search&page=1&resultsPerPage=10&source=local&council=camden&searchType=dsn`,
+            description: "Local list DSN applications page 1",
+          },
+        ],
       },
     },
   };
