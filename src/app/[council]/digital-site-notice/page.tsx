@@ -1,6 +1,6 @@
 import { Config } from "@/types";
 import config from "../../../../util/config.json";
-import { redirect } from "next/navigation";
+import NotFound from "@/app/not-found";
 
 type Props = {
   params: { council: string };
@@ -10,7 +10,7 @@ const DigitalSiteNotice = ({ params }: Props) => {
   const council = params.council;
   const councilConfig = config as Config;
   if (!councilConfig[council].isShowDSN) {
-    redirect(`/${council}`);
+    return <NotFound params={params} />;
   }
   return (
     <div className="govuk-main-wrapper">
