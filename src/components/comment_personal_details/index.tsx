@@ -52,7 +52,7 @@ const CommentPersonalDetails = ({
     {},
   );
 
-  const councilConfig: Config = config as Config;
+  const councilConfig = config as Config;
   const contactPlanningAdviceLink =
     councilConfig[council]?.pageContent
       ?.council_reference_submit_comment_personal_details

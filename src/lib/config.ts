@@ -24,12 +24,13 @@ export const updateCouncilConfig = (
     !process.env[`${council.toUpperCase()}_BOPS_API_KEY`] ||
     !process.env[`${council.toUpperCase()}_BOPS_API_URL`]
   ) {
-    if (["public", "private", "unlisted"].includes(visibility)) {
-      councilConfig.visibility = visibility as CouncilVisibility;
-    }
-  } else {
-    councilConfig.visibility = "private";
+    visibility = "private";
   }
+
+  if (["public", "private", "unlisted"].includes(visibility)) {
+    councilConfig.visibility = visibility as CouncilVisibility;
+  }
+
   return councilConfig;
 };
 
