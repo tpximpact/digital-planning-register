@@ -10,6 +10,7 @@ export interface SiteConfig {
   documentsPublicEndpoint: boolean;
 }
 
+export type CouncilVisibility = "public" | "private" | "unlisted";
 export interface Council {
   name: string;
   contact?: string;
@@ -18,7 +19,7 @@ export interface Council {
   publicComments: boolean;
   specialistComments: boolean;
   pageContent?: PageContent;
-  visibility: "public" | "private" | "unlisted";
+  visibility: CouncilVisibility;
   isShowDSN?: boolean;
 }
 

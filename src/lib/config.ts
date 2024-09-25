@@ -1,4 +1,4 @@
-import { Config, Council, SiteConfig } from "@/types";
+import { Config, Council, SiteConfig, CouncilVisibility } from "@/types";
 import config from "../../util/config.json";
 import { configValitation } from "./configValidation";
 
@@ -6,31 +6,31 @@ export const siteConfig: SiteConfig = {
   documentsPublicEndpoint: true,
 };
 
-type Visibility = "public" | "private" | "unlisted";
+/**
+ * function to update visibility in config json file
+ * @param council
+ * @param councilConfig
+ * @returns
+ */
 
 export const updateCouncilConfig = (
   council: string,
   councilConfig: Council,
 ): Council => {
-  const councilApiVisibility = council.toUpperCase() + "_VISIBILITY";
   const validation = configValitation(council.toUpperCase());
 
-  let visibility: Visibility = "public";
+  let { visibility: configVisibility } = councilConfig;
+  const overrideVisibility = process.env[`${council.toUpperCase()}_VISIBILITY`];
+  let visibility = (overrideVisibility || configVisibility) ?? "private";
+
   if (validation) {
-    if (
-      process.env[councilApiVisibility] == "public" ||
-      process.env[councilApiVisibility] == "private" ||
-      process.env[councilApiVisibility] == "unlisted"
-    ) {
-      visibility = process.env[councilApiVisibility];
+    if (["public", "private", "unlisted"].includes(visibility)) {
+      councilConfig.visibility = visibility as CouncilVisibility;
     }
   } else {
-    visibility = "private";
+    councilConfig.visibility = "private";
   }
-  return {
-    ...councilConfig,
-    visibility,
-  };
+  return councilConfig;
 };
 
 /**
@@ -39,14 +39,18 @@ export const updateCouncilConfig = (
  * @returns
  */
 export const getCouncilConfig = (council: string): Council | undefined => {
-  const councilConfig = config as Config;
+  const councilConfig: Config = config as Config;
   return councilConfig[council]
     ? updateCouncilConfig(council, councilConfig[council])
     : undefined;
 };
 
+/**
+ * function to get each council in the config file and update visibility
+ * @returns
+ */
 export const getConfig = async (): Promise<Config> => {
-  const councilConfig = config as Config;
+  const councilConfig: Config = config as Config;
 
   Object.keys(config).forEach((council) => {
     councilConfig[council] = updateCouncilConfig(
