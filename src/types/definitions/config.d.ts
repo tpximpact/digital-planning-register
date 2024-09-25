@@ -15,6 +15,7 @@ export interface Council {
   contact?: string;
   logo?: string;
   logowhite?: string;
+  dataSource: string;
   publicComments: boolean;
   specialistComments: boolean;
   pageContent?: PageContent;

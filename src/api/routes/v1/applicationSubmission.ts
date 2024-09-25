@@ -1,19 +1,19 @@
 "use server";
 
 // Types
-
 import { ApiResponse, DprApplicationSubmission } from "@/types";
 
 // handlers
-import { v2 } from "@/api/handlers/bops";
-import * as local from "@/api/handlers/local";
+import { BopsV2 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
+import { apiReturnError } from "@/api/lib";
 
 /**
  * @swagger
- * /api/v1/applicationSubmission:
+ * /api/docs?handler=ApiV1&method=applicationSubmission:
  *  get:
  *   tags:
- *     - V1
+ *     - ApiV1
  *   summary: View the raw application submission data
  *   description: Returns the planning application
  *   parameters:
@@ -22,33 +22,26 @@ import * as local from "@/api/handlers/local";
  *    - $ref: '#/components/parameters/reference'
  *   responses:
  *     200:
- *       description: Hello World!
+ *       $ref: '#/components/responses/ApplicationSubmission'
+ *     400:
+ *       $ref: '#/components/responses/ApiError'
+
  */
 export async function applicationSubmission(
   source: string,
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprApplicationSubmission | null>> {
-  // @TODO validate this output against the ODP (and BOPS) schemas
-
-  console.log(source, council, reference);
-
   if (!council || !reference) {
-    return {
-      data: null,
-      status: {
-        code: 400,
-        message: "Bad request",
-        detail: "Council and reference are required",
-      },
-    };
+    return apiReturnError("Council and reference are required");
   }
 
   switch (source) {
     case "bops":
-      return await v2.getApplicationSubmission(council, reference);
+      return await BopsV2.getApplicationSubmission(council, reference);
     case "local":
+      return LocalV1.applicationSubmission;
     default:
-      return local.applicationSubmission;
+      return apiReturnError("Invalid source");
   }
 }

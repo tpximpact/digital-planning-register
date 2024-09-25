@@ -1,54 +1,47 @@
 "use server";
 
 // Types
-
 import { ApiResponse, DprPublicApplicationDocuments } from "@/types";
 
 // handlers
-import { v2 } from "@/api/handlers/bops";
-import * as local from "@/api/handlers/local";
+import { BopsV2 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
+import { apiReturnError } from "@/api/lib";
 
 /**
  * @swagger
- * /api/v1/documents:
+ * /api/docs?handler=ApiV1&method=documents:
  *  get:
  *   tags:
- *     - V1
- *   summary: Get documents for a planning application
- *   description: Returns the planning application
+ *     - ApiV1
+ *   summary: Return the documents for a planning application
+ *   description: Return the documents for a planning application
  *   parameters:
  *    - $ref: '#/components/parameters/source'
  *    - $ref: '#/components/parameters/council'
  *    - $ref: '#/components/parameters/reference'
  *   responses:
  *     200:
- *       description: Hello World!
+ *       $ref: '#/components/responses/Documents'
+ *     400:
+ *       $ref: '#/components/responses/ApiError'
+
  */
 export async function documents(
   source: string,
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprPublicApplicationDocuments | null>> {
-  // @TODO validate this output against the ODP (and BOPS) schemas
-
-  console.log(source, council, reference);
-
-  if (!council) {
-    return {
-      data: null,
-      status: {
-        code: 400,
-        message: "Bad request",
-        detail: "Council is required",
-      },
-    };
+  if (!council || !reference) {
+    return apiReturnError("Council and reference are required");
   }
 
   switch (source) {
     case "bops":
-      return await v2.getPublicApplicationDocuments(council, reference);
+      return await BopsV2.getPublicApplicationDocuments(council, reference);
     case "local":
+      return LocalV1.documents;
     default:
-      return local.documents;
+      return apiReturnError("Invalid source");
   }
 }

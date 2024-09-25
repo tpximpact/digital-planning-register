@@ -5,10 +5,10 @@
 import { ApiResponse, DprPublicApplicationListings } from "@/types";
 
 // handlers
-import { v2 } from "@/api/handlers/bops";
-import * as local from "@/api/handlers/local";
+import { BopsV2 } from "@/api/handlers/bops";
 import { SearchParams } from "@/api/types";
 import { DSNApplicationListings } from "@/types/schemas/digital-site-notice";
+import { LocalV1 } from "@/api/handlers/local";
 
 /**
  * @swagger
@@ -55,12 +55,12 @@ export async function search(
   switch (source) {
     case "bops":
       if (search?.type === "dsn") {
-        return await v2.getDSNApplication(council, search);
+        return await BopsV2.getDSNApplication(council, search);
       } else {
-        return await v2.getPublicApplications(council, search);
+        return await BopsV2.getPublicApplications(council, search);
       }
     case "local":
     default:
-      return local.search(search);
+      return LocalV1.search(search);
   }
 }

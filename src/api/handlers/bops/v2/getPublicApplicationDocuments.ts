@@ -18,6 +18,10 @@ export async function getPublicApplicationDocuments(
     ApiResponse<BopsV2PublicPlanningApplicationDocuments | null>
   >(council, url);
 
+  if (!request.data) {
+    return { ...request, data: null };
+  }
+
   const {
     files = [],
     metadata = {

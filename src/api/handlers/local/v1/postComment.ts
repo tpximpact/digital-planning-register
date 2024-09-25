@@ -12,6 +12,6 @@ const localApiResponse: ApiResponse<BopsV1PlanningApplicationsNeighbourResponse 
     },
   };
 
-export const addComment: Promise<
+export const postComment: Promise<
   ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
 > = Promise.resolve(localApiResponse);

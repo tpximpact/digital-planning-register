@@ -5,15 +5,15 @@
 import { ApiResponse, DprPublicApplicationDetails } from "@/types";
 
 // handlers
-import { v2 } from "@/api/handlers/bops";
-import * as local from "@/api/handlers/local";
+import { BopsV2 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
 
 /**
  * @swagger
  * /api/v1/show:
  *  get:
  *   tags:
- *     - V1
+ *     - ApiV1
  *   summary: Show a planning application
  *   description: Returns the planning application
  *   parameters:
@@ -46,9 +46,9 @@ export async function show(
 
   switch (source) {
     case "bops":
-      return await v2.getPublicApplicationDetails(council, reference);
+      return await BopsV2.getPublicApplicationDetails(council, reference);
     case "local":
     default:
-      return local.show;
+      return LocalV1.show;
   }
 }

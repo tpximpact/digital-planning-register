@@ -5,14 +5,13 @@
 import { ApiResponse, DprPublicApplicationDetails } from "@/types";
 
 // handlers
-import { v1 } from "@/api/handlers/bops";
-import * as local from "@/api/handlers/local";
-import { id } from "date-fns/locale";
+import { BopsV1 } from "@/api/handlers/bops";
 import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
+import { LocalV1 } from "@/api/handlers/local";
 
 /**
  * @swagger
- * /api/P01/submitComment:
+ * /api/P01/postComment:
  *  post:
  *   tags:
  *     - P01
@@ -27,7 +26,7 @@ import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
  *     200:
  *       description: Hello World!
  */
-export async function submitComment(
+export async function postComment(
   source: string,
   council: string,
   id: number,
@@ -50,9 +49,9 @@ export async function submitComment(
 
   switch (source) {
     case "bops":
-      return await v1.postComment(council, id, apiData);
+      return await BopsV1.postComment(council, id, apiData);
     case "local":
     default:
-      return local.show;
+      return LocalV1.postComment;
   }
 }

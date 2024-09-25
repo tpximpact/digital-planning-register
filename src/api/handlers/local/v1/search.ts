@@ -1,3 +1,4 @@
+import { SearchParams } from "@/api/types";
 import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { DSNApplicationListings } from "@/types/schemas/digital-site-notice";
 
@@ -1326,16 +1327,15 @@ const localApiDsnResponse: ApiResponse<DSNApplicationListings | null> = {
 };
 
 // @TODO - dsn will be advanced search
-export const search = (search?: {
-  query?: string;
-  type?: "dsn";
-}): Promise<ApiResponse<DprPublicApplicationListings | null>> => {
+export const search = (
+  search?: SearchParams,
+): Promise<ApiResponse<DprPublicApplicationListings | null>> => {
   if (search?.query) {
     return Promise.resolve(localApiSearchResponse);
   }
 
   if (search?.type === "dsn") {
-    // return Promise.resolve(localApiDsnResponse);
+    return Promise.resolve(localApiDsnResponse);
   }
 
   return Promise.resolve(localApiResponse);
