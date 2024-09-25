@@ -17,13 +17,14 @@ export const updateCouncilConfig = (
   council: string,
   councilConfig: Council,
 ): Council => {
-  const validation = configValitation(council.toUpperCase());
-
   let { visibility: configVisibility } = councilConfig;
   const overrideVisibility = process.env[`${council.toUpperCase()}_VISIBILITY`];
   let visibility = (overrideVisibility || configVisibility) ?? "private";
 
-  if (validation) {
+  if (
+    !process.env[`${council.toUpperCase()}_BOPS_API_KEY`] ||
+    !process.env[`${council.toUpperCase()}_BOPS_API_URL`]
+  ) {
     if (["public", "private", "unlisted"].includes(visibility)) {
       councilConfig.visibility = visibility as CouncilVisibility;
     }

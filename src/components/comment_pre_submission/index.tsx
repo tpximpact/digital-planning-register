@@ -14,7 +14,7 @@ const PreSubmission = ({
   navigateToPage: (page: number, params?: object) => void;
   updateProgress: (completedPage: number) => void;
 }) => {
-  const councilConfig: Config = config;
+  const councilConfig = config as Config;
   const whatHappensToYourCommentsLink =
     councilConfig[council]?.pageContent
       ?.council_reference_submit_comment_pre_submission

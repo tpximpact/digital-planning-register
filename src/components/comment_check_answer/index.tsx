@@ -73,7 +73,7 @@ const CommentCheckAnswer = ({
   const [submissionError, setSubmissionError] = useState(false);
   const [hasLoadedData, setHasLoadedData] = useState(false);
 
-  const councilConfig: Config = config;
+  const councilConfig: Config = config as Config;
   const contactPlanningAdviceLink =
     councilConfig[council]?.pageContent
       ?.council_reference_submit_comment_check_answer
