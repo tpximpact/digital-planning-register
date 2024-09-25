@@ -15,8 +15,8 @@ import { DprApplicationSubmission } from "@/types/schemas/application-submission
  * @returns
  */
 export async function getApplicationSubmission(
-  reference: string,
   council: string,
+  reference: string,
 ): Promise<ApiResponse<DprApplicationSubmission | null>> {
   const url = `planning_applications/${reference}/submission`;
   const request = await handleBopsGetRequest<

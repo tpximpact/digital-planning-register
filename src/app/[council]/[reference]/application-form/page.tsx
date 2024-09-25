@@ -20,7 +20,7 @@ async function fetchData(
   params: PageParams,
 ): Promise<ApiResponse<DprApplicationSubmission | null>> {
   const { reference, council } = params;
-  const response = await getApplicationSubmission(reference, council);
+  const response = await getApplicationSubmission(council, reference);
   return response;
 }
 
