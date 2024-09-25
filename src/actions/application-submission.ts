@@ -8,6 +8,8 @@ import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
 import { DprApplicationSubmission } from "@/types/schemas/application-submission";
 
 /**
+ *
+ * @deprecated
  * GET /api/v2/planning_applications/{reference}/submission
  * get an application's submission data
  * @param reference

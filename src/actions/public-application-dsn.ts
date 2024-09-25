@@ -7,6 +7,7 @@ import { BopsV2Determined } from "@/types/api/bops";
 import { defaultPagination } from "@/lib/pagination";
 
 /**
+ * @deprecated
  Get list of application that has digital site notice
  * @param page
  * @param resultsPerPage

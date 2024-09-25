@@ -9,6 +9,7 @@ import {
 } from "@/types/api/bops";
 
 /**
+ * @deprecated
  * Get the details for an application
  * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP
  * @param council

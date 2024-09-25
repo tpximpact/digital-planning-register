@@ -5,6 +5,7 @@ import { ApiResponse } from "@/types";
 import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
 
 /**
+ * @deprecated
  * POST planning_applications/${id}/neighbour_responses
  * Post a comment to BOPS
  * @param id

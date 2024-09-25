@@ -7,6 +7,8 @@ import { ApiResponse, DprPublicApplicationListings } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/types/api/bops";
 
 /**
+ *
+ * @deprecated
  * Get list of public applications, also used for search
  * https://camden.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=8
  * @param page

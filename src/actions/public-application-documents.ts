@@ -9,6 +9,12 @@ import { handleBopsGetRequest } from "@/lib/handlers";
 import { ApiResponse, DprPublicApplicationDocuments } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/types/api/bops";
 
+/**
+ * @deprecated
+ * @param council
+ * @param reference
+ * @returns
+ */
 export async function getPublicApplicationDocuments(
   council: string,
   reference: string,

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { Config } from "@/types";
-import { postComment } from "@/actions";
 import { ButtonLink } from "../button";
+import { apiP01 } from "@/api";
 
 const topics_selection = [
   {
@@ -145,7 +145,12 @@ const CommentCheckAnswer = ({
     };
 
     try {
-      const response = await postComment(applicationId, council, apiData);
+      const response = await apiP01.submitComment(
+        "bops",
+        council,
+        applicationId,
+        apiData,
+      );
       if (response?.status?.code === 200) {
         sessionStorage.setItem(`submissionComplete_${reference}`, "true");
 

@@ -16,6 +16,7 @@ export async function getApiDocs() {
           @TODO: Validate our schema against ODP and BOPS's schema
           @TODO: Decide on a naming convention for our API's and endpoints especially features
           @TODO: Generate local endpoint data or import from BOPs examples
+          @TODO: In development mode show the data from serverActions in swagger
           
           `,
       },
