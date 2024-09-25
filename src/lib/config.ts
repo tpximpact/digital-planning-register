@@ -1,6 +1,5 @@
 import { Config, Council, SiteConfig, CouncilVisibility } from "@/types";
 import config from "../../util/config.json";
-import { configValitation } from "./configValidation";
 
 export const siteConfig: SiteConfig = {
   documentsPublicEndpoint: true,

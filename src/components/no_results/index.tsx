@@ -7,7 +7,7 @@ interface NoResultProps {
 }
 
 const NoResult = ({ council }: NoResultProps) => {
-  const configCouncil: Config = config;
+  const configCouncil = config as Config;
   const getInTouchURL =
     configCouncil[council]?.contact || "https://www.gov.uk/";
 
