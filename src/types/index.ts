@@ -20,6 +20,7 @@ export * from "./definitions/config";
 export * from "./definitions/pagination";
 export * from "./definitions/document";
 export * from "./definitions/application-submission";
+export * from "./definitions/search-params";
 
 // export * from "./definitions/search";
 export * from "./definitions/boundary-geojson";

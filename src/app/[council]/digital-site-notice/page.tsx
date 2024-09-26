@@ -1,6 +1,6 @@
 import { getDSNApplication } from "@/actions/public-application-dsn";
 import ApplicationMap from "@/components/application_map";
-import { ApiResponse } from "@/types";
+import { ApiResponse, SearchParams } from "@/types";
 import { DSNApplicationListings } from "@/types/schemas/digital-site-notice";
 import { Metadata } from "next";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
@@ -12,18 +12,11 @@ import { redirect } from "next/navigation";
 
 const resultsPerPage = 10;
 
-interface PageParams {
-  council: string;
-}
-
-interface SearchParams {
-  search: string;
-  page: string;
-}
-
 interface DSNProps {
-  params: PageParams;
-  searchParams?: SearchParams | undefined;
+  params: {
+    council: string;
+  };
+  searchParams?: SearchParams;
 }
 
 async function fetchData({
@@ -31,8 +24,8 @@ async function fetchData({
   searchParams,
 }: DSNProps): Promise<ApiResponse<DSNApplicationListings | null>> {
   const { council } = params;
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-  const search = searchParams?.search as string;
+  const page = searchParams?.page ? searchParams.page : 1;
+  const search = searchParams?.query as string;
   const response = await getDSNApplication(
     page,
     resultsPerPage,
@@ -65,10 +58,10 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
 
   const response = await fetchData({ params, searchParams });
   const applications = response?.data?.data;
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const page = searchParams?.page ? searchParams.page : 1;
   const council = params.council;
   const validationError =
-    searchParams?.search && searchParams?.search.length < 3 ? true : false;
+    searchParams?.query && searchParams?.query.length < 3 ? true : false;
 
   if (response?.status?.code !== 200) {
     return <NotFound params={params} />;

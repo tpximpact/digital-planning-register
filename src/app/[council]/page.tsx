@@ -5,24 +5,21 @@ import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import { ApiResponse, DprPublicApplicationListings } from "@/types";
+import {
+  ApiResponse,
+  DprPublicApplicationListings,
+  SearchParams,
+} from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
 
 const resultsPerPage = 10;
 
-interface PageParams {
-  council: string;
-}
-
-interface SearchParams {
-  search: string;
-  page: string;
-}
-
 interface HomeProps {
-  params: PageParams;
-  searchParams?: SearchParams | undefined;
+  params: {
+    council: string;
+  };
+  searchParams?: SearchParams;
 }
 
 async function fetchData({
@@ -30,8 +27,8 @@ async function fetchData({
   searchParams,
 }: HomeProps): Promise<ApiResponse<DprPublicApplicationListings | null>> {
   const { council } = params;
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-  const search = searchParams?.search as string;
+  const page = searchParams?.page ? searchParams.page : 1;
+  const search = searchParams?.query as string;
 
   const response = await getPublicApplications(
     page,
@@ -67,10 +64,10 @@ export default async function PlanningApplicationListings({
   searchParams,
 }: HomeProps) {
   const response = await fetchData({ params, searchParams });
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const page = searchParams?.page ? searchParams.page : 1;
   const council = params.council;
   const validationError =
-    searchParams?.search && searchParams?.search.length < 3 ? true : false;
+    searchParams?.query && searchParams?.query.length < 3 ? true : false;
 
   if (response?.status?.code !== 200) {
     return <NotFound params={params} />;
@@ -84,16 +81,16 @@ export default async function PlanningApplicationListings({
           <div className="govuk-grid-column-one-half">
             <div className="govuk-form-group">
               <h1 className="govuk-label-wrapper">
-                <label className="govuk-label" htmlFor="search">
+                <label className="govuk-label" htmlFor="query">
                   Search by application reference, address or description
                 </label>
               </h1>
               <input
                 className="govuk-input"
-                id="search"
-                name="search"
+                id="query"
+                name="query"
                 type="text"
-                defaultValue={searchParams?.search || ""}
+                defaultValue={searchParams?.query || ""}
                 autoComplete="on"
               />
               {validationError && (
