@@ -1,6 +1,6 @@
 "use server";
 
-import { convertPlanningApplicationOverviewBops } from "@/lib/applications";
+import { convertPlanningApplicationOverviewBops } from "@/api/handlers/bops";
 import { convertApplicationSubmissionBops } from "@/lib/applicationSubmission";
 import { handleBopsGetRequest } from "@/lib/handlers";
 import { ApiResponse } from "@/types";

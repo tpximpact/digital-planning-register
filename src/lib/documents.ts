@@ -3,31 +3,8 @@
  */
 
 import { DprDocument } from "@/types";
-import { formatTag } from "../../util/formatTag";
-import {
-  BopsDocumentsMetadata,
-  BopsNonStandardDocument,
-  BopsFile,
-} from "@/types/api/bops";
+import { BopsDocumentsMetadata, BopsFile } from "@/types/api/bops";
 import { DprPaginationBase } from "@/types/definitions/pagination";
-
-/**
- * Converts BOPS documents into our standard format
- * @param comment
- * @returns
- */
-export const convertDocumentBopsNonStandard = (
-  document: BopsNonStandardDocument,
-): DprDocument => {
-  return {
-    url: document.url,
-    title:
-      document?.tags?.length > 0
-        ? document.tags.map(formatTag).join(", ")
-        : "Unnamed Document",
-    created_at: document.created_at,
-  };
-};
 
 /**
  * Converts BOPS files into our standard format

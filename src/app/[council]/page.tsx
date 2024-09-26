@@ -1,5 +1,4 @@
 import React from "react";
-import { getPublicApplications } from "../../actions";
 import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
@@ -12,6 +11,8 @@ import {
 } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
+import { getCouncilDataSource } from "@/lib/config";
+import { ApiV1 } from "@/api";
 
 const resultsPerPage = 10;
 
@@ -30,11 +31,10 @@ async function fetchData({
   const page = searchParams?.page ? searchParams.page : 1;
   const search = searchParams?.query as string;
 
-  const response = await getPublicApplications(
-    page,
-    resultsPerPage,
+  const response = await ApiV1.search(
+    getCouncilDataSource(council),
     council,
-    search,
+    searchParams,
   );
 
   return response;

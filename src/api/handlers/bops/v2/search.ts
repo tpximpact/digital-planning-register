@@ -1,9 +1,13 @@
 "use server";
 
-import { convertPlanningApplicationBops } from "@/lib/applications";
+import { convertPlanningApplicationBops } from "@/api/handlers/bops";
 import { handleBopsGetRequest } from "@/lib/handlers";
 import { defaultPagination } from "@/lib/pagination";
-import { ApiResponse, DprPublicApplicationListings } from "@/types";
+import {
+  ApiResponse,
+  DprPublicApplicationListings,
+  SearchParams,
+} from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/types/api/bops";
 
 /**
@@ -15,21 +19,24 @@ import { BopsV2PublicPlanningApplicationsSearch } from "@/types/api/bops";
  * @param search
  * @returns
  */
-export async function getPublicApplications(
-  page: number = 1,
-  resultsPerPage: number = 10,
+export async function search(
   council: string,
-  search?: string,
+  search?: SearchParams,
 ): Promise<ApiResponse<DprPublicApplicationListings | null>> {
-  const params = new URLSearchParams({
-    page: page.toString(),
-    maxresults: resultsPerPage.toString(),
-  });
+  let url = `public/planning_applications/search`;
 
   if (search) {
-    params.append("q", search);
+    const params = new URLSearchParams({
+      page: search?.page?.toString(),
+      maxresults: search?.resultsPerPage?.toString() ?? "10",
+    });
+
+    if (search?.query) {
+      params.append("q", search?.query);
+    }
+
+    url = `${url}?${params.toString()}`;
   }
-  const url = `public/planning_applications/search?${params.toString()}`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
   >(council, url);
