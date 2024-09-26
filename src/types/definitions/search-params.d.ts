@@ -5,5 +5,5 @@ export interface SearchParams {
   /**
    * beginning of advanced search P05
    */
-  type?: "dsn";
+  type?: string;
 }
