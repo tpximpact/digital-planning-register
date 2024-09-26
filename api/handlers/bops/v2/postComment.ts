@@ -1,8 +1,8 @@
 "use server";
 
-import { handleBopsPostRequest } from "@/lib/handlers";
 import { ApiResponse } from "@/types";
 import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
+import { handleBopsPostRequest } from "../requests";
 
 /**
  * POST planning_applications/${id}/neighbour_responses
@@ -13,13 +13,16 @@ import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
  * @returns
  */
 export async function postComment(
-  id: number,
   council: string,
+  applicationId: number,
   apiData: object,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
-  const url = `planning_applications/${id}/neighbour_responses`;
+  const url = `planning_applications/${applicationId}/neighbour_responses`;
   const request = await handleBopsPostRequest<
     ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
   >(council, url, apiData, true);
+
+  console.log(new Date());
+  console.log(request);
   return request;
 }

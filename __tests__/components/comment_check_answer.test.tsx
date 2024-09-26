@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { postComment } from "@/actions";
+import { postComment } from "api/handlers/bops/v2/postComment";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
 
@@ -98,8 +98,8 @@ describe("CommentCheckAnswer", () => {
 
     await waitFor(() => {
       expect(postComment).toHaveBeenCalledWith(
-        1,
         "exampleCouncil",
+        1,
         expect.any(Object),
       );
       expect(defaultProps.updateProgress).toHaveBeenCalledWith(5);
