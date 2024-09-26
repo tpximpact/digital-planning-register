@@ -1,14 +1,14 @@
 "use server";
 
-import { convertPlanningApplicationBops } from "@/api/handlers/bops";
-import { handleBopsGetRequest } from "@/lib/handlers";
-import { defaultPagination } from "@/lib/pagination";
 import {
   ApiResponse,
   DprPublicApplicationListings,
   SearchParams,
 } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/types/api/bops";
+import { handleBopsGetRequest } from "../requests";
+import { convertPlanningApplicationBops } from "../converters";
+import { defaultPagination } from "api/lib";
 
 /**
  * Get list of public applications, also used for search

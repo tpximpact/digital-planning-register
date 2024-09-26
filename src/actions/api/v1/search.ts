@@ -8,9 +8,9 @@ import {
 } from "@/types";
 
 // handlers
-import { BopsV2 } from "@/api/handlers/bops";
-import { LocalV1 } from "@/api/handlers/local";
-import { apiReturnError } from "@/api/lib";
+import { BopsV2 } from "api/handlers/bops";
+import { LocalV1 } from "api/handlers/local";
+import { apiReturnError } from "api/lib";
 
 /**
  * @swagger

@@ -12,7 +12,7 @@ import {
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
 import { getCouncilDataSource } from "@/lib/config";
-import { ApiV1 } from "@/api";
+import { ApiV1 } from "@/actions/api";
 
 const resultsPerPage = 10;
 

@@ -1,9 +1,13 @@
 "use server";
 
-import { ApiResponse, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  DprPublicApplicationListings,
+  SearchParams,
+} from "@/types";
 
-const response: ApiResponse<Object | null> = {
-  data: {},
+const response: ApiResponse<DprPublicApplicationListings | null> = {
+  data: null,
   status: {
     code: 200,
     message: "TODO output correct content here",
@@ -12,7 +16,7 @@ const response: ApiResponse<Object | null> = {
 
 export const search = (
   search?: SearchParams,
-): Promise<ApiResponse<Object | null>> => {
+): Promise<ApiResponse<DprPublicApplicationListings | null>> => {
   if (search?.query) {
     return Promise.resolve(response);
   }
