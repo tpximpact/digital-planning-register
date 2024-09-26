@@ -1,12 +1,12 @@
 "use server";
 
-import { convertPlanningApplicationBops } from "api/handlers/bops/converters";
-import { handleBopsGetRequest } from "@/lib/handlers";
 import { ApiResponse, DprPublicApplicationDetails } from "@/types";
 import {
   BopsV2PublicPlanningApplicationDetail,
   BopsV2PlanningApplicationDetail,
 } from "@/types/api/bops";
+import { convertPlanningApplicationBops } from "../converters";
+import { handleBopsGetRequest } from "../requests";
 
 /**
  * Get the details for an application
@@ -15,7 +15,7 @@ import {
  * @param reference
  * @returns
  */
-export async function getPublicApplicationDetails(
+export async function show(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprPublicApplicationDetails | null>> {

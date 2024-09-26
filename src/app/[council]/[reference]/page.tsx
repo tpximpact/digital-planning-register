@@ -5,7 +5,6 @@ import {
   DprPublicApplicationDetails,
   DprPublicApplicationDocuments,
 } from "@/types";
-import { getPublicApplicationDetails } from "@/actions";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
 import {
@@ -34,7 +33,7 @@ async function fetchData(params: PageParams): Promise<{
 }> {
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
-    getPublicApplicationDetails(council, reference),
+    ApiV1.show(getCouncilDataSource(council), council, reference),
     ApiV1.documents(getCouncilDataSource(council), council, reference),
   ]);
   return { applicationResponse, documentResponse };

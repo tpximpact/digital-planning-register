@@ -1,6 +1,6 @@
 "use server";
 
-import { ApiResponse, DprApplicationSubmission, SearchParams } from "@/types";
+import { ApiResponse, DprApplicationSubmission } from "@/types";
 
 const response: ApiResponse<DprApplicationSubmission | null> = {
   data: null,
