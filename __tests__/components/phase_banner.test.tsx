@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import PhaseBanner from "@/components/phase_banner";
 import "@testing-library/jest-dom";
+import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 
 describe("PhaseBanner", () => {
   it("renders the banner with correct text", () => {

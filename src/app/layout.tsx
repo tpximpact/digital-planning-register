@@ -1,15 +1,15 @@
 // "use client";
-import "./globals.css";
 import "@/styles/app.scss";
 import Header from "../components/header";
 import { Suspense } from "react";
 import React from "react";
-import PhaseBanner from "@/components/phase_banner";
+import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
 import { getConfig } from "@/lib/config";
 import { Metadata } from "next";
 import { GovUkInitAll } from "@/components/GovUkInitAll";
+import { SkipLink } from "@/components/govuk/SkipLink";
 
 export function generateMetadata(): Metadata {
   const title = "Digital Planning Register";
@@ -47,13 +47,7 @@ export default async function RootLayout({
       <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
         <CookieBanner />
-        <a
-          href="#main"
-          className="govuk-skip-link"
-          data-module="govuk-skip-link"
-        >
-          Skip to main content
-        </a>
+        <SkipLink href="#main" />
         <Header councilConfig={councilConfig} />
         <main className="govuk-width-container" id="main">
           <PhaseBanner />
