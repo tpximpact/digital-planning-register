@@ -2,6 +2,7 @@ import { isAfter, isBefore, isEqual } from "date-fns";
 import {
   DprPlanningApplication,
   DprPlanningApplicationOverview,
+  DprPlanningApplicationApplicant,
 } from "@/types";
 import { capitaliseWord } from "../../util/capitaliseWord";
 import { contentApplicationTypes } from "@/app/[council]/planning-process/content-application-types";
@@ -12,10 +13,83 @@ import {
   BopsPlanningApplication,
   BopsApplicationOverview,
   BopsV2PlanningApplicationDetail,
+  BopsBaseApplicant,
+  BopsAgent,
 } from "@/types/api/bops";
 import { ApplicationFormObject } from "@/components/application_form";
 import { convertDocumentBopsNonStandard } from "./documents";
 
+/**
+ * Converts BOPS application overview into our standard format
+ * @param comment
+ * @returns
+ */
+export const convertPlanningApplicationApplicantBops = (
+  applicant: BopsBaseApplicant,
+  agent: BopsAgent,
+  privateApplication?: BopsV2PlanningApplicationDetail | null,
+): DprPlanningApplicationApplicant => {
+  let name = {
+    first: applicant?.name?.first ?? "",
+    last: applicant?.name?.last ?? "",
+    title: applicant?.name?.title ?? "",
+  };
+
+  // if bops isn't sending new data we can use the old data
+  // TODO delete this when BOPS sends the correct data
+  if (!name.first && !name.last && !name.title) {
+    name = {
+      first: privateApplication?.applicant_first_name ?? "",
+      last: privateApplication?.applicant_last_name ?? "",
+      title: "",
+    };
+  }
+
+  let applicantData: DprPlanningApplicationApplicant = {
+    name,
+    type: applicant?.type ?? "unknown",
+    company: applicant?.company,
+    address: applicant.address ?? null,
+  };
+
+  if (applicant?.ownership?.interest) {
+    applicantData = {
+      ...applicantData,
+      ownership: {
+        interest: applicant?.ownership?.interest,
+      },
+    };
+  }
+
+  if (agent?.agent) {
+    let agentName = {
+      first: agent?.agent?.name?.first ?? "",
+      last: agent?.agent?.name?.last ?? "",
+      title: agent?.agent?.name?.title ?? "",
+    };
+
+    // if bops isn't sending new data we can use the old data
+    // TODO delete this when BOPS sends the correct data
+    if (!agentName.first && !agentName.last && !agentName.title) {
+      agentName = {
+        first: privateApplication?.agent_first_name ?? "",
+        last: privateApplication?.agent_last_name ?? "",
+        title: "",
+      };
+    }
+
+    applicantData = {
+      ...applicantData,
+      agent: {
+        name: agentName,
+        company: agent.agent?.company,
+        address: agent.agent?.address,
+      },
+    };
+  }
+
+  return applicantData;
+};
 /**
  * Converts BOPS application(s) into our standard format
  * @param comment
@@ -43,15 +117,11 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
-    applicant: {
-      type: application.applicant?.type,
-      address: application.applicant?.address?.sameAsSiteAddress
-        ? application.property.address.singleLine
-        : "",
-      agent: {
-        address: `${application.applicant?.agent?.address.line1}, ${application.applicant?.agent?.address.town}, ${application.applicant?.agent?.address.postcode}`,
-      },
-    },
+    applicant: convertPlanningApplicationApplicantBops(
+      application.applicant,
+      application.applicant,
+      privateApplication,
+    ),
   };
 };
 
