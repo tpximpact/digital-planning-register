@@ -2,7 +2,6 @@ import {
   DprApplicationSubmissionSubtopic,
   DprApplicationSubmissionSubtopicValue,
 } from "@/types";
-import { capitalizeFirstLetter } from "@/util";
 
 /**
  * Returns description and value from responses grouped by the metadata.sectionName

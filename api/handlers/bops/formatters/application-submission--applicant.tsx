@@ -1,5 +1,4 @@
-import { flattenPageContent } from "@/lib/applications";
-import { flattenObjectIntoRow } from "@/lib/applicationSubmission";
+import { flattenObjectIntoRow } from "../converters/applicationSubmission";
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 

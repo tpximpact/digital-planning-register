@@ -1,11 +1,11 @@
 "use server";
 
-import { convertPlanningApplicationOverviewBops } from "api/handlers/bops/converters";
-import { convertApplicationSubmissionBops } from "@/lib/applicationSubmission";
-import { handleBopsGetRequest } from "@/lib/handlers";
 import { ApiResponse } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/types/api/bops";
 import { DprApplicationSubmission } from "@/types/schemas/application-submission";
+import { convertPlanningApplicationOverviewBops } from "../converters";
+import { handleBopsGetRequest } from "../requests";
+import { convertApplicationSubmissionBops } from "../converters/applicationSubmission";
 
 /**
  * GET /api/v2/planning_applications/{reference}/submission
@@ -14,9 +14,9 @@ import { DprApplicationSubmission } from "@/types/schemas/application-submission
  * @param council
  * @returns
  */
-export async function getApplicationSubmission(
-  reference: string,
+export async function applicationSubmission(
   council: string,
+  reference: string,
 ): Promise<ApiResponse<DprApplicationSubmission | null>> {
   const url = `planning_applications/${reference}/submission`;
   const request = await handleBopsGetRequest<

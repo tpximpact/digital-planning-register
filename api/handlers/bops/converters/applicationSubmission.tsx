@@ -1,17 +1,16 @@
-import { BopsApplicationSubmission } from "@/types/api/bops";
-
 import {
   DprApplicationSubmissionData,
   DprApplicationSubmissionSubtopic,
   DprApplicationSubmissionSubtopicValue,
 } from "@/types";
+import { BopsApplicationSubmission } from "@/types/api/bops";
 import { capitalizeFirstLetter } from "@/util";
-import { BopsProperty } from "./formatters/bops/application-submission--property";
-import { BopsProposal } from "./formatters/bops/application-submission--proposal";
-import { BopsApplicant } from "./formatters/bops/application-submission--applicant";
-import { BopsApplication } from "./formatters/bops/application-submission--application";
-import { BopsFiles } from "./formatters/bops/application-submission--files";
-import { BopsResponses } from "./formatters/bops/application-submission--responses";
+import { BopsProperty } from "../formatters/application-submission--property";
+import { BopsProposal } from "../formatters/application-submission--proposal";
+import { BopsApplicant } from "../formatters/application-submission--applicant";
+import { BopsApplication } from "../formatters/application-submission--application";
+import { BopsFiles } from "../formatters/application-submission--files";
+import { BopsResponses } from "../formatters/application-submission--responses";
 
 /**
  * Converts the BOPS application submission into our DPR application submission format
