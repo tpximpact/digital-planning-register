@@ -6,10 +6,7 @@ import {
   DprPublicApplicationDetails,
   DprPublicApplicationDocuments,
 } from "@/types";
-import {
-  getPublicApplicationDetails,
-  getPublicApplicationDocuments,
-} from "@/actions";
+import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
 import { capitaliseWord } from "../../../../../util/capitaliseWord";
 import { BackLink } from "@/components/button";
@@ -17,7 +14,8 @@ import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
 import { createItemPagination } from "@/lib/pagination";
 import DocumentsList from "@/components/documents_list";
-import { siteConfig } from "@/lib/config";
+import { getCouncilDataSource, siteConfig } from "@/lib/config";
+import { ApiV1 } from "@/actions/api";
 
 interface CommentSearchParams {
   page?: string;
@@ -40,7 +38,7 @@ async function fetchData(params: PageParams): Promise<{
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
     getPublicApplicationDetails(council, reference),
-    getPublicApplicationDocuments(council, reference),
+    ApiV1.documents(getCouncilDataSource(council), council, reference),
   ]);
   return { applicationResponse, documentResponse };
 }

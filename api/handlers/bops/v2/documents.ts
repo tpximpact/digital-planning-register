@@ -1,15 +1,15 @@
 "use server";
 
 import { ApplicationFormObject } from "@/components/application_form";
+import { ApiResponse, DprPublicApplicationDocuments } from "@/types";
+import { BopsV2PublicPlanningApplicationDocuments } from "@/types/api/bops";
 import {
   convertBopsDocumentPagination,
   convertDocumentBopsFile,
-} from "@/lib/documents";
-import { handleBopsGetRequest } from "@/lib/handlers";
-import { ApiResponse, DprPublicApplicationDocuments } from "@/types";
-import { BopsV2PublicPlanningApplicationDocuments } from "@/types/api/bops";
+} from "../converters/documents";
+import { handleBopsGetRequest } from "../requests";
 
-export async function getPublicApplicationDocuments(
+export async function documents(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprPublicApplicationDocuments | null>> {
@@ -17,6 +17,10 @@ export async function getPublicApplicationDocuments(
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationDocuments | null>
   >(council, url);
+
+  if (!request.data) {
+    return { ...request, data: null };
+  }
 
   const {
     files = [],

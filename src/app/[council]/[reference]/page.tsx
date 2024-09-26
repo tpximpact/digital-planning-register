@@ -5,17 +5,19 @@ import {
   DprPublicApplicationDetails,
   DprPublicApplicationDocuments,
 } from "@/types";
-import {
-  getPublicApplicationDetails,
-  getPublicApplicationDocuments,
-} from "@/actions";
+import { getPublicApplicationDetails } from "@/actions";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
-import { getCouncilConfig, siteConfig } from "@/lib/config";
+import {
+  getCouncilConfig,
+  getCouncilDataSource,
+  siteConfig,
+} from "@/lib/config";
 import ApplicationInformation from "@/components/application_information";
 import CommentsList from "@/components/comments_list";
 import ApplicationPeople from "@/components/application_people";
 import DocumentsList from "@/components/documents_list";
+import { ApiV1 } from "@/actions/api";
 
 interface PlanningApplicationDetailsProps {
   params: PageParams;
@@ -33,7 +35,7 @@ async function fetchData(params: PageParams): Promise<{
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
     getPublicApplicationDetails(council, reference),
-    getPublicApplicationDocuments(council, reference),
+    ApiV1.documents(getCouncilDataSource(council), council, reference),
   ]);
   return { applicationResponse, documentResponse };
 }

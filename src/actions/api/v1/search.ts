@@ -46,7 +46,7 @@ export async function search(
     case "bops":
       return await BopsV2.search(council, search);
     case "local":
-      return LocalV1.search(search);
+      return await LocalV1.search(search);
     default:
       return apiReturnError("Invalid source");
   }
