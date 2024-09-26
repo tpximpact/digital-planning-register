@@ -22,7 +22,5 @@ export async function postComment(
     ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
   >(council, url, apiData, true);
 
-  console.log(new Date());
-  console.log(request);
   return request;
 }

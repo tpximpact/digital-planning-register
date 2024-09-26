@@ -17,17 +17,20 @@
   },
   "dependencies": {
     "@react-hook/window-size": "^3.1.1",
+    "@types/swagger-ui-react": "^4.18.3",
     "date-fns": "^3.6.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "govuk-frontend": "^5.2.0",
     "next": "14.1.3",
+    "next-swagger-doc": "^0.4.0",
     "prettier": "^3.2.5",
     "react": "^18",
     "react-dom": "^18",
     "react-paginate": "8.2.0",
     "sass": "^1.71.1",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "swagger-ui-react": "^5.17.14"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

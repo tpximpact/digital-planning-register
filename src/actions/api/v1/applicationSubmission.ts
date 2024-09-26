@@ -25,7 +25,6 @@ import { apiReturnError } from "api/lib";
  *       $ref: '#/components/responses/ApplicationSubmission'
  *     400:
  *       $ref: '#/components/responses/ApiError'
-
  */
 export async function applicationSubmission(
   source: string,

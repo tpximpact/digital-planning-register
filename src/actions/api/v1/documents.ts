@@ -25,7 +25,6 @@ import { apiReturnError } from "api/lib";
  *       $ref: '#/components/responses/Documents'
  *     400:
  *       $ref: '#/components/responses/ApiError'
-
  */
 export async function documents(
   source: string,
