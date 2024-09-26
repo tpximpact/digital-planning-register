@@ -11,6 +11,10 @@ jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mockMap"></div>);
 });
 
+jest.mock("@opensystemslab/map", () => {
+  return jest.fn(() => <></>);
+});
+
 const defaultApplicationMapProps: ApplicationMapMapProps = {
   mapData: {
     type: "Feature",
@@ -42,6 +46,7 @@ describe("Map Component", () => {
       <ApplicationMapMap {...defaultApplicationMapProps} />,
     );
     const mapElement = container.querySelector("my-map");
+    console.log(mapElement);
     expect(mapElement).toBeInTheDocument();
     expect(mapElement).not.toHaveAttribute("staticMap");
     expect(mapElement).toHaveAttribute("zoom", "14");
