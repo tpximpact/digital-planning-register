@@ -1,6 +1,6 @@
 import { capitaliseWord } from "../../../util/capitaliseWord";
 import { DprPlanningApplication } from "@/types";
-import { concatenateFieldsInOrder } from "util/concatenateFieldsInOrder";
+import { concatenateFieldsInOrder } from "../../../util/concatenateFieldsInOrder";
 
 export interface ApplicationPeopleProps
   extends Pick<DprPlanningApplication, "applicant"> {}
