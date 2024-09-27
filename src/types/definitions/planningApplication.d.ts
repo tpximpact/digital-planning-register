@@ -1,4 +1,5 @@
 import { DprBoundaryGeojson } from "./boundaryGeojson";
+import { DprPlanningApplicationOverview } from "./planningApplication";
 
 /**
  * This interface represents a minimal application object
