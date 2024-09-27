@@ -1,4 +1,4 @@
-import { formatTag } from "../../util/formatTag";
+import { formatTag } from "@/util/formatTag";
 describe("formatTag", () => {
   it("should format tags with a dot", () => {
     const tag = "testPlan.suggested";

@@ -3,25 +3,35 @@ import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CouncilCards from "@/components/council_cards";
 import { getConfig } from "@/lib/config";
+import { Config } from "@/types";
 
 jest.mock("../../src/lib/config", () => ({
   getConfig: jest.fn(),
 }));
 
-export interface Council {
-  name: string;
-  isSelectable?: boolean | string;
-}
-
-export interface Config {
-  [key: string]: Council;
-}
-
 describe("CouncilCards", () => {
   const mockedConfig: Config = {
-    barnet: { name: "Barnet", isSelectable: "true" },
-    camden: { name: "Camden", isSelectable: "true" },
-    buckinghamshire: { name: "Buckinghamshire", isSelectable: "false" },
+    barnet: {
+      name: "Barnet",
+      isSelectable: "true",
+      dataSource: "bops",
+      publicComments: false,
+      specialistComments: false,
+    },
+    camden: {
+      name: "Camden",
+      isSelectable: "true",
+      dataSource: "bops",
+      publicComments: true,
+      specialistComments: true,
+    },
+    buckinghamshire: {
+      name: "Buckinghamshire",
+      isSelectable: "false",
+      dataSource: "bops",
+      publicComments: false,
+      specialistComments: false,
+    },
   };
 
   beforeEach(() => {
