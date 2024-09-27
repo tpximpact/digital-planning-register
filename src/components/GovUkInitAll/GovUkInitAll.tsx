@@ -29,8 +29,7 @@ export const GovUkInitAll = () => {
   //   {`document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');`}
   // </Script>;
 
-  "noModule" in HTMLScriptElement.prototype;
-  if (isClient) {
+  if (isClient && typeof window !== "undefined") {
     // add in govuk-frontend-supported class to body if the browser supports ES6 modules
     document.body.className +=
       " js-enabled" +
@@ -39,6 +38,7 @@ export const GovUkInitAll = () => {
         : "");
 
     // initialise all the govuk components
+    // tbh might not need this unless we're using any of these components https://frontend.design-system.service.gov.uk/javascript-api-reference/
     initAll();
   }
 
