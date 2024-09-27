@@ -13,7 +13,7 @@ import { BackLink } from "@/components/button";
 import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
 import { DprPublicApplicationDetails } from "@/types";
-import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
+import useNavigationAlert from "@/util/hooks/useNavigationAlert";
 
 type Props = {
   params: { reference: string; council: string };
@@ -38,7 +38,7 @@ const Comment = ({ params }: Props) => {
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
-  useUnsavedChanges(page);
+  useNavigationAlert(page);
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(

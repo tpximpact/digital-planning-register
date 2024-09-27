@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const useUnsavedChanges = (currentPage: number) => {
+const useNavigationAlert = (currentPage: number) => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (currentPage > 1 && currentPage < 6) {
@@ -15,4 +15,4 @@ const useUnsavedChanges = (currentPage: number) => {
   }, [currentPage]);
 };
 
-export default useUnsavedChanges;
+export default useNavigationAlert;
