@@ -1,3 +1,6 @@
+import createClient from "openapi-fetch";
+import type { paths } from "./types/schema";
+
 export async function handleBopsGetRequest<T>(
   council: string,
   url: string,
@@ -23,6 +26,13 @@ export async function handleBopsGetRequest<T>(
     } as T;
   } else {
     try {
+      const client = createClient<paths>({
+        baseUrl: `${process.env[councilApi]}/`,
+        headers: {
+          Authorization: `Bearer ${process.env[apiKey]}`,
+        },
+      });
+
       const response = await fetch(`${process.env[councilApi]}${url}`, {
         method: "GET",
         headers: {

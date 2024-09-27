@@ -3,7 +3,7 @@ import {
   DprApplicationSubmissionSubtopic,
   DprApplicationSubmissionSubtopicValue,
 } from "@/types";
-import { BopsApplicationSubmission } from "@/api/handlers/bops/types";
+import { BopsApplicationSubmission } from "@/handlers/bops/types";
 import { capitalizeFirstLetter } from "@/util";
 import { BopsProperty } from "../formatters/application-submission--property";
 import { BopsProposal } from "../formatters/application-submission--proposal";

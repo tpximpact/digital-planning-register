@@ -10,7 +10,7 @@ import {
   BopsNonStandardDocument,
   BopsPlanningApplication,
   BopsV2PlanningApplicationDetail,
-} from "@/api/handlers/bops/types";
+} from "@/handlers/bops/types";
 import { formatTag } from "@/util";
 
 /**

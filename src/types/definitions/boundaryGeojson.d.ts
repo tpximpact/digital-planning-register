@@ -1,4 +1,4 @@
-import { BopsBoundaryGeojson } from "@/api/handlers/bops/types";
+import { BopsBoundaryGeojson } from "@/handlers/bops/types";
 
 /**
  * This is our custom definition for the boundary geojson object but its identical to the BOPS one...

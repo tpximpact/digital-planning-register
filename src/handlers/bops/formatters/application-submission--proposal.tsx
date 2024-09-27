@@ -1,5 +1,5 @@
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
-import { formatDprDate } from "../../../../../util/formatDates";
+import { formatDprDate } from "../../../../util/formatDates";
 import { capitalizeFirstLetter } from "@/util";
 import {
   formatBoundary,

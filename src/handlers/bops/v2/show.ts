@@ -4,7 +4,7 @@ import { ApiResponse, DprShow } from "@/types";
 import {
   BopsV2PublicPlanningApplicationDetail,
   BopsV2PlanningApplicationDetail,
-} from "@/api/handlers/bops/types";
+} from "@/handlers/bops/types";
 import { convertPlanningApplicationBops } from "../converters";
 import { handleBopsGetRequest } from "../requests";
 

@@ -1,5 +1,5 @@
 import { DprDocument, DprPaginationBase } from "@/types";
-import { BopsDocumentsMetadata, BopsFile } from "@/api/handlers/bops/types";
+import { BopsDocumentsMetadata, BopsFile } from "@/handlers/bops/types";
 
 /**
  * Converts Bops documents metadata into our standard format

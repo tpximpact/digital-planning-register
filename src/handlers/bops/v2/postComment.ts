@@ -1,7 +1,7 @@
 "use server";
 
 import { ApiResponse } from "@/types";
-import { BopsV1PlanningApplicationsNeighbourResponse } from "@/api/handlers/bops/types";
+import { BopsV1PlanningApplicationsNeighbourResponse } from "@/handlers/bops/types";
 import { handleBopsPostRequest } from "../requests";
 
 /**

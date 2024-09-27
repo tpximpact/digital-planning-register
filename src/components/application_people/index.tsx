@@ -1,4 +1,4 @@
-import { BopsV2PlanningApplicationDetail } from "@/api/handlers/bops/types";
+import { BopsV2PlanningApplicationDetail } from "@/handlers/bops/types";
 
 interface ApplicationPeopleProps
   extends Pick<
