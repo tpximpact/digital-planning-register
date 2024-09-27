@@ -6,7 +6,10 @@ const useUnsavedChanges = (initialUnsavedState = false, currentPage = 0) => {
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (currentPage > 1 || (currentPage > 1 && hasUnsavedChanges)) {
+      if (
+        (currentPage > 1 && currentPage < 6) ||
+        (currentPage > 1 && currentPage < 6 && hasUnsavedChanges)
+      ) {
         event.preventDefault();
       }
     };
