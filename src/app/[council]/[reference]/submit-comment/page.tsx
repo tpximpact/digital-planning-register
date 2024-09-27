@@ -13,7 +13,6 @@ import { BackLink } from "@/components/button";
 import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
 import { DprPublicApplicationDetails } from "@/types";
-import useNavigationAlert from "@/util/hooks/useNavigationAlert";
 
 type Props = {
   params: { reference: string; council: string };
@@ -37,8 +36,6 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-
-  useNavigationAlert(page);
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -258,6 +255,19 @@ const Comment = ({ params }: Props) => {
     navigateToPage,
     navigateToNextTopic,
   ]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (page > 1 && page < 6) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [page]);
 
   // Function to render the appropriate component based on the current page
   const renderComponent = () => {
