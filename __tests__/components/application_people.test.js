@@ -12,7 +12,7 @@ describe("Render ApplicationPeople", () => {
   };
 
   it("should render correct", async () => {
-    render(<ApplicationPeople {...mockData} />);
+    render(<ApplicationPeople applicant={mockData} />);
     expect(screen.getByText("John Schmitt")).toBeInTheDocument();
   });
 });
