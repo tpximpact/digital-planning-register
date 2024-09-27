@@ -69,8 +69,7 @@ const DigitalSiteNotice = async ({ params, searchParams }: DSNProps) => {
   const validationError =
     searchParams?.search && searchParams?.search.length < 3 ? true : false;
 
-  // || !councilConfig[council]?.isShowDSN
-  if (response?.status?.code !== 200) {
+  if (response?.status?.code !== 200 || !councilConfig[council]?.isShowDSN) {
     return <NotFound params={params} />;
   }
 
