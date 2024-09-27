@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const useUnsavedChanges = (initialUnsavedState = false, currentPage = 0) => {
-  const [hasUnsavedChanges, setHasUnsavedChanges] =
-    useState(initialUnsavedState);
-
+const useUnsavedChanges = (currentPage: number) => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (
-        (currentPage > 1 && currentPage < 6) ||
-        (currentPage > 1 && currentPage < 6 && hasUnsavedChanges)
-      ) {
+      if (currentPage > 1 && currentPage < 6) {
         event.preventDefault();
       }
     };
@@ -18,9 +12,7 @@ const useUnsavedChanges = (initialUnsavedState = false, currentPage = 0) => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hasUnsavedChanges, currentPage]);
-
-  return [hasUnsavedChanges, setHasUnsavedChanges] as const;
+  }, [currentPage]);
 };
 
 export default useUnsavedChanges;

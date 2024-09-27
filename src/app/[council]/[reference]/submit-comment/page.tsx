@@ -37,10 +37,8 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(
-    false,
-    page,
-  );
+
+  useUnsavedChanges(page);
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -190,14 +188,11 @@ const Comment = ({ params }: Props) => {
     [router, submissionComplete, reference],
   );
 
-  // Function to update the maximum allowed page and set the hasUnsavedChanges flag
-  const updateProgress = useCallback(
-    (completedPage: number) => {
-      setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
-      setHasUnsavedChanges(false);
-    },
-    [setHasUnsavedChanges],
-  );
+  // Function to update the maximum allowed page
+  const updateProgress = useCallback((completedPage: number) => {
+    setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
+  }, []);
+
   // Function to navigate to the next uncommented topic
   const navigateToNextTopic = useMemo(
     () => (topics: string[]) => {
