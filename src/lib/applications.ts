@@ -49,7 +49,7 @@ export const convertPlanningApplicationApplicantBops = (
     name,
     type: applicant?.type ?? "unknown",
     company: applicant?.company,
-    address: applicant.address ?? null,
+    address: applicant?.address ?? null,
   };
 
   if (applicant?.ownership?.interest) {
