@@ -260,6 +260,7 @@ const Comment = ({ params }: Props) => {
     navigateToNextTopic,
   ]);
 
+  // Handle beforeunload event to alert the user when closing tab/browser that their changes may not be saved
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (page > 1 && page < 6) {
