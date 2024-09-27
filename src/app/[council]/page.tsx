@@ -4,11 +4,7 @@ import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
 import { capitaliseWord } from "../../../util/capitaliseWord";
-import {
-  ApiResponse,
-  DprPublicApplicationListings,
-  SearchParams,
-} from "@/types";
+import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
 import { getCouncilDataSource } from "@/lib/config";
@@ -26,7 +22,7 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<ApiResponse<DprPublicApplicationListings | null>> {
+}: HomeProps): Promise<ApiResponse<DprSearch | null>> {
   const { council } = params;
   const page = searchParams?.page ? searchParams.page : 1;
   const search = searchParams?.query as string;

@@ -2,12 +2,12 @@
 
 // Types
 import { ApiResponse } from "@/types";
-import { BopsV1PlanningApplicationsNeighbourResponse } from "@/types/api/bops";
+import { BopsV1PlanningApplicationsNeighbourResponse } from "@/api/handlers/bops/types";
 
 // handlers
-import { BopsV2 } from "api/handlers/bops";
-import { LocalV1 } from "api/handlers/local";
-import { apiReturnError } from "api/lib";
+import { BopsV2 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
+import { apiReturnError } from "@/api/lib";
 
 /**
  * @swagger

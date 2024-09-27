@@ -8,18 +8,18 @@ import { formatDprDateTime } from "../../../../../util/formatDates";
 import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
 
-interface PageParams {
-  council: string;
-  reference: string;
-}
-
 interface ApplicationFormProps {
-  params: PageParams;
+  params: {
+    council: string;
+    reference: string;
+  };
 }
 
-async function fetchData(
-  params: PageParams,
-): Promise<ApiResponse<DprApplicationSubmission | null>> {
+async function fetchData({
+  params,
+}: ApplicationFormProps): Promise<
+  ApiResponse<DprApplicationSubmission | null>
+> {
   const { reference, council } = params;
   const response = await ApiV1.applicationSubmission(
     getCouncilDataSource(council),
@@ -33,7 +33,7 @@ async function fetchData(
 export async function generateMetadata({
   params,
 }: ApplicationFormProps): Promise<Metadata> {
-  const response = await fetchData(params);
+  const response = await fetchData({ params });
 
   if (!response.data) {
     return {
@@ -51,7 +51,7 @@ export async function generateMetadata({
 export default async function ApplicationFormPage({
   params,
 }: ApplicationFormProps) {
-  const response = await fetchData(params);
+  const response = await fetchData({ params });
   const { reference, council } = params;
 
   if (!response.data) {

@@ -3,7 +3,7 @@
  */
 
 import { DprComment } from "@/types";
-import { BopsComment } from "@/types/api/bops";
+import { BopsComment } from "@/api/handlers/bops/types";
 
 /**
  * Sort comments by newest first

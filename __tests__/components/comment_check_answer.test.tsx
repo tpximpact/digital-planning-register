@@ -1,16 +1,17 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { postComment } from "api/handlers/bops/v2/postComment";
+import { postComment } from "@/actions/api/v1";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
 
-jest.mock("../../src/actions", () => ({
+jest.mock("@/actions/api/v1", () => ({
   postComment: jest.fn(),
 }));
 
 describe("CommentCheckAnswer", () => {
   const defaultProps = {
-    council: "exampleCouncil",
+    source: "bops",
+    council: "camden",
     reference: "REF-001",
     applicationId: 1,
     navigateToPage: jest.fn(),
@@ -98,7 +99,8 @@ describe("CommentCheckAnswer", () => {
 
     await waitFor(() => {
       expect(postComment).toHaveBeenCalledWith(
-        "exampleCouncil",
+        "bops",
+        "camden",
         1,
         expect.any(Object),
       );

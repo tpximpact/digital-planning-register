@@ -1,12 +1,12 @@
 "use server";
 
 // Types
-import { ApiResponse, DprPublicApplicationDetails } from "@/types";
+import { ApiResponse, DprShow } from "@/types";
 
 // handlers
-import { BopsV2 } from "api/handlers/bops";
-import { LocalV1 } from "api/handlers/local";
-import { apiReturnError } from "api/lib";
+import { BopsV2 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
+import { apiReturnError } from "@/api/lib";
 
 /**
  * @swagger
@@ -31,7 +31,7 @@ export async function show(
   source: string,
   council: string,
   reference: string,
-): Promise<ApiResponse<DprPublicApplicationDetails | null>> {
+): Promise<ApiResponse<DprShow | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
   }

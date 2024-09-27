@@ -11,7 +11,7 @@ import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
-import { DprPublicApplicationDetails } from "@/types";
+import { DprShow } from "@/types";
 import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
@@ -26,8 +26,7 @@ const Comment = ({ params }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [page, setPage] = useState(0);
-  const [applicationData, setApplicationData] =
-    useState<DprPublicApplicationDetails | null>(null);
+  const [applicationData, setApplicationData] = useState<DprShow | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);

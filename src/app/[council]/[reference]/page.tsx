@@ -1,10 +1,6 @@
 import { Metadata } from "next";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
-import {
-  ApiResponse,
-  DprPublicApplicationDetails,
-  DprPublicApplicationDocuments,
-} from "@/types";
+import { ApiResponse, DprShow, DprDocuments } from "@/types";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
 import {
@@ -19,17 +15,15 @@ import DocumentsList from "@/components/documents_list";
 import { ApiV1 } from "@/actions/api";
 
 interface PlanningApplicationDetailsProps {
-  params: PageParams;
+  params: {
+    council: string;
+    reference: string;
+  };
 }
 
-interface PageParams {
-  council: string;
-  reference: string;
-}
-
-async function fetchData(params: PageParams): Promise<{
-  applicationResponse: ApiResponse<DprPublicApplicationDetails | null>;
-  documentResponse: ApiResponse<DprPublicApplicationDocuments | null>;
+async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
+  applicationResponse: ApiResponse<DprShow | null>;
+  documentResponse: ApiResponse<DprDocuments | null>;
 }> {
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
@@ -42,7 +36,7 @@ async function fetchData(params: PageParams): Promise<{
 export async function generateMetadata({
   params,
 }: PlanningApplicationDetailsProps): Promise<Metadata> {
-  const { applicationResponse } = await fetchData(params);
+  const { applicationResponse } = await fetchData({ params });
 
   if (!applicationResponse.data) {
     return {
@@ -60,7 +54,7 @@ export async function generateMetadata({
 export default async function PlanningApplicationDetails({
   params,
 }: PlanningApplicationDetailsProps) {
-  const { applicationResponse, documentResponse } = await fetchData(params);
+  const { applicationResponse, documentResponse } = await fetchData({ params });
   const { reference, council } = params;
 
   if (!applicationResponse.data) {

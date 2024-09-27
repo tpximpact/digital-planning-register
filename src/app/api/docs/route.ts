@@ -3,8 +3,8 @@
  * Allowing us to return the data from the server actions in a more readable (and sharable) format.
  */
 
-import localApiDocs from "api/handlers/local/documentation";
-import bopsApiDocs from "api/handlers/bops/documentation";
+import localApiDocs from "@/api/handlers/local/documentation";
+import bopsApiDocs from "@/api/handlers/bops/documentation";
 import apiDocs from "@/actions/api/documentation";
 import { NextResponse, NextRequest } from "next/server";
 

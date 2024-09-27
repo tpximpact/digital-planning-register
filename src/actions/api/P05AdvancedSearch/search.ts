@@ -1,16 +1,12 @@
 "use server";
 
 // Types
-import {
-  ApiResponse,
-  DprPublicApplicationListings,
-  SearchParams,
-} from "@/types";
+import { ApiResponse, DprSearch, SearchParams } from "@/types";
 
 // handlers
-import { BopsP05 } from "api/handlers/bops";
-import { LocalV1 } from "api/handlers/local";
-import { apiReturnError } from "api/lib";
+import { BopsP05 } from "@/api/handlers/bops";
+import { LocalV1 } from "@/api/handlers/local";
+import { apiReturnError } from "@/api/lib";
 
 /**
  * @swagger
@@ -38,7 +34,7 @@ export async function search(
   source: string,
   council: string,
   search?: SearchParams,
-): Promise<ApiResponse<DprPublicApplicationListings | null>> {
+): Promise<ApiResponse<DprSearch | null>> {
   if (!council) {
     return apiReturnError("Council is required");
   }

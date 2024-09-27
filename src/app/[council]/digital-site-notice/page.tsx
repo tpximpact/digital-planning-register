@@ -1,10 +1,5 @@
-import { getDSNApplication } from "@/actions/public-application-dsn";
 import ApplicationMap from "@/components/application_map";
-import {
-  ApiResponse,
-  DprPublicApplicationListings,
-  SearchParams,
-} from "@/types";
+import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
 import { capitaliseWord } from "../../../../util/capitaliseWord";
 import NotFound from "../../not-found";
@@ -28,9 +23,7 @@ interface DigitalSiteNoticeProps {
 async function fetchData({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise<
-  ApiResponse<DprPublicApplicationListings | null>
-> {
+}: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearch | null>> {
   const { council } = params;
 
   const page = searchParams?.page ? searchParams.page : 1;
