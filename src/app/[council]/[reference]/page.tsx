@@ -83,12 +83,7 @@ export default async function PlanningApplicationDetails({
           showMoreButton={true}
           documents={documents ?? null}
         />
-        <ApplicationPeople
-          applicant_first_name={application.application.applicant_first_name}
-          applicant_last_name={application.application.applicant_last_name}
-          agent_first_name={application.application.agent_first_name}
-          agent_last_name={application.application.agent_last_name}
-        />
+        <ApplicationPeople applicant={application.applicant} />
         {councilConfig?.specialistComments && (
           <CommentsList
             council={council}
