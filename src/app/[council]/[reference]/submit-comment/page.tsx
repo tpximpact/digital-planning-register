@@ -10,10 +10,11 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import { getPublicApplicationDetails } from "@/actions";
 import NotFound from "@/app/not-found";
-import { DprPublicApplicationDetails } from "@/types";
+import { DprShow } from "@/types";
 import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
+import { getCouncilDataSource } from "@/lib/config";
+import { ApiV1 } from "@/actions/api";
 
 type Props = {
   params: { reference: string; council: string };
@@ -25,8 +26,7 @@ const Comment = ({ params }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [page, setPage] = useState(0);
-  const [applicationData, setApplicationData] =
-    useState<DprPublicApplicationDetails | null>(null);
+  const [applicationData, setApplicationData] = useState<DprShow | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);
@@ -89,7 +89,11 @@ const Comment = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getPublicApplicationDetails(council, reference);
+        const response = await ApiV1.show(
+          getCouncilDataSource(council),
+          council,
+          reference,
+        );
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {

@@ -4,30 +4,36 @@ import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
-import { getApplicationSubmission } from "@/actions";
 import { formatDprDateTime } from "../../../../../util/formatDates";
-
-interface PageParams {
-  council: string;
-  reference: string;
-}
+import { ApiV1 } from "@/actions/api";
+import { getCouncilDataSource } from "@/lib/config";
 
 interface ApplicationFormProps {
-  params: PageParams;
+  params: {
+    council: string;
+    reference: string;
+  };
 }
 
-async function fetchData(
-  params: PageParams,
-): Promise<ApiResponse<DprApplicationSubmission | null>> {
+async function fetchData({
+  params,
+}: ApplicationFormProps): Promise<
+  ApiResponse<DprApplicationSubmission | null>
+> {
   const { reference, council } = params;
-  const response = await getApplicationSubmission(reference, council);
+  const response = await ApiV1.applicationSubmission(
+    getCouncilDataSource(council),
+    council,
+    reference,
+  );
+
   return response;
 }
 
 export async function generateMetadata({
   params,
 }: ApplicationFormProps): Promise<Metadata> {
-  const response = await fetchData(params);
+  const response = await fetchData({ params });
 
   if (!response.data) {
     return {
@@ -45,7 +51,7 @@ export async function generateMetadata({
 export default async function ApplicationFormPage({
   params,
 }: ApplicationFormProps) {
-  const response = await fetchData(params);
+  const response = await fetchData({ params });
   const { reference, council } = params;
 
   if (!response.data) {
