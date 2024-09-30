@@ -2,7 +2,6 @@
 import "./globals.css";
 import "@/styles/app.scss";
 import Header from "../components/header";
-import Head from "../components/head";
 import { Suspense } from "react";
 import React from "react";
 import PhaseBanner from "@/components/phase_banner";
@@ -46,7 +45,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className="govuk-template">
       <title>Digital Planning Register</title>
-      <Head />
       <body className={`govuk-template__body`}>
         <CookieBanner />
         <a

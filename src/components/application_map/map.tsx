@@ -2,14 +2,6 @@
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "my-map": any;
-    }
-  }
-}
-
 export interface ApplicationMapMapProps {
   mapData: DprBoundaryGeojson;
   staticMap?: boolean;
@@ -56,6 +48,7 @@ const ApplicationMapMap = ({
 
   useEffect(() => {
     setIsClient(true);
+    import("@opensystemslab/map");
   }, []);
 
   let defaultMapProps: DefaultMapProps = {
