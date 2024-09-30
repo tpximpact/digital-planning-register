@@ -1,7 +1,8 @@
 {
   "barnet": {
     "name": "Barnet",
-    "logo": "barnetlogo.png",
+    "logo": "barnetlogo.svg",
+    "dataSource": "bops",
     "publicComments": false,
     "specialistComments": false,
     "isShowDSN": false,
@@ -14,6 +15,7 @@
   "buckinghamshire": {
     "name": "Buckinghamshire",
     "logo": "buckinghamshirelogo.svg",
+    "dataSource": "bops",
     "publicComments": false,
     "specialistComments": false,
     "isShowDSN": false,
@@ -28,6 +30,7 @@
     "contact": "https://www.camden.gov.uk/contact-camden",
     "logo": "camdenlogo.svg",
     "logowhite": "camdenlogowhite.svg",
+    "dataSource": "bops",
     "publicComments": true,
     "specialistComments": false,
     "isShowDSN": false,
@@ -56,6 +59,7 @@
   "gateshead": {
     "name": "Gateshead",
     "logo": "gatesheadlogo.svg",
+    "dataSource": "bops",
     "publicComments": false,
     "specialistComments": false,
     "pageContent": {
@@ -67,6 +71,7 @@
   "lambeth": {
     "name": "Lambeth",
     "logo": "lambethlogo.svg",
+    "dataSource": "bops",
     "publicComments": false,
     "specialistComments": false,
     "pageContent": {
@@ -78,6 +83,7 @@
   "southwark": {
     "name": "Southwark",
     "logo": "southwarklogo.svg",
+    "dataSource": "bops",
     "publicComments": false,
     "specialistComments": false,
     "isShowDSN": false,

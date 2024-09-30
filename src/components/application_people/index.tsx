@@ -4,6 +4,16 @@ import { concatenateFieldsInOrder } from "../../../util/concatenateFieldsInOrder
 
 export interface ApplicationPeopleProps
   extends Pick<DprPlanningApplication, "applicant"> {}
+import { BopsV2PlanningApplicationDetail } from "@/handlers/bops/types";
+
+interface ApplicationPeopleProps
+  extends Pick<
+    BopsV2PlanningApplicationDetail,
+    | "applicant_first_name"
+    | "applicant_last_name"
+    | "agent_first_name"
+    | "agent_last_name"
+  > {}
 
 const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
   return (
