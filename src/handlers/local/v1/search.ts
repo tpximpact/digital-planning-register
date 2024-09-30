@@ -84,35 +84,35 @@ const responseDsn: ApiResponse<DprSearch | null> = {
           },
         },
         proposal: { description: "6m extension" },
-        applicant: {
-          type: "individual",
-          name: {
-            first: "David",
-            last: "Bowie",
-            title: "",
-          },
-          address: {
-            sameAsSiteAddress: true,
-          },
-          ownership: {
-            interest: "owner.sole",
-          },
-          agent: {
-            name: {
-              first: "Ziggy",
-              last: "Stardust",
-              title: "",
-            },
-            address: {
-              line1: "40 Stansfield Road",
-              line2: "Brixton",
-              town: "London",
-              county: "Greater London",
-              postcode: "SW9 9RZ",
-              country: "UK",
-            },
-          },
-        },
+        // applicant: {
+        //   type: "individual",
+        //   name: {
+        //     first: "David",
+        //     last: "Bowie",
+        //     title: "",
+        //   },
+        //   address: {
+        //     sameAsSiteAddress: true,
+        //   },
+        //   ownership: {
+        //     interest: "owner.sole",
+        //   },
+        //   agent: {
+        //     name: {
+        //       first: "Ziggy",
+        //       last: "Stardust",
+        //       title: "",
+        //     },
+        //     address: {
+        //       line1: "40 Stansfield Road",
+        //       line2: "Brixton",
+        //       town: "London",
+        //       county: "Greater London",
+        //       postcode: "SW9 9RZ",
+        //       country: "UK",
+        //     },
+        //   },
+        // },
       },
     ],
   },
