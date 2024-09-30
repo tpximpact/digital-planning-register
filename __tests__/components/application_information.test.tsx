@@ -1,7 +1,7 @@
 import ApplicationInformation from "@/components/application_information";
 import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { DprPublicApplicationDetails } from "@/types";
+import { DprShow } from "@/types";
 
 jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mockMap"></div>);
@@ -18,7 +18,7 @@ jest.mock("next/dynamic", () => ({
 }));
 
 describe("Render ApplicationInformation", () => {
-  const mockData: DprPublicApplicationDetails = {
+  const mockData: DprShow = {
     application: {
       reference: "AAA_BBB_CCC_DDD",
       type: {
@@ -110,7 +110,7 @@ describe("Render ApplicationInformation", () => {
 });
 
 describe("Render ApplicationInformation", () => {
-  const mockData: DprPublicApplicationDetails = {
+  const mockData: DprShow = {
     application: {
       reference: "AAA_BBB_CCC_DDD",
       type: {
@@ -194,7 +194,7 @@ describe("Render ApplicationInformation", () => {
   });
 
   it("should render correctly with MultiPolygon geometry", () => {
-    const mockDataWithMultiPolygon: DprPublicApplicationDetails = {
+    const mockDataWithMultiPolygon: DprShow = {
       ...mockData,
       property: {
         ...mockData.property,
@@ -238,7 +238,7 @@ describe("Render ApplicationInformation", () => {
   });
 
   it("should render correctly with FeatureCollection", () => {
-    const mockDataWithFeatureCollection: DprPublicApplicationDetails = {
+    const mockDataWithFeatureCollection: DprShow = {
       ...mockData,
       property: {
         ...mockData.property,

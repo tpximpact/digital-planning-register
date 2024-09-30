@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CouncilCards from "@/components/council_cards";
 import { getConfig } from "@/lib/config";
+import { Config } from "@/types";
 
 jest.mock("../../src/lib/config", () => ({
   getConfig: jest.fn(),
@@ -13,15 +14,29 @@ export interface Council {
   visibility: "public" | "private" | "unlisted";
 }
 
-export interface Config {
-  [key: string]: Council;
-}
-
 describe("CouncilCards", () => {
   const mockedConfig: Config = {
-    barnet: { name: "Barnet", visibility: "public" },
-    camden: { name: "Camden", visibility: "public" },
-    buckinghamshire: { name: "Buckinghamshire", visibility: "private" },
+    barnet: {
+      name: "Barnet",
+      visibility: "public",
+      dataSource: "bops",
+      publicComments: false,
+      specialistComments: false,
+    },
+    camden: {
+      name: "Camden",
+      dataSource: "bops",
+      visibility: "public",
+      publicComments: true,
+      specialistComments: true,
+    },
+    buckinghamshire: {
+      name: "Buckinghamshire",
+      visibility: "public",
+      dataSource: "bops",
+      publicComments: false,
+      specialistComments: false,
+    },
   };
 
   beforeEach(() => {

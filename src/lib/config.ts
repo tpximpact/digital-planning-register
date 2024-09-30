@@ -61,3 +61,13 @@ export const getConfig = async (): Promise<Config> => {
   });
   return config as Config;
 };
+
+/**
+ * Get the council data source
+ * @param council
+ * @returns
+ */
+export const getCouncilDataSource = (council: string): string => {
+  const councilConfig = council && getCouncilConfig(council);
+  return councilConfig ? councilConfig?.dataSource : "";
+};
