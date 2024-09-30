@@ -98,4 +98,5 @@ export interface DprPlanningApplication {
   proposal: {
     description: string;
   };
+  applicant: DprPlanningApplicationApplicant;
 }
