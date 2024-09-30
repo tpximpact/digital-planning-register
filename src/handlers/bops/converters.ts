@@ -4,6 +4,7 @@ import {
   DprDocument,
   DprPlanningApplication,
   DprPlanningApplicationOverview,
+  DprPlanningApplicationApplicant,
 } from "@/types";
 import {
   BopsApplicationOverview,
@@ -40,9 +41,82 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
+    applicant: convertPlanningApplicationApplicantBops(
+      application.applicant,
+      privateApplication,
+    ),
   };
 };
 
+/**
+ * @param
+ * @returns
+ */
+export const convertPlanningApplicationApplicantBops = (
+  applicant: DprPlanningApplicationApplicant,
+  privateApplication?: BopsV2PlanningApplicationDetail | null,
+): DprPlanningApplicationApplicant => {
+  let name = {
+    first: applicant?.name?.first ?? "",
+    last: applicant?.name?.last ?? "",
+    title: applicant?.name?.title ?? "",
+  };
+
+  // if bops isn't sending new data we can use the old data
+  // TODO delete this when BOPS sends the correct data
+  if (!name.first && !name.last && !name.title) {
+    name = {
+      first: privateApplication?.applicant_first_name ?? "",
+      last: privateApplication?.applicant_last_name ?? "",
+      title: "",
+    };
+  }
+
+  let applicantData: DprPlanningApplicationApplicant = {
+    name,
+    type: applicant?.type ?? "unknown",
+    company: applicant?.company,
+    address: applicant.address ?? null,
+  };
+
+  if (applicant?.ownership?.interest) {
+    applicantData = {
+      ...applicantData,
+      ownership: {
+        interest: applicant?.ownership?.interest,
+      },
+    };
+  }
+
+  if (applicant.agent) {
+    let agentName = {
+      first: applicant?.agent?.name?.first ?? "",
+      last: applicant?.agent?.name?.last ?? "",
+      title: applicant?.agent?.name?.title ?? "",
+    };
+
+    // if bops isn't sending new data we can use the old data
+    // TODO delete this when BOPS sends the correct data
+    if (!name.first && !name.last && !name.title) {
+      agentName = {
+        first: privateApplication?.agent_first_name ?? "",
+        last: privateApplication?.agent_last_name ?? "",
+        title: "",
+      };
+    }
+
+    applicantData = {
+      ...applicantData,
+      agent: {
+        name: agentName,
+        company: applicant.agent?.company,
+        address: applicant.agent?.address,
+      },
+    };
+  }
+
+  return applicantData;
+};
 /**
  * Converts BOPS application overview into our standard format
  * @param comment
