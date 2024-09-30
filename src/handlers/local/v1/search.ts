@@ -84,6 +84,17 @@ const responseDsn: ApiResponse<DprSearch | null> = {
           },
         },
         proposal: { description: "6m extension" },
+        applicant: {
+          name: {
+            first: "",
+            last: "",
+            title: "",
+          },
+          type: "individual",
+          address: {
+            sameAsSiteAddress: true,
+          },
+        },
       },
     ],
   },
