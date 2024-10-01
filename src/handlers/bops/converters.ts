@@ -41,10 +41,10 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
-    applicant: convertPlanningApplicationApplicantBops(
-      application,
-      privateApplication,
-    ),
+    // applicant: convertPlanningApplicationApplicantBops(
+    //   application,
+    //   privateApplication,
+    // ),
   };
 };
 
