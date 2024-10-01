@@ -116,27 +116,17 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  // const test = {
-  //   applicant: {
-  //     name: {
-  //       first: "",
-  //       last: "",
-  //       title: "",
-  //     },
-  //     type: "charity",
-  //     address: {
-  //       sameAsSiteAddress: true,
-  //     },
-  //   },
-  // };
-
-  const test = {
-    name,
-    type: applicant?.type ?? "unknown",
-    company: applicant?.company,
-    address: applicant.address ?? null,
+  const test: DprPlanningApplicationApplicant = {
+    name: {
+      first: "",
+      last: "",
+      title: "",
+    },
+    type: "charity",
+    address: {
+      sameAsSiteAddress: true,
+    },
   };
-  // }
   return test;
 };
 /**
