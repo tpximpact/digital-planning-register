@@ -41,10 +41,21 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
-    applicant: convertPlanningApplicationApplicantBops(
-      application,
-      privateApplication,
-    ),
+    // applicant: convertPlanningApplicationApplicantBops(
+    //   application,
+    //   privateApplication,
+    // ),
+    applicant: {
+      name: {
+        first: "",
+        last: "",
+        title: "",
+      },
+      type: "charity",
+      address: {
+        sameAsSiteAddress: true,
+      },
+    },
   };
 };
 
@@ -116,18 +127,7 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  const test = {
-    name: {
-      first: "",
-      last: "",
-      title: "",
-    },
-    type: "charity",
-    address: {
-      sameAsSiteAddress: true,
-    },
-  } as DprPlanningApplicationApplicant;
-  return test;
+  return applicantData;
 };
 /**
  * Converts BOPS application overview into our standard format
