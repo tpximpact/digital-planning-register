@@ -41,21 +41,10 @@ export const convertPlanningApplicationBops = (
     proposal: {
       description: application.proposal.description,
     },
-    // applicant: convertPlanningApplicationApplicantBops(
-    //   application,
-    //   privateApplication,
-    // ),
-    applicant: {
-      name: {
-        first: "",
-        last: "",
-        title: "",
-      },
-      type: "charity",
-      address: {
-        sameAsSiteAddress: true,
-      },
-    },
+    applicant: convertPlanningApplicationApplicantBops(
+      application,
+      privateApplication,
+    ),
   };
 };
 
@@ -127,7 +116,28 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  return applicantData;
+  // const test = {
+  //   applicant: {
+  //     name: {
+  //       first: "",
+  //       last: "",
+  //       title: "",
+  //     },
+  //     type: "charity",
+  //     address: {
+  //       sameAsSiteAddress: true,
+  //     },
+  //   },
+  // };
+
+  const test = {
+    name,
+    type: applicant?.type ?? "unknown",
+    company: applicant?.company,
+    address: applicant.address ?? null,
+  };
+  // }
+  return test;
 };
 /**
  * Converts BOPS application overview into our standard format
