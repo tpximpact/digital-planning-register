@@ -116,7 +116,7 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  const test: DprPlanningApplicationApplicant = {
+  const test = {
     name: {
       first: "",
       last: "",
@@ -126,7 +126,7 @@ export const convertPlanningApplicationApplicantBops = (
     address: {
       sameAsSiteAddress: true,
     },
-  };
+  } as DprPlanningApplicationApplicant;
   return test;
 };
 /**
