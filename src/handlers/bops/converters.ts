@@ -144,7 +144,7 @@ export const convertPlanningApplicationApplicantBops = (
   // }
 
   const test: DprPlanningApplicationApplicant = {
-    name,
+    name: { first: "Ian", last: "Gracie", title: "" },
     type: "individual",
     company: undefined,
     address: { sameAsSiteAddress: true },
