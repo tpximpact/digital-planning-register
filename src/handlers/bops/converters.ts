@@ -65,12 +65,12 @@ export const convertPlanningApplicationBops = (
       company: undefined,
       address: { sameAsSiteAddress: true },
       ownership: { interest: "other" },
-      agent: {
-        name: { first: "", last: "", title: "" },
-        company: undefined,
-        address: null,
-        // }
-      },
+      // agent: {
+      //   name: { first: "", last: "", title: "" },
+      //   company: undefined,
+      //   address: null,
+      //   // }
+      // },
     },
   };
 };
