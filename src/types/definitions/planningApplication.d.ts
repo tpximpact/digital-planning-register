@@ -78,7 +78,7 @@ export interface DprPlanningApplicationApplicant {
       line2?: string;
       postcode: string;
       town: string;
-    } | null;
+    };
   };
 }
 /**
