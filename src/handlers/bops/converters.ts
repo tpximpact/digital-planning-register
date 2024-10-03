@@ -24,6 +24,10 @@ export const convertPlanningApplicationBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
+  console.log(
+    convertPlanningApplicationApplicantBops(application, privateApplication),
+    "function",
+  );
   return {
     application: convertPlanningApplicationOverviewBops(
       council,
@@ -46,14 +50,26 @@ export const convertPlanningApplicationBops = (
     //   privateApplication,
     // ),
     applicant: {
-      name: {
-        first: "",
-        last: "",
-        title: "",
-      },
-      type: "charity",
-      address: {
-        sameAsSiteAddress: true,
+      // name: {
+      //   first: "",
+      //   last: "",
+      //   title: "",
+      // },
+      // type: "charity",
+      // address: {
+      //   sameAsSiteAddress: true,
+      // },
+      // {
+      name: { first: "Ian", last: "Gracie", title: "" },
+      type: "individual",
+      company: undefined,
+      address: { sameAsSiteAddress: true },
+      ownership: { interest: "other" },
+      agent: {
+        name: { first: "", last: "", title: "" },
+        company: undefined,
+        address: null,
+        // }
       },
     },
   };
