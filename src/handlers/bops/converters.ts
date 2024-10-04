@@ -149,7 +149,7 @@ export const convertPlanningApplicationBops = (
     //   application,
     //   privateApplication,
     // ),
-    applicant: functionTest(application, privateApplication),
+    applicant: functionTest(application.applicant, privateApplication),
     // {
     // name: {
     //   first: "",
