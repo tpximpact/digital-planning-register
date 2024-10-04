@@ -44,7 +44,7 @@ export const functionTest = (
     name,
     type: application?.type ?? "unknown",
     // company: application?.company,
-    address: application.address ?? null,
+    address: application?.address ?? null,
   };
 
   // if (application?.ownership?.interest) {
