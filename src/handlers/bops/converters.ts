@@ -40,11 +40,7 @@ export const functionTest = (
     };
   }
   return {
-    name: {
-      first: "",
-      last: "Gracie",
-      title: "",
-    },
+    name,
     type: "individual",
     company: undefined,
     address: { sameAsSiteAddress: true },
