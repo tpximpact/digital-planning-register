@@ -104,13 +104,9 @@ export const convertPlanningApplicationApplicantBops = (
   //   };
   // }
   const name = {
-    first: applicant?.name?.first
-      ? applicant?.name?.first
-      : privateApplication?.applicant_first_name || "",
-    last: applicant?.name?.last
-      ? applicant?.name?.last
-      : privateApplication?.applicant_last_name || "",
-    title: applicant?.name?.title ? applicant?.name?.title : "",
+    first: applicant?.name?.first,
+    last: applicant?.name?.last,
+    title: applicant?.name?.title,
   };
 
   // let applicantData: DprPlanningApplicationApplicant = {
