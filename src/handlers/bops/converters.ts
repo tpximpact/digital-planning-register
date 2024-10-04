@@ -39,6 +39,22 @@ export const functionTest = (
       title: "",
     };
   }
+
+  let applicantData: DprPlanningApplicationApplicant = {
+    name,
+    type: application?.type ?? "unknown",
+    company: application?.company,
+    address: application.address ?? null,
+  };
+
+  if (application?.ownership?.interest) {
+    applicantData = {
+      ...applicantData,
+      ownership: {
+        interest: application?.ownership?.interest,
+      },
+    };
+  }
   return {
     name,
     type: "individual",
