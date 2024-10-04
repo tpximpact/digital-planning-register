@@ -24,7 +24,7 @@ export const convertPlanningApplicationBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
-  // console.log(functionTest());
+  console.log(functionTest());
   // console.log(
   //   convertPlanningApplicationApplicantBops(
   //     application.application,
@@ -65,7 +65,7 @@ export const convertPlanningApplicationBops = (
       // },
       // {
       name: {
-        first: application?.applicant?.name?.first || "",
+        first: "",
         last: "Gracie",
         title: "",
       },
@@ -89,7 +89,22 @@ export const convertPlanningApplicationBops = (
  */
 
 export const functionTest = () => {
-  return "";
+  return {
+    name: {
+      first: "",
+      last: "Gracie",
+      title: "",
+    },
+    type: "individual",
+    company: undefined,
+    address: { sameAsSiteAddress: true },
+    ownership: { interest: "other" },
+    agent: {
+      name: { first: "", last: "", title: "" },
+      company: undefined,
+      address: null,
+    },
+  };
 };
 
 export const convertPlanningApplicationApplicantBops = (
