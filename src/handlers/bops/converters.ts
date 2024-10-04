@@ -84,11 +84,11 @@ export const convertPlanningApplicationApplicantBops = (
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplicationApplicant => {
   const { applicant } = application;
-  let name = {
-    first: applicant?.name?.first ?? "",
-    last: applicant?.name?.last ?? "",
-    title: applicant?.name?.title ?? "",
-  };
+  // let name = {
+  //   first: applicant?.name?.first ?? "",
+  //   last: applicant?.name?.last ?? "",
+  //   title: applicant?.name?.title ?? "",
+  // };
 
   // if bops isn't sending new data we can use the old data
   // TODO delete this when BOPS sends the correct data
@@ -153,7 +153,7 @@ export const convertPlanningApplicationApplicantBops = (
   // }
 
   const test: DprPlanningApplicationApplicant = {
-    name,
+    name: { first: "Ian", last: "Gracie", title: "" },
     type: "individual",
     company: undefined,
     address: { sameAsSiteAddress: true },
