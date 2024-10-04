@@ -19,6 +19,25 @@ import { formatTag } from "@/util";
  * @param comment
  * @returns
  */
+
+export const functionTest = () => {
+  return {
+    name: {
+      first: "",
+      last: "Gracie",
+      title: "",
+    },
+    type: "individual",
+    company: undefined,
+    address: { sameAsSiteAddress: true },
+    ownership: { interest: "other" },
+    agent: {
+      name: { first: "", last: "", title: "" },
+      company: undefined,
+      address: null,
+    },
+  } as DprPlanningApplicationApplicant;
+};
 export const convertPlanningApplicationBops = (
   council: string,
   application: BopsPlanningApplication,
@@ -52,33 +71,34 @@ export const convertPlanningApplicationBops = (
     //   application,
     //   privateApplication,
     // ),
-    applicant: {
-      // name: {
-      //   first: "",
-      //   last: "",
-      //   title: "",
-      // },
-      // type: "charity",
-      // address: {
-      //   sameAsSiteAddress: true,
-      // },
-      // {
-      name: {
-        first: "",
-        last: "Gracie",
-        title: "",
-      },
-      type: "individual",
-      company: undefined,
-      address: { sameAsSiteAddress: true },
-      ownership: { interest: "other" },
-      agent: {
-        name: { first: "", last: "", title: "" },
-        company: undefined,
-        address: null,
-      },
-      // },
-    },
+    applicant: functionTest(),
+    // {
+    // name: {
+    //   first: "",
+    //   last: "",
+    //   title: "",
+    // },
+    // type: "charity",
+    // address: {
+    //   sameAsSiteAddress: true,
+    // },
+    // {
+    // name: {
+    //   first: "",
+    //   last: "Gracie",
+    //   title: "",
+    // },
+    // type: "individual",
+    // company: undefined,
+    // address: { sameAsSiteAddress: true },
+    // ownership: { interest: "other" },
+    // agent: {
+    //   name: { first: "", last: "", title: "" },
+    //   company: undefined,
+    //   address: null,
+    // },
+    // },
+    // },
   };
 };
 
@@ -87,24 +107,6 @@ export const convertPlanningApplicationBops = (
  * @returns
  */
 
-export const functionTest = () => {
-  return {
-    name: {
-      first: "",
-      last: "Gracie",
-      title: "",
-    },
-    type: "individual",
-    company: undefined,
-    address: { sameAsSiteAddress: true },
-    ownership: { interest: "other" },
-    agent: {
-      name: { first: "", last: "", title: "" },
-      company: undefined,
-      address: null,
-    },
-  };
-};
 console.log(functionTest());
 export const convertPlanningApplicationApplicantBops = (
   application: BopsApplicationOverview,
