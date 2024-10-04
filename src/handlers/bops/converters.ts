@@ -65,7 +65,7 @@ export const convertPlanningApplicationBops = (
       // },
       // {
       name: {
-        first: application.applicant.name.first || "",
+        first: application?.applicant?.name?.first || "",
         last: "Gracie",
         title: "",
       },
