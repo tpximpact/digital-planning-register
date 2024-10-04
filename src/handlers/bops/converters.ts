@@ -93,7 +93,7 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  if (applicant.agent) {
+  if (applicant?.agent) {
     let agentName = {
       first: applicant?.agent?.name?.first ?? "",
       last: applicant?.agent?.name?.last ?? "",
