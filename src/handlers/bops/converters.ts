@@ -47,14 +47,14 @@ export const functionTest = (
     address: application.address ?? null,
   };
 
-  // if (application?.ownership?.interest) {
-  //   applicantData = {
-  //     ...applicantData,
-  //     ownership: {
-  //       interest: application?.ownership?.interest,
-  //     },
-  //   };
-  // }
+  if (application?.ownership?.interest) {
+    // applicantData = {
+    //   ...applicantData,
+    //   ownership: {
+    //     interest: application?.ownership?.interest,
+    //   },
+    // };
+  }
   return {
     name,
     type: "individual",
