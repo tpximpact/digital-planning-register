@@ -24,10 +24,10 @@ export const convertPlanningApplicationBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
-  // console.log(
-  //   convertPlanningApplicationApplicantBops(application, privateApplication),
-  //   "function",
-  // );
+  console.log(
+    convertPlanningApplicationApplicantBops(application, privateApplication),
+    "function",
+  );
   return {
     application: convertPlanningApplicationOverviewBops(
       council,
