@@ -55,6 +55,34 @@ export const functionTest = (
       },
     };
   }
+
+  if (application?.agent) {
+    let agentName = {
+      first: application?.agent?.name?.first ?? "",
+      last: application?.agent?.name?.last ?? "",
+      title: application?.agent?.name?.title ?? "",
+    };
+
+    // if bops isn't sending new data we can use the old data
+    // TODO delete this when BOPS sends the correct data
+    // if (!name.first && !name.last && !name.title) {
+    //   agentName = {
+    //     first: privateApplication?.agent_first_name ?? "",
+    //     last: privateApplication?.agent_last_name ?? "",
+    //     title: "",
+    //   };
+    // }
+
+    //   applicantData = {
+    //     ...applicantData,
+    //     agent: {
+    //       name: agentName,
+    //       company: applicant.agent?.company,
+    //       address: applicant.agent?.address,
+    //     },
+    //   };
+  }
+  // return applicantData;
   return {
     name,
     type: "individual",
