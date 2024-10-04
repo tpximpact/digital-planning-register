@@ -52,33 +52,33 @@ export const convertPlanningApplicationBops = (
     //   application,
     //   privateApplication,
     // ),
-    applicant: convertPlanningApplicationApplicantBops(
-      application.application,
-      privateApplication,
-    ),
-    // {
-    // name: {
-    //   first: "",
-    //   last: "",
-    //   title: "",
-    // },
-    // type: "charity",
-    // address: {
-    //   sameAsSiteAddress: true,
-    // },
-    // {
-    // name: { first: "Ian", last: "Gracie", title: "" },
-    // type: "individual",
-    // company: undefined,
-    // address: { sameAsSiteAddress: true },
-    // ownership: { interest: "other" },
-    // agent: {
-    //   name: { first: "", last: "", title: "" },
-    //   company: undefined,
-    //   address: null,
-    // },
-    // },
-    // },
+    applicant: {
+      // name: {
+      //   first: "",
+      //   last: "",
+      //   title: "",
+      // },
+      // type: "charity",
+      // address: {
+      //   sameAsSiteAddress: true,
+      // },
+      // {
+      name: {
+        first: application.applicant.name.first || "",
+        last: "Gracie",
+        title: "",
+      },
+      type: "individual",
+      company: undefined,
+      address: { sameAsSiteAddress: true },
+      ownership: { interest: "other" },
+      agent: {
+        name: { first: "", last: "", title: "" },
+        company: undefined,
+        address: null,
+      },
+      // },
+    },
   };
 };
 
@@ -159,19 +159,7 @@ export const convertPlanningApplicationApplicantBops = (
   //   };
   // }
 
-  // const test: DprPlanningApplicationApplicant = {
-  //   name: { first: "Ian", last: "Gracie", title: "" },
-  //   type: "individual",
-  //   company: undefined,
-  //   address: { sameAsSiteAddress: true },
-  //   ownership: { interest: "other" },
-  //   agent: {
-  //     name: { first: "", last: "", title: "" },
-  //     company: undefined,
-  //     address: null,
-  //   },
-  // };
-  return {
+  const test: DprPlanningApplicationApplicant = {
     name: { first: "Ian", last: "Gracie", title: "" },
     type: "individual",
     company: undefined,
@@ -183,6 +171,7 @@ export const convertPlanningApplicationApplicantBops = (
       address: null,
     },
   };
+  return test;
 };
 /**
  * Converts BOPS application overview into our standard format
