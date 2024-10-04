@@ -24,7 +24,6 @@ export const convertPlanningApplicationBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
-  console.log(functionTest());
   // console.log(
   //   convertPlanningApplicationApplicantBops(
   //     application.application,
@@ -106,7 +105,7 @@ export const functionTest = () => {
     },
   };
 };
-
+console.log(functionTest());
 export const convertPlanningApplicationApplicantBops = (
   application: BopsApplicationOverview,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
