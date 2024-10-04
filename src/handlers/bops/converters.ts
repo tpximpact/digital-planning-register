@@ -23,7 +23,7 @@ import { formatTag } from "@/util";
 export const functionTest = (
   applicant: DprPlanningApplicationApplicant,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
-): any => {
+) => {
   return {
     name: {
       first: "",
