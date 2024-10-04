@@ -20,7 +20,10 @@ import { formatTag } from "@/util";
  * @returns
  */
 
-export const functionTest = () => {
+export const functionTest = (
+  application: DprPlanningApplicationApplicant,
+  privateApplication?: BopsV2PlanningApplicationDetail | null,
+) => {
   return {
     name: {
       first: "",
@@ -146,7 +149,7 @@ export const convertPlanningApplicationBops = (
     //   application,
     //   privateApplication,
     // ),
-    applicant: functionTest(),
+    applicant: functionTest(application, privateApplication),
     // {
     // name: {
     //   first: "",
