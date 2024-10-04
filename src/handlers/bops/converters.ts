@@ -83,7 +83,7 @@ export const convertPlanningApplicationApplicantBops = (
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplicationApplicant => {
-  const { applicant } = application;
+  // const { applicant } = application;
   // let name = {
   //   first: applicant?.name?.first ?? "",
   //   last: applicant?.name?.last ?? "",
