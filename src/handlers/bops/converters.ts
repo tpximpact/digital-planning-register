@@ -103,11 +103,11 @@ export const convertPlanningApplicationApplicantBops = (
   //     title: "",
   //   };
   // }
-  const name = {
-    first: applicant?.name?.first,
-    last: applicant?.name?.last,
-    title: applicant?.name?.title,
-  };
+  // const name = {
+  //   first: applicant?.name?.first,
+  //   last: applicant?.name?.last,
+  //   title: applicant?.name?.title,
+  // };
 
   // let applicantData: DprPlanningApplicationApplicant = {
   //   name,
