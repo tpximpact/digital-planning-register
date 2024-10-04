@@ -77,7 +77,7 @@ export const convertPlanningApplicationApplicantBops = (
     name,
     type: applicant?.type ?? "unknown",
     company: applicant?.company,
-    address: applicant.address ?? null,
+    address: applicant?.address ?? null,
   };
 
   if (applicant?.ownership?.interest) {
@@ -89,7 +89,7 @@ export const convertPlanningApplicationApplicantBops = (
     };
   }
 
-  if (applicant.agent) {
+  if (applicant?.agent) {
     let agentName = {
       first: applicant?.agent?.name?.first ?? "",
       last: applicant?.agent?.name?.last ?? "",
@@ -110,8 +110,8 @@ export const convertPlanningApplicationApplicantBops = (
       ...applicantData,
       agent: {
         name: agentName,
-        company: applicant.agent?.company,
-        address: applicant.agent?.address,
+        company: applicant?.agent?.company,
+        address: applicant?.agent?.address,
       },
     };
   }
