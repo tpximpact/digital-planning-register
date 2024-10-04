@@ -20,88 +20,43 @@ import { formatTag } from "@/util";
  * @returns
  */
 
-export const functionTest = (
-  application: DprPlanningApplicationApplicant,
+export const convertPlanningApplicationBops = (
+  council: string,
+  application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
-): DprPlanningApplicationApplicant => {
-  let name = {
-    first: application?.name?.first ?? "",
-    last: application?.name?.last ?? "",
-    title: application?.name?.title ?? "",
-  };
-
-  // if bops isn't sending new data we can use the old data
-  // TODO delete this when BOPS sends the correct data
-  if (!name?.first && !name.last && !name.title) {
-    name = {
-      first: privateApplication?.applicant_first_name ?? "",
-      last: privateApplication?.applicant_last_name ?? "",
-      title: "",
-    };
-  }
-
-  let applicantData: DprPlanningApplicationApplicant = {
-    name,
-    type: application?.type ?? "unknown",
-    company: application?.company,
-    address: application?.address ?? null,
-  };
-
-  if (application?.ownership?.interest) {
-    applicantData = {
-      ...applicantData,
-      ownership: {
-        interest: application?.ownership?.interest,
+): DprPlanningApplication => {
+  return {
+    application: convertPlanningApplicationOverviewBops(
+      council,
+      application.application,
+      privateApplication,
+    ),
+    property: {
+      address: {
+        singleLine: application.property.address.singleLine,
       },
-    };
-  }
-
-  if (application?.agent) {
-    let agentName = {
-      first: application?.agent?.name?.first ?? "",
-      last: application?.agent?.name?.last ?? "",
-      title: application?.agent?.name?.title ?? "",
-    };
-
-    // if bops isn't sending new data we can use the old data
-    // TODO delete this when BOPS sends the correct data
-    if (!name.first && !name.last && !name.title) {
-      agentName = {
-        first: privateApplication?.agent_first_name ?? "",
-        last: privateApplication?.agent_last_name ?? "",
-        title: "",
-      };
-    }
-
-    applicantData = {
-      ...applicantData,
-      agent: {
-        name: agentName,
-        company: application.agent?.company,
-        address: application.agent?.address,
+      boundary: {
+        site: application.property.boundary.site,
       },
-    };
-  }
-  return applicantData;
-  // return {
-  //   name,
-  //   type: "individual",
-  //   company: undefined,
-  //   address: { sameAsSiteAddress: true },
-  //   ownership: { interest: "other" },
-  //   agent: {
-  //     name: { first: "", last: "", title: "" },
-  //     company: undefined,
-  //     address: null,
-  //   },
-  // } as DprPlanningApplicationApplicant;
+    },
+    proposal: {
+      description: application.proposal.description,
+    },
+    applicant: convertPlanningApplicationApplicantBops(
+      application.applicant,
+      privateApplication,
+    ),
+  };
 };
 
+/**
+ * @param
+ * @returns
+ */
 export const convertPlanningApplicationApplicantBops = (
   applicant: DprPlanningApplicationApplicant,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplicationApplicant => {
-  // const { applicant } = application;
   let name = {
     first: applicant?.name?.first ?? "",
     last: applicant?.name?.last ?? "",
@@ -121,17 +76,12 @@ export const convertPlanningApplicationApplicantBops = (
       title: "",
     };
   }
-  // const name = {
-  //   first: applicant?.name?.first,
-  //   last: applicant?.name?.last,
-  //   title: applicant?.name?.title,
-  // };
 
   let applicantData: DprPlanningApplicationApplicant = {
     name,
     type: applicant?.type ?? "unknown",
     company: applicant?.company,
-    address: applicant.address ?? null,
+    address: applicant?.address ?? null,
   };
 
   if (applicant?.ownership?.interest) {
@@ -171,91 +121,7 @@ export const convertPlanningApplicationApplicantBops = (
   }
   return applicantData;
 };
-export const convertPlanningApplicationBops = (
-  council: string,
-  application: BopsPlanningApplication,
-  privateApplication?: BopsV2PlanningApplicationDetail | null,
-): DprPlanningApplication => {
-  // console.log(
-  //   convertPlanningApplicationApplicantBops(
-  //     application.application,
-  //     privateApplication,
-  //   ),
-  //   "function",
-  // );
-  return {
-    application: convertPlanningApplicationOverviewBops(
-      council,
-      application.application,
-      privateApplication,
-    ),
-    property: {
-      address: {
-        singleLine: application.property.address.singleLine,
-      },
-      boundary: {
-        site: application.property.boundary.site,
-      },
-    },
-    proposal: {
-      description: application.proposal.description,
-    },
-    // applicant: convertPlanningApplicationApplicantBops(
-    //   application,
-    //   privateApplication,
-    // ),
-    applicant: functionTest(application.applicant, privateApplication),
-    // {
-    // name: {
-    //   first: "",
-    //   last: "",
-    //   title: "",
-    // },
-    // type: "charity",
-    // address: {
-    //   sameAsSiteAddress: true,
-    // },
-    // {
-    // name: {
-    //   first: "",
-    //   last: "Gracie",
-    //   title: "",
-    // },
-    // type: "individual",
-    // company: undefined,
-    // address: { sameAsSiteAddress: true },
-    // ownership: { interest: "other" },
-    // agent: {
-    //   name: { first: "", last: "", title: "" },
-    //   company: undefined,
-    //   address: null,
-    // },
-    // },
-    // },
-  };
-};
 
-/**
- * @param
- * @returns
- */
-
-// console.log(functionTest());
-
-//   const test: DprPlanningApplicationApplicant = {
-//     name: { first: "Ian", last: "Gracie", title: "" },
-//     type: "individual",
-//     company: undefined,
-//     address: { sameAsSiteAddress: true },
-//     ownership: { interest: "other" },
-//     agent: {
-//       name: { first: "", last: "", title: "" },
-//       company: undefined,
-//       address: null,
-//     },
-//   };
-//   return test;
-// };
 /**
  * Converts BOPS application overview into our standard format
  * @param comment
