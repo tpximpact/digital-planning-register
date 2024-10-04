@@ -65,13 +65,13 @@ export const functionTest = (
 
     // if bops isn't sending new data we can use the old data
     // TODO delete this when BOPS sends the correct data
-    // if (!name.first && !name.last && !name.title) {
-    //   agentName = {
-    //     first: privateApplication?.agent_first_name ?? "",
-    //     last: privateApplication?.agent_last_name ?? "",
-    //     title: "",
-    //   };
-    // }
+    if (!name.first && !name.last && !name.title) {
+      agentName = {
+        first: privateApplication?.agent_first_name ?? "",
+        last: privateApplication?.agent_last_name ?? "",
+        title: "",
+      };
+    }
 
     //   applicantData = {
     //     ...applicantData,
