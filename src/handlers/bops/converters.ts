@@ -29,6 +29,16 @@ export const functionTest = (
     last: application?.name?.last ?? "",
     title: application?.name?.title ?? "",
   };
+
+  // if bops isn't sending new data we can use the old data
+  // TODO delete this when BOPS sends the correct data
+  if (!name?.first && !name.last && !name.title) {
+    name = {
+      first: privateApplication?.applicant_first_name ?? "",
+      last: privateApplication?.applicant_last_name ?? "",
+      title: "",
+    };
+  }
   return {
     name: {
       first: "",
