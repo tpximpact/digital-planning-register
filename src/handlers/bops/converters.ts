@@ -24,6 +24,11 @@ export const functionTest = (
   application: DprPlanningApplicationApplicant,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplicationApplicant => {
+  let name = {
+    first: application?.name?.first ?? "",
+    last: application?.name?.last ?? "",
+    title: application?.name?.title ?? "",
+  };
   return {
     name: {
       first: "",
