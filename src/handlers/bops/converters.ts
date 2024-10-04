@@ -73,28 +73,28 @@ export const functionTest = (
       };
     }
 
-    //   applicantData = {
-    //     ...applicantData,
-    //     agent: {
-    //       name: agentName,
-    //       company: applicant.agent?.company,
-    //       address: applicant.agent?.address,
-    //     },
-    //   };
+    applicantData = {
+      ...applicantData,
+      agent: {
+        name: agentName,
+        company: application.agent?.company,
+        address: application.agent?.address,
+      },
+    };
   }
-  // return applicantData;
-  return {
-    name,
-    type: "individual",
-    company: undefined,
-    address: { sameAsSiteAddress: true },
-    ownership: { interest: "other" },
-    agent: {
-      name: { first: "", last: "", title: "" },
-      company: undefined,
-      address: null,
-    },
-  } as DprPlanningApplicationApplicant;
+  return applicantData;
+  // return {
+  //   name,
+  //   type: "individual",
+  //   company: undefined,
+  //   address: { sameAsSiteAddress: true },
+  //   ownership: { interest: "other" },
+  //   agent: {
+  //     name: { first: "", last: "", title: "" },
+  //     company: undefined,
+  //     address: null,
+  //   },
+  // } as DprPlanningApplicationApplicant;
 };
 
 export const convertPlanningApplicationApplicantBops = (
