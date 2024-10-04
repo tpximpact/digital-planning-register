@@ -25,7 +25,10 @@ export const convertPlanningApplicationBops = (
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
   console.log(
-    convertPlanningApplicationApplicantBops(application, privateApplication),
+    convertPlanningApplicationApplicantBops(
+      application.application,
+      privateApplication,
+    ),
     "function",
   );
   return {
@@ -80,9 +83,9 @@ export const convertPlanningApplicationBops = (
  * @returns
  */
 export const convertPlanningApplicationApplicantBops = (
-  application: any,
-  privateApplication?: any,
-): any => {
+  application: BopsApplicationOverview,
+  privateApplication?: BopsV2PlanningApplicationDetail | null,
+): DprPlanningApplicationApplicant => {
   // const { applicant } = application;
   // let name = {
   //   first: applicant?.name?.first ?? "",
