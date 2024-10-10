@@ -10,6 +10,8 @@ import CookieBanner from "@/components/cookie_banner";
 import { getConfig } from "@/lib/config";
 import { Metadata } from "next";
 import { GovUkInitAll } from "@/components/GovUkInitAll";
+import { DPRAnalytic } from "@/lib/google_analytics";
+import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 
 export function generateMetadata(): Metadata {
   const title = "Digital Planning Register";
@@ -46,6 +48,9 @@ export default async function RootLayout({
     <html lang="en" className="govuk-template">
       <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
+        {/* <DPRAnalytic /> */}
+        <GoogleTagManager gtmId="GTM-5MB3T9HB" />
+        <GoogleAnalytics gaId="G-PVJ2XDYDRH" />
         <CookieBanner />
         <a
           href="#main"
