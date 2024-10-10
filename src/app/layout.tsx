@@ -2,13 +2,39 @@
 import "./globals.css";
 import "@/styles/app.scss";
 import Header from "../components/header";
-import Head from "../components/head";
 import { Suspense } from "react";
 import React from "react";
 import PhaseBanner from "@/components/phase_banner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
 import { getConfig } from "@/lib/config";
+import { Metadata } from "next";
+import { GovUkInitAll } from "@/components/GovUkInitAll";
+
+export function generateMetadata(): Metadata {
+  const title = "Digital Planning Register";
+  const description =
+    "This site allows you to find planning applications submitted through the Open Digital Planning system for your local council planning authority.";
+  const image =
+    "http://planningregister.org/govuk-assets/images/govuk-opengraph-image.png";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+      creator: title,
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -17,10 +43,9 @@ export default async function RootLayout({
 }>) {
   const councilConfig = await getConfig();
   return (
-    <html lang="en">
+    <html lang="en" className="govuk-template">
       <title>Digital Planning Register</title>
-      <Head />
-      <body className="govuk-frontend-supported">
+      <body className={`govuk-template__body`}>
         <CookieBanner />
         <a
           href="#main"
@@ -35,6 +60,7 @@ export default async function RootLayout({
           <Suspense>{children}</Suspense>
         </main>
         <Footer />
+        <GovUkInitAll />
       </body>
     </html>
   );

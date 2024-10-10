@@ -19,11 +19,6 @@ const Header = ({ councilConfig }: HeaderProps) => {
   const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
 
-  if (typeof window !== "undefined") {
-    const govUk = require("govuk-frontend");
-    govUk.initAll();
-  }
-
   const logo = councilConfig[council]?.logowhite;
   const name = councilConfig[council]?.name;
   const isShowDSN = councilConfig[council]?.isShowDSN;
