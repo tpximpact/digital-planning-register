@@ -103,9 +103,10 @@ const CommentPersonalDetails = ({
       errors.telephoneNumber = "Telephone number must be valid";
     if (!personalDetails.consent) errors.consent = "You need to consent";
     setValidationErrors(errors);
-    sendGTMEvent({
-      event: "comment_validation_error",
-    });
+    if (Object.keys(errors).length > 0)
+      sendGTMEvent({
+        event: "comment_validation_error",
+      });
     return Object.keys(errors).length === 0;
   };
 

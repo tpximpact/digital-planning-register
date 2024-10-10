@@ -1,6 +1,7 @@
 "use client";
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export interface ApplicationMapMapProps {
   mapData: DprBoundaryGeojson;
@@ -48,7 +49,32 @@ const ApplicationMapMap = ({
 
   useEffect(() => {
     setIsClient(true);
-    import("@opensystemslab/map");
+    import("@opensystemslab/map").then(() => {
+      const myMapElement = document.querySelector("my-map");
+
+      if (myMapElement) {
+        const handleScroll = () => {
+          // window.dataLayer = window.dataLayer || [];
+          // window.dataLayer.push({
+          //   event: "map-scroll", // Custom event name
+          //   value: 1, // Optional value or metrics for the event
+          // });
+          sendGTMEvent({
+            event: "map-scroll",
+          });
+        };
+
+        // Attach the scroll event listener
+        myMapElement.addEventListener("wheel", handleScroll);
+
+        // Cleanup function to remove the event listener
+        return () => {
+          myMapElement.removeEventListener("wheel", handleScroll);
+        };
+      } else {
+        console.error("my-map element not found.");
+      }
+    });
   }, []);
 
   let defaultMapProps: DefaultMapProps = {
@@ -75,7 +101,7 @@ const ApplicationMapMap = ({
   if (isClient) {
     if (geojsonData) {
       return (
-        <div role="region" aria-label="map" className="osl-map">
+        <div role="region" aria-label="map" id="map-test" className="osl-map">
           <my-map
             role="application"
             geojsonData={geojsonData}
