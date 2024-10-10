@@ -12,7 +12,6 @@ import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
 import { DprShow } from "@/types";
-import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
 
@@ -37,10 +36,6 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useUnsavedChanges(
-    false,
-    page,
-  );
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -194,14 +189,11 @@ const Comment = ({ params }: Props) => {
     [router, submissionComplete, reference],
   );
 
-  // Function to update the maximum allowed page and set the hasUnsavedChanges flag
-  const updateProgress = useCallback(
-    (completedPage: number) => {
-      setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
-      setHasUnsavedChanges(false);
-    },
-    [setHasUnsavedChanges],
-  );
+  // Function to update the maximum allowed page
+  const updateProgress = useCallback((completedPage: number) => {
+    setMaxAllowedPage((prevMax) => Math.max(prevMax, completedPage + 1));
+  }, []);
+
   // Function to navigate to the next uncommented topic
   const navigateToNextTopic = useMemo(
     () => (topics: string[]) => {
@@ -267,6 +259,20 @@ const Comment = ({ params }: Props) => {
     navigateToPage,
     navigateToNextTopic,
   ]);
+
+  // Handle beforeunload event to alert the user when closing tab/browser that their changes may not be saved
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (page > 1 && page < 6) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [page]);
 
   // Function to render the appropriate component based on the current page
   const renderComponent = () => {
