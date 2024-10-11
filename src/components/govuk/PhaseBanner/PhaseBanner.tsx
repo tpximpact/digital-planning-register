@@ -1,4 +1,6 @@
-const PhaseBanner = () => {
+import "./PhaseBanner.scss";
+
+export const PhaseBanner = () => {
   return (
     <div className="govuk-phase-banner">
       <p className="govuk-phase-banner__content">
@@ -21,5 +23,3 @@ const PhaseBanner = () => {
     </div>
   );
 };
-
-export default PhaseBanner;
