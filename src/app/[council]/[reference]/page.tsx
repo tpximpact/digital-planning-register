@@ -13,6 +13,8 @@ import CommentsList from "@/components/comments_list";
 import ApplicationPeople from "@/components/application_people";
 import DocumentsList from "@/components/documents_list";
 import { ApiV1 } from "@/actions/api";
+import config from "../../../../util/config.json";
+import { Config } from "@/types";
 
 interface PlanningApplicationDetailsProps {
   params: {
@@ -56,8 +58,12 @@ export default async function PlanningApplicationDetails({
 }: PlanningApplicationDetailsProps) {
   const { applicationResponse, documentResponse } = await fetchData({ params });
   const { reference, council } = params;
+  const councilConfigVisibility = config as Config;
 
-  if (!applicationResponse.data) {
+  if (
+    !applicationResponse.data ||
+    councilConfigVisibility[council]?.visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 

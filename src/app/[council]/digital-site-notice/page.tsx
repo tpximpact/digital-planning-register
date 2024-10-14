@@ -73,7 +73,10 @@ const DigitalSiteNotice = async ({
   const applications = response?.data?.data;
   const council = params.council;
 
-  if (response?.status?.code !== 200) {
+  if (
+    response?.status?.code !== 200 ||
+    councilConfig[council]?.visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 

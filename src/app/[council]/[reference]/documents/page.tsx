@@ -15,6 +15,8 @@ import { createItemPagination } from "@/lib/pagination";
 import DocumentsList from "@/components/documents_list";
 import { getCouncilDataSource, siteConfig } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
+import config from "../../../../../util/config.json";
+import { Config } from "@/types";
 
 interface DocumentSearchParams {
   page?: string;
@@ -66,8 +68,12 @@ export default async function PlanningApplicationDetailsDocuments({
 }: PlanningApplicationDetailsDocumentsProps) {
   const { applicationResponse, documentResponse } = await fetchData({ params });
   const { reference, council } = params;
+  const councilConfig = config as Config;
 
-  if (!applicationResponse.data) {
+  if (
+    !applicationResponse.data ||
+    councilConfig[council].visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 

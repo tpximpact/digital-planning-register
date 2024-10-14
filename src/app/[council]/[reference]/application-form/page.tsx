@@ -7,6 +7,8 @@ import ApplicationForm from "@/components/application_form";
 import { formatDprDateTime } from "../../../../../util/formatDates";
 import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
+import config from "../../../../../util/config.json";
+import { Config } from "@/types";
 
 interface ApplicationFormProps {
   params: {
@@ -53,8 +55,9 @@ export default async function ApplicationFormPage({
 }: ApplicationFormProps) {
   const response = await fetchData({ params });
   const { reference, council } = params;
+  const councilConfig = config as Config;
 
-  if (!response.data) {
+  if (!response.data || councilConfig[council].visibility === "private") {
     return <NotFound params={params} />;
   }
 

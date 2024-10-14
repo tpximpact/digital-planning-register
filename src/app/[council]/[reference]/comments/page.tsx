@@ -16,6 +16,8 @@ import CommentsList from "@/components/comments_list";
 import Pagination from "@/components/pagination";
 import { createItemPagination } from "@/lib/pagination";
 import { ApiV1 } from "@/actions/api";
+import config from "../../../../../util/config.json";
+import { Config } from "@/types";
 
 interface CommentSearchParams {
   page?: string;
@@ -102,6 +104,7 @@ export default async function PlanningApplicationDetailsComments({
 }: PlanningApplicationDetailsCommentsProps) {
   const response = await fetchData({ params });
   const { reference, council } = params;
+  const councilConfigVisibility = config as Config;
 
   const councilConfig = getCouncilConfig(council);
   const type = setCommentType(searchParams, councilConfig);
@@ -117,7 +120,10 @@ export default async function PlanningApplicationDetailsComments({
    * If the application is not found, return a 404 page
    * Also, if none of the comment types from config are allowed also show not found
    */
-  if (!response.data) {
+  if (
+    !response.data ||
+    councilConfigVisibility[council].visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 

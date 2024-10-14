@@ -15,6 +15,8 @@ import { DprShow } from "@/types";
 import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
+import config from "../../../../../util/config.json";
+import { Config } from "@/types";
 
 type Props = {
   params: { reference: string; council: string };
@@ -41,7 +43,7 @@ const Comment = ({ params }: Props) => {
     false,
     page,
   );
-
+  const councilConfig = config as Config;
   // Function to update the URL with the new page number
   const updateURL = useCallback(
     (newPage: number) => {
@@ -346,6 +348,9 @@ const Comment = ({ params }: Props) => {
   const boundary_geojson = applicationData?.property.boundary.site;
   const address = applicationData?.property.address.singleLine;
 
+  if (councilConfig[council].visibility === "private") {
+    return <NotFound params={params} />;
+  }
   // Render the main component
   return (
     <>
