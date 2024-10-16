@@ -24,8 +24,8 @@ jobs:
           stack: "container"
         env:
           # BARNET
-          # HD_BARNET_BOPS_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
-          # HD_BARNET_BOPS_API_URL: ${{ secrets.BARNET_BOPS_API_URL }}
+          HD_BARNET_BOPS_API_KEY: ${{ secrets.BARNET_BOPS_API_KEY }}
+          HD_BARNET_BOPS_API_URL: ${{ secrets.BARNET_BOPS_API_URL }}
           # BUCKINGHAMSHIRE
           # HD_BUCKINGHAMSHIRE_BOPS_API_KEY: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_KEY }}
           # HD_BUCKINGHAMSHIRE_BOPS_API_URL: ${{ secrets.BUCKINGHAMSHIRE_BOPS_API_URL }}
