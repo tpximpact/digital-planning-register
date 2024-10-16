@@ -47,10 +47,10 @@ export default async function RootLayout({
     <html lang="en" className="govuk-template">
       <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
-        {process.env.CAMDEN_GTM && process.env.CAMDEN_GA && (
+        {process.env.GTM && process.env.GA && (
           <>
-            <GoogleTagManager gtmId={process.env.CAMDEN_GTM} />
-            <GoogleAnalytics gaId={process.env.CAMDEN_GA} />
+            <GoogleTagManager gtmId={process.env.GTM} />
+            <GoogleAnalytics gaId={process.env.GA} />
           </>
         )}
         <CookieBanner />

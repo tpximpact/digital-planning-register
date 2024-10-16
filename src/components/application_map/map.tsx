@@ -54,11 +54,6 @@ const ApplicationMapMap = ({
 
       if (myMapElement) {
         const handleScroll = () => {
-          // window.dataLayer = window.dataLayer || [];
-          // window.dataLayer.push({
-          //   event: "map-scroll", // Custom event name
-          //   value: 1, // Optional value or metrics for the event
-          // });
           sendGTMEvent({
             event: "map-scroll",
           });
