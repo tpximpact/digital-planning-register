@@ -70,18 +70,14 @@ export default async function PlanningApplicationDetailsDocuments({
   const { reference, council } = params;
   const councilConfig = config as Config;
 
-  if (
-    !applicationResponse.data ||
-    councilConfig[council].visibility === "private"
-  ) {
-    return <NotFound params={params} />;
-  }
-
   /**
    * If the application is not found, return a 404 page
    * Also, if none of the comment types from config are allowed also show not found
    */
-  if (!applicationResponse.data) {
+  if (
+    !applicationResponse.data ||
+    councilConfig[council].visibility === "private"
+  ) {
     return <NotFound params={params} />;
   }
 

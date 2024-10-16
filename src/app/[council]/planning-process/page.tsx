@@ -1,11 +1,9 @@
-"use client";
 import { BackLink } from "@/components/button";
 import { contentApplicationTypes } from "./content-application-types";
 import { contentDecisions } from "./content-decisions";
 import { contentApplicationStatuses } from "./content-application-statuses";
-import config from "../../../../util/config.json";
-import { Config } from "@/types";
 import NotFound from "@/app/not-found";
+import { getCouncilConfig } from "@/lib/config";
 
 export type PageContent = {
   key: string;
@@ -22,13 +20,13 @@ type Props = {
   params: { reference: string; council: string };
 };
 
-const PlanningProcess = ({ params }: Props) => {
+const PlanningProcess = async ({ params }: Props) => {
   const { council } = params;
-  const councilConfig = config as Config;
+  const councilConfig = getCouncilConfig(council);
 
   return (
     <>
-      {councilConfig[council]?.visibility === "private" ? (
+      {councilConfig?.visibility === "private" ? (
         <NotFound params={params} />
       ) : (
         <>

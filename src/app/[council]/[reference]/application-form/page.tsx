@@ -9,6 +9,7 @@ import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
 import config from "../../../../../util/config.json";
 import { Config } from "@/types";
+import { getCouncilConfig } from "@/lib/config";
 
 interface ApplicationFormProps {
   params: {
@@ -55,9 +56,9 @@ export default async function ApplicationFormPage({
 }: ApplicationFormProps) {
   const response = await fetchData({ params });
   const { reference, council } = params;
-  const councilConfig = config as Config;
+  const councilConfig = getCouncilConfig(council);
 
-  if (!response.data || councilConfig[council].visibility === "private") {
+  if (!response.data || councilConfig?.visibility === "private") {
     return <NotFound params={params} />;
   }
 
