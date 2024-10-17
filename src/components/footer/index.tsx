@@ -1,17 +1,14 @@
 "use client";
-import { getCouncilConfig } from "@/lib/config";
+import useAppConfig from "@/util/hooks/useAppConfig";
 import Image from "next/image";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const Footer = () => {
-  const params = useParams();
-  const pathname = usePathname();
-  const council = params?.council as string;
-
-  const currentCouncil = getCouncilConfig(council);
+  const { council } = useParams<{ council?: string; reference?: string }>();
+  const appConfig = useAppConfig(council);
+  const currentCouncil = appConfig?.council;
   const privacyPolicy =
     currentCouncil?.pageContent?.privacy_policy?.privacy_policy_link;
-  const isCouncilPath = pathname?.includes(`/${council}`);
 
   return (
     <footer className="govuk-footer">
@@ -28,7 +25,7 @@ const Footer = () => {
           <div className="govuk-footer__meta-item govuk-footer__meta-item--grow">
             <h2 className="govuk-visually-hidden">Support links</h2>
             <ul className="govuk-footer__inline-list">
-              {isCouncilPath && privacyPolicy && (
+              {privacyPolicy && (
                 <li className="govuk-footer__inline-list-item">
                   <a className="govuk-footer__link" href={privacyPolicy}>
                     Privacy policy

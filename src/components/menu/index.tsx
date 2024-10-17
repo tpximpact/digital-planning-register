@@ -1,19 +1,19 @@
 import Link from "next/link";
 import CouncilSelector from "../council_selector";
-import { Config } from "@/types";
+import { AppConfig } from "@/types";
 
 interface MenuProps {
   currentPath: string;
-  council: string;
-  isShowDSN?: boolean;
-  councilConfig: Config;
+  navigation: AppConfig["navigation"];
+  councils: AppConfig["councils"];
+  selectedCouncil?: AppConfig["council"];
 }
 
 const Menu = ({
+  navigation,
   currentPath,
-  council,
-  isShowDSN,
-  councilConfig,
+  councils,
+  selectedCouncil,
 }: MenuProps) => {
   return (
     <nav aria-label="Menu" className="govuk-header__navigation">
@@ -23,55 +23,42 @@ const Menu = ({
       >
         <li className="govuk-header__navigation-item no-space">
           <CouncilSelector
-            currentPath={currentPath}
-            councilConfig={councilConfig}
+            councils={councils}
+            selectedCouncil={selectedCouncil}
           />
         </li>
-        {currentPath !== "/" && (
-          <>
+        {navigation.map((item, index) => {
+          const href =
+            item.councilBase && selectedCouncil?.slug
+              ? `/${encodeURIComponent(selectedCouncil.slug)}${item.href}`
+              : item.href;
+
+          const active = currentPath === href;
+
+          if (!item.showCondition) {
+            return null;
+          }
+          return (
             <li
-              className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() && "current-item"}`}
+              key={`service-nav-${index}`}
+              className={`govuk-header__navigation-item${active ? " current-item" : ""}`}
             >
               <Link
-                className="govuk-header__link nav-link"
-                href={council ? `/${council.toLowerCase()}` : "/"}
+                className={`govuk-header__link nav-link`}
                 role="link"
+                href={href}
               >
-                Application search
+                {active ? (
+                  <strong className="govuk-service-navigation__active-fallback">
+                    {item.label}
+                  </strong>
+                ) : (
+                  item.label
+                )}
               </Link>
             </li>
-            {isShowDSN && (
-              <li
-                className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/digital-site-notice" && "current-item"}`}
-              >
-                <Link
-                  className="govuk-header__link nav-link"
-                  href={
-                    council
-                      ? `/${council.toLowerCase()}/digital-site-notice`
-                      : "/"
-                  }
-                  role="link"
-                >
-                  Digital site notice
-                </Link>
-              </li>
-            )}
-            <li
-              className={`govuk-header__navigation-item ${currentPath === "/" + council?.toLowerCase() + "/planning-process" && "current-item"}`}
-            >
-              <Link
-                className="govuk-header__link nav-link"
-                role="link"
-                href={
-                  council ? `/${council?.toLowerCase()}/planning-process` : "/"
-                }
-              >
-                Understanding planning
-              </Link>
-            </li>
-          </>
-        )}
+          );
+        })}
       </ul>
     </nav>
   );

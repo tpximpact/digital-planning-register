@@ -1,5 +1,6 @@
 import { Config, Council, SiteConfig, CouncilVisibility } from "@/types";
-import config from "../../util/config.json";
+// import config from "../../util/config.json";
+// import { config } from "../config/councils";
 
 export const siteConfig: SiteConfig = {
   documentsPublicEndpoint: true,
@@ -16,9 +17,14 @@ export const updateCouncilConfig = (
   council: string,
   councilConfig: Council,
 ): Council => {
+  console.log(councilConfig);
   let { visibility: configVisibility } = councilConfig;
   const overrideVisibility = process.env[`${council.toUpperCase()}_VISIBILITY`];
+
+  console.log("overrideVisibility", overrideVisibility);
+  console.log("configVisibility", configVisibility);
   let visibility = (overrideVisibility || configVisibility) ?? "private";
+  console.log("visibility", visibility);
   if (
     !process.env[`${council.toUpperCase()}_BOPS_API_KEY`] ||
     !process.env[`${council.toUpperCase()}_BOPS_API_URL`]
@@ -40,11 +46,8 @@ export const updateCouncilConfig = (
  */
 export const getCouncilConfig = (council: string): Council | undefined => {
   const councilConfig: Config = config as Config;
-  // console.log(
-  //   councilConfig[council]
-  //     ? updateCouncilConfig(council, councilConfig[council])
-  //     : undefined,
-  // );
+  console.log(config);
+  console.log(councilConfig[council]);
   return councilConfig[council]
     ? updateCouncilConfig(council, councilConfig[council])
     : undefined;

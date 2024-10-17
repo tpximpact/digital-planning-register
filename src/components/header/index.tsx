@@ -3,20 +3,16 @@ import Link from "next/link";
 import Menu from "../menu";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import config from "../../../util/config.json";
-import { Config } from "@/types";
 import path from "path";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import useAppConfig from "@/util/hooks/useAppConfig";
 
-interface HeaderProps {
-  councilConfig: Config;
-}
-
-const Header = ({ councilConfig }: HeaderProps) => {
-  const params = useParams();
+interface HeaderProps {}
+const Header = ({}: HeaderProps) => {
+  const { council } = useParams<{ council?: string; reference?: string }>();
+  const appConfig = useAppConfig(council);
   const currentPath = usePathname();
-  const council = params?.council as string;
   const [isExtended, setIsExtended] = useState(false);
 
   if (typeof window !== "undefined") {
@@ -24,9 +20,9 @@ const Header = ({ councilConfig }: HeaderProps) => {
     govUk.initAll();
   }
 
-  const logo = councilConfig[council]?.logowhite;
-  const name = councilConfig[council]?.name;
-  const isShowDSN = councilConfig[council]?.isShowDSN;
+  const { logowhite: logo, name } = appConfig?.council
+    ? appConfig?.council
+    : {};
   const logoPath =
     logo &&
     logo !== "" &&
@@ -93,18 +89,18 @@ const Header = ({ councilConfig }: HeaderProps) => {
         <div className="menu" id="navigation" aria-label="Navigation Menu">
           <Menu
             currentPath={currentPath}
-            council={name}
-            isShowDSN={isShowDSN}
-            councilConfig={councilConfig}
+            navigation={appConfig?.navigation ?? []}
+            councils={appConfig?.councils ?? []}
+            selectedCouncil={appConfig?.council}
           />
         </div>
       )}
       <div className="menu-desktop" id="navigation-desktop">
         <Menu
           currentPath={currentPath}
-          council={name}
-          isShowDSN={isShowDSN}
-          councilConfig={councilConfig}
+          navigation={appConfig?.navigation ?? []}
+          councils={appConfig?.councils ?? []}
+          selectedCouncil={appConfig?.council}
         />
       </div>
     </header>

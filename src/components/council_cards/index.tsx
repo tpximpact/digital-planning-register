@@ -1,23 +1,21 @@
+import { getAppConfig } from "@/config";
 import CouncilLogo from "../council_logo";
 import Link from "next/link";
-import { getConfig } from "@/lib/config";
 
 export const CouncilCards = async () => {
-  const councilConfig = await getConfig();
-
-  const councils = Object.keys(councilConfig);
+  const appConfig = getAppConfig();
+  const councils = appConfig.councils;
 
   return (
     <div className="logos-container">
-      {councils.map((council) => {
-        const { name, logo, visibility } = councilConfig[council];
+      {councils.map(({ name, logo, visibility, slug }) => {
         return (
           visibility == "public" && (
             <Link
-              href={`/${council}`}
+              href={`/${slug}`}
               className="govuk-button govuk-button--secondary"
               title={`${name} Council`}
-              key={council}
+              key={name}
             >
               <CouncilLogo councilName={name} logoFileName={logo} />
             </Link>

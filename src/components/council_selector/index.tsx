@@ -1,83 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { capitalizeFirstLetter } from "@/util";
-import { Config } from "@/types";
+import { AppConfig } from "@/types";
 
-interface CouncilSelectorProps {
-  currentPath: string;
-  councilConfig: Config;
+export interface CouncilSelectorProps {
+  councils: AppConfig["councils"];
+  selectedCouncil?: AppConfig["council"];
 }
 
-const CouncilSelector = ({
-  currentPath,
-  councilConfig,
+export const CouncilSelector = ({
+  councils,
+  selectedCouncil,
 }: CouncilSelectorProps) => {
-  const [selectedCouncil, setSelectedCouncil] = useState(
-    currentPath.split("/")[1] || "select",
+  const availableCouncils = councils.filter(
+    (council) => council.visibility === "public",
   );
-
-  const councilKeys = Object.keys(councilConfig);
-  const councilOptions = councilKeys.filter(
-    (councilKey) => councilConfig[councilKey].visibility == "public",
-  );
-
-  useEffect(() => {
-    document.documentElement.className = "js-enabled";
-    setSelectedCouncil(currentPath.split("/")[1]);
-  }, [currentPath]);
-
-  const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCouncil = event.target.value;
-    if (selectedCouncil !== "select") {
-      window.location.href = `/${selectedCouncil}`;
-    }
-  };
-
   return (
     <>
-      <noscript>
-        <style>{`.js-only { display: none; }`}</style>
-        <form action="/council-redirect" method="get">
+      {availableCouncils && availableCouncils.length > 1 && (
+        <form action="/" method="">
           <div>
             <select
               className="govuk-select noscript-only council-selection"
               id="council-select-noscript"
               name="council"
-              defaultValue={selectedCouncil}
+              defaultValue={selectedCouncil?.slug ?? "select"}
               aria-label="Select your council"
               autoComplete="on"
             >
               <option value="select">Select your council</option>
-              {councilOptions?.map((councilKey: string) => (
-                <option key={councilKey} value={councilKey}>
-                  {capitalizeFirstLetter(councilKey)}
+              {availableCouncils?.map((council) => (
+                <option key={council.slug} value={council.slug}>
+                  {council.name}
                 </option>
               ))}
             </select>
-            <button
-              type="submit"
-              className="govuk-button custom-button council-selection"
-            >
-              Select
-            </button>
+            <noscript>
+              <button
+                type="submit"
+                className="govuk-button custom-button council-selection"
+              >
+                Select
+              </button>
+            </noscript>
           </div>
         </form>
-      </noscript>
-      <select
-        className="govuk-select js-only"
-        id="council-select"
-        name="council"
-        value={selectedCouncil}
-        onChange={handleCouncilChange}
-        aria-label="Select your council"
-        autoComplete="on"
-      >
-        <option value="select">Select your council</option>
-        {councilOptions?.map((councilKey: string) => (
-          <option key={councilKey} value={councilKey}>
-            {capitalizeFirstLetter(councilKey)}
-          </option>
-        ))}
-      </select>
+      )}
     </>
   );
 };

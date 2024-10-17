@@ -15,9 +15,10 @@ import { DprShow } from "@/types";
 import useUnsavedChanges from "@/util/hooks/useUnsavedChanges";
 import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
-import config from "../../../../../util/config.json";
-import { Config } from "@/types";
-import { getCouncilConfig } from "@/lib/config";
+import { getAppConfig } from "@/config";
+// import config from "../../../../../util/config.json";
+// import { Config } from "@/types";
+// import { getCouncilConfig } from "@/lib/config";
 type Props = {
   params: { reference: string; council: string };
   searchParams: { [key: string]: string | string[] | undefined };
@@ -43,12 +44,15 @@ const Comment = ({ params }: Props) => {
     false,
     page,
   );
-  const councilConfig = getCouncilConfig(council);
-  console.log(councilConfig?.visibility, "visibility");
-  useEffect(() => {
-    const councilConfig = getCouncilConfig(council);
-    console.log(councilConfig?.visibility, "visibility 2");
-  });
+  const appConfig = getAppConfig(council);
+  console.log("appConfig", appConfig);
+  console.log("visibility", appConfig.council?.visibility);
+  // const councilConfig = getCouncilConfig(council);
+  // console.log(councilConfig?.visibility, "visibility");
+  // useEffect(() => {
+  //   const councilConfig = getCouncilConfig(council);
+  //   console.log(councilConfig?.visibility, "visibility 2");
+  // });
   // const councilConfig = config as Config;
   // Function to update the URL with the new page number
   const updateURL = useCallback(

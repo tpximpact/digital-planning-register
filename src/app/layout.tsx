@@ -8,14 +8,12 @@ import React from "react";
 import PhaseBanner from "@/components/phase_banner";
 import Footer from "@/components/footer";
 import CookieBanner from "@/components/cookie_banner";
-import { getConfig } from "@/lib/config";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const councilConfig = await getConfig();
   return (
     <html lang="en">
       <title>Digital Planning Register</title>
@@ -29,10 +27,10 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
-        <Header councilConfig={councilConfig} />
+        <Header />
         <main className="govuk-width-container" id="main">
           <PhaseBanner />
-          <Suspense>{children}</Suspense>
+          {/* <Suspense>{children}</Suspense> */}
         </main>
         <Footer />
       </body>
