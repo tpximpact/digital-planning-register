@@ -6,6 +6,12 @@ import ApplicationMap from "@/components/application_map";
 import ApplicationMapMap, {
   ApplicationMapMapProps,
 } from "@/components/application_map/map";
+import { sendGTMEvent } from "@next/third-parties/google";
+
+// Mock the sendGTMEvent function
+jest.mock("@next/third-parties/google", () => ({
+  sendGTMEvent: jest.fn(),
+}));
 
 jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mockMap"></div>);
@@ -71,5 +77,33 @@ describe("Map Component", () => {
     const { container } = render(<ApplicationMapMap mapData={{}} />);
     const mapElement = container.querySelector("my-map");
     expect(mapElement).not.toBeInTheDocument();
+  });
+  test("should render the map and handle scroll event", async () => {
+    // const mockMapData = {
+    //   type: "Feature",
+    //   geometry: {
+    //     type: "Polygon",
+    //     coordinates: [[[-0.124237, 51.531031], [-0.124254, 51.531035]]],
+    //   },
+    // };
+
+    // Render the component with mock data
+    render(<ApplicationMapMap {...defaultApplicationMapProps} />);
+
+    // Find the map element in the DOM
+    const mapElement = await screen.findByRole("application", {
+      name: /An interactive map/i,
+    });
+
+    // Check if the map rendered correctly
+    expect(mapElement).toBeInTheDocument();
+
+    // Simulate the wheel scroll event
+    mapElement.dispatchEvent(new WheelEvent("wheel"));
+
+    // Assert that sendGTMEvent was called when scrolling inside the map
+    expect(sendGTMEvent).toHaveBeenCalledWith({
+      event: "map-scroll",
+    });
   });
 });

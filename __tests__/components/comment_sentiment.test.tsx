@@ -2,6 +2,11 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentSentiment from "@/components/comment_sentiment";
 import "@testing-library/jest-dom";
+import { sendGTMEvent } from "@next/third-parties/google";
+
+jest.mock("@next/third-parties/google", () => ({
+  sendGTMEvent: jest.fn(),
+}));
 
 describe("CommentSentiment", () => {
   const defaultProps = {
@@ -38,6 +43,10 @@ describe("CommentSentiment", () => {
     expect(screen.getByText("Please select an option")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
+    expect(sendGTMEvent).toHaveBeenCalledWith({
+      event: "comment_validation_error",
+      message: "error in sentiment",
+    });
   });
 
   it("navigates to the next page and updates progress when a sentiment is selected and the form is submitted", () => {
