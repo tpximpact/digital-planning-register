@@ -45,14 +45,14 @@ export default async function RootLayout({
   const councilConfig = await getConfig();
   return (
     <html lang="en" className="govuk-template">
+      {process.env.GTM && process.env.GA && (
+        <>
+          <GoogleTagManager gtmId={process.env.GTM} />
+          <GoogleAnalytics gaId={process.env.GA} />
+        </>
+      )}
       <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
-        {process.env.GTM && process.env.GA && (
-          <>
-            <GoogleTagManager gtmId={process.env.GTM} />
-            <GoogleAnalytics gaId={process.env.GA} />
-          </>
-        )}
         <CookieBanner />
         <SkipLink href="#main" />
         <Header councilConfig={councilConfig} />
