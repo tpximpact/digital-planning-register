@@ -1,31 +1,30 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CouncilSelector from "@/components/council_selector";
-import { getConfig } from "@/lib/config";
+import { CouncilSelector } from "@/components/CouncilSelector";
 import { capitalizeFirstLetter } from "@/util";
-import { Config } from "@/types";
+import { AppConfig } from "@/config/types";
 
-const mockedConfig: Config = {
-  barnet: {
+const mockedConfig: Pick<
+  AppConfig["council"][number],
+  "name" | "slug" | "visibility"
+>[] = [
+  {
     name: "Barnet",
-    isSelectable: "true",
-    publicComments: false,
-    specialistComments: false,
+    slug: "barnet",
+    visibility: "public",
   },
-  camden: {
+  {
     name: "Camden",
-    isSelectable: "true",
-    specialistComments: false,
-    publicComments: false,
+    slug: "camden",
+    visibility: "public",
   },
-  buckinghamshire: {
+  {
     name: "Buckinghamshire",
-    isSelectable: "false",
-    specialistComments: false,
-    publicComments: false,
+    slug: "buckinghamshire",
+    visibility: "public",
   },
-};
+];
 
 describe("CouncilSelector", () => {
   beforeEach(() => {

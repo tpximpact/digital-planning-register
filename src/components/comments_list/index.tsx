@@ -2,7 +2,7 @@ import { DprComment, DprCommentTypes, DprPagination } from "@/types";
 import CommentCard from "../comment_card";
 
 interface CommentsListProps {
-  council: string;
+  councilSlug: string;
   reference: string;
   type: DprCommentTypes;
   comments: DprComment[] | null;
@@ -14,7 +14,7 @@ interface CommentsListProps {
 }
 
 export const CommentsList = ({
-  council,
+  councilSlug,
   reference,
   type,
   comments,
@@ -51,18 +51,20 @@ export const CommentsList = ({
                 <p className="govuk-hint">
                   Showing {maxDisplayComments} of {totalComments} comments
                 </p>
-                <a
-                  href={`/${council}/${reference}/comments?type=${type}`}
-                  role="button"
-                  className="govuk-button govuk-button--secondary blue-button"
-                  data-module="govuk-button"
-                >
-                  Show all {totalComments}{" "}
-                  {type === "consultee"
-                    ? "professional consultee"
-                    : "neighbour"}{" "}
-                  comments
-                </a>
+                {councilSlug && (
+                  <a
+                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
+                    role="button"
+                    className="govuk-button govuk-button--secondary blue-button"
+                    data-module="govuk-button"
+                  >
+                    Show all {totalComments}{" "}
+                    {type === "consultee"
+                      ? "professional consultee"
+                      : "neighbour"}{" "}
+                    comments
+                  </a>
+                )}
               </div>
             </div>
           )}

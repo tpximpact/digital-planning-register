@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { mockData } from "../../__mockData__/mockData";
+import { mockData } from "../../__mocks__/mockData";
 import "@testing-library/jest-dom";
 import DocumentsList from "@/components/documents_list";
 

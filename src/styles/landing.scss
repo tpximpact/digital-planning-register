@@ -102,8 +102,8 @@
 }
 
 .pagination-next-previous {
-  text-decoration: underline; 
-  color: #1d70b8
+  text-decoration: underline;
+  color: #1d70b8;
 }
 
 .pagination-next-previous:hover {
@@ -120,10 +120,6 @@
   padding-left: 35px;
   background-repeat: no-repeat;
   width: 100%;
-}
-
-.search-bar-buttons {
-  margin-top: 30px;
 }
 
 .responsive-table-row h2 {
@@ -146,23 +142,13 @@
 }
 
 .search-card {
-    background:govuk-colour("light-grey");
-    border: 2px solid white;
-    padding: 20px 10px 0 10px;
+  background: govuk-colour("light-grey");
+  border: 2px solid white;
+  padding: 20px 10px 0 10px;
 }
 
-.search-card .govuk-grid-row{
-    margin-bottom:1em;
-}
-
-.govuk-button--secondary.blue-button {
-    background:govuk-colour("blue");
-    color:white;
-    box-shadow: 0 2px 0 #001e37
-}
-.govuk-button--secondary.blue-button:hover {
-    background: #095ba1;
-    color:white;
+.search-card .govuk-grid-row {
+  margin-bottom: 1em;
 }
 
 @media (min-width: 1190px) {
@@ -214,19 +200,19 @@
 // Navigation restyle
 
 .govuk-header__navigation-list {
-    margin:0 auto;
+  margin: 0 auto;
 }
-@media (max-width: 1090px) { 
-    .govuk-header__navigation-list {
-        margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
-        margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
-    }
+@media (max-width: 1090px) {
+  .govuk-header__navigation-list {
+    margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
+    margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
+  }
 }
-@media (max-width: 40.0625em) { 
-    .govuk-header__navigation-list {
-        margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
-        margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
-    }
+@media (max-width: 40.0625em) {
+  .govuk-header__navigation-list {
+    margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
+    margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
+  }
 }
 .govuk-header__navigation {
   background-color: govuk-colour("light-grey");
@@ -263,35 +249,12 @@
 
 .no-space {
   margin: 0 !important;
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 // Adapting header for no logo
 .govuk-header__link {
   max-width: 60%;
-}
-
-// Logos on the landing page
-.logos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
-  gap: 20px;
-}
-.logos-container a {
-  width: 30%;
-  min-width: 270px;
-}
-.logos-container a img {
-  max-height: 50px;
-  width: auto;
-}
-
-@media (max-width: 40.0625em) {
-  .logos-container a {
-    width: 100%;
-  }
 }
 
 @media (max-width: 768px) {

@@ -1,18 +1,18 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CouncilCards from "@/components/council_cards";
-import { getConfig } from "@/lib/config";
-import { Config } from "@/types";
+import { CouncilCards } from "@/components/CouncilCards";
 
 jest.mock("../../src/lib/config", () => ({
   getConfig: jest.fn(),
 }));
 
 describe("CouncilCards", () => {
-  const mockedConfig: Config = {
+  const mockedConfig = {
     barnet: {
       name: "Barnet",
+      slug: "barnet",
+      visibility: "public",
       isSelectable: "true",
       dataSource: "bops",
       publicComments: false,
@@ -20,6 +20,8 @@ describe("CouncilCards", () => {
     },
     camden: {
       name: "Camden",
+      slug: "camden",
+      visibility: "public",
       isSelectable: "true",
       dataSource: "bops",
       publicComments: true,
@@ -27,6 +29,8 @@ describe("CouncilCards", () => {
     },
     buckinghamshire: {
       name: "Buckinghamshire",
+      slug: "buckinghamshire",
+      visibility: "public",
       isSelectable: "false",
       dataSource: "bops",
       publicComments: false,

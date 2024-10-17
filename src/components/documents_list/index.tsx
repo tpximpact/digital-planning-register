@@ -7,7 +7,7 @@ import {
 import DocumentCard from "../document_card";
 
 interface DocumentsListProps {
-  council: string;
+  councilSlug?: string;
   reference: string;
   documents: DprDocument[] | null;
   maxDisplayDocuments?: number;
@@ -18,7 +18,7 @@ interface DocumentsListProps {
 }
 
 export const DocumentsList = ({
-  council,
+  councilSlug,
   reference,
   documents,
   maxDisplayDocuments = 3,
@@ -50,14 +50,16 @@ export const DocumentsList = ({
                 <p className="govuk-hint">
                   Showing {maxDisplayDocuments} of {totalDocuments} documents
                 </p>
-                <a
-                  href={`/${council}/${reference}/documents`}
-                  role="button"
-                  className="govuk-button govuk-button--secondary blue-button"
-                  data-module="govuk-button"
-                >
-                  Show all {totalDocuments} documents
-                </a>
+                {councilSlug && (
+                  <a
+                    href={`/${councilSlug}/${reference}/documents`}
+                    role="button"
+                    className="govuk-button govuk-button--secondary blue-button"
+                    data-module="govuk-button"
+                  >
+                    Show all {totalDocuments} documents
+                  </a>
+                )}
               </div>
             </div>
           )}

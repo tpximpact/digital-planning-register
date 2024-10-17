@@ -1,13 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import config from "../../../util/config.json";
-import { capitaliseWord } from "../../../util/capitaliseWord";
-import { Config } from "@/types";
-import {
-  emailValidation,
-  phoneValidation,
-  postcodeValidation,
-} from "../../../util/validation";
+import { capitaliseWord } from "@/util";
+import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
+import { getAppConfig } from "@/config";
 
 interface PersonalDetails {
   name: string;
@@ -33,12 +28,14 @@ const CommentPersonalDetails = ({
   navigateToPage,
   isEditing,
   updateProgress,
+  hideContinue,
 }: {
   council: string;
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
   updateProgress: (completedPage: number) => void;
+  hideContinue?: boolean;
 }) => {
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "",
@@ -52,17 +49,17 @@ const CommentPersonalDetails = ({
     {},
   );
 
-  const councilConfig: Config = config;
+  const appConfig = getAppConfig(council);
   const contactPlanningAdviceLink =
-    councilConfig[council]?.pageContent
+    appConfig?.council?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.contact_planning_advice_link;
   const corporatePrivacyLink =
-    councilConfig[council]?.pageContent
+    appConfig?.council?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.corporate_privacy_statement_link;
   const planningServicePrivacyStatementLink =
-    councilConfig[council]?.pageContent
+    appConfig?.council?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.planning_service_privacy_statement_link;
 
@@ -335,13 +332,15 @@ const CommentPersonalDetails = ({
               </p>
             </div>
           </details>
-          <button
-            type="submit"
-            className="govuk-button"
-            data-module="govuk-button"
-          >
-            Continue
-          </button>
+          {!hideContinue && (
+            <button
+              type="submit"
+              className="govuk-button"
+              data-module="govuk-button"
+            >
+              Continue
+            </button>
+          )}
         </form>
       </div>
     </div>

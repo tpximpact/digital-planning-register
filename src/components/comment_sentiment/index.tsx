@@ -6,10 +6,12 @@ const CommentSentiment = ({
   reference,
   navigateToPage,
   updateProgress,
+  hideContinue,
 }: {
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   updateProgress: (completedPage: number) => void;
+  hideContinue?: boolean;
 }) => {
   const [sentiment, setSentiment] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
@@ -84,9 +86,11 @@ const CommentSentiment = ({
           </div>
         ))}
       </div>
-      <button type="submit" className="govuk-button">
-        Continue
-      </button>
+      {!hideContinue && (
+        <button type="submit" className="govuk-button">
+          Continue
+        </button>
+      )}
     </form>
   );
 };

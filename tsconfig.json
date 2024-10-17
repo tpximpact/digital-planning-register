@@ -20,7 +20,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@mocks/*": ["./__mocks__/*"]
     }
   },
   "include": [
@@ -30,7 +31,8 @@
     ".next/types/**/*.ts",
     "__tests__/**/*",
     "jest.config.mjs",
-    "__mockData__"
+    "__mocks__",
+    "__e2e__"
   ],
   "exclude": ["node_modules"]
 }

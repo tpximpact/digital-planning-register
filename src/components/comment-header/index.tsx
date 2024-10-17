@@ -1,5 +1,5 @@
 import React from "react";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
 import ApplicationMap from "../application_map";
 

@@ -1,7 +1,7 @@
 // CommentsList.test.tsx
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { mockData } from "../../__mockData__/mockData";
+import { mockData } from "../../__mocks__/mockData";
 import "@testing-library/jest-dom";
 import config from "../../util/config.json";
 import CommentsList from "@/components/comments_list";

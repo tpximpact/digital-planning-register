@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const topics_selection = [
+export const topics_selection = [
   {
     label: "Design, size or height of new buildings or extensions",
     value: "design",

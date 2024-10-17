@@ -1,28 +1,57 @@
-:root {
-  --font-mono: Arial, Helvetica, sans;
-}
+@import "vars";
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+// 'Base' includes everything from settings, tools and helpers. Nothing
+// in the base outputs any CSS.
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: var(--font-mono);
-}
+@import "node_modules/govuk-frontend/dist/govuk/base";
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+// Basic content styles for typography, links etc. Approximately 10% of
+// the CSS output if you include everything.
 
-$govuk-font-family: Arial, Helvetica, sans-serif;
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
 
-@import "node_modules/govuk-frontend/dist/govuk/all";
+// The components themselves - try to only include the components you
+// are using in your project. Approximately 70% of the CSS output if
+// you include everything.
+
+// have been moved into components but not all instances moved over yet
+
+// already moved into components and can be safely commented out here
+// @import "node_modules/govuk-frontend/dist/govuk/components/phase-banner/index";
+// @import "node_modules/govuk-frontend/dist/govuk/components/skip-link/index";
+// @import "node_modules/govuk-frontend/dist/govuk/components/notification-banner/index";
+
+// these count as globals
+@import "node_modules/govuk-frontend/dist/govuk/components/table/index";
+
+// to be added to the relevant components
+@import "node_modules/govuk-frontend/dist/govuk/components/button/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/back-link/index";
+
+// @todo: add these to the relevant components
+@import "node_modules/govuk-frontend/dist/govuk/components/breadcrumbs/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/character-count/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/cookie-banner/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/details/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/exit-this-page/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/footer/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/header/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/inset-text/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/pagination/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/panel/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/service-navigation/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/summary-list/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/tabs/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/tag/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/task-list/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/warning-text/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/password-input/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/date-input/index";
+
+// pretty sure we aren't using these
+// @import "node_modules/govuk-frontend/dist/govuk/components/accordion/index";
+// @import "node_modules/govuk-frontend/dist/govuk/components/file-upload/index";
+
 @import "./layout.scss";
 @import "./landing.scss";
 @import "./components.scss";
@@ -31,5 +60,3 @@ $govuk-font-family: Arial, Helvetica, sans-serif;
 @import "./components/button";
 @import "./digital-site-notice.scss";
 @import "./documents.scss";
-
-$govuk-assets-path: "public/assets/";

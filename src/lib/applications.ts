@@ -1,8 +1,10 @@
 import { isAfter, isBefore, isEqual } from "date-fns";
-import { capitaliseWord } from "../../util/capitaliseWord";
-import { contentApplicationTypes } from "@/app/[council]/planning-process/content-application-types";
-import { contentApplicationStatuses } from "@/app/[council]/planning-process/content-application-statuses";
-import { PageContent } from "@/app/[council]/planning-process/page";
+import { capitaliseWord } from "@/util";
+import {
+  PageContent,
+  contentApplicationTypes,
+  contentApplicationStatuses,
+} from "@/components/PagePlanningProcess";
 
 /**
  * Formats the application type by replacing underscores with spaces and capitalizing each word.

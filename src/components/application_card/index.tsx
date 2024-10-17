@@ -1,6 +1,6 @@
 import { DprPlanningApplication } from "@/types";
 import DescriptionCard from "../description_card";
-import { formatDprDate } from "../../../util/formatDates";
+import { formatDprDate } from "@/util";
 import {
   definedStatus,
   definedDecision,
@@ -9,11 +9,11 @@ import {
 import ApplicationMap from "../application_map";
 
 export interface ApplicationCardProps extends DprPlanningApplication {
-  council: string;
+  councilSlug: string;
 }
 
 const ApplicationCard = ({
-  council,
+  councilSlug,
   application,
   property,
   proposal,
@@ -145,7 +145,7 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <a
-              href={`/${council}/${reference}`}
+              href={`/${councilSlug}/${reference}`}
               className="govuk-button govuk-button--secondary blue-button"
             >
               View details

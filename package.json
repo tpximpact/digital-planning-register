@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:e2e": "playwright test",
     "test:watch": "jest --watch",
     "prepare": "node .husky/install.mjs",
     "build-start": "npm run build && npm run start",
@@ -30,15 +31,16 @@
     "next-swagger-doc": "^0.4.0",
     "openapi-fetch": "^0.12.2",
     "openapi-typescript": "^7.4.1",
-    "swagger-ui-react": "^5.17.14",
     "react": "^18",
     "react-dom": "^18",
     "react-paginate": "8.2.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "swagger-ui-react": "^5.17.14"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",
     "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.48.1",
     "@storybook/addon-a11y": "^8.3.3",
     "@storybook/addon-essentials": "^8.3.3",
     "@storybook/addon-interactions": "^8.3.3",
