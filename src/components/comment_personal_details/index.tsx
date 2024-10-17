@@ -106,6 +106,7 @@ const CommentPersonalDetails = ({
     if (Object.keys(errors).length > 0)
       sendGTMEvent({
         event: "comment_validation_error",
+        message: "error in personal details",
       });
     return Object.keys(errors).length === 0;
   };

@@ -48,6 +48,7 @@ const CommentTopicSelection = ({
       setValidationError(true);
       sendGTMEvent({
         event: "comment_validation_error",
+        message: "error in topic selection",
       });
     }
   };
