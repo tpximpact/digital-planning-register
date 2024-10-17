@@ -17,7 +17,7 @@ import { getCouncilDataSource } from "@/lib/config";
 import { ApiV1 } from "@/actions/api";
 import config from "../../../../../util/config.json";
 import { Config } from "@/types";
-
+import { getCouncilConfig } from "@/lib/config";
 type Props = {
   params: { reference: string; council: string };
   searchParams: { [key: string]: string | string[] | undefined };
@@ -43,7 +43,13 @@ const Comment = ({ params }: Props) => {
     false,
     page,
   );
-  const councilConfig = config as Config;
+  const councilConfig = getCouncilConfig(council);
+  console.log(councilConfig?.visibility, "visibility");
+  useEffect(() => {
+    const councilConfig = getCouncilConfig(council);
+    console.log(councilConfig?.visibility, "visibility 2");
+  });
+  // const councilConfig = config as Config;
   // Function to update the URL with the new page number
   const updateURL = useCallback(
     (newPage: number) => {
@@ -348,9 +354,9 @@ const Comment = ({ params }: Props) => {
   const boundary_geojson = applicationData?.property.boundary.site;
   const address = applicationData?.property.address.singleLine;
 
-  if (councilConfig[council].visibility === "private") {
-    return <NotFound params={params} />;
-  }
+  // if (councilConfig?.visibility === "private") {
+  //   return <NotFound params={params} />;
+  // }
   // Render the main component
   return (
     <>

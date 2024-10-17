@@ -19,7 +19,6 @@ export const updateCouncilConfig = (
   let { visibility: configVisibility } = councilConfig;
   const overrideVisibility = process.env[`${council.toUpperCase()}_VISIBILITY`];
   let visibility = (overrideVisibility || configVisibility) ?? "private";
-
   if (
     !process.env[`${council.toUpperCase()}_BOPS_API_KEY`] ||
     !process.env[`${council.toUpperCase()}_BOPS_API_URL`]
@@ -41,6 +40,11 @@ export const updateCouncilConfig = (
  */
 export const getCouncilConfig = (council: string): Council | undefined => {
   const councilConfig: Config = config as Config;
+  // console.log(
+  //   councilConfig[council]
+  //     ? updateCouncilConfig(council, councilConfig[council])
+  //     : undefined,
+  // );
   return councilConfig[council]
     ? updateCouncilConfig(council, councilConfig[council])
     : undefined;

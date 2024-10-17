@@ -53,7 +53,7 @@ export async function search(
     to: request.data?.metadata?.to ?? 10,
     total_pages:
       dsnApplicationIds.length > 10
-        ? request.data?.metadata?.total_pages ?? 1
+        ? (request.data?.metadata?.total_pages ?? 1)
         : 1,
     total_results: dsnApplicationIds.length ?? 0,
   };
