@@ -3,6 +3,11 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import config from "../../util/config.json";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import "@testing-library/jest-dom";
+import { sendGTMEvent } from '@next/third-parties/google';
+
+jest.mock('@next/third-parties/google', () => ({
+  sendGTMEvent: jest.fn(),
+}));
 
 jest.mock("../../util/config.json", () => ({
   exampleCouncil: {
@@ -60,6 +65,10 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByText("You need to consent")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
+    expect(sendGTMEvent).toHaveBeenCalledWith({
+      event: "comment_validation_error",
+      message: "error in personal details",
+    });
   });
 
   it("navigates to the next page, updates progress when the form is submitted with valid data", () => {
@@ -119,5 +128,6 @@ describe("CommentPersonalDetails", () => {
       "09876543210",
     );
     expect(screen.getByLabelText(/I consent to/)).toBeChecked();
+    expect(sendGTMEvent).not.toHaveBeenCalled();
   });
 });

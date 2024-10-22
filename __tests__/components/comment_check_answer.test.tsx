@@ -3,9 +3,14 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { postComment } from "@/actions/api/v1";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
+import { sendGTMEvent } from '@next/third-parties/google';
 
 jest.mock("@/actions/api/v1", () => ({
   postComment: jest.fn(),
+}));
+
+jest.mock('@next/third-parties/google', () => ({
+  sendGTMEvent: jest.fn(),
 }));
 
 describe("CommentCheckAnswer", () => {
@@ -104,6 +109,7 @@ describe("CommentCheckAnswer", () => {
         1,
         expect.any(Object),
       );
+      expect(sendGTMEvent).toHaveBeenCalledWith({ event: 'comment_submit' });
       expect(defaultProps.updateProgress).toHaveBeenCalledWith(5);
       expect(defaultProps.navigateToPage).toHaveBeenCalledWith(6);
       expect(sessionStorage.getItem("sentiment_REF-001")).toBeNull();
@@ -124,6 +130,7 @@ describe("CommentCheckAnswer", () => {
       expect(
         screen.getByText("There was a problem submitting your comment"),
       ).toBeInTheDocument();
+      expect(sendGTMEvent).toHaveBeenCalledWith({ event: 'error_submission' });
       expect(defaultProps.updateProgress).not.toHaveBeenCalled();
       expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     });

@@ -17,7 +17,9 @@ const ApplicationPeople = ({
 }: ApplicationPeopleProps) => {
   return (
     <div>
-      <h2 className="govuk-heading-l">People</h2>
+      <h2 className="govuk-heading-l people-section" id="people-section">
+        People
+      </h2>
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">

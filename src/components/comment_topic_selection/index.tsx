@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const topics_selection = [
   {
@@ -45,6 +46,10 @@ const CommentTopicSelection = ({
       onTopicSelection(selectedTopics);
     } else {
       setValidationError(true);
+      sendGTMEvent({
+        event: "comment_validation_error",
+        message: "error in topic selection",
+      });
     }
   };
 

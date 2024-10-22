@@ -2,6 +2,12 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentTopicSelection from "@/components/comment_topic_selection";
 import "@testing-library/jest-dom";
+import { sendGTMEvent } from "@next/third-parties/google"; // Import the GTM event mock
+
+// Mock sendGTMEvent to track its calls
+jest.mock("@next/third-parties/google", () => ({
+  sendGTMEvent: jest.fn(),
+}));
 
 describe("CommentTopicSelection", () => {
   const defaultProps = {
@@ -42,6 +48,10 @@ describe("CommentTopicSelection", () => {
     ).toBeInTheDocument();
     expect(defaultProps.onTopicSelection).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
+    expect(sendGTMEvent).toHaveBeenCalledWith({
+      event: "comment_validation_error",
+      message: "error in topic selection",
+    });
   });
 
   it("calls onTopicSelection, updateProgress", () => {

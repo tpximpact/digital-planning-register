@@ -7,6 +7,7 @@ import { Config } from "@/types";
 import { ButtonLink } from "../button";
 import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const topics_selection = [
   {
@@ -155,6 +156,8 @@ const CommentCheckAnswer = ({
       );
       if (response?.status?.code === 200) {
         sessionStorage.setItem(`submissionComplete_${reference}`, "true");
+        // google analytic
+        sendGTMEvent({ event: "comment_submit" });
 
         // Clear all other sessionStorage items for this reference
         Object.keys(sessionStorage).forEach((key) => {
@@ -168,9 +171,15 @@ const CommentCheckAnswer = ({
         updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
         navigateToPage(6);
       } else {
+        sendGTMEvent({
+          event: "error_submission",
+        });
         throw new Error("Submission failed");
       }
     } catch (error) {
+      sendGTMEvent({
+        event: "error_submission",
+      });
       console.error("Error submitting comment:", error);
       setSubmissionError(true);
       window.scrollTo(0, 0);

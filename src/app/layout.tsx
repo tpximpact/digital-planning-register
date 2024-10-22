@@ -9,6 +9,7 @@ import CookieBanner from "@/components/cookie_banner";
 import { getConfig } from "@/lib/config";
 import { Metadata } from "next";
 import { GovUkInitAll } from "@/components/GovUkInitAll";
+import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 import { SkipLink } from "@/components/govuk/SkipLink";
 
 export function generateMetadata(): Metadata {
@@ -44,6 +45,12 @@ export default async function RootLayout({
   const councilConfig = await getConfig();
   return (
     <html lang="en" className="govuk-template">
+      {process.env.GTM && process.env.GA && (
+        <>
+          <GoogleTagManager gtmId={process.env.GTM} />
+          <GoogleAnalytics gaId={process.env.GA} />
+        </>
+      )}
       <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
         <CookieBanner />

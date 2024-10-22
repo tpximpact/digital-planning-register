@@ -50,3 +50,6 @@ jobs:
           HD_SOUTHWARK_BOPS_API_KEY: ${{ secrets.SOUTHWARK_BOPS_API_KEY }}
           HD_SOUTHWARK_BOPS_API_URL: ${{ secrets.SOUTHWARK_BOPS_API_URL }}
           HD_SOUTHWARK_BOPS_API_URL_V1: ${{ secrets.SOUTHWARK_BOPS_API_URL_V1 }}
+          # ANALYTICS
+          GA: ${{secrets.GA}}
+          GTM: ${{secrets.GTM}}

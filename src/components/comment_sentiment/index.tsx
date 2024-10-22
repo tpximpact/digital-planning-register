@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const CommentSentiment = ({
   reference,
@@ -35,6 +36,10 @@ const CommentSentiment = ({
         navigateToPage(nextPage);
       } else {
         setValidationError(true);
+        sendGTMEvent({
+          event: "comment_validation_error",
+          message: "error in sentiment",
+        });
       }
     },
     [sentiment, reference, updateProgress, isEditing, navigateToPage],

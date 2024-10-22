@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const MAX_COMMENT_LENGTH = 6000;
 
@@ -78,6 +79,10 @@ const CommentTextEntry = ({
       onContinue();
     } else {
       setValidationError(true);
+      sendGTMEvent({
+        event: "comment_validation_error",
+        message: "error in comment text entry",
+      });
     }
   };
 
