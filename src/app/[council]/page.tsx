@@ -106,6 +106,7 @@ export default async function PlanningApplicationListings({
         {response?.data?.data && response?.data?.data.length > 0 ? (
           <>
             <div>
+              <h2 className="govuk-heading-m">{`${Object.keys(searchParams as SearchParams).length > 0 ? "Search results" : "Recently published applications"}`}</h2>
               {response?.data?.data.map((application) => {
                 return (
                   <ApplicationCard
