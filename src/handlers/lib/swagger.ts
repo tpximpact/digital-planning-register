@@ -1,9 +1,9 @@
-import { getConfig } from "@/lib/config";
+import { getAppConfig, getCouncilList } from "@/config";
 import { createSwaggerSpec } from "next-swagger-doc";
 
 export async function getApiDocs() {
-  const config = await getConfig();
-  const councilList = Object.keys(config);
+  const appConfig = getAppConfig();
+  const councilList = getCouncilList(appConfig.councils);
   const spec: Record<string, any> = createSwaggerSpec({
     apiFolder: "src/actions/api",
     definition: {

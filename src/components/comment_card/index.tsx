@@ -2,6 +2,7 @@
 import { capitaliseWord } from "@/util";
 import React, { useState, useEffect, useRef } from "react";
 import { DprComment } from "@/types";
+import "./CommentCard.scss";
 
 interface CommentCardProps {
   comment: DprComment;
@@ -39,55 +40,46 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
   };
 
   return (
-    <>
-      <hr className="govuk-section-break govuk-section-break--visible grid-row-extra-bottom-margin" />
-      <div className="govuk-grid-row grid-row-extra-bottom-margin comment">
-        <div className="govuk-grid-column-full">
-          <div
-            ref={commentContainerRef}
-            className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
-          >
-            <h2 className="govuk-heading-m">Comment #{commentNumber}</h2>
-            <p className="govuk-body">
-              <em>
-                Published{" "}
-                {new Date(comment?.received_at ?? "").toLocaleDateString(
-                  "en-GB",
-                )}
-              </em>
-            </p>
-            {comment.sentiment && (
-              <div>
-                <div className="govuk-heading-s">
-                  Sentiment towards this application
-                </div>
-                <p className="govuk-body">
-                  {capitaliseWord(comment.sentiment)}
-                </p>
+    <div className="dpr-comment-card govuk-grid-row">
+      <div className="govuk-grid-column-full">
+        <div
+          ref={commentContainerRef}
+          className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
+        >
+          <h2 className="govuk-heading-m">Comment #{commentNumber}</h2>
+          <p className="govuk-body">
+            <em>
+              Published{" "}
+              {new Date(comment?.received_at ?? "").toLocaleDateString("en-GB")}
+            </em>
+          </p>
+          {comment.sentiment && (
+            <div>
+              <div className="govuk-heading-s">
+                Sentiment towards this application
               </div>
-            )}
-            <div className="govuk-heading-s">Comment</div>
-            <div className="comment-text">
-              <p className="govuk-body">{comment?.comment}</p>
+              <p className="govuk-body">{capitaliseWord(comment.sentiment)}</p>
             </div>
+          )}
+          <div className="govuk-heading-s">Comment</div>
+          <div className="comment-text">
+            <p className="govuk-body">{comment?.comment}</p>
           </div>
-          {isOverflowing && !isExpanded && (
-            <div className="read-more-ellipsis">...</div>
-          )}
-          {isOverflowing && (
-            <div
-              className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
-              onClick={toggleExpand}
-            >
-              {isExpanded
-                ? "Minimise this comment"
-                : "Read the rest of this comment"}
-            </div>
-          )}
         </div>
+        {isOverflowing && !isExpanded && (
+          <div className="read-more-ellipsis">...</div>
+        )}
+        {isOverflowing && (
+          <div
+            className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+            onClick={toggleExpand}
+          >
+            {isExpanded
+              ? "Minimise this comment"
+              : "Read the rest of this comment"}
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
-
-export default CommentCard;

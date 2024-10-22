@@ -1,59 +1,46 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Footer from "@/components/footer";
 import "@testing-library/jest-dom";
-import { useParams, usePathname } from "next/navigation";
+import { Footer } from "@/components/Footer";
+import { createAppConfig } from "@mocks/appConfigFactory";
+import { Council } from "@/config/types";
 
-jest.mock("next/navigation", () => ({
-  useParams: jest.fn(),
-  usePathname: jest.fn(),
-}));
-
-jest.mock("../../util/config.json", () => ({
-  someCouncil: {
-    pageContent: {
-      privacy_policy: {
-        privacy_policy_link: "https://example.com/privacy",
-      },
-    },
-  },
-}));
-
-jest.mock("next/image", () => ({
-  __esModule: true,
-  default: function MockImage({ alt, ...props }: any) {
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    return <img alt={alt || ""} {...props} data-testid="mocked-image" />;
-  },
-}));
+// Mock the Image component from next/image
+// eslint-disable-next-line react/display-name
+jest.mock("next/image", () => (props: any) => (
+  // eslint-disable-next-line @next/next/no-img-element
+  <img alt={props.alt} {...props} />
+));
 
 describe("Footer", () => {
-  beforeEach(() => {
-    (useParams as jest.Mock).mockReturnValue({ council: "someCouncil" });
-    (usePathname as jest.Mock).mockReturnValue("/someCouncil/somepath");
-  });
-  it("renders the Planning logo", () => {
-    render(<Footer />);
-    const logo = screen.getByTestId("mocked-image");
-    expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute("src", "/images/logos/odp-logo.svg");
-    expect(logo).toHaveAttribute("alt", "Open Digital Planning Logo");
+  it("renders the Footer component", () => {
+    const appConfig = createAppConfig("public-council-1");
+    const councilConfig = appConfig.council;
+    render(<Footer councilConfig={councilConfig} />);
+    expect(
+      screen.getByAltText("Open Digital Planning Logo"),
+    ).toBeInTheDocument();
   });
 
-  it("renders the privacy policy link when on a council page", () => {
-    render(<Footer />);
-    const privacyPolicy = screen.getByText("Privacy policy");
-    expect(privacyPolicy).toBeInTheDocument();
-    expect(privacyPolicy).toHaveAttribute(
+  it("displays the privacy policy link if provided", () => {
+    const appConfig = createAppConfig("public-council-1");
+    const councilConfig = appConfig.council;
+    render(<Footer councilConfig={councilConfig} />);
+    const privacyPolicyLink = screen.getByText("Privacy policy");
+    expect(privacyPolicyLink).toBeInTheDocument();
+    expect(privacyPolicyLink).toHaveAttribute(
       "href",
-      "https://example.com/privacy",
+      councilConfig?.pageContent.privacy_policy.privacy_policy_link,
     );
   });
 
-  it("does not render the privacy policy link when not on a council page", () => {
-    (usePathname as jest.Mock).mockReturnValue("/somepath");
-    render(<Footer />);
-    const privacyPolicy = screen.queryByText("Privacy policy");
-    expect(privacyPolicy).not.toBeInTheDocument();
+  it("does not display the privacy policy link if not provided", () => {
+    const appConfig = createAppConfig("public-council-1");
+    const councilConfig: Partial<Council> = {
+      ...appConfig.council,
+      pageContent: undefined,
+    };
+    render(<Footer councilConfig={councilConfig as Council} />);
+    expect(screen.queryByText("Privacy policy")).toBeNull();
   });
 });

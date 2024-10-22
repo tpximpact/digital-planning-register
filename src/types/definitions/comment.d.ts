@@ -11,4 +11,8 @@ export interface DprComment {
   sentiment?: string;
 }
 
-export type DprCommentTypes = "consultee" | "published";
+/**
+ * specialist = consultee
+ * public = published
+ */
+export type DprCommentTypes = "specialist" | "public";

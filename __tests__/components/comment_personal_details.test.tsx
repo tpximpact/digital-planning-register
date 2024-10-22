@@ -1,25 +1,11 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import config from "../../util/config.json";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from '@next/third-parties/google';
+import { sendGTMEvent } from "@next/third-parties/google";
 
-jest.mock('@next/third-parties/google', () => ({
+jest.mock("@next/third-parties/google", () => ({
   sendGTMEvent: jest.fn(),
-}));
-
-jest.mock("../../util/config.json", () => ({
-  exampleCouncil: {
-    pageContent: {
-      council_reference_submit_comment_personal_details: {
-        contact_planning_advice_link: "https://example.com/contact",
-        corporate_privacy_statement_link: "https://example.com/privacy",
-        planning_service_privacy_statement_link:
-          "https://example.com/planning-privacy",
-      },
-    },
-  },
 }));
 
 describe("CommentPersonalDetails", () => {

@@ -1,26 +1,17 @@
 import { BackLink } from "@/components/button";
-import NotFoundLink from "@/components/not_found_link";
+import { ContentNotFound } from "@/components/ContentNotFound";
+import { AppConfig } from "@/config/types";
 
-interface NotFoundProps {
-  params: {
-    council: string;
-  };
-}
-
-export default function NotFound({ params }: NotFoundProps) {
+export default function NotFound({
+  councilConfig,
+}: {
+  councilConfig: AppConfig["council"];
+}) {
   return (
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
-        <h1 className="govuk-heading-l">Page not found</h1>
-        <p className="govuk-body">
-          The link you have used may be incorrect, or you are trying to reach a
-          planning application that doesn&apos;t exist.
-        </p>
-        <p className="govuk-body">
-          If you are having problems finding what you need, you can:
-        </p>
-        <NotFoundLink params={params} />
+        <ContentNotFound councilConfig={councilConfig} />
       </div>
     </>
   );

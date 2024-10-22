@@ -1,18 +1,12 @@
 import { Metadata } from "next";
-import { capitaliseWord } from "@/util";
 import { ApiResponse, DprShow, DprDocuments } from "@/types";
 import { BackLink } from "@/components/button";
-import NotFound from "@/app/not-found";
-import {
-  getCouncilConfig,
-  getCouncilDataSource,
-  siteConfig,
-} from "@/lib/config";
-import ApplicationInformation from "@/components/application_information";
-import CommentsList from "@/components/comments_list";
-import ApplicationPeople from "@/components/application_people";
-import DocumentsList from "@/components/documents_list";
 import { ApiV1 } from "@/actions/api";
+import { getAppConfig } from "@/config";
+import { PageWrapper } from "@/components/PageWrapper";
+import { ContentError } from "@/components/ContentError";
+import { ContentNotFound } from "@/components/ContentNotFound";
+import { ApplicationDetails } from "@/components/ApplicationDetails";
 
 interface PlanningApplicationDetailsProps {
   params: {
@@ -26,17 +20,23 @@ async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
   documentResponse: ApiResponse<DprDocuments | null>;
 }> {
   const { reference, council } = params;
+  const appConfig = getAppConfig(council);
   const [applicationResponse, documentResponse] = await Promise.all([
-    ApiV1.show(getCouncilDataSource(council), council, reference),
-    ApiV1.documents(getCouncilDataSource(council), council, reference),
+    ApiV1.show(appConfig.council?.dataSource ?? "none", council, reference),
+    ApiV1.documents(
+      appConfig.council?.dataSource ?? "none",
+      council,
+      reference,
+    ),
   ]);
   return { applicationResponse, documentResponse };
 }
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsProps): Promise<Metadata> {
+}: PlanningApplicationDetailsProps): Promise<Metadata | undefined> {
   const { applicationResponse } = await fetchData({ params });
+  const appConfig = getAppConfig(params.council);
 
   if (!applicationResponse.data) {
     return {
@@ -44,71 +44,49 @@ export async function generateMetadata({
       description: "An error occurred",
     };
   }
-
-  return {
-    title: `Application ${applicationResponse.data.application.reference}`,
-    description: `${capitaliseWord(params.council)} planning application`,
-  };
 }
 
-export default async function PlanningApplicationDetails({
+const PlanningApplicationDetails = async ({
   params,
-}: PlanningApplicationDetailsProps) {
-  const { applicationResponse, documentResponse } = await fetchData({ params });
+}: PlanningApplicationDetailsProps) => {
   const { reference, council } = params;
-
-  if (!applicationResponse.data) {
-    return <NotFound params={params} />;
+  const appConfig = getAppConfig(council);
+  const { applicationResponse, documentResponse } = await fetchData({ params });
+  if (
+    !applicationResponse ||
+    applicationResponse?.status?.code !== 200 ||
+    appConfig.council === undefined
+  ) {
+    return (
+      <PageWrapper>
+        <ContentError />
+      </PageWrapper>
+    );
   }
-
   const application = applicationResponse.data;
-
-  const councilConfig = getCouncilConfig(council);
-
-  const documents = siteConfig.documentsPublicEndpoint
+  if (!application) {
+    return (
+      <PageWrapper>
+        <ContentNotFound councilConfig={appConfig.council} />
+      </PageWrapper>
+    );
+  }
+  const documents = appConfig.features.documentsPublicEndpoint
     ? documentResponse?.data?.files
     : application.application.documents;
-
   return (
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
-        {/* <ApplicationCard council={council} {...application} /> */}
-        <ApplicationInformation council={council} {...application} />
-        {/* <ApplicationLocation /> */}
-        {/* <ApplicationDetails {...application} /> */}
-        <DocumentsList
-          council={council}
+        <ApplicationDetails
           reference={reference}
-          showMoreButton={true}
-          documents={documents ?? null}
+          application={application}
+          documents={documents}
+          appConfig={appConfig}
         />
-        <ApplicationPeople
-          applicant_first_name={application.application.applicant_first_name}
-          applicant_last_name={application.application.applicant_last_name}
-          agent_first_name={application.application.agent_first_name}
-          agent_last_name={application.application.agent_last_name}
-        />
-        {councilConfig?.specialistComments && (
-          <CommentsList
-            council={council}
-            reference={reference}
-            type="consultee"
-            showMoreButton={true}
-            comments={application.application.consultation.consulteeComments}
-          />
-        )}
-        {councilConfig?.publicComments && (
-          <CommentsList
-            council={council}
-            reference={reference}
-            type="published"
-            showMoreButton={true}
-            comments={application.application.consultation.publishedComments}
-          />
-        )}
-        {/* <ApplicationConstraints /> */}
       </div>
     </>
   );
-}
+};
+
+export default PlanningApplicationDetails;

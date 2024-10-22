@@ -1,17 +1,12 @@
-// "use client";
 import "@/styles/global.scss";
 import "@/styles/app.scss";
-import Header from "../components/header";
-import { Suspense } from "react";
 import React from "react";
-import { PhaseBanner } from "@/components/govuk/PhaseBanner";
-import Footer from "@/components/footer";
-import CookieBanner from "@/components/cookie_banner";
-import { getConfig } from "@/lib/config";
-import { Metadata } from "next";
-import { GovUkInitAll } from "@/components/GovUkInitAll";
-import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
+import { CookieBanner } from "@/components/CookieBanner";
 import { SkipLink } from "@/components/govuk/SkipLink";
+import { GovUkInitAll } from "@/components/GovUkInitAll";
+import { Metadata } from "next";
+import { PageTemplate } from "@/components/PageTemplate";
+import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 
 export function generateMetadata(): Metadata {
   const title = "Digital Planning Register";
@@ -21,7 +16,10 @@ export function generateMetadata(): Metadata {
     "http://planningregister.org/assets/images/govuk-opengraph-image.png";
 
   return {
-    title,
+    title: {
+      template: "%s | Digital Planning Register",
+      default: title,
+    },
     description,
     openGraph: {
       title,
@@ -43,26 +41,24 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const councilConfig = await getConfig();
   return (
     <html lang="en" className="govuk-template">
-      {process.env.GTM && process.env.GA && (
-        <>
-          <GoogleTagManager gtmId={process.env.GTM} />
-          <GoogleAnalytics gaId={process.env.GA} />
-        </>
-      )}
-      <title>Digital Planning Register</title>
       <body className={`govuk-template__body`}>
+        <noscript>
+          <div className="govuk-visually-hidden" id="js-disabled-notification">
+            You have disabled javascript on this page
+          </div>
+        </noscript>
         <CookieBanner />
         <SkipLink href="#main" />
-        <Header councilConfig={councilConfig} />
-        <main className="govuk-width-container" id="main">
-          <PhaseBanner />
-          <Suspense>{children}</Suspense>
-        </main>
-        <Footer />
+        <PageTemplate>{children}</PageTemplate>
         <GovUkInitAll />
+        {process.env.GTM && process.env.GA && (
+          <>
+            <GoogleTagManager gtmId={process.env.GTM} />
+            <GoogleAnalytics gaId={process.env.GA} />
+          </>
+        )}
       </body>
     </html>
   );

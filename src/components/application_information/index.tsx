@@ -16,7 +16,7 @@ import ApplicationMap from "../application_map";
 interface ApplicationInformationProps extends ApplicationCardProps {}
 
 const ApplicationInformation = ({
-  council,
+  councilSlug,
   application,
   property,
   proposal,
@@ -66,7 +66,9 @@ const ApplicationInformation = ({
 
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-one-third app-map">
-          {boundary_geojson && <ApplicationMap mapData={boundary_geojson} />}
+          {boundary_geojson && (
+            <ApplicationMap reference={reference} mapData={boundary_geojson} />
+          )}
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop key-info">
@@ -78,7 +80,7 @@ const ApplicationInformation = ({
                     Application Type
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
+                      href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
                       title="Understanding application types"
                       aria-label="Understanding application types"
                       target="_blank"
@@ -100,7 +102,7 @@ const ApplicationInformation = ({
                     Status
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
+                      href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
                       title="Understanding application statuses"
                       aria-label="Understanding application statuses"
                       target="_blank"
@@ -126,7 +128,7 @@ const ApplicationInformation = ({
                 Received Date
                 <a
                   className="info-icon"
-                  href={`/${council}/planning-process#received-date`}
+                  href={`/${councilSlug}/planning-process#received-date`}
                   title="Understanding dates"
                   aria-label="Understanding dates"
                   target="_blank"
@@ -149,7 +151,7 @@ const ApplicationInformation = ({
                     Valid From Date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#validated-date`}
+                      href={`/${councilSlug}/planning-process#validated-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -172,7 +174,7 @@ const ApplicationInformation = ({
                     Published Date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#published-date`}
+                      href={`/${councilSlug}/planning-process#published-date`}
                       title="Understanding dates"
                       target="_blank"
                     >
@@ -192,7 +194,7 @@ const ApplicationInformation = ({
                     Consultation End Date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#consultation-end-date`}
+                      href={`/${councilSlug}/planning-process#consultation-end-date`}
                       title="Understanding consultation end date"
                       target="_blank"
                     >
@@ -215,7 +217,7 @@ const ApplicationInformation = ({
                     Decision Date{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#decision-date`}
+                      href={`/${councilSlug}/planning-process#decision-date`}
                       title="Understanding dates"
                       aria-label="Understanding dates"
                       target="_blank"
@@ -235,7 +237,7 @@ const ApplicationInformation = ({
                     Decision{" "}
                     <a
                       className="info-icon"
-                      href={`/${council}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
+                      href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
                       title="Understanding decisions"
                       aria-label="Understanding decisions"
                       target="_blank"
@@ -263,7 +265,7 @@ const ApplicationInformation = ({
         <div className="govuk-grid-row extra-top-margin">
           <div className="govuk-grid-column-full">
             <Link
-              href={`/${council}/${reference}/submit-comment`}
+              href={`/${councilSlug}/${reference}/submit-comment`}
               className="govuk-button govuk-button--primary"
               data-module="govuk-button"
             >

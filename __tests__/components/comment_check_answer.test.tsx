@@ -3,20 +3,35 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { postComment } from "@/actions/api/v1";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from '@next/third-parties/google';
+import { sendGTMEvent } from "@next/third-parties/google";
+import { createAppConfig } from "@mocks/appConfigFactory";
+import { getAppConfig } from "@/config";
 
 jest.mock("@/actions/api/v1", () => ({
   postComment: jest.fn(),
 }));
 
-jest.mock('@next/third-parties/google', () => ({
+jest.mock("@next/third-parties/google", () => ({
   sendGTMEvent: jest.fn(),
 }));
 
+jest.mock("@/config", () => ({
+  getAppConfig: jest.fn(),
+}));
+
+beforeAll(() => {
+  window.scrollTo = jest.fn();
+});
+
 describe("CommentCheckAnswer", () => {
+  const appConfig = createAppConfig("public-council-1");
+
+  beforeEach(() => {
+    (getAppConfig as jest.Mock).mockReturnValue(appConfig);
+  });
+
   const defaultProps = {
-    source: "bops",
-    council: "camden",
+    council: "public-council-1",
     reference: "REF-001",
     applicationId: 1,
     navigateToPage: jest.fn(),
@@ -68,6 +83,10 @@ describe("CommentCheckAnswer", () => {
   });
 
   it('navigates to the correct page when the "Change" link is clicked', () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
     render(<CommentCheckAnswer {...defaultProps} />);
 
     fireEvent.click(
@@ -94,6 +113,8 @@ describe("CommentCheckAnswer", () => {
 
     fireEvent.click(screen.getByLabelText("Change telephone number"));
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(4, { edit: true });
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 
   it("submits the comment and navigates to the confirmation page on successful submission", async () => {
@@ -104,12 +125,12 @@ describe("CommentCheckAnswer", () => {
 
     await waitFor(() => {
       expect(postComment).toHaveBeenCalledWith(
-        "bops",
-        "camden",
+        "local",
+        "public-council-1",
         1,
         expect.any(Object),
       );
-      expect(sendGTMEvent).toHaveBeenCalledWith({ event: 'comment_submit' });
+      expect(sendGTMEvent).toHaveBeenCalledWith({ event: "comment_submit" });
       expect(defaultProps.updateProgress).toHaveBeenCalledWith(5);
       expect(defaultProps.navigateToPage).toHaveBeenCalledWith(6);
       expect(sessionStorage.getItem("sentiment_REF-001")).toBeNull();
@@ -130,7 +151,7 @@ describe("CommentCheckAnswer", () => {
       expect(
         screen.getByText("There was a problem submitting your comment"),
       ).toBeInTheDocument();
-      expect(sendGTMEvent).toHaveBeenCalledWith({ event: 'error_submission' });
+      expect(sendGTMEvent).toHaveBeenCalledWith({ event: "error_submission" });
       expect(defaultProps.updateProgress).not.toHaveBeenCalled();
       expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     });
