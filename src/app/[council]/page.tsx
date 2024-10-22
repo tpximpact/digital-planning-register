@@ -19,7 +19,10 @@ interface HomeProps {
   searchParams?: SearchParams;
 }
 
-async function fetchData({ params, searchParams }: HomeProps): Promise {
+async function fetchData({
+  params,
+  searchParams,
+}: HomeProps): Promise<ApiResponse<DprSearch | null>> {
   const { council } = params;
   const page = searchParams?.page ? searchParams.page : 1;
   const search = searchParams?.query as string;
@@ -36,7 +39,7 @@ async function fetchData({ params, searchParams }: HomeProps): Promise {
 export async function generateMetadata({
   params,
   searchParams,
-}: HomeProps): Promise {
+}: HomeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
 
   if (!response.data) {

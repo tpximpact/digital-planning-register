@@ -72,7 +72,7 @@ const CommentPersonalDetails = ({
     }
   }, [reference]);
 
-  const handleInputChange = (e: React.ChangeEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setPersonalDetails((prev) => ({
       ...prev,

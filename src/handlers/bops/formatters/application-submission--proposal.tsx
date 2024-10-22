@@ -14,7 +14,7 @@ import {
  * @returns
  */
 export const BopsProposal = (
-  data: Record,
+  data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
@@ -70,7 +70,7 @@ export const BopsProposal = (
 
 const formatDate = (
   description: string,
-  data: Record,
+  data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue => {
   const values = [];
   if (data?.start) {
@@ -90,7 +90,7 @@ const formatDate = (
 
 const formatExtend = (
   description: string,
-  data: Record,
+  data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue => {
   return {
     description: "Extension size",
@@ -102,7 +102,7 @@ const formatExtend = (
 
 const formatProjectType = (
   description: string,
-  data: Record,
+  data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue => {
   const projectDescriptions: string[] = data?.map(
     (el: { description: string }) => el.description,

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import file from "../../../public/images/file-icon-default.svg";
 import { DprDocument } from "@/types";
-import formatFileSize from "@/util";
+import { formatFileSize } from "@/util";
 
 interface DocumentCardProps {
   document: DprDocument;

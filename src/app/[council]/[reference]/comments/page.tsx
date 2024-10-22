@@ -32,7 +32,9 @@ interface PlanningApplicationDetailsCommentsProps {
 
 async function fetchData({
   params,
-}: PlanningApplicationDetailsCommentsProps): Promise {
+}: PlanningApplicationDetailsCommentsProps): Promise<
+  ApiResponse<DprShow | null>
+> {
   const { reference, council } = params;
   const response = await ApiV1.show(
     getCouncilDataSource(council),
@@ -44,7 +46,7 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsCommentsProps): Promise {
+}: PlanningApplicationDetailsCommentsProps): Promise<Metadata> {
   const response = await fetchData({ params });
 
   if (!response.data) {

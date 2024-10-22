@@ -14,7 +14,11 @@ interface ApplicationFormProps {
   };
 }
 
-async function fetchData({ params }: ApplicationFormProps): Promise {
+async function fetchData({
+  params,
+}: ApplicationFormProps): Promise<
+  ApiResponse<DprApplicationSubmission | null>
+> {
   const { reference, council } = params;
   const response = await ApiV1.applicationSubmission(
     getCouncilDataSource(council),
@@ -27,7 +31,7 @@ async function fetchData({ params }: ApplicationFormProps): Promise {
 
 export async function generateMetadata({
   params,
-}: ApplicationFormProps): Promise {
+}: ApplicationFormProps): Promise<Metadata> {
   const response = await fetchData({ params });
 
   if (!response.data) {

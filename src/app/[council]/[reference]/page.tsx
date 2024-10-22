@@ -21,7 +21,10 @@ interface PlanningApplicationDetailsProps {
   };
 }
 
-async function fetchData({ params }: PlanningApplicationDetailsProps): Promise {
+async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
+  applicationResponse: ApiResponse<DprShow | null>;
+  documentResponse: ApiResponse<DprDocuments | null>;
+}> {
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
     ApiV1.show(getCouncilDataSource(council), council, reference),
@@ -32,7 +35,7 @@ async function fetchData({ params }: PlanningApplicationDetailsProps): Promise {
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsProps): Promise {
+}: PlanningApplicationDetailsProps): Promise<Metadata> {
   const { applicationResponse } = await fetchData({ params });
 
   if (!applicationResponse.data) {

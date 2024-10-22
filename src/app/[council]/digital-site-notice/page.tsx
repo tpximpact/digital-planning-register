@@ -23,7 +23,7 @@ interface DigitalSiteNoticeProps {
 async function fetchData({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise {
+}: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearch | null>> {
   const { council } = params;
 
   const page = searchParams?.page ? searchParams.page : 1;
@@ -46,7 +46,7 @@ async function fetchData({
 export async function generateMetadata({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise {
+}: DigitalSiteNoticeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
 
   if (!response.data) {

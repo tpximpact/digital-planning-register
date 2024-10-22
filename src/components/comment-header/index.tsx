@@ -10,7 +10,7 @@ interface CommentHeaderProps {
   council: string;
 }
 
-const CommentHeader: React.FC = ({
+const CommentHeader: React.FC<CommentHeaderProps> = ({
   boundary_geojson,
   address,
   reference,
