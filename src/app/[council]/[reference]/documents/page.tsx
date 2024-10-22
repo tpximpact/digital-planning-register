@@ -7,7 +7,7 @@ import {
   DprDocuments,
 } from "@/types";
 import NotFound from "@/app/not-found";
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";

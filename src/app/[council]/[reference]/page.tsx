@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { ApiResponse, DprShow, DprDocuments } from "@/types";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";

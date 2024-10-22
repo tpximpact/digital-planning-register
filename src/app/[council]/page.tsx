@@ -3,7 +3,7 @@ import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";

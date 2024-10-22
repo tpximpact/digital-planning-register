@@ -1,5 +1,5 @@
 "use client";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import React, { useState, useEffect, useRef } from "react";
 import { DprComment } from "@/types";
 

@@ -1,10 +1,9 @@
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord, formatIsoDateTime } from "@/util";
 import { ApiResponse, DprApplicationSubmission } from "@/types";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
-import { formatDprDateTime } from "../../../../../util/formatDates";
 import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
 
@@ -79,7 +78,7 @@ export default async function ApplicationFormPage({
           <h2 className="govuk-heading-m">Submitted</h2>
           <div>
             {submittedAt ? (
-              formatDprDateTime(submittedAt)
+              formatIsoDateTime(submittedAt)
             ) : (
               <p className="govuk-body">Date not available</p>
             )}

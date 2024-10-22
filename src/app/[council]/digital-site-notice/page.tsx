@@ -1,7 +1,7 @@
 import ApplicationMap from "@/components/application_map";
 import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import NotFound from "../../not-found";
 import Pagination from "@/components/pagination";
 import { Config } from "@/types";

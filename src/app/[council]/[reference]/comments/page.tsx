@@ -9,7 +9,7 @@ import {
 } from "@/types";
 import NotFound from "@/app/not-found";
 import { getCouncilConfig, getCouncilDataSource } from "@/lib/config";
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import CommentsList from "@/components/comments_list";

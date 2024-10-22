@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import config from "../../../util/config.json";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { Config } from "@/types";
 
 import { ButtonLink } from "../button";
