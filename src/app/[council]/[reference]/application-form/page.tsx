@@ -1,4 +1,4 @@
-import { capitaliseWord, formatDprDateTime } from "@/util";
+import { capitaliseWord, formatIsoDateTime } from "@/util";
 import { ApiResponse, DprApplicationSubmission } from "@/types";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
@@ -78,7 +78,7 @@ export default async function ApplicationFormPage({
           <h2 className="govuk-heading-m">Submitted</h2>
           <div>
             {submittedAt ? (
-              formatDprDateTime(submittedAt)
+              formatIsoDateTime(submittedAt)
             ) : (
               <p className="govuk-body">Date not available</p>
             )}
