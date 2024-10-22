@@ -28,3 +28,5 @@ jobs:
 
       - name: Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          output: comment, report-markdown
