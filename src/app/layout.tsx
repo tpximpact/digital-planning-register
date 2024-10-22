@@ -38,7 +38,11 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default async function RootLayout({ children }: Readonly) {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const councilConfig = await getConfig();
   return (
     <html lang="en" className="govuk-template">

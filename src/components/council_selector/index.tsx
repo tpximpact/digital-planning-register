@@ -27,7 +27,7 @@ const CouncilSelector = ({
     setSelectedCouncil(currentPath.split("/")[1]);
   }, [currentPath]);
 
-  const handleCouncilChange = (event: React.ChangeEvent) => {
+  const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCouncil = event.target.value;
     if (selectedCouncil !== "select") {
       window.location.href = `/${selectedCouncil}`;
