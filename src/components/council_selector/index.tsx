@@ -1,3 +1,4 @@
+import "./CouncilSelector.scss";
 import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "@/util";
 import { Config } from "@/types";
@@ -26,7 +27,7 @@ const CouncilSelector = ({
     setSelectedCouncil(currentPath.split("/")[1]);
   }, [currentPath]);
 
-  const handleCouncilChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCouncilChange = (event: React.ChangeEvent) => {
     const selectedCouncil = event.target.value;
     if (selectedCouncil !== "select") {
       window.location.href = `/${selectedCouncil}`;
