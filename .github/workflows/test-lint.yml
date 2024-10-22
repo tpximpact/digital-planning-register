@@ -8,9 +8,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    container:
-      image: node:20
-
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -30,4 +27,4 @@ jobs:
         run: npm run test
 
       - name: Coverage Report
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: ArtiomTr/jest-coverage-report-action@v2
