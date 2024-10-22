@@ -1,7 +1,7 @@
 import ApplicationMap from "@/components/application_map";
 import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import NotFound from "../../not-found";
 import Pagination from "@/components/pagination";
 import { Config } from "@/types";
@@ -23,7 +23,7 @@ interface DigitalSiteNoticeProps {
 async function fetchData({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearch | null>> {
+}: DigitalSiteNoticeProps): Promise {
   const { council } = params;
 
   const page = searchParams?.page ? searchParams.page : 1;
@@ -46,7 +46,7 @@ async function fetchData({
 export async function generateMetadata({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise<Metadata> {
+}: DigitalSiteNoticeProps): Promise {
   const response = await fetchData({ params, searchParams });
 
   if (!response.data) {

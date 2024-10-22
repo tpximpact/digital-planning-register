@@ -1,13 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import config from "../../../util/config.json";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { Config } from "@/types";
-import {
-  emailValidation,
-  phoneValidation,
-  postcodeValidation,
-} from "../../../util/validation";
+import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 interface PersonalDetails {
@@ -76,7 +72,7 @@ const CommentPersonalDetails = ({
     }
   }, [reference]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent) => {
     const { name, value, type, checked } = e.target;
     setPersonalDetails((prev) => ({
       ...prev,

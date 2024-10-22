@@ -1,5 +1,5 @@
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
-import { formatDprDate } from "../../../../util/formatDates";
+import { formatDprDate } from "@/util";
 import { capitalizeFirstLetter } from "@/util";
 import {
   formatBoundary,
@@ -14,7 +14,7 @@ import {
  * @returns
  */
 export const BopsProposal = (
-  data: Record<string, any>,
+  data: Record,
 ): DprApplicationSubmissionSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
@@ -70,7 +70,7 @@ export const BopsProposal = (
 
 const formatDate = (
   description: string,
-  data: Record<string, any>,
+  data: Record,
 ): DprApplicationSubmissionSubtopicValue => {
   const values = [];
   if (data?.start) {
@@ -90,7 +90,7 @@ const formatDate = (
 
 const formatExtend = (
   description: string,
-  data: Record<string, any>,
+  data: Record,
 ): DprApplicationSubmissionSubtopicValue => {
   return {
     description: "Extension size",
@@ -102,7 +102,7 @@ const formatExtend = (
 
 const formatProjectType = (
   description: string,
-  data: Record<string, any>,
+  data: Record,
 ): DprApplicationSubmissionSubtopicValue => {
   const projectDescriptions: string[] = data?.map(
     (el: { description: string }) => el.description,

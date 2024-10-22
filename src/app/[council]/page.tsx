@@ -3,7 +3,7 @@ import NoResult from "../../components/no_results";
 import Pagination from "@/components/pagination";
 import { BackLink } from "@/components/button";
 import NotFound from "../not-found";
-import { capitaliseWord } from "../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { ApiResponse, DprSearch, SearchParams } from "@/types";
 import { Metadata } from "next";
 import ApplicationCard from "@/components/application_card";
@@ -19,10 +19,7 @@ interface HomeProps {
   searchParams?: SearchParams;
 }
 
-async function fetchData({
-  params,
-  searchParams,
-}: HomeProps): Promise<ApiResponse<DprSearch | null>> {
+async function fetchData({ params, searchParams }: HomeProps): Promise {
   const { council } = params;
   const page = searchParams?.page ? searchParams.page : 1;
   const search = searchParams?.query as string;
@@ -39,7 +36,7 @@ async function fetchData({
 export async function generateMetadata({
   params,
   searchParams,
-}: HomeProps): Promise<Metadata> {
+}: HomeProps): Promise {
   const response = await fetchData({ params, searchParams });
 
   if (!response.data) {

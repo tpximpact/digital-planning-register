@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { capitaliseWord } from "../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { ApiResponse, DprShow, DprDocuments } from "@/types";
 import { BackLink } from "@/components/button";
 import NotFound from "@/app/not-found";
@@ -21,10 +21,7 @@ interface PlanningApplicationDetailsProps {
   };
 }
 
-async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
-  applicationResponse: ApiResponse<DprShow | null>;
-  documentResponse: ApiResponse<DprDocuments | null>;
-}> {
+async function fetchData({ params }: PlanningApplicationDetailsProps): Promise {
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
     ApiV1.show(getCouncilDataSource(council), council, reference),
@@ -35,7 +32,7 @@ async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsProps): Promise<Metadata> {
+}: PlanningApplicationDetailsProps): Promise {
   const { applicationResponse } = await fetchData({ params });
 
   if (!applicationResponse.data) {

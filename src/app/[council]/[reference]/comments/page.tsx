@@ -9,7 +9,7 @@ import {
 } from "@/types";
 import NotFound from "@/app/not-found";
 import { getCouncilConfig, getCouncilDataSource } from "@/lib/config";
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import CommentsList from "@/components/comments_list";
@@ -32,9 +32,7 @@ interface PlanningApplicationDetailsCommentsProps {
 
 async function fetchData({
   params,
-}: PlanningApplicationDetailsCommentsProps): Promise<
-  ApiResponse<DprShow | null>
-> {
+}: PlanningApplicationDetailsCommentsProps): Promise {
   const { reference, council } = params;
   const response = await ApiV1.show(
     getCouncilDataSource(council),
@@ -46,7 +44,7 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsCommentsProps): Promise<Metadata> {
+}: PlanningApplicationDetailsCommentsProps): Promise {
   const response = await fetchData({ params });
 
   if (!response.data) {

@@ -1,10 +1,9 @@
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord, formatDprDateTime } from "@/util";
 import { ApiResponse, DprApplicationSubmission } from "@/types";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import { BackLink } from "@/components/button";
 import ApplicationForm from "@/components/application_form";
-import { formatDprDateTime } from "../../../../../util/formatDates";
 import { ApiV1 } from "@/actions/api";
 import { getCouncilDataSource } from "@/lib/config";
 
@@ -15,11 +14,7 @@ interface ApplicationFormProps {
   };
 }
 
-async function fetchData({
-  params,
-}: ApplicationFormProps): Promise<
-  ApiResponse<DprApplicationSubmission | null>
-> {
+async function fetchData({ params }: ApplicationFormProps): Promise {
   const { reference, council } = params;
   const response = await ApiV1.applicationSubmission(
     getCouncilDataSource(council),
@@ -32,7 +27,7 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
-}: ApplicationFormProps): Promise<Metadata> {
+}: ApplicationFormProps): Promise {
   const response = await fetchData({ params });
 
   if (!response.data) {

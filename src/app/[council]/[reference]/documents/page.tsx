@@ -7,7 +7,7 @@ import {
   DprDocuments,
 } from "@/types";
 import NotFound from "@/app/not-found";
-import { capitaliseWord } from "../../../../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { BackLink } from "@/components/button";
 import ApplicationHeader from "@/components/application_header";
 import Pagination from "@/components/pagination";
@@ -30,10 +30,7 @@ interface PlanningApplicationDetailsDocumentsProps {
 
 async function fetchData({
   params,
-}: PlanningApplicationDetailsDocumentsProps): Promise<{
-  applicationResponse: ApiResponse<DprShow | null>;
-  documentResponse: ApiResponse<DprDocuments | null>;
-}> {
+}: PlanningApplicationDetailsDocumentsProps): Promise {
   const { reference, council } = params;
   const [applicationResponse, documentResponse] = await Promise.all([
     ApiV1.show(getCouncilDataSource(council), council, reference),
@@ -44,7 +41,7 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
-}: PlanningApplicationDetailsDocumentsProps): Promise<Metadata> {
+}: PlanningApplicationDetailsDocumentsProps): Promise {
   const { applicationResponse } = await fetchData({ params });
 
   if (!applicationResponse.data) {
