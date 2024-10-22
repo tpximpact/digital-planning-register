@@ -1,5 +1,5 @@
 "use client";
-import "./button.scss";
+import "./Button.scss";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
