@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 export interface ApplicationMapMapProps {
+  reference: string;
   mapData: DprBoundaryGeojson;
   staticMap?: boolean;
   zoom?: number;
@@ -41,6 +42,7 @@ interface DefaultMapProps {
  * @returns
  */
 const ApplicationMapMap = ({
+  reference,
   mapData,
   staticMap = false,
   zoom,
@@ -67,7 +69,7 @@ const ApplicationMapMap = ({
           myMapElement.removeEventListener("wheel", handleScroll);
         };
       } else {
-        console.error("my-map element not found.");
+        // console.error("my-map element not found.");
       }
     });
   }, []);
@@ -96,7 +98,12 @@ const ApplicationMapMap = ({
   if (isClient) {
     if (geojsonData) {
       return (
-        <div role="region" aria-label="map" id="map-test" className="osl-map">
+        <div
+          role="region"
+          aria-label="map"
+          id={`${reference}-map-test`}
+          className="osl-map"
+        >
           <my-map
             role="application"
             geojsonData={geojsonData}

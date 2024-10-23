@@ -1,12 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import config from "../../../util/config.json";
 import { capitaliseWord } from "@/util";
-import { Config } from "@/types";
-
 import { ButtonLink } from "../button";
 import { ApiV1 } from "@/actions/api";
-import { getCouncilDataSource } from "@/lib/config";
+import { getAppConfig } from "@/config";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 const topics_selection = [
@@ -76,21 +73,20 @@ const CommentCheckAnswer = ({
   const [submissionError, setSubmissionError] = useState(false);
   const [hasLoadedData, setHasLoadedData] = useState(false);
 
-  const councilConfig: Config = config;
+  const appConfig = getAppConfig(council);
   const contactPlanningAdviceLink =
-    councilConfig[council]?.pageContent
+    appConfig.council?.pageContent
       ?.council_reference_submit_comment_check_answer
       ?.contact_planning_advice_link;
   const corporatePrivacyLink =
-    councilConfig[council]?.pageContent
+    appConfig.council?.pageContent
       ?.council_reference_submit_comment_check_answer
       ?.corporate_privacy_statement_link;
   const planningServicePrivacyStatementLink =
-    councilConfig[council]?.pageContent
+    appConfig.council?.pageContent
       ?.council_reference_submit_comment_check_answer
       ?.planning_service_privacy_statement_link;
-  const getInTouchURL =
-    councilConfig[council]?.contact || "https://www.gov.uk/";
+  const getInTouchURL = appConfig.council?.contact || "https://www.gov.uk/";
 
   useEffect(() => {
     const loadData = () => {
@@ -149,7 +145,7 @@ const CommentCheckAnswer = ({
 
     try {
       const response = await ApiV1.postComment(
-        getCouncilDataSource(council),
+        appConfig.council?.dataSource ?? "none",
         council,
         applicationId,
         apiData,

@@ -52,7 +52,6 @@ describe("Map Component", () => {
       <ApplicationMapMap {...defaultApplicationMapProps} />,
     );
     const mapElement = container.querySelector("my-map");
-    console.log(mapElement);
     expect(mapElement).toBeInTheDocument();
     expect(mapElement).not.toHaveAttribute("staticMap");
     expect(mapElement).toHaveAttribute("zoom", "14");

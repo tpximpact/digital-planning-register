@@ -27,6 +27,7 @@ const CommentTextEntry = ({
   updateProgress,
   currentTopicIndex,
   totalTopics,
+  hideContinue,
 }: {
   reference: string;
   currentTopic: string;
@@ -34,6 +35,7 @@ const CommentTextEntry = ({
   updateProgress: (completedPage: number) => void;
   currentTopicIndex: number;
   totalTopics: number;
+  hideContinue?: boolean;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
@@ -127,15 +129,17 @@ const CommentTextEntry = ({
               maxLength={MAX_COMMENT_LENGTH}
             ></textarea>
           </div>
-          <div className="govuk-button-group">
-            <button
-              type="submit"
-              className="govuk-button"
-              data-module="govuk-button"
-            >
-              Continue
-            </button>
-          </div>
+          {!hideContinue && (
+            <div className="govuk-button-group">
+              <button
+                type="submit"
+                className="govuk-button"
+                data-module="govuk-button"
+              >
+                Continue
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

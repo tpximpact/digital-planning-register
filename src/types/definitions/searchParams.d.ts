@@ -4,6 +4,7 @@ export interface SearchParams {
   resultsPerPage: number;
   /**
    * beginning of advanced search P05
+   * also used for comments filtering
    */
   type?: string;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import CookieBanner from "@/components/cookie_banner";
+import { CookieBanner } from "@/components/CookieBanner";
 
 jest.mock("next/navigation", () => ({
   useRouter() {

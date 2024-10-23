@@ -24,7 +24,9 @@ const CommentConfirmation = ({
       </div>
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third grid-row-extra-bottom-margin">
-          {boundary_geojson && <ApplicationMap mapData={boundary_geojson} />}
+          {boundary_geojson && (
+            <ApplicationMap reference={reference} mapData={boundary_geojson} />
+          )}
         </div>
         <div className="govuk-grid-column-two-thirds">
           <h2 className="govuk-heading-m">{address}</h2>

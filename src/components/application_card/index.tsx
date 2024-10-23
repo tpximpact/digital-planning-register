@@ -9,11 +9,11 @@ import {
 import ApplicationMap from "../application_map";
 
 export interface ApplicationCardProps extends DprPlanningApplication {
-  council: string;
+  councilSlug: string;
 }
 
 const ApplicationCard = ({
-  council,
+  councilSlug,
   application,
   property,
   proposal,
@@ -61,7 +61,11 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           {boundary_geojson && (
             <div className="govuk-grid-column-one-third">
-              <ApplicationMap staticMap={true} mapData={boundary_geojson} />
+              <ApplicationMap
+                reference={reference}
+                staticMap={true}
+                mapData={boundary_geojson}
+              />
             </div>
           )}
           <div className="govuk-grid-column-two-thirds">
@@ -145,7 +149,7 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <a
-              href={`/${council}/${reference}`}
+              href={`/${councilSlug}/${reference}`}
               className="govuk-button govuk-button--secondary blue-button"
             >
               View details

@@ -24,4 +24,3 @@ export * from "./definitions/searchParams";
  * Shared types
  */
 export * from "./shared/apiResponse";
-export * from "./shared/config";

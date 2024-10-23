@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 
-const topics_selection = [
+export const topics_selection = [
   {
     label: "Design, size or height of new buildings or extensions",
     value: "design",
