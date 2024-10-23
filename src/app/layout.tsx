@@ -1,4 +1,5 @@
 // "use client";
+import "@/styles/global.scss";
 import "@/styles/app.scss";
 import Header from "../components/header";
 import { Suspense } from "react";
@@ -17,7 +18,7 @@ export function generateMetadata(): Metadata {
   const description =
     "This site allows you to find planning applications submitted through the Open Digital Planning system for your local council planning authority.";
   const image =
-    "http://planningregister.org/govuk-assets/images/govuk-opengraph-image.png";
+    "http://planningregister.org/assets/images/govuk-opengraph-image.png";
 
   return {
     title,

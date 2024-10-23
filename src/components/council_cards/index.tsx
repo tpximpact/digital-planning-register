@@ -1,3 +1,4 @@
+import "./CouncilCards.scss";
 import CouncilLogo from "../council_logo";
 import Link from "next/link";
 import { getConfig } from "@/lib/config";

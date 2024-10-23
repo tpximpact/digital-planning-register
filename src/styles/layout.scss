@@ -98,30 +98,6 @@
   }
 }
 
-.council-selection {
-  margin: 3px;
-}
-
-.custom-button {
-  width: auto;
-  display: inline-block;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-@media (max-width: 40.0625em) {
-  .custom-button {
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 40.0625em) {
-  .custom-button {
-    font-size: 1.1875rem;
-    line-height: 1;
-  }
-}
-
 .js-enabled .js-only {
   display: inline;
 }
