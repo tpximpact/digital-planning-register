@@ -237,19 +237,10 @@
   margin: 15px 0;
 }
 
-.no-space {
-  padding-left: 0;
-}
-
 @media (min-width: 48.0625em) {
   .govuk-header__navigation-item.current-item {
     border-bottom: 4px solid #1d70b8;
   }
-}
-
-.no-space {
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 // Adapting header for no logo

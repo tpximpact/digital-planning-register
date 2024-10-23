@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { capitaliseWord } from "@/util";
 import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
-import { getAppConfig } from "@/config";
+import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { AppConfig } from "@/config/types";
 
 interface PersonalDetails {
   name: string;
@@ -24,14 +24,14 @@ interface ValidationErrors {
 }
 
 const CommentPersonalDetails = ({
-  council,
+  councilConfig,
   reference,
   navigateToPage,
   isEditing,
   updateProgress,
   hideContinue,
 }: {
-  council: string;
+  councilConfig: AppConfig["council"];
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   isEditing: boolean;
@@ -50,17 +50,16 @@ const CommentPersonalDetails = ({
     {},
   );
 
-  const appConfig = getAppConfig(council);
   const contactPlanningAdviceLink =
-    appConfig?.council?.pageContent
+    councilConfig?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.contact_planning_advice_link;
   const corporatePrivacyLink =
-    appConfig?.council?.pageContent
+    councilConfig?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.corporate_privacy_statement_link;
   const planningServicePrivacyStatementLink =
-    appConfig?.council?.pageContent
+    councilConfig?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.planning_service_privacy_statement_link;
 
@@ -270,9 +269,8 @@ const CommentPersonalDetails = ({
                   className="govuk-label govuk-checkboxes__label"
                   htmlFor="consent"
                 >
-                  I consent to {appConfig.council?.name ?? "the"} Council using
-                  my data for the purposes of assessing this planning
-                  application
+                  I consent to {councilConfig?.name ?? "the"} Council using my
+                  data for the purposes of assessing this planning application
                 </label>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageTemplate } from "./PageTemplate";
+import { createAppConfig } from "@mocks/appConfigFactory";
 
 const meta = {
   title: "DPR/Pages/Template",
@@ -16,6 +17,7 @@ const meta = {
 
   args: {
     children: <>PageTemplate</>,
+    appConfig: createAppConfig(),
   },
 } satisfies Meta<typeof PageTemplate>;
 
@@ -23,3 +25,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const WithCouncil: Story = {
+  args: {
+    children: <>PageTemplate</>,
+    appConfig: createAppConfig("public-council-1"),
+  },
+};

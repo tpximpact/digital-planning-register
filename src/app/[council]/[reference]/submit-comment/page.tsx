@@ -14,8 +14,9 @@ import { DprShow, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
-import { getAppConfig } from "@/config";
-import { PageSubmitComment } from "@/components/PageSubmitComment";
+// import { PageSubmitComment } from "@/components/PageSubmitComment";
+import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
+import { AppConfig } from "@/config/types";
 
 type Props = {
   params: { reference: string; council: string };
@@ -28,6 +29,8 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   const { reference, council } = params;
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const [appConfig, setAppConfig] = useState<AppConfig | undefined>(undefined);
   const [page, setPage] = useState(0);
   const [applicationData, setApplicationData] = useState<DprShow | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -93,7 +96,8 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const appConfig = await getAppConfig(council);
+        const appConfig = await getAppConfigClientSide(council);
+        setAppConfig(appConfig);
         const response = await ApiV1.show(
           appConfig?.council?.dataSource ?? "none",
           council,
@@ -303,7 +307,9 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
 
     switch (page) {
       case 0:
-        return <PreSubmission {...commonProps} />;
+        return (
+          <PreSubmission councilConfig={appConfig?.council} {...commonProps} />
+        );
       case 1:
         return <CommentSentiment {...commonProps} />;
       case 2:
@@ -324,10 +330,16 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
           />
         );
       case 4:
-        return <CommentPersonalDetails {...commonProps} />;
+        return (
+          <CommentPersonalDetails
+            councilConfig={appConfig?.council}
+            {...commonProps}
+          />
+        );
       case 5:
         return (
           <CommentCheckAnswer
+            councilConfig={appConfig?.council}
             {...commonProps}
             applicationId={applicationData.application.id}
           />
@@ -341,7 +353,9 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
           />
         );
       default:
-        return <PreSubmission {...commonProps} />;
+        return (
+          <PreSubmission councilConfig={appConfig?.council} {...commonProps} />
+        );
     }
   };
 
@@ -355,15 +369,29 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
 
   // single page version of comment form for server version
   // TODO when we're ready this is the beginings of a server side version of the comment form
-  // if (!isClient) {
-  //   return (
-  //     <PageSubmitComment
-  //       council={council}
-  //       reference={reference}
-  //       searchParams={searchParamsFromPage as SearchParams}
-  //     />
-  //   );
-  // }
+  if (!isClient) {
+    return (
+      <PageWrapper>
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-full">
+            <h2 className="govuk-heading-s" role="title">
+              Javascript is required to submit comments
+            </h2>
+            <p className="govuk-body">
+              Please enable javascript to submit comments.
+            </p>
+          </div>
+        </div>
+      </PageWrapper>
+    );
+    // return (
+    //   <PageSubmitComment
+    //     council={council}
+    //     reference={reference}
+    //     searchParams={searchParamsFromPage as SearchParams}
+    //   />
+    // );
+  }
 
   // Handle redirection if the current page exceeds the maximum allowed page
   if (page > maxAllowedPage) {

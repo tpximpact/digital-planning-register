@@ -12,6 +12,7 @@ import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { PageTemplate } from "../PageTemplate";
 import { ContentNotFound } from "../ContentNotFound";
+import { PageWrapper } from "../PageWrapper";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -34,9 +35,9 @@ export const PageApplicationComments = ({
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
     return (
-      <PageTemplate>
+      <PageWrapper>
         <ContentNotFound />
-      </PageTemplate>
+      </PageWrapper>
     );
   }
   return (

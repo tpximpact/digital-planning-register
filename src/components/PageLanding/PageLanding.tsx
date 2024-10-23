@@ -21,15 +21,11 @@ export const PageLanding = ({ councils }: PageLandingProps) => {
         records are kept here.
       </p>
 
-      {councils && (
+      {councils && councils.length > 0 ? (
         <>
-          <h2 className="govuk-heading-m">
-            Select your council to start exploring planning applications in your
-            area
-          </h2>
           <CouncilCards councils={councils} />
         </>
-      )}
+      ) : null}
     </div>
   );
 };

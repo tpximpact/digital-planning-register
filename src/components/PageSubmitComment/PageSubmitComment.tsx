@@ -25,6 +25,7 @@ export const PageSubmitComment = ({
   searchParams,
 }: PageSubmitCommentProps) => {
   const page = Number(searchParams?.page ?? 0);
+  const appConfig = getAppConfig(council);
 
   return (
     <>
@@ -37,7 +38,7 @@ export const PageSubmitComment = ({
       <div className="govuk-main-wrapper dpr-page-submit-comment">
         {page === 0 && (
           <>
-            <ContentCommentsPreSubmission council={council} />
+            <ContentCommentsPreSubmission councilConfig={appConfig.council} />
             <Link href={`?page=1`}>
               {" "}
               <StartButton />
@@ -72,7 +73,7 @@ export const PageSubmitComment = ({
                 />
               ))}
               <CommentPersonalDetails
-                council={council}
+                councilConfig={appConfig.council}
                 reference={reference}
                 navigateToPage={() => {}}
                 isEditing={false}

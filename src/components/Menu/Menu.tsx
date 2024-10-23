@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CouncilSelector } from "@/components/CouncilSelector";
 import { AppConfig } from "@/config/types";
+import "./Menu.scss";
 
 interface MenuProps {
   currentPath: string;
@@ -15,64 +16,77 @@ export const Menu = ({
   selectedCouncil,
 }: MenuProps) => {
   return (
-    <nav aria-label="Menu" className="govuk-header__navigation">
-      <ul
-        id="navigation"
-        className="govuk-header__navigation-list govuk-width-container"
-      >
-        <li className="govuk-header__navigation-item no-space">
-          <CouncilSelector
-            councils={councils}
-            selectedCouncil={selectedCouncil}
-          />
-        </li>
-        {navigation &&
-          navigation.map((item, index) => {
-            const href =
-              item.councilBase && selectedCouncil?.slug
-                ? `/${encodeURIComponent(selectedCouncil.slug)}${item.href}`
-                : item.href;
-
-            const active = currentPath === href;
-
-            let visibility = item.showCondition;
-            if (
-              item?.id &&
-              selectedCouncil?.features &&
-              Object.keys(
-                selectedCouncil.features as Record<string, boolean>,
-              ).includes(item.id)
-            ) {
-              visibility = (
-                selectedCouncil.features as Record<string, boolean>
-              )[item.id];
-            }
-
-            if (!visibility) {
-              return null;
-            }
-            return (
-              <li
-                key={`service-nav-${index}`}
-                className={`govuk-header__navigation-item${active ? " current-item" : ""}`}
-              >
-                <Link
-                  className={`govuk-header__link nav-link`}
-                  role="link"
-                  href={href}
-                >
-                  {active ? (
-                    <strong className="govuk-service-navigation__active-fallback">
-                      {item.label}
-                    </strong>
-                  ) : (
-                    item.label
-                  )}
-                </Link>
+    <div
+      className="dpr-menu govuk-service-navigation"
+      data-module="govuk-service-navigation"
+    >
+      <div className="govuk-width-container">
+        <div className="govuk-service-navigation__container">
+          <nav aria-label="Menu" className="govuk-service-navigation__wrapper">
+            <ul className="govuk-service-navigation__list" id="navigation">
+              <li className="dpr-menu__dropdown">
+                <CouncilSelector
+                  councils={councils}
+                  selectedCouncil={selectedCouncil}
+                />
               </li>
-            );
-          })}
-      </ul>
-    </nav>
+              {navigation &&
+                navigation.map((item, index) => {
+                  const href =
+                    item.councilBase && selectedCouncil?.slug
+                      ? `/${encodeURIComponent(selectedCouncil.slug)}${item.href}`
+                      : item.href;
+
+                  const active = currentPath === href;
+
+                  // use showCondition to toggle visibility
+                  let visibility = item.showCondition;
+                  if (
+                    item?.id &&
+                    selectedCouncil?.features &&
+                    Object.keys(
+                      selectedCouncil.features as Record<string, boolean>,
+                    ).includes(item.id)
+                  ) {
+                    visibility = (
+                      selectedCouncil.features as Record<string, boolean>
+                    )[item.id];
+                  }
+
+                  // if councilBase === true then the base of the url is the council slug
+                  if (item.councilBase && !selectedCouncil) {
+                    visibility = false;
+                  }
+
+                  if (!visibility) {
+                    return null;
+                  }
+                  return (
+                    <li
+                      key={`service-nav-${index}`}
+                      className={`govuk-service-navigation__item${active ? " govuk-service-navigation__item--active" : ""}`}
+                    >
+                      <Link
+                        className={`govuk-service-navigation__link`}
+                        role="link"
+                        href={href}
+                        aria-current={active ? true : undefined}
+                      >
+                        {active ? (
+                          <strong className="govuk-service-navigation__active-fallback">
+                            {item.label}
+                          </strong>
+                        ) : (
+                          item.label
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
   );
 };

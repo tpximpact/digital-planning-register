@@ -1,14 +1,12 @@
-import { getAppConfig } from "@/config";
+import { AppConfig } from "@/config/types";
 
 export const ContentCommentsPreSubmission = ({
-  council,
+  councilConfig,
 }: {
-  council: string;
+  councilConfig: AppConfig["council"];
 }) => {
-  const appConfig = getAppConfig(council);
   const whatHappensToYourCommentsLink =
-    appConfig?.council?.pageContent
-      ?.council_reference_submit_comment_pre_submission
+    councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
   return (
     <>
