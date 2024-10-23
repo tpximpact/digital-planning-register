@@ -211,7 +211,7 @@ let councils: Council[] = [
     publicComments: true,
     specialistComments: false,
     features: {
-      dsn: true,
+      dsn: false,
     },
     pageContent: {
       council_reference_submit_comment_pre_submission: {
