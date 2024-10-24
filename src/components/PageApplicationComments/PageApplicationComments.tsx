@@ -7,7 +7,7 @@ import {
 } from "@/types";
 import { BackLink } from "../button";
 import ApplicationHeader from "../application_header";
-import Pagination from "../pagination";
+import { Pagination } from "@/components/Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { PageTemplate } from "../PageTemplate";
