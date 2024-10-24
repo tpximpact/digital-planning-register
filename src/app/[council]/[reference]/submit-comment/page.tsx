@@ -10,17 +10,21 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import NotFound from "@/app/not-found";
-import { DprShow } from "@/types";
-import { getCouncilDataSource } from "@/lib/config";
+import { DprShow, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
+import { PageWrapper } from "@/components/PageWrapper";
+import { ContentError } from "@/components/ContentError";
+import { getAppConfig } from "@/config";
+import { PageSubmitComment } from "@/components/PageSubmitComment";
 
 type Props = {
   params: { reference: string; council: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams:
+    | { [key: string]: string | string[] | undefined }
+    | Pick<SearchParams, "page">;
 };
 
-const Comment = ({ params }: Props) => {
+const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   const { reference, council } = params;
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -36,6 +40,11 @@ const Comment = ({ params }: Props) => {
   const [maxAllowedPage, setMaxAllowedPage] = useState(0);
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
@@ -84,8 +93,9 @@ const Comment = ({ params }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const appConfig = await getAppConfig(council);
         const response = await ApiV1.show(
-          getCouncilDataSource(council),
+          appConfig?.council?.dataSource ?? "none",
           council,
           reference,
         );
@@ -335,10 +345,25 @@ const Comment = ({ params }: Props) => {
     }
   };
 
-  // Render NotFound component if there's an error
   if (error) {
-    return <NotFound params={params} />;
+    return (
+      <PageWrapper>
+        <ContentError />
+      </PageWrapper>
+    );
   }
+
+  // single page version of comment form for server version
+  // TODO when we're ready this is the beginings of a server side version of the comment form
+  // if (!isClient) {
+  //   return (
+  //     <PageSubmitComment
+  //       council={council}
+  //       reference={reference}
+  //       searchParams={searchParamsFromPage as SearchParams}
+  //     />
+  //   );
+  // }
 
   // Handle redirection if the current page exceeds the maximum allowed page
   if (page > maxAllowedPage) {

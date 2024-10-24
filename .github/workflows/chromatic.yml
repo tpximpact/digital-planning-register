@@ -1,9 +1,8 @@
 name: "Chromatic"
 
+# this job runs on every push to a pull request'ed branch
+# other options are push but this results in a lot more build time
 on: pull_request
-# on:
-#   push:
-#     branches: ["main"]
 
 jobs:
   chromatic:
@@ -16,12 +15,10 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: lts/iron
       - name: Install dependencies
         run: npm ci
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-      - name: Publish Summary
-        run: echo -e "| Results |  |\n| --- | --- |\n| Build Results | ${{steps.chromatic.outputs.buildUrl}} |\n| Storybook Preview | ${{steps.chromatic.outputs.storybookUrl}} |\n| Component Count | ${{steps.chromatic.outputs.componentCount}} |" >> $GITHUB_STEP_SUMMARY

@@ -15,7 +15,12 @@ export const Row = ({
       <dt className="govuk-summary-list__key">{description}</dt>
       <dd className="govuk-summary-list__value">
         {/* show a map if map is present */}
-        {map && <ApplicationMap mapData={map} />}
+        {map && (
+          <ApplicationMap
+            mapData={map}
+            reference={`${description.split(" ").join("-")}-application-submission`}
+          />
+        )}
         {typeof value === "string" ? (
           <p className="govuk-body">{value}</p>
         ) : (

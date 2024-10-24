@@ -24,6 +24,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
         <div className="govuk-grid-column-one-third app-map">
           {boundary_geojson && (
             <ApplicationMap
+              reference={reference}
               staticMap={true}
               zoom={10}
               mapData={boundary_geojson}

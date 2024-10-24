@@ -1,22 +1,11 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import config from "../../util/config.json";
 import PreSubmission from "@/components/comment_pre_submission";
 import "@testing-library/jest-dom";
 
-jest.mock("../../util/config.json", () => ({
-  exampleCouncil: {
-    pageContent: {
-      council_reference_submit_comment_pre_submission: {
-        what_happens_to_your_comments_link: "https://example.com",
-      },
-    },
-  },
-}));
-
 describe("PreSubmission", () => {
   const defaultProps = {
-    council: "exampleCouncil",
+    council: "public-council-1",
     reference: "REF-001",
     navigateToPage: jest.fn(),
     updateProgress: jest.fn(),
@@ -57,12 +46,5 @@ describe("PreSubmission", () => {
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(1);
     expect(defaultProps.updateProgress).toHaveBeenCalledWith(0);
     expect(sessionStorage.getItem("presubmission_REF-001")).toBe("completed");
-  });
-
-  it('renders the "material considerations" link when provided in the council config', () => {
-    render(<PreSubmission {...defaultProps} />);
-    expect(
-      screen.getByRole("link", { name: "material considerations" }),
-    ).toHaveAttribute("href", "https://example.com");
   });
 });

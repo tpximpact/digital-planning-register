@@ -1,6 +1,6 @@
-"use client";
-import { SkipLink as GovUkSkipLink, createAll } from "govuk-frontend";
-import { useState, useEffect } from "react";
+// "use client";
+// import { SkipLink as GovUkSkipLink, createAll } from "govuk-frontend";
+// import { useState, useEffect } from "react";
 import "./SkipLink.scss";
 
 export interface SkipLinkProps {
@@ -8,15 +8,15 @@ export interface SkipLinkProps {
 }
 
 export const SkipLink = ({ href }: Required<SkipLinkProps>) => {
-  const [isClient, setIsClient] = useState(false);
+  // const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
-  if (isClient) {
-    createAll(GovUkSkipLink);
-  }
+  // if (isClient) {
+  //   createAll(GovUkSkipLink);
+  // }
 
   return (
     <a href={href} className="govuk-skip-link" data-module="govuk-skip-link">

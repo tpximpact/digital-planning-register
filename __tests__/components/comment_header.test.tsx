@@ -50,7 +50,6 @@ describe("CommentHeader", () => {
 
   it("renders the map component when boundary_geojson is provided", () => {
     render(<CommentHeader {...defaultProps} />);
-    screen.debug();
     expect(screen.getByTestId("mockMap")).toBeInTheDocument();
   });
 

@@ -1,4 +1,4 @@
-const ApplicationDetails = () => {
+const ApplicationMoreDetails = () => {
   return (
     <>
       <h2 className="govuk-heading-l">Application</h2>
@@ -51,4 +51,4 @@ const ApplicationDetails = () => {
     </>
   );
 };
-export default ApplicationDetails;
+export default ApplicationMoreDetails;

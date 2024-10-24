@@ -1,11 +1,11 @@
-import { capitaliseWord, formatIsoDateTime } from "@/util";
 import { ApiResponse, DprApplicationSubmission } from "@/types";
-import NotFound from "@/app/not-found";
 import { Metadata } from "next";
-import { BackLink } from "@/components/button";
-import ApplicationForm from "@/components/application_form";
 import { ApiV1 } from "@/actions/api";
-import { getCouncilDataSource } from "@/lib/config";
+import { getAppConfig } from "@/config";
+import { PageWrapper } from "@/components/PageWrapper";
+import { ContentError } from "@/components/ContentError";
+import { ContentNotFound } from "@/components/ContentNotFound";
+import { PageApplicationSubmission } from "@/components/PageApplicationSubmission";
 
 interface ApplicationFormProps {
   params: {
@@ -20,8 +20,9 @@ async function fetchData({
   ApiResponse<DprApplicationSubmission | null>
 > {
   const { reference, council } = params;
+  const appConfig = getAppConfig(council);
   const response = await ApiV1.applicationSubmission(
-    getCouncilDataSource(council),
+    appConfig.council?.dataSource ?? "none",
     council,
     reference,
   );
@@ -31,7 +32,7 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
-}: ApplicationFormProps): Promise<Metadata> {
+}: ApplicationFormProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
 
   if (!response.data) {
@@ -40,56 +41,43 @@ export async function generateMetadata({
       description: "An error occurred",
     };
   }
-
-  return {
-    title: `Application ${response?.data?.application?.reference}`,
-    description: `${capitaliseWord(params.council)} planning application`,
-  };
 }
 
 export default async function ApplicationFormPage({
   params,
 }: ApplicationFormProps) {
-  const response = await fetchData({ params });
   const { reference, council } = params;
+  const appConfig = getAppConfig(council);
+  const response = await fetchData({ params });
 
-  if (!response.data) {
-    return <NotFound params={params} />;
+  if (
+    !response ||
+    response?.status?.code !== 200 ||
+    appConfig.council === undefined
+  ) {
+    return (
+      <PageWrapper>
+        <ContentError />
+      </PageWrapper>
+    );
   }
 
   const submittedAt = response?.data?.submission?.metadata.submittedAt;
   const applicationSubmissionData = response?.data?.submission?.data;
 
-  return (
-    <div className="govuk-main-wrapper">
-      <BackLink />
-      <h1 className="govuk-heading-xl">Application form as submitted</h1>
-      <p className="govuk-body">
-        This is the full application form as submitted by the applicant to the
-        planning team.
-      </p>
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-half">
-          <h2 className="govuk-heading-m">Application Reference</h2>
-          <p>{reference}</p>
-        </div>
+  if (!applicationSubmissionData) {
+    return (
+      <PageWrapper>
+        <ContentNotFound councilConfig={appConfig.council} />
+      </PageWrapper>
+    );
+  }
 
-        <div className="govuk-grid-column-one-half">
-          <h2 className="govuk-heading-m">Submitted</h2>
-          <div>
-            {submittedAt ? (
-              formatIsoDateTime(submittedAt)
-            ) : (
-              <p className="govuk-body">Date not available</p>
-            )}
-          </div>
-        </div>
-      </div>
-      {applicationSubmissionData ? (
-        <ApplicationForm submissionData={applicationSubmissionData} />
-      ) : (
-        <p className="govuk-body">Submission data not available</p>
-      )}
-    </div>
+  return (
+    <PageApplicationSubmission
+      reference={reference}
+      submittedAt={submittedAt}
+      applicationSubmissionData={applicationSubmissionData}
+    />
   );
 }

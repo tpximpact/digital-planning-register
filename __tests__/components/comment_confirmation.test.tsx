@@ -8,6 +8,13 @@ jest.mock("../../src/components/application_map", () => {
   return jest.fn(() => <div data-testid="mocked-map">Mocked Map</div>);
 });
 
+// stop Not implemented: HTMLFormElement.prototype.requestSubmit error
+beforeAll(() => {
+  window.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
+});
+
 describe("CommentConfirmation", () => {
   const defaultProps = {
     reference: "REF-001",
