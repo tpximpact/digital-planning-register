@@ -102,9 +102,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install chromium firefox --with-deps
 
-      - name: Setup application
-        run: |
-          cp sample.env.test .env
+      # - name: Setup application
+      #   run: |
+      #     cp .env.test .env
 
       - name: Build
         run: npm run build
@@ -124,13 +124,9 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
 
-      - name: Setup application
-        run: |
-          cp sample.env.test .env
-
       - name: Run application
         run: |
-          node .next/standalone/server.js &
+          node --env-file=.env.test .next/standalone/server.js &
 
       - name: Wait for application to be ready
         run: |
@@ -196,7 +192,7 @@ jobs:
 
   #     - name: Setup application
   #       run: |
-  #         cp sample.env.test .env
+  #         cp .env.test .env
 
   #     - name: Run application
   #       run: |

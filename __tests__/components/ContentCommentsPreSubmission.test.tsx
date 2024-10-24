@@ -25,7 +25,7 @@ describe("ContentCommentsPreSubmission", () => {
   });
 
   it("renders the component with correct headings and paragraphs", () => {
-    render(<ContentCommentsPreSubmission council="public-council-1" />);
+    render(<ContentCommentsPreSubmission councilConfig={appConfig.council} />);
     expect(
       screen.getByText("What you need to know before you comment"),
     ).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe("ContentCommentsPreSubmission", () => {
   });
 
   it("renders the list items correctly", () => {
-    render(<ContentCommentsPreSubmission council="public-council-1" />);
+    render(<ContentCommentsPreSubmission councilConfig={appConfig.council} />);
     expect(
       screen.getByText(
         "disputes about civil matters, such as building freeholds or the 'right to light'",
@@ -50,7 +50,7 @@ describe("ContentCommentsPreSubmission", () => {
   });
 
   it("renders the link if available in the config", () => {
-    render(<ContentCommentsPreSubmission council="public-council-1" />);
+    render(<ContentCommentsPreSubmission councilConfig={appConfig.council} />);
     const link = screen.getByRole("link", {
       name: /material considerations/i,
     });
@@ -68,7 +68,7 @@ describe("ContentCommentsPreSubmission", () => {
     });
 
     (getAppConfig as jest.Mock).mockReturnValueOnce(appConfig);
-    render(<ContentCommentsPreSubmission council="public-council-1" />);
+    render(<ContentCommentsPreSubmission councilConfig={appConfig.council} />);
     expect(
       screen.queryByRole("link", { name: /material considerations/i }),
     ).not.toBeInTheDocument();

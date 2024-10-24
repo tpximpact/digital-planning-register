@@ -1,22 +1,20 @@
 "use client";
-import { getAppConfig } from "@/config";
 import React from "react";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
 import { StartButton } from "../button";
+import { AppConfig } from "@/config/types";
 
 const PreSubmission = ({
-  council,
+  councilConfig,
   reference,
   navigateToPage,
   updateProgress,
 }: {
-  council: string;
+  councilConfig: AppConfig["council"];
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
   updateProgress: (completedPage: number) => void;
 }) => {
-  const appConfig = getAppConfig(council);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sessionStorage.setItem(`presubmission_${reference}`, "completed");
@@ -26,7 +24,7 @@ const PreSubmission = ({
 
   return (
     <>
-      <ContentCommentsPreSubmission council={council} />
+      <ContentCommentsPreSubmission councilConfig={councilConfig} />
       <form onSubmit={handleSubmit}>
         <StartButton />
       </form>

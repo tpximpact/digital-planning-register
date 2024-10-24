@@ -1,3 +1,4 @@
+import "server-only";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { AppConfig, Council, CouncilVisibility } from "./types";
 
@@ -18,7 +19,7 @@ import { AppConfig, Council, CouncilVisibility } from "./types";
  */
 export const getAppConfig = (council?: string): AppConfig => {
   const councilConfigs = getAllCouncilConfigs();
-  const validCouncils = getCouncilList(councilConfigs);
+  const validCouncils = getCouncilList(getValidCouncils(councilConfigs));
   if (council && !validCouncils.includes(council)) {
     council = undefined;
   }
@@ -69,14 +70,14 @@ export const getAppConfig = (council?: string): AppConfig => {
  * @returns Council[]
  */
 const getAllCouncilConfigs = (): Council[] => {
-  if (
-    process.env.NODE_ENV === "test" ||
-    process.env.NEXT_PUBLIC_TEST_COUNCILS
-  ) {
-    councils = createAppConfig().councils;
+  let workingCouncils;
+  if (process.env.TEST_COUNCILS) {
+    workingCouncils = createAppConfig().councils;
+  } else {
+    workingCouncils = councils;
   }
 
-  return councils.map((council) => {
+  return workingCouncils.map((council) => {
     const councilVisibility = determineCouncilVisibility(council);
     return { ...councilVisibility, council };
   });
@@ -167,9 +168,19 @@ export const getCouncilList = (councilConfigs: Council[]) => {
 };
 
 /**
+ * Filters out councils with "private" visibility.
+ *
+ * @param {Council[]} councilConfigs - Array of council configurations.
+ * @returns {Council[]} Array of councils with "public" visibility.
+ */
+const getValidCouncils = (councilConfigs: Council[]) => {
+  return councilConfigs.filter((council) => council.visibility !== "private");
+};
+
+/**
  * Return council configs
  */
-let councils: Council[] = [
+const councils: Council[] = [
   {
     name: "Barnet",
     slug: "barnet",

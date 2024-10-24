@@ -76,6 +76,8 @@ describe("Menu", () => {
     const applicationSearchLink = screen
       .getByText("Application search")
       .closest("li");
-    expect(applicationSearchLink).toHaveClass("current-item");
+    expect(applicationSearchLink).toHaveClass(
+      "govuk-service-navigation__item--active",
+    );
   });
 });

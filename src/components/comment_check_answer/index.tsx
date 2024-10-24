@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { capitaliseWord } from "@/util";
 import { ButtonLink } from "../button";
 import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { AppConfig } from "@/config/types";
 
 const topics_selection = [
   {
@@ -52,13 +52,13 @@ const topics_selection = [
 ];
 
 const CommentCheckAnswer = ({
-  council,
+  councilConfig,
   reference,
   applicationId,
   navigateToPage,
   updateProgress,
 }: {
-  council: string;
+  councilConfig: AppConfig["council"];
   reference: string;
   applicationId: number;
   navigateToPage: (page: number, params?: object) => void;
@@ -73,20 +73,16 @@ const CommentCheckAnswer = ({
   const [submissionError, setSubmissionError] = useState(false);
   const [hasLoadedData, setHasLoadedData] = useState(false);
 
-  const appConfig = getAppConfig(council);
   const contactPlanningAdviceLink =
-    appConfig.council?.pageContent
-      ?.council_reference_submit_comment_check_answer
+    councilConfig?.pageContent?.council_reference_submit_comment_check_answer
       ?.contact_planning_advice_link;
   const corporatePrivacyLink =
-    appConfig.council?.pageContent
-      ?.council_reference_submit_comment_check_answer
+    councilConfig?.pageContent?.council_reference_submit_comment_check_answer
       ?.corporate_privacy_statement_link;
   const planningServicePrivacyStatementLink =
-    appConfig.council?.pageContent
-      ?.council_reference_submit_comment_check_answer
+    councilConfig?.pageContent?.council_reference_submit_comment_check_answer
       ?.planning_service_privacy_statement_link;
-  const getInTouchURL = appConfig.council?.contact || "https://www.gov.uk/";
+  const getInTouchURL = councilConfig?.contact || "https://www.gov.uk/";
 
   useEffect(() => {
     const loadData = () => {
@@ -144,33 +140,35 @@ const CommentCheckAnswer = ({
     };
 
     try {
-      const response = await ApiV1.postComment(
-        appConfig.council?.dataSource ?? "none",
-        council,
-        applicationId,
-        apiData,
-      );
-      if (response?.status?.code === 200) {
-        sessionStorage.setItem(`submissionComplete_${reference}`, "true");
-        // google analytic
-        sendGTMEvent({ event: "comment_submit" });
+      if (councilConfig) {
+        const response = await ApiV1.postComment(
+          councilConfig?.dataSource ?? "none",
+          councilConfig?.slug,
+          applicationId,
+          apiData,
+        );
+        if (response?.status?.code === 200) {
+          sessionStorage.setItem(`submissionComplete_${reference}`, "true");
+          // google analytic
+          sendGTMEvent({ event: "comment_submit" });
 
-        // Clear all other sessionStorage items for this reference
-        Object.keys(sessionStorage).forEach((key) => {
-          if (
-            key.includes(reference) &&
-            key !== `submissionComplete_${reference}`
-          ) {
-            sessionStorage.removeItem(key);
-          }
-        });
-        updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
-        navigateToPage(6);
-      } else {
-        sendGTMEvent({
-          event: "error_submission",
-        });
-        throw new Error("Submission failed");
+          // Clear all other sessionStorage items for this reference
+          Object.keys(sessionStorage).forEach((key) => {
+            if (
+              key.includes(reference) &&
+              key !== `submissionComplete_${reference}`
+            ) {
+              sessionStorage.removeItem(key);
+            }
+          });
+          updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
+          navigateToPage(6);
+        } else {
+          sendGTMEvent({
+            event: "error_submission",
+          });
+          throw new Error("Submission failed");
+        }
       }
     } catch (error) {
       sendGTMEvent({

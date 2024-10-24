@@ -85,7 +85,7 @@ The project structure follows the Next.js App Router conventions and includes a 
 
 ## Environment setup
 
-`cp -rp sample.env .env`
+`cp -rp .env .env`
 
 Ensure that the .env or .env.local file also has the following environment variables:
 

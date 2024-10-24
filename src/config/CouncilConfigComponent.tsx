@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Suspense } from "react";
 
 /**
+ * @deprecated
  * This is a client component that wraps another component in order to fetch the council config, that way the component context stays clean
  * It is really only intended to be used outside of the pages, e.g., header and footer, which need config but also don't need config.
  * We don't want to convert things to client components unnecessarily since we have a requirement to be JS-free; this approach is a compromise.

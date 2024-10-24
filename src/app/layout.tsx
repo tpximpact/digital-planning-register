@@ -5,7 +5,6 @@ import { CookieBanner } from "@/components/CookieBanner";
 import { SkipLink } from "@/components/govuk/SkipLink";
 import { GovUkInitAll } from "@/components/GovUkInitAll";
 import { Metadata } from "next";
-import { PageTemplate } from "@/components/PageTemplate";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 
 export function generateMetadata(): Metadata {
@@ -51,7 +50,7 @@ export default async function RootLayout({
         </noscript>
         <CookieBanner />
         <SkipLink href="#main" />
-        <PageTemplate>{children}</PageTemplate>
+        {children}
         <GovUkInitAll />
         {process.env.GTM && process.env.GA && (
           <>

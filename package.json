@@ -39,6 +39,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-paginate": "8.2.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.33.5",
     "swagger-ui-react": "^5.17.14"
   },
