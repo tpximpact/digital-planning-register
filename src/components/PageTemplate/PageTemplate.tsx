@@ -4,7 +4,7 @@ import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 import { Header } from "@/components/Header";
 import { Suspense } from "react";
 import CouncilConfigComponent from "@/config/CouncilConfigComponent";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/govuk/Footer";
 
 export interface PageTemplateProps {
   children: React.ReactNode;
