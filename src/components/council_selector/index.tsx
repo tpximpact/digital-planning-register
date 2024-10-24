@@ -1,3 +1,4 @@
+import "./CouncilSelector.scss";
 import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "@/util";
 import { Config } from "@/types";

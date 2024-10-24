@@ -1,6 +1,6 @@
 import { DprPlanningApplication } from "@/types";
 import DescriptionCard from "../description_card";
-import { formatDprDate } from "../../../util/formatDates";
+import { formatDprDate } from "@/util";
 import {
   definedStatus,
   definedDecision,

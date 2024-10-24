@@ -1,4 +1,4 @@
-import { formatDprDate } from "../../../util/formatDates";
+import { formatDprDate } from "@/util";
 import {
   definedStatus,
   definedDecision,

@@ -1,5 +1,5 @@
 import { isAfter, isBefore, isEqual } from "date-fns";
-import { capitaliseWord } from "../../util/capitaliseWord";
+import { capitaliseWord } from "@/util";
 import { contentApplicationTypes } from "@/app/[council]/planning-process/content-application-types";
 import { contentApplicationStatuses } from "@/app/[council]/planning-process/content-application-statuses";
 import { PageContent } from "@/app/[council]/planning-process/page";
