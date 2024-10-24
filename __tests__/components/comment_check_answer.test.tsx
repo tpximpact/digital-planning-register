@@ -43,6 +43,8 @@ describe("CommentCheckAnswer", () => {
     jest.clearAllMocks();
   });
 
+  it.todo("Should not throw and error!"); // This will show up as a todo in our test suite! Woohoo!
+
   it("renders the component with the correct content", () => {
     render(<CommentCheckAnswer {...defaultProps} />);
 

@@ -1,4 +1,4 @@
-import { DprBoundaryGeojson } from "./boundaryGeojson";
+import { DprApplication } from "@/types";
 
 export interface DprApplicationSubmissionData {
   data: DprApplicationSubmissionSubtopic[];
@@ -22,5 +22,5 @@ export interface DprApplicationSubmissionSubtopic {
 export interface DprApplicationSubmissionSubtopicValue {
   description: string;
   value: string | null | JSX.Element | DprApplicationSubmissionSubtopicValue[];
-  map?: DprBoundaryGeojson;
+  map?: DprApplication["application"];
 }

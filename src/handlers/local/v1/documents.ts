@@ -1,13 +1,15 @@
 "use server";
 
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprApiDocuments } from "@/types";
+import {
+  generateDocument,
+  generateNResults,
+  generatePagination,
+} from "@mocks/dprApplicationFactory";
 
-const response: ApiResponse<DprDocuments | null> = {
+const response: ApiResponse<DprApiDocuments | null> = {
   data: {
-    pagination: {
-      results: 0,
-      total_results: 0,
-    },
+    pagination: generatePagination(),
     files: [
       {
         url: "/public/24-00135-HAPP/application-form",
@@ -16,6 +18,7 @@ const response: ApiResponse<DprDocuments | null> = {
           contentType: "text/html",
         },
       },
+      ...generateNResults(20, generateDocument),
     ],
   },
   status: {
@@ -24,6 +27,6 @@ const response: ApiResponse<DprDocuments | null> = {
   },
 };
 
-export const documents = (): Promise<ApiResponse<DprDocuments | null>> => {
+export const documents = (): Promise<ApiResponse<DprApiDocuments | null>> => {
   return Promise.resolve(response);
 };

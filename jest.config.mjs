@@ -27,7 +27,7 @@ const config = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/**/{!(index.ts),}.ts"],
+  collectCoverageFrom: ["src/**/{!(index|*.d),}.ts", "__mocks__"],
 
   // The directory where Jest should output its coverage files
   // coverageDirectory: undefined,
@@ -40,7 +40,8 @@ const config = {
 
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: [
-    // "json",
+    "json",
+    "html",
     "text",
     // "lcov",
     // "clover"
@@ -96,6 +97,7 @@ const config = {
   // moduleNameMapper: {},
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "^@mocks/(.*)$": "<rootDir>/__mocks__/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

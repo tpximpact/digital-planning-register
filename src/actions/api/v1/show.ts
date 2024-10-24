@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprShow } from "@/types";
+import { ApiResponse, DprApiShow } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -31,7 +31,7 @@ export async function show(
   source: string,
   council: string,
   reference: string,
-): Promise<ApiResponse<DprShow | null>> {
+): Promise<ApiResponse<DprApiShow | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
   }
@@ -40,7 +40,7 @@ export async function show(
     case "bops":
       return await BopsV2.show(council, reference);
     case "local":
-      return await LocalV1.show();
+      return await LocalV1.show(council, reference);
     default:
       return apiReturnError("Invalid source");
   }

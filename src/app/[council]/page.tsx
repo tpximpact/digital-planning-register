@@ -1,5 +1,5 @@
 import React from "react";
-import { ApiResponse, DprSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApiSearch, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
@@ -16,7 +16,7 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<ApiResponse<DprSearch | null>> {
+}: HomeProps): Promise<ApiResponse<DprApiSearch | null>> {
   const { council } = params;
   const appConfig = getAppConfig(council);
 
