@@ -1,8 +1,8 @@
 "use server";
 
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprApiDocumentsResponse } from "@/types";
 
-const response: ApiResponse<DprDocuments | null> = {
+const response: ApiResponse<DprApiDocumentsResponse | null> = {
   data: {
     pagination: {
       results: 0,
@@ -10,7 +10,7 @@ const response: ApiResponse<DprDocuments | null> = {
     },
     files: [
       {
-        url: "/public/24-00135-HAPP/application-form",
+        url: "/public-council-1/24-00135-HAPP/application-form",
         title: "Application form",
         metadata: {
           contentType: "text/html",
@@ -24,6 +24,8 @@ const response: ApiResponse<DprDocuments | null> = {
   },
 };
 
-export const documents = (): Promise<ApiResponse<DprDocuments | null>> => {
+export const documents = (): Promise<
+  ApiResponse<DprApiDocumentsResponse | null>
+> => {
   return Promise.resolve(response);
 };

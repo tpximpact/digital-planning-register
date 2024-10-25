@@ -1,10 +1,6 @@
 import { ApplicationFormObject } from "@/components/application_form";
 import { convertCommentBops, sortComments } from "@/lib/comments";
-import {
-  DprDocument,
-  DprPlanningApplication,
-  DprPlanningApplicationOverview,
-} from "@/types";
+import { DprDocument, DprApplication, DprApplication } from "@/types";
 import {
   BopsApplicationOverview,
   BopsNonStandardDocument,
@@ -22,7 +18,7 @@ export const convertPlanningApplicationBops = (
   council: string,
   application: BopsPlanningApplication,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
-): DprPlanningApplication => {
+): DprApplication => {
   return {
     application: convertPlanningApplicationOverviewBops(
       council,
@@ -52,7 +48,7 @@ export const convertPlanningApplicationOverviewBops = (
   council: string,
   application: BopsApplicationOverview,
   privateApplication?: BopsV2PlanningApplicationDetail | null,
-): DprPlanningApplicationOverview => {
+): DprApplication["application"] => {
   const { consulteeComments = [], publishedComments = [] } =
     application.consultation || {};
 

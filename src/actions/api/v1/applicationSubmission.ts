@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprApplicationSubmission } from "@/types";
+import { ApiResponse, DprApiApplicationSubmissionResponse } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -30,7 +30,7 @@ export async function applicationSubmission(
   source: string,
   council: string,
   reference: string,
-): Promise<ApiResponse<DprApplicationSubmission | null>> {
+): Promise<ApiResponse<DprApiApplicationSubmissionResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
   }

@@ -1,5 +1,5 @@
 import { flattenObjectIntoRow } from "../converters/applicationSubmission";
-import { DprApplicationSubmissionSubtopicValue } from "@/types";
+import { DprApiApplicationSubmissionResponseSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 
 /**
@@ -10,7 +10,7 @@ import { capitalizeFirstLetter } from "@/util";
  */
 export const BopsApplicant = (
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
       let description = capitalizeFirstLetter(key);
@@ -19,7 +19,7 @@ export const BopsApplicant = (
         | []
         | null
         | JSX.Element
-        | DprApplicationSubmissionSubtopicValue[] =
+        | DprApiApplicationSubmissionResponseSubtopicValue[] =
         typeof value === "string" ? value : JSON.stringify(value);
 
       switch (key) {
@@ -71,7 +71,7 @@ export const BopsApplicant = (
 const formatName = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const values = [];
   if (data?.first) {
     values.push(data?.first);
@@ -119,7 +119,7 @@ const addressAsString = (data: Record<string, any>): string[] => {
 const formatAddress = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const values = [];
 
   if (data.sameAsSiteAddress) {
@@ -151,7 +151,7 @@ const formatAddress = (
 const formatOwnership = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   const ownership = flattenObjectIntoRow(data, "", ["certificate"]);
 
   const certificateValue: Record<string, string> = {
@@ -177,7 +177,7 @@ const formatOwnership = (
 const formatSiteContact = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   let value = "";
   if (data?.role === "other") {
     let other = [];
@@ -211,7 +211,7 @@ const formatSiteContact = (
 const formatAgent = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   const agent = flattenObjectIntoRow(data, "Agent ", ["name"]);
 
   let agentName = [];

@@ -4,7 +4,7 @@ import Pagination from "../pagination";
 import {
   DprDocument,
   DprPagination,
-  DprPlanningApplication,
+  DprApplication,
   SearchParams,
 } from "@/types";
 import { AppConfig } from "@/config/types";
@@ -12,7 +12,7 @@ import { DocumentsList } from "@/components/DocumentsList";
 
 export interface PageApplicationDocumentsProps {
   reference: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
   documents: DprDocument[] | null;
   pagination: DprPagination;
   appConfig: AppConfig;

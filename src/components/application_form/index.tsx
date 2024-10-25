@@ -1,12 +1,11 @@
 import {
-  DprApplicationSubmissionSubtopic,
-  DprApplicationSubmissionSubtopicValue,
+  DprApiApplicationSubmissionResponseSubtopic,
   DprDocument,
 } from "@/types";
 import { Section } from "./section";
 
 interface ApplicationFormProps {
-  submissionData: DprApplicationSubmissionSubtopic[] | null;
+  submissionData: DprApiApplicationSubmissionResponseSubtopic[] | null;
 }
 
 const ApplicationForm = ({ submissionData }: ApplicationFormProps) => {

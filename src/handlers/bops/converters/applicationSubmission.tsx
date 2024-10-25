@@ -1,7 +1,7 @@
 import {
   DprApplicationSubmissionData,
-  DprApplicationSubmissionSubtopic,
-  DprApplicationSubmissionSubtopicValue,
+  DprApiApplicationSubmissionResponseSubtopic,
+  DprApiApplicationSubmissionResponseSubtopicValue,
 } from "@/types";
 import { BopsApplicationSubmission } from "@/handlers/bops/types";
 import { capitalizeFirstLetter } from "@/util";
@@ -33,12 +33,12 @@ export const convertApplicationSubmissionBops = (
  * Converts all of the various data points and types into a simpler format for us to display
  * @TODO we don't seem to be doing anything with preAssessment? and data.user
  * @param submissionData
- * @returns array of DprApplicationSubmissionSubtopic
+ * @returns array of DprApiApplicationSubmissionResponseSubtopic
  */
 const convertApplicationSubmissionDataBops = (
   submissionData: BopsApplicationSubmission,
-): DprApplicationSubmissionSubtopic[] => {
-  let data: DprApplicationSubmissionSubtopic[] = [];
+): DprApiApplicationSubmissionResponseSubtopic[] => {
+  let data: DprApiApplicationSubmissionResponseSubtopic[] = [];
   // data
   if (submissionData.data?.property) {
     data = [
@@ -99,7 +99,7 @@ const convertApplicationSubmissionDataBops = (
 };
 
 /**
- * Recursively flattens an object and returns an array of DprApplicationSubmissionSubtopicValue
+ * Recursively flattens an object and returns an array of DprApiApplicationSubmissionResponseSubtopicValue
  * @param field
  * @param prefix
  * @returns
@@ -109,31 +109,30 @@ export const flattenObjectIntoRow = (
   prefix: String = "",
   exclude: string[] = [],
   include: string[] = [],
-): DprApplicationSubmissionSubtopicValue[] => {
-  return Object.entries(field).reduce<DprApplicationSubmissionSubtopicValue[]>(
-    (accumulator, [type, value]) => {
-      if (exclude.includes(type)) {
-        return accumulator;
-      }
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
+  return Object.entries(field).reduce<
+    DprApiApplicationSubmissionResponseSubtopicValue[]
+  >((accumulator, [type, value]) => {
+    if (exclude.includes(type)) {
+      return accumulator;
+    }
 
-      if (include.length > 0 && !include.includes(type)) {
-        return accumulator;
-      }
+    if (include.length > 0 && !include.includes(type)) {
+      return accumulator;
+    }
 
-      if (typeof value === "object") {
-        return [...accumulator, ...flattenObjectIntoRow(value, type)];
-      } else {
-        return [
-          ...accumulator,
-          {
-            description: prefix
-              ? `${prefix} - ${capitalizeFirstLetter(type)}`
-              : capitalizeFirstLetter(type),
-            value: value === "" ? null : value,
-          },
-        ];
-      }
-    },
-    [],
-  );
+    if (typeof value === "object") {
+      return [...accumulator, ...flattenObjectIntoRow(value, type)];
+    } else {
+      return [
+        ...accumulator,
+        {
+          description: prefix
+            ? `${prefix} - ${capitalizeFirstLetter(type)}`
+            : capitalizeFirstLetter(type),
+          value: value === "" ? null : value,
+        },
+      ];
+    }
+  }, []);
 };

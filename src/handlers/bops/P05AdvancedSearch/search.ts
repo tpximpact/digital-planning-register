@@ -1,6 +1,6 @@
 "use server";
 
-import { ApiResponse, DprSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApiSearchResponse, SearchParams } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
 import { convertPlanningApplicationBops } from "../converters";
@@ -18,7 +18,7 @@ import { defaultPagination } from "@/handlers/lib";
 export async function search(
   council: string,
   search?: SearchParams,
-): Promise<ApiResponse<DprSearch | null>> {
+): Promise<ApiResponse<DprApiSearchResponse | null>> {
   const dsnApplicationIds = await getDsnApplicationIds(council, search);
 
   let url = `public/planning_applications/search`;

@@ -1,4 +1,4 @@
-import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
+import { DprPagination, DprApplication, SearchParams } from "@/types";
 import { BackLink } from "../button";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
@@ -8,7 +8,7 @@ import ApplicationMap from "../application_map";
 
 export interface PageSearchSiteNoticesProps {
   appConfig: AppConfig;
-  applications: DprPlanningApplication[] | undefined;
+  applications: DprApplication[] | undefined;
   pagination: DprPagination | undefined;
   searchParams?: SearchParams;
 }
@@ -128,7 +128,7 @@ const SiteNoticeCard = ({
   application,
 }: {
   councilSlug: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
 }) => {
   const reference = application.application.reference;
   const boundary_geojson = application.property.boundary.site;

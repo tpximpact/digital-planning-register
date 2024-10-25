@@ -1,7 +1,7 @@
 "use server";
 
 import { ApplicationFormObject } from "@/components/application_form";
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprApiDocumentsResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
 import {
   convertBopsDocumentPagination,
@@ -12,7 +12,7 @@ import { handleBopsGetRequest } from "../requests";
 export async function documents(
   council: string,
   reference: string,
-): Promise<ApiResponse<DprDocuments | null>> {
+): Promise<ApiResponse<DprApiDocumentsResponse | null>> {
   const url = `public/planning_applications/${reference}/documents`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationDocuments | null>

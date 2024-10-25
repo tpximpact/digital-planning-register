@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Row } from "../../src/components/application_form/row";
 import {
-  DprApplicationSubmissionSubtopic,
-  DprApplicationSubmissionSubtopicValue,
+  DprApiApplicationSubmissionResponseSubtopic,
+  DprApiApplicationSubmissionResponseSubtopicValue,
   DprBoundaryGeojson,
 } from "@/types";
 import ApplicationMap from "../../src/components/application_map";
@@ -34,7 +34,7 @@ const mapData: DprBoundaryGeojson = {
 
 describe("Row component", () => {
   it("should return null when no map and value is null", () => {
-    const props: DprApplicationSubmissionSubtopicValue = {
+    const props: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: null,
     };
@@ -44,7 +44,7 @@ describe("Row component", () => {
   });
 
   it("should return when map and value is null", () => {
-    const props: DprApplicationSubmissionSubtopicValue = {
+    const props: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: null,
       map: mapData,
@@ -55,7 +55,7 @@ describe("Row component", () => {
   });
 
   it("should render description and value when value is a string", () => {
-    const props: DprApplicationSubmissionSubtopicValue = {
+    const props: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: "Test Value",
     };
@@ -67,7 +67,7 @@ describe("Row component", () => {
   });
 
   it("should render description and value when value is JSX", () => {
-    const props: DprApplicationSubmissionSubtopicValue = {
+    const props: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: <>Test Value</>,
     };
@@ -78,7 +78,7 @@ describe("Row component", () => {
   });
 
   it("should render ApplicationMap when map is provided", () => {
-    const props: DprApplicationSubmissionSubtopicValue = {
+    const props: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: null,
       map: mapData,
@@ -92,7 +92,7 @@ describe("Row component", () => {
 describe("Section component", () => {
   it("should render subtopic and a single row", () => {
     const subtopic = "Test Subtopic";
-    const value: DprApplicationSubmissionSubtopicValue = {
+    const value: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Test Description",
       value: "Test Value",
     };
@@ -106,11 +106,11 @@ describe("Section component", () => {
 
   it("should render nested rows", () => {
     const subtopic = "Test Subtopic";
-    const nestedValue: DprApplicationSubmissionSubtopicValue = {
+    const nestedValue: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Nested Description",
       value: "Nested Value",
     };
-    const value: DprApplicationSubmissionSubtopicValue = {
+    const value: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Description wont be rendered",
       value: [nestedValue],
     };
@@ -127,11 +127,11 @@ describe("Section component", () => {
 
   it("should render multiple rows", () => {
     const subtopic = "Test Subtopic";
-    const value1: DprApplicationSubmissionSubtopicValue = {
+    const value1: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Description 1",
       value: "Value 1",
     };
-    const value2: DprApplicationSubmissionSubtopicValue = {
+    const value2: DprApiApplicationSubmissionResponseSubtopicValue = {
       description: "Description 2",
       value: "Value 2",
     };
@@ -156,7 +156,7 @@ describe("ApplicationForm component", () => {
   });
 
   it("should render the submission data correctly", () => {
-    const submissionData: DprApplicationSubmissionSubtopic[] = [
+    const submissionData: DprApiApplicationSubmissionResponseSubtopic[] = [
       {
         subtopic: "Subtopic 1",
         value: [{ description: "Description 1", value: "Value 1" }],
@@ -176,7 +176,7 @@ describe("ApplicationForm component", () => {
   });
 
   it("should render multiple sections correctly", () => {
-    const submissionData: DprApplicationSubmissionSubtopic[] = [
+    const submissionData: DprApiApplicationSubmissionResponseSubtopic[] = [
       {
         subtopic: "Subtopic 1",
         value: [{ description: "Description 1", value: "Value 1" }],

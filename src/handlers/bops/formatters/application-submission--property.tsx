@@ -1,4 +1,4 @@
-import { DprApplicationSubmissionSubtopicValue } from "@/types";
+import { DprApiApplicationSubmissionResponseSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 
 /**
@@ -8,7 +8,7 @@ import { capitalizeFirstLetter } from "@/util";
  */
 export const BopsProperty = (
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
       let description = capitalizeFirstLetter(key);
@@ -17,7 +17,7 @@ export const BopsProperty = (
         | []
         | null
         | JSX.Element
-        | DprApplicationSubmissionSubtopicValue[] =
+        | DprApiApplicationSubmissionResponseSubtopicValue[] =
         typeof value === "string" ? value : JSON.stringify(value);
 
       switch (key) {
@@ -77,7 +77,7 @@ export const BopsProperty = (
 const formatEpc = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   return {
     description: "EPC",
     value: data?.known,
@@ -166,7 +166,7 @@ const formatPlanning = (data: Record<string, any>) => {
 const formatTitleNumber = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const value = data?.number ? data?.number : null;
 
   return {
@@ -186,7 +186,7 @@ const formatTitleNumber = (
 const formatLocalAuthorityDistrict = (
   description: string,
   data: string[],
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const value =
     data.length > 0 ? (
       <>
@@ -206,7 +206,7 @@ const formatLocalAuthorityDistrict = (
 
 export const formatParking = (
   description: string,
-  data: DprApplicationSubmissionSubtopicValue[],
+  data: DprApiApplicationSubmissionResponseSubtopicValue[],
 ) => {
   return {
     description,
@@ -234,9 +234,9 @@ export const parseParking = (
   prefix: String = "",
   valuePrefix: string = "",
   field: string = "count",
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   return Object.entries(parking).reduce<
-    DprApplicationSubmissionSubtopicValue[]
+    DprApiApplicationSubmissionResponseSubtopicValue[]
   >((accumulator, [type, value]) => {
     if (value[field] === undefined) {
       return [...accumulator, ...parseParking(value, type, valuePrefix, field)];

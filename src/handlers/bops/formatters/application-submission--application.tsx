@@ -1,5 +1,5 @@
 import { flattenObjectIntoRow } from "../converters/applicationSubmission";
-import { DprApplicationSubmissionSubtopicValue } from "@/types";
+import { DprApiApplicationSubmissionResponseSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 
 /**
@@ -10,7 +10,7 @@ import { capitalizeFirstLetter } from "@/util";
  */
 export const BopsApplication = (
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
       let description = capitalizeFirstLetter(key);
@@ -19,7 +19,7 @@ export const BopsApplication = (
         | []
         | null
         | JSX.Element
-        | DprApplicationSubmissionSubtopicValue[] =
+        | DprApiApplicationSubmissionResponseSubtopicValue[] =
         typeof value === "string" ? value : JSON.stringify(value);
 
       switch (key) {
@@ -56,7 +56,7 @@ export const BopsApplication = (
 const formatType = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   return {
     description: "Application type",
     value: data?.description ? data?.description : null,
@@ -68,7 +68,7 @@ const formatType = (
 const formatPreApp = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const preApp = flattenObjectIntoRow(data);
 
   const value =

@@ -1,4 +1,4 @@
-import { DprApplicationSubmissionSubtopicValue } from "@/types";
+import { DprApiApplicationSubmissionResponseSubtopicValue } from "@/types";
 import { formatDprDate } from "@/util";
 import { capitalizeFirstLetter } from "@/util";
 import {
@@ -15,7 +15,7 @@ import {
  */
 export const BopsProposal = (
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue[] => {
+): DprApiApplicationSubmissionResponseSubtopicValue[] => {
   return Object.entries(data)
     .map(([key, value]) => {
       let description = capitalizeFirstLetter(key);
@@ -24,7 +24,7 @@ export const BopsProposal = (
         | []
         | null
         | JSX.Element
-        | DprApplicationSubmissionSubtopicValue[] =
+        | DprApiApplicationSubmissionResponseSubtopicValue[] =
         typeof value === "string" ? value : JSON.stringify(value);
 
       switch (key) {
@@ -71,7 +71,7 @@ export const BopsProposal = (
 const formatDate = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const values = [];
   if (data?.start) {
     values.push(formatDprDate(data?.start));
@@ -91,7 +91,7 @@ const formatDate = (
 const formatExtend = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   return {
     description: "Extension size",
     value: data ? `${data?.area?.squareMetres} m2` : "",
@@ -103,7 +103,7 @@ const formatExtend = (
 const formatProjectType = (
   description: string,
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopicValue => {
+): DprApiApplicationSubmissionResponseSubtopicValue => {
   const projectDescriptions: string[] = data?.map(
     (el: { description: string }) => el.description,
   );

@@ -1,5 +1,5 @@
 import { AppConfig } from "@/config/types";
-import { DprDocument, DprPlanningApplication } from "@/types";
+import { DprDocument, DprApplication } from "@/types";
 import { CommentsList } from "@/components/CommentsList";
 import ApplicationPeople from "../application_people";
 import ApplicationInformation from "../application_information";
@@ -10,7 +10,7 @@ import { ContentError } from "../ContentError";
 export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
-  application: DprPlanningApplication;
+  application: DprApplication;
   documents: DprDocument[] | null;
 }
 
@@ -39,7 +39,7 @@ export const ApplicationDetails = ({
       {/* <ApplicationLocation /> */}
       {/* <ApplicationMoreDetails {...application} /> */}
       <DocumentsList
-        councilSlug={appConfig?.council?.slug}
+        councilSlug={appConfig.council.slug}
         reference={reference}
         showMoreButton={true}
         documents={documents ?? null}

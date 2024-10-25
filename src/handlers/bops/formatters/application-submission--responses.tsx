@@ -1,6 +1,6 @@
 import {
-  DprApplicationSubmissionSubtopic,
-  DprApplicationSubmissionSubtopicValue,
+  DprApiApplicationSubmissionResponseSubtopic,
+  DprApiApplicationSubmissionResponseSubtopicValue,
 } from "@/types";
 
 /**
@@ -37,10 +37,12 @@ import {
  */
 export const BopsResponses = (
   data: Record<string, any>,
-): DprApplicationSubmissionSubtopic[] => {
+): DprApiApplicationSubmissionResponseSubtopic[] => {
   const groupedData = data.reduce(
     (
-      acc: { [key: string]: DprApplicationSubmissionSubtopicValue[] },
+      acc: {
+        [key: string]: DprApiApplicationSubmissionResponseSubtopicValue[];
+      },
       item: Record<string, any>,
     ) => {
       // make section if it doesn already exist

@@ -6,7 +6,7 @@ import {
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
+  DprApplication,
   SearchParams,
 } from "@/types";
 import { BopsComment } from "@/handlers/bops/types";
@@ -67,7 +67,7 @@ export const getCommentTypeToShow = (
 export const buildCommentResult = (
   appConfig: AppConfig,
   type: DprCommentTypes,
-  application: DprPlanningApplication,
+  application: DprApplication,
   searchParams?: SearchParams,
 ) => {
   const comments =

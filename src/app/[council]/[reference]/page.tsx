@@ -1,5 +1,9 @@
 import { Metadata } from "next";
-import { ApiResponse, DprShow, DprDocuments } from "@/types";
+import {
+  ApiResponse,
+  DprApiShowResponse,
+  DprApiDocumentsResponse,
+} from "@/types";
 import { BackLink } from "@/components/button";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
@@ -16,8 +20,8 @@ interface PlanningApplicationDetailsProps {
 }
 
 async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
-  applicationResponse: ApiResponse<DprShow | null>;
-  documentResponse: ApiResponse<DprDocuments | null>;
+  applicationResponse: ApiResponse<DprApiShowResponse | null>;
+  documentResponse: ApiResponse<DprApiDocumentsResponse | null>;
 }> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
@@ -72,8 +76,9 @@ const PlanningApplicationDetails = async ({
     );
   }
   const documents = appConfig.features.documentsPublicEndpoint
-    ? documentResponse?.data?.files
+    ? (documentResponse?.data?.files ?? null)
     : application.application.documents;
+
   return (
     <>
       <BackLink />

@@ -2,7 +2,7 @@ import {
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
+  DprApplication,
   SearchParams,
 } from "@/types";
 import { BackLink } from "../button";
@@ -16,7 +16,7 @@ import { PageWrapper } from "../PageWrapper";
 
 export interface PageApplicationCommentsProps {
   reference: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
   comments: DprComment[] | null;
   pagination: DprPagination;
   appConfig: AppConfig;

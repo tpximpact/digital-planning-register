@@ -1,6 +1,6 @@
 "use server";
 
-import { ApiResponse, DprShow } from "@/types";
+import { ApiResponse, DprApiShowResponse } from "@/types";
 import {
   BopsV2PublicPlanningApplicationDetail,
   BopsV2PlanningApplicationDetail,
@@ -18,7 +18,7 @@ import { handleBopsGetRequest } from "../requests";
 export async function show(
   council: string,
   reference: string,
-): Promise<ApiResponse<DprShow | null>> {
+): Promise<ApiResponse<DprApiShowResponse | null>> {
   const url = `public/planning_applications/${reference}`;
   const missing_data_url = `planning_applications/${reference}`;
 

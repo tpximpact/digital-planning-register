@@ -1,4 +1,4 @@
-import { DprPlanningApplication } from "@/types";
+import { DprApplication } from "@/types";
 import DescriptionCard from "../description_card";
 import { formatDprDate } from "@/util";
 import {
@@ -8,7 +8,7 @@ import {
 } from "@/lib/applications";
 import ApplicationMap from "../application_map";
 
-export interface ApplicationCardProps extends DprPlanningApplication {
+export interface ApplicationCardProps extends DprApplication {
   councilSlug: string;
 }
 

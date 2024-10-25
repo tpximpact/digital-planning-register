@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApiSearchResponse, SearchParams } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -33,7 +33,7 @@ export async function search(
   source: string,
   council: string,
   search?: SearchParams,
-): Promise<ApiResponse<DprSearch | null>> {
+): Promise<ApiResponse<DprApiSearchResponse | null>> {
   if (!council) {
     return apiReturnError("Council is required");
   }

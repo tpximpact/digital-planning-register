@@ -10,7 +10,7 @@ import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { BackLink } from "@/components/button";
-import { DprShow, SearchParams } from "@/types";
+import { DprApiShowResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
@@ -32,7 +32,8 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
 
   const [appConfig, setAppConfig] = useState<AppConfig | undefined>(undefined);
   const [page, setPage] = useState(0);
-  const [applicationData, setApplicationData] = useState<DprShow | null>(null);
+  const [applicationData, setApplicationData] =
+    useState<DprApiShowResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);

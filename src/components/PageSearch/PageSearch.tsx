@@ -1,4 +1,4 @@
-import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
+import { DprPagination, DprApplication, SearchParams } from "@/types";
 import { BackLink } from "../button";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
@@ -8,7 +8,7 @@ import Pagination from "../pagination";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
-  applications: DprPlanningApplication[] | undefined;
+  applications: DprApplication[] | undefined;
   pagination: DprPagination | undefined;
   searchParams?: SearchParams;
 }

@@ -1,16 +1,16 @@
 import {
-  DprApplicationSubmissionSubtopic,
-  DprApplicationSubmissionSubtopicValue,
+  DprApiApplicationSubmissionResponseSubtopic,
+  DprApiApplicationSubmissionResponseSubtopicValue,
 } from "@/types";
 import { Row } from "./row";
 
 export const Section = ({
   subtopic,
   value,
-}: DprApplicationSubmissionSubtopic) => {
-  // if value is an array it will be an array of DprApplicationSubmissionSubtopicValue
+}: DprApiApplicationSubmissionResponseSubtopic) => {
+  // if value is an array it will be an array of DprApiApplicationSubmissionResponseSubtopicValue
   const renderRow = (
-    value: DprApplicationSubmissionSubtopicValue[],
+    value: DprApiApplicationSubmissionResponseSubtopicValue[],
     i: number,
   ): React.ReactNode => {
     return value.map((item, i) => {

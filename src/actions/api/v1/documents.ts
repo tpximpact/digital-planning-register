@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprApiDocumentsResponse } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -30,7 +30,7 @@ export async function documents(
   source: string,
   council: string,
   reference: string,
-): Promise<ApiResponse<DprDocuments | null>> {
+): Promise<ApiResponse<DprApiDocumentsResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
   }

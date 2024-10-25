@@ -1,8 +1,8 @@
 "use server";
 
-import { ApiResponse, DprShow } from "@/types";
+import { ApiResponse, DprApiShowResponse } from "@/types";
 
-const response: ApiResponse<DprShow | null> = {
+const response: ApiResponse<DprApiShowResponse | null> = {
   data: {
     application: {
       reference: "24-00135-HAPP",
@@ -276,6 +276,6 @@ const response: ApiResponse<DprShow | null> = {
   },
 };
 
-export const show = (): Promise<ApiResponse<DprShow | null>> => {
+export const show = (): Promise<ApiResponse<DprApiShowResponse | null>> => {
   return Promise.resolve(response);
 };

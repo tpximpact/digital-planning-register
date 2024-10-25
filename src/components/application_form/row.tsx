@@ -1,11 +1,11 @@
-import { DprApplicationSubmissionSubtopicValue } from "@/types";
+import { DprApiApplicationSubmissionResponseSubtopicValue } from "@/types";
 import ApplicationMap from "../application_map";
 
 export const Row = ({
   description,
   value,
   map,
-}: DprApplicationSubmissionSubtopicValue): React.ReactNode => {
+}: DprApiApplicationSubmissionResponseSubtopicValue): React.ReactNode => {
   if (!map && value === null) {
     return null;
   }
