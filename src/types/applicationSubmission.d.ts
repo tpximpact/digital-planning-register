@@ -1,7 +1,7 @@
 import { DprBoundaryGeojson } from "./boundaryGeojson";
 
 export interface DprApplicationSubmissionData {
-  data: DprApplicationSubmissionSubtopic[];
+  data: DprApiApplicationSubmissionResponseSubtopic[];
   metadata: {
     submittedAt: string;
     /**
@@ -14,13 +14,17 @@ export interface DprApplicationSubmissionData {
 /**
  * We convert into subtopic and value pairs
  */
-export interface DprApplicationSubmissionSubtopic {
+export interface DprApiApplicationSubmissionResponseSubtopic {
   subtopic: string;
-  value: DprApplicationSubmissionSubtopicValue[];
+  value: DprApiApplicationSubmissionResponseSubtopicValue[];
 }
 
-export interface DprApplicationSubmissionSubtopicValue {
+export interface DprApiApplicationSubmissionResponseSubtopicValue {
   description: string;
-  value: string | null | JSX.Element | DprApplicationSubmissionSubtopicValue[];
+  value:
+    | string
+    | null
+    | JSX.Element
+    | DprApiApplicationSubmissionResponseSubtopicValue[];
   map?: DprBoundaryGeojson;
 }
