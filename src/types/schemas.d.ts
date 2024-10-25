@@ -8,6 +8,7 @@
 
 import { DprApplication, DprDocument, DprPagination } from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
+import { PrototypeApplication } from "odp-types/schemas/prototypeApplication";
 
 /**
  * /api/search
@@ -39,5 +40,5 @@ export interface DprApiDocumentsResponse {
  */
 export interface DprApiApplicationSubmissionResponse {
   application: DprApplication["application"];
-  submission: DprApplicationSubmissionData | null;
+  submission: PrototypeApplication | null;
 }

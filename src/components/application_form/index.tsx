@@ -3,19 +3,20 @@ import {
   DprDocument,
 } from "@/types";
 import { Section } from "./section";
+import { PrototypeApplication } from "odp-types/schemas/prototypeApplication";
 
 interface ApplicationFormProps {
-  submissionData: DprApiApplicationSubmissionResponseSubtopic[] | null;
+  submission: PrototypeApplication;
 }
 
-const ApplicationForm = ({ submissionData }: ApplicationFormProps) => {
-  if (!submissionData) {
+const ApplicationForm = ({ submission }: ApplicationFormProps) => {
+  if (!submission) {
     return null;
   }
   return (
     <div className="govuk-grid-row faux-document">
       <div className="govuk-grid-column-full">
-        {submissionData?.map((el, i) => (
+        {submission?.map((el, i) => (
           <Section subtopic={el.subtopic} value={el.value} key={i} />
         ))}
       </div>
@@ -24,6 +25,8 @@ const ApplicationForm = ({ submissionData }: ApplicationFormProps) => {
 };
 
 /**
+ * DEPRECATED
+ * @deprecated
  * This generates a fake document - currently using the BopsNonStandardDocument type
  * @todo this will soon not be compatible with the new document type
  * Its added per page as opposed to at a higher level since we fetch the data at each load anyway,

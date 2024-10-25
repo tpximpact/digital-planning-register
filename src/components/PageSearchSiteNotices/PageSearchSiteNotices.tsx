@@ -4,7 +4,7 @@ import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
 import Pagination from "../pagination";
-import ApplicationMap from "../application_map";
+import ApplicationMap from "../ApplicationMap";
 
 export interface PageSearchSiteNoticesProps {
   appConfig: AppConfig;

@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PageApplicationSubmission } from "./PageApplicationSubmission";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
+import { ApplicationSubmission } from "./ApplicationSubmission";
 import { generateApplicationSubmission } from "@mocks/odpApplicationSubmission";
 
 const meta = {
-  title: "Council Pages/Application submission",
-  component: PageApplicationSubmission,
+  title: "DPR/Application submission",
+  component: ApplicationSubmission,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -16,10 +15,9 @@ const meta = {
     },
   },
   args: {
-    application: generateDprApplication().application,
     submission: generateApplicationSubmission,
   },
-} satisfies Meta<typeof PageApplicationSubmission>;
+} satisfies Meta<typeof ApplicationSubmission>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -27,6 +25,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const NoResults: Story = {
   args: {
-    submission: null,
+    submission: undefined,
   },
 };

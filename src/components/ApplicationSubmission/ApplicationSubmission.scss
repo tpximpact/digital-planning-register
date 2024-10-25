@@ -1,0 +1,15 @@
+@import "node_modules/govuk-frontend/dist/govuk/base";
+@import "node_modules/govuk-frontend/dist/govuk/components/summary-list/index";
+
+.dpr-application-submission {
+  border: 1px solid govuk-colour("mid-grey");
+  margin-left: 0;
+  margin-right: 0;
+  padding: 2em 1em 1em;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

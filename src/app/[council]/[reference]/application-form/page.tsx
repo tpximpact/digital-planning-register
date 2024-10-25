@@ -49,6 +49,7 @@ export default async function ApplicationFormPage({
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
   const response = await fetchData({ params });
+  const application = response.data?.application;
 
   if (
     !response ||
@@ -62,10 +63,7 @@ export default async function ApplicationFormPage({
     );
   }
 
-  const submittedAt = response?.data?.submission?.metadata.submittedAt;
-  const applicationSubmissionData = response?.data?.submission?.data;
-
-  if (!applicationSubmissionData) {
+  if (!application) {
     return (
       <PageWrapper>
         <ContentNotFound councilConfig={appConfig.council} />
@@ -73,11 +71,12 @@ export default async function ApplicationFormPage({
     );
   }
 
+  const submission = response.data?.submission ?? null;
+
   return (
     <PageApplicationSubmission
-      reference={reference}
-      submittedAt={submittedAt}
-      applicationSubmissionData={applicationSubmissionData}
+      application={application}
+      submission={submission}
     />
   );
 }

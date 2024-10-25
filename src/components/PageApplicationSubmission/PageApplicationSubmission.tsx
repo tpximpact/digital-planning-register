@@ -1,18 +1,20 @@
 import { formatIsoDateTime } from "@/util";
 import { BackLink } from "../button";
-import ApplicationForm from "../application_form";
+import { DprApplication } from "@/types";
+import { PrototypeApplication } from "odp-types/schemas/prototypeApplication";
+import { ApplicationSubmission } from "../ApplicationSubmission";
 
 export interface PageApplicationSubmissionProps {
-  reference: string;
-  applicationSubmissionData?: any;
-  submittedAt?: string;
+  application: DprApplication["application"];
+  submission: PrototypeApplication | null;
 }
 
 export const PageApplicationSubmission = ({
-  reference,
-  applicationSubmissionData,
-  submittedAt,
+  application,
+  submission,
 }: PageApplicationSubmissionProps) => {
+  const reference = application.reference;
+  const submittedAt = submission && submission.metadata.submittedAt;
   return (
     <>
       <BackLink />
@@ -39,8 +41,8 @@ export const PageApplicationSubmission = ({
             </div>
           </div>
         </div>
-        {applicationSubmissionData && applicationSubmissionData.length > 0 ? (
-          <ApplicationForm submissionData={applicationSubmissionData} />
+        {submission ? (
+          <ApplicationSubmission submission={submission} />
         ) : (
           <p className="govuk-body">Submission data not available</p>
         )}
