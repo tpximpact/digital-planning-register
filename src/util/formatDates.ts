@@ -22,13 +22,11 @@ dayjs.extend(customParseFormat);
  * formatDateString("2024-07-02T11:37:35.069Z");
  */
 export const formatDprDate = (dateString: string): string => {
-  try {
-    const date = dayjs(dateString);
-    return date.format("DD MMM YYYY");
-  } catch (error) {
-    console.error("Invalid date string:", dateString);
+  const date = dayjs(dateString);
+  if (!date.isValid()) {
     return "Invalid Date";
   }
+  return date.format("DD MMM YYYY");
 };
 
 /**
@@ -43,11 +41,9 @@ export const formatDprDate = (dateString: string): string => {
  * formatIsoDateTime("2024-07-02T11:37:35.069Z");
  */
 export const formatIsoDateTime = (isoDateString: string): string => {
-  try {
-    const date = dayjs.utc(isoDateString);
-    return date.format("DD MMM YYYY hh:mm A");
-  } catch (error) {
-    console.error("Invalid date string:", isoDateString);
+  const date = dayjs.utc(isoDateString);
+  if (!date.isValid()) {
     return "Invalid Date";
   }
+  return date.format("DD MMM YYYY hh:mm A");
 };
