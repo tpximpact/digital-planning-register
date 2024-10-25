@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprApiSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApplication, SearchParams } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -32,17 +32,17 @@ import { apiReturnError } from "@/handlers/lib";
 export async function search(
   source: string,
   council: string,
-  search?: SearchParams,
-): Promise<ApiResponse<DprApiSearch | null>> {
+  searchParams?: SearchParams,
+): Promise<ApiResponse<DprApplication[] | undefined>> {
   if (!council) {
     return apiReturnError("Council is required");
   }
 
   switch (source) {
     case "bops":
-      return await BopsV2.search(council, search);
+      return await BopsV2.search(council, searchParams);
     case "local":
-      return await LocalV1.search(search);
+      return await LocalV1.search(searchParams);
     default:
       return apiReturnError("Invalid source");
   }

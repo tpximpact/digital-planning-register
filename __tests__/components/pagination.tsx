@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Pagination from "@/components/pagination";
+import { Pagination } from "@/components/govuk/Pagination";
 
 describe("Pagination", () => {
   const baseProps = {

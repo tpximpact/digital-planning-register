@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageSearch } from "./PageSearch";
-import { getAppConfig } from "@/config";
-import { defaultPagination } from "@/handlers/lib";
+import {
+  generateDprApplication,
+  generateNResults,
+  generatePagination,
+} from "@mocks/dprApplicationFactory";
+import { createAppConfig } from "@mocks/appConfigFactory";
 
-const appConfig = getAppConfig("public-council-1");
 const meta = {
-  title: "Pages/Council Application search page",
+  title: "Council Pages/Search",
   component: PageSearch,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -17,9 +20,9 @@ const meta = {
     },
   },
   args: {
-    appConfig,
-    applications: undefined,
-    pagination: defaultPagination,
+    appConfig: createAppConfig("public-council-1"),
+    applications: generateNResults(10, generateDprApplication),
+    pagination: generatePagination(),
   },
 } satisfies Meta<typeof PageSearch>;
 

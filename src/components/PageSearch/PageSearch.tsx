@@ -1,15 +1,15 @@
-import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
+import { ApiResponse, DprApplication, SearchParams } from "@/types";
 import { BackLink } from "../button";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
-import Pagination from "../pagination";
+import { Pagination } from "../govuk/Pagination";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
-  applications: DprPlanningApplication[] | undefined;
-  pagination: DprPagination | undefined;
+  applications?: DprApplication[];
+  pagination: ApiResponse<any>["pagination"];
   searchParams?: SearchParams;
 }
 
@@ -43,17 +43,8 @@ export const PageSearch = ({
                 {...application}
               />
             ))}
-            {pagination && pagination.total_pages > 1 && (
-              <Pagination
-                currentPage={page - 1}
-                totalItems={
-                  pagination.total_pages * appConfig.defaults.resultsPerPage
-                }
-                itemsPerPage={appConfig.defaults.resultsPerPage}
-                totalPages={pagination.total_pages}
-                baseUrl={`/${appConfig.council.slug}/`}
-                queryParams={searchParams}
-              />
+            {pagination && (
+              <Pagination currentUrl={"/"} pagination={pagination} />
             )}
           </>
         ) : (

@@ -1,4 +1,4 @@
-import { DprApplication, DprComment, DprDocument } from "@/types";
+import { ApiResponse, DprApplication, DprComment, DprDocument } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
 
 /**
@@ -55,21 +55,23 @@ export const generateDocument = (): DprDocument => {
  *
  * @returns {object} A random pagination object.
  */
-export const generatePagination = () => {
-  const totalResults = faker.number.int({ min: 10, max: 100 });
-  const resultsPerPage = faker.number.int({ min: 1, max: 20 });
+export const generatePagination = (
+  currentPage?: number,
+): NonNullable<ApiResponse<any>["pagination"]> => {
+  const totalResults = faker.number.int({ min: 10, max: 500 });
+  const resultsPerPage = 10;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
-  const currentPage = faker.number.int({ min: 1, max: totalPages || 1 });
-  const from = (currentPage - 1) * resultsPerPage + 1;
-  const to = Math.min(currentPage * resultsPerPage, totalResults);
+
+  currentPage =
+    currentPage && (currentPage >= totalPages || currentPage <= totalPages)
+      ? currentPage
+      : faker.number.int({ min: 1, max: totalPages || 1 });
 
   return {
-    page: currentPage,
-    results: resultsPerPage,
-    from: totalResults === 0 ? 0 : from,
-    to: totalResults === 0 ? 0 : to,
-    total_pages: totalPages,
-    total_results: totalResults,
+    currentPage: Number(currentPage),
+    totalPages: totalPages,
+    itemsPerPage: resultsPerPage,
+    totalItems: totalResults,
   };
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ApiResponse, DprApiSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApplication, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
@@ -16,7 +16,7 @@ interface HomeProps {
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<ApiResponse<DprApiSearch | null>> {
+}: HomeProps): Promise<ApiResponse<DprApplication[] | undefined>> {
   const { council } = params;
   const appConfig = getAppConfig(council);
 
@@ -63,8 +63,8 @@ export default async function PlanningApplicationSearch({
   return (
     <PageSearch
       appConfig={appConfig}
-      applications={response.data?.data}
-      pagination={response.data?.pagination}
+      applications={response.data}
+      pagination={response.pagination}
       searchParams={searchParams}
     />
   );
