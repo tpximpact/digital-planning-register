@@ -1,13 +1,14 @@
 "use server";
 
 import { getAppConfig } from "@/config";
-import { ApiResponse, DprApiSearch, SearchParams } from "@/types";
+import { ApiResponse, DprApplication, SearchParams } from "@/types";
 import {
   generateDprApplication,
+  generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 
-const responseDsn: ApiResponse<DprApiSearch | null> = {
+const responseDsn: ApiResponse<DprApplication[]> = {
   data: {
     pagination: {
       page: 1,
@@ -88,23 +89,25 @@ const responseDsn: ApiResponse<DprApiSearch | null> = {
 };
 
 const responseQuery = (
-  search?: SearchParams,
-): ApiResponse<DprApiSearch | null> => {
+  searchParams?: SearchParams,
+): ApiResponse<DprApplication[]> => {
   const appConfig = getAppConfig();
   const resultsPerPage = appConfig.defaults.resultsPerPage;
-  const applications = Array.from({ length: resultsPerPage }, () =>
-    generateDprApplication(),
+
+  const applications = generateNResults(
+    resultsPerPage,
+    generateDprApplication,
+    true,
   );
 
-  if (search?.query) {
-    applications[0].application.reference = search?.query;
+  // if we've done a search just rename the first result to match the query
+  if (searchParams?.query) {
+    applications[0].application.reference = searchParams?.query;
   }
 
   return {
-    data: {
-      pagination: generatePagination(),
-      data: applications,
-    },
+    data: applications,
+    pagination: generatePagination(searchParams?.page),
     status: {
       code: 200,
       message: "",
@@ -112,12 +115,12 @@ const responseQuery = (
   };
 };
 
-export const search = (
-  search?: SearchParams,
-): Promise<ApiResponse<DprApiSearch | null>> => {
-  if (search?.type === "dsn") {
+export const search = async (
+  searchParams?: SearchParams,
+): Promise<ApiResponse<DprApplication[]>> => {
+  if (searchParams?.type === "dsn") {
     return Promise.resolve(responseDsn);
   }
 
-  return Promise.resolve(responseQuery(search));
+  return await Promise.resolve(responseQuery(searchParams));
 };

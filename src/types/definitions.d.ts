@@ -118,21 +118,6 @@ export interface DprApplication {
 }
 
 /**
- * Pagination definition
- */
-export interface DprPaginationBase {
-  results: number;
-  total_results: number;
-}
-
-export interface DprPagination extends DprPaginationBase {
-  page: number;
-  from: number;
-  to: number;
-  total_pages: number;
-}
-
-/**
  * What our comments look like
  * A mix of BOPS and DPR
  */
@@ -207,6 +192,9 @@ export type DprCommentTypes = "specialist" | "public";
 
 export interface SearchParams {
   query?: string;
+  /**
+   * page number
+   */
   page: number;
   resultsPerPage: number;
   /**

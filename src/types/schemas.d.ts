@@ -1,9 +1,11 @@
 import {
   DprPagination,
   DprApplication,
-  DprPaginationBase,
+  DprPagination,
   DprDocument,
+  DprComment,
   DprApplicationSubmissionData,
+  DprComment,
 } from "@/types";
 
 /**
@@ -21,8 +23,16 @@ export interface DprApiShow extends DprApplication {}
  * This is our own schema for the documents for an application
  */
 export interface DprApiDocuments {
-  pagination: DprPaginationBase;
+  pagination: DprPagination;
   files: DprDocument[];
+}
+
+/**
+ * This is our own schema for the documents for an application
+ */
+export interface DprApiComments {
+  pagination: DprPagination;
+  data: DprComment[];
 }
 
 export interface DprApiApplicationSubmission {

@@ -1,8 +1,7 @@
 import { ApiResponse } from "@/types";
 
-export function apiReturnError(detail: string): ApiResponse<null> {
+export function apiReturnError(detail: string): ApiResponse<undefined> {
   return {
-    data: null,
     status: {
       code: 400,
       message: "Bad request",
