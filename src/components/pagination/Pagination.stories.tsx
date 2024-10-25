@@ -12,10 +12,10 @@ const meta = {
   },
   args: {
     currentPage: 1,
-    totalItems: 30,
+    totalItems: 50,
     itemsPerPage: 10,
-    baseUrl: "",
-    queryParams: "",
+    baseUrl: "/",
+    queryParams: {},
     totalPages: 3,
   },
 } satisfies Meta<typeof Pagination>;
