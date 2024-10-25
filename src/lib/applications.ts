@@ -63,7 +63,7 @@ export function applicationDecisionInfoPointId(decisionDefined: string) {
  * and capitalized.
  */
 export function definedStatus(status: string, end_date: string | null) {
-  if (!end_date) return capitaliseWord(status.replace(/_/g, " "));
+  if (!end_date) return capitaliseWord(status?.replace(/_/g, " "));
 
   const endDate = new Date(end_date);
   const today = new Date();
@@ -83,7 +83,7 @@ export function definedStatus(status: string, end_date: string | null) {
     }
   }
 
-  return capitaliseWord(status.replace(/_/g, " "));
+  return capitaliseWord(status?.replace(/_/g, " "));
 }
 
 /**

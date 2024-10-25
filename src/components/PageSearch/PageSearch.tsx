@@ -4,7 +4,7 @@ import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
-import Pagination from "../pagination";
+import { Pagination } from "@/components/Pagination";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
