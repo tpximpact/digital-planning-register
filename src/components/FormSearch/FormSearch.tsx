@@ -31,7 +31,11 @@ export const FormSearch = ({
             autoComplete="on"
           />
           {validationError && (
-            <p id="search-error" className="govuk-error-message">
+            <p
+              id="search-error"
+              className="govuk-error-message"
+              data-testid="validation-error"
+            >
               <span className="govuk-visually-hidden">Error:</span> Enter at
               least 3 characters to search
             </p>

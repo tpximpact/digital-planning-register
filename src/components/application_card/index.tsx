@@ -18,20 +18,20 @@ const ApplicationCard = ({
   property,
   proposal,
 }: ApplicationCardProps) => {
-  const reference = application.reference;
-  const address = property.address.singleLine;
-  const boundary_geojson = property.boundary.site;
-  const description = proposal.description;
-  const applicationType = application.type.description;
+  const reference = application?.reference;
+  const address = property?.address.singleLine;
+  const boundary_geojson = property?.boundary.site;
+  const description = proposal?.description;
+  const applicationType = application?.type.description;
   const applicationStatusDefined = definedStatus(
-    application.status,
-    application.consultation.endDate,
+    application?.status,
+    application?.consultation.endDate,
   );
-  const applicationReceivedAt = application.receivedAt;
-  const applicationPublishedAt = application.publishedAt;
-  const consultationEndDate = application.consultation.endDate;
-  const applicationDecision = application.decision;
-  const applicationDeterminedAt = application.determinedAt;
+  const applicationReceivedAt = application?.receivedAt;
+  const applicationPublishedAt = application?.publishedAt;
+  const consultationEndDate = application?.consultation.endDate;
+  const applicationDecision = application?.decision;
+  const applicationDeterminedAt = application?.determinedAt;
 
   const decisionDate =
     applicationDecision && applicationDeterminedAt
