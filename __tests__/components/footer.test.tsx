@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Footer } from "@/components/Footer";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 import { Council } from "@/config/types";
 
 // Mock the Image component from next/image
@@ -14,7 +14,7 @@ jest.mock("next/image", () => (props: any) => (
 
 describe("Footer", () => {
   it("renders the Footer component", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     const councilConfig = appConfig.council;
     render(<Footer councilConfig={councilConfig} />);
     expect(
@@ -23,7 +23,7 @@ describe("Footer", () => {
   });
 
   it("displays the privacy policy link if provided", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     const councilConfig = appConfig.council;
     render(<Footer councilConfig={councilConfig} />);
     const privacyPolicyLink = screen.getByText("Privacy policy");
@@ -35,7 +35,7 @@ describe("Footer", () => {
   });
 
   it("does not display the privacy policy link if not provided", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     const councilConfig: Partial<Council> = {
       ...appConfig.council,
       pageContent: undefined,

@@ -43,10 +43,10 @@ import { AppConfig, Council } from "@/config/types";
  *
  * @example
  * // Create a default configuration
- * const config = createAppConfig();
+ * const config = generateAppConfig();
  *
  */
-export const createAppConfig = (council?: string): AppConfig => {
+export const generateAppConfig = (council?: string): AppConfig => {
   const councilConfigs = getDefaultCouncilConfigs();
   const validCouncils = councilConfigs
     .map(

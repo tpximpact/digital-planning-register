@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationSubmission } from "./PageApplicationSubmission";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
-const appConfig = createAppConfig();
+const appConfig = generateAppConfig();
 const meta = {
   title: "Pages/Council application submission",
   component: PageApplicationSubmission,

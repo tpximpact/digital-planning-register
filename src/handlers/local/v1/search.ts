@@ -94,10 +94,9 @@ const responseQuery = (
   const appConfig = getAppConfig();
   const resultsPerPage = appConfig.defaults.resultsPerPage;
 
-  const applications = generateNResults(
+  const applications = generateNResults<DprApplication>(
     resultsPerPage,
     generateDprApplication,
-    true,
   );
 
   // if we've done a search just rename the first result to match the query

@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { ContentCommentsPreSubmission } from "@/components/ContentCommentsPreSubmission";
 import { getAppConfig } from "@/config";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
 // Mock the getAppConfig function
 jest.mock("@/config", () => ({
@@ -11,7 +11,7 @@ jest.mock("@/config", () => ({
 }));
 
 describe("ContentCommentsPreSubmission", () => {
-  const appConfig = createAppConfig("public-council-1");
+  const appConfig = generateAppConfig("public-council-1");
   appConfig.councils.map((council) => {
     if (council.slug === "public-council-1") {
       council.pageContent.council_reference_submit_comment_pre_submission = {
@@ -59,7 +59,7 @@ describe("ContentCommentsPreSubmission", () => {
   });
 
   it("does not render the link if not available in the config", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     appConfig.councils.map((council) => {
       if (council.slug === "public-council-1") {
         council.pageContent.council_reference_submit_comment_pre_submission =

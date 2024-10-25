@@ -3,7 +3,7 @@ import { BackLink } from "../button";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
-import Pagination from "../pagination";
+import Pagination from "../govuk/Pagination";
 import ApplicationMap from "../application_map";
 
 export interface PageSearchSiteNoticesProps {

@@ -1,9 +1,9 @@
 "use server";
 
-import { ApiResponse, DprApiShow } from "@/types";
+import { ApiResponse, DprApplication } from "@/types";
 import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
-const response = (reference: string): ApiResponse<DprApiShow | null> => {
+const response = (reference: string): ApiResponse<DprApplication> => {
   const application = generateDprApplication();
   application.application.reference = reference;
   return {
@@ -18,6 +18,6 @@ const response = (reference: string): ApiResponse<DprApiShow | null> => {
 export const show = (
   council: string,
   reference: string,
-): Promise<ApiResponse<DprApiShow | null>> => {
+): Promise<ApiResponse<DprApplication>> => {
   return Promise.resolve(response(reference));
 };

@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Menu } from "@/components/Menu";
 import { AppConfig } from "@/config/types";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
 // Mock the CouncilSelector component
 jest.mock("@/components/CouncilSelector", () => ({
@@ -21,7 +21,7 @@ jest.mock("@/components/CouncilSelector", () => ({
 }));
 
 describe("Menu", () => {
-  const appConfig = createAppConfig("public-council-1");
+  const appConfig = generateAppConfig("public-council-1");
 
   it("renders the Menu component", () => {
     render(

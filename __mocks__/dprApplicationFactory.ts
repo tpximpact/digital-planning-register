@@ -80,16 +80,12 @@ export const generatePagination = (
  *
  * @param {number} n - The maximum number of results to generate.
  * @param {function} callback - The callback function to generate each result.
- * @returns {any[]} An array of generated results.
+ * @param {boolean} [noZero=false] - Whether to ensure at least one result is generated.
+ * @returns {T[]} An array of generated results.
  */
-export const generateNResults = (
-  n: number,
-  callback: { (): any },
-  noZero: boolean = false,
-) => {
-  const results = [];
-  const numberOfComments = faker.number.int({ min: noZero ? 1 : 0, max: n });
-  for (let i = 0; i < numberOfComments; i++) {
+export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
+  const results: T[] = [];
+  for (let i = 0; i < n; i++) {
     results.push(callback());
   }
   return results;

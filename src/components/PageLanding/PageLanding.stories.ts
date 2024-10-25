@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageLanding } from "./PageLanding";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
-const appConfig = createAppConfig();
+const appConfig = generateAppConfig();
 const meta = {
   title: "Pages/Landing page",
   component: PageLanding,

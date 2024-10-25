@@ -2,11 +2,14 @@
  * gotta test the tests!
  */
 
-import { createAppConfig, createCouncilConfig } from "@mocks/appConfigFactory";
+import {
+  generateAppConfig,
+  createCouncilConfig,
+} from "@mocks/appConfigFactory";
 
-describe("createAppConfig", () => {
+describe("generateAppConfig", () => {
   it("creates a default configuration", () => {
-    const config = createAppConfig();
+    const config = generateAppConfig();
     expect(config.councils).toHaveLength(8);
     expect(config.councils[0].name).toBe("Public Council 1");
     expect(config.councils[1].name).toBe("Public Council 2");
@@ -19,19 +22,19 @@ describe("createAppConfig", () => {
   });
 
   it("returns the correct council when getCouncil is called", () => {
-    const config = createAppConfig();
+    const config = generateAppConfig();
     const council = config.councils.find((c) => c.slug === "public-council-1");
     expect(council).toBeDefined();
     expect(council?.name).toBe("Public Council 1");
   });
 
   it("returns null when not initiated with a council", () => {
-    const config = createAppConfig();
+    const config = generateAppConfig();
     expect(config.council).toBeUndefined();
   });
 
   it("returns correct council when initiated with a council", () => {
-    const config = createAppConfig("public-council-1");
+    const config = generateAppConfig("public-council-1");
     expect(config.council).not.toBeUndefined();
     expect(config.council?.name).toBe("Public Council 1");
   });

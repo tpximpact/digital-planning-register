@@ -2,10 +2,10 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import PreSubmission from "@/components/comment_pre_submission";
 import "@testing-library/jest-dom";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
 describe("PreSubmission", () => {
-  const appConfig = createAppConfig('public-council-1');
+  const appConfig = generateAppConfig("public-council-1");
   const defaultProps = {
     councilConfig: appConfig.council,
     reference: "REF-001",

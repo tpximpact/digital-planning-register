@@ -1,6 +1,12 @@
 import { DprDocument, DprPagination, SearchParams } from "@/types";
 import { createItemPagination } from "./pagination";
 
+/**
+ * helper method to build a document data object in the format required by the frontend
+ * @param documents
+ * @param searchParams
+ * @returns
+ */
 export const buildDocumentData = (
   documents: DprDocument[],
   searchParams?: SearchParams,

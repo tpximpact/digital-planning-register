@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CouncilSelector } from "@/components/CouncilSelector";
 import { useRouter } from "next/navigation";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
 // Mock the useRouter hook
 jest.mock("next/navigation", () => ({
@@ -21,7 +21,7 @@ describe("CouncilSelector", () => {
   });
 
   it("renders the CouncilSelector component", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     render(
       <CouncilSelector
         councils={appConfig.councils}
@@ -34,7 +34,7 @@ describe("CouncilSelector", () => {
   });
 
   it("displays only public councils in the dropdown", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     render(
       <CouncilSelector
         councils={appConfig.councils}
@@ -56,7 +56,7 @@ describe("CouncilSelector", () => {
   });
 
   it("selects the correct council when changed", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     render(
       <CouncilSelector
         councils={appConfig.councils}
@@ -70,7 +70,7 @@ describe("CouncilSelector", () => {
   });
 
   it('does not navigate when "select" is chosen', () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     render(
       <CouncilSelector
         councils={appConfig.councils}

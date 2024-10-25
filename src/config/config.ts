@@ -1,5 +1,5 @@
 import "server-only";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 import { AppConfig, Council, CouncilVisibility } from "./types";
 
 /**
@@ -72,7 +72,7 @@ export const getAppConfig = (council?: string): AppConfig => {
 const getAllCouncilConfigs = (): Council[] => {
   let workingCouncils;
   if (process.env.TEST_COUNCILS) {
-    workingCouncils = createAppConfig().councils;
+    workingCouncils = generateAppConfig().councils;
   } else {
     workingCouncils = councils;
   }

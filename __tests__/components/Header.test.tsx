@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Header } from "@/components/Header";
 import { usePathname } from "next/navigation";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 import { useRouter } from "next/router";
 
 // Mock the usePathname hook
@@ -24,7 +24,7 @@ describe("Header", () => {
   });
 
   it("renders the Header component with no council title when not inside /[council] page", () => {
-    const appConfig = createAppConfig();
+    const appConfig = generateAppConfig();
     const councilConfig = appConfig.council;
     render(<Header appConfig={appConfig} councilConfig={councilConfig} />);
     expect(screen.getByTestId("page-title").textContent).toBe(
@@ -34,7 +34,7 @@ describe("Header", () => {
   });
 
   it("renders the Header component with no council title when not inside /[council] page", () => {
-    const appConfig = createAppConfig("public-council-1");
+    const appConfig = generateAppConfig("public-council-1");
     const councilConfig = appConfig.council;
     render(<Header appConfig={appConfig} councilConfig={councilConfig} />);
     expect(screen.getByTestId("page-title").textContent).toBe(

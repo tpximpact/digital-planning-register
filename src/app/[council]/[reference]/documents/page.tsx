@@ -1,5 +1,10 @@
 import { Metadata } from "next";
-import { ApiResponse, DprShow, DprDocuments, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  SearchParams,
+  DprDocument,
+  DprApplication,
+} from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
@@ -18,9 +23,10 @@ interface PlanningApplicationDetailsDocumentsProps {
 
 async function fetchData({
   params,
+  searchParams,
 }: PlanningApplicationDetailsDocumentsProps): Promise<{
-  applicationResponse: ApiResponse<DprShow | null>;
-  documentResponse: ApiResponse<DprDocuments | null>;
+  applicationResponse: ApiResponse<DprApplication | undefined>;
+  documentResponse: ApiResponse<DprDocument[] | undefined>;
 }> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
@@ -30,6 +36,7 @@ async function fetchData({
       appConfig.council?.dataSource ?? "none",
       council,
       reference,
+      searchParams,
     ),
   ]);
   return { applicationResponse, documentResponse };
@@ -54,7 +61,10 @@ export default async function PlanningApplicationDetailsDocuments({
 }: PlanningApplicationDetailsDocumentsProps) {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
-  const { applicationResponse, documentResponse } = await fetchData({ params });
+  const { applicationResponse, documentResponse } = await fetchData({
+    params,
+    searchParams,
+  });
 
   if (
     !documentResponse ||
@@ -69,11 +79,9 @@ export default async function PlanningApplicationDetailsDocuments({
   }
 
   const application = applicationResponse?.data;
-  const documents = appConfig.features.documentsPublicEndpoint
-    ? documentResponse?.data?.files
-    : application?.application.documents;
+  const documents = documentResponse?.data;
 
-  if (!documents || !application) {
+  if (!application) {
     return (
       <PageWrapper>
         <ContentNotFound councilConfig={appConfig.council} />
@@ -85,12 +93,12 @@ export default async function PlanningApplicationDetailsDocuments({
 
   return (
     <PageApplicationDocuments
-      reference={reference}
-      application={application}
-      documents={documentData.data}
-      pagination={documentData.pagination}
-      appConfig={appConfig}
+      params={params}
       searchParams={searchParams}
+      application={application}
+      documents={documents}
+      pagination={documentResponse.pagination}
+      appConfig={appConfig}
     />
   );
 }

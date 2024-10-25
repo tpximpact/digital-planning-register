@@ -11,7 +11,7 @@ export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
   application: DprPlanningApplication;
-  documents: DprDocument[] | null;
+  documents?: DprDocument[];
 }
 
 export const ApplicationDetails = ({
@@ -39,11 +39,11 @@ export const ApplicationDetails = ({
       {/* <ApplicationLocation /> */}
       {/* <ApplicationMoreDetails {...application} /> */}
       <DocumentsList
-        councilSlug={appConfig?.council?.slug}
-        reference={reference}
+        resultsPerPage={3}
         showMoreButton={true}
-        documents={documents ?? null}
+        documents={documents}
       />
+
       <ApplicationPeople
         applicant_first_name={application.application.applicant_first_name}
         applicant_last_name={application.application.applicant_last_name}

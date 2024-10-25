@@ -4,7 +4,7 @@ import { postComment } from "@/actions/api/v1";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 import { getAppConfig } from "@/config";
 
 jest.mock("@/actions/api/v1", () => ({
@@ -24,7 +24,7 @@ beforeAll(() => {
 });
 
 describe("CommentCheckAnswer", () => {
-  const appConfig = createAppConfig("public-council-1");
+  const appConfig = generateAppConfig("public-council-1");
 
   beforeEach(() => {
     (getAppConfig as jest.Mock).mockReturnValue(appConfig);

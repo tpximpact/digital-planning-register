@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CouncilCards } from "@/components/CouncilCards";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateAppConfig } from "@mocks/appConfigFactory";
 
 // Mock the CouncilLogo component
 jest.mock("@/components/CouncilLogo", () => ({
@@ -21,7 +21,7 @@ jest.mock("@/components/CouncilLogo", () => ({
 }));
 
 describe("CouncilCards", () => {
-  const appConfig = createAppConfig();
+  const appConfig = generateAppConfig();
 
   it("renders the CouncilCards component with only public councils", () => {
     render(<CouncilCards councils={appConfig.councils} />);

@@ -1,26 +1,29 @@
 import { BackLink } from "../button";
 import ApplicationHeader from "../application_header";
-import Pagination from "../pagination";
 import {
+  ApiResponse,
+  DprApplication,
   DprDocument,
-  DprPagination,
-  DprPlanningApplication,
   SearchParams,
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { DocumentsList } from "@/components/DocumentsList";
+import { Pagination } from "@/components/govuk/Pagination";
 
 export interface PageApplicationDocumentsProps {
-  reference: string;
-  application: DprPlanningApplication;
-  documents: DprDocument[] | null;
-  pagination: DprPagination;
+  params: {
+    council: string;
+    reference: string;
+  };
+  application: DprApplication;
+  documents?: DprDocument[];
+  pagination: NonNullable<ApiResponse<any>["pagination"]>;
   appConfig: AppConfig;
   searchParams?: SearchParams;
 }
 
 export const PageApplicationDocuments = ({
-  reference,
+  params,
   application,
   documents,
   pagination,
@@ -30,6 +33,7 @@ export const PageApplicationDocuments = ({
   if (!appConfig || !appConfig.council) {
     return null;
   }
+  const { council, reference } = params;
   return (
     <>
       <BackLink />
@@ -39,27 +43,11 @@ export const PageApplicationDocuments = ({
           address={application.property.address.singleLine}
         />
         <DocumentsList
-          councilSlug={appConfig.council?.slug}
-          reference={reference}
-          documents={documents ?? null}
-          from={pagination.from - 1}
-          maxDisplayDocuments={appConfig.defaults.resultsPerPage}
-          page={pagination.page - 1}
+          documents={documents}
+          resultsPerPage={appConfig.defaults.resultsPerPage}
+          searchParams={searchParams}
         />
-        <Pagination
-          currentPage={pagination.page - 1}
-          totalItems={
-            pagination.total_pages * appConfig.defaults.resultsPerPage
-          }
-          itemsPerPage={appConfig.defaults.resultsPerPage}
-          baseUrl={
-            appConfig?.council?.slug
-              ? `/${appConfig.council.slug}/${reference}/documents`
-              : ""
-          }
-          queryParams={searchParams}
-          totalPages={pagination.total_pages}
-        />
+        <Pagination currentUrl="/" pagination={pagination} />
       </div>
     </>
   );

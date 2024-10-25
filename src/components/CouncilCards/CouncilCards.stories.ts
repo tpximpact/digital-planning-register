@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CouncilCards } from "./CouncilCards";
-import { createAppConfig } from "@mocks/appConfigFactory";
 
 const meta = {
   title: "Council selection/CouncilCards",

@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprDocuments, SearchParams } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -30,7 +30,8 @@ export async function documents(
   source: string,
   council: string,
   reference: string,
-): Promise<ApiResponse<DprDocuments | null>> {
+  searchParams?: SearchParams,
+): Promise<ApiResponse<DprDocuments | undefined>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
   }
@@ -39,7 +40,7 @@ export async function documents(
     case "bops":
       return await BopsV2.documents(council, reference);
     case "local":
-      return await LocalV1.documents();
+      return await LocalV1.documents(searchParams);
     default:
       return apiReturnError("Invalid source");
   }
