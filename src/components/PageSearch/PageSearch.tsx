@@ -36,6 +36,7 @@ export const PageSearch = ({
         />
         {applications && applications?.length > 0 ? (
           <>
+            <h2 className="govuk-heading-m">{`${Object.keys(searchParams as SearchParams).length > 0 ? "Search results" : "Recently published applications"}`}</h2>
             {applications.map((application) => (
               <ApplicationCard
                 key={application.application.reference}
