@@ -1,6 +1,6 @@
 import { ApplicationFormObject } from "@/components/application_form";
 import { convertCommentBops, sortComments } from "@/lib/comments";
-import { DprDocument, DprApplication, DprApplication } from "@/types";
+import { DprDocument, DprApplication } from "@/types";
 import {
   BopsApplicationOverview,
   BopsNonStandardDocument,
