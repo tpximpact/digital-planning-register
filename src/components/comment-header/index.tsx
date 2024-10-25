@@ -1,7 +1,7 @@
 import React from "react";
 import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
-import ApplicationMap from "../application_map";
+import ApplicationMap, { ApplicationMapLoader } from "../ApplicationMap";
 
 interface CommentHeaderProps {
   boundary_geojson?: DprBoundaryGeojson;
@@ -21,13 +21,14 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
       <h1 className="govuk-heading-l">Tell us what you think</h1>
 
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-third app-map">
+        <div className="govuk-grid-column-one-third">
           {boundary_geojson && (
-            <ApplicationMap
+            <ApplicationMapLoader
               reference={reference}
-              staticMap={true}
-              zoom={10}
               mapData={boundary_geojson}
+              description="Interactive map showing the location of the application"
+              mapType="application-show"
+              // mapType="context-setter"
             />
           )}
         </div>

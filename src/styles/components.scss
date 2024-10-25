@@ -1,7 +1,5 @@
-@import "components/application_map";
 @import "components/comment_sentiment";
 @import "components/info-icons";
-@import "components/faux-document";
 @import "components/application_decision";
 
 .backlink {
@@ -58,11 +56,6 @@
   justify-content: space-between;
 }
 
-.grid-row-extra-bottom-margin {
-  margin-bottom: 2rem;
-  // margin-top: 2rem;
-}
-
 .key-info .govuk-grid-row {
   display: flex;
   flex-wrap: wrap;
@@ -87,11 +80,6 @@
 }
 
 @media (max-width: 1090px) {
-  .app-map {
-    display: block;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
   .govuk-grid-column-three-quarters.key-info {
     width: 100%;
   }

@@ -1,11 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import ApplicationMap from "@/components/application_map";
+import ApplicationMap from "@/components/ApplicationMap";
 
 import ApplicationMapMap, {
   ApplicationMapMapProps,
-} from "@/components/application_map/map";
+} from "@/components/ApplicationMap/ApplicationMap";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 // Mock the sendGTMEvent function

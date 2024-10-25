@@ -6,7 +6,10 @@ import {
   definedDecision,
   formatApplicationType,
 } from "@/lib/applications";
-import ApplicationMap from "../application_map";
+import ApplicationMap, {
+  ApplicationMapLoader,
+  ApplicationMapLoaderDelay,
+} from "../ApplicationMap";
 
 export interface ApplicationCardProps extends DprApplication {
   councilSlug: string;
@@ -61,10 +64,11 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           {boundary_geojson && (
             <div className="govuk-grid-column-one-third">
-              <ApplicationMap
+              <ApplicationMapLoaderDelay
                 reference={reference}
-                staticMap={true}
                 mapData={boundary_geojson}
+                description=""
+                mapType="application-search"
               />
             </div>
           )}

@@ -3,6 +3,7 @@ import React from "react";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
 import { StartButton } from "../button";
 import { AppConfig } from "@/config/types";
+import "./CommentPreSubmission.scss";
 
 const PreSubmission = ({
   councilConfig,

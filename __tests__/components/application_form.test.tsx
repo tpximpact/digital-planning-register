@@ -7,7 +7,7 @@ import {
   DprApiApplicationSubmissionResponseSubtopicValue,
   DprBoundaryGeojson,
 } from "@/types";
-import ApplicationMap from "../../src/components/application_map";
+import ApplicationMap from "../../src/components/ApplicationMap";
 import { Section } from "@/components/application_form/section";
 import ApplicationForm from "@/components/application_form";
 
