@@ -1,6 +1,6 @@
 import { BackLink } from "../button";
 import ApplicationHeader from "../application_header";
-import { Pagination } from "../Pagination";
+import { Pagination } from "../Paginationtest";
 import {
   DprDocument,
   DprPagination,
