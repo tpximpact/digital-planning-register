@@ -11,12 +11,12 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    currentPage: 1,
+    currentPage: 0,
     totalItems: 50,
     itemsPerPage: 10,
     baseUrl: "/",
     queryParams: {},
-    totalPages: 3,
+    totalPages: 6,
   },
 } satisfies Meta<typeof Pagination>;
 
