@@ -1,5 +1,5 @@
 import { formatIsoDateTime } from "@/util";
-import { BackLink } from "../button";
+import { BackLink } from "../govuk/Button";
 import ApplicationForm from "../application_form";
 
 export interface PageApplicationSubmissionProps {

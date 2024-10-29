@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
-import { StartButton } from "../button";
+import { StartButton } from "../govuk/Button";
 import { AppConfig } from "@/config/types";
 
 const PreSubmission = ({

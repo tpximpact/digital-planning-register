@@ -5,7 +5,7 @@ import { AppConfig } from "@/config/types";
 import { DprPlanningApplication, DprPagination } from "@/types";
 
 // Mock components used within PageSearch
-jest.mock("../../src/components/button", () => ({
+jest.mock("../../src/components/govuk/Button", () => ({
   BackLink: () => <div data-testid="back-link">Back Link</div>,
 }));
 jest.mock("../../src/components/FormSearch", () => ({

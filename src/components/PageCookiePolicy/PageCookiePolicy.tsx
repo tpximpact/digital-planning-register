@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/button";
+import { Button } from "@/components/govuk/Button";
 import { NotificationBanner } from "@/components/govuk/NotificationBanner";
 import Link from "next/link";
 import "./PageCookiePolicy.scss";

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { getAppConfig } from "@/config";
 import { ContentNotFound } from "@/components/ContentNotFound";
-import { BackLink } from "@/components/button";
+import { BackLink } from "@/components/govuk/Button";
 import { PageTemplate } from "@/components/PageTemplate";
 
 export async function generateMetadata({

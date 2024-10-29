@@ -1,5 +1,5 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { BackLink } from "../button";
+import { BackLink } from "../govuk/Button";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";

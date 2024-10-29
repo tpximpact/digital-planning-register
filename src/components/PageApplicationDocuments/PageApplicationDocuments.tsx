@@ -1,4 +1,4 @@
-import { BackLink } from "../button";
+import { BackLink } from "../govuk/Button";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import {
