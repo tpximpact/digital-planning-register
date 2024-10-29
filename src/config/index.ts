@@ -56,7 +56,7 @@ export const getAppConfig = (council?: string): AppConfig => {
         councilBase: true,
       },
       {
-        label: "Understanding planning",
+        label: "Help",
         href: "/planning-process",
         councilBase: true,
         showCondition: true,
