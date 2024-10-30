@@ -7,7 +7,8 @@ import {
 } from "@/types";
 import { BackLink } from "../button";
 import ApplicationHeader from "../application_header";
-import { Pagination } from "../Pagination";
+import { Pagination } from "@/components/govuk/Pagination";
+import { createPathFromParams } from "@/lib/navigation";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { PageTemplate } from "../PageTemplate";
@@ -21,6 +22,10 @@ export interface PageApplicationCommentsProps {
   pagination: DprPagination;
   appConfig: AppConfig;
   type: DprCommentTypes;
+  params?: {
+    council: string;
+    reference?: string;
+  };
   searchParams?: SearchParams;
 }
 
@@ -31,6 +36,7 @@ export const PageApplicationComments = ({
   pagination,
   appConfig,
   type,
+  params,
   searchParams,
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
@@ -60,18 +66,9 @@ export const PageApplicationComments = ({
         {pagination && pagination.total_pages > 1 && (
           <>
             <Pagination
-              currentPage={pagination.page - 1}
-              totalItems={
-                pagination.total_pages * appConfig.defaults.resultsPerPage
-              }
-              itemsPerPage={appConfig.defaults.resultsPerPage}
-              baseUrl={
-                appConfig?.council?.slug
-                  ? `/${appConfig.council.slug}/${reference}/comments`
-                  : ""
-              }
-              queryParams={searchParams}
-              totalPages={pagination.total_pages}
+              baseUrl={createPathFromParams(params, "comments")}
+              searchParams={searchParams}
+              pagination={pagination}
             />
           </>
         )}

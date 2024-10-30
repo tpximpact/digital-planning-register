@@ -90,6 +90,7 @@ export default async function PlanningApplicationDetailsDocuments({
       documents={documentData.data}
       pagination={documentData.pagination}
       appConfig={appConfig}
+      params={params}
       searchParams={searchParams}
     />
   );
