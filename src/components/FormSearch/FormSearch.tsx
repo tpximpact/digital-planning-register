@@ -5,13 +5,13 @@ import { Button } from "../button";
 export interface FormSearchProps {
   action: string;
   searchParams?: SearchParams;
-  validationError?: boolean;
+  // validationError?: boolean;
 }
 
 export const FormSearch = ({
   action,
   searchParams,
-  validationError,
+  // validationError,
 }: FormSearchProps) => {
   return (
     <form action={action} method="get" className="govuk-grid-row">
@@ -30,16 +30,6 @@ export const FormSearch = ({
             defaultValue={searchParams?.query || ""}
             autoComplete="on"
           />
-          {validationError && (
-            <p
-              id="search-error"
-              className="govuk-error-message"
-              data-testid="validation-error"
-            >
-              <span className="govuk-visually-hidden">Error:</span> Enter at
-              least 3 characters to search
-            </p>
-          )}
         </div>
       </div>
       <div className="govuk-grid-column-one-quarter search-bar-buttons">

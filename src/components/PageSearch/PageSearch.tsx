@@ -23,8 +23,7 @@ export const PageSearch = ({
     return null;
   }
   const page = searchParams?.page ? searchParams.page : 1;
-  const validationError =
-    searchParams?.query && searchParams?.query.length < 3 ? true : false;
+
   return (
     <>
       {!applications && <BackLink />}
@@ -32,7 +31,6 @@ export const PageSearch = ({
         <FormSearch
           action={`/${appConfig.council.slug}`}
           searchParams={searchParams}
-          validationError={validationError}
         />
         {applications && applications?.length > 0 ? (
           <>
