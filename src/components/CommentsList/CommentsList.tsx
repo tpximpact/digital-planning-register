@@ -27,8 +27,21 @@ export const CommentsList = ({
   const totalComments = comments ? comments.length : 0;
 
   return (
-    <section aria-labelledby="comments-section">
-      <h2 className="govuk-heading-l" id="comments-section">
+    <section
+      aria-labelledby={
+        type === "specialist"
+          ? "specialist-comments-section"
+          : "public-comments-section"
+      }
+    >
+      <h2
+        className="govuk-heading-l"
+        id={
+          type === "specialist"
+            ? "specialist-comments-section"
+            : "public-comments-section"
+        }
+      >
         {type === "specialist" ? "Specialist Comments" : "Public Comments"}
       </h2>
 
