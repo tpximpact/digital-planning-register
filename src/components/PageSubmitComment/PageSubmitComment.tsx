@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
 import { Button } from "../govuk/Button";
-import { BackButton, BackLink } from "../govuk/BackLink";
+import { BackLink } from "../govuk/BackLink";
 import { SearchParams } from "@/types";
 import CommentHeader from "../comment-header";
 import { getAppConfig } from "@/config";
