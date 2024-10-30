@@ -5,9 +5,9 @@ import {
   DprPlanningApplication,
   SearchParams,
 } from "@/types";
-import { BackLink } from "../govuk/Button";
+import { BackLink } from "../govuk/BackLink";
 import ApplicationHeader from "../application_header";
-import { Pagination } from "../Pagination";
+import { Pagination } from "../../components/Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { PageTemplate } from "../PageTemplate";

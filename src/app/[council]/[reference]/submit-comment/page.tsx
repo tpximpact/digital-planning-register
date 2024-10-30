@@ -9,7 +9,7 @@ import CommentTextEntry from "@/components/comment_text_entry";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
-import { BackLink } from "@/components/govuk/Button";
+import { BackLink } from "@/components/govuk/BackLink";
 import { DprShow, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { PageWrapper } from "@/components/PageWrapper";

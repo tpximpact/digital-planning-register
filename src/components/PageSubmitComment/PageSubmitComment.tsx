@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
-import { BackButton, Button, StartButton } from "../govuk/Button";
+import { Button } from "../govuk/Button";
+import { BackButton, BackLink } from "../govuk/BackLink";
 import { SearchParams } from "@/types";
 import CommentHeader from "../comment-header";
 import { getAppConfig } from "@/config";
@@ -11,6 +12,7 @@ import CommentTextEntry from "../comment_text_entry";
 import { topics_selection } from "../comment_topic_selection";
 import CommentPersonalDetails from "../comment_personal_details";
 import { NotificationBanner } from "../govuk/NotificationBanner";
+import { StartIcon } from "public/icons";
 // import { resolveQuery } from "@/actions/resolveQuery";
 
 export interface PageSubmitCommentProps {
@@ -31,7 +33,7 @@ export const PageSubmitComment = ({
     <>
       {page > 0 ||
         (page <= 2 && (
-          <BackButton
+          <BackLink
             href={page === 0 ? `/${council}/${reference}` : `?page=${page - 1}`}
           />
         ))}
@@ -41,7 +43,7 @@ export const PageSubmitComment = ({
             <ContentCommentsPreSubmission councilConfig={appConfig.council} />
             <Link href={`?page=1`}>
               {" "}
-              <StartButton />
+              <Button variant="start" content="Start now" type="submit" />
             </Link>
           </>
         )}
@@ -80,7 +82,12 @@ export const PageSubmitComment = ({
                 updateProgress={() => {}}
                 hideContinue={true}
               />
-              <Button content="Submit" type="submit" />
+              <Button
+                content="Submit"
+                type="submit"
+                className="govuk-button"
+                variant="default"
+              />
             </form>
           </>
         )}

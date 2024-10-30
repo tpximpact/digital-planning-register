@@ -1,5 +1,5 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { BackLink } from "../govuk/Button";
+import { BackLink } from "../govuk/BackLink";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";

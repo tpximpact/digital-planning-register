@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { ApiResponse, DprShow, DprDocuments } from "@/types";
-import { BackLink } from "@/components/govuk/Button";
+import { BackLink } from "@/components/govuk/BackLink";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";

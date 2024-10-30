@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { capitaliseWord } from "@/util";
-import { ButtonLink } from "../govuk/Button";
+import { Button } from "../govuk/Button";
 import { ApiV1 } from "@/actions/api";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
@@ -237,9 +237,11 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(1, { edit: true })}
                     ariaLabel="Change how you feel about this development"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -258,9 +260,11 @@ const CommentCheckAnswer = ({
                   ))}
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(2, { edit: true })}
                     ariaLabel="Change what topics you want to comment on"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -284,11 +288,13 @@ const CommentCheckAnswer = ({
                       </p>
                     </dd>
                     <dd className="govuk-summary-list__actions">
-                      <ButtonLink
+                      <Button
                         onClick={() =>
                           navigateToPage(3, { topicIndex: index, edit: true })
                         }
                         ariaLabel={`Change ${topicLabel} comment`}
+                        content="Change"
+                        variant="link"
                       />
                     </dd>
                   </div>
@@ -305,9 +311,11 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.name}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change name"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -320,9 +328,11 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.address}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change address"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -335,9 +345,11 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.postcode}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change postcode"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -350,9 +362,11 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.emailAddress}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change email address"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>
@@ -367,9 +381,11 @@ const CommentCheckAnswer = ({
                   </p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <Button
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change telephone number"
+                    content="Change"
+                    variant="link"
                   />
                 </dd>
               </div>

@@ -1,4 +1,4 @@
-import { BackLink } from "@/components/govuk/Button";
+import { BackLink } from "@/components/govuk/BackLink";
 import "./PagePlanningProcess.scss";
 
 export type PageContent = {

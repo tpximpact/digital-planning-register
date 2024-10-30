@@ -65,7 +65,8 @@ export const CouncilSelector = ({
             <Button
               type="submit"
               content="Select"
-              className="hidden-js-enabled"
+              className="govuk-button hidden-js-enabled"
+              variant="default"
             />
           </div>
         </form>

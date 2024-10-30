@@ -43,7 +43,12 @@ export const FormSearch = ({
         </div>
       </div>
       <div className="govuk-grid-column-one-quarter search-bar-buttons">
-        <Button type="submit" content="Search" />
+        <Button
+          type="submit"
+          content="Search"
+          className="govuk-button"
+          variant="default"
+        />
       </div>
     </form>
   );

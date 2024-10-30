@@ -128,7 +128,12 @@ const CookiePreferencesForm = ({
               </div>
             </fieldset>
           </div>
-          <Button content="Save cookie settings" type="submit" />
+          <Button
+            content="Save cookie settings"
+            type="submit"
+            className="govuk-button"
+            variant="default"
+          />
         </form>
       </div>
     </div>
