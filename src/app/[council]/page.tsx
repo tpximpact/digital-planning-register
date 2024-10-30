@@ -23,7 +23,11 @@ async function fetchData({
   const response = await ApiV1.search(
     appConfig.council?.dataSource ?? "none",
     council,
-    searchParams,
+    {
+      ...searchParams,
+      page: searchParams?.page ?? 1,
+      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    },
   );
 
   return response;
@@ -65,6 +69,7 @@ export default async function PlanningApplicationSearch({
       appConfig={appConfig}
       applications={response.data?.data}
       pagination={response.data?.pagination}
+      params={params}
       searchParams={searchParams}
     />
   );
