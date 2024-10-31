@@ -5,11 +5,7 @@
  * documents
  * applicationSubmission
  */
-import {
-  DprPlanningApplication,
-  DprPlanningApplicationOverview,
-  DprDocument,
-} from "./definitions";
+import { DprPlanningApplication, DprDocument } from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
 import { DprPaginationBase, DprPagination } from "./types";
 
@@ -42,6 +38,6 @@ export interface DprDocuments {
  * Documents for a single application
  */
 export interface DprApplicationSubmission {
-  application: DprPlanningApplicationOverview;
+  application: DprPlanningApplication["application"];
   submission: DprApplicationSubmissionData | null;
 }
