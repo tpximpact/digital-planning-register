@@ -1,5 +1,10 @@
 import { Metadata } from "next";
-import { ApiResponse, DprShow, DprDocuments, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  DprShowApiResponse,
+  DprDocuments,
+  SearchParams,
+} from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
@@ -19,7 +24,7 @@ interface PlanningApplicationDetailsDocumentsProps {
 async function fetchData({
   params,
 }: PlanningApplicationDetailsDocumentsProps): Promise<{
-  applicationResponse: ApiResponse<DprShow | null>;
+  applicationResponse: ApiResponse<DprShowApiResponse | null>;
   documentResponse: ApiResponse<DprDocuments | null>;
 }> {
   const { reference, council } = params;

@@ -22,7 +22,7 @@ export interface DprSearchApiResponse {
  * /api/show
  * Details view of a single application
  */
-export interface DprShow extends DprPlanningApplication {}
+export interface DprShowApiResponse extends DprPlanningApplication {}
 
 /**
  * /api/documents
