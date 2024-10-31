@@ -2,7 +2,7 @@
 
 import { ApiResponse } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/handlers/bops/types";
-import { DprApplicationSubmission } from "@/types";
+import { DprApplicationSubmissionApiResponse } from "@/types";
 import { convertPlanningApplicationOverviewBops } from "../converters";
 import { handleBopsGetRequest } from "../requests";
 import { convertApplicationSubmissionBops } from "../converters/applicationSubmission";
@@ -17,7 +17,7 @@ import { convertApplicationSubmissionBops } from "../converters/applicationSubmi
 export async function applicationSubmission(
   council: string,
   reference: string,
-): Promise<ApiResponse<DprApplicationSubmission | null>> {
+): Promise<ApiResponse<DprApplicationSubmissionApiResponse | null>> {
   const url = `planning_applications/${reference}/submission`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PlanningApplicationsSubmission | null>

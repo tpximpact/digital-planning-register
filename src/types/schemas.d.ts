@@ -37,7 +37,7 @@ export interface DprDocumentsApiResponse {
  * /api/applicationSubmission
  * Documents for a single application
  */
-export interface DprApplicationSubmission {
+export interface DprApplicationSubmissionApiResponse {
   application: DprPlanningApplication["application"];
   submission: DprApplicationSubmissionData | null;
 }
