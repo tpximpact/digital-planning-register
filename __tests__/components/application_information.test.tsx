@@ -3,18 +3,10 @@ import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { DprShow } from "@/types";
 
-jest.mock("../../src/components/application_map", () => {
-  return jest.fn(() => <div data-testid="mockMap"></div>);
-});
-
-// Mock the dynamic import
-jest.mock("next/dynamic", () => ({
-  __esModule: true,
-  default: () => {
-    const DynamicComponent = (props) => <div data-testid="mockMap"></div>;
-    DynamicComponent.displayName = "LoadableComponent";
-    return DynamicComponent;
-  },
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
 }));
 
 describe("Render ApplicationInformation", () => {
@@ -104,7 +96,7 @@ describe("Render ApplicationInformation", () => {
 
   it("should render correctly with Polygon geometry", () => {
     render(<ApplicationInformation council="test_coucil" {...mockData} />);
-    const mapComponent = screen.getByTestId("mockMap");
+    const mapComponent = screen.getByTestId("mock-application-map-loader");
     expect(mapComponent).toBeInTheDocument();
   });
 });
@@ -233,7 +225,7 @@ describe("Render ApplicationInformation", () => {
         {...mockDataWithMultiPolygon}
       />,
     );
-    const mapComponent = screen.getByTestId("mockMap");
+    const mapComponent = screen.getByTestId("mock-application-map-loader");
     expect(mapComponent).toBeInTheDocument();
   });
 
@@ -286,7 +278,7 @@ describe("Render ApplicationInformation", () => {
         {...mockDataWithFeatureCollection}
       />,
     );
-    const mapComponent = screen.getByTestId("mockMap");
+    const mapComponent = screen.getByTestId("mock-application-map-loader");
     expect(mapComponent).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@ import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
 import { Pagination } from "../Pagination";
-import ApplicationMap from "../application_map";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 export interface PageSearchSiteNoticesProps {
   appConfig: AppConfig;
@@ -139,10 +139,11 @@ const SiteNoticeCard = ({
       className="govuk-grid-column-one-third"
     >
       <a href={`/${councilSlug}/${reference}`}>
-        <ApplicationMap
+        <ApplicationMapLoader
           reference={reference}
           mapData={boundary_geojson}
-          staticMap={true}
+          description=""
+          mapType="application-search"
         />
         <div className="govuk-link govuk-link--no-visited-state govuk-heading-m dsn-link">
           {reference}

@@ -11,7 +11,7 @@ import {
 } from "@/lib/applications";
 import { ApplicationCardProps } from "../application_card";
 import Link from "next/link";
-import ApplicationMap from "../application_map";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 interface ApplicationInformationProps extends ApplicationCardProps {}
 
@@ -65,9 +65,14 @@ const ApplicationInformation = ({
       </div>
 
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third app-map">
+        <div className="govuk-grid-column-one-third">
           {boundary_geojson && (
-            <ApplicationMap reference={reference} mapData={boundary_geojson} />
+            <ApplicationMapLoader
+              reference={reference}
+              mapData={boundary_geojson}
+              description="Interactive map showing the location of the application"
+              mapType="application-show"
+            />
           )}
         </div>
 

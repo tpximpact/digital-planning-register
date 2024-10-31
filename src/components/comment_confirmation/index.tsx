@@ -1,6 +1,6 @@
 import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
-import ApplicationMap from "../application_map";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 interface CommentConfirmationProps {
   reference: string;
@@ -25,7 +25,13 @@ const CommentConfirmation = ({
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third grid-row-extra-bottom-margin">
           {boundary_geojson && (
-            <ApplicationMap reference={reference} mapData={boundary_geojson} />
+            <ApplicationMapLoader
+              reference={reference}
+              mapData={boundary_geojson}
+              description="Interactive map showing the location of the application"
+              mapType="application-show"
+              // mapType="context-setter"
+            />
           )}
         </div>
         <div className="govuk-grid-column-two-thirds">

@@ -6,7 +6,7 @@ import {
   definedDecision,
   formatApplicationType,
 } from "@/lib/applications";
-import ApplicationMap from "../application_map";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 export interface ApplicationCardProps extends DprPlanningApplication {
   councilSlug: string;
@@ -61,10 +61,11 @@ const ApplicationCard = ({
         <div className="govuk-grid-row">
           {boundary_geojson && (
             <div className="govuk-grid-column-one-third">
-              <ApplicationMap
+              <ApplicationMapLoader
                 reference={reference}
-                staticMap={true}
                 mapData={boundary_geojson}
+                description=""
+                mapType="application-search"
               />
             </div>
           )}

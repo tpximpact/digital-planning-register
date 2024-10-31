@@ -1,4 +1,3 @@
-@import "components/application_map";
 @import "components/comment_sentiment";
 @import "components/info-icons";
 @import "components/faux-document";
@@ -21,16 +20,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-}
-
-.boundary-map {
-  border: 2px solid black;
-  width: 130px;
-  text-align: center;
-  padding: 10px;
-  grid-row-start: 1;
-  grid-row-end: 3;
-  gap: 10px;
 }
 
 .application-info-grid p {
@@ -76,22 +65,7 @@
   padding-top: 20px;
 }
 
-.landing-map {
-  margin-bottom: 2em;
-}
-
-@media (max-width: 640px) {
-  .landing-map {
-    margin-bottom: 1em;
-  }
-}
-
 @media (max-width: 1090px) {
-  .app-map {
-    display: block;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
   .govuk-grid-column-three-quarters.key-info {
     width: 100%;
   }
