@@ -71,8 +71,9 @@ const PlanningApplicationDetails = async ({
       </PageWrapper>
     );
   }
+
   const documents = appConfig.features.documentsPublicEndpoint
-    ? documentResponse?.data?.files
+    ? (documentResponse?.data?.files ?? null)
     : application.application.documents;
   return (
     <>
