@@ -1,8 +1,8 @@
 "use server";
 
-import { ApiResponse, DprDocuments } from "@/types";
+import { ApiResponse, DprDocumentsApiResponse } from "@/types";
 
-const response: ApiResponse<DprDocuments | null> = {
+const response: ApiResponse<DprDocumentsApiResponse | null> = {
   data: {
     pagination: {
       results: 0,
@@ -24,6 +24,8 @@ const response: ApiResponse<DprDocuments | null> = {
   },
 };
 
-export const documents = (): Promise<ApiResponse<DprDocuments | null>> => {
+export const documents = (): Promise<
+  ApiResponse<DprDocumentsApiResponse | null>
+> => {
   return Promise.resolve(response);
 };

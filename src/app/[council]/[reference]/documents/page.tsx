@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import {
   ApiResponse,
   DprShowApiResponse,
-  DprDocuments,
+  DprDocumentsApiResponse,
   SearchParams,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
@@ -25,7 +25,7 @@ async function fetchData({
   params,
 }: PlanningApplicationDetailsDocumentsProps): Promise<{
   applicationResponse: ApiResponse<DprShowApiResponse | null>;
-  documentResponse: ApiResponse<DprDocuments | null>;
+  documentResponse: ApiResponse<DprDocumentsApiResponse | null>;
 }> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);

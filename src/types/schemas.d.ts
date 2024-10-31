@@ -28,7 +28,7 @@ export interface DprShowApiResponse extends DprPlanningApplication {}
  * /api/documents
  * Documents for a single application
  */
-export interface DprDocuments {
+export interface DprDocumentsApiResponse {
   pagination: DprPaginationBase;
   files: DprDocument[];
 }
