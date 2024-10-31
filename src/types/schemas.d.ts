@@ -13,7 +13,7 @@ import { DprPaginationBase, DprPagination } from "./types";
  * /api/search
  * Listing of applications and search results
  */
-export interface DprSearch {
+export interface DprSearchApiResponse {
   pagination: DprPagination;
   data: DprPlanningApplication[];
 }

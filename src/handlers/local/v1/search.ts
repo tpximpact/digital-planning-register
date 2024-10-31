@@ -1,8 +1,8 @@
 "use server";
 
-import { ApiResponse, DprSearch, SearchParams } from "@/types";
+import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 
-const response: ApiResponse<DprSearch | null> = {
+const response: ApiResponse<DprSearchApiResponse | null> = {
   data: {
     pagination: {
       page: 1,
@@ -801,7 +801,7 @@ const response: ApiResponse<DprSearch | null> = {
   },
 };
 
-const responseDsn: ApiResponse<DprSearch | null> = {
+const responseDsn: ApiResponse<DprSearchApiResponse | null> = {
   data: {
     pagination: {
       page: 1,
@@ -881,7 +881,9 @@ const responseDsn: ApiResponse<DprSearch | null> = {
   status: { code: 200, message: "OK" },
 };
 
-const responseQuery = (query: string): ApiResponse<DprSearch | null> => {
+const responseQuery = (
+  query: string,
+): ApiResponse<DprSearchApiResponse | null> => {
   const filteredData = response.data?.data.filter(
     (item) => item.application.reference === query,
   );
@@ -905,7 +907,7 @@ const responseQuery = (query: string): ApiResponse<DprSearch | null> => {
 
 export const search = (
   search?: SearchParams,
-): Promise<ApiResponse<DprSearch | null>> => {
+): Promise<ApiResponse<DprSearchApiResponse | null>> => {
   // todo fake query match/no match response
   if (search?.query) {
     return Promise.resolve(responseQuery(search.query));

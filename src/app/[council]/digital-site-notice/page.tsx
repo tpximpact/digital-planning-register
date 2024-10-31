@@ -1,4 +1,4 @@
-import { ApiResponse, DprSearch, SearchParams } from "@/types";
+import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { Metadata } from "next";
 import { ApiP05 } from "@/actions/api";
 import { getAppConfig } from "@/config";
@@ -18,7 +18,7 @@ interface DigitalSiteNoticeProps {
 async function fetchData({
   params,
   searchParams,
-}: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearch | null>> {
+}: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearchApiResponse | null>> {
   const { council } = params;
 
   const page = searchParams?.page ? searchParams.page : 1;
