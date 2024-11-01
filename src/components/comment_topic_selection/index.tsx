@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { Details } from "../govuk/Details";
+import { Button } from "../button";
 
 export const topics_selection = [
   {
@@ -121,60 +123,57 @@ const CommentTopicSelection = ({
                 ))}
               </div>
             </div>
-            <details className="govuk-details">
-              <summary className="govuk-details__summary">
-                <span className="govuk-details__summary-text">
-                  What happens to your comments
-                </span>
-              </summary>
-              <div className="govuk-details__text">
-                <p className="govuk-body">
-                  As part of the negotiation, the case officer can take into
-                  consideration all comments which are &apos;material
-                  considerations&apos; to the proposed development. These
-                  include (but aren&apos;t limited to):
-                </p>
-                <ul className="govuk-list govuk-list--bullet">
-                  <li>overlooking/loss of privacy</li>
-                  <li>loss of light or overshadowing</li>
-                  <li>traffic parking</li>
-                  <li>highway safety</li>
-                  <li>noise from new uses or plant equipment</li>
-                  <li>effect on listed building and conservation area</li>
-                  <li>scale of buildings and structures</li>
-                  <li>layout and density of building</li>
-                  <li>design, appearance and materials</li>
-                  <li>disabled persons&apos; access</li>
-                  <li>
-                    previous planning decisions (including appeal decisions)
-                  </li>
-                  <li>trees and nature conservation</li>
-                </ul>
-                <p className="govuk-body">
-                  Issues such as loss of private view or negative impact on
-                  property values, or civil matters like &apos;right to
-                  light&apos;, party walls and property damage are not
-                  considered &apos;material planning considerations&apos;.
-                </p>
-                <p className="govuk-body">
-                  The case officer will summarise their findings in the
-                  officer&apos;s report and/or decision notice.
-                </p>
-                <p className="govuk-body">
-                  We won&apos;t acknowledge receipt of your comments, or get in
-                  touch with you directly about the issues you&apos;ve raised.
-                  You can check the officer&apos;s report or decision notice to
-                  see if your, and other, comments have been logged.
-                </p>
-              </div>
-            </details>
-            <button
+            <Details
+              summaryText={"What happens to your comments"}
+              text={
+                <>
+                  <p className="govuk-body">
+                    As part of the negotiation, the case officer can take into
+                    consideration all comments which are &apos;material
+                    considerations&apos; to the proposed development. These
+                    include (but aren&apos;t limited to):
+                  </p>
+                  <ul className="govuk-list govuk-list--bullet">
+                    <li>overlooking/loss of privacy</li>
+                    <li>loss of light or overshadowing</li>
+                    <li>traffic parking</li>
+                    <li>highway safety</li>
+                    <li>noise from new uses or plant equipment</li>
+                    <li>effect on listed building and conservation area</li>
+                    <li>scale of buildings and structures</li>
+                    <li>layout and density of building</li>
+                    <li>design, appearance and materials</li>
+                    <li>disabled persons&apos; access</li>
+                    <li>
+                      previous planning decisions (including appeal decisions)
+                    </li>
+                    <li>trees and nature conservation</li>
+                  </ul>
+                  <p className="govuk-body">
+                    Issues such as loss of private view or negative impact on
+                    property values, or civil matters like &apos;right to
+                    light&apos;, party walls and property damage are not
+                    considered &apos;material planning considerations&apos;.
+                  </p>
+                  <p className="govuk-body">
+                    The case officer will summarise their findings in the
+                    officer&apos;s report and/or decision notice.
+                  </p>
+                  <p className="govuk-body">
+                    We won&apos;t acknowledge receipt of your comments, or get
+                    in touch with you directly about the issues you&apos;ve
+                    raised. You can check the officer&apos;s report or decision
+                    notice to see if your, and other, comments have been logged.
+                  </p>
+                </>
+              }
+            />
+
+            <Button
               type="submit"
-              className="govuk-button"
               data-module="govuk-button"
-            >
-              Continue
-            </button>
+              content="Continue"
+            />
           </fieldset>
         </form>
       </div>

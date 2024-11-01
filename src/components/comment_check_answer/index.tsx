@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { capitaliseWord } from "@/util";
-import { ButtonLink } from "../button";
+import { Button, ButtonLink } from "../button";
 import { ApiV1 } from "@/actions/api";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
+import "./CommentCheckAnswer.scss";
+import { Details } from "../govuk/Details";
 
 const topics_selection = [
   {
@@ -381,73 +383,69 @@ const CommentCheckAnswer = ({
               your knowledge, the details you are providing are correct.
             </p>
 
-            <details className="govuk-details">
-              <summary className="govuk-details__summary">
-                <span className="govuk-details__summary-text">
-                  How we handle your data
-                </span>
-              </summary>
-              <div className="govuk-details__text">
-                <p className="govuk-body">
-                  We need your name and contact information because we can only
-                  formally explore comments coming from people who live close to
-                  the proposed development. We will also use this to contact you
-                  if the planning decision regarding this application is
-                  appealed.
-                </p>
-                <p className="govuk-body">
-                  Your comments will be made available online for the public to
-                  see.
-                </p>
-                <p className="govuk-body">
-                  We&apos;ll make sure any other personal or sensitive
-                  information is removed where needed, in line with the{" "}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    General Data Protection Regulation (GDPR).
-                  </a>{" "}
-                  If you have concerns about any data you have sent being
-                  published,{" "}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={contactPlanningAdviceLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    contact the Planning Advice and Information Service.
-                  </a>
-                </p>
-                <p className="govuk-body">
-                  Read our{" "}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={corporatePrivacyLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    corporate privacy statement
-                  </a>{" "}
-                  and our{" "}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={planningServicePrivacyStatementLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    planning service statement
-                  </a>{" "}
-                  for more information.
-                </p>
-              </div>
-            </details>
+            <Details
+              summaryText={"How we handle your data"}
+              text={
+                <>
+                  <p className="govuk-body">
+                    We need your name and contact information because we can
+                    only formally explore comments coming from people who live
+                    close to the proposed development. We will also use this to
+                    contact you if the planning decision regarding this
+                    application is appealed.
+                  </p>
+                  <p className="govuk-body">
+                    Your comments will be made available online for the public
+                    to see.
+                  </p>
+                  <p className="govuk-body">
+                    We&apos;ll make sure any other personal or sensitive
+                    information is removed where needed, in line with the{" "}
+                    <a
+                      className="govuk-link govuk-link--no-visited-state"
+                      href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      General Data Protection Regulation (GDPR).
+                    </a>{" "}
+                    If you have concerns about any data you have sent being
+                    published,{" "}
+                    <a
+                      className="govuk-link govuk-link--no-visited-state"
+                      href={contactPlanningAdviceLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      contact the Planning Advice and Information Service.
+                    </a>
+                  </p>
+                  <p className="govuk-body">
+                    Read our{" "}
+                    <a
+                      className="govuk-link govuk-link--no-visited-state"
+                      href={corporatePrivacyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      corporate privacy statement
+                    </a>{" "}
+                    and our{" "}
+                    <a
+                      className="govuk-link govuk-link--no-visited-state"
+                      href={planningServicePrivacyStatementLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      planning service statement
+                    </a>{" "}
+                    for more information.
+                  </p>
+                </>
+              }
+            />
 
-            <button type="submit" className="govuk-button">
-              Accept and send
-            </button>
+            <Button type="submit" content={"Accept and send"} />
           </form>
         </div>
       </div>

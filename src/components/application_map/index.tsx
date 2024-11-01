@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 const MapTest = lazy(() => import("@/components/application_map/map"));
 import { ApplicationMapMapProps } from "./map";
+import "./ApplicationMap.scss";
 
 /**
  * const MapTest = lazy(() =>

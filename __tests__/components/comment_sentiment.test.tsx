@@ -17,6 +17,7 @@ describe("CommentSentiment", () => {
 
   beforeEach(() => {
     sessionStorage.clear();
+    window.scrollTo = jest.fn();
     jest.clearAllMocks();
   });
 

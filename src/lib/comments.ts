@@ -9,7 +9,6 @@ import {
   DprPlanningApplication,
   SearchParams,
 } from "@/types";
-import { BopsComment } from "@/handlers/bops/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
 
@@ -24,19 +23,6 @@ export const sortComments = (comments: DprComment[]) => {
     const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
     return dateB - dateA;
   });
-};
-
-/**
- * Converts BOPS comments into our standard format (which RN is the same as BOPS!)
- * @param comment
- * @returns
- */
-export const convertCommentBops = (comment: BopsComment): DprComment => {
-  return {
-    comment: comment.comment,
-    received_at: comment.receivedAt,
-    sentiment: comment.summaryTag || "",
-  };
 };
 
 /**

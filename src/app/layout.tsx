@@ -1,5 +1,4 @@
 import "@/styles/global.scss";
-import "@/styles/app.scss";
 import React from "react";
 import { CookieBanner } from "@/components/CookieBanner";
 import { SkipLink } from "@/components/govuk/SkipLink";

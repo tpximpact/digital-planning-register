@@ -1,5 +1,5 @@
 import { ApplicationFormObject } from "@/components/application_form";
-import { convertCommentBops, sortComments } from "@/lib/comments";
+import { sortComments } from "@/lib/comments";
 import { DprDocument, DprPlanningApplication } from "@/types";
 import {
   BopsApplicationOverview,
@@ -8,6 +8,7 @@ import {
   BopsV2PlanningApplicationDetail,
 } from "@/handlers/bops/types";
 import { formatTag } from "@/util";
+import { convertCommentBops } from "./converters/comments";
 
 /**
  * Converts BOPS application(s) into our standard format

@@ -1,7 +1,8 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { OpposedIcon, NeutralIcon, SupportIcon } from "../../../public/icons";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { SentimentIcon } from "../SentimentIcon";
+import "./CommentSentiment.scss";
 
 const CommentSentiment = ({
   reference,
@@ -54,9 +55,9 @@ const CommentSentiment = ({
   };
 
   const options = [
-    { id: "objection", label: "Opposed", Icon: OpposedIcon },
-    { id: "neutral", label: "Neutral", Icon: NeutralIcon },
-    { id: "supportive", label: "Support", Icon: SupportIcon },
+    { id: "objection", label: "Opposed" },
+    { id: "neutral", label: "Neutral" },
+    { id: "supportive", label: "Support" },
   ];
 
   return (
@@ -87,7 +88,7 @@ const CommentSentiment = ({
               htmlFor={option.id}
               data-testid={option.id}
             >
-              <option.Icon />
+              <SentimentIcon sentiment={option.label.toLowerCase()} />
               <span className="govuk-body">{option.label}</span>
             </label>
           </div>

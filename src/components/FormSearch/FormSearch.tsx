@@ -5,14 +5,9 @@ import { Button } from "../button";
 export interface FormSearchProps {
   action: string;
   searchParams?: SearchParams;
-  // validationError?: boolean;
 }
 
-export const FormSearch = ({
-  action,
-  searchParams,
-  // validationError,
-}: FormSearchProps) => {
+export const FormSearch = ({ action, searchParams }: FormSearchProps) => {
   return (
     <form action={action} method="get" className="govuk-grid-row">
       <div className="govuk-grid-column-one-half">

@@ -6,6 +6,7 @@ import path from "path";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AppConfig } from "@/config/types";
+import "./Header.scss";
 
 export const Header = ({
   appConfig,

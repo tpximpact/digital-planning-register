@@ -1,0 +1,37 @@
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/tag/index";
+
+.dpr-application-decision-label {
+  @extend .govuk-tag;
+  max-width: fit-content;
+
+  // when the component is use 'inline' the padding is removed for the --none modifier
+  &--inline {
+    &.dpr-application-decision-label--none {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &--none {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  &--neutral {
+    // @extend .govuk-tag--blue;
+    // @extend .govuk-tag--light-blue;
+    background-color: #d2e2f1;
+    color: #144e81;
+  }
+
+  &--negative {
+    @extend .govuk-tag--red;
+    color: #942514;
+  }
+
+  &--positive {
+    @extend .govuk-tag--green;
+  }
+}
