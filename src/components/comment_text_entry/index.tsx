@@ -85,6 +85,7 @@ const CommentTextEntry = ({
         event: "comment_validation_error",
         message: "error in comment text entry",
       });
+      window.scrollTo(0, 0);
     }
   };
 

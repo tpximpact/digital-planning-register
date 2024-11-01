@@ -50,6 +50,7 @@ const CommentTopicSelection = ({
         event: "comment_validation_error",
         message: "error in topic selection",
       });
+      window.scrollTo(0, 0);
     }
   };
 
