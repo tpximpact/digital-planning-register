@@ -7,6 +7,10 @@ const response = (reference: string): ApiResponse<DprShowApiResponse> => {
   const application = generateDprApplication();
   application.application.reference = reference;
 
+  if (reference === "TEST-C0MNT-F10W") {
+    application.application.status = "in_assessment";
+  }
+
   return {
     data: application,
     status: {
