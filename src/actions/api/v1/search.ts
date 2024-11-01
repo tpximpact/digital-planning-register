@@ -32,7 +32,7 @@ import { apiReturnError } from "@/handlers/lib";
 export async function search(
   source: string,
   council: string,
-  search?: SearchParams,
+  SearchParams?: SearchParams,
 ): Promise<ApiResponse<DprSearchApiResponse | null>> {
   if (!council) {
     return apiReturnError("Council is required");
@@ -40,9 +40,9 @@ export async function search(
 
   switch (source) {
     case "bops":
-      return await BopsV2.search(council, search);
+      return await BopsV2.search(council, SearchParams);
     case "local":
-      return await LocalV1.search(search);
+      return await LocalV1.search(SearchParams);
     default:
       return apiReturnError("Invalid source");
   }
