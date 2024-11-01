@@ -3,33 +3,49 @@
 import { ApiResponse } from "@/types";
 import { BopsV1PlanningApplicationsNeighbourResponse } from "@/handlers/bops/types";
 
-// const responseFail: ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null> =
-//   {
-//     data: null,
-//     status: {
-//       code: 400,
-//       message: "Bad Request",
-//       detail: {
-//         message:
-//           "Validation failed: Name can't be blank, Response can't be blank, Summary tag can't be blank",
-//       },
-//     },
-//   };
+/**
+ * @todo this needs to be made more Dpr specific
+ * @param council
+ * @param applicationId
+ * @returns
+ */
+const responseQuery = (
+  council: string,
+  applicationId: number,
+  error: boolean,
+): ApiResponse<BopsV1PlanningApplicationsNeighbourResponse> => {
+  if (error) {
+    return {
+      data: null,
+      status: {
+        code: 400,
+        message: "Bad Request",
+        detail:
+          "Validation failed: Name can't be blank, Response can't be blank, Summary tag can't be blank",
+      },
+    };
+  } else {
+    return {
+      data: {
+        id: applicationId.toString(),
+        message: "Response submitted",
+      },
+      status: {
+        code: 200,
+        message: "",
+      },
+    };
+  }
+};
 
-const response: ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null> =
-  {
-    data: {
-      id: "24-00136-HAPP",
-      message: "Response submitted",
-    },
-    status: {
-      code: 200,
-      message: "OK",
-    },
-  };
-
-export const postComment = (): Promise<
-  ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
-> => {
-  return Promise.resolve(response);
+export const postComment = (
+  council: string,
+  applicationId: number,
+  apiData: object,
+): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> => {
+  // console.log("apiData", apiData);
+  let error = false;
+  // uncomment for testing
+  // error = true;
+  return Promise.resolve(responseQuery(council, applicationId, error));
 };
