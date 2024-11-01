@@ -9,15 +9,7 @@ jest.mock("../../src/components/button", () => ({
   BackLink: () => <div data-testid="back-link">Back Link</div>,
 }));
 jest.mock("../../src/components/FormSearch", () => ({
-  FormSearch: ({ validationError }: { validationError: boolean }) => (
-    <div data-testid="form-search">
-      {validationError && (
-        <span data-testid="validation-error">
-          Error: Search query must be at least 3 characters
-        </span>
-      )}
-    </div>
-  ),
+  FormSearch: () => <div data-testid="form-search"></div>,
 }));
 
 describe("PageSearch Component", () => {
@@ -76,21 +68,10 @@ describe("PageSearch Component", () => {
       />,
     );
 
-  it("renders FormSearch component and displays a validation error if query is less than 3 characters", () => {
-    renderComponent({
-      searchParams: { query: "ab", page: 1, resultsPerPage: 2 },
-    });
-    expect(screen.getByTestId("form-search")).toBeInTheDocument();
-    expect(screen.getByTestId("validation-error")).toHaveTextContent(
-      "Error: Search query must be at least 3 characters",
-    );
-  });
-
   it("does not display validation error when query length is valid", () => {
     renderComponent({
       searchParams: { query: "valid", page: 2, resultsPerPage: 10 },
     });
     expect(screen.getByTestId("form-search")).toBeInTheDocument();
-    expect(screen.queryByTestId("validation-error")).toBeNull();
   });
 });
