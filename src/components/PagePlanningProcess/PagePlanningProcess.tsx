@@ -21,97 +21,133 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
       <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-xl">Understanding planning</h1>
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third-from-desktop contents-bar">
-            <h2 className="govuk-heading-l">Contents</h2>
+          <nav
+            className="govuk-grid-column-one-third-from-desktop contents-bar"
+            aria-label="Table of contents"
+          >
+            <h2 className="govuk-heading-l" id="contents-title">
+              Contents
+            </h2>
 
-            <p className="contents-bar__list-heading">
-              <a href="#application-statuses">Application statuses</a>
-            </p>
-            {contentApplicationStatuses.map((type) => (
-              <>
-                <p key={type.key} className="contents-bar__sub-list">
-                  <a href={`#${type.key}`}>{type.title}</a>
-                </p>
-                {type.children && (
-                  <>
-                    {type.children.map((type) => (
-                      <p
-                        key={type.key}
-                        className="contents-bar__sub-list contents-bar__sub-sub-list"
-                      >
+            <ul role="list" aria-labelledby="contents-title">
+              <li>
+                <div className="contents-bar__list-heading">
+                  <a href="#application-statuses">Application statuses</a>
+                </div>
+                <ul role="list">
+                  {contentApplicationStatuses.map((type) => (
+                    <li key={type.key}>
+                      <div className="contents-bar__sub-list">
                         <a href={`#${type.key}`}>{type.title}</a>
-                      </p>
-                    ))}
-                  </>
-                )}
-              </>
-            ))}
+                      </div>
+                      {type.children && (
+                        <ul role="list">
+                          {type.children.map((childType) => (
+                            <li key={childType.key}>
+                              <div className="contents-bar__sub-list contents-bar__sub-sub-list">
+                                <a href={`#${childType.key}`}>
+                                  {childType.title}
+                                </a>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
 
-            <p className="contents-bar__list-heading">
-              <a href="#important-dates">Important dates</a>
-            </p>
-            <p className="contents-bar__sub-list">
-              <a href="#received-date">Received date</a>
-            </p>
-            <p className="contents-bar__sub-list">
-              <a href="#validated-date">Valid from date</a>
-            </p>
-            <p className="contents-bar__sub-list">
-              <a href="#published-date">Published date</a>
-            </p>
-            <p className="contents-bar__sub-list">
-              <a href="#consultation-end-date">Consultation end date</a>
-            </p>
-            <p className="contents-bar__sub-list">
-              <a href="#decision-date">Decision date</a>
-            </p>
+              <li>
+                <div className="contents-bar__list-heading">
+                  <a href="#important-dates">Important dates</a>
+                </div>
+                <ul role="list">
+                  <li>
+                    <div className="contents-bar__sub-list">
+                      <a href="#received-date">Received date</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="contents-bar__sub-list">
+                      <a href="#validated-date">Valid from date</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="contents-bar__sub-list">
+                      <a href="#published-date">Published date</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="contents-bar__sub-list">
+                      <a href="#consultation-end-date">Consultation end date</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="contents-bar__sub-list">
+                      <a href="#decision-date">Decision date</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
 
-            <p className="contents-bar__list-heading">
-              <a href="#decisions">Decisions</a>
-            </p>
-            {contentDecisions.map((type) => (
-              <>
-                <p key={type.key} className="contents-bar__sub-list">
-                  <a href={`#${type.key}`}>{type.title}</a>
-                </p>
-                {type.children && (
-                  <>
-                    {type.children.map((type) => (
-                      <p
-                        key={type.key}
-                        className="contents-bar__sub-list contents-bar__sub-sub-list"
-                      >
+              <li>
+                <div className="contents-bar__list-heading">
+                  <a href="#decisions">Decisions</a>
+                </div>
+                <ul role="list">
+                  {contentDecisions.map((type) => (
+                    <li key={type.key}>
+                      <div className="contents-bar__sub-list">
                         <a href={`#${type.key}`}>{type.title}</a>
-                      </p>
-                    ))}
-                  </>
-                )}
-              </>
-            ))}
+                      </div>
+                      {type.children && (
+                        <ul role="list">
+                          {type.children.map((childType) => (
+                            <li key={childType.key}>
+                              <div className="contents-bar__sub-list contents-bar__sub-sub-list">
+                                <a href={`#${childType.key}`}>
+                                  {childType.title}
+                                </a>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
 
-            <p className="contents-bar__list-heading">
-              <a href="#application-types">Application types</a>
-            </p>
-            {contentApplicationTypes.map((type) => (
-              <>
-                <p key={type.key} className="contents-bar__sub-list">
-                  <a href={`#${type.key}`}>{type.title}</a>
-                </p>
-                {type.children && (
-                  <>
-                    {type.children.map((type) => (
-                      <p
-                        key={type.key}
-                        className="contents-bar__sub-list contents-bar__sub-sub-list"
-                      >
+              <li>
+                <div className="contents-bar__list-heading">
+                  <a href="#application-types">Application types</a>
+                </div>
+                <ul role="list">
+                  {contentApplicationTypes.map((type) => (
+                    <li key={type.key}>
+                      <div className="contents-bar__sub-list">
                         <a href={`#${type.key}`}>{type.title}</a>
-                      </p>
-                    ))}
-                  </>
-                )}
-              </>
-            ))}
-          </div>
+                      </div>
+                      {type.children && (
+                        <ul role="list">
+                          {type.children.map((childType) => (
+                            <li key={childType.key}>
+                              <div className="contents-bar__sub-list contents-bar__sub-sub-list">
+                                <a href={`#${childType.key}`}>
+                                  {childType.title}
+                                </a>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </nav>
 
           <div className="govuk-grid-column-two-thirds-from-desktop">
             <h2 className="govuk-heading-l" id="application-statuses">

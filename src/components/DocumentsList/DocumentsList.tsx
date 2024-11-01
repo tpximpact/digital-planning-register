@@ -29,8 +29,13 @@ export const DocumentsList = ({
   const displayedDocuments = documents?.slice(from, from + maxDisplayDocuments);
   const totalDocuments = documents ? documents.length : 0;
   return (
-    <div className="grid-row-extra-bottom-margin documents-container">
-      <h1 className="govuk-heading-l">Documents</h1>
+    <section
+      className="grid-row-extra-bottom-margin documents-container"
+      aria-labelledby="documents-section"
+    >
+      <h2 className="govuk-heading-l" id="documents-section">
+        Documents
+      </h2>
       <p className="govuk-body documents-containers">
         To find out more detailed information, please read the following
         document(s) provided by the applicant.
@@ -72,6 +77,6 @@ export const DocumentsList = ({
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
