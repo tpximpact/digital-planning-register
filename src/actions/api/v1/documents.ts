@@ -30,6 +30,7 @@ export async function documents(
   source: string,
   council: string,
   reference: string,
+  searchParams?: SearchParams,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
@@ -39,7 +40,7 @@ export async function documents(
     case "bops":
       return await BopsV2.documents(council, reference);
     case "local":
-      return await LocalV1.documents();
+      return await LocalV1.documents(council, reference, searchParams);
     default:
       return apiReturnError("Invalid source");
   }
