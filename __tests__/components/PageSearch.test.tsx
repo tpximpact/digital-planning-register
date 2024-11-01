@@ -3,75 +3,87 @@ import "@testing-library/jest-dom";
 import { PageSearch, PageSearchProps } from "@/components/PageSearch";
 import { AppConfig } from "@/config/types";
 import { DprPlanningApplication, DprPagination } from "@/types";
+import { getAppConfig } from "@/config";
+import {
+  generateDprApplication,
+  generateNResults,
+  generatePagination,
+} from "@mocks/dprApplicationFactory";
+import { ApplicationCard } from "@/components/ApplicationCard";
 
-// Mock components used within PageSearch
-jest.mock("../../src/components/button", () => ({
-  BackLink: () => <div data-testid="back-link">Back Link</div>,
+jest.mock("@/components/Button", () => ({
+  BackLink: () => <div data-testid="back-link"></div>,
 }));
-jest.mock("../../src/components/FormSearch", () => ({
+
+jest.mock("@/components/FormSearch", () => ({
   FormSearch: () => <div data-testid="form-search"></div>,
 }));
 
+jest.mock("@/components/ApplicationCard", () => ({
+  ApplicationCard: () => <div data-testid="application-card"></div>,
+}));
+
+jest.mock("@/components/Pagination", () => ({
+  Pagination: () => <div data-testid="pagination"></div>,
+}));
+
+jest.mock("@/components/ContentNoResult", () => ({
+  ContentNoResult: () => <div data-testid="content-no-result"></div>,
+}));
+
 describe("PageSearch Component", () => {
-  const mockAppConfig: AppConfig = {
-    council: {
-      slug: "test-council",
-      name: "camden",
-      visibility: "public",
-      dataSource: "",
-      publicComments: false,
-      specialistComments: false,
-      pageContent: {
-        privacy_policy: {
-          privacy_policy_link: "",
-        },
-      },
-      features: {},
-    },
-    defaults: { resultsPerPage: 10 },
-  };
-
-  const mockApplications: DprPlanningApplication[] = [
-    {
-      application: {
-        reference: "app123",
-        type: { description: "" },
-        consultation: { endDate: "10-10-2024" },
-      },
-      property: { address: { singleLine: "1234" }, boundary: { site: {} } },
-      proposal: { description: "" },
-    } as DprPlanningApplication,
-    {
-      application: {
-        reference: "app456",
-        type: { description: "" },
-        consultation: { endDate: "10-10-2024" },
-      },
-    } as DprPlanningApplication,
-  ];
-
-  const mockPagination: DprPagination = {
-    total_pages: 3,
-    page: 1,
-    total_results: 30,
-  };
-
-  const renderComponent = (props: Partial<PageSearchProps> = {}) =>
+  it("renders a list of results", async () => {
     render(
       <PageSearch
-        appConfig={props.appConfig || mockAppConfig}
-        applications={props.applications || mockApplications}
-        pagination={props.pagination || mockPagination}
-        searchParams={
-          props.searchParams || { query: "valid", page: 1, resultsPerPage: 2 }
-        }
+        appConfig={getAppConfig("public-council-1")}
+        applications={generateNResults(5, generateDprApplication)}
+        pagination={generatePagination(0, 100)}
+        searchParams={undefined}
       />,
     );
 
-  it("does not display validation error when query length is valid", () => {
-    renderComponent({
-      searchParams: { query: "valid", page: 2, resultsPerPage: 10 },
-    });
+    expect(
+      screen.getByRole("heading", { name: "Recently published applications" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("back-link")).not.toBeInTheDocument();
     expect(screen.getByTestId("form-search")).toBeInTheDocument();
+    expect(screen.getAllByTestId("application-card")).toHaveLength(5);
+    expect(screen.getByTestId("pagination")).toBeInTheDocument();
+  });
+
+  it("renders a list of search results", async () => {
+    render(
+      <PageSearch
+        appConfig={getAppConfig("public-council-1")}
+        applications={generateNResults(5, generateDprApplication)}
+        pagination={generatePagination(0, 100)}
+        searchParams={{ page: 1, resultsPerPage: 10, query: "search" }}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Search results" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("back-link")).not.toBeInTheDocument();
+    expect(screen.getByTestId("form-search")).toBeInTheDocument();
+    expect(screen.getAllByTestId("application-card")).toHaveLength(5);
+    expect(screen.getByTestId("pagination")).toBeInTheDocument();
+  });
+
+  it("renders a list of search results", async () => {
+    render(
+      <PageSearch
+        appConfig={getAppConfig("public-council-1")}
+        applications={undefined}
+        pagination={generatePagination(0, 0)}
+        searchParams={{ page: 1, resultsPerPage: 10, query: "noresultsplease" }}
+      />,
+    );
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("back-link")).toBeInTheDocument();
+    expect(screen.getByTestId("form-search")).toBeInTheDocument();
+    expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
+    expect(screen.queryByTestId("application-card")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("pagination")).not.toBeInTheDocument();
   });
 });

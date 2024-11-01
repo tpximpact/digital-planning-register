@@ -1,0 +1,11 @@
+@import "src/styles/component-base";
+
+.search-card {
+  background: govuk-colour("light-grey");
+  border: 2px solid white;
+  padding: 20px 10px 0 10px;
+}
+
+.search-card .govuk-grid-row {
+  margin-bottom: 1em;
+}

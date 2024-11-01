@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import { AppConfig } from "@/config/types";
-import { CouncilLogo } from "@/components/CouncilLogo";
 import "./CouncilCards.scss";
 
 export const CouncilCards = ({
@@ -27,10 +27,18 @@ export const CouncilCards = ({
               data-council-slug={council.slug}
               aria-label={`View planning applications for ${council.name} Council`}
             >
-              <CouncilLogo
-                councilName={council.name}
-                logoFileName={council.logo}
-              />
+              {council.logo ? (
+                <Image
+                  src={`/images/logos/${council.logo}`}
+                  alt={`${council.name} Logo`}
+                  width={350}
+                  height={75}
+                  aria-label={`${council.name} Logo`}
+                  role="img"
+                />
+              ) : (
+                <span>{council.name}</span>
+              )}
             </Link>
           ))}
         </div>

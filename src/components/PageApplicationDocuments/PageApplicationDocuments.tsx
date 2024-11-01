@@ -30,6 +30,12 @@ export const PageApplicationDocuments = ({
   if (!appConfig || !appConfig.council) {
     return null;
   }
+  const from = (pagination?.from ?? 1) - 1;
+  const displayedDocuments = documents?.slice(
+    from,
+    from + (searchParams?.resultsPerPage ?? 9),
+  );
+  console.log(from, displayedDocuments);
   return (
     <>
       <BackLink />
@@ -41,25 +47,26 @@ export const PageApplicationDocuments = ({
         <DocumentsList
           councilSlug={appConfig.council?.slug}
           reference={reference}
-          documents={documents ?? null}
-          from={pagination.from - 1}
-          maxDisplayDocuments={appConfig.defaults.resultsPerPage}
-          page={pagination.page - 1}
+          documents={displayedDocuments ?? null}
+          totalDocuments={documents?.length ?? displayedDocuments?.length ?? 0}
+          showMoreButton={false}
         />
-        <Pagination
-          currentPage={pagination.page - 1}
-          totalItems={
-            pagination.total_pages * appConfig.defaults.resultsPerPage
-          }
-          itemsPerPage={appConfig.defaults.resultsPerPage}
-          baseUrl={
-            appConfig?.council?.slug
-              ? `/${appConfig.council.slug}/${reference}/documents`
-              : ""
-          }
-          queryParams={searchParams}
-          totalPages={pagination.total_pages}
-        />
+        {pagination && (
+          <Pagination
+            currentPage={pagination.page - 1}
+            totalItems={
+              pagination.total_pages * appConfig.defaults.resultsPerPage
+            }
+            itemsPerPage={appConfig.defaults.resultsPerPage}
+            baseUrl={
+              appConfig?.council?.slug
+                ? `/${appConfig.council.slug}/${reference}/documents`
+                : ""
+            }
+            queryParams={searchParams}
+            totalPages={pagination.total_pages}
+          />
+        )}
       </div>
     </>
   );

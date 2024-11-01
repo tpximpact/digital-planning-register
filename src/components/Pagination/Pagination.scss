@@ -1,4 +1,5 @@
-@import "node_modules/govuk-frontend/dist/govuk/base";
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/components/pagination/index";
 
 .pagination-section {
   width: fit-content;
@@ -56,7 +57,7 @@
 .page-link:hover .pagination-next-previous {
   color: #003078;
 }
-.icon {
+.pagination-icon {
   display: flex;
   gap: 15px;
   align-items: center;

@@ -10,6 +10,18 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: [
+          "Public pages",
+          "Council pages",
+          "Templates",
+          "DPR Components",
+          "GOV UK Components",
+          "Forms",
+        ],
+      },
+    },
   },
 };
 

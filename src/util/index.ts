@@ -4,3 +4,4 @@ export * from "./formatTag";
 export * from "./formatDates";
 export * from "./formatFileSize";
 export * from "./validation";
+export * from "./slugify";

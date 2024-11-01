@@ -10,7 +10,6 @@ import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
-import { PageTemplate } from "../PageTemplate";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageWrapper } from "../PageWrapper";
 
@@ -18,9 +17,9 @@ export interface PageApplicationCommentsProps {
   reference: string;
   application: DprPlanningApplication;
   comments: DprComment[] | null;
-  pagination: DprPagination;
   appConfig: AppConfig;
   type: DprCommentTypes;
+  pagination?: DprPagination;
   searchParams?: SearchParams;
 }
 
@@ -28,9 +27,9 @@ export const PageApplicationComments = ({
   reference,
   application,
   comments,
-  pagination,
   appConfig,
   type,
+  pagination,
   searchParams,
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
@@ -53,9 +52,12 @@ export const PageApplicationComments = ({
           reference={reference}
           type={type}
           comments={comments}
-          from={pagination.from - 1}
-          maxDisplayComments={appConfig.defaults.resultsPerPage}
-          page={pagination.page - 1}
+          pagination={
+            pagination ?? {
+              results: appConfig.defaults.resultsPerPage,
+              page: 1,
+            }
+          }
         />
         {pagination && pagination.total_pages > 1 && (
           <>

@@ -1,31 +1,39 @@
 import { DprComment, DprCommentTypes, DprPagination } from "@/types";
-import { CommentCard } from "@/components/comment_card";
+import { CommentCard } from "@/components/CommentCard";
+import "./CommentsList.scss";
+import { LinkButton } from "../button";
 
-interface CommentsListProps {
+export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  type: DprCommentTypes;
   comments: DprComment[] | null;
-  maxDisplayComments?: number;
-  from?: number;
+  pagination: Pick<DprPagination, "results" | "page">;
   showMoreButton?: boolean;
-  pagination?: DprPagination;
-  page?: number;
+  type?: DprCommentTypes;
 }
 
+/**
+ * Similar to ApplicationCard on the search page we leave whats displayed up to the parent component
+ * NB getCommentTypeToShow in the page determines what kind of comments to show based on the appConfig
+ * @param param0
+ * @returns
+ */
 export const CommentsList = ({
   councilSlug,
   reference,
-  type,
   comments,
-  maxDisplayComments = 3,
-  from = 0,
+  pagination,
   showMoreButton = false,
-  page = 0,
+  type,
 }: CommentsListProps) => {
-  const displayedComments = comments?.slice(from, from + maxDisplayComments);
+  if (!pagination) {
+    return null;
+  }
+  const { results: resultsPerPage, page } = pagination;
+  const startIndex = (page - 1) * resultsPerPage;
+  const endIndex = startIndex + resultsPerPage;
+  const displayedComments = comments?.slice(startIndex, endIndex);
   const totalComments = comments ? comments.length : 0;
-
   return (
     <section
       aria-labelledby={
@@ -47,34 +55,30 @@ export const CommentsList = ({
 
       {displayedComments && displayedComments.length > 0 ? (
         <>
-          {displayedComments.map((comment, index) => (
-            <CommentCard
-              key={index}
-              comment={comment}
-              commentNumber={
-                totalComments - (page * maxDisplayComments + index)
-              }
-            />
-          ))}
-          {showMoreButton && totalComments > maxDisplayComments && (
+          <div className="govuk-grid-row grid-row-extra-bottom-margin">
+            {displayedComments.map((comment, i) => (
+              <CommentCard
+                key={i}
+                comment={comment}
+                commentNumber={startIndex + i + 1}
+              />
+            ))}
+          </div>
+          {showMoreButton && displayedComments.length >= resultsPerPage && (
             <div className="govuk-grid-row grid-row-extra-bottom-margin">
               <div className="govuk-grid-column-full">
                 <p className="govuk-hint">
-                  Showing {maxDisplayComments} of {totalComments} comments
+                  Showing {displayedComments.length} of {totalComments} comments
                 </p>
                 {councilSlug && (
-                  <a
-                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
-                    role="button"
-                    className="govuk-button govuk-button--secondary blue-button"
-                    data-module="govuk-button"
-                  >
-                    Show all {totalComments}{" "}
-                    {type === "specialist"
-                      ? "professional consultee"
-                      : "neighbour"}{" "}
-                    comments
-                  </a>
+                  <LinkButton
+                    href={`/${councilSlug}/${reference}/comments`}
+                    text={`Show all ${totalComments} ${
+                      type === "specialist"
+                        ? "professional consultee"
+                        : "neighbour"
+                    } comments`}
+                  />
                 )}
               </div>
             </div>

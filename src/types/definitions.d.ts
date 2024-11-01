@@ -73,7 +73,7 @@ export interface DprPlanningApplication {
       singleLine: string;
     };
     boundary: {
-      site: DprBoundaryGeojson;
+      site?: DprBoundaryGeojson;
     };
   };
   proposal: {
@@ -159,4 +159,23 @@ export interface DprBoundaryGeojson {
     };
     properties: { [key: string]: any } | null;
   }[];
+}
+
+/**
+ *
+ *
+ *
+ * DprPageContent
+ * Represents a page content object that works with sidebar and content components
+ *
+ */
+export interface DprContentPage {
+  key: string;
+  title: string;
+  content?: JSX.Element;
+  /**
+   * Items with 'linked' set to true are linked to from the application details page, If this changes we can get rid of the linked field
+   */
+  linked?: boolean;
+  children?: DprPageContent[];
 }

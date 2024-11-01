@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import "@testing-library/jest-dom";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { createAppConfig } from "@mocks/appConfigFactory";
 
 jest.mock("@next/third-parties/google", () => ({
   sendGTMEvent: jest.fn(),
@@ -10,7 +11,7 @@ jest.mock("@next/third-parties/google", () => ({
 
 describe("CommentPersonalDetails", () => {
   const defaultProps = {
-    council: "exampleCouncil",
+    councilConfig: createAppConfig("public-council-1").council,
     reference: "REF-001",
     navigateToPage: jest.fn(),
     isEditing: false,

@@ -2,6 +2,7 @@
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
+import "./ApplicationMap.scss";
 
 export interface ApplicationMapMapProps {
   reference: string;

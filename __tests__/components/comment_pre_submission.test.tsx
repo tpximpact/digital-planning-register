@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 describe("PreSubmission", () => {
-  const appConfig = createAppConfig('public-council-1');
+  const appConfig = createAppConfig("public-council-1");
   const defaultProps = {
     councilConfig: appConfig.council,
     reference: "REF-001",
