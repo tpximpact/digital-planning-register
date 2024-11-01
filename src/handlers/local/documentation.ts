@@ -13,7 +13,7 @@ export default function localApiDocs(url: string): Record<string, any> {
         description: "applicationSubmission",
         arguments: [],
         run: async () => {
-          return await LocalV1.applicationSubmission();
+          return await LocalV1.applicationSubmission("camden", "1234");
         },
         examples: [
           {
@@ -27,7 +27,7 @@ export default function localApiDocs(url: string): Record<string, any> {
         description: "documents",
         arguments: [],
         run: async () => {
-          return await LocalV1.documents();
+          return await LocalV1.documents("camden", "1234");
         },
         examples: [
           {
@@ -41,7 +41,7 @@ export default function localApiDocs(url: string): Record<string, any> {
         description: "postComment",
         arguments: [],
         run: async () => {
-          return await LocalV1.postComment();
+          return await LocalV1.postComment("camden", 1234, {});
         },
       },
       search: {
@@ -83,7 +83,7 @@ export default function localApiDocs(url: string): Record<string, any> {
         description: "show",
         arguments: [],
         run: async () => {
-          return await LocalV1.show();
+          return await LocalV1.show("camden", "1234");
         },
         examples: [
           {
