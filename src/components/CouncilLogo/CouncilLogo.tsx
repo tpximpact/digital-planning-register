@@ -19,16 +19,16 @@ export const CouncilLogo = ({
     logoFileName ?? "",
   );
 
-  return logoFileName ? (
+  if (!logoFileName) {
+    return <span>{councilName}</span>;
+  }
+
+  return (
     <Image
       src={`/images/logos/${logoFileName}`}
-      alt={`${councilName} Logo`}
+      alt="" // Empty alt since the link's aria-label provides the context
       width={350}
       height={75}
-      aria-label={`${councilName} Logo`}
-      role="img"
     />
-  ) : (
-    <span>{councilName}</span>
   );
 };
