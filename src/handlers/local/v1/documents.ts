@@ -14,6 +14,8 @@ import {
 } from "@mocks/dprApplicationFactory";
 
 const responseQuery = (
+  council: string,
+  reference: string,
   searchParams?: SearchParams,
 ): ApiResponse<DprDocumentsApiResponse> => {
   const appConfig = getAppConfig();
@@ -21,7 +23,7 @@ const responseQuery = (
 
   const documents = [
     {
-      url: "/application-form",
+      url: `/${council}/${reference}/application-form`,
       title: "Application form",
       metadata: {
         contentType: "text/html",
@@ -52,5 +54,5 @@ export const documents = (
   reference: string,
   searchParams?: SearchParams,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> => {
-  return Promise.resolve(responseQuery(searchParams));
+  return Promise.resolve(responseQuery(council, reference, searchParams));
 };

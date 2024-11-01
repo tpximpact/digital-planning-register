@@ -7,7 +7,6 @@ const response = (reference: string): ApiResponse<DprShowApiResponse> => {
   const application = generateDprApplication();
   application.application.reference = reference;
 
-  console.log(application);
   return {
     data: application,
     status: {

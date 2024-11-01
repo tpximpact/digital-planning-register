@@ -1,7 +1,7 @@
 "use server";
 
 // Types
-import { ApiResponse, DprDocumentsApiResponse } from "@/types";
+import { ApiResponse, DprDocumentsApiResponse, SearchParams } from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
