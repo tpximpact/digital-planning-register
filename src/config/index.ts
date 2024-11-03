@@ -286,6 +286,21 @@ const councils: Council[] = [
     },
   },
   {
+    name: "Medway",
+    slug: "medway",
+    visibility: "public",
+    logo: "medwaylogo.svg",
+    dataSource: "bops",
+    publicComments: false,
+    specialistComments: false,
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link:
+          "https://www.medway.gov.uk/info/200217/freedom_of_information/347/data_protection/1",
+      },
+    },
+  },
+  {
     name: "Southwark",
     slug: "southwark",
     visibility: "public",
