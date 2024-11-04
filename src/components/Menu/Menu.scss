@@ -1,0 +1,43 @@
+@import "node_modules/govuk-frontend/dist/govuk/base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/service-navigation/index";
+
+.dpr-menu {
+  font-size: 2rem;
+  @include govuk-media-query($from: tablet) {
+    font-size: 2rem;
+  }
+
+  // make font size stay large on mobile
+  .govuk-service-navigation__list {
+    @include govuk-font($size: 27);
+
+    @include govuk-media-query($from: tablet) {
+      @include govuk-font($size: 19);
+    }
+  }
+
+  .govuk-service-navigation__item {
+    margin: govuk-spacing(6) 0;
+
+    @include govuk-media-query($from: tablet) {
+      margin-top: 0;
+      margin-bottom: 0;
+      @include govuk-responsive-margin(6, $direction: right);
+    }
+  }
+
+  &__dropdown {
+    // taken from https://github.com/alphagov/govuk-frontend/blob/main/packages/govuk-frontend/src/govuk/components/service-navigation/_index.scss
+    @extend .govuk-service-navigation__item;
+    @include govuk-media-query($from: tablet) {
+      padding: govuk-spacing(2) 0;
+    }
+
+    // nudge whatevers in the dropdown box a little
+
+    > * {
+      padding: govuk-spacing(1) 0 0 0;
+    }
+  }
+}

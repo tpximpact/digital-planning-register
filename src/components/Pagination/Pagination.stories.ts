@@ -1,34 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PageTemplate } from "./PageTemplate";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { Pagination } from "./Pagination";
 
 const meta = {
-  title: "DPR/Pages/Template",
-  component: PageTemplate,
+  title: "Pagination/Pagination",
+  component: Pagination,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
-    nextjs: {
-      appDirectory: true,
-    },
   },
-
   args: {
-    children: <>PageTemplate</>,
-    appConfig: createAppConfig(),
+    currentPage: 0,
+    totalItems: 50,
+    itemsPerPage: 10,
+    baseUrl: "/",
+    queryParams: {},
+    totalPages: 6,
   },
-} satisfies Meta<typeof PageTemplate>;
+} satisfies Meta<typeof Pagination>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const WithCouncil: Story = {
-  args: {
-    children: <>PageTemplate</>,
-    appConfig: createAppConfig("public-council-1"),
-  },
-};

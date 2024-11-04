@@ -1,5 +1,6 @@
 import React from "react";
 import { NextIcon, PreviousIcon } from "../../../public/icons";
+import "./Pagination.scss";
 
 /**
  * @todo queryParams should be a type
@@ -13,7 +14,7 @@ interface PaginationProps {
   totalPages: number;
 }
 
-const Pagination = ({
+export const Pagination = ({
   currentPage,
   totalItems,
   itemsPerPage,
@@ -97,5 +98,3 @@ const Pagination = ({
     </>
   );
 };
-
-export default Pagination;

@@ -27,13 +27,17 @@ const config = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/**/{!(index.ts),}.ts"],
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx,js,jsx}", // Include .ts, .tsx, .js, and .jsx files
+    "!src/**/*.d.ts", // Exclude .d.ts files
+    "!src/**/index.{ts,tsx,js,jsx}", // Exclude index.ts files
+  ],
 
   // The directory where Jest should output its coverage files
   // coverageDirectory: undefined,
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["/node_modules/"],
+  // coveragePathIgnorePatterns: ["/node_modules/"],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
@@ -42,6 +46,7 @@ const config = {
   coverageReporters: [
     // "json",
     "text",
+    "html",
     // "lcov",
     // "clover"
   ],
@@ -96,6 +101,7 @@ const config = {
   // moduleNameMapper: {},
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    // "^@mocks/(.*)$": "<rootDir>/__mocks__/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

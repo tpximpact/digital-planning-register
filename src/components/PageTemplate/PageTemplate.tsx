@@ -1,25 +1,24 @@
-import { getAppConfig } from "@/config";
-
 import { PhaseBanner } from "@/components/govuk/PhaseBanner";
 import { Header } from "@/components/Header";
 import { Suspense } from "react";
 import CouncilConfigComponent from "@/config/CouncilConfigComponent";
 import { Footer } from "@/components/govuk/Footer";
+import { AppConfig } from "@/config/types";
 
 export interface PageTemplateProps {
   children: React.ReactNode;
+  appConfig: AppConfig;
 }
 
-export const PageTemplate = async ({ children }: PageTemplateProps) => {
-  const appConfig = await getAppConfig();
+export const PageTemplate = ({ children, appConfig }: PageTemplateProps) => {
   return (
     <>
-      <CouncilConfigComponent appConfig={appConfig} Component={Header} />
+      <Header appConfig={appConfig} councilConfig={appConfig.council} />
       <main className="govuk-width-container" id="main">
         <PhaseBanner />
         <Suspense>{children}</Suspense>
       </main>
-      <CouncilConfigComponent appConfig={appConfig} Component={Footer} />
+      <Footer councilConfig={appConfig.council} />
     </>
   );
 };

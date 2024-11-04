@@ -80,6 +80,6 @@ describe("CouncilSelector", () => {
     const select = screen.getByRole("combobox");
     fireEvent.change(select, { target: { value: "select" } });
     expect(select).toHaveValue("select");
-    expect(mockRouter.push).not.toHaveBeenCalled();
+    expect(mockRouter.push).toHaveBeenCalledWith("/");
   });
 });

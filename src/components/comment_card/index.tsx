@@ -46,7 +46,7 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
           ref={commentContainerRef}
           className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
         >
-          <h2 className="govuk-heading-m">Comment #{commentNumber}</h2>
+          <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
           <p className="govuk-body">
             <em>
               Published{" "}

@@ -35,33 +35,37 @@ export const Header = ({
   }, []);
 
   return (
-    <header className="govuk-header" role="banner" data-module="govuk-header">
-      <div className="govuk-header__container govuk-width-container">
-        {councilConfig && (
-          <div className="govuk-header__logo">
-            <Link
-              data-testid="page-council"
-              href={`/${councilConfig.slug}`}
-              className="govuk-header__link govuk-header__link--homepage"
-              aria-label={`${name} application search page`}
-            >
-              {logoPath ? (
-                <>
-                  <Image
-                    src={`/images/logos/${logo}`}
-                    alt={`${name} Logo`}
-                    width={148}
-                    height={31}
-                  />
-                  <span className="govuk-visually-hidden">{name}</span>
-                </>
-              ) : (
-                <span>{name}</span>
-              )}
-            </Link>
-          </div>
-        )}
-        <div>
+    <>
+      <header
+        role="banner"
+        className="govuk-header govuk-header--full-width-border"
+        data-module="govuk-header"
+      >
+        <div className="govuk-header__container govuk-width-container">
+          {councilConfig && (
+            <div className="govuk-header__logo">
+              <Link
+                data-testid="page-council"
+                href={`/${councilConfig.slug}`}
+                className="govuk-header__link govuk-header__link--homepage"
+                aria-label={`${name} application search page`}
+              >
+                {logoPath ? (
+                  <>
+                    <Image
+                      src={`/images/logos/${logo}`}
+                      alt={`${name} Logo`}
+                      width={148}
+                      height={31}
+                    />
+                    <span className="govuk-visually-hidden">{name}</span>
+                  </>
+                ) : (
+                  <span>{name}</span>
+                )}
+              </Link>
+            </div>
+          )}
           <Link
             data-testid="page-title"
             href="/"
@@ -70,18 +74,18 @@ export const Header = ({
           >
             Digital Planning Register
           </Link>
+          <button
+            type="button"
+            className="govuk-header__menu-button govuk-js-header-toggle"
+            aria-controls="navigation"
+            aria-expanded={isExtended}
+            onClick={() => setIsExtended(!isExtended)}
+            hidden={true}
+          >
+            Menu
+          </button>
         </div>
-        <button
-          type="button"
-          className="govuk-header__menu-button govuk-js-header-toggle"
-          aria-controls="navigation"
-          aria-expanded={isExtended}
-          onClick={() => setIsExtended(!isExtended)}
-          hidden={true}
-        >
-          Menu
-        </button>
-      </div>
+      </header>
       {isExtended && (
         <div className="menu" id="navigation" aria-label="Navigation Menu">
           <Menu
@@ -100,6 +104,6 @@ export const Header = ({
           selectedCouncil={councilConfig}
         />
       </div>
-    </header>
+    </>
   );
 };

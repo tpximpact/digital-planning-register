@@ -49,17 +49,19 @@ const ApplicationInformation = ({
   const description = proposal.description;
 
   return (
-    <div>
+    <section aria-labelledby="application-information-section">
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third-from-desktop">
-          <div className="govuk-heading-s">Application Reference</div>
+          <h1 className="govuk-heading-s" id="application-information-section">
+            Application Reference
+          </h1>
           <p className="govuk-body" id="application-reference">
             {reference}
           </p>
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop">
-          <div className="govuk-heading-s">Address</div>
+          <h2 className="govuk-heading-s">Address</h2>
           <p className="govuk-body">{address}</p>
         </div>
       </div>
@@ -76,7 +78,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationType && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Application Type
                     <a
                       className="info-icon"
@@ -87,7 +89,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p className="govuk-body" id="application-type">
                     {formatApplicationType(applicationType)}
                   </p>
@@ -98,7 +100,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationStatusDefined && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Status
                     <a
                       className="info-icon"
@@ -109,7 +111,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p
                     className={`govuk-body ${definedStatusClass(applicationStatusDefined)}`}
                     id="application-status"
@@ -124,7 +126,7 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              <div className="govuk-heading-s">
+              <h2 className="govuk-heading-s">
                 Received Date
                 <a
                   className="info-icon"
@@ -135,7 +137,7 @@ const ApplicationInformation = ({
                 >
                   i
                 </a>
-              </div>
+              </h2>
               <p className="govuk-body">
                 {/* NB in application card we dont display recieved at if one isn't set */}
                 {applicationReceivedAt
@@ -147,7 +149,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationValidAt && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Valid From Date{" "}
                     <a
                       className="info-icon"
@@ -157,7 +159,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p className="govuk-body">
                     {formatDprDate(applicationValidAt)}
                   </p>
@@ -170,7 +172,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationPublishedAt && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Published Date{" "}
                     <a
                       className="info-icon"
@@ -180,7 +182,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p className="govuk-body">
                     {formatDprDate(applicationPublishedAt)}
                   </p>
@@ -190,7 +192,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {consultationEndDate && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Consultation End Date{" "}
                     <a
                       className="info-icon"
@@ -200,7 +202,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p className="govuk-body">
                     {formatDprDate(consultationEndDate)}
                   </p>
@@ -213,7 +215,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {decisionDate && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Decision Date{" "}
                     <a
                       className="info-icon"
@@ -224,7 +226,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p className="govuk-body">{decisionDate}</p>
                 </>
               )}
@@ -233,7 +235,7 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {decisionDefined && (
                 <>
-                  <div className="govuk-heading-s">
+                  <h2 className="govuk-heading-s">
                     Decision{" "}
                     <a
                       className="info-icon"
@@ -244,7 +246,7 @@ const ApplicationInformation = ({
                     >
                       i
                     </a>
-                  </div>
+                  </h2>
                   <p
                     className={`govuk-body ${definedDecisionClass(decisionDefined)}`}
                     style={{ maxWidth: "fit-content", padding: "2px 10px" }}
@@ -257,7 +259,7 @@ const ApplicationInformation = ({
           </div>
         </div>
       </div>
-      <div className="govuk-heading-l">Description</div>
+      <h2 className="govuk-heading-l">Description</h2>
       <p className="govuk-body" id="application-description">
         {description}
       </p>
@@ -274,7 +276,7 @@ const ApplicationInformation = ({
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

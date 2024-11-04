@@ -31,7 +31,7 @@ describe("CommentCheckAnswer", () => {
   });
 
   const defaultProps = {
-    council: "public-council-1",
+    councilConfig: appConfig.council,
     reference: "REF-001",
     applicationId: 1,
     navigateToPage: jest.fn(),

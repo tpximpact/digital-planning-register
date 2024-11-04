@@ -10,24 +10,33 @@ export const CouncilCards = ({
 }) => {
   const availableCouncils =
     councils && councils.filter((council) => council.visibility === "public");
+
   if (availableCouncils && availableCouncils.length > 0) {
     return (
-      <div className="logos-container">
-        {availableCouncils.map((council) => (
-          <Link
-            href={`/${council.slug}`}
-            className="govuk-button govuk-button--secondary"
-            title={`${council.name} Council`}
-            key={council.slug}
-            data-council-slug={council.slug}
-          >
-            <CouncilLogo
-              councilName={council.name}
-              logoFileName={council.logo}
-            />
-          </Link>
-        ))}
-      </div>
+      <>
+        <h2 className="govuk-heading-m">
+          Select your council to start exploring planning applications in your
+          area
+        </h2>
+        <div className="logos-container">
+          {availableCouncils.map((council) => (
+            <Link
+              href={`/${council.slug}`}
+              className="govuk-button govuk-button--secondary"
+              title={`${council.name} Council`}
+              key={council.slug}
+              data-council-slug={council.slug}
+            >
+              <CouncilLogo
+                councilName={council.name}
+                logoFileName={council.logo}
+              />
+            </Link>
+          ))}
+        </div>
+      </>
     );
+  } else {
+    return null;
   }
 };

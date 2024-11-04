@@ -1,22 +1,8 @@
 import { ReactNode } from "react";
-import type { Metadata } from "next";
 import { getAppConfig } from "@/config";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { BackLink } from "@/components/button";
-
-export function generateStaticParams() {
-  const appConfig = getAppConfig();
-  const allCouncils = appConfig.councils
-    .filter((council) => ["public", "unlisted"].includes(council.visibility))
-    .flatMap((council) => [
-      {
-        council: council.slug,
-      },
-    ])
-    .filter(Boolean);
-
-  return allCouncils;
-}
+import { PageTemplate } from "@/components/PageTemplate";
 
 export async function generateMetadata({
   params,
@@ -55,14 +41,14 @@ export default function SiteLayout({
     // cant use this because of bug in nextjs
     // return notFound();
     return (
-      <>
+      <PageTemplate appConfig={appConfig}>
         <BackLink />
         <div className="govuk-main-wrapper">
           <ContentNotFound />
         </div>
-      </>
+      </PageTemplate>
     );
   }
 
-  return <>{children}</>;
+  return <PageTemplate appConfig={appConfig}>{children}</PageTemplate>;
 }

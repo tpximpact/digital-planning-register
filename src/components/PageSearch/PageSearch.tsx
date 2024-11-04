@@ -4,7 +4,7 @@ import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
 import ApplicationCard from "../application_card";
-import Pagination from "../pagination";
+import { Pagination } from "@/components/Pagination";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
@@ -23,8 +23,7 @@ export const PageSearch = ({
     return null;
   }
   const page = searchParams?.page ? searchParams.page : 1;
-  const validationError =
-    searchParams?.query && searchParams?.query.length < 3 ? true : false;
+
   return (
     <>
       {!applications && <BackLink />}
@@ -32,10 +31,10 @@ export const PageSearch = ({
         <FormSearch
           action={`/${appConfig.council.slug}`}
           searchParams={searchParams}
-          validationError={validationError}
         />
         {applications && applications?.length > 0 ? (
           <>
+            <h2 className="govuk-heading-m">{`${Object.keys(searchParams as SearchParams).length > 0 ? "Search results" : "Recently published applications"}`}</h2>
             {applications.map((application) => (
               <ApplicationCard
                 key={application.application.reference}

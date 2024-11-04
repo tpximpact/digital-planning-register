@@ -30,6 +30,8 @@ export const CouncilSelector = ({
     setSelected(selectedSlug);
     if (selectedSlug !== "select") {
       router.push(`/${selectedSlug}`);
+    } else {
+      router.push(`/`);
     }
   };
   return (

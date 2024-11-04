@@ -27,10 +27,23 @@ export const CommentsList = ({
   const totalComments = comments ? comments.length : 0;
 
   return (
-    <>
-      <h1 className="govuk-heading-l">
+    <section
+      aria-labelledby={
+        type === "specialist"
+          ? "specialist-comments-section"
+          : "public-comments-section"
+      }
+    >
+      <h2
+        className="govuk-heading-l"
+        id={
+          type === "specialist"
+            ? "specialist-comments-section"
+            : "public-comments-section"
+        }
+      >
         {type === "specialist" ? "Specialist Comments" : "Public Comments"}
-      </h1>
+      </h2>
 
       {displayedComments && displayedComments.length > 0 ? (
         <>
@@ -80,6 +93,6 @@ export const CommentsList = ({
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 };
