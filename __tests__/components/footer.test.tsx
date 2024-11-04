@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Footer } from "@/components/govuk/Footer";
+import { Footer } from "@/components/Footer";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { Council } from "@/config/types";
 
