@@ -1,3 +1,5 @@
+import { getAppConfig } from "@/config";
+
 export async function handleBopsGetRequest<T>(
   council: string,
   url: string,
@@ -23,10 +25,15 @@ export async function handleBopsGetRequest<T>(
     } as T;
   } else {
     try {
+      const config = getAppConfig(council);
+      const revalidateConfig = config.defaults.revalidate;
       const response = await fetch(`${process.env[councilApi]}${url}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${process.env[apiKey]}`,
+        },
+        next: {
+          revalidate: revalidateConfig,
         },
       });
 

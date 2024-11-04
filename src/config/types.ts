@@ -18,6 +18,10 @@ export interface AppConfig {
      * Default results per page value
      */
     resultsPerPage: number;
+    /**
+     * Default revalidate value
+     */
+    revalidate: number;
   };
   /**
    * Navigation links
