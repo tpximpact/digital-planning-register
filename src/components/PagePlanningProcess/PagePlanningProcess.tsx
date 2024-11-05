@@ -19,7 +19,9 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
     <>
       <BackLink />
       <div className="govuk-main-wrapper">
-        <h1 className="govuk-heading-xl">Understanding planning</h1>
+        <h1 className="govuk-heading-xl">
+          Help using the Digital Planning Register
+        </h1>
         <div className="govuk-grid-row">
           <nav
             className="govuk-grid-column-one-third-from-desktop contents-bar"

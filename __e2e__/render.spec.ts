@@ -187,11 +187,11 @@ const testCouncilPlanningProcess = async (page: Page) => {
   await page.goto(`/public-council-1/planning-process`);
 
   await expect(page).toHaveTitle(
-    "Understanding planning | Public Council 1 Digital Planning Register",
+    "Help using the Digital Planning Register | Public Council 1 Digital Planning Register",
   );
   await expect(
     page.getByRole("heading", {
-      name: "Understanding planning",
+      name: "Help using the Digital Planning Register",
       exact: true,
     }),
   ).toBeVisible();
