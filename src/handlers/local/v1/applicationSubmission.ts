@@ -1,8 +1,8 @@
 "use server";
 
-import { ApiResponse, DprApplicationSubmission } from "@/types";
+import { ApiResponse, DprApplicationSubmissionApiResponse } from "@/types";
 
-const submission: Partial<DprApplicationSubmission> = {
+const submission: Partial<DprApplicationSubmissionApiResponse> = {
   application: {
     reference: "24-00135-HAPP",
     type: {
@@ -515,8 +515,8 @@ const submission: Partial<DprApplicationSubmission> = {
     },
   },
 };
-const response: ApiResponse<DprApplicationSubmission | null> = {
-  data: submission as DprApplicationSubmission,
+const response: ApiResponse<DprApplicationSubmissionApiResponse | null> = {
+  data: submission as DprApplicationSubmissionApiResponse,
   status: {
     code: 200,
     message: "",
@@ -524,7 +524,7 @@ const response: ApiResponse<DprApplicationSubmission | null> = {
 };
 
 export const applicationSubmission = (): Promise<
-  ApiResponse<DprApplicationSubmission | null>
+  ApiResponse<DprApplicationSubmissionApiResponse | null>
 > => {
   return Promise.resolve(response);
 };

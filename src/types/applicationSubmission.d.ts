@@ -1,4 +1,4 @@
-import { DprBoundaryGeojson } from "./boundaryGeojson";
+import { DprBoundaryGeojson } from "./definitions/boundaryGeojson";
 
 export interface DprApplicationSubmissionData {
   data: DprApplicationSubmissionSubtopic[];

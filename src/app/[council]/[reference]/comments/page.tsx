@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { ApiResponse, DprShow, SearchParams } from "@/types";
+import { ApiResponse, DprShowApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
@@ -19,7 +19,7 @@ interface PlanningApplicationDetailsCommentsProps {
 async function fetchData({
   params,
 }: PlanningApplicationDetailsCommentsProps): Promise<
-  ApiResponse<DprShow | null>
+  ApiResponse<DprShowApiResponse | null>
 > {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);

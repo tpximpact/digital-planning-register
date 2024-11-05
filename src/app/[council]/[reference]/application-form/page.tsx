@@ -1,4 +1,4 @@
-import { ApiResponse, DprApplicationSubmission } from "@/types";
+import { ApiResponse, DprApplicationSubmissionApiResponse } from "@/types";
 import { Metadata } from "next";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
@@ -17,7 +17,7 @@ interface ApplicationFormProps {
 async function fetchData({
   params,
 }: ApplicationFormProps): Promise<
-  ApiResponse<DprApplicationSubmission | null>
+  ApiResponse<DprApplicationSubmissionApiResponse | null>
 > {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
