@@ -35,8 +35,14 @@ describe("CouncilCards", () => {
 
   it("renders the correct links for public councils", () => {
     render(<CouncilCards councils={appConfig.councils} />);
-    const link1 = screen.getByTitle("Public Council 1 Council");
-    const link2 = screen.getByTitle("Public Council 2 Council");
+    // Use getByRole to find the links by their accessible name
+    const link1 = screen.getByRole("link", {
+      name: /Public Council 1/i,
+    });
+    const link2 = screen.getByRole("link", {
+      name: /Public Council 2/i,
+    });
+
     expect(link1).toHaveAttribute("href", "/public-council-1");
     expect(link2).toHaveAttribute("href", "/public-council-2");
   });

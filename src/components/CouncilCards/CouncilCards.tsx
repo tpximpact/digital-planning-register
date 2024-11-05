@@ -23,9 +23,9 @@ export const CouncilCards = ({
             <Link
               href={`/${council.slug}`}
               className="govuk-button govuk-button--secondary"
-              title={`${council.name} Council`}
               key={council.slug}
               data-council-slug={council.slug}
+              aria-label={`View planning applications for ${council.name} Council`}
             >
               <CouncilLogo
                 councilName={council.name}

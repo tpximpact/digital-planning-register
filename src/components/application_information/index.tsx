@@ -78,18 +78,25 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationType && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Application Type
+                  <div className="heading-info-div">
+                    <h2
+                      className="govuk-heading-s"
+                      id="application-type-heading"
+                    >
+                      Application Type
+                    </h2>
+
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
-                      title="Understanding application types"
                       aria-label="Understanding application types"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding application types">
+                        i
+                      </span>
                     </a>
-                  </h2>
+                  </div>
                   <p className="govuk-body" id="application-type">
                     {formatApplicationType(applicationType)}
                   </p>
@@ -100,18 +107,24 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationStatusDefined && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Status
+                  <div className="heading-info-div">
+                    <h2
+                      className="govuk-heading-s"
+                      id="application-status-heading"
+                    >
+                      Status
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
-                      title="Understanding application statuses"
                       aria-label="Understanding application statuses"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding application statuses">
+                        i
+                      </span>
                     </a>
-                  </h2>
+                  </div>
                   <p
                     className={`govuk-body ${definedStatusClass(applicationStatusDefined)}`}
                     id="application-status"
@@ -126,20 +139,20 @@ const ApplicationInformation = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
-              <h2 className="govuk-heading-s">
-                Received Date
+              <div className="heading-info-div">
+                <h2 className="govuk-heading-s" id="received-date-heading">
+                  Received Date
+                </h2>
                 <a
                   className="info-icon"
                   href={`/${councilSlug}/planning-process#received-date`}
-                  title="Understanding dates"
                   aria-label="Understanding dates"
                   target="_blank"
                 >
-                  i
+                  <span aria-label="Understanding dates">i</span>
                 </a>
-              </h2>
+              </div>
               <p className="govuk-body">
-                {/* NB in application card we dont display recieved at if one isn't set */}
                 {applicationReceivedAt
                   ? formatDprDate(applicationReceivedAt)
                   : "Date not available"}
@@ -149,17 +162,19 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationValidAt && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Valid From Date{" "}
+                  <div className="heading-info-div">
+                    <h2 className="govuk-heading-s" id="valid-date-heading">
+                      Valid From Date
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#validated-date`}
-                      title="Understanding dates"
+                      aria-label="Understanding dates"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding dates">i</span>
                     </a>
-                  </h2>
+                  </div>
                   <p className="govuk-body">
                     {formatDprDate(applicationValidAt)}
                   </p>
@@ -172,17 +187,19 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {applicationPublishedAt && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Published Date{" "}
+                  <div className="heading-info-div">
+                    <h2 className="govuk-heading-s" id="published-date-heading">
+                      Published Date
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#published-date`}
-                      title="Understanding dates"
+                      aria-label="Understanding dates"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding dates">i</span>
                     </a>
-                  </h2>
+                  </div>
                   <p className="govuk-body">
                     {formatDprDate(applicationPublishedAt)}
                   </p>
@@ -192,17 +209,24 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {consultationEndDate && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Consultation End Date{" "}
+                  <div className="heading-info-div">
+                    <h2
+                      className="govuk-heading-s"
+                      id="consultation-end-heading"
+                    >
+                      Consultation End Date
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#consultation-end-date`}
-                      title="Understanding consultation end date"
+                      aria-label="Understanding consultation end date"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding consultation end date">
+                        i
+                      </span>
                     </a>
-                  </h2>
+                  </div>
                   <p className="govuk-body">
                     {formatDprDate(consultationEndDate)}
                   </p>
@@ -215,18 +239,19 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {decisionDate && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Decision Date{" "}
+                  <div className="heading-info-div">
+                    <h2 className="govuk-heading-s" id="decision-date-heading">
+                      Decision Date
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#decision-date`}
-                      title="Understanding dates"
                       aria-label="Understanding dates"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding dates">i</span>
                     </a>
-                  </h2>
+                  </div>
                   <p className="govuk-body">{decisionDate}</p>
                 </>
               )}
@@ -235,18 +260,19 @@ const ApplicationInformation = ({
             <div className="govuk-grid-column-one-half">
               {decisionDefined && (
                 <>
-                  <h2 className="govuk-heading-s">
-                    Decision{" "}
+                  <div className="heading-info-div">
+                    <h2 className="govuk-heading-s" id="decision-heading">
+                      Decision
+                    </h2>
                     <a
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
-                      title="Understanding decisions"
                       aria-label="Understanding decisions"
                       target="_blank"
                     >
-                      i
+                      <span aria-label="Understanding decisions">i</span>
                     </a>
-                  </h2>
+                  </div>
                   <p
                     className={`govuk-body ${definedDecisionClass(decisionDefined)}`}
                     style={{ maxWidth: "fit-content", padding: "2px 10px" }}
