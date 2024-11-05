@@ -1,4 +1,5 @@
 "use client";
+import "./Footer.scss";
 import { AppConfig } from "@/config/types";
 import Image from "next/image";
 
