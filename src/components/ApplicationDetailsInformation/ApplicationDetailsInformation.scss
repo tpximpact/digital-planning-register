@@ -27,3 +27,9 @@
     width: 100%;
   }
 }
+
+.dpr-application-details {
+  &__heading {
+    display: flex;
+  }
+}

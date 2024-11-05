@@ -11,22 +11,34 @@ describe("CouncilCards", () => {
     render(<CouncilCards councils={appConfig.councils} />);
 
     expect(
-      screen.getByRole("link", { name: "Public Council 1 Logo" }),
+      screen.getByRole("link", {
+        name: "View planning applications for Public Council 1 Council",
+      }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Public Council 2 Logo" }),
+      screen.getByRole("link", {
+        name: "View planning applications for Public Council 2 Council",
+      }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("link", { name: "Unlisted Council 1 Logo" }),
+      screen.queryByRole("link", {
+        name: "View planning applications for Unlisted Council 1 Council",
+      }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("link", { name: "Unlisted Council 2 Logo" }),
+      screen.queryByRole("link", {
+        name: "View planning applications for Unlisted Council 2 Council",
+      }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("link", { name: "Private Council 1 Logo" }),
+      screen.queryByRole("link", {
+        name: "View planning applications for Private Council 1 Council",
+      }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("link", { name: "Private Council 2 Logo" }),
+      screen.queryByRole("link", {
+        name: "View planning applications for Private Council 2 Council",
+      }),
     ).not.toBeInTheDocument();
   });
 

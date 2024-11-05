@@ -30,7 +30,7 @@ export const CouncilCards = ({
               {council.logo ? (
                 <Image
                   src={`/images/logos/${council.logo}`}
-                  alt={`${council.name} Logo`}
+                  alt="" // Empty alt since the link's aria-label provides the context
                   width={350}
                   height={75}
                   aria-label={`${council.name} Logo`}

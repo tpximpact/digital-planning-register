@@ -24,7 +24,7 @@ export const InfoIcon = ({ href, title, ariaLabel }: InfoIconProps) => {
       aria-label={ariaLabel}
       target="_blank"
     >
-      i
+      <span aria-label={ariaLabel}>i</span>
     </Link>
   );
 };
