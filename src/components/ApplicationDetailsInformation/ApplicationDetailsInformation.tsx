@@ -84,14 +84,12 @@ export const ApplicationDetailsInformation = ({
               {applicationType && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Application Type
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
-                        title="Understanding application types"
-                        ariaLabel="Understanding application types"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Application Type</h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
+                      title="Understanding application types"
+                      ariaLabel="Understanding application types"
+                    />
                   </div>
                   <p className="govuk-body" id="application-type">
                     {formatApplicationType(applicationType)}
@@ -104,14 +102,12 @@ export const ApplicationDetailsInformation = ({
               {applicationStatusDefined && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Status
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
-                        title="Understanding application statuses"
-                        ariaLabel="Understanding application statuses"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Status </h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
+                      title="Understanding application statuses"
+                      ariaLabel="Understanding application statuses"
+                    />
                   </div>
                   <ApplicationDecisionLabel
                     label={applicationStatusDefined}
@@ -127,14 +123,12 @@ export const ApplicationDetailsInformation = ({
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-one-half">
               <div className="dpr-application-details__heading">
-                <h2 className="govuk-heading-s">
-                  Received Date
-                  <InfoIcon
-                    href={`/${councilSlug}/planning-process#received-date`}
-                    title="Understanding dates"
-                    ariaLabel="Understanding dates"
-                  />
-                </h2>
+                <h2 className="govuk-heading-s">Received Date </h2>
+                <InfoIcon
+                  href={`/${councilSlug}/planning-process#received-date`}
+                  title="Understanding dates"
+                  ariaLabel="Understanding dates"
+                />
               </div>
               <p className="govuk-body">
                 {applicationReceivedAt
@@ -147,14 +141,12 @@ export const ApplicationDetailsInformation = ({
               {applicationValidAt && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Valid From Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#validated-date`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Valid From Date </h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#validated-date`}
+                      title="Understanding dates"
+                      ariaLabel="Understanding dates"
+                    />
                   </div>
                   <p className="govuk-body">
                     {formatDprDate(applicationValidAt)}
@@ -169,14 +161,12 @@ export const ApplicationDetailsInformation = ({
               {applicationPublishedAt && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Published Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#published-date`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Published Date</h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#published-date`}
+                      title="Understanding dates"
+                      ariaLabel="Understanding dates"
+                    />
                   </div>
                   <p className="govuk-body">
                     {formatDprDate(applicationPublishedAt)}
@@ -188,14 +178,12 @@ export const ApplicationDetailsInformation = ({
               {consultationEndDate && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Consultation End Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#consultation-end-date`}
-                        title="Understanding consultation end date"
-                        ariaLabel="Understanding consultation end date"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Consultation End Date </h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#consultation-end-date`}
+                      title="Understanding consultation end date"
+                      ariaLabel="Understanding consultation end date"
+                    />
                   </div>
                   <p className="govuk-body">
                     {formatDprDate(consultationEndDate)}
@@ -210,14 +198,12 @@ export const ApplicationDetailsInformation = ({
               {decisionDate && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Decision Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#decision-date`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Decision Date </h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#decision-date`}
+                      title="Understanding dates"
+                      ariaLabel="Understanding dates"
+                    />
                   </div>
                   <p className="govuk-body">{decisionDate}</p>
                 </>
@@ -228,14 +214,12 @@ export const ApplicationDetailsInformation = ({
               {decisionDefined && (
                 <>
                   <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Decision
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
-                        title="Understanding decisions"
-                        ariaLabel="Understanding decisions"
-                      />
-                    </h2>
+                    <h2 className="govuk-heading-s">Decision </h2>
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
+                      title="Understanding decisions"
+                      ariaLabel="Understanding decisions"
+                    />
                   </div>
                   <ApplicationDecisionLabel
                     label={decisionDefined}
