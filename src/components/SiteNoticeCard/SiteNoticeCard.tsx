@@ -20,11 +20,13 @@ export const SiteNoticeCard = ({
       className="govuk-grid-column-one-third"
     >
       <a href={`/${councilSlug}/${reference}`}>
-        <ApplicationMap
-          reference={reference}
-          mapData={boundary_geojson}
-          staticMap={true}
-        />
+        {boundary_geojson && (
+          <ApplicationMap
+            reference={reference}
+            mapData={boundary_geojson}
+            staticMap={true}
+          />
+        )}
         <div className="govuk-link govuk-link--no-visited-state govuk-heading-m dsn-link">
           {reference}
         </div>

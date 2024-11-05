@@ -1,2 +1,2 @@
 export * from "./PagePlanningProcess";
-export * from './PagePlanningProcessContent'
+export * from "./PagePlanningProcessContent";

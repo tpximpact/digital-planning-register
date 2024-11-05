@@ -11,7 +11,7 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { ApplicationCard } from "@/components/ApplicationCard";
 
-jest.mock("@/components/Button", () => ({
+jest.mock("@/components/button", () => ({
   BackLink: () => <div data-testid="back-link"></div>,
 }));
 
