@@ -36,7 +36,7 @@ export async function postComment(
     case "bops":
       return await BopsV2.postComment(council, applicationId, apiData);
     case "local":
-      return await LocalV1.postComment();
+      return await LocalV1.postComment(council, applicationId, apiData);
     default:
       return apiReturnError("Invalid source");
   }

@@ -14,14 +14,14 @@ import { test, expect, Page } from "@playwright/test";
 
 const testCommentFlow = async (page: Page) => {
   // 1. Visit the application page
-  await page.goto(`/public-council-1/24-00135-HAPP`);
+  await page.goto(`/public-council-1/TEST-C0MNT-F10W`);
 
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
   await expect(page.locator("#application-reference")).toHaveText(
-    /24-00135-HAPP/,
+    /TEST-C0MNT-F10W/,
     {
       useInnerText: true,
     },
@@ -31,7 +31,7 @@ const testCommentFlow = async (page: Page) => {
 
   // 2. Start the comment flow
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
   await expect(
@@ -194,12 +194,12 @@ const testCommentFlow = async (page: Page) => {
 test.describe("Adding comments", () => {
   test.describe("javascript disabled", () => {
     test.use({ javaScriptEnabled: false });
-    test.fixme("/public-council-1/24-00135-HAPP", async ({ page }) => {
+    test.fixme("/public-council-1/TEST-C0MNT-F10W", async ({ page }) => {
       // non-js comment workflow
     });
   });
   test.describe("javascript enabled", () => {
-    test("/public-council-1/24-00135-HAPP", async ({ page }) => {
+    test("/public-council-1/TEST-C0MNT-F10W", async ({ page }) => {
       await testCommentFlow(page);
     });
   });

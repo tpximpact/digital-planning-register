@@ -39,7 +39,7 @@ export async function applicationSubmission(
     case "bops":
       return await BopsV2.applicationSubmission(council, reference);
     case "local":
-      return await LocalV1.applicationSubmission();
+      return await LocalV1.applicationSubmission(council, reference);
     default:
       return apiReturnError("Invalid source");
   }

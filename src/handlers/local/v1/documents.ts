@@ -1,31 +1,58 @@
 "use server";
 
-import { ApiResponse, DprDocumentsApiResponse } from "@/types";
+import { getAppConfig } from "@/config";
+import {
+  ApiResponse,
+  DprDocument,
+  DprDocumentsApiResponse,
+  SearchParams,
+} from "@/types";
+import {
+  generateDocument,
+  generateNResults,
+  generatePagination,
+} from "@mocks/dprApplicationFactory";
 
-const response: ApiResponse<DprDocumentsApiResponse | null> = {
-  data: {
-    pagination: {
-      results: 0,
-      total_results: 0,
-    },
-    files: [
-      {
-        url: "/public/24-00135-HAPP/application-form",
-        title: "Application form",
-        metadata: {
-          contentType: "text/html",
-        },
+const responseQuery = (
+  council: string,
+  reference: string,
+  searchParams?: SearchParams,
+): ApiResponse<DprDocumentsApiResponse> => {
+  const appConfig = getAppConfig();
+  const resultsPerPage = appConfig.defaults.resultsPerPage;
+
+  const documents = [
+    {
+      url: `/${council}/${reference}/application-form`,
+      title: "Application form",
+      metadata: {
+        contentType: "text/html",
       },
-    ],
-  },
-  status: {
-    code: 200,
-    message: "",
-  },
+    },
+    ...generateNResults<DprDocument>(resultsPerPage, generateDocument),
+  ];
+
+  // if we've done a search just rename the first result to match the query
+  if (searchParams?.query) {
+    documents[0].title = searchParams?.query;
+  }
+
+  return {
+    data: {
+      files: documents,
+      pagination: generatePagination(searchParams?.page ?? 1),
+    },
+    status: {
+      code: 200,
+      message: "",
+    },
+  };
 };
 
-export const documents = (): Promise<
-  ApiResponse<DprDocumentsApiResponse | null>
-> => {
-  return Promise.resolve(response);
+export const documents = (
+  council: string,
+  reference: string,
+  searchParams?: SearchParams,
+): Promise<ApiResponse<DprDocumentsApiResponse | null>> => {
+  return Promise.resolve(responseQuery(council, reference, searchParams));
 };

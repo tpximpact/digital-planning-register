@@ -40,7 +40,7 @@ export async function show(
     case "bops":
       return await BopsV2.show(council, reference);
     case "local":
-      return await LocalV1.show();
+      return await LocalV1.show(council, reference);
     default:
       return apiReturnError("Invalid source");
   }

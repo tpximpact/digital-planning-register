@@ -52,6 +52,7 @@ export interface SearchParams {
  *
  * DprPagination
  * the object that describes the pagination of a list of objects
+ * @todo rename these to PascalCase
  *
  *
  *
