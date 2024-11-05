@@ -104,6 +104,8 @@ const CommentPersonalDetails = ({
         event: "comment_validation_error",
         message: "error in personal details",
       });
+    window.scrollTo(0, 0);
+
     return Object.keys(errors).length === 0;
   };
 

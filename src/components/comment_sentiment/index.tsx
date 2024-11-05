@@ -42,6 +42,7 @@ const CommentSentiment = ({
           event: "comment_validation_error",
           message: "error in sentiment",
         });
+        window.scrollTo(0, 0);
       }
     },
     [sentiment, reference, updateProgress, isEditing, navigateToPage],
