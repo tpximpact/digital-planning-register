@@ -90,7 +90,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
                       aria-label="Understanding application types"
-                      target="_blank"
                     >
                       <span aria-label="Understanding application types">
                         i
@@ -118,7 +117,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
                       aria-label="Understanding application statuses"
-                      target="_blank"
                     >
                       <span aria-label="Understanding application statuses">
                         i
@@ -147,7 +145,6 @@ const ApplicationInformation = ({
                   className="info-icon"
                   href={`/${councilSlug}/planning-process#received-date`}
                   aria-label="Understanding dates"
-                  target="_blank"
                 >
                   <span aria-label="Understanding dates">i</span>
                 </a>
@@ -170,7 +167,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#validated-date`}
                       aria-label="Understanding dates"
-                      target="_blank"
                     >
                       <span aria-label="Understanding dates">i</span>
                     </a>
@@ -195,7 +191,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#published-date`}
                       aria-label="Understanding dates"
-                      target="_blank"
                     >
                       <span aria-label="Understanding dates">i</span>
                     </a>
@@ -220,7 +215,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#consultation-end-date`}
                       aria-label="Understanding consultation end date"
-                      target="_blank"
                     >
                       <span aria-label="Understanding consultation end date">
                         i
@@ -247,7 +241,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#decision-date`}
                       aria-label="Understanding dates"
-                      target="_blank"
                     >
                       <span aria-label="Understanding dates">i</span>
                     </a>
@@ -268,7 +261,6 @@ const ApplicationInformation = ({
                       className="info-icon"
                       href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
                       aria-label="Understanding decisions"
-                      target="_blank"
                     >
                       <span aria-label="Understanding decisions">i</span>
                     </a>
