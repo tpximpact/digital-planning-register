@@ -10,7 +10,7 @@ import { apiReturnError } from "@/handlers/lib";
 
 /**
  * @swagger
- * /api/docs?handler=ApiV1&method=show:
+ * /docs/json?handler=ApiV1&method=show:
  *  get:
  *   tags:
  *     - ApiV1

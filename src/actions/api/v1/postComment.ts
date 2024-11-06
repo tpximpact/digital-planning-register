@@ -11,7 +11,7 @@ import { apiReturnError } from "@/handlers/lib";
 
 /**
  * @swagger
- * /api/docs?handler=ApiV1&method=postComment:
+ * /docs/json?handler=ApiV1&method=postComment:
  *  get:
  *   tags:
  *     - ApiV1

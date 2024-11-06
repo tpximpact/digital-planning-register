@@ -49,6 +49,67 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v2/planning_applications/{reference}/validation_requests": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves the validation requests for an application */
+    get: {
+      parameters: {
+        query?: {
+          type?:
+            | "AdditionalDocumentValidationRequest"
+            | "DescriptionChangeValidationRequest"
+            | "RedLineBoundaryChangeValidationRequest"
+            | "ReplacementDocumentValidationRequest"
+            | "OwnershipCertificateValidationRequest"
+            | "OtherChangeValidationRequest"
+            | "FeeChangeValidationRequest"
+            | "PreCommencementConditionValidationRequest"
+            | "HeadsOfTermsValidationRequest"
+            | "TimeExtensionValidationRequest";
+          page?: number;
+          maxresults?: number;
+        };
+        header?: never;
+        path: {
+          reference: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description returns application validation requests when searching by the reference */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ValidationRequests"];
+          };
+        };
+        /** @description with missing or invalid credentials */
+        401: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["UnauthorizedError"];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v2/planning_applications": {
     parameters: {
       query?: never;
@@ -468,6 +529,67 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v2/validation_requests": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Retrieves a paginated list of notified validation requests for an LPA */
+    get: {
+      parameters: {
+        query?: {
+          type?:
+            | "AdditionalDocumentValidationRequest"
+            | "DescriptionChangeValidationRequest"
+            | "RedLineBoundaryChangeValidationRequest"
+            | "ReplacementDocumentValidationRequest"
+            | "OwnershipCertificateValidationRequest"
+            | "OtherChangeValidationRequest"
+            | "FeeChangeValidationRequest"
+            | "PreCommencementConditionValidationRequest"
+            | "HeadsOfTermsValidationRequest"
+            | "TimeExtensionValidationRequest";
+          from_date?: string;
+          to_date?: string;
+          page?: number;
+          maxresults?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description returns notified validation requests */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["ValidationRequests"];
+          };
+        };
+        /** @description with missing or invalid credentials */
+        401: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": components["schemas"]["UnauthorizedError"];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -545,6 +667,11 @@ export interface components {
           };
           proposal: {
             description: string;
+            reportingType: {
+              code: string;
+              description: string;
+            } | null;
+            ownerIsPlanningAuthority: boolean;
           };
           applicant: {
             address: components["definitions"]["Address"] | null;
@@ -554,8 +681,14 @@ export interface components {
             ownership: components["definitions"]["Ownership"] | null;
             type: string | null;
           };
+          officer?: {
+            name: string;
+          } | null;
         },
       ];
+      applicationFee?:
+        | components["definitions"]["ApplicationFee"]
+        | components["definitions"]["ApplicationFeeNotApplicable"];
     };
     ApplicationSubmission: {
       application: components["definitions"]["ApplicationOverview"];
@@ -595,6 +728,46 @@ export interface components {
         name: string;
         url: string;
       };
+    };
+    ValidationRequests: {
+      metadata: {
+        page: number;
+        results: number;
+        from: number;
+        to: number;
+        total_pages: number;
+        total_results: number;
+      };
+      links: {
+        first: string;
+        last: string;
+        prev: string | null;
+        next: string | null;
+      };
+      data: {
+        planning_application?: {
+          reference?: string;
+        };
+        type: string;
+        state: string;
+        post_validation: boolean | null;
+        /** Format: datetime */
+        created_at: string;
+        /** Format: datetime */
+        notified_at: string | null;
+        reason: null | string;
+        /** Format: date */
+        response_due: string;
+        response?: null | string;
+        rejection_reason?: null | string;
+        approved: boolean | null;
+        cancel_reason?: null | string;
+        /** Format: datetime */
+        cancelled_at?: string | null;
+        /** Format: datetime */
+        closed_at: string | null;
+        specific_attributes: Record<string, never>;
+      }[];
     };
     Healthcheck: {
       /** @constant */
