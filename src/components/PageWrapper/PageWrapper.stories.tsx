@@ -11,7 +11,7 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    children: <>Wrapped in PageWrapper</>,
+    children: <>Wraps content in govuk-main-wrapper class</>,
   },
 } satisfies Meta<typeof PageWrapper>;
 

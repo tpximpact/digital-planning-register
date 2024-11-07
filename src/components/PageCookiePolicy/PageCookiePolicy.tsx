@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/button";
 import { NotificationBanner } from "@/components/govuk/NotificationBanner";
 import Link from "next/link";
 import "./PageCookiePolicy.scss";
 import { setConsentCookie } from "@/actions";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FormCookiePreferences } from "../FormCookiePreferences";
 
 export const PageCookiePolicy = () => {
   const router = useRouter();
@@ -41,7 +41,7 @@ export const PageCookiePolicy = () => {
   };
   return (
     <>
-      <div className="govuk-main-wrapper">
+      <div className="govuk-main-wrapper dpr-cookie-policy">
         {showSuccess && (
           <NotificationBanner
             type="success"
@@ -61,77 +61,13 @@ export const PageCookiePolicy = () => {
           />
         )}{" "}
         <CookiePolicyContent />
-        <CookiePreferencesForm
+        <FormCookiePreferences
           handleSubmit={handleSubmit}
           setAnalyticsConsent={setAnalyticsConsent}
           analyticsConsent={analyticsConsent}
         />
       </div>
     </>
-  );
-};
-
-const CookiePreferencesForm = ({
-  handleSubmit,
-  setAnalyticsConsent,
-  analyticsConsent,
-}: {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  setAnalyticsConsent: (value: boolean) => void;
-  analyticsConsent: boolean | null;
-}) => {
-  return (
-    <div className="govuk-grid-row">
-      <div className="govuk-grid-column-two-thirds">
-        <h2 className="govuk-heading-l">Change your cookie settings</h2>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="govuk-form-group">
-            <fieldset className="govuk-fieldset">
-              <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
-                Do you want to accept analytics cookies?
-              </legend>
-              <div className="govuk-radios" data-module="govuk-radios">
-                <div className="govuk-radios__item">
-                  <input
-                    className="govuk-radios__input"
-                    id="cookies-analytics"
-                    name="cookies[analytics]"
-                    type="radio"
-                    value="yes"
-                    checked={analyticsConsent === true}
-                    onChange={() => setAnalyticsConsent(true)}
-                  />
-                  <label
-                    className="govuk-label govuk-radios__label"
-                    htmlFor="cookies-analytics"
-                  >
-                    Yes
-                  </label>
-                </div>
-                <div className="govuk-radios__item">
-                  <input
-                    className="govuk-radios__input"
-                    id="cookies-analytics-2"
-                    name="cookies[analytics]"
-                    type="radio"
-                    value="no"
-                    checked={analyticsConsent === false}
-                    onChange={() => setAnalyticsConsent(false)}
-                  />
-                  <label
-                    className="govuk-label govuk-radios__label"
-                    htmlFor="cookies-analytics-2"
-                  >
-                    No
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <Button content="Save cookie settings" type="submit" />
-        </form>
-      </div>
-    </div>
   );
 };
 

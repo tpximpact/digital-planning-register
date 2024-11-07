@@ -62,8 +62,11 @@ export const generateDocument = (): DprDocument => {
  *
  * @returns {object} A random pagination object.
  */
-export const generatePagination = (currentPage?: number): DprPagination => {
-  const totalResults = faker.number.int({ min: 10, max: 500 });
+export const generatePagination = (
+  currentPage?: number,
+  totalResults?: number,
+): DprPagination => {
+  totalResults = totalResults ?? faker.number.int({ min: 10, max: 500 });
   const resultsPerPage = 10;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
@@ -131,8 +134,8 @@ export const generateDprApplication = (): DprPlanningApplication => {
       ]),
       consultation: {
         endDate: faker.date.anytime().toISOString(),
-        consulteeComments: generateNResults(10, generateComment),
-        publishedComments: generateNResults(10, generateComment),
+        consulteeComments: generateNResults<DprComment>(50, generateComment),
+        publishedComments: generateNResults<DprComment>(50, generateComment),
       },
       receivedAt: faker.date.anytime().toISOString(),
       validAt: faker.date.anytime().toISOString(),
@@ -152,7 +155,7 @@ export const generateDprApplication = (): DprPlanningApplication => {
             contentType: "text/html",
           },
         },
-        ...generateNResults<DprDocument>(10, generateDocument),
+        ...generateNResults<DprDocument>(20, generateDocument),
       ],
     },
     property: {

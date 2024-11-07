@@ -1,4 +1,5 @@
 @import "vars";
+// @import "legacy";
 
 :root {
   --font-mono: Arial, Helvetica, sans;
@@ -22,78 +23,47 @@ a {
   text-decoration: none;
 }
 
-// 'Base' includes everything from settings, tools and helpers. Nothing
-// in the base outputs any CSS.
-
-@import "node_modules/govuk-frontend/dist/govuk/base";
-
-// Basic content styles for typography, links etc. Approximately 10% of
-// the CSS output if you include everything.
-
-@import "node_modules/govuk-frontend/dist/govuk/core/index";
-
-// Objects include things like the page template, grid and form groups.
-// Approximately 5% of the CSS output if you include everything.
-
-@import "node_modules/govuk-frontend/dist/govuk/objects/index";
-
-// The components themselves - try to only include the components you
-// are using in your project. Approximately 70% of the CSS output if
-// you include everything.
-
-// add these in each component that uses them
-// for now see app.scss for all components
-
-// these count as globals
-@import "node_modules/govuk-frontend/dist/govuk/components/table/index";
-
-// form things - will be componentised soon but count as globals for now
-@import "node_modules/govuk-frontend/dist/govuk/components/error-message/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/error-summary/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/textarea/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/fieldset/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/radios/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/checkboxes/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/hint/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/input/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/label/index";
-@import "node_modules/govuk-frontend/dist/govuk/components/select/index";
-
-// Utilities, for example govuk-clearfix or govuk-visually-hidden.
-// Approximately 1% of the CSS output if you include everything.
-
-@import "node_modules/govuk-frontend/dist/govuk/utilities/index";
-
-// Overrides, used to adjust things like the amount of spacing on an
-// element. Override classes always include `-!-` in the class name.
-// Approximately 15% of the CSS output if you include everything.
-
-@import "node_modules/govuk-frontend/dist/govuk/overrides/index";
+@import "govuk";
+@import "utils";
 
 /*
-// Alternatively, you can import the specific groups of overrides
-// you need for your project:
-
-// Display overrides - for example govuk-!-display-inline
-@import "node_modules/govuk-frontend/dist/govuk/overrides/display";
-
-// Spacing overrides - for example govuk-!-margin-4, govuk-!-static-padding-4
-@import "node_modules/govuk-frontend/dist/govuk/overrides/spacing";
-
-// Text align overrides - for example govuk-!-text-align-left
-@import "node_modules/govuk-frontend/dist/govuk/overrides/text-align";
-
-// Typography overrides - for example govuk-!-font-size-19, govuk-!-font-weight-bold
-@import "node_modules/govuk-frontend/dist/govuk/overrides/typography";
-
-// Width overrides - for example govuk-!-width-two-thirds
-@import "node_modules/govuk-frontend/dist/govuk/overrides/width";
+    Custom overrides
 */
 
-// global utils and helpers
+.govuk-width-container {
+  max-width: 960px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+@supports (margin: max(calc(0px))) {
+  .govuk-width-container {
+    margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
+    margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
+  }
+}
 
-.js-enabled {
-  .hidden-js-enabled {
-    display: none;
+@media (min-width: 40.0625em) {
+  .govuk-width-container {
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+  @supports (margin: max(calc(0px))) {
+    .govuk-width-container {
+      margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
+      margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
+    }
+  }
+}
+
+@media (min-width: 1020px) {
+  .govuk-width-container {
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @supports (margin: max(calc(0px))) {
+    .govuk-width-container {
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
 }

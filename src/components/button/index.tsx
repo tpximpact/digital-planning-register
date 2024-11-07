@@ -91,6 +91,7 @@ interface ButtonProps {
   icon?: React.ReactNode;
   className?: string;
   type?: "button" | "submit" | "reset";
+  onClick?: () => void;
 }
 
 export const Button = ({
@@ -99,12 +100,14 @@ export const Button = ({
   className,
   type = "button",
   iconClass,
+  onClick,
 }: ButtonProps) => {
   return (
     <button
       type={type}
       className={`govuk-button${className ? ` ${className}` : ""}`}
       data-module="govuk-button"
+      onClick={onClick}
     >
       {content}
       {icon && (
@@ -116,5 +119,18 @@ export const Button = ({
         </span>
       )}
     </button>
+  );
+};
+
+export const LinkButton = ({ href, text }: { href: string; text: string }) => {
+  return (
+    <Link
+      href={href}
+      role="button"
+      className="dpr-button dpr-button--secondary-blue"
+      data-module="govuk-button"
+    >
+      {text}
+    </Link>
   );
 };

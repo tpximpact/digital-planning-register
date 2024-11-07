@@ -1,33 +1,29 @@
-import {
-  DprComment,
-  DprCommentTypes,
-  DprDocument,
-  DprPagination,
-} from "@/types";
-import { DocumentCard } from "@/components/document_card";
+import { DprDocument } from "@/types";
+import { DocumentCard } from "@/components/DocumentCard";
+import "./DocumentsList.scss";
+import Link from "next/link";
+import { LinkButton } from "../button";
 
-interface DocumentsListProps {
+export interface DocumentsListProps {
   councilSlug: string;
   reference: string;
   documents: DprDocument[] | null;
-  maxDisplayDocuments?: number;
-  from?: number;
+  totalDocuments: number;
   showMoreButton?: boolean;
-  pagination?: DprPagination;
-  page?: number;
 }
 
+/**
+ * Similar to ApplicationCard on the search page we leave whats displayed up to the parent component
+ * @param param0
+ * @returns
+ */
 export const DocumentsList = ({
   councilSlug,
   reference,
   documents,
-  maxDisplayDocuments = 3,
-  from = 0,
+  totalDocuments,
   showMoreButton = false,
-  page = 0,
 }: DocumentsListProps) => {
-  const displayedDocuments = documents?.slice(from, from + maxDisplayDocuments);
-  const totalDocuments = documents ? documents.length : 0;
   return (
     <section
       className="grid-row-extra-bottom-margin documents-container"
@@ -41,32 +37,30 @@ export const DocumentsList = ({
         document(s) provided by the applicant.
       </p>
 
-      {displayedDocuments && displayedDocuments.length > 0 ? (
+      {documents && documents.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
-            {displayedDocuments.map((document, i) => (
+            {documents.map((document, i) => (
               <DocumentCard key={i} document={document} />
             ))}
           </div>
-          {showMoreButton && totalDocuments > maxDisplayDocuments && (
-            <div className="govuk-grid-row grid-row-extra-bottom-margin">
-              <div className="govuk-grid-column-full">
-                <p className="govuk-hint">
-                  Showing {maxDisplayDocuments} of {totalDocuments} documents
-                </p>
-                {councilSlug && (
-                  <a
-                    href={`/${councilSlug}/${reference}/documents`}
-                    role="button"
-                    className="govuk-button govuk-button--secondary blue-button"
-                    data-module="govuk-button"
-                  >
-                    Show all {totalDocuments} documents
-                  </a>
-                )}
+          {showMoreButton &&
+            documents.length > 0 &&
+            documents.length < totalDocuments && (
+              <div className="govuk-grid-row grid-row-extra-bottom-margin">
+                <div className="govuk-grid-column-full">
+                  <p className="govuk-hint">
+                    Showing {documents.length} of {totalDocuments} documents
+                  </p>
+                  {councilSlug && (
+                    <LinkButton
+                      href={`/${councilSlug}/${reference}/documents`}
+                      text={`Show all ${totalDocuments} documents`}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </>
       ) : (
         <div className="govuk-grid-row grid-row-extra-bottom-margin">
