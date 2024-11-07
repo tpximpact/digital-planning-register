@@ -1,9 +1,9 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
 import { BackLink } from "../button";
 import { FormSearch } from "../FormSearch";
-import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
+import { ContentNoResult } from "../ContentNoResult";
 import { AppConfig } from "@/config/types";
-import ApplicationCard from "../application_card";
+import { ApplicationCard } from "../ApplicationCard";
 import { Pagination } from "@/components/Pagination";
 
 export interface PageSearchProps {
@@ -24,6 +24,10 @@ export const PageSearch = ({
   }
   const page = searchParams?.page ? searchParams.page : 1;
 
+  const title = searchParams?.query
+    ? "Search results"
+    : "Recently published applications";
+
   return (
     <>
       {!applications && <BackLink />}
@@ -34,12 +38,12 @@ export const PageSearch = ({
         />
         {applications && applications?.length > 0 ? (
           <>
-            <h2 className="govuk-heading-m">{`${Object.keys(searchParams as SearchParams).length > 0 ? "Search results" : "Recently published applications"}`}</h2>
+            <h2 className="govuk-heading-m">{title}</h2>
             {applications.map((application) => (
               <ApplicationCard
                 key={application.application.reference}
                 councilSlug={appConfig.council!.slug}
-                {...application}
+                application={application}
               />
             ))}
             {pagination && pagination.total_pages > 1 && (

@@ -1,0 +1,50 @@
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+
+// currently used on the planning process page to amend the styles of list-heading
+
+.contents-bar {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  // third level down!
+  ul li ul li ul {
+    margin-left: govuk-spacing(4);
+    padding: 0;
+  }
+
+  div {
+    padding: govuk-spacing(3) 0;
+  }
+
+  a {
+    @extend .govuk-link;
+    text-decoration: none;
+    font-size: 1rem;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__list-heading a {
+    font-weight: bold;
+  }
+
+  ul {
+    padding: 0 0 govuk-spacing(3) 0;
+  }
+
+  &__sub-list {
+    margin-left: 2em;
+    position: relative;
+
+    &:before {
+      content: "—";
+      position: relative;
+      margin: 0 1em 0 -2em;
+    }
+  }
+}

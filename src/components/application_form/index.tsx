@@ -4,6 +4,7 @@ import {
   DprDocument,
 } from "@/types";
 import { Section } from "./section";
+import "./ApplicationForm.scss";
 
 interface ApplicationFormProps {
   submissionData: DprApplicationSubmissionSubtopic[] | null;

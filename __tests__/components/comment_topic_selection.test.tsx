@@ -18,6 +18,9 @@ describe("CommentTopicSelection", () => {
 
   beforeEach(() => {
     sessionStorage.clear();
+
+    window.scrollTo = jest.fn();
+
     jest.clearAllMocks();
   });
 

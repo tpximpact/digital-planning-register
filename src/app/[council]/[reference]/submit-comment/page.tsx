@@ -14,7 +14,6 @@ import { DprShowApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
-// import { PageSubmitComment } from "@/components/PageSubmitComment";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 
@@ -385,13 +384,6 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
         </div>
       </PageWrapper>
     );
-    // return (
-    //   <PageSubmitComment
-    //     council={council}
-    //     reference={reference}
-    //     searchParams={searchParamsFromPage as SearchParams}
-    //   />
-    // );
   }
 
   // Handle redirection if the current page exceeds the maximum allowed page

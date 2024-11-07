@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { Button } from "../button";
 
 const MAX_COMMENT_LENGTH = 6000;
 
@@ -132,13 +133,7 @@ const CommentTextEntry = ({
           </div>
           {!hideContinue && (
             <div className="govuk-button-group">
-              <button
-                type="submit"
-                className="govuk-button"
-                data-module="govuk-button"
-              >
-                Continue
-              </button>
+              <Button content="Continue" type="submit" />
             </div>
           )}
         </form>

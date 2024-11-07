@@ -2,6 +2,7 @@
 import "./Footer.scss";
 import { AppConfig } from "@/config/types";
 import Image from "next/image";
+import "./Footer.scss";
 
 export const Footer = ({
   councilConfig,

@@ -1,5 +1,4 @@
 import React from "react";
-import { NextIcon, PreviousIcon } from "../../../public/icons";
 import "./Pagination.scss";
 
 /**
@@ -96,5 +95,57 @@ export const Pagination = ({
         </div>
       )}
     </>
+  );
+};
+
+export const PreviousIcon = () => {
+  return (
+    <div className="pagination-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="13"
+        viewBox="0 0 15 13"
+        fill="none"
+        role="img"
+        aria-label="Back arrow"
+      >
+        <path
+          d="M6.893 13.125L8.3066 11.711L4.014 7.418L17 7.418V5.418L4.104 5.418L8.2895 1.4414L6.9125 -0.0078001L0.1684 6.3984L6.893 13.125Z"
+          fill="#505A5F"
+        />
+      </svg>
+      <p className="govuk-link ">
+        <span className="govuk-pagination__prev pagination-next-previous">
+          Previous
+        </span>
+      </p>
+    </div>
+  );
+};
+
+export const NextIcon = () => {
+  return (
+    <div className="pagination-icon">
+      <p className="govuk-link">
+        <span className="govuk-pagination__next pagination-next-previous">
+          Next
+        </span>
+      </p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="13"
+        viewBox="0 0 15 13"
+        fill="none"
+        role="img"
+        aria-label="Next arrow"
+      >
+        <path
+          d="M8.107 -0.0078125L6.6934 1.40619L10.986 5.69919H-2V7.69919H10.896L6.7105 11.6758L8.0875 13.125L14.8316 6.71879L8.107 -0.0078125Z"
+          fill="#505A5F"
+        />
+      </svg>
+    </div>
   );
 };

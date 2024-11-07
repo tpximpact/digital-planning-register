@@ -4,13 +4,11 @@ import {
   DprShowApiResponse,
   DprDocumentsApiResponse,
 } from "@/types";
-import { BackLink } from "@/components/button";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
-import { ContentNotFound } from "@/components/ContentNotFound";
-import { ApplicationDetails } from "@/components/ApplicationDetails";
+import { PageShow } from "@/components/PageShow";
 
 interface PlanningApplicationDetailsProps {
   params: {
@@ -68,29 +66,17 @@ const PlanningApplicationDetails = async ({
     );
   }
   const application = applicationResponse.data;
-  if (!application) {
-    return (
-      <PageWrapper>
-        <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
-    );
-  }
-
   const documents = appConfig.features.documentsPublicEndpoint
     ? (documentResponse?.data?.files ?? null)
-    : application.application.documents;
+    : (application?.application.documents ?? null);
+
   return (
-    <>
-      <BackLink />
-      <div className="govuk-main-wrapper">
-        <ApplicationDetails
-          reference={reference}
-          application={application}
-          documents={documents}
-          appConfig={appConfig}
-        />
-      </div>
-    </>
+    <PageShow
+      appConfig={appConfig}
+      application={application}
+      documents={documents}
+      params={params}
+    />
   );
 };
 

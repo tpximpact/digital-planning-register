@@ -1,3 +1,5 @@
+import "./ExampleComponent.scss";
+
 export interface ExampleComponentProps {
   councilName: string;
 }

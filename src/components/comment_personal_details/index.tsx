@@ -4,6 +4,8 @@ import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
+import { Details } from "../govuk/Details";
+import { Button } from "../button";
 
 interface PersonalDetails {
   name: string;
@@ -277,76 +279,69 @@ const CommentPersonalDetails = ({
               </div>
             </div>
           </div>
-          <details className="govuk-details">
-            <summary className="govuk-details__summary">
-              <span className="govuk-details__summary-text">
-                How we handle your data
-              </span>
-            </summary>
-            <div className="govuk-details__text">
-              <p className="govuk-body">
-                We need your name and contact information because can only
-                formally explore comments coming from people who live close to
-                the proposed development. We will also use this to contact you
-                if the planning decision regarding this application is appealed.
-              </p>
-              <p className="govuk-body">
-                Your comments will be made available online for the public to
-                see.
-              </p>
-              <p className="govuk-body">
-                We&apos;ll make sure any other personal or sensitive information
-                is removed where needed, in line with the{" "}
-                <a
-                  className="govuk-link govuk-link--no-visited-state"
-                  href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
-                  target="_blank"
-                >
-                  General Data Protection Regulation (GDPR).
-                </a>{" "}
-                {""}
-                If you have concerns about any data you have sent being
-                published,{" "}
-                <a
-                  className="govuk-link govuk-link--no-visited-state"
-                  href={contactPlanningAdviceLink}
-                  target="_blank"
-                >
-                  contact the Planning Advice and Information Service.
-                </a>
-              </p>
-              <p className="govuk-body">
-                Read our {""}
-                <a
-                  className="govuk-link govuk-link--no-visited-state"
-                  href={corporatePrivacyLink}
-                  target="_blank"
-                >
+
+          <Details
+            summaryText={"How we handle your data"}
+            text={
+              <>
+                <p className="govuk-body">
+                  We need your name and contact information because can only
+                  formally explore comments coming from people who live close to
+                  the proposed development. We will also use this to contact you
+                  if the planning decision regarding this application is
+                  appealed.
+                </p>
+                <p className="govuk-body">
+                  Your comments will be made available online for the public to
+                  see.
+                </p>
+                <p className="govuk-body">
+                  We&apos;ll make sure any other personal or sensitive
+                  information is removed where needed, in line with the{" "}
+                  <a
+                    className="govuk-link govuk-link--no-visited-state"
+                    href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
+                    target="_blank"
+                  >
+                    General Data Protection Regulation (GDPR).
+                  </a>{" "}
                   {""}
-                  corporate privacy statement
-                </a>
-                and our {""}
-                <a
-                  className="govuk-link govuk-link--no-visited-state"
-                  href={planningServicePrivacyStatementLink}
-                  target="_blank"
-                >
-                  planning service statement
-                </a>{" "}
-                {""}
-                for more information.
-              </p>
-            </div>
-          </details>
-          {!hideContinue && (
-            <button
-              type="submit"
-              className="govuk-button"
-              data-module="govuk-button"
-            >
-              Continue
-            </button>
-          )}
+                  If you have concerns about any data you have sent being
+                  published,{" "}
+                  <a
+                    className="govuk-link govuk-link--no-visited-state"
+                    href={contactPlanningAdviceLink}
+                    target="_blank"
+                  >
+                    contact the Planning Advice and Information Service.
+                  </a>
+                </p>
+                <p className="govuk-body">
+                  Read our {""}
+                  <a
+                    className="govuk-link govuk-link--no-visited-state"
+                    href={corporatePrivacyLink}
+                    target="_blank"
+                  >
+                    {""}
+                    corporate privacy statement
+                  </a>
+                  and our {""}
+                  <a
+                    className="govuk-link govuk-link--no-visited-state"
+                    href={planningServicePrivacyStatementLink}
+                    target="_blank"
+                  >
+                    planning service statement
+                  </a>{" "}
+                  {""}
+                  for more information.
+                </p>
+              </>
+            }
+          />
+
+          {!hideContinue && <Button type="submit" content={"Continue"} />}
         </form>
       </div>
     </div>

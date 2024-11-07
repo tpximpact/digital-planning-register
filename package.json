@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:coverage": "jest --collect-coverage",
     "test:unit": "jest",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -41,11 +42,11 @@
     "react-paginate": "8.2.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
-    "swagger-ui-react": "^5.17.14"
+    "swagger-ui-react": "^5.17.14",
+    "@faker-js/faker": "^8.4.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",
-    "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.48.1",
     "@storybook/addon-a11y": "^8.3.3",
     "@storybook/addon-essentials": "^8.3.3",

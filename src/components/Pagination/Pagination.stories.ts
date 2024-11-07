@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Pagination } from "./Pagination";
 
 const meta = {
-  title: "Pagination/Pagination",
+  title: "DPR Components/Pagination",
   component: Pagination,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -24,3 +24,23 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const FirstPage: Story = {
+  args: {
+    currentPage: 0,
+  },
+};
+export const SecondPage: Story = {
+  args: {
+    currentPage: 1,
+  },
+};
+export const ThirdPage: Story = {
+  args: {
+    currentPage: 2,
+  },
+};
+export const LastPage: Story = {
+  args: {
+    currentPage: 4,
+  },
+};

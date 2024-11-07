@@ -125,6 +125,7 @@ export const createCouncilConfig = (
   publicComments?: Council["publicComments"],
   specialistComments?: Council["specialistComments"],
   pageContent?: Council["pageContent"],
+  logo?: Council["logo"],
 ): Council => {
   const slug = councilName.toLowerCase().split(" ").join("-");
   const defaultPageContent = {
@@ -135,6 +136,7 @@ export const createCouncilConfig = (
   return {
     name: councilName,
     slug: slug,
+    logo: logo ?? "camdenlogo.svg",
     visibility: visibility ?? "public",
     dataSource: dataSource ?? "local",
     publicComments: publicComments ?? true,

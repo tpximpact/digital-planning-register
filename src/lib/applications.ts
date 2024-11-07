@@ -1,10 +1,10 @@
 import { isAfter, isBefore, isEqual } from "date-fns";
 import { capitaliseWord } from "@/util";
 import {
-  PageContent,
   contentApplicationTypes,
   contentApplicationStatuses,
 } from "@/components/PagePlanningProcess";
+import { DprContentPage } from "@/types";
 
 /**
  * Formats the application type by replacing underscores with spaces and capitalizing each word.
@@ -147,39 +147,48 @@ export function definedDecisionClass(decision: string) {
  */
 
 export const getLinkedKeys = (
-  contentApplicationTypes: PageContent[],
+  contentApplicationTypes: DprContentPage[],
 ): string[] => {
-  return contentApplicationTypes.reduce((acc: string[], item: PageContent) => {
-    if (item.linked) {
-      acc.push(item.key);
-    }
-    if (item.children) {
-      acc.push(...getLinkedKeys(item.children));
-    }
-    return acc;
-  }, []);
+  return contentApplicationTypes.reduce(
+    (acc: string[], item: DprContentPage) => {
+      if (item.linked) {
+        acc.push(item.key);
+      }
+      if (item.children) {
+        acc.push(...getLinkedKeys(item.children));
+      }
+      return acc;
+    },
+    [],
+  );
 };
 
 export const getAllTitles = (
-  contentApplicationTypes: PageContent[],
+  contentApplicationTypes: DprContentPage[],
 ): string[] => {
-  return contentApplicationTypes.reduce((acc: string[], item: PageContent) => {
-    acc.push(item.title);
-    if (item.children) {
-      acc.push(...getAllTitles(item.children));
-    }
-    return acc;
-  }, []);
+  return contentApplicationTypes.reduce(
+    (acc: string[], item: DprContentPage) => {
+      acc.push(item.title);
+      if (item.children) {
+        acc.push(...getAllTitles(item.children));
+      }
+      return acc;
+    },
+    [],
+  );
 };
 
 export const flattenPageContent = (
-  content: PageContent[],
+  content: DprContentPage[],
 ): { [key: string]: string } => {
-  return content.reduce((acc: { [key: string]: string }, item: PageContent) => {
-    acc[item.title] = item.key;
-    if (item.children) {
-      Object.assign(acc, flattenPageContent(item.children));
-    }
-    return acc;
-  }, {});
+  return content.reduce(
+    (acc: { [key: string]: string }, item: DprContentPage) => {
+      acc[item.title] = item.key;
+      if (item.children) {
+        Object.assign(acc, flattenPageContent(item.children));
+      }
+      return acc;
+    },
+    {},
+  );
 };

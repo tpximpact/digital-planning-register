@@ -1,6 +1,8 @@
 import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
 import ApplicationMap from "../application_map";
+import { Panel } from "../govuk/Panel";
+import { Button } from "../button";
 
 interface CommentConfirmationProps {
   reference: string;
@@ -19,9 +21,7 @@ const CommentConfirmation = ({
 }: CommentConfirmationProps) => {
   return (
     <>
-      <div className="govuk-panel govuk-panel--confirmation">
-        <h1 className="govuk-panel__title">Comment submitted</h1>
-      </div>
+      <Panel titleText="Comment submitted" />
       <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third grid-row-extra-bottom-margin">
           {boundary_geojson && (
@@ -48,14 +48,11 @@ const CommentConfirmation = ({
         comments on them.
       </p>
       <form action={`/${council}`} method="GET">
-        <button
+        <Button
           type="submit"
-          role="button"
-          className="govuk-button govuk-button--secondary button-extra-right-margin"
-          data-module="govuk-button"
-        >
-          Back to application search
-        </button>
+          className={"govuk-button--secondary"}
+          content={"Back to application search"}
+        />
       </form>
     </>
   );

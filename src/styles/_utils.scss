@@ -17,3 +17,26 @@
     content: "\00a0";
   }
 }
+
+.grid-row-extra-bottom-margin {
+  margin-bottom: 2rem;
+  // margin-top: 2rem;
+}
+
+.js-enabled {
+  .hidden-js-enabled {
+    display: none;
+  }
+}
+
+.js-enabled .js-only {
+  display: inline;
+}
+
+.js-only {
+  display: none;
+}
+
+.noscript-only {
+  display: inline;
+}

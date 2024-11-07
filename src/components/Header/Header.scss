@@ -1,0 +1,41 @@
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/components/header/index";
+
+// Adapting header for no logo
+.govuk-header__link {
+  max-width: 60%;
+}
+
+.menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-button {
+    display: block;
+  }
+  .menu-desktop {
+    display: none;
+  }
+  .menu {
+    display: block;
+  }
+}
+
+@media (scripting: none) {
+  .govuk-header__menu-button {
+    display: none;
+  }
+  .menu-desktop {
+    display: inline;
+  }
+}
+
+@media (min-width: 769px) {
+  .govuk-header__menu-button {
+    display: none;
+  }
+  .menu-button {
+    display: none;
+  }
+}
