@@ -78,43 +78,4 @@ export const PageSearchSiteNotices = ({
       )}
     </div>
   );
-  // return (
-  //   <>
-  //     {!applications && <BackLink />}
-  //     <div className="govuk-main-wrapper">
-  //       <FormSearch
-  //         action={`/${appConfig.council.slug}`}
-  //         searchParams={searchParams}
-  //         validationError={validationError}
-  //       />
-  //       {applications && applications?.length > 0 ? (
-  //         <>
-  //           {applications.map((application) => (
-  //             <ApplicationCard
-  //               key={application.application.reference}
-  //               councilSlug={appConfig.council!.slug}
-  //               application={application}
-  //             />
-  //           ))}
-  //           {pagination.total_pages > 1 && (
-  //             <Pagination
-  //               currentPage={page - 1}
-  //               totalItems={
-  //                 pagination.total_pages * appConfig.defaults.resultsPerPage
-  //               }
-  //               itemsPerPage={appConfig.defaults.resultsPerPage}
-  //               totalPages={pagination.total_pages}
-  //               baseUrl={`/${appConfig.council.slug}/`}
-  //               queryParams={searchParams}
-  //             />
-  //           )}
-  //         </>
-  //       ) : (
-  //         <>
-  //           <ContentNoResult councilConfig={appConfig.council} />
-  //         </>
-  //       )}
-  //     </div>
-  //   </>
-  // );
 };
