@@ -5,7 +5,7 @@
 .govuk-button--secondary.blue-button {
   background: govuk-colour("blue");
   color: white;
-  box-shadow: 0 2px 0 #001e37;
+  box-shadow: 0 0.125em 0 #001e37;
 }
 .govuk-button--secondary.blue-button:hover {
   background: #095ba1;
@@ -27,7 +27,7 @@
   border: none;
 }
 
-@media (min-width: 40.0625em) {
+@media screen and (min-device-width: 40.0625em) {
   .button-link-change {
     font-size: 1.1875rem;
     line-height: 1.3157894737;

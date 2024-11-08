@@ -5,8 +5,8 @@
   width: fit-content;
   display: flex;
   align-items: center;
-  margin-top: 20px;
-  padding: 10px;
+  margin-top: 1.25em;
+  padding: 0.625em;
 }
 
 .pagination {
@@ -37,7 +37,7 @@
 }
 
 .page-link {
-  padding: 10px 18px;
+  padding: 0.625em 1.125em;
   text-decoration: underline;
 }
 
@@ -54,11 +54,13 @@
 .pagination-next-previous:hover {
   color: #003078;
 }
+
 .page-link:hover .pagination-next-previous {
   color: #003078;
 }
+
 .pagination-icon {
   display: flex;
-  gap: 15px;
+  gap: 0.9375em;
   align-items: center;
 }

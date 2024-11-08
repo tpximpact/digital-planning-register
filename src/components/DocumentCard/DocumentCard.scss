@@ -15,10 +15,10 @@
 .file-icon {
   width: 100%;
   height: auto;
-  max-width: 100px;
+  max-width: 6.25em;
 }
 
-@media (max-width: 40.0625em) {
+@media screen and (max-device-width: 40.0625em) {
   .file-icon {
     margin: 3rem 0 1rem 0;
     display: block;

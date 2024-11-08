@@ -13,6 +13,10 @@ export interface PageTemplateProps {
 export const PageTemplate = ({ children, appConfig }: PageTemplateProps) => {
   return (
     <>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, user-scalable=yes"
+      />
       <Header appConfig={appConfig} councilConfig={appConfig.council} />
       <main className="govuk-width-container" id="main">
         <PhaseBanner />

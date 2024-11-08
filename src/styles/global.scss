@@ -1,6 +1,5 @@
 @import "vars";
 // @import "legacy";
-
 :root {
   --font-mono: Arial, Helvetica, sans;
 }
@@ -11,10 +10,12 @@
   margin: 0;
 }
 
+html {
+  font-size: 100%;
+}
+
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
   font-family: var(--font-mono);
 }
 
@@ -30,40 +31,31 @@ a {
     Custom overrides
 */
 
-.govuk-width-container {
-  max-width: 960px;
-  margin-right: 15px;
-  margin-left: 15px;
-}
-@supports (margin: max(calc(0px))) {
+// Desktop and zoom - use min-device-width to ignore zoom
+@media screen and (min-device-width: 769px) {
+  body {
+    min-width: 960px;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+
   .govuk-width-container {
-    margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
-    margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
+    width: 960px;
+    margin: 0 auto;
+    padding: 0 15px;
   }
 }
 
-@media (min-width: 40.0625em) {
-  .govuk-width-container {
-    margin-right: 30px;
-    margin-left: 30px;
+// Only trigger on actual mobile devices
+@media screen and (max-device-width: 768px) {
+  body {
+    min-width: auto;
   }
-  @supports (margin: max(calc(0px))) {
-    .govuk-width-container {
-      margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
-      margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
-    }
-  }
-}
 
-@media (min-width: 1020px) {
   .govuk-width-container {
-    margin-right: auto;
+    width: 100%;
+    padding: 0 15px;
     margin-left: auto;
-  }
-  @supports (margin: max(calc(0px))) {
-    .govuk-width-container {
-      margin-right: auto;
-      margin-left: auto;
-    }
+    margin-right: auto;
   }
 }

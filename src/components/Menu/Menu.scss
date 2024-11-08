@@ -3,7 +3,7 @@
 @import "node_modules/govuk-frontend/dist/govuk/components/service-navigation/index";
 
 .dpr-menu {
-  font-size: 2rem;
+  font-size: 2rem; // keeping rem as it's already relative
   @include govuk-media-query($from: tablet) {
     font-size: 2rem;
   }
@@ -29,13 +29,14 @@
 
   &__dropdown {
     // taken from https://github.com/alphagov/govuk-frontend/blob/main/packages/govuk-frontend/src/govuk/components/service-navigation/_index.scss
+
     @extend .govuk-service-navigation__item;
+
     @include govuk-media-query($from: tablet) {
       padding: govuk-spacing(2) 0;
     }
 
     // nudge whatevers in the dropdown box a little
-
     > * {
       padding: 2px 0 0 0;
     }

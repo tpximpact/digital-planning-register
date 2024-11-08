@@ -112,7 +112,7 @@ export const Button = ({
       {content}
       {icon && (
         <span
-          style={{ marginLeft: "10px", verticalAlign: "middle" }}
+          style={{ marginLeft: "0.625em", verticalAlign: "middle" }}
           className={`${iconClass}`}
         >
           {icon}

@@ -24,11 +24,11 @@
 .application-info-grid p {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 0.625em;
 }
 .application-info-grid span {
   font-weight: bold;
-  padding: 0 0 5px;
+  padding: 0 0 0.3125em;
 }
 
 .application-info-grid :nth-child(2n) {
@@ -41,16 +41,16 @@
 
 .boundary-map {
   border: 2px solid black;
-  width: 130px;
+  width: 8.125em;
   text-align: center;
-  padding: 10px;
+  padding: 0.625em;
   grid-row-start: 1;
   grid-row-end: 3;
-  gap: 10px;
+  gap: 0.625em;
 }
 
 .application-content-button {
-  padding: 20px 0;
+  padding: 1.25em 0;
   display: flex;
   max-width: 60rem;
   justify-content: space-between;
@@ -72,13 +72,13 @@
   width: 100%;
 }
 .landing-table-content tr td {
-  padding: 10px;
+  padding: 0.625em;
   text-align: left;
   max-width: max-content;
 }
 
 .landing-table-content th {
-  padding: 10px;
+  padding: 0.625em;
   text-align: left;
 }
 
@@ -86,7 +86,7 @@
   color: #1d70b8;
   text-decoration: underline;
   display: block;
-  max-width: 150px;
+  max-width: 9.375em;
   word-break: break-all;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .landing-table-content span {
-  margin-left: 5px;
+  margin-left: 0.3125em;
 }
 
 .landing-table-content :nth-child(4) p {
@@ -111,14 +111,14 @@
 }
 
 .search-application-content input {
-  padding: 10px;
-  height: 47px;
+  padding: 0.625em;
+  height: 2.9375em;
 }
 
 .search-application-content button {
-  margin-left: 20px;
-  padding: 10px 20px;
-  height: 45px;
+  margin-left: 1.25em;
+  padding: 0.625em 1.25em;
+  height: 2.8125em;
 }
 
 .search-application-content a {
@@ -128,9 +128,9 @@
 
 .search {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' width='40' height='40'%3E%3Cpath d='M25.7 24.8L21.9 21c.7-1 1.1-2.2 1.1-3.5 0-3.6-2.9-6.5-6.5-6.5S10 13.9 10 17.5s2.9 6.5 6.5 6.5c1.6 0 3-.6 4.1-1.5l3.7 3.7 1.4-1.4zM12 17.5c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5-4.5-2-4.5-4.5z' fill='%23505a5f'%3E%3C/path%3E%3C/svg%3E");
-  background-size: 40px 40px;
-  background-position: center left -2px;
-  padding-left: 35px;
+  background-size: 2.5em 2.5em;
+  background-position: center left -0.125em;
+  padding-left: 2.1875em;
   background-repeat: no-repeat;
   width: 100%;
 }
@@ -146,8 +146,8 @@
   background-color: govuk-colour("light-grey");
 }
 .responsive-table-row {
-  padding-top: 20px;
-  margin: 0 0 0 0;
+  padding-top: 1.25em;
+  margin: 0;
 }
 @media (max-width: 1190px) {
   .responsive-table-row:nth-child(odd):hover {
@@ -173,7 +173,7 @@
   }
 }
 
-@media (max-width: 40.0625em) {
+@media (max-width: 640px) {
   .responsive-cell {
     width: 100% !important;
     display: block;
@@ -183,9 +183,8 @@
     width: 100%;
   }
 }
-
 .item {
-  padding: 20px 0;
+  padding: 1.25em 0;
   width: 100%;
 }
 
@@ -210,7 +209,7 @@
 
 .icon {
   display: flex;
-  gap: 15px;
+  gap: 0.9375em;
   align-items: center;
 }
 
@@ -219,11 +218,11 @@
 }
 @media (max-width: 1090px) {
   .govuk-header__navigation-list {
-    margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
-    margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
+    margin-right: max(1.875em, calc(0.9375em + env(safe-area-inset-right)));
+    margin-left: max(1.875em, calc(0.9375em + env(safe-area-inset-left)));
   }
 }
-@media (max-width: 40.0625em) {
+@media (max-width: 640px) {
   .govuk-header__navigation-list {
     margin-right: max(15px, calc(15px + env(safe-area-inset-right)));
     margin-left: max(15px, calc(15px + env(safe-area-inset-left)));
@@ -233,21 +232,21 @@
 .govuk-header__navigation {
   background-color: govuk-colour("light-grey");
   border-bottom: 1px solid #b1b4b6;
-  margin: 10px 0 0 0;
+  margin: 0.625em 0 0 0;
 }
 
 .govuk-header__navigation-item {
   box-sizing: border-box;
   height: 3.125rem;
-  padding: 0 15px;
-  line-height: 50px;
-  margin: 0 3px;
+  padding: 0 0.9375em;
+  line-height: 3.125em;
+  margin: 0 0.1875em;
   border: none;
 }
 
 @media (min-width: 48.0625em) {
   .govuk-header__navigation-item.current-item {
-    border-bottom: 4px solid #1d70b8;
+    border-bottom: 0.25em solid #1d70b8;
   }
 }
 
@@ -263,9 +262,8 @@
   color: #1d70b8 !important;
   font-weight: 700;
   font-size: 1.1875rem !important;
-  margin: 15px 0;
+  margin: 0.9375em 0;
 }
-
 
 // navigation
 .menu-toggle {

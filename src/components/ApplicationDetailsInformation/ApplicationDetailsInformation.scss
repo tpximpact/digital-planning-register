@@ -1,35 +1,51 @@
-.key-info .govuk-grid-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.key-info .govuk-grid-column-one-half {
-  margin-bottom: 1em;
-}
-
-@media (max-width: 1090px) {
-  .govuk-grid-column-three-quarters.key-info {
-    width: 100%;
-  }
-}
-@media (max-width: 860px) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 33%;
-  }
-}
-@media (max-width: 720px) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 50%;
-  }
-}
-@media (max-width: 40.0625em) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 100%;
-  }
-}
-
-.dpr-application-details {
-  &__heading {
+// Desktop and zoom
+@media screen and (min-device-width: 1091px) {
+  .govuk-grid-row {
+    width: 960px; // Match container width
     display: flex;
+    flex-wrap: nowrap; // Prevent wrapping during zoom
+  }
+
+  .govuk-grid-column-one-third-from-desktop {
+    width: 320px; // One third of 960px
+    flex: 0 0 320px;
+  }
+
+  .govuk-grid-column-two-thirds-from-desktop {
+    width: 640px; // Two thirds of 960px
+    flex: 0 0 640px;
+  }
+
+  // App map specifically
+  .app-map {
+    width: 320px;
+    flex: 0 0 320px;
+  }
+
+  // Key info grid
+  .key-info .govuk-grid-row {
+    width: 640px; // Full width of its container
+    flex-wrap: wrap; // Allow wrapping for the inner grid
+  }
+
+  .key-info .govuk-grid-column-one-half {
+    width: 320px; // Half of 640px
+    flex: 0 0 320px;
+    margin-bottom: 16px;
+  }
+}
+
+// Mobile device specific media queries
+@media screen and (max-device-width: 1090px) {
+  .govuk-grid-column-two-thirds-from-desktop.key-info {
+    width: 100%;
+  }
+}
+
+@media screen and (max-device-width: 640px) {
+  .govuk-grid-column-one-third-from-desktop,
+  .govuk-grid-column-two-thirds-from-desktop,
+  .key-info .govuk-grid-row .govuk-grid-column-one-half {
+    width: 100%;
   }
 }

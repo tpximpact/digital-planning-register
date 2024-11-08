@@ -23,7 +23,7 @@ $dsn-sentiment-icons: (
   }
   // save messing around with last of type completely
   .govuk-radios__item {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   // everything visible lives in the label - structure it here
@@ -40,15 +40,15 @@ $dsn-sentiment-icons: (
   }
 
   .dsn-sentiment .govuk-radios__input:checked {
-    border: 1px solid red;
+    border: 0.0625em solid red;
   }
 
   // on focus we give the whole label a yellow background
   .govuk-radios__input:focus-visible + .govuk-radios__label {
-    border-width: 4px;
-    outline: 3px solid transparent;
-    outline-offset: 1px;
-    box-shadow: 0 0 0 4px #ffdd00;
+    border-width: 0.25em;
+    outline: 0.1875em solid transparent;
+    outline-offset: 0.0625em;
+    box-shadow: 0 0 0 0.25em #ffdd00;
     background-color: #ffdd00;
   }
 
@@ -71,7 +71,7 @@ $dsn-sentiment-icons: (
   }
 }
 
-@media (max-width: 389px) {
+@media screen and (max-device-width: 389px) {
   .dsn-sentiment {
     gap: 0;
     justify-content: space-between;
@@ -79,7 +79,7 @@ $dsn-sentiment-icons: (
   }
 }
 
-@media (max-width: 300px) {
+@media screen and (max-device-width: 300px) {
   .dsn-sentiment {
     flex-direction: column;
     align-items: center;

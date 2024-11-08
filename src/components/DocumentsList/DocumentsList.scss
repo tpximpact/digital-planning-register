@@ -2,13 +2,14 @@
   display: flex;
   flex-wrap: wrap;
 }
-@media (max-width: 1090px) {
+
+@media screen and (max-device-width: 1090px) {
   .file-table .govuk-grid-column-one-third-from-desktop {
     width: 50%;
   }
 }
 
-@media (max-width: 40.0625em) {
+@media screen and (max-device-width: 40.0625em) {
   .file-table {
     display: block;
   }
@@ -18,5 +19,5 @@
 }
 
 .documents-container {
-  padding-top: 20px;
+  padding-top: 1.25em;
 }

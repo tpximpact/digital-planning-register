@@ -1,25 +1,42 @@
 @import "src/styles/component-base";
 @import "node_modules/govuk-frontend/dist/govuk/components/button/index";
 
-// Logos on the landing page
-.logos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
-  gap: 20px;
-}
-.logos-container a {
-  width: 30%;
-  min-width: 270px;
-}
-.logos-container a img {
-  max-height: 50px;
-  width: auto;
+// Desktop and zoom - use min-device-width to ignore zoom
+@media screen and (min-device-width: 769px) {
+  .logos-container {
+    width: 960px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .logos-container a {
+    width: calc((960px - 40px) / 3);
+    flex: 0 0 auto; // Don't grow, don't shrink, size based on width
+  }
+
+  .logos-container a img {
+    max-height: 50px;
+    width: auto;
+  }
 }
 
-@media (max-width: 40.0625em) {
+// Only trigger on actual mobile devices
+@media screen and (max-device-width: 768px) {
+  .logos-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
   .logos-container a {
     width: 100%;
+  }
+
+  .logos-container a img {
+    max-height: 50px;
+    width: auto;
   }
 }
