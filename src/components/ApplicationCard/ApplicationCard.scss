@@ -1,11 +1,51 @@
 @import "src/styles/component-base";
 
-.search-card {
-  background: govuk-colour("light-grey");
-  border: 0.125em solid white;
-  padding: 1.25em 0.625em 0 0.625em;
+// Desktop and zoom
+@media screen and (min-device-width: 769px) {
+  .search-card {
+    background: govuk-colour("light-grey");
+    border: 2px solid white;
+    width: 960px;
+    padding: 20px 10px 0 10px;
+    margin: auto;
+
+    .govuk-grid-row {
+      display: flex;
+      flex-wrap: wrap; // Changed to wrap to handle multiple rows of thirds
+      margin-bottom: 16px;
+    }
+
+    .govuk-grid-column-full {
+      flex: 0 0 100%;
+    }
+
+    .govuk-grid-column-one-third {
+      flex: 0 0 33.33%;
+    }
+
+    .govuk-grid-column-two-thirds {
+      flex: 0 0 66.66%;
+    }
+  }
 }
 
-.search-card .govuk-grid-row {
-  margin-bottom: 1em;
+// Only modify layout on actual mobile devices
+@media screen and (max-device-width: 768px) {
+  .search-card {
+    background: govuk-colour("light-grey");
+    border: 2px solid white;
+    width: 100%;
+    padding: 20px 10px 0 10px;
+
+    margin: auto;
+
+    .govuk-grid-row {
+      margin-bottom: 16px;
+    }
+
+    .govuk-grid-column-one-third,
+    .govuk-grid-column-two-thirds {
+      width: 100%;
+    }
+  }
 }

@@ -1,37 +1,20 @@
-// Desktop and zoom
-@media screen and (min-device-width: 1091px) {
-  .osl-map > * {
-    width: 448px; // 28rem converted to px for consistency
-    height: 320px; // 20rem converted to px
-    display: table-cell;
-  }
+.osl-map > * {
+  width: 28rem;
+  height: 14rem;
 
-  .shadow-map {
-    width: 448px;
-    height: 320px;
-    background-color: transparent;
-    display: table-cell;
+  @media screen and (min-device-width: 1090px) {
+    height: 20rem;
   }
+  display: table-cell;
 }
 
-// Mobile devices only
-@media screen and (max-device-width: 1090px) {
-  .osl-map > * {
-    width: 100%;
-    height: 224px; // 14rem converted to px
-  }
-
-  .app-map {
-    display: block;
-    width: 100%;
-    margin-bottom: 32px; // 2rem converted to px
-  }
-
-  .shadow-map {
-    width: 100%;
-    height: 224px;
-    background-color: transparent;
-  }
+.osl-map {
+  margin-bottom: 2rem;
+}
+.app-map {
+  display: block;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
 // :host {
@@ -40,3 +23,13 @@
 //   height: 320px;
 //   position: relative;
 // }
+.shadow-map {
+  width: 28rem;
+  height: 14rem;
+
+  @media screen and (min-device-width: 1090px) {
+    height: 20rem;
+  }
+  background-color: transparent;
+  display: table-cell;
+}
