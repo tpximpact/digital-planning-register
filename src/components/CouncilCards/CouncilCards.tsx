@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AppConfig } from "@/config/types";
 import "./CouncilCards.scss";
+import { councilLogos } from "../CouncilLogos";
 
 export const CouncilCards = ({
   councils,
@@ -18,28 +19,25 @@ export const CouncilCards = ({
           Select your council to start exploring planning applications in your
           area
         </h2>
-        <div className="logos-container">
+        <div className="govuk-grid-row logos-container">
           {availableCouncils.map((council) => (
-            <Link
-              href={`/${council.slug}`}
-              className="govuk-button govuk-button--secondary"
+            <div
               key={council.slug}
-              data-council-slug={council.slug}
-              aria-label={`View planning applications for ${council.name} Council`}
+              className="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop"
             >
-              {council.logo ? (
-                <Image
-                  src={`/images/logos/${council.logo}`}
-                  alt="" // Empty alt since the link's aria-label provides the context
-                  width={350}
-                  height={75}
-                  aria-label={`${council.name} Logo`}
-                  role="img"
-                />
-              ) : (
-                <span>{council.name}</span>
-              )}
-            </Link>
+              <Link
+                href={`/${council.slug}`}
+                className="logos-container__logo govuk-button govuk-button--secondary"
+                title={`${council.name} Council`}
+                data-council-slug={council.slug}
+              >
+                {councilLogos[council.slug] ? (
+                  councilLogos[council.slug]
+                ) : (
+                  <span>{council.name}</span>
+                )}
+              </Link>
+            </div>
           ))}
         </div>
       </>
