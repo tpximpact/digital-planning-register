@@ -1,17 +1,15 @@
 @import "src/styles/component-base";
 
-// Desktop and zoom
 @media screen and (min-device-width: 769px) {
   .search-card {
     background: govuk-colour("light-grey");
     border: 2px solid white;
     width: 960px;
     padding: 20px 10px 0 10px;
-    margin: auto;
 
     .govuk-grid-row {
       display: flex;
-      flex-wrap: wrap; // Changed to wrap to handle multiple rows of thirds
+      flex-wrap: wrap;
       margin-bottom: 16px;
     }
 
@@ -29,7 +27,7 @@
   }
 }
 
-// Only modify layout on actual mobile devices
+// On mobile devices
 @media screen and (max-device-width: 768px) {
   .search-card {
     background: govuk-colour("light-grey");

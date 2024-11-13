@@ -1,51 +1,42 @@
 // Desktop and zoom
 @media screen and (min-device-width: 1091px) {
-  .govuk-grid-row {
-    width: 960px; // Match container width
-    display: flex;
-    flex-wrap: nowrap; // Prevent wrapping during zoom
-  }
+  section[aria-labelledby="application-information-section"] {
+    .govuk-grid-row {
+      display: flex;
+      flex-wrap: nowrap;
+    }
 
-  .govuk-grid-column-one-third-from-desktop {
-    width: 320px; // One third of 960px
-    flex: 0 0 320px;
-  }
+    .govuk-grid-column-one-third-from-desktop {
+      flex: 0 0 33.33%;
+    }
 
-  .govuk-grid-column-two-thirds-from-desktop {
-    width: 640px; // Two thirds of 960px
-    flex: 0 0 640px;
-  }
+    .govuk-grid-column-two-thirds-from-desktop {
+      flex: 0 0 66.66%;
+    }
 
-  // App map specifically
-  .app-map {
-    width: 320px;
-    flex: 0 0 320px;
-  }
+    // .app-map {
+    //   flex: 0 0 33.33%;
+    // }
 
-  // Key info grid
-  .key-info .govuk-grid-row {
-    width: 640px; // Full width of its container
-    flex-wrap: wrap; // Allow wrapping for the inner grid
-  }
+    .key-info {
+      .govuk-grid-row {
+        flex-wrap: wrap;
+      }
 
-  .key-info .govuk-grid-column-one-half {
-    width: 320px; // Half of 640px
-    flex: 0 0 320px;
-    margin-bottom: 16px;
+      .govuk-grid-column-one-half {
+        flex: 0 0 50%;
+        margin-bottom: 16px;
+      }
+    }
   }
 }
 
-// Mobile device specific media queries
-@media screen and (max-device-width: 1090px) {
-  .govuk-grid-column-two-thirds-from-desktop.key-info {
-    width: 100%;
-  }
-}
-
-@media screen and (max-device-width: 640px) {
-  .govuk-grid-column-one-third-from-desktop,
-  .govuk-grid-column-two-thirds-from-desktop,
-  .key-info .govuk-grid-row .govuk-grid-column-one-half {
-    width: 100%;
+@media screen and (max-device-width: 768px) {
+  section[aria-labelledby="application-information-section"] {
+    .govuk-grid-column-one-third-from-desktop,
+    .govuk-grid-column-two-thirds-from-desktop,
+    .key-info .govuk-grid-column-one-half {
+      width: 100%;
+    }
   }
 }

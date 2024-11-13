@@ -88,3 +88,21 @@ $button-shadow-size: $govuk-border-width-form-element;
     }
   }
 }
+
+@media screen and (min-device-width: 769px) {
+  .govuk-button--start {
+    width: 200px;
+    text-align: center;
+    white-space: nowrap;
+    padding-right: 40px;
+  }
+
+  .govuk-button__start-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 17.5px; // Match the SVG width
+    height: 19px; // Match the SVG height
+  }
+}

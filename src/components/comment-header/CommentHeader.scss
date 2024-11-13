@@ -1,0 +1,40 @@
+@media screen and (min-device-width: 769px) {
+  .comment-header {
+    width: 960px;
+
+    .govuk-grid-row {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .govuk-grid-column-one-third {
+      flex: 0 0 320px;
+      width: 320px;
+    }
+
+    .govuk-grid-column-two-thirds {
+      flex: 0 0 640px;
+      width: 640px;
+      padding-left: 30px;
+    }
+
+    .govuk-heading-m,
+    .govuk-heading-s,
+    .govuk-body {
+      max-width: 600px;
+      white-space: normal;
+    }
+  }
+}
+
+@media screen and (max-device-width: 768px) {
+  .comment-header {
+    width: 100%;
+
+    .govuk-grid-column-one-third,
+    .govuk-grid-column-two-thirds {
+      width: 100%;
+    }
+  }
+}

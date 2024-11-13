@@ -1,3 +1,47 @@
-.search-bar-buttons {
-  margin-top: 3.4em;
+@media screen and (min-device-width: 769px) {
+  form.govuk-grid-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+
+    .govuk-grid-column-one-half {
+      flex: 0 0 50%;
+    }
+
+    .govuk-grid-column-one-quarter {
+      flex: 0 0 25%;
+    }
+  }
+
+  .search-bar-buttons {
+    margin-top: 0;
+
+    .govuk-button {
+      width: 100px;
+      padding: 8px 16px;
+      min-height: 40px;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media screen and (max-device-width: 768px) {
+  form.govuk-grid-row {
+    flex-direction: column;
+  }
+
+  .govuk-grid-column-one-half,
+  .govuk-grid-column-one-quarter {
+    width: 100%;
+  }
+
+  .govuk-input,
+  .search-bar-buttons .govuk-button {
+    width: 100%;
+    max-width: none;
+  }
+
+  .search-bar-buttons {
+    margin-top: 3.4rem;
+  }
 }
