@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
 import { Menu } from "../Menu";
-import Image from "next/image";
-import path from "path";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AppConfig } from "@/config/types";
+import { councilLogos } from "../CouncilLogos";
 import "./Header.scss";
 
 export const Header = ({
@@ -18,11 +17,7 @@ export const Header = ({
   const currentPath = usePathname();
   const [isExtended, setIsExtended] = useState(false);
 
-  const { logowhite: logo, name } = councilConfig ? councilConfig : {};
-  const logoPath =
-    logo &&
-    logo !== "" &&
-    path.join(process.cwd(), "public", "images", "logos", logo);
+  const { name } = councilConfig ? councilConfig : {};
 
   useEffect(() => {
     async function initiateMockAPI() {
@@ -51,16 +46,13 @@ export const Header = ({
                 className="govuk-header__link govuk-header__link--homepage"
                 aria-label={`${name} application search page`}
               >
-                {logoPath ? (
-                  <>
-                    <Image
-                      src={`/images/logos/${logo}`}
-                      alt={`${name} Logo`}
-                      width={148}
-                      height={31}
-                    />
+                {/* todo: remove !== medway when they decide about their logo */}
+                {councilLogos[councilConfig.slug] &&
+                councilConfig.slug !== "medway" ? (
+                  <div className="logo-container">
+                    {councilLogos[councilConfig.slug]}
                     <span className="govuk-visually-hidden">{name}</span>
-                  </>
+                  </div>
                 ) : (
                   <span>{name}</span>
                 )}

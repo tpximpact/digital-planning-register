@@ -1,8 +1,7 @@
-const BarnetLogo = () => {
+export const BarnetLogo = () => {
   return (
     <svg
-      width="726"
-      height="195"
+      height="31"
       viewBox="0 0 726 195"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -146,12 +145,11 @@ const BarnetLogo = () => {
   );
 };
 
-const CamdenLogo = () => {
+export const CamdenLogo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="350"
-      height="75"
+      height="31"
       viewBox="0 0 350 75"
       preserveAspectRatio="xMinYMid"
       aria-hidden="true"
@@ -167,12 +165,11 @@ const CamdenLogo = () => {
   );
 };
 
-const BuckinghamshireLogo = () => {
+export const BuckinghamshireLogo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="295"
-      height="76"
+      height="31"
       viewBox="0 0 295 76"
       fill="none"
       role="img"
@@ -200,12 +197,11 @@ const BuckinghamshireLogo = () => {
   );
 };
 
-const GatesheadLogo = () => {
+export const GatesheadLogo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="227"
-      height="65"
+      height="31"
       viewBox="0 0 227 65"
       fill="none"
       role="img"
@@ -246,7 +242,7 @@ const GatesheadLogo = () => {
   );
 };
 
-const LambethLogo = () => {
+export const LambethLogo = () => {
   return (
     <svg
       width="320"
@@ -267,11 +263,10 @@ const LambethLogo = () => {
   );
 };
 
-const MedwayLogo = () => {
+export const MedwayLogo = () => {
   return (
     <svg
-      width="124"
-      height="86"
+      height="31"
       viewBox="0 0 124 86"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +283,7 @@ const MedwayLogo = () => {
   );
 };
 
-const SouthwarkLogo = () => {
+export const SouthwarkLogo = () => {
   return (
     <svg
       width="190"
