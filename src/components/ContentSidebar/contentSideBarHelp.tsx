@@ -3,10 +3,10 @@ export const contentSideBarChildren = [
     key: "Key information",
     title: "Key information",
   },
-  {
-    key: "Progress",
-    title: "Progress",
-  },
+  //   {
+  //     key: "Progress",
+  //     title: "Progress",
+  //   },
   {
     key: "Description",
     title: "Description",
