@@ -43,12 +43,15 @@ export const ApplicationDetails = ({
       {/* <ApplicationLocation /> */}
       {/* <ApplicationMoreDetails {...application} /> */}
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third-from-desktop contents-bar-list">
+        <div
+          className="govuk-grid-column-one-third-from-desktop contents-bar-list"
+          id=""
+        >
           <ContentSidebar
             content={[
               {
-                key: " ",
-                title: " ",
+                key: "",
+                title: "",
                 children: contentSideBarChildren,
               },
             ]}
