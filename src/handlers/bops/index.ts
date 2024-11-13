@@ -1,2 +1,2 @@
-export * as BopsV2 from "./v2";
-export * as BopsP05 from "./P05AdvancedSearch";
+export * from "./v2";
+export * from "./P05AdvancedSearch";

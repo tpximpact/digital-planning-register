@@ -4,6 +4,7 @@
  * ApiResponse - the standard response object from the API
  * DprPagination - the object that describes the pagination of a list of objects
  * SearchParams - common object to represent search parameters
+ * Documentation - common object to represent documentation for a handler
  */
 
 /**
@@ -67,4 +68,32 @@ export interface DprPagination extends DprPaginationBase {
   from: number;
   to: number;
   total_pages: number;
+}
+
+/**
+ *
+ *
+ *
+ * Documentation
+ * common object to represent documentation for a handler
+ *
+ *
+ *
+ */
+export interface Documentation {
+  url: string;
+  file: string;
+  description: string | JSX.Element;
+  arguments?: string[];
+  run: any;
+  validate?: {
+    url: string;
+    type: "application" | "prototypeApplication";
+  }[];
+  examples?: {
+    url: string;
+    description: string;
+    source?: string[];
+  }[];
+  source?: string[];
 }
