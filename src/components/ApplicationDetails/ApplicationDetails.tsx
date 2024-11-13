@@ -47,8 +47,8 @@ export const ApplicationDetails = ({
           <ContentSidebar
             content={[
               {
-                key: "",
-                title: "",
+                key: " ",
+                title: " ",
                 children: contentSideBarChildren,
               },
             ]}
