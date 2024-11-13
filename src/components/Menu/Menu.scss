@@ -3,7 +3,7 @@
 @import "node_modules/govuk-frontend/dist/govuk/components/service-navigation/index";
 
 .dpr-menu {
-  font-size: 2rem; // keeping rem as it's already relative
+  font-size: 2rem;
   @include govuk-media-query($from: tablet) {
     font-size: 2rem;
   }

@@ -10,11 +10,6 @@
   margin: 0;
 }
 
-html {
-  font-size: 100%;
-  scroll-behavior: smooth;
-}
-
 html,
 body {
   font-family: var(--font-mono);
@@ -38,12 +33,6 @@ a {
 @media screen and (min-device-width: 769px) {
   body {
     min-width: 960px;
-  }
-
-  .govuk-width-container {
-    width: 960px;
-    margin: 0 auto;
-    padding: 0 15px;
   }
 }
 
