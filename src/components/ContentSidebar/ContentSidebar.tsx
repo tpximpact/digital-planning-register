@@ -41,7 +41,7 @@ const NestedContentList = ({
     return (
       <li key={c.key}>
         <div className={className}>
-          <Link href={`#${encodeURIComponent(c.title)}`}>{c.title}</Link>
+          <Link href={`#${c.title}`}>{c.title}</Link>
         </div>
         {c.children && c.children.length > 0 && (
           <ul>{c.children.map((page) => renderPage(page, depth + 1))}</ul>
