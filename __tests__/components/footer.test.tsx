@@ -18,7 +18,7 @@ describe("Footer", () => {
     const councilConfig = appConfig.council;
     render(<Footer councilConfig={councilConfig} />);
     expect(
-      screen.getByAltText("Open Digital Planning Logo"),
+      screen.getByRole("img", { name: "Open Digital Planning Logo" }),
     ).toBeInTheDocument();
   });
 

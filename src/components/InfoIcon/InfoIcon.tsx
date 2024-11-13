@@ -23,7 +23,7 @@ export const InfoIcon = ({ href, title, ariaLabel }: InfoIconProps) => {
       title={title}
       aria-label={ariaLabel}
     >
-      <span aria-label={ariaLabel}>i</span>
+      <span>i</span>
     </Link>
   );
 };
