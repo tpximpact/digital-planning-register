@@ -6,6 +6,10 @@
   max-width: 60%;
 }
 
+.govuk-header__logo {
+  height: 0;
+}
+
 .menu {
   display: none;
 }
@@ -38,4 +42,8 @@
   .menu-button {
     display: none;
   }
+}
+
+.logo-container {
+  color: white
 }
