@@ -41,6 +41,7 @@ export const CommentsList = ({
           ? "specialist-comments-section"
           : "public-comments-section"
       }
+      id={type === "specialist" ? "Specialist comments" : "Public comments"}
     >
       <h2
         className="govuk-heading-l"

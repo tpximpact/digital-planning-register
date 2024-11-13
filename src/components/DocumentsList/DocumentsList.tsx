@@ -28,6 +28,7 @@ export const DocumentsList = ({
     <section
       className="grid-row-extra-bottom-margin documents-container"
       aria-labelledby="documents-section"
+      id="Documents"
     >
       <h2 className="govuk-heading-l" id="documents-section">
         Documents

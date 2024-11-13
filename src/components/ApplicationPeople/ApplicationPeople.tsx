@@ -16,7 +16,7 @@ export const ApplicationPeople = ({
   agent_last_name,
 }: ApplicationPeopleProps) => {
   return (
-    <section aria-labelledby="people-section">
+    <section aria-labelledby="people-section" id="People">
       <h2 className="govuk-heading-l people-section" id="people-section">
         People
       </h2>

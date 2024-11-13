@@ -19,6 +19,9 @@
   div {
     padding: govuk-spacing(3) 0;
   }
+  &__empty-heading {
+    padding: 0 !important;
+  }
 
   a {
     @extend .govuk-link;
@@ -48,3 +51,4 @@
     }
   }
 }
+

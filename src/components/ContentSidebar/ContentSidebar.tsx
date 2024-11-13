@@ -34,7 +34,9 @@ const NestedContentList = ({
     const className =
       depth > 0
         ? `contents-bar__${depth} contents-bar__sub-list`
-        : `contents-bar__${depth} contents-bar__list-heading`;
+        : `${c.title === ""}`
+          ? `contents-bar__${depth} contents-bar__empty-heading`
+          : `contents-bar__${depth} contents-bar__list-heading`;
 
     return (
       <li key={c.key}>
