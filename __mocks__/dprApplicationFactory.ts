@@ -169,6 +169,30 @@ export const generateDprApplication = (): DprPlanningApplication => {
     proposal: {
       description: faker.lorem.paragraphs(),
     },
+    applicant: {
+      type: "company",
+      name: {
+        first: faker.person.firstName(),
+        last: faker.person.lastName(),
+      },
+      address: {
+        sameAsSiteAddress: true,
+      },
+      agent: {
+        name: {
+          first: faker.person.firstName(),
+          last: faker.person.lastName(),
+        },
+        address: {
+          line1: fakerEN_GB.location.street(),
+          line2: "",
+          town: fakerEN_GB.location.city(),
+          county: "",
+          postcode: fakerEN_GB.location.zipCode(),
+          country: "",
+        },
+      },
+    },
   };
 };
 
