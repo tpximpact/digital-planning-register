@@ -1,6 +1,19 @@
 export interface AppConfig {
   features: {
+    /**
+     * Set this to true to use the public /documents endpoint
+     */
     documentsPublicEndpoint: boolean;
+
+    /**
+     * Set this to true to fetch applicant information from the BOPs private endpoint for applicants
+     */
+    getApplicantDetailsFromPrivateEndpoint: boolean;
+
+    /**
+     * Set this to true to fetch id from the BOPs private endpoint for submitting comments
+     */
+    getApplicationIdFromPrivateEndpoint: boolean;
   };
   /**
    * All the council configuration options
