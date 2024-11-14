@@ -143,10 +143,6 @@ export const generateDprApplication = (): DprPlanningApplication => {
       determinedAt: faker.date.anytime().toISOString(),
       decision: faker.helpers.arrayElement(["refused", "granted", null]),
       id: Number(faker.string.numeric(4)),
-      applicant_first_name: faker.person.firstName(),
-      applicant_last_name: faker.person.lastName(),
-      agent_first_name: faker.person.firstName(),
-      agent_last_name: faker.person.lastName(),
       documents: [
         {
           url: "/camden/24-00135-HAPP/application-form",
