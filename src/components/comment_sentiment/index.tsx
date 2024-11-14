@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { SentimentIcon } from "../SentimentIcon";
 import "./CommentSentiment.scss";
@@ -18,6 +18,7 @@ const CommentSentiment = ({
   const [sentiment, setSentiment] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const radiosRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedSentiment = sessionStorage.getItem(`sentiment_${reference}`);
@@ -28,6 +29,15 @@ const CommentSentiment = ({
     const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
     setIsEditing(!!storedTopics);
   }, [reference]);
+
+  const scrollToError = () => {
+    if (
+      radiosRef.current &&
+      typeof radiosRef.current.scrollIntoView === "function"
+    ) {
+      radiosRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -43,7 +53,7 @@ const CommentSentiment = ({
           event: "comment_validation_error",
           message: "error in sentiment",
         });
-        window.scrollTo(0, 0);
+        scrollToError();
       }
     },
     [sentiment, reference, updateProgress, isEditing, navigateToPage],
@@ -71,7 +81,10 @@ const CommentSentiment = ({
           option
         </p>
       )}
-      <div className="govuk-radios dsn-sentiment">
+      <div
+        ref={radiosRef}
+        className={`govuk-radios dsn-sentiment ${validationError ? "govuk-form-group--error" : ""}`}
+      >
         {options.map((option) => (
           <div className="govuk-radios__item" key={option.id}>
             <input

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Details } from "../govuk/Details";
 import { Button } from "../button";
@@ -29,6 +29,7 @@ const CommentTopicSelection = ({
 }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
+  const checkboxesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
@@ -36,6 +37,18 @@ const CommentTopicSelection = ({
       setSelectedTopics(storedTopics.split(","));
     }
   }, [reference]);
+
+  const scrollToError = () => {
+    if (
+      checkboxesRef.current &&
+      typeof checkboxesRef.current.scrollIntoView === "function"
+    ) {
+      checkboxesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +65,7 @@ const CommentTopicSelection = ({
         event: "comment_validation_error",
         message: "error in topic selection",
       });
-      window.scrollTo(0, 0);
+      scrollToError();
     }
   };
 
@@ -84,6 +97,7 @@ const CommentTopicSelection = ({
               about. Select all the topics that apply.
             </div>
             <div
+              ref={checkboxesRef}
               className={`govuk-form-group ${
                 validationError ? "govuk-form-group--error" : ""
               }`}

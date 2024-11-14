@@ -51,6 +51,16 @@ const CommentPersonalDetails = ({
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {},
   );
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const fieldRefs = {
+    name: useRef<HTMLDivElement>(null),
+    address: useRef<HTMLDivElement>(null),
+    postcode: useRef<HTMLDivElement>(null),
+    emailAddress: useRef<HTMLDivElement>(null),
+    telephoneNumber: useRef<HTMLDivElement>(null),
+    consent: useRef<HTMLDivElement>(null),
+  };
 
   const contactPlanningAdviceLink =
     councilConfig?.pageContent
@@ -76,15 +86,34 @@ const CommentPersonalDetails = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
     setPersonalDetails((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: newValue,
     }));
-    setValidationErrors({});
+
+    if (hasSubmitted) {
+      setValidationErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[name as keyof ValidationErrors];
+        return newErrors;
+      });
+    }
+  };
+
+  const scrollToError = (errors: ValidationErrors) => {
+    const firstErrorField = Object.keys(errors)[0] as keyof ValidationErrors;
+    const errorRef = fieldRefs[firstErrorField];
+
+    if (errorRef?.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   const validatePersonalDetails = (): boolean => {
     const errors: ValidationErrors = {};
+
     if (!personalDetails.name) errors.name = "Your name is required";
     if (!personalDetails.address) errors.address = "Your address is required";
     if (!postcodeValidation(personalDetails.postcode))
@@ -100,19 +129,24 @@ const CommentPersonalDetails = ({
     )
       errors.telephoneNumber = "Telephone number must be valid";
     if (!personalDetails.consent) errors.consent = "You need to consent";
+
     setValidationErrors(errors);
-    if (Object.keys(errors).length > 0)
+
+    if (Object.keys(errors).length > 0) {
       sendGTMEvent({
         event: "comment_validation_error",
         message: "error in personal details",
       });
-    window.scrollTo(0, 0);
+      scrollToError(errors);
+    }
 
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
     if (validatePersonalDetails()) {
       sessionStorage.setItem(
         `personalDetails_${reference}`,
@@ -130,6 +164,7 @@ const CommentPersonalDetails = ({
         <form onSubmit={handleSubmit}>
           {/* Name input */}
           <div
+            ref={fieldRefs.name}
             className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="name">
@@ -153,6 +188,7 @@ const CommentPersonalDetails = ({
 
           {/* Address input */}
           <div
+            ref={fieldRefs.address}
             className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="address">
@@ -176,6 +212,7 @@ const CommentPersonalDetails = ({
 
           {/* Postcode input */}
           <div
+            ref={fieldRefs.postcode}
             className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="postcode">
@@ -200,6 +237,7 @@ const CommentPersonalDetails = ({
 
           {/* Email address input */}
           <div
+            ref={fieldRefs.emailAddress}
             className={`govuk-form-group ${validationErrors.emailAddress ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="emailAddress">
@@ -226,6 +264,7 @@ const CommentPersonalDetails = ({
 
           {/* Telephone number input */}
           <div
+            ref={fieldRefs.telephoneNumber}
             className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="telephoneNumber">
@@ -251,6 +290,7 @@ const CommentPersonalDetails = ({
 
           {/* Consent checkbox */}
           <div
+            ref={fieldRefs.consent}
             className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
           >
             {validationErrors.consent && (
