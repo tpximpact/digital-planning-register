@@ -1,3 +1,5 @@
+"use client";
+import { useEffect } from "react";
 import { formatDprDate } from "@/util";
 import {
   definedStatus,
@@ -52,6 +54,13 @@ export const ApplicationDetailsInformation = ({
       : undefined;
 
   const description = application.proposal.description;
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "applicationType",
+      application?.application?.type?.description,
+    );
+  }, [application?.application?.type?.description]);
 
   return (
     <section aria-labelledby="application-information-section">
@@ -252,19 +261,21 @@ export const ApplicationDetailsInformation = ({
       <p className="govuk-body" id="application-description">
         {description}
       </p>
-      {applicationStatus !== "determined" && (
-        <div className="govuk-grid-row extra-top-margin">
-          <div className="govuk-grid-column-full">
-            <Link
-              href={`/${councilSlug}/${reference}/submit-comment`}
-              className="govuk-button govuk-button--primary"
-              data-module="govuk-button"
-            >
-              Comment on this application
-            </Link>
+      {applicationStatus !== "determined" &&
+        application?.application?.type?.description !==
+          "lawfulness_certificate" && (
+          <div className="govuk-grid-row extra-top-margin">
+            <div className="govuk-grid-column-full">
+              <Link
+                href={`/${councilSlug}/${reference}/submit-comment`}
+                className="govuk-button govuk-button--primary"
+                data-module="govuk-button"
+              >
+                Comment on this application
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </section>
   );
 };

@@ -16,6 +16,7 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { reference: string; council: string };
@@ -44,10 +45,16 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [applicationType, setApplicationType] = useState<string>();
 
   useEffect(() => {
     setIsClient(true);
+    const type = sessionStorage.getItem("applicationType");
+    setApplicationType(type?.toString());
   }, []);
+  if (applicationType === "lawfulness_certificate") {
+    redirect(`/${council}/${reference}`);
+  }
 
   // Function to update the URL with the new page number
   const updateURL = useCallback(
