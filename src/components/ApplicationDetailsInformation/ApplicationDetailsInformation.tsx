@@ -74,7 +74,7 @@ export const ApplicationDetailsInformation = ({
         </div>
       </div>
 
-      <div className="govuk-grid-row">
+      <div className="govuk-grid-row grid-row-extra-bottom-margin">
         <div className="govuk-grid-column-one-third app-map">
           {boundary_geojson && (
             <ApplicationMap reference={reference} mapData={boundary_geojson} />

@@ -15,7 +15,10 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
         </h1>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third-from-desktop contents-bar">
-            <ContentSidebar content={contentPlanningProcess()} />
+            <ContentSidebar
+              content={contentPlanningProcess()}
+              withHeadings={true}
+            />
           </div>
 
           <div className="govuk-grid-column-two-thirds-from-desktop">

@@ -9,7 +9,7 @@ import { ContentError } from "../ContentError";
 import { ContentSidebar } from "../ContentSidebar";
 import "./ApplicationDetails.scss";
 import Link from "next/link";
-import { contentSideBarChildren } from "../ContentSidebar/contentSideBarHelp";
+import { contentSideBarChildren } from "./contentSideBarHelp";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -47,15 +47,7 @@ export const ApplicationDetails = ({
           className="govuk-grid-column-one-third-from-desktop contents-bar-list"
           id=""
         >
-          <ContentSidebar
-            content={[
-              {
-                key: "",
-                title: "",
-                children: contentSideBarChildren,
-              },
-            ]}
-          />
+          <ContentSidebar content={contentSideBarChildren} />
           {application?.application?.status !== "determined" && (
             <div className="govuk-grid-row extra-top-margin">
               <div className="govuk-grid-column-full">
