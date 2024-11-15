@@ -18,7 +18,8 @@ const CommentSentiment = ({
   const [sentiment, setSentiment] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const radiosRef = useRef<HTMLDivElement>(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const radioGroupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedSentiment = sessionStorage.getItem(`sentiment_${reference}`);
@@ -30,18 +31,30 @@ const CommentSentiment = ({
     setIsEditing(!!storedTopics);
   }, [reference]);
 
-  const scrollToError = () => {
+  const scrollAndFocusError = () => {
     if (
-      radiosRef.current &&
-      typeof radiosRef.current.scrollIntoView === "function"
+      radioGroupRef.current &&
+      typeof radioGroupRef.current.scrollIntoView === "function"
     ) {
-      radiosRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      radioGroupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      const firstRadio = radioGroupRef.current.querySelector(
+        'input[type="radio"]',
+      ) as HTMLInputElement;
+      if (firstRadio) {
+        firstRadio.focus();
+      }
     }
   };
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+      setHasSubmitted(true);
+
       if (sentiment) {
         sessionStorage.setItem(`sentiment_${reference}`, sentiment);
         updateProgress(1);
@@ -53,7 +66,7 @@ const CommentSentiment = ({
           event: "comment_validation_error",
           message: "error in sentiment",
         });
-        scrollToError();
+        scrollAndFocusError();
       }
     },
     [sentiment, reference, updateProgress, isEditing, navigateToPage],
@@ -61,7 +74,9 @@ const CommentSentiment = ({
 
   const handleSentimentChange = (value: string) => {
     setSentiment(value);
-    setValidationError(false);
+    if (hasSubmitted) {
+      setValidationError(false);
+    }
   };
 
   const options = [
@@ -71,42 +86,57 @@ const CommentSentiment = ({
   ];
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
       <h1 className="govuk-heading-l">
         How do you feel about this development?
       </h1>
-      {validationError && (
-        <p className="govuk-error-message">
-          <span className="govuk-visually-hidden">Error:</span> Please select an
-          option
-        </p>
-      )}
+
       <div
-        ref={radiosRef}
-        className={`govuk-radios dsn-sentiment ${validationError ? "govuk-form-group--error" : ""}`}
+        ref={radioGroupRef}
+        className={`govuk-form-group ${validationError ? "govuk-form-group--error" : ""}`}
+        role="group"
+        aria-labelledby="sentiment-heading"
       >
-        {options.map((option) => (
-          <div className="govuk-radios__item" key={option.id}>
-            <input
-              className="govuk-radios__input"
-              id={option.id}
-              name="sentiment"
-              type="radio"
-              value={option.id}
-              checked={sentiment === option.id}
-              onChange={(e) => handleSentimentChange(e.target.value)}
-            />
-            <label
-              className="govuk-label govuk-radios__label"
-              htmlFor={option.id}
-              data-testid={option.id}
-            >
-              <SentimentIcon sentiment={option.label.toLowerCase()} />
-              <span className="govuk-body">{option.label}</span>
-            </label>
-          </div>
-        ))}
+        {validationError && (
+          <p
+            id="sentiment-error"
+            className="govuk-error-message"
+            role="alert"
+            aria-live="assertive"
+          >
+            <span className="govuk-visually-hidden">Error:</span> Please select
+            an option
+          </p>
+        )}
+        <div
+          className="govuk-radios dsn-sentiment"
+          aria-invalid={validationError}
+          aria-errormessage={validationError ? "sentiment-error" : undefined}
+        >
+          {options.map((option) => (
+            <div className="govuk-radios__item" key={option.id}>
+              <input
+                className="govuk-radios__input"
+                id={option.id}
+                name="sentiment"
+                type="radio"
+                value={option.id}
+                checked={sentiment === option.id}
+                onChange={(e) => handleSentimentChange(e.target.value)}
+              />
+              <label
+                className="govuk-label govuk-radios__label"
+                htmlFor={option.id}
+                data-testid={option.id}
+              >
+                <SentimentIcon sentiment={option.label.toLowerCase()} />
+                <span className="govuk-body">{option.label}</span>
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
+
       {!hideContinue && (
         <button type="submit" className="govuk-button">
           Continue

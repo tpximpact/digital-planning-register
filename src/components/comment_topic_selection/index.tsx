@@ -29,7 +29,8 @@ const CommentTopicSelection = ({
 }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
-  const checkboxesRef = useRef<HTMLDivElement>(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const checkboxGroupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
@@ -38,20 +39,29 @@ const CommentTopicSelection = ({
     }
   }, [reference]);
 
-  const scrollToError = () => {
+  const scrollAndFocusError = () => {
     if (
-      checkboxesRef.current &&
-      typeof checkboxesRef.current.scrollIntoView === "function"
+      checkboxGroupRef.current &&
+      typeof checkboxGroupRef.current.scrollIntoView === "function"
     ) {
-      checkboxesRef.current.scrollIntoView({
+      checkboxGroupRef.current.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
+
+      const firstCheckbox = checkboxGroupRef.current.querySelector(
+        'input[type="checkbox"]',
+      ) as HTMLInputElement;
+      if (firstCheckbox) {
+        firstCheckbox.focus();
+      }
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
     if (selectedTopics.length > 0) {
       sessionStorage.setItem(
         `selectedTopics_${reference}`,
@@ -65,7 +75,7 @@ const CommentTopicSelection = ({
         event: "comment_validation_error",
         message: "error in topic selection",
       });
-      scrollToError();
+      scrollAndFocusError();
     }
   };
 
@@ -79,40 +89,55 @@ const CommentTopicSelection = ({
         return [...prev, topic];
       }
     });
-    setValidationError(false);
+
+    if (hasSubmitted) {
+      setValidationError(false);
+    }
   };
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <form onSubmit={handleSubmit}>
-          <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
+        <form onSubmit={handleSubmit} noValidate>
+          <fieldset className="govuk-fieldset" aria-describedby="topics-hint">
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 className="govuk-fieldset__heading">
                 What topics do you want to comment on?
               </h1>
             </legend>
-            <div id="waste-hint" className="govuk-hint">
+
+            <div id="topics-hint" className="govuk-hint">
               Help us understand what your comments on this development are
               about. Select all the topics that apply.
             </div>
+
             <div
-              ref={checkboxesRef}
+              ref={checkboxGroupRef}
               className={`govuk-form-group ${
                 validationError ? "govuk-form-group--error" : ""
               }`}
+              role="group"
+              aria-labelledby="topics-label"
             >
               {validationError && (
-                <p id="form-error" className="govuk-error-message">
+                <p
+                  id="topics-error"
+                  className="govuk-error-message"
+                  role="alert"
+                  aria-live="assertive"
+                >
                   <span className="govuk-visually-hidden">Error:</span> Please
                   select at least one topic
                 </p>
               )}
+
               <div
                 className={`govuk-checkboxes ${
                   validationError ? "govuk-checkboxes--error" : ""
                 }`}
                 data-module="govuk-checkboxes"
+                aria-invalid={validationError}
+                aria-errormessage={validationError ? "topics-error" : undefined}
               >
                 {topics_selection.map((topic) => (
                   <div className="govuk-checkboxes__item" key={topic.value}>
@@ -126,6 +151,10 @@ const CommentTopicSelection = ({
                       value={topic.value}
                       checked={selectedTopics.includes(topic.value)}
                       onChange={() => handleTopicChange(topic.value)}
+                      aria-invalid={validationError}
+                      aria-errormessage={
+                        validationError ? "topics-error" : undefined
+                      }
                     />
                     <label
                       className="govuk-label govuk-checkboxes__label"
@@ -137,6 +166,7 @@ const CommentTopicSelection = ({
                 ))}
               </div>
             </div>
+
             <Details
               summaryText={"What happens to your comments"}
               text={
