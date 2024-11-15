@@ -262,8 +262,7 @@ export const ApplicationDetailsInformation = ({
         {description}
       </p>
       {applicationStatus !== "determined" &&
-        application?.application?.type?.description !==
-          "lawfulness_certificate" && (
+        applicationType !== "lawfulness_certificate" && (
           <div className="govuk-grid-row extra-top-margin">
             <div className="govuk-grid-column-full">
               <Link
