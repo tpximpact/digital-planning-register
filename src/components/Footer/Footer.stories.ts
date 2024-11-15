@@ -19,9 +19,9 @@ export const Default: Story = {
       name: "Camden",
       slug: "camden",
       visibility: "public",
-
-      logo: "camdenlogo.svg",
-      logowhite: "camdenlogowhite.svg",
+      showLogoHeader: true,
+      // logo: "camdenlogo.svg",
+      // logowhite: "camdenlogowhite.svg",
       dataSource: "bops",
       publicComments: true,
       specialistComments: false,

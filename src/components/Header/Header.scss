@@ -1,19 +1,15 @@
 @import "src/styles/component-base";
 @import "node_modules/govuk-frontend/dist/govuk/components/header/index";
 
-// Adapting header for no logo
-.govuk-header__link {
-  max-width: 60%;
-}
-
-.govuk-header__logo {
-  height: 0;
-}
 
 .menu {
   display: none;
 }
 
+.header__link--homepage {
+  display: flex;
+  font-size: 30px;
+}
 @media (max-width: 768px) {
   .menu-button {
     display: block;
@@ -44,6 +40,3 @@
   }
 }
 
-.logo-container {
-  color: white
-}

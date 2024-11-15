@@ -43,16 +43,12 @@ export const Header = ({
               <Link
                 data-testid="page-council"
                 href={`/${councilConfig.slug}`}
-                className="govuk-header__link govuk-header__link--homepage"
+                className="header__link--homepage"
                 aria-label={`${name} application search page`}
               >
-                {/* todo: remove !== medway when they decide about their logo */}
                 {councilLogos[councilConfig.slug] &&
-                councilConfig.slug !== "medway" ? (
-                  <div className="logo-container">
-                    {councilLogos[councilConfig.slug]}
-                    <span className="govuk-visually-hidden">{name}</span>
-                  </div>
+                councilConfig.showLogoHeader ? (
+                  <div>{councilLogos[councilConfig.slug]}</div>
                 ) : (
                   <span>{name}</span>
                 )}

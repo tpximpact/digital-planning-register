@@ -53,9 +53,8 @@ export interface Council {
   dataSource: string;
   publicComments: boolean;
   specialistComments: boolean;
+  showLogoHeader: boolean;
   contact?: string;
-  logo?: string;
-  logowhite?: string;
   features?: {
     dsn?: boolean;
   };
