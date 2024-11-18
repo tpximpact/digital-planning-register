@@ -14,13 +14,13 @@ describe("Render ApplicationPeople", () => {
 
     // all agents details should be showing
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent" }),
+      screen.getByRole("heading", { name: "Applicant's Agent" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent Name" }),
+      screen.getByRole("heading", { name: "Applicant's Agent Name" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent Address" }),
+      screen.getByRole("heading", { name: "Applicant's Agent Address" }),
     ).toBeInTheDocument();
 
     // all applicants details should be showing
@@ -64,13 +64,13 @@ describe("Render ApplicationPeople", () => {
 
     // no agents details should be showing
     expect(
-      screen.queryByRole("heading", { name: "Applicant‘s Agent" }),
+      screen.queryByRole("heading", { name: "Applicant's Agent" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Applicant‘s Agent Name" }),
+      screen.queryByRole("heading", { name: "Applicant's Agent Name" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Applicant‘s Agent Address" }),
+      screen.queryByRole("heading", { name: "Applicant's Agent Address" }),
     ).not.toBeInTheDocument();
 
     // all applicants details should be showing
@@ -99,13 +99,13 @@ describe("Render ApplicationPeople", () => {
 
     // all agents details should be showing
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent" }),
+      screen.getByRole("heading", { name: "Applicant's Agent" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent Name" }),
+      screen.getByRole("heading", { name: "Applicant's Agent Name" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Applicant‘s Agent Address" }),
+      screen.getByRole("heading", { name: "Applicant's Agent Address" }),
     ).toBeInTheDocument();
 
     // no applicants details should be showing

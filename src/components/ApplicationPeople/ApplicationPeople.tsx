@@ -56,7 +56,7 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
       <div className="govuk-grid-row">
         {(agentName || agentAddress) && (
           <div className="govuk-grid-column-one-half-from-desktop grid-row-extra-bottom-margin">
-            <h3 className="govuk-heading-m">Applicant&lsquo;s Agent</h3>
+            <h3 className="govuk-heading-m">Applicant&apos;s Agent</h3>
             <p className="govuk-hint">
               This is who the applicant has engaged to manage this application
               for them.
@@ -67,7 +67,7 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
                 <div className="govuk-grid-column-full">
                   <h4 className="govuk-heading-s">
                     <span className="govuk-visually-hidden">
-                      Applicant&lsquo;s Agent{" "}
+                      Applicant&apos;s Agent{" "}
                     </span>
                     Name
                   </h4>
@@ -80,7 +80,7 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
                 <div className="govuk-grid-column-full">
                   <h4 className="govuk-heading-s">
                     <span className="govuk-visually-hidden">
-                      Applicant&lsquo;s Agent{" "}
+                      Applicant&apos;s Agent{" "}
                     </span>
                     Address
                   </h4>
