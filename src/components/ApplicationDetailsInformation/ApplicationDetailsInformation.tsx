@@ -1,5 +1,3 @@
-"use client";
-import { useEffect } from "react";
 import { formatDprDate } from "@/util";
 import {
   definedStatus,
@@ -54,13 +52,6 @@ export const ApplicationDetailsInformation = ({
       : undefined;
 
   const description = application.proposal.description;
-
-  useEffect(() => {
-    sessionStorage.setItem(
-      "applicationType",
-      application?.application?.type?.description,
-    );
-  }, [application?.application?.type?.description]);
 
   return (
     <section aria-labelledby="application-information-section">
