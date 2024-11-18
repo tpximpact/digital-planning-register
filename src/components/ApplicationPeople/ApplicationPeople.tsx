@@ -6,10 +6,11 @@ interface ApplicationPeopleProps {
 }
 
 export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
-  const applicantName = concatenateFieldsInOrder(applicant.name ?? {}, [
-    "first",
-    "last",
-  ]);
+  const applicantName = concatenateFieldsInOrder(
+    applicant.name ?? {},
+    ["first", "last"],
+    " ",
+  );
   const applicantType = applicant?.type;
   const applicantAddress = applicant.address?.sameAsSiteAddress
     ? "Same as site address"
@@ -21,10 +22,11 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
         "postcode",
         "country",
       ]);
-  const agentName = concatenateFieldsInOrder(applicant.agent?.name ?? {}, [
-    "first",
-    "last",
-  ]);
+  const agentName = concatenateFieldsInOrder(
+    applicant.agent?.name ?? {},
+    ["first", "last"],
+    " ",
+  );
   const agentAddress = concatenateFieldsInOrder(
     applicant.agent?.address ?? {},
     ["line1", "line2", "town", "county", "postcode", "country"],

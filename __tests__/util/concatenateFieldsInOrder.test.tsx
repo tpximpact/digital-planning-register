@@ -59,4 +59,14 @@ describe("concatenateFieldsInOrder", () => {
     const result = concatenateFieldsInOrder(obj, fields);
     expect(result).toBe("");
   });
+
+  it("should use the defined separator", () => {
+    const obj = {
+      first: "John",
+      last: "Smith",
+    };
+    const fields = ["first", "last"];
+    const result = concatenateFieldsInOrder(obj, fields, "HELLO");
+    expect(result).toBe("JohnHELLOSmith");
+  });
 });

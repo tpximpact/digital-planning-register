@@ -7,9 +7,10 @@
 export const concatenateFieldsInOrder = (
   obj: Record<string, any>,
   fields: string[],
+  separator: string = ", ",
 ): string => {
   return fields
     .filter((field) => obj[field]) // Filter out fields that are not present or have falsy values
     .map((field) => obj[field]) // Map the remaining fields to their values
-    .join(", "); // Join the values with a comma
+    .join(separator); // Join the values with a comma
 };
