@@ -48,8 +48,8 @@ export const contentApplicationStatuses: DprContentPage[] = [
     content: (
       <>
         <p className="govuk-body">
-          A determined appliction has had a decision made about it, so it has
-          completed its journey through the appliction process. The{" "}
+          A determined application has had a decision made about it, so it has
+          completed its journey through the application process. The{" "}
           <a
             href="#decisions"
             className="govuk-link govuk-link--no-visited-state"
