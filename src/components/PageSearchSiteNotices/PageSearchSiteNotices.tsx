@@ -34,13 +34,13 @@ export const PageSearchSiteNotices = ({
         is to make it easier for you to access the information most important to
         the local community.
       </p>
-      {appConfig.council?.pageContent?.digital_site_notice
+      {appConfig.council?.pageContent?.email_alerts
         ?.sign_up_for_alerts_link && (
         <a
           className="govuk-button govuk-button--secondary"
           target="_blank"
           href={
-            appConfig.council?.pageContent?.digital_site_notice
+            appConfig.council?.pageContent?.email_alerts
               ?.sign_up_for_alerts_link
           }
         >
