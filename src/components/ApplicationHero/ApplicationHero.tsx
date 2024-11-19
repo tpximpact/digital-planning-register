@@ -9,7 +9,7 @@ import {
   applicationDecisionInfoPointId,
   definedDecisionClass,
 } from "@/lib/applications";
-import "./ApplicationDetailsInformation.scss";
+import "./ApplicationHero.scss";
 
 import Link from "next/link";
 import ApplicationMap from "../application_map";
@@ -17,21 +17,20 @@ import { DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import { ApplicationDecisionLabel } from "../ApplicationDecisionLabel";
 
-interface ApplicationDetailsInformationProps {
+interface ApplicationHeroProps {
   councilSlug: string;
   application: DprPlanningApplication;
 }
 
-export const ApplicationDetailsInformation = ({
+export const ApplicationHero = ({
   councilSlug,
   application,
-}: ApplicationDetailsInformationProps) => {
+}: ApplicationHeroProps) => {
   const reference = application.application.reference;
   const address = application.property.address.singleLine;
 
   const boundary_geojson = application.property.boundary.site;
   const applicationType = application.application.type.description;
-  const applicationStatus = application.application.status;
   const applicationStatusDefined = definedStatus(
     application.application.status,
     application.application.consultation.endDate,
@@ -50,8 +49,6 @@ export const ApplicationDetailsInformation = ({
     applicationDecision && applicationDeterminedAt
       ? definedDecision(applicationDecision, applicationType)
       : undefined;
-
-  const description = application.proposal.description;
 
   return (
     <section aria-labelledby="application-information-section">
@@ -248,23 +245,6 @@ export const ApplicationDetailsInformation = ({
           </div>
         </div>
       </div>
-      <h2 className="govuk-heading-l">Description</h2>
-      <p className="govuk-body" id="application-description">
-        {description}
-      </p>
-      {applicationStatus !== "determined" && (
-        <div className="govuk-grid-row extra-top-margin">
-          <div className="govuk-grid-column-full">
-            <Link
-              href={`/${councilSlug}/${reference}/submit-comment`}
-              className="govuk-button govuk-button--primary"
-              data-module="govuk-button"
-            >
-              Comment on this application
-            </Link>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

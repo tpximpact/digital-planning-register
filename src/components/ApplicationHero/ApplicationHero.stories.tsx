@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ApplicationDetailsInformation } from "./ApplicationDetailsInformation";
+import { ApplicationHero } from "./ApplicationHero";
 import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
 const application = generateDprApplication();
 const meta = {
-  title: "DPR Components/ApplicationDetailsInformation",
-  component: ApplicationDetailsInformation,
+  title: "DPR Components/ApplicationHero",
+  component: ApplicationHero,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -16,7 +16,7 @@ const meta = {
     councilSlug: "public-council-1",
     application: application,
   },
-} satisfies Meta<typeof ApplicationDetailsInformation>;
+} satisfies Meta<typeof ApplicationHero>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
