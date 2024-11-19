@@ -6,6 +6,7 @@ import { BopsBoundaryGeojson } from "./boundary-geojson";
 import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -13,7 +14,7 @@ import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/A
  */
 export interface BopsApplicationOverview {
   type: {
-    value: string;
+    value: ApplicationType;
     description: string;
   };
   reference: string;

@@ -1,35 +1,35 @@
-.key-info .govuk-grid-row {
-  display: flex;
-  flex-wrap: wrap;
-}
+@import "src/styles/component-base";
 
-.key-info .govuk-grid-column-one-half {
-  margin-bottom: 1em;
-}
+$selector: "dpr-application-hero";
 
-@media (max-width: 1090px) {
-  .govuk-grid-column-three-quarters.key-info {
-    width: 100%;
-  }
-}
-@media (max-width: 860px) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 33%;
-  }
-}
-@media (max-width: 720px) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 50%;
-  }
-}
-@media (max-width: 40.0625em) {
-  .key-info .govuk-grid-row .govuk-grid-column-one-quarter {
-    width: 100%;
-  }
-}
+.#{$selector} {
+  margin-bottom: govuk-spacing(6);
 
-.dpr-application-details {
-  &__heading {
-    display: flex;
+  &__head {
+    margin-bottom: govuk-spacing(6);
+  }
+
+  // map and data
+  &__map {
+    @include govuk-grid-column("one-third", $at: desktop);
+    margin-bottom: govuk-spacing(6);
+  }
+  &__data {
+    @include govuk-grid-column("two-thirds", $at: desktop);
+  }
+
+  @include govuk-media-query($from: desktop) {
+    &__map {
+      margin-bottom: 0;
+    }
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $govuk-gutter-half * 2;
+    @include govuk-media-query($from: desktop) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }

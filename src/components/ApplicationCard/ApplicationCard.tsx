@@ -1,13 +1,16 @@
 import { DprPlanningApplication } from "@/types";
 import { DescriptionCard } from "../DescriptionCard";
-import { formatDprDate } from "@/util";
-import {
-  definedStatus,
-  definedDecision,
-  formatApplicationType,
-} from "@/lib/applications";
+
 import ApplicationMap from "../application_map";
 import "./ApplicationCard.scss";
+import {
+  getApplicationDecisionSummary,
+  getApplicationStatusSummary,
+  getPrimaryApplicationType,
+} from "@/lib/planningApplication";
+import { ApplicationDataField } from "../ApplicationDataField";
+import { formatDprDate } from "@/util";
+// import { InfoIcon } from "../InfoIcon";
 
 export interface ApplicationCardProps {
   councilSlug: string;
@@ -18,51 +21,64 @@ export const ApplicationCard = ({
   councilSlug,
   application,
 }: ApplicationCardProps) => {
+  // row 1
   const reference = application.application?.reference;
   const address = application.property?.address.singleLine;
-  const boundary_geojson = application.property?.boundary.site;
+  const boundary_geojson = application.property?.boundary?.site;
+
   const description = application.proposal?.description;
-  const applicationType = application.application?.type.description;
-  const applicationStatusDefined = definedStatus(
-    application.application?.status,
-    application.application?.consultation.endDate,
+
+  // the rest of the fields
+  const applicationStatusSummary =
+    application.application?.status &&
+    getApplicationStatusSummary(
+      application.application.status,
+      application.application.consultation?.endDate ?? undefined,
+    );
+
+  const applicationDecisionSummary = getApplicationDecisionSummary(
+    application.applicationType,
+    application.application?.decision ?? undefined,
   );
-  const applicationReceivedAt = application.application?.receivedAt;
-  const applicationPublishedAt = application.application?.publishedAt;
-  const consultationEndDate = application.application?.consultation.endDate;
-  const applicationDecision = application.application?.decision;
-  const applicationDeterminedAt = application.application?.determinedAt;
-
-  const decisionDate =
-    applicationDecision && applicationDeterminedAt
-      ? formatDprDate(applicationDeterminedAt)
-      : undefined;
-
-  const decisionDefined =
-    applicationDecision && applicationDeterminedAt
-      ? definedDecision(applicationDecision, applicationType)
-      : undefined;
 
   return (
-    <article className="govuk-grid-row grid-row-extra-bottom-margin search-card">
-      <div className="govuk-grid-column-full">
-        {/* row 1 - reference and address */}
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
-            <p className="govuk-heading-s">Application Reference</p>
-            <h3 className="govuk-body">{reference}</h3>
+    <article
+      aria-labelledby={`application-information-section-${reference}`}
+      className={`dpr-application-card${boundary_geojson ? "" : " dpr-application-card--no-map"}`}
+    >
+      {/* uncomment and make sure using dpr-info-icon class when infoicon is styled correctly */}
+      {/* <InfoIcon
+        href={`/${councilSlug}/planning-process`}
+        title="Get help understanding what everything here means"
+        ariaLabel="Get help understanding what everything here means"
+      /> */}
+      <div className="dpr-application-card__head govuk-grid-row">
+        {reference && (
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <p className="govuk-heading-s">Application reference</p>
+            <h3
+              className="govuk-body"
+              id={`application-information-section-${reference}`}
+            >
+              {reference}
+            </h3>
           </div>
-          <div className="govuk-grid-column-two-thirds">
+        )}
+
+        {address && (
+          <div className="govuk-grid-column-two-thirds-from-desktop">
             <dl>
               <dt className="govuk-heading-s">Address</dt>
               <dd className="govuk-body">{address}</dd>
             </dl>
           </div>
-        </div>
+        )}
+      </div>
 
+      {(boundary_geojson || description) && (
         <div className="govuk-grid-row">
           {boundary_geojson && (
-            <div className="govuk-grid-column-one-third">
+            <div className="dpr-application-card__map">
               <ApplicationMap
                 reference={reference}
                 staticMap={true}
@@ -70,88 +86,84 @@ export const ApplicationCard = ({
               />
             </div>
           )}
-          <div className="govuk-grid-column-two-thirds">
-            <dl>
-              <dt className="govuk-heading-s">Description</dt>
-              <dd>
-                <DescriptionCard description={description} />
-              </dd>
-            </dl>
-          </div>
+
+          {description && (
+            <div className="dpr-application-card__data">
+              <dl>
+                <dt className="govuk-heading-s">Description</dt>
+                <dd>
+                  <DescriptionCard description={description} />
+                </dd>
+              </dl>
+            </div>
+          )}
         </div>
+      )}
 
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
-            {applicationType && (
-              <dl>
-                <dt className="govuk-heading-s">Application Type</dt>
-                <dd className="govuk-body">
-                  {formatApplicationType(applicationType)}
-                </dd>
-              </dl>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-full">
+          <dl className="dpr-application-card__fields">
+            {application.applicationType && (
+              <ApplicationDataField
+                title="Application type"
+                value={getPrimaryApplicationType(application.applicationType)}
+              />
             )}
-          </div>
 
-          <div className="govuk-grid-column-one-third">
-            {applicationStatusDefined && (
-              <dl>
-                <dt className="govuk-heading-s">Status</dt>
-                <dd className="govuk-body">{applicationStatusDefined}</dd>
-              </dl>
+            {applicationStatusSummary && (
+              <ApplicationDataField
+                title="Status"
+                value={applicationStatusSummary}
+              />
             )}
-          </div>
 
-          <div className="govuk-grid-column-one-third">
-            {applicationReceivedAt && (
-              <dl>
-                <dt className="govuk-heading-s">Received Date</dt>
-                <dd className="govuk-body">
-                  {formatDprDate(applicationReceivedAt)}
-                </dd>
-              </dl>
+            {application.application?.receivedAt && (
+              <ApplicationDataField
+                title="Recieved date"
+                value={formatDprDate(application.application.receivedAt)}
+              />
             )}
-          </div>
+            {application.application?.validAt && (
+              <ApplicationDataField
+                title="Valid from date"
+                value={formatDprDate(application.application.validAt)}
+              />
+            )}
+            {application.application?.publishedAt && (
+              <ApplicationDataField
+                title="Published date"
+                value={formatDprDate(application.application.publishedAt)}
+              />
+            )}
+            {application.application?.consultation?.endDate && (
+              <ApplicationDataField
+                title="Consultation end date"
+                value={formatDprDate(
+                  application.application.consultation.endDate,
+                )}
+              />
+            )}
+
+            {application.application?.decision && (
+              <>
+                {application.application?.determinedAt && (
+                  <ApplicationDataField
+                    title="Decision Date"
+                    value={formatDprDate(application.application.determinedAt)}
+                  />
+                )}
+
+                <ApplicationDataField
+                  title="Decision"
+                  value={applicationDecisionSummary}
+                />
+              </>
+            )}
+          </dl>
         </div>
+      </div>
 
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
-            {applicationPublishedAt && (
-              <dl>
-                <dt className="govuk-heading-s">Published Date</dt>
-                <dd className="govuk-body">
-                  {formatDprDate(applicationPublishedAt)}
-                </dd>
-              </dl>
-            )}
-          </div>
-          <div className="govuk-grid-column-one-third">
-            {consultationEndDate && (
-              <dl>
-                <dt className="govuk-heading-s">Consultation End Date</dt>
-                <dd className="govuk-body">
-                  {formatDprDate(consultationEndDate)}
-                </dd>
-              </dl>
-            )}
-          </div>
-          <div className="govuk-grid-column-one-third">
-            {decisionDate && (
-              <dl>
-                <dt className="govuk-heading-s">Decision Date</dt>
-                <dd className="govuk-body">{decisionDate}</dd>
-              </dl>
-            )}
-          </div>
-          <div className="govuk-grid-column-one-third">
-            {decisionDefined && (
-              <dl>
-                <dt className="govuk-heading-s">Decision</dt>
-                <dd className="govuk-body">{decisionDefined}</dd>
-              </dl>
-            )}
-          </div>
-        </div>
-
+      {reference && (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <a
@@ -162,7 +174,7 @@ export const ApplicationCard = ({
             </a>
           </div>
         </div>
-      </div>
+      )}
     </article>
   );
 };

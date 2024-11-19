@@ -1,0 +1,11 @@
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+
+.dpr-application-data-field {
+  dd {
+    @extend .govuk-body;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -1,21 +1,20 @@
-import { formatDprDate } from "@/util";
-import {
-  definedStatus,
-  definedDecision,
-  definedStatusClass,
-  formatApplicationType,
-  applicationTypesInfoPointId,
-  applicationStatusesInfoPointId,
-  applicationDecisionInfoPointId,
-  definedDecisionClass,
-} from "@/lib/applications";
 import "./ApplicationHero.scss";
-
-import Link from "next/link";
 import ApplicationMap from "../application_map";
 import { DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
-import { ApplicationDecisionLabel } from "../ApplicationDecisionLabel";
+import {
+  contentApplicationStatuses,
+  getApplicationStatusSummary,
+  getDocumentedApplicationType,
+  getPrimaryApplicationType,
+  getApplicationStatusSummarySentiment,
+  getApplicationDecisionSummary,
+  getApplicationDecisionSummarySentiment,
+  contentApplicationDecisions,
+} from "@/lib/planningApplication";
+import { flattenObject, formatDprDate, slugify } from "@/util";
+import { Tag } from "../Tag";
+import { ApplicationDataField } from "../ApplicationDataField";
 
 interface ApplicationHeroProps {
   councilSlug: string;
@@ -26,225 +25,213 @@ export const ApplicationHero = ({
   councilSlug,
   application,
 }: ApplicationHeroProps) => {
-  const reference = application.application.reference;
-  const address = application.property.address.singleLine;
+  // row 1
+  const reference = application.application?.reference;
+  const address = application.property?.address?.singleLine;
+  const boundary_geojson = application.property?.boundary?.site;
 
-  const boundary_geojson = application.property.boundary.site;
-  const applicationType = application.application.type.description;
-  const applicationStatusDefined = definedStatus(
-    application.application.status,
-    application.application.consultation.endDate,
+  // the rest of the fields
+  const applicationStatusSummary =
+    application.application?.status &&
+    getApplicationStatusSummary(
+      application.application.status,
+      application.application.consultation.endDate ?? undefined,
+    );
+  const documentedApplicationStatuses = flattenObject(
+    contentApplicationStatuses,
+    "title",
   );
-  const applicationReceivedAt = application.application.receivedAt;
-  const applicationValidAt = application.application.validAt;
-  const applicationPublishedAt = application.application.publishedAt;
-  const consultationEndDate = application.application.consultation.endDate;
-  const applicationDecision = application.application.decision;
-  const applicationDeterminedAt = application.application.determinedAt;
-  const decisionDate =
-    applicationDecision && applicationDeterminedAt
-      ? formatDprDate(applicationDeterminedAt)
-      : undefined;
-  const decisionDefined =
-    applicationDecision && applicationDeterminedAt
-      ? definedDecision(applicationDecision, applicationType)
-      : undefined;
+
+  const applicationDecisionSummary = getApplicationDecisionSummary(
+    application.applicationType,
+    application.application?.decision ?? undefined,
+  );
+
+  const documentedApplicationDecisions = flattenObject(
+    contentApplicationDecisions,
+    "title",
+  );
 
   return (
-    <section aria-labelledby="application-information-section">
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-one-third-from-desktop">
-          <h1 className="govuk-heading-s" id="application-information-section">
-            Application Reference
-          </h1>
-          <p className="govuk-body" id="application-reference">
-            {reference}
-          </p>
-        </div>
+    <section
+      aria-labelledby={`application-information-section-${reference}`}
+      className={`dpr-application-hero${boundary_geojson ? "" : " dpr-application-hero--no-map"}`}
+    >
+      <div className="dpr-application-hero__head govuk-grid-row">
+        {reference && (
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <h1
+              className="govuk-heading-s"
+              id={`application-information-section-${reference}`}
+            >
+              Application reference
+            </h1>
+            <p className="govuk-body" id="application-reference">
+              {reference}
+            </p>
+          </div>
+        )}
 
-        <div className="govuk-grid-column-two-thirds-from-desktop">
-          <dl>
-            <dt className="govuk-heading-s">Address</dt>
-            <dd className="govuk-body">{address}</dd>
-          </dl>
-        </div>
+        {address && (
+          <div className="govuk-grid-column-two-thirds-from-desktop">
+            <dl>
+              <dt className="govuk-heading-s">Address</dt>
+              <dd className="govuk-body">{address}</dd>
+            </dl>
+          </div>
+        )}
       </div>
 
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third app-map">
-          {boundary_geojson && (
+        {boundary_geojson && (
+          <div className="dpr-application-hero__map">
             <ApplicationMap reference={reference} mapData={boundary_geojson} />
-          )}
-        </div>
-
-        <div className="govuk-grid-column-two-thirds-from-desktop key-info">
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-half">
-              {applicationType && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Application Type
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationTypesInfoPointId(applicationType)}`}
-                        title="Understanding application types"
-                        ariaLabel="Understanding application types"
-                      />
-                    </h2>
-                  </div>
-                  <p className="govuk-body" id="application-type">
-                    {formatApplicationType(applicationType)}
-                  </p>
-                </>
-              )}
-            </div>
-
-            <div className="govuk-grid-column-one-half">
-              {applicationStatusDefined && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Status
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationStatusesInfoPointId(applicationStatusDefined)}`}
-                        title="Understanding application statuses"
-                        ariaLabel="Understanding application statuses"
-                      />
-                    </h2>
-                  </div>
-                  <ApplicationDecisionLabel
-                    label={applicationStatusDefined}
-                    decision={definedStatusClass(applicationStatusDefined)}
+          </div>
+        )}
+        <div className="dpr-application-hero__data">
+          <dl className="dpr-application-hero__fields">
+            {application?.applicationType && (
+              <ApplicationDataField
+                title="Application type"
+                value={getPrimaryApplicationType(application.applicationType)}
+                infoIcon={
+                  getDocumentedApplicationType(application.applicationType) ? (
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
+                      title="Understanding application types"
+                      ariaLabel="Understanding application types"
+                    />
+                  ) : undefined
+                }
+              />
+            )}
+            {applicationStatusSummary && (
+              <ApplicationDataField
+                title="Status"
+                value={
+                  <Tag
+                    label={applicationStatusSummary}
+                    sentiment={getApplicationStatusSummarySentiment(
+                      applicationStatusSummary,
+                    )}
                     id="application-status"
                     isInline={true}
                   />
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-half">
-              <div className="dpr-application-details__heading">
-                <h2 className="govuk-heading-s">
-                  Received Date
+                }
+                infoIcon={
+                  applicationStatusSummary &&
+                  documentedApplicationStatuses.includes(
+                    applicationStatusSummary,
+                  ) ? (
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${slugify(applicationStatusSummary)}`}
+                      title="Understanding application statuses"
+                      ariaLabel="Understanding application statuses"
+                    />
+                  ) : undefined
+                }
+              />
+            )}
+            {application.application?.receivedAt && (
+              <ApplicationDataField
+                title="Recieved date"
+                value={formatDprDate(application.application.receivedAt)}
+                infoIcon={
                   <InfoIcon
-                    href={`/${councilSlug}/planning-process#received-date`}
+                    href={`/${councilSlug}/planning-process#${slugify("Received date")}`}
                     title="Understanding dates"
                     ariaLabel="Understanding dates"
                   />
-                </h2>
-              </div>
-              <p className="govuk-body">
-                {applicationReceivedAt
-                  ? formatDprDate(applicationReceivedAt)
-                  : "Date not available"}
-              </p>
-            </div>
+                }
+              />
+            )}
+            {application.application?.validAt && (
+              <ApplicationDataField
+                title="Valid from date"
+                value={formatDprDate(application.application.validAt)}
+                infoIcon={
+                  <InfoIcon
+                    href={`/${councilSlug}/planning-process#${slugify("Valid from date")}`}
+                    title="Understanding dates"
+                    ariaLabel="Understanding dates"
+                  />
+                }
+              />
+            )}
+            {application.application?.publishedAt && (
+              <ApplicationDataField
+                title="Published date"
+                value={formatDprDate(application.application.publishedAt)}
+                infoIcon={
+                  <InfoIcon
+                    href={`/${councilSlug}/planning-process#${slugify("Published date")}`}
+                    title="Understanding dates"
+                    ariaLabel="Understanding dates"
+                  />
+                }
+              />
+            )}
+            {application.application?.consultation?.endDate && (
+              <ApplicationDataField
+                title="Consultation end date"
+                value={formatDprDate(
+                  application.application.consultation.endDate,
+                )}
+                infoIcon={
+                  <InfoIcon
+                    href={`/${councilSlug}/planning-process#${slugify("Consultation end date")}`}
+                    title="Understanding consultation end date"
+                    ariaLabel="Understanding consultation end date"
+                  />
+                }
+              />
+            )}
 
-            <div className="govuk-grid-column-one-half">
-              {applicationValidAt && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Valid From Date
+            {application.application?.decision && (
+              <>
+                {application.application.determinedAt && (
+                  <ApplicationDataField
+                    title="Decision Date"
+                    value={formatDprDate(application.application.determinedAt)}
+                    infoIcon={
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#validated-date`}
+                        href={`/${councilSlug}/planning-process#${slugify("Decision date")}`}
                         title="Understanding dates"
                         ariaLabel="Understanding dates"
                       />
-                    </h2>
-                  </div>
-                  <p className="govuk-body">
-                    {formatDprDate(applicationValidAt)}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
+                    }
+                  />
+                )}
 
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-half">
-              {applicationPublishedAt && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Published Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#published-date`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
+                <ApplicationDataField
+                  title="Decision"
+                  value={
+                    applicationDecisionSummary && (
+                      <Tag
+                        label={applicationDecisionSummary}
+                        sentiment={getApplicationDecisionSummarySentiment(
+                          applicationDecisionSummary,
+                        )}
+                        isInline={true}
                       />
-                    </h2>
-                  </div>
-                  <p className="govuk-body">
-                    {formatDprDate(applicationPublishedAt)}
-                  </p>
-                </>
-              )}
-            </div>
-            <div className="govuk-grid-column-one-half">
-              {consultationEndDate && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Consultation End Date
+                    )
+                  }
+                  infoIcon={
+                    applicationDecisionSummary &&
+                    documentedApplicationDecisions.includes(
+                      applicationDecisionSummary,
+                    ) ? (
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#consultation-end-date`}
-                        title="Understanding consultation end date"
-                        ariaLabel="Understanding consultation end date"
-                      />
-                    </h2>
-                  </div>
-                  <p className="govuk-body">
-                    {formatDprDate(consultationEndDate)}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-half">
-              {decisionDate && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Decision Date
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#decision-date`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    </h2>
-                  </div>
-                  <p className="govuk-body">{decisionDate}</p>
-                </>
-              )}
-            </div>
-
-            <div className="govuk-grid-column-one-half">
-              {decisionDefined && (
-                <>
-                  <div className="dpr-application-details__heading">
-                    <h2 className="govuk-heading-s">
-                      Decision
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${applicationDecisionInfoPointId(decisionDefined)}`}
+                        href={`/${councilSlug}/planning-process#${slugify(applicationDecisionSummary)}`}
                         title="Understanding decisions"
                         ariaLabel="Understanding decisions"
                       />
-                    </h2>
-                  </div>
-                  <ApplicationDecisionLabel
-                    label={decisionDefined}
-                    decision={definedDecisionClass(decisionDefined)}
-                    isInline={true}
-                  />
-                </>
-              )}
-            </div>
-          </div>
+                    ) : undefined
+                  }
+                />
+              </>
+            )}
+          </dl>
         </div>
       </div>
     </section>

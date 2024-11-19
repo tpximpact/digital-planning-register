@@ -9,6 +9,7 @@
  */
 
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 
 /**
  *
@@ -21,11 +22,9 @@ import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/A
  *
  */
 export interface DprPlanningApplication {
+  applicationType: ApplicationType;
   application: {
     reference: string;
-    type: {
-      description: string;
-    };
     status: string;
     consultation: {
       endDate: string | null;

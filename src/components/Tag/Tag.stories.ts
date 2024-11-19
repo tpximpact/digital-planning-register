@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ApplicationDecisionLabel } from "./ApplicationDecisionLabel";
+import { Tag } from "./Tag";
 
 const meta = {
-  title: "DPR Components/ApplicationDecisionLabel",
-  component: ApplicationDecisionLabel,
+  title: "DPR Components/Tag",
+  component: Tag,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -13,7 +13,7 @@ const meta = {
   args: {
     label: "Not started",
   },
-} satisfies Meta<typeof ApplicationDecisionLabel>;
+} satisfies Meta<typeof Tag>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -33,53 +33,53 @@ export const Default: Story = {};
 export const Positive: Story = {
   args: {
     label: "Prior approval required and approved",
-    decision: "positive",
+    sentiment: "positive",
   },
 };
 export const Negative: Story = {
   args: {
     label: "Prior approval required and refused",
-    decision: "negative",
+    sentiment: "negative",
   },
 };
 export const Neutral: Story = {
   args: {
     label: "Assessment in progress",
-    decision: "neutral",
+    sentiment: "neutral",
   },
 };
 export const NoDecision: Story = {
   args: {
     label: "Not Started",
-    decision: undefined,
+    sentiment: undefined,
   },
 };
 
 export const InlinePositive: Story = {
   args: {
     label: "Prior approval required and approved",
-    decision: "positive",
+    sentiment: "positive",
     isInline: true,
   },
 };
 export const InlineNegative: Story = {
   args: {
     label: "Prior approval required and refused",
-    decision: "negative",
+    sentiment: "negative",
     isInline: true,
   },
 };
 export const InlineNeutral: Story = {
   args: {
     label: "Assessment in progress",
-    decision: "neutral",
+    sentiment: "neutral",
     isInline: true,
   },
 };
 export const InlineNoDecision: Story = {
   args: {
     label: "Not Started",
-    decision: undefined,
+    sentiment: undefined,
     isInline: true,
   },
 };

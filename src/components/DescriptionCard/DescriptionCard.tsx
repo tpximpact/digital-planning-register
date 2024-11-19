@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 
-interface DescriptionCardProps {
+export interface DescriptionCardProps {
   description: string;
 }
 /**
