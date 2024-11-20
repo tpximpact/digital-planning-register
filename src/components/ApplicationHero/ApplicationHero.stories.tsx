@@ -33,7 +33,7 @@ export const StatusConsultationInProgress: Story = {
         status: "in_progress",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
+          endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -51,7 +51,25 @@ export const StatusAssessmentInProgress: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+          endDate: new Date(Date.now() - 86400000).toISOString(),
+          publishedComments: null,
+          consulteeComments: null,
+        },
+      },
+    },
+  },
+};
+
+export const StatusDetermined: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "determined",
+        decision: null,
+        consultation: {
+          endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -69,7 +87,7 @@ export const StatusAwaitingDetermination: Story = {
         status: "awaiting_determination",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+          endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -87,10 +105,35 @@ export const StatusAwaitingCorrection: Story = {
         status: "awaiting_correction",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+          endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
         },
+      },
+    },
+  },
+};
+export const StatusWithdrawn: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "withdrawn",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusNotStarted: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "not_started",
+        decision: null,
       },
     },
   },
@@ -122,20 +165,7 @@ export const DecisionRefused: Story = {
   },
 };
 
-export const DecisionWithdrawn: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "withdrawn",
-      },
-    },
-  },
-};
-
-export const DecisionPriorApprovalRequired: Story = {
+export const DecisionPriorApprovalRequiredAndApproved: Story = {
   args: {
     application: {
       ...baseApplication,
@@ -167,7 +197,7 @@ export const DecisionPriorApprovalNotRequired: Story = {
   },
 };
 
-export const DecisionPriorApprovalRefused: Story = {
+export const DecisionPriorApprovalRequiredAndRefused: Story = {
   args: {
     application: {
       ...baseApplication,
