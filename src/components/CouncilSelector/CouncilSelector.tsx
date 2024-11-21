@@ -34,23 +34,21 @@ export const CouncilSelector = ({
       router.push(`/`);
     }
   };
+
   return (
     <>
       {availableCouncils && availableCouncils.length > 0 && (
         <form action="/" method="" className="dpr-council-selector">
           <div className="govuk-form-group">
-            <label
-              className="govuk-label govuk-visually-hidden"
-              htmlFor="council-select"
-            >
+            <span id="council-select-label" className="govuk-visually-hidden">
               Select your council
-            </label>
+            </span>
 
             <select
               className="govuk-select"
               id="council-select"
               name="council"
-              aria-label="Select your council"
+              aria-labelledby="council-select-label"
               autoComplete="on"
               value={selected}
               onChange={handleChange}

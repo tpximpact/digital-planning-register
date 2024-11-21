@@ -51,7 +51,7 @@ export const contentApplicationStatuses: DprContentPage[] = [
           A determined application has had a decision made about it, so it has
           completed its journey through the application process. The{" "}
           <a
-            href="#decisions"
+            href="#Decisions"
             className="govuk-link govuk-link--no-visited-state"
           >
             decision
@@ -62,7 +62,7 @@ export const contentApplicationStatuses: DprContentPage[] = [
         <p className="govuk-body">
           Determined planning applications which have been{" "}
           <a
-            href="#refused"
+            href="#Refused"
             className="govuk-link govuk-link--no-visited-state"
           >
             refused
@@ -179,7 +179,7 @@ export const contentApplicationTypes: DprContentPage[] = [
           against specific criteria before it can take place. If the proposal
           does not receive prior approval, or is no eligible for prior approval,
           then a planning application needs to be submitted. If the proposal is
-          concidered &apos;permitted development&apos; then it can be done
+          considered &apos;permitted development&apos; then it can be done
           without further planning applications.
         </p>
         <p className="govuk-body">
@@ -362,7 +362,7 @@ export const contentPlanningProcess = (): DprContentPage[] => [
             <p className="govuk-body">
               When a{" "}
               <a
-                href="#prior_approval"
+                href="#Prior%20approval"
                 className="govuk-link govuk-link--no-visited-state"
               >
                 prior approval
@@ -386,7 +386,7 @@ export const contentPlanningProcess = (): DprContentPage[] => [
             <p className="govuk-body">
               When a{" "}
               <a
-                href="#prior_approval"
+                href="#Prior%20approval"
                 className="govuk-link govuk-link--no-visited-state"
               >
                 prior approval
@@ -409,7 +409,7 @@ export const contentPlanningProcess = (): DprContentPage[] => [
             <p className="govuk-body">
               When a{" "}
               <a
-                href="#prior_approval"
+                href="#Prior%20approval"
                 className="govuk-link govuk-link--no-visited-state"
               >
                 prior approval
