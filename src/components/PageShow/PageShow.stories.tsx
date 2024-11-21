@@ -297,6 +297,20 @@ export const NoMapData: Story = {
   },
 };
 
+// base council config for the following stories that require it
+const baseCouncilConfig = {
+  name: "Public Council 2",
+  slug: "public-council-2",
+  logo: "public-council-2-logo.svg",
+  visibility: "public" as const,
+  dataSource: "local",
+  pageContent: {
+    privacy_policy: {
+      privacy_policy_link: "public-council-2-privacy-policy-link",
+    },
+  },
+};
+
 export const AllCommentsDisabled: Story = {
   args: {
     application: {
@@ -313,9 +327,9 @@ export const AllCommentsDisabled: Story = {
       },
     },
     appConfig: {
-      ...createAppConfig("public-council-2"),
+      ...createAppConfig("Public Council 2"),
       council: {
-        ...createAppConfig("public-council-2").council,
+        ...baseCouncilConfig,
         publicComments: false,
         specialistComments: false,
       },
@@ -339,10 +353,11 @@ export const OnlyPublicCommentsDisabled: Story = {
       },
     },
     appConfig: {
-      ...createAppConfig("public-council-2"),
+      ...createAppConfig("Public Council 2"),
       council: {
-        ...createAppConfig("public-council-2").council,
+        ...baseCouncilConfig,
         publicComments: false,
+        specialistComments: true,
       },
     },
   },
@@ -364,9 +379,10 @@ export const OnlySpecialistCommentsDisabled: Story = {
       },
     },
     appConfig: {
-      ...createAppConfig("public-council-2"),
+      ...createAppConfig("Public Council 2"),
       council: {
-        ...createAppConfig("public-council-2").council,
+        ...baseCouncilConfig,
+        publicComments: true,
         specialistComments: false,
       },
     },
