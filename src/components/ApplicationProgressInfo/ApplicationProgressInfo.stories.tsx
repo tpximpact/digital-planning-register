@@ -43,6 +43,7 @@ const meta = {
           "The date the council made a formal decision to grant or refuse the planning application.",
       },
     ],
+    href: "/",
   },
 } satisfies Meta<typeof ApplicationProgressInfo>;
 

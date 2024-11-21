@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import "./ApplicationProgressInfo.scss";
+import { SecondaryButton } from "../button";
 
 interface History {
   info: string;
@@ -10,10 +11,12 @@ interface History {
 
 interface ApplicationHistory {
   applicationHistory: History[];
+  href: string;
 }
 
 export const ApplicationProgressInfo = ({
   applicationHistory,
+  href,
 }: ApplicationHistory) => {
   const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
   const [infoId, setInfoId] = useState<string>();
@@ -85,6 +88,7 @@ export const ApplicationProgressInfo = ({
             </div>
           ))}
       </div>
+      <SecondaryButton content="View application history" href={href} />
     </div>
   );
 };

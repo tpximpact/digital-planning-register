@@ -67,6 +67,18 @@ export const StartButton = ({}) => {
   );
 };
 
+interface ButtonProps {
+  content: string;
+  href: string;
+}
+export const SecondaryButton = ({ content, href }: ButtonProps) => {
+  return (
+    <Link href={href} className="govuk-button govuk-button--secondary">
+      {content}
+    </Link>
+  );
+};
+
 export const ButtonLink = ({
   ariaLabel,
   onClick,
