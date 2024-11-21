@@ -7,17 +7,10 @@ import { AppConfig } from "@/config/types";
 import { councilLogos } from "../CouncilLogos";
 import "./Header.scss";
 
-export const Header = ({
-  appConfig,
-  councilConfig,
-}: {
-  appConfig: AppConfig;
-  councilConfig?: AppConfig["council"];
-}) => {
+export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
   const currentPath = usePathname();
   const [isExtended, setIsExtended] = useState(false);
-
-  const { name } = councilConfig ? councilConfig : {};
+  const councilConfig = appConfig?.council;
 
   useEffect(() => {
     async function initiateMockAPI() {
@@ -30,66 +23,55 @@ export const Header = ({
     initiateMockAPI();
   }, []);
 
+  // only show a logo if it exists and if the council config has not disabled it in the header
+  let logo = null;
+  if (councilConfig?.features?.logoInHeader !== false && councilConfig?.slug) {
+    logo = councilLogos[councilConfig?.slug] ?? null;
+  }
+
   return (
-    <>
-      <header
-        role="banner"
-        className="govuk-header govuk-header--full-width-border"
-        data-module="govuk-header"
-      >
-        <div className="govuk-header__container govuk-width-container">
-          {councilConfig && (
-            <div className="govuk-header__logo">
-              <Link
-                data-testid="page-council"
-                href={`/${councilConfig.slug}`}
-                className="govuk-header__link govuk-header__link--homepage"
-                aria-label={`${name} application search page`}
-              >
-                {/* todo: remove !== medway when they decide about their logo */}
-                {councilLogos[councilConfig.slug] &&
-                councilConfig.slug !== "medway" ? (
-                  <div className="logo-container">
-                    {councilLogos[councilConfig.slug]}
-                    <span className="govuk-visually-hidden">{name}</span>
-                  </div>
-                ) : (
-                  <span>{name}</span>
-                )}
-              </Link>
-            </div>
-          )}
+    <header
+      role="banner"
+      className={`dpr-header${isExtended ? " dpr-header--menu-open" : ""}${councilConfig ? " dpr-header--council" : ""}`}
+    >
+      <div className="dpr-header__container">
+        {councilConfig && (
           <Link
-            data-testid="page-title"
-            href="/"
-            className="govuk-header__link govuk-header__service-name govuk-header__content"
-            role="link"
+            key={councilConfig.slug}
+            className={`dpr-header__link ${logo ? " dpr-header__logo" : "dpr-header__council-name"}`}
+            href={`/${councilConfig.slug}`}
+            title={`${councilConfig.name} Council`}
+            data-council-slug={councilConfig.slug}
           >
-            Digital Planning Register
+            {logo ? (
+              <>
+                {logo}
+                <span className="govuk-visually-hidden">
+                  {councilConfig.name}
+                </span>
+              </>
+            ) : (
+              <span>{councilConfig.name} Council</span>
+            )}
           </Link>
-          <button
-            type="button"
-            className="govuk-header__menu-button govuk-js-header-toggle"
-            aria-controls="navigation"
-            aria-expanded={isExtended}
-            onClick={() => setIsExtended(!isExtended)}
-            hidden={true}
-          >
-            Menu
-          </button>
-        </div>
-      </header>
-      {isExtended && (
-        <div className="menu" id="navigation" aria-label="Navigation Menu">
-          <Menu
-            currentPath={currentPath}
-            navigation={appConfig.navigation}
-            councils={appConfig.councils}
-            selectedCouncil={councilConfig}
-          />
-        </div>
-      )}
-      <div className="menu-desktop" id="navigation-desktop">
+        )}
+
+        <Link href="/" className="dpr-header__link dpr-header__service-name">
+          Digital Planning Register
+        </Link>
+
+        <button
+          type="button"
+          className="dpr-header__menu-toggle"
+          aria-controls="primary-menu"
+          aria-label="Open and close the primary menu"
+          aria-expanded={isExtended}
+          onClick={() => setIsExtended(!isExtended)}
+        >
+          Menu
+        </button>
+      </div>
+      <div className="dpr-header__menu" id="primary-menu">
         <Menu
           currentPath={currentPath}
           navigation={appConfig.navigation}
@@ -97,6 +79,6 @@ export const Header = ({
           selectedCouncil={councilConfig}
         />
       </div>
-    </>
+    </header>
   );
 };

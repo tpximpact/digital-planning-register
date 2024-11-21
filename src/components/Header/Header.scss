@@ -1,49 +1,146 @@
 @import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/objects/index";
+@import "node_modules/govuk-frontend/dist/govuk/components/service-navigation/index";
 @import "node_modules/govuk-frontend/dist/govuk/components/header/index";
 
-// Adapting header for no logo
-.govuk-header__link {
-  max-width: 60%;
-}
+$selector: "dpr-header";
+$govuk-header-link-underline-thickness: 3px;
+.#{$selector} {
+  background-color: govuk-colour("black");
 
-.govuk-header__logo {
-  height: 0;
-}
+  // different layouts for councils enabled
+  &--council {
+    .#{$selector}__container {
+      grid-template-areas:
+        "council menu"
+        "service menu";
 
-.menu {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .menu-button {
-    display: block;
+      @include govuk-media-query($from: tablet) {
+        grid-template-areas: "council service";
+      }
+    }
   }
-  .menu-desktop {
+
+  &__container {
+    @include govuk-width-container;
+    border-bottom: govuk-spacing(2) solid $govuk-brand-colour;
+    padding: govuk-spacing(2) 0;
+    display: grid;
+    gap: $govuk-gutter-half;
+    grid-template-areas: "service menu";
+
+    grid-auto-flow: column;
+    grid-auto-columns: fit-content;
+    grid-row: auto;
+  }
+
+  // responsive and menu toggling
+
+  &__menu {
     display: none;
-  }
-  .menu {
-    display: block;
-  }
-}
 
-@media (scripting: none) {
-  .govuk-header__menu-button {
-    display: none;
-  }
-  .menu-desktop {
-    display: inline;
-  }
-}
+    .#{$selector}--menu-open & {
+      display: block;
+    }
 
-@media (min-width: 769px) {
-  .govuk-header__menu-button {
-    display: none;
+    @include govuk-media-query($from: tablet) {
+      display: block;
+    }
   }
-  .menu-button {
-    display: none;
-  }
-}
 
-.logo-container {
-  color: white
+  // based on .govuk-service-navigation__toggle
+  &__menu-toggle {
+    grid-area: menu;
+    align-self: flex-start;
+    justify-self: right;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: govuk-colour("white");
+    background: none;
+    word-break: break-all;
+    cursor: pointer;
+    align-items: center;
+
+    text-decoration: underline;
+    text-decoration-thickness: $govuk-header-link-underline-thickness;
+
+    @if $govuk-link-underline-offset {
+      text-underline-offset: $govuk-link-underline-offset;
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+
+    &::after {
+      @include govuk-shape-arrow(
+        $direction: down,
+        $base: 10px,
+        $display: inline-block
+      );
+      content: "";
+      margin-left: govuk-spacing(1);
+    }
+
+    &[aria-expanded="true"]::after {
+      @include govuk-shape-arrow(
+        $direction: up,
+        $base: 10px,
+        $display: inline-block
+      );
+    }
+
+    // Ensure the button stays hidden if the hidden attribute is present
+    &[hidden] {
+      display: none;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      display: none;
+    }
+  }
+
+  // logo styles
+
+  &__logo {
+    grid-area: council;
+    justify-self: flex-start;
+    max-height: 30px;
+    > svg {
+      height: 30px;
+    }
+  }
+
+  // text and title styles
+
+  &__link {
+    @include govuk-link-style-inverse;
+
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-thickness: $govuk-header-link-underline-thickness;
+
+      @if $govuk-link-underline-offset {
+        text-underline-offset: $govuk-link-underline-offset;
+      }
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+  }
+
+  &__council-name {
+    grid-area: council;
+    @include govuk-font-size($size: 24);
+    justify-self: flex-start;
+  }
+  &__service-name {
+    grid-area: service;
+    @extend .dpr-header__council-name;
+    @include govuk-typography-weight-bold;
+  }
 }

@@ -1,14 +1,63 @@
 @import "src/styles/component-base";
 @import "node_modules/govuk-frontend/dist/govuk/components/button/index";
 
-// Logos on the landing page
-.logos-container {
-  &__logo {
-    display: flex;
-    padding: govuk-spacing(3);
-    > * {
-      width: 100%;
-      height: 120px;
+.dpr-council-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $govuk-gutter-half * 2;
+
+  @include govuk-media-query($from: tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include govuk-media-query($from: desktop) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+$button-shadow-size: $govuk-border-width-form-element;
+$dpr-council-card-colour: govuk-colour("light-grey");
+$dpr-council-card-text-colour: govuk-colour("black");
+$dpr-council-card-hover-colour: govuk-shade($dpr-council-card-colour, 10%);
+$dpr-council-card-shadow-colour: govuk-shade($dpr-council-card-colour, 40%);
+
+.dpr-council-card {
+  //simplified version of .govuk-button .govuk-button--secondary
+  @extend .govuk-button;
+  background-color: $dpr-council-card-colour;
+  box-shadow: 0 $button-shadow-size 0 $dpr-council-card-shadow-colour;
+
+  &,
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    color: $dpr-council-card-text-colour;
+  }
+
+  &:hover {
+    background-color: $dpr-council-card-hover-colour;
+
+    &[disabled] {
+      background-color: $dpr-council-card-colour;
     }
+  }
+
+  // our custom styles
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  margin: 0;
+  @include govuk-font($size: 24, $weight: bold);
+
+  height: 140px;
+  padding: govuk-spacing(3);
+  @include govuk-media-query($from: tablet) {
   }
 }

@@ -13,7 +13,7 @@ export interface PageTemplateProps {
 export const PageTemplate = ({ children, appConfig }: PageTemplateProps) => {
   return (
     <>
-      <Header appConfig={appConfig} councilConfig={appConfig.council} />
+      <Header appConfig={appConfig} />
       <main className="govuk-width-container" id="main">
         <PhaseBanner />
         <Suspense>{children}</Suspense>
