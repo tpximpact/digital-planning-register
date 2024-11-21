@@ -62,7 +62,10 @@ export const Header = ({
                     <span className="govuk-visually-hidden">{name}</span>
                   </>
                 ) : (
-                  <span>{name}</span>
+                  <span>
+                    {name}
+                    {!name?.toLowerCase().includes("council") ? " Council" : ""}
+                  </span>
                 )}
               </Link>
             </div>

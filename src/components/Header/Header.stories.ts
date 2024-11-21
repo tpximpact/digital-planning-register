@@ -37,3 +37,35 @@ export const CouncilPage: Story = {
     councilConfig: appConfigCouncilPage.council,
   },
 };
+
+// base council config for the following stories that require it
+const baseCouncilConfig = {
+  name: "Dev Test",
+  slug: "dev-test",
+  visibility: "public" as const,
+  dataSource: "local",
+  publicComments: true,
+  specialistComments: true,
+  pageContent: {
+    privacy_policy: {
+      privacy_policy_link: "dev-test-privacy-policy-link",
+    },
+  },
+};
+const baseAppConfig = {
+  councils: appConfigCouncilPage.councils,
+  defaults: appConfigCouncilPage.defaults,
+  navigation: appConfigCouncilPage.navigation,
+  council: baseCouncilConfig,
+  features: appConfigCouncilPage.features,
+};
+
+// This shows the header with no council logo and 'council' appended to the council name
+export const NoLogoCouncilPage: Story = {
+  args: {
+    appConfig: baseAppConfig,
+    councilConfig: {
+      ...baseCouncilConfig,
+    },
+  },
+};
