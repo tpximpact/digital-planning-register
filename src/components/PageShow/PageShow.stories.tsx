@@ -297,6 +297,30 @@ export const NoMapData: Story = {
   },
 };
 
+export const FewerDocumentsWithoutViewAllButton: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+      },
+    },
+    documents: generateNResults(3, generateDocument),
+  },
+};
+
+export const NoDocuments: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+      },
+    },
+    documents: [],
+  },
+};
+
 // base council config for the following stories that require it
 const baseCouncilConfig = {
   name: "Public Council 2",
@@ -384,6 +408,50 @@ export const OnlySpecialistCommentsDisabled: Story = {
         ...baseCouncilConfig,
         publicComments: true,
         specialistComments: false,
+      },
+    },
+  },
+};
+
+export const NoViewAllPublicCommentsButton: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "in_assessment",
+        decision: null,
+        consultation: {
+          endDate: new Date(Date.now() + 86400000).toISOString(),
+          publishedComments: generateNResults(1, () => ({
+            id: "1",
+            comment: "This is a public comment",
+            received_at: new Date(Date.now() - 86400000).toISOString(),
+          })),
+          consulteeComments: null,
+        },
+      },
+    },
+  },
+};
+
+export const NoViewAllSpecialistCommentsButton: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "in_assessment",
+        decision: null,
+        consultation: {
+          endDate: new Date(Date.now() + 86400000).toISOString(),
+          publishedComments: null,
+          consulteeComments: generateNResults(1, () => ({
+            id: "1",
+            comment: "This is a specialist comment",
+            received_at: new Date(Date.now() - 86400000).toISOString(),
+          })),
+        },
       },
     },
   },
