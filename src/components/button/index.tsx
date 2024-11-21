@@ -67,11 +67,11 @@ export const StartButton = ({}) => {
   );
 };
 
-interface ButtonProps {
+interface SecondaryButtonProps {
   content: string;
   href: string;
 }
-export const SecondaryButton = ({ content, href }: ButtonProps) => {
+export const SecondaryButton = ({ content, href }: SecondaryButtonProps) => {
   return (
     <Link href={href} className="govuk-button govuk-button--secondary">
       {content}
