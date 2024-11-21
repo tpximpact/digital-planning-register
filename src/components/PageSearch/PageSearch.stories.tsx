@@ -7,6 +7,8 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
+const defaultAppConfig = createAppConfig("public-council-1");
+
 const meta = {
   title: "Council pages/Search",
   component: PageSearch,
@@ -30,7 +32,7 @@ const meta = {
     },
   },
   args: {
-    appConfig: createAppConfig("public-council-1"),
+    appConfig: defaultAppConfig,
     applications: generateNResults(10, generateDprApplication),
     pagination: generatePagination(),
   },
@@ -40,6 +42,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const DefaultWithEmailAlerts: Story = {
+  args: {
+    appConfig: {
+      ...defaultAppConfig,
+      council: defaultAppConfig.council && {
+        ...defaultAppConfig.council,
+        pageContent: {
+          ...defaultAppConfig.council.pageContent,
+          email_alerts: {
+            sign_up_for_alerts_link: "email alerts link",
+          },
+        },
+      },
+    },
+  },
+};
 export const SearchResults: Story = {
   args: {
     searchParams: {
