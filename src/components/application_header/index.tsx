@@ -12,7 +12,7 @@ export const ApplicationHeader = ({
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin ">
       <div className="govuk-grid-column-one-quarter">
-        <h2 className="govuk-heading-s">Application Reference</h2>
+        <h1 className="govuk-heading-s">Application Reference</h1>
         <p className="govuk-body">{reference}</p>
       </div>
       {address && (

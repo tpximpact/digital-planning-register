@@ -9,22 +9,7 @@ import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
 
 /**
- * @swagger
- * /api/docs?handler=ApiV1&method=applicationSubmission:
- *  get:
- *   tags:
- *     - ApiV1
- *   summary: View the raw application submission data
- *   description: Returns the planning application
- *   parameters:
- *    - $ref: '#/components/parameters/source'
- *    - $ref: '#/components/parameters/council'
- *    - $ref: '#/components/parameters/reference'
- *   responses:
- *     200:
- *       $ref: '#/components/responses/ApplicationSubmission'
- *     400:
- *       $ref: '#/components/responses/ApiError'
+ * /api/docs?handler=ApiV1&method=applicationSubmission
  */
 export async function applicationSubmission(
   source: string,

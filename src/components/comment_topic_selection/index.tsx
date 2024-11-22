@@ -73,13 +73,13 @@ const CommentTopicSelection = ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form onSubmit={handleSubmit}>
-          <fieldset className="govuk-fieldset" aria-describedby="waste-hint">
+          <fieldset className="govuk-fieldset">
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 className="govuk-fieldset__heading">
                 What topics do you want to comment on?
               </h1>
             </legend>
-            <div id="waste-hint" className="govuk-hint">
+            <div className="govuk-hint">
               Help us understand what your comments on this development are
               about. Select all the topics that apply.
             </div>

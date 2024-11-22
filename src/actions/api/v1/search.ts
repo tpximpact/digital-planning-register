@@ -9,25 +9,7 @@ import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
 
 /**
- * @swagger
- * /api/docs?handler=ApiV1&method=search:
- *  get:
- *   tags:
- *     - ApiV1
- *   summary: Search for a planning application
- *   description: Returns all planning applications, or ones matching a query. Can also be extended in the future for advanced search
- *   parameters:
- *    - $ref: '#/components/parameters/source'
- *    - $ref: '#/components/parameters/council'
- *    - $ref: '#/components/parameters/page'
- *    - $ref: '#/components/parameters/resultsPerPage'
- *    - $ref: '#/components/parameters/searchQuery'
- *   responses:
- *     200:
- *       $ref: '#/components/responses/Search'
- *     400:
- *       $ref: '#/components/responses/ApiError'
-
+ * /api/docs?handler=ApiV1&method=search
  */
 export async function search(
   source: string,

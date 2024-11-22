@@ -250,7 +250,7 @@ const councils: Council[] = [
         privacy_policy_link:
           "https://www.camden.gov.uk/data-protection-privacy-and-cookies",
       },
-      digital_site_notice: {
+      email_alerts: {
         sign_up_for_alerts_link:
           "https://accountforms.camden.gov.uk/alert-web/select.xhtml?alertType=PLANNING",
       },

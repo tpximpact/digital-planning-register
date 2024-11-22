@@ -148,6 +148,7 @@ const CommentPersonalDetails = ({
               type="text"
               value={personalDetails.name}
               onChange={handleInputChange}
+              autoComplete="name"
             />
           </div>
 
@@ -171,6 +172,7 @@ const CommentPersonalDetails = ({
               type="text"
               value={personalDetails.address}
               onChange={handleInputChange}
+              autoComplete="street-address"
             />
           </div>
 
