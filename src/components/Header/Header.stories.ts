@@ -37,11 +37,6 @@ export const CouncilPage: Story = {
     appConfig: appConfigCouncilPage,
   },
 };
-export const CouncilWithNoLogoPage: Story = {
-  args: {
-    appConfig: appConfigCouncilNoLogoPage,
-  },
-};
 
 // base council config for the following stories that require it
 const baseCouncilConfig = {
@@ -69,8 +64,12 @@ const baseAppConfig = {
 export const NoLogoCouncilPage: Story = {
   args: {
     appConfig: baseAppConfig,
-    councilConfig: {
-      ...baseCouncilConfig,
-    },
+  },
+};
+
+// This shows the header with no council logo and 'council' is not appended to the council name because it already has the word 'council' in it
+export const CouncilWithNoLogoPage: Story = {
+  args: {
+    appConfig: appConfigCouncilNoLogoPage,
   },
 };
