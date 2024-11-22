@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Header } from "./Header";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
-const appConfig = createAppConfig("public-council-1");
+const appConfig = createAppConfig();
 const appConfigCouncilPage = createAppConfig("public-council-1");
+const appConfigCouncilNoLogoPage = createAppConfig("public-council-2");
 const meta = {
   title: "DPR Components/Header",
   component: Header,
@@ -34,6 +35,10 @@ export const PublicPage: Story = {
 export const CouncilPage: Story = {
   args: {
     appConfig: appConfigCouncilPage,
-    councilConfig: appConfigCouncilPage.council,
+  },
+};
+export const CouncilWithNoLogoPage: Story = {
+  args: {
+    appConfig: appConfigCouncilNoLogoPage,
   },
 };

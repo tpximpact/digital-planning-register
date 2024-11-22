@@ -54,10 +54,9 @@ export interface Council {
   publicComments: boolean;
   specialistComments: boolean;
   contact?: string;
-  logo?: string;
-  logowhite?: string;
   features?: {
     dsn?: boolean;
+    logoInHeader?: boolean;
   };
   pageContent: {
     privacy_policy: {

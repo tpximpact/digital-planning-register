@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Footer } from "./Footer";
+import { createAppConfig } from "@mocks/appConfigFactory";
 
+const appConfig = createAppConfig("public-council-1");
 const meta = {
   title: "DPR Components/Footer",
   component: Footer,
@@ -15,24 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    councilConfig: {
-      name: "Camden",
-      slug: "camden",
-      visibility: "public",
-
-      logo: "camdenlogo.svg",
-      logowhite: "camdenlogowhite.svg",
-      dataSource: "bops",
-      publicComments: true,
-      specialistComments: false,
-
-      pageContent: {
-        privacy_policy: {
-          privacy_policy_link:
-            "https://www.camden.gov.uk/data-protection-privacy-and-cookies",
-        },
-      },
-    },
+    councilConfig: appConfig.council,
   },
 };
 

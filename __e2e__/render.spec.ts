@@ -65,7 +65,7 @@ const testLandingPage = async (page: Page) => {
     }),
   ).toBeVisible();
 
-  const logoContainer = await page.locator(".logos-container");
+  const logoContainer = await page.locator(".dpr-council-cards");
   await expect(logoContainer).toBeVisible();
 
   const visible = ["public-council-1", "public-council-2"];

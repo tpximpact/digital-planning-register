@@ -1,4 +1,5 @@
 import { AppConfig, Council } from "@/config/types";
+import { slugify } from "@/util";
 
 /**
  * Test councils
@@ -74,6 +75,7 @@ export const createAppConfig = (council?: string): AppConfig => {
     },
     defaults: {
       resultsPerPage: 10,
+      revalidate: 3600,
     },
     navigation: [
       {
@@ -118,16 +120,24 @@ export const createAppConfig = (council?: string): AppConfig => {
  * // Create a council configuration with custom values
  * const councilConfig = createCouncilConfig("Council 1", "private", "customSource", false, false, { privacy_policy: { privacy_policy_link: "custom-link" } });
  */
-export const createCouncilConfig = (
-  councilName: string,
-  visibility?: Council["visibility"],
-  dataSource?: Council["dataSource"],
-  publicComments?: Council["publicComments"],
-  specialistComments?: Council["specialistComments"],
-  pageContent?: Council["pageContent"],
-  logo?: Council["logo"],
-): Council => {
-  const slug = councilName.toLowerCase().split(" ").join("-");
+export const createCouncilConfig = ({
+  councilName,
+  visibility = "public",
+  dataSource = "local",
+  publicComments = true,
+  specialistComments = true,
+  pageContent,
+  features,
+}: {
+  councilName: string;
+  visibility?: Council["visibility"];
+  dataSource?: Council["dataSource"];
+  publicComments?: Council["publicComments"];
+  specialistComments?: Council["specialistComments"];
+  pageContent?: Council["pageContent"];
+  features?: Council["features"];
+}): Council => {
+  const slug = slugify(councilName);
   const defaultPageContent = {
     privacy_policy: {
       privacy_policy_link: `${slug}-privacy-policy-link`,
@@ -136,12 +146,12 @@ export const createCouncilConfig = (
   return {
     name: councilName,
     slug: slug,
-    logo: logo ?? "camdenlogo.svg",
-    visibility: visibility ?? "public",
-    dataSource: dataSource ?? "local",
-    publicComments: publicComments ?? true,
-    specialistComments: specialistComments ?? true,
+    visibility,
+    dataSource,
+    publicComments,
+    specialistComments,
     pageContent: pageContent ?? defaultPageContent,
+    features,
   };
 };
 
@@ -154,12 +164,39 @@ const getDefaultCouncilConfigs = (): Council[] => {
 };
 
 const defaultCouncils: Council[] = [
-  createCouncilConfig("Public Council 1", "public"),
-  createCouncilConfig("Public Council 2", "public"),
-  createCouncilConfig("Unlisted Council 1", "unlisted"),
-  createCouncilConfig("Unlisted Council 2", "unlisted"),
-  createCouncilConfig("Private Council 1", "private"),
-  createCouncilConfig("Private Council 2", "private"),
-  createCouncilConfig("Public overwritten", "public"),
-  createCouncilConfig("Public no env vars", "public"),
+  createCouncilConfig({
+    councilName: "Public Council 1",
+    visibility: "public",
+  }),
+  createCouncilConfig({
+    councilName: "Public Council 2",
+    visibility: "public",
+    features: {
+      logoInHeader: false,
+    },
+  }),
+  createCouncilConfig({
+    councilName: "Unlisted Council 1",
+    visibility: "unlisted",
+  }),
+  createCouncilConfig({
+    councilName: "Unlisted Council 2",
+    visibility: "unlisted",
+  }),
+  createCouncilConfig({
+    councilName: "Private Council 1",
+    visibility: "private",
+  }),
+  createCouncilConfig({
+    councilName: "Private Council 2",
+    visibility: "private",
+  }),
+  createCouncilConfig({
+    councilName: "Public overwritten",
+    visibility: "public",
+  }),
+  createCouncilConfig({
+    councilName: "Public no env vars",
+    visibility: "public",
+  }),
 ];
