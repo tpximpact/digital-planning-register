@@ -3,7 +3,6 @@ import { CouncilCards } from "./CouncilCards";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 let councils = createAppConfig().councils;
-councils[0].logo = undefined;
 
 const meta = {
   title: "DPR Components/CouncilCards",

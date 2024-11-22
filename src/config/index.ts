@@ -186,7 +186,6 @@ const councils: Council[] = [
     name: "Barnet",
     slug: "barnet",
     visibility: "public",
-    logo: "barnetlogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
@@ -201,7 +200,6 @@ const councils: Council[] = [
     name: "Buckinghamshire",
     slug: "buckinghamshire",
     visibility: "public",
-    logo: "buckinghamshirelogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
@@ -217,8 +215,6 @@ const councils: Council[] = [
     slug: "camden",
     visibility: "public",
     contact: "https://www.camden.gov.uk/contact-camden",
-    logo: "camdenlogo.svg",
-    logowhite: "camdenlogowhite.svg",
     dataSource: "bops",
     publicComments: true,
     specialistComments: false,
@@ -260,7 +256,6 @@ const councils: Council[] = [
     name: "Gateshead",
     slug: "gateshead",
     visibility: "public",
-    logo: "gatesheadlogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
@@ -275,7 +270,6 @@ const councils: Council[] = [
     name: "Lambeth",
     slug: "lambeth",
     visibility: "public",
-    logo: "lambethlogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
@@ -290,10 +284,12 @@ const councils: Council[] = [
     name: "Medway",
     slug: "medway",
     visibility: "public",
-    logo: "medwaylogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
+    features: {
+      logoInHeader: false,
+    },
     pageContent: {
       privacy_policy: {
         privacy_policy_link:
@@ -305,10 +301,12 @@ const councils: Council[] = [
     name: "Southwark",
     slug: "southwark",
     visibility: "public",
-    logo: "southwarklogo.svg",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
+    features: {
+      logoInHeader: false,
+    },
     pageContent: {
       privacy_policy: {
         privacy_policy_link:

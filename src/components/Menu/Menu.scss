@@ -18,12 +18,16 @@
   }
 
   .govuk-service-navigation__item {
-    margin: govuk-spacing(6) 0;
+    &:not(:first-of-type) {
+      margin: govuk-spacing(6) 0;
+    }
 
     @include govuk-media-query($from: tablet) {
-      margin-top: 0;
-      margin-bottom: 0;
-      @include govuk-responsive-margin(6, $direction: right);
+      &:not(:first-of-type) {
+        margin-top: 0;
+        margin-bottom: 0;
+        @include govuk-responsive-margin(6, $direction: right);
+      }
     }
   }
 
