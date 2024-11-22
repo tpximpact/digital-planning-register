@@ -49,8 +49,6 @@ export const ApplicationHero = ({
     applicationDecision && applicationDeterminedAt
       ? definedDecision(applicationDecision, applicationType)
       : undefined;
-  const description = application.proposal.description;
-  const applicationStatus = application.application.status;
 
   return (
     <section aria-labelledby="application-information-section">
@@ -247,24 +245,6 @@ export const ApplicationHero = ({
           </div>
         </div>
       </div>
-      <h2 className="govuk-heading-l">Description</h2>
-      <p className="govuk-body" id="application-description">
-        {description}
-      </p>
-      {applicationStatus !== "determined" &&
-        applicationType !== "lawfulness_certificate" && (
-          <div className="govuk-grid-row extra-top-margin">
-            <div className="govuk-grid-column-full">
-              <Link
-                href={`/${councilSlug}/${reference}/submit-comment`}
-                className="govuk-button govuk-button--primary"
-                data-module="govuk-button"
-              >
-                Comment on this application
-              </Link>
-            </div>
-          </div>
-        )}
     </section>
   );
 };
