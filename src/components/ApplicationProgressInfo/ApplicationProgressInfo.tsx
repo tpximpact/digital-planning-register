@@ -21,29 +21,18 @@ export const ApplicationProgressInfo = ({
   const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
   const [infoId, setInfoId] = useState<string>();
   return (
-    <div
-      className="accordion"
-      data-module="govuk-accordion"
-      id="accordion-default"
-    >
+    <div data-module="govuk-accordion">
       <h2 className="govuk-heading-l" id="progress">
         Progress
       </h2>
 
-      <div
-        className="accordion timeline"
-        data-module="govuk-accordion"
-        id="accordion-default"
-      >
+      <div className="dpr-accordion-timeline" data-module="govuk-accordion">
         {applicationHistory.length > 0 &&
           applicationHistory?.map((history: History, index: number) => (
-            <div
-              className={`accordion__section ${applicationHistory[applicationHistory.length - 1] == history && "timeline-end"}`}
-              key={history?.info}
-            >
+            <div className={`dpr-accordion-timeline__section`} key={index}>
               <div>
-                <div className="accordion__section-header">
-                  <h2 className="accordion__section-heading">
+                <div>
+                  <h2>
                     <button
                       onClick={() => {
                         if (infoId !== history?.info) {
@@ -54,10 +43,10 @@ export const ApplicationProgressInfo = ({
                           setInfoId(history?.info);
                         }
                       }}
-                      className="govuk-accordion__section-button accordion__section-button"
+                      className="dpr-accordion-timeline__section-button"
                     >
                       <span
-                        className="accordion__section-heading-text"
+                        className="dpr-accordion-timeline__section-heading-text"
                         id={`accordion-default-heading-${index}`}
                       >
                         <span className="accordion__section-heading-text-focus">
@@ -65,7 +54,7 @@ export const ApplicationProgressInfo = ({
                         </span>
                         <span className="timeline-date">{history?.date}</span>
                       </span>
-                      <span className="accordion__section-toggle">
+                      <span className="dpr-accordion-timeline__section-toggle">
                         <span
                           className={`accordion-nav__chevron ${(!isInfoOpen || infoId != history?.info) && "accordion-nav__chevron--down"}`}
                         ></span>
@@ -76,7 +65,7 @@ export const ApplicationProgressInfo = ({
                     </button>
                   </h2>
                 </div>
-                {isInfoOpen && infoId == history?.info && (
+                {isInfoOpen && infoId === history?.info && (
                   <div
                     id={`accordion-default-content-${index}`}
                     className="accordion__section-content govuk-accordion__section-content"

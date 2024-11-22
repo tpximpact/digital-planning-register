@@ -98,17 +98,4 @@ describe("ApplicationProgressInfo Component", () => {
     const secondaryButton = screen.getByText("View application history");
     expect(secondaryButton.closest("a")).toHaveAttribute("href", mockHref);
   });
-
-  it("renders with the last timeline item as 'timeline-end'", () => {
-    render(
-      <ApplicationProgressInfo
-        applicationHistory={mockApplicationHistory}
-        href={mockHref}
-      />,
-    );
-    const lastItem = screen
-      .getByText("Published on")
-      .closest(".accordion__section");
-    expect(lastItem).toHaveClass("timeline-end");
-  });
 });
