@@ -2,7 +2,7 @@ import { AppConfig } from "@/config/types";
 import { DprDocument, DprPlanningApplication } from "@/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
-import { ApplicationDetailsInformation } from "../ApplicationDetailsInformation";
+import { ApplicationHero } from "../ApplicationHero";
 import { DocumentsList } from "@/components/DocumentsList";
 import { PageWrapper } from "../PageWrapper";
 import { ContentError } from "../ContentError";
@@ -31,14 +31,36 @@ export const ApplicationDetails = ({
       </PageWrapper>
     );
   }
+
+  const description = application.proposal.description;
+  const applicationStatus = application.application.status;
+  const councilSlug = appConfig.council.slug;
+
   return (
     <>
       {/* <ApplicationCard council={council} application={application} /> */}
       {appConfig?.council?.slug && (
-        <ApplicationDetailsInformation
+        <ApplicationHero
           councilSlug={appConfig.council.slug}
           application={application}
         />
+      )}
+      <h2 className="govuk-heading-l">Description</h2>
+      <p className="govuk-body" id="application-description">
+        {description}
+      </p>
+      {applicationStatus !== "determined" && (
+        <div className="govuk-grid-row extra-top-margin">
+          <div className="govuk-grid-column-full">
+            <Link
+              href={`/${councilSlug}/${reference}/submit-comment`}
+              className="govuk-button govuk-button--primary"
+              data-module="govuk-button"
+            >
+              Comment on this application
+            </Link>
+          </div>
+        </div>
       )}
       {/* <ApplicationLocation /> */}
       {/* <ApplicationMoreDetails {...application} /> */}

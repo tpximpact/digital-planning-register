@@ -1,8 +1,6 @@
 name: "Chromatic"
 
-# this job runs on every push to a pull request'ed branch
-# other options are push but this results in a lot more build time
-on: pull_request
+on: push
 
 jobs:
   chromatic:
@@ -22,3 +20,4 @@ jobs:
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          autoAcceptChanges: "main"

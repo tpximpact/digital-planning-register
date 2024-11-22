@@ -1,14 +1,16 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { postComment } from "@/actions/api/v1";
+import { ApiV1 } from "@/actions/api";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { getAppConfig } from "@/config";
 
-jest.mock("@/actions/api/v1", () => ({
-  postComment: jest.fn(),
+jest.mock("@/actions/api", () => ({
+  ApiV1: {
+    postComment: jest.fn(),
+  },
 }));
 
 jest.mock("@next/third-parties/google", () => ({
@@ -118,13 +120,15 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("submits the comment and navigates to the confirmation page on successful submission", async () => {
-    (postComment as jest.Mock).mockResolvedValueOnce({ status: { code: 200 } });
+    (ApiV1.postComment as jest.Mock).mockResolvedValueOnce({
+      status: { code: 200 },
+    });
 
     render(<CommentCheckAnswer {...defaultProps} />);
     fireEvent.click(screen.getByRole("button", { name: "Accept and send" }));
 
     await waitFor(() => {
-      expect(postComment).toHaveBeenCalledWith(
+      expect(ApiV1.postComment).toHaveBeenCalledWith(
         "local",
         "public-council-1",
         1,
@@ -140,7 +144,7 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("displays an error message when the comment submission fails", async () => {
-    (postComment as jest.Mock).mockRejectedValueOnce(
+    (ApiV1.postComment as jest.Mock).mockRejectedValueOnce(
       new Error("Submission failed"),
     );
 

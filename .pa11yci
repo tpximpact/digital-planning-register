@@ -24,6 +24,8 @@
     "http://localhost:3000/public-council-1/24-00135-HAPP/submit-comment?page=5",
     "http://localhost:3000/public-council-1/24-00135-HAPP/submit-comment?page=6",
     "http://localhost:3000/public-council-1/24-00135-HAPP/submit-comment?page=3&topicIndex=0",
-    "http://localhost:3000/public-council-1/24-00135-HAPP/application-form"
+    "http://localhost:3000/public-council-1/24-00135-HAPP/application-form",
+    "http://localhost:3000/public-council-1/planning-process",
+    "http://localhost:3000/public-council-1/digital-site-notice"
   ]
 }

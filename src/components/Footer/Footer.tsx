@@ -3,6 +3,7 @@ import "./Footer.scss";
 import { AppConfig } from "@/config/types";
 import Image from "next/image";
 import "./Footer.scss";
+import { OdpLogo } from "./OdpLogo";
 
 export const Footer = ({
   councilConfig,
@@ -17,12 +18,7 @@ export const Footer = ({
       <div className="govuk-width-container">
         <div className="govuk-footer__meta">
           <div className="govuk-footer__meta-item">
-            <Image
-              src="/images/logos/odp-logo.svg"
-              alt="Open Digital Planning Logo"
-              height={100}
-              width={300}
-            />
+            <OdpLogo width={300} height={100} />
           </div>
           <div className="govuk-footer__meta-item govuk-footer__meta-item--grow">
             <h2 className="govuk-visually-hidden">Support links</h2>

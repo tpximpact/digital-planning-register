@@ -125,7 +125,6 @@ const CommentTextEntry = ({
               id="comment"
               name="comment"
               rows={5}
-              aria-describedby="comment-hint"
               value={comment}
               onChange={handleCommentChange}
               maxLength={MAX_COMMENT_LENGTH}
