@@ -1,4 +1,4 @@
-import { ApplicationDetailsInformation } from "@/components/ApplicationDetailsInformation";
+import { ApplicationHero } from "@/components/ApplicationHero";
 import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { DprShowApiResponse } from "@/types";
@@ -17,7 +17,7 @@ jest.mock("next/dynamic", () => ({
   },
 }));
 
-describe("Render ApplicationDetailsInformation", () => {
+describe("Render ApplicationHero", () => {
   const mockData: DprShowApiResponse = {
     application: {
       reference: "AAA_BBB_CCC_DDD",
@@ -99,27 +99,21 @@ describe("Render ApplicationDetailsInformation", () => {
 
   it("should not show determined_at date if decision is null", () => {
     render(
-      <ApplicationDetailsInformation
-        councilSlug="test_coucil"
-        application={mockData}
-      />,
+      <ApplicationHero councilSlug="test_coucil" application={mockData} />,
     );
     expect(screen.queryByText("Decision")).toBeNull();
   });
 
   it("should render correctly with Polygon geometry", () => {
     render(
-      <ApplicationDetailsInformation
-        councilSlug="test_coucil"
-        application={mockData}
-      />,
+      <ApplicationHero councilSlug="test_coucil" application={mockData} />,
     );
     const mapComponent = screen.getByTestId("mockMap");
     expect(mapComponent).toBeInTheDocument();
   });
 });
 
-describe("Render ApplicationDetailsInformation", () => {
+describe("Render ApplicationHero", () => {
   const mockData: DprShowApiResponse = {
     application: {
       reference: "AAA_BBB_CCC_DDD",
@@ -200,10 +194,7 @@ describe("Render ApplicationDetailsInformation", () => {
 
   it("should show determined_at date if decision is not null", () => {
     render(
-      <ApplicationDetailsInformation
-        councilSlug="test_council"
-        application={mockData}
-      />,
+      <ApplicationHero councilSlug="test_council" application={mockData} />,
     );
     expect(screen.getByText("Decision Date")).toBeInTheDocument();
   });
@@ -243,7 +234,7 @@ describe("Render ApplicationDetailsInformation", () => {
     };
 
     render(
-      <ApplicationDetailsInformation
+      <ApplicationHero
         councilSlug="test_council"
         application={mockDataWithMultiPolygon}
       />,
@@ -296,7 +287,7 @@ describe("Render ApplicationDetailsInformation", () => {
     } as DprShowApiResponse;
 
     render(
-      <ApplicationDetailsInformation
+      <ApplicationHero
         councilSlug="test_council"
         application={mockDataWithFeatureCollection}
       />,

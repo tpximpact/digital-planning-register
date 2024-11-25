@@ -39,7 +39,7 @@ describe("createAppConfig", () => {
 
 describe("createCouncilConfig", () => {
   it("creates a council configuration with default values", () => {
-    const councilConfig = createCouncilConfig("Test Council");
+    const councilConfig = createCouncilConfig({ councilName: "Test Council" });
     expect(councilConfig.name).toBe("Test Council");
     expect(councilConfig.slug).toBe("test-council");
     expect(councilConfig.visibility).toBe("public");
@@ -59,14 +59,17 @@ describe("createCouncilConfig", () => {
         privacy_policy_link: "custom-link",
       },
     };
-    const councilConfig = createCouncilConfig(
-      "Custom Council",
-      "private",
-      "customSource",
-      false,
-      false,
-      customPageContent,
-    );
+    const councilConfig = createCouncilConfig({
+      councilName: "Custom Council",
+      visibility: "private",
+      dataSource: "customSource",
+      publicComments: false,
+      specialistComments: false,
+      pageContent: customPageContent,
+      features: {
+        logoInHeader: false,
+      },
+    });
     expect(councilConfig.name).toBe("Custom Council");
     expect(councilConfig.slug).toBe("custom-council");
     expect(councilConfig.visibility).toBe("private");
@@ -74,13 +77,14 @@ describe("createCouncilConfig", () => {
     expect(councilConfig.publicComments).toBe(false);
     expect(councilConfig.specialistComments).toBe(false);
     expect(councilConfig.pageContent).toEqual(customPageContent);
+    expect(councilConfig.features?.logoInHeader).toBe(false);
   });
 
   it("creates a council configuration with partial custom values", () => {
-    const councilConfig = createCouncilConfig(
-      "Partial Custom Council",
-      "unlisted",
-    );
+    const councilConfig = createCouncilConfig({
+      councilName: "Partial Custom Council",
+      visibility: "unlisted",
+    });
     expect(councilConfig.name).toBe("Partial Custom Council");
     expect(councilConfig.slug).toBe("partial-custom-council");
     expect(councilConfig.visibility).toBe("unlisted");

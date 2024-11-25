@@ -99,7 +99,10 @@ const CommentTopicSelection = ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <form onSubmit={handleSubmit} noValidate>
-          <fieldset className="govuk-fieldset" aria-describedby="topics-hint">
+          <fieldset
+            className="govuk-fieldset"
+            aria-describedby={`topics-hint${validationError ? " topics-error" : ""}`}
+          >
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 className="govuk-fieldset__heading">
                 What topics do you want to comment on?
@@ -116,8 +119,6 @@ const CommentTopicSelection = ({
               className={`govuk-form-group ${
                 validationError ? "govuk-form-group--error" : ""
               }`}
-              role="group"
-              aria-labelledby="topics-label"
             >
               {validationError && (
                 <p
@@ -136,8 +137,6 @@ const CommentTopicSelection = ({
                   validationError ? "govuk-checkboxes--error" : ""
                 }`}
                 data-module="govuk-checkboxes"
-                aria-invalid={validationError}
-                aria-errormessage={validationError ? "topics-error" : undefined}
               >
                 {topics_selection.map((topic) => (
                   <div className="govuk-checkboxes__item" key={topic.value}>
@@ -151,10 +150,6 @@ const CommentTopicSelection = ({
                       value={topic.value}
                       checked={selectedTopics.includes(topic.value)}
                       onChange={() => handleTopicChange(topic.value)}
-                      aria-invalid={validationError}
-                      aria-errormessage={
-                        validationError ? "topics-error" : undefined
-                      }
                     />
                     <label
                       className="govuk-label govuk-checkboxes__label"

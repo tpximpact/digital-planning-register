@@ -54,10 +54,9 @@ export interface Council {
   publicComments: boolean;
   specialistComments: boolean;
   contact?: string;
-  logo?: string;
-  logowhite?: string;
   features?: {
     dsn?: boolean;
+    logoInHeader?: boolean;
   };
   pageContent: {
     privacy_policy: {
@@ -76,7 +75,7 @@ export interface Council {
       corporate_privacy_statement_link: string;
       planning_service_privacy_statement_link: string;
     };
-    digital_site_notice?: {
+    email_alerts?: {
       sign_up_for_alerts_link: string;
     };
   };

@@ -26,7 +26,6 @@ const CommentSentiment = ({
     if (storedSentiment) {
       setSentiment(storedSentiment);
     }
-
     const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
     setIsEditing(!!storedTopics);
   }, [reference]);
@@ -94,8 +93,6 @@ const CommentSentiment = ({
       <div
         ref={radioGroupRef}
         className={`govuk-form-group ${validationError ? "govuk-form-group--error" : ""}`}
-        role="group"
-        aria-labelledby="sentiment-heading"
       >
         {validationError && (
           <p
@@ -108,33 +105,39 @@ const CommentSentiment = ({
             an option
           </p>
         )}
-        <div
-          className="govuk-radios dsn-sentiment"
-          aria-invalid={validationError}
-          aria-errormessage={validationError ? "sentiment-error" : undefined}
+
+        <fieldset
+          className="govuk-fieldset"
+          aria-describedby={validationError ? "sentiment-error" : undefined}
         >
-          {options.map((option) => (
-            <div className="govuk-radios__item" key={option.id}>
-              <input
-                className="govuk-radios__input"
-                id={option.id}
-                name="sentiment"
-                type="radio"
-                value={option.id}
-                checked={sentiment === option.id}
-                onChange={(e) => handleSentimentChange(e.target.value)}
-              />
-              <label
-                className="govuk-label govuk-radios__label"
-                htmlFor={option.id}
-                data-testid={option.id}
-              >
-                <SentimentIcon sentiment={option.label.toLowerCase()} />
-                <span className="govuk-body">{option.label}</span>
-              </label>
-            </div>
-          ))}
-        </div>
+          <legend className="govuk-fieldset__legend govuk-visually-hidden">
+            Select your sentiment about this development
+          </legend>
+
+          <div className="govuk-radios dsn-sentiment">
+            {options.map((option) => (
+              <div className="govuk-radios__item" key={option.id}>
+                <input
+                  className="govuk-radios__input"
+                  id={option.id}
+                  name="sentiment"
+                  type="radio"
+                  value={option.id}
+                  checked={sentiment === option.id}
+                  onChange={(e) => handleSentimentChange(e.target.value)}
+                />
+                <label
+                  className="govuk-label govuk-radios__label"
+                  htmlFor={option.id}
+                  data-testid={option.id}
+                >
+                  <SentimentIcon sentiment={option.label.toLowerCase()} />
+                  <span className="govuk-body">{option.label}</span>
+                </label>
+              </div>
+            ))}
+          </div>
+        </fieldset>
       </div>
 
       {!hideContinue && (

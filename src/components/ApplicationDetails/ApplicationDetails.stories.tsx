@@ -8,6 +8,8 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
 
+const baseApplication = generateDprApplication();
+
 const meta = {
   title: "DPR Components/ApplicationDetails",
   component: ApplicationDetails,
@@ -20,7 +22,7 @@ const meta = {
   args: {
     reference: "12345",
     appConfig: createAppConfig("public-council-1"),
-    application: generateDprApplication(),
+    application: baseApplication,
     documents: generateNResults<DprDocument>(3, generateDocument),
   },
 } satisfies Meta<typeof ApplicationDetails>;
@@ -42,5 +44,27 @@ export const FewDocuments: Story = {
 export const ManyDocuments: Story = {
   args: {
     documents: generateNResults<DprDocument>(30, generateDocument),
+  },
+};
+export const CommentsEnabled: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "not_started",
+      },
+    },
+  },
+};
+export const CommentsDisabled: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "determined",
+      },
+    },
   },
 };

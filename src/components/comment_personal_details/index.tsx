@@ -117,7 +117,6 @@ const CommentPersonalDetails = ({
 
   const validatePersonalDetails = (): boolean => {
     const errors: ValidationErrors = {};
-
     if (!personalDetails.name) errors.name = "Your name is required";
     if (!personalDetails.address) errors.address = "Your address is required";
     if (!postcodeValidation(personalDetails.postcode))
@@ -187,6 +186,7 @@ const CommentPersonalDetails = ({
               type="text"
               value={personalDetails.name}
               onChange={handleInputChange}
+              autoComplete="name"
               aria-invalid={!!validationErrors.name}
               aria-describedby={
                 validationErrors.name ? "name-error" : undefined
@@ -219,6 +219,7 @@ const CommentPersonalDetails = ({
               type="text"
               value={personalDetails.address}
               onChange={handleInputChange}
+              autoComplete="street-address"
               aria-invalid={!!validationErrors.address}
               aria-describedby={
                 validationErrors.address ? "address-error" : undefined

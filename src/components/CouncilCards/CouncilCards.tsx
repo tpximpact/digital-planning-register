@@ -19,26 +19,31 @@ export const CouncilCards = ({
           Select your council to start exploring planning applications in your
           area
         </h2>
-        <div className="govuk-grid-row logos-container">
-          {availableCouncils.map((council) => (
-            <div
-              key={council.slug}
-              className="govuk-grid-column-one-half govuk-grid-column-one-third-from-desktop"
-            >
+
+        <div className="dpr-council-cards">
+          {availableCouncils.map((council) => {
+            const logo = councilLogos[council.slug] ?? null;
+            return (
               <Link
+                key={council.slug}
+                className={`dpr-council-card ${logo ? "dpr-council-card--logo" : ""}`}
                 href={`/${council.slug}`}
-                className="logos-container__logo govuk-button govuk-button--secondary"
                 title={`${council.name} Council`}
                 data-council-slug={council.slug}
               >
-                {councilLogos[council.slug] ? (
-                  councilLogos[council.slug]
+                {logo ? (
+                  <>
+                    {councilLogos[council.slug]}
+                    <span className="govuk-visually-hidden">
+                      {council.name}
+                    </span>
+                  </>
                 ) : (
                   <span>{council.name}</span>
                 )}
               </Link>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </>
     );

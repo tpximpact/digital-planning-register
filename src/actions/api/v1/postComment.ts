@@ -10,17 +10,7 @@ import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
 
 /**
- * @swagger
- * /api/docs?handler=ApiV1&method=postComment:
- *  get:
- *   tags:
- *     - ApiV1
- *   summary: View the raw application submission data
- *   description: Returns the planning application
- *   parameters:
- *    - $ref: '#/components/parameters/source'
- *    - $ref: '#/components/parameters/council'
- *    - $ref: '#/components/parameters/id'
+ * /api/docs?handler=ApiV1&method=postComment
  */
 export async function postComment(
   source: string,
