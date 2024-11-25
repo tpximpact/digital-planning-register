@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Button } from "../button";
 
@@ -13,7 +13,7 @@ const topicLabels = {
   design:
     "Comment on the design, size or height of new buildings or extensions",
   use: "Comment on the use and function of the proposed development",
-  light: "Comment on any impacts on natural light",
+  light: "Comment on impacts on natural light",
   privacy: "Comment on impacts to the privacy of neighbours",
   access: "Comment on impacts on disabled persons' access",
   noise: "Comment on any noise from new uses",
@@ -42,6 +42,8 @@ const CommentTextEntry = ({
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
   const [validationError, setValidationError] = useState(false);
   const [isMaxLength, setIsMaxLength] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const textareaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedComment = sessionStorage.getItem(
@@ -60,6 +62,23 @@ const CommentTextEntry = ({
     setValidationError(false);
   }, [currentTopic, reference]);
 
+  const scrollAndFocusError = () => {
+    if (
+      textareaRef.current &&
+      typeof textareaRef.current.scrollIntoView === "function"
+    ) {
+      textareaRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      const textarea = textareaRef.current.querySelector("textarea");
+      if (textarea) {
+        textarea.focus();
+      }
+    }
+  };
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newComment = e.target.value;
     const newCount = normaliseAndCountChars(newComment);
@@ -68,7 +87,9 @@ const CommentTextEntry = ({
       setComment(newComment);
       setNormalisedCharCount(newCount);
       setIsMaxLength(newCount === MAX_COMMENT_LENGTH);
-      setValidationError(false);
+      if (hasSubmitted) {
+        setValidationError(false);
+      }
     } else {
       setIsMaxLength(true);
     }
@@ -76,6 +97,8 @@ const CommentTextEntry = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
     if (comment && normalisedCharCount <= MAX_COMMENT_LENGTH) {
       sessionStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
       updateProgress(3);
@@ -86,26 +109,37 @@ const CommentTextEntry = ({
         event: "comment_validation_error",
         message: "error in comment text entry",
       });
-      window.scrollTo(0, 0);
+      scrollAndFocusError();
     }
   };
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div
+            ref={textareaRef}
             className={`govuk-form-group ${validationError || isMaxLength ? "govuk-form-group--error" : ""}`}
           >
             {validationError && !comment && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error: </span> Your
+              <p
+                id="comment-error"
+                className="govuk-error-message"
+                role="alert"
+                aria-live="assertive"
+              >
+                <span className="govuk-visually-hidden">Error:</span> Your
                 comment is required
               </p>
             )}
             {isMaxLength && (
-              <p id="form-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error: </span> You have
+              <p
+                id="length-error"
+                className="govuk-error-message"
+                role="alert"
+                aria-live="assertive"
+              >
+                <span className="govuk-visually-hidden">Error:</span> You have
                 reached the character limit of {MAX_COMMENT_LENGTH} characters
               </p>
             )}
@@ -128,6 +162,14 @@ const CommentTextEntry = ({
               value={comment}
               onChange={handleCommentChange}
               maxLength={MAX_COMMENT_LENGTH}
+              aria-invalid={validationError || isMaxLength}
+              aria-errormessage={
+                validationError
+                  ? "comment-error"
+                  : isMaxLength
+                    ? "length-error"
+                    : undefined
+              }
             ></textarea>
           </div>
           {!hideContinue && (

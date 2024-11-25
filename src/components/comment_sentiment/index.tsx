@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { SentimentIcon } from "../SentimentIcon";
 import "./CommentSentiment.scss";
@@ -18,6 +18,8 @@ const CommentSentiment = ({
   const [sentiment, setSentiment] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const radioGroupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedSentiment = sessionStorage.getItem(`sentiment_${reference}`);
@@ -28,9 +30,30 @@ const CommentSentiment = ({
     setIsEditing(!!storedTopics);
   }, [reference]);
 
+  const scrollAndFocusError = () => {
+    if (
+      radioGroupRef.current &&
+      typeof radioGroupRef.current.scrollIntoView === "function"
+    ) {
+      radioGroupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      const firstRadio = radioGroupRef.current.querySelector(
+        'input[type="radio"]',
+      ) as HTMLInputElement;
+      if (firstRadio) {
+        firstRadio.focus();
+      }
+    }
+  };
+
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+      setHasSubmitted(true);
+
       if (sentiment) {
         sessionStorage.setItem(`sentiment_${reference}`, sentiment);
         updateProgress(1);
@@ -42,7 +65,7 @@ const CommentSentiment = ({
           event: "comment_validation_error",
           message: "error in sentiment",
         });
-        window.scrollTo(0, 0);
+        scrollAndFocusError();
       }
     },
     [sentiment, reference, updateProgress, isEditing, navigateToPage],
@@ -50,7 +73,7 @@ const CommentSentiment = ({
 
   const handleSentimentChange = (value: string) => {
     setSentiment(value);
-    if (validationError) {
+    if (hasSubmitted) {
       setValidationError(false);
     }
   };
@@ -66,19 +89,31 @@ const CommentSentiment = ({
       <h1 className="govuk-heading-l">
         How do you feel about this development?
       </h1>
-      {validationError && (
-        <p className="govuk-error-message">
-          <span className="govuk-visually-hidden">Error:</span> Please select an
-          option
-        </p>
-      )}
+
       <div
+        ref={radioGroupRef}
         className={`govuk-form-group ${validationError ? "govuk-form-group--error" : ""}`}
       >
-        <fieldset className="govuk-fieldset">
+        {validationError && (
+          <p
+            id="sentiment-error"
+            className="govuk-error-message"
+            role="alert"
+            aria-live="assertive"
+          >
+            <span className="govuk-visually-hidden">Error:</span> Please select
+            an option
+          </p>
+        )}
+
+        <fieldset
+          className="govuk-fieldset"
+          aria-describedby={validationError ? "sentiment-error" : undefined}
+        >
           <legend className="govuk-fieldset__legend govuk-visually-hidden">
             Select your sentiment about this development
           </legend>
+
           <div className="govuk-radios dsn-sentiment">
             {options.map((option) => (
               <div className="govuk-radios__item" key={option.id}>
@@ -104,6 +139,7 @@ const CommentSentiment = ({
           </div>
         </fieldset>
       </div>
+
       {!hideContinue && (
         <button type="submit" className="govuk-button">
           Continue

@@ -51,6 +51,16 @@ const CommentPersonalDetails = ({
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {},
   );
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const fieldRefs: Record<string, React.RefObject<HTMLDivElement>> = {
+    name: useRef<HTMLDivElement>(null),
+    address: useRef<HTMLDivElement>(null),
+    postcode: useRef<HTMLDivElement>(null),
+    emailAddress: useRef<HTMLDivElement>(null),
+    telephoneNumber: useRef<HTMLDivElement>(null),
+    consent: useRef<HTMLDivElement>(null),
+  };
 
   const contactPlanningAdviceLink =
     councilConfig?.pageContent
@@ -76,11 +86,33 @@ const CommentPersonalDetails = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
     setPersonalDetails((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: newValue,
     }));
-    setValidationErrors({});
+
+    if (hasSubmitted) {
+      setValidationErrors((prev) => {
+        const { [name as keyof ValidationErrors]: removed, ...rest } = prev;
+        return rest;
+      });
+    }
+  };
+
+  const scrollToError = (errors: ValidationErrors) => {
+    const firstErrorField = Object.keys(errors)[0];
+    const errorRef = fieldRefs[firstErrorField];
+
+    if (errorRef?.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      const input = errorRef.current.querySelector("input");
+      if (input) {
+        input.focus();
+      }
+    }
   };
 
   const validatePersonalDetails = (): boolean => {
@@ -100,19 +132,24 @@ const CommentPersonalDetails = ({
     )
       errors.telephoneNumber = "Telephone number must be valid";
     if (!personalDetails.consent) errors.consent = "You need to consent";
+
     setValidationErrors(errors);
-    if (Object.keys(errors).length > 0)
+
+    if (Object.keys(errors).length > 0) {
       sendGTMEvent({
         event: "comment_validation_error",
         message: "error in personal details",
       });
-    window.scrollTo(0, 0);
+      scrollToError(errors);
+    }
 
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
     if (validatePersonalDetails()) {
       sessionStorage.setItem(
         `personalDetails_${reference}`,
@@ -127,16 +164,17 @@ const CommentPersonalDetails = ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
         <h1 className="govuk-heading-l">Your details</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           {/* Name input */}
           <div
+            ref={fieldRefs.name}
             className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="name">
               Name
             </label>
             {validationErrors.name && (
-              <p id="name-error" className="govuk-error-message">
+              <p id="name-error" className="govuk-error-message" role="alert">
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.name}
               </p>
@@ -149,18 +187,27 @@ const CommentPersonalDetails = ({
               value={personalDetails.name}
               onChange={handleInputChange}
               autoComplete="name"
+              aria-invalid={!!validationErrors.name}
+              aria-describedby={
+                validationErrors.name ? "name-error" : undefined
+              }
             />
           </div>
 
           {/* Address input */}
           <div
+            ref={fieldRefs.address}
             className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="address">
               Address
             </label>
             {validationErrors.address && (
-              <p id="address-error" className="govuk-error-message">
+              <p
+                id="address-error"
+                className="govuk-error-message"
+                role="alert"
+              >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.address}
               </p>
@@ -173,18 +220,27 @@ const CommentPersonalDetails = ({
               value={personalDetails.address}
               onChange={handleInputChange}
               autoComplete="street-address"
+              aria-invalid={!!validationErrors.address}
+              aria-describedby={
+                validationErrors.address ? "address-error" : undefined
+              }
             />
           </div>
 
           {/* Postcode input */}
           <div
+            ref={fieldRefs.postcode}
             className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
             </label>
             {validationErrors.postcode && (
-              <p id="postcode-error" className="govuk-error-message">
+              <p
+                id="postcode-error"
+                className="govuk-error-message"
+                role="alert"
+              >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.postcode}
               </p>
@@ -197,11 +253,16 @@ const CommentPersonalDetails = ({
               value={personalDetails.postcode}
               onChange={handleInputChange}
               autoComplete="postal-code"
+              aria-invalid={!!validationErrors.postcode}
+              aria-describedby={
+                validationErrors.postcode ? "postcode-error" : undefined
+              }
             />
           </div>
 
           {/* Email address input */}
           <div
+            ref={fieldRefs.emailAddress}
             className={`govuk-form-group ${validationErrors.emailAddress ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="emailAddress">
@@ -209,7 +270,7 @@ const CommentPersonalDetails = ({
             </label>
             <div className="govuk-hint">Optional</div>
             {validationErrors.emailAddress && (
-              <p id="email-error" className="govuk-error-message">
+              <p id="email-error" className="govuk-error-message" role="alert">
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.emailAddress}
               </p>
@@ -218,16 +279,21 @@ const CommentPersonalDetails = ({
               className={`govuk-input govuk-input--width-20 ${validationErrors.emailAddress ? "govuk-input--error" : ""}`}
               id="emailAddress"
               name="emailAddress"
-              type="text"
+              type="email"
               value={personalDetails.emailAddress}
               onChange={handleInputChange}
               spellCheck="false"
               autoComplete="email"
+              aria-invalid={!!validationErrors.emailAddress}
+              aria-describedby={
+                validationErrors.emailAddress ? "email-error" : undefined
+              }
             />
           </div>
 
           {/* Telephone number input */}
           <div
+            ref={fieldRefs.telephoneNumber}
             className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="telephoneNumber">
@@ -235,7 +301,11 @@ const CommentPersonalDetails = ({
             </label>
             <div className="govuk-hint">Optional</div>
             {validationErrors.telephoneNumber && (
-              <p id="telephone-error" className="govuk-error-message">
+              <p
+                id="telephone-error"
+                className="govuk-error-message"
+                role="alert"
+              >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.telephoneNumber}
               </p>
@@ -248,16 +318,25 @@ const CommentPersonalDetails = ({
               value={personalDetails.telephoneNumber}
               onChange={handleInputChange}
               autoComplete="tel"
+              aria-invalid={!!validationErrors.telephoneNumber}
+              aria-describedby={
+                validationErrors.telephoneNumber ? "telephone-error" : undefined
+              }
             />
           </div>
 
           {/* Consent checkbox */}
           <div
+            ref={fieldRefs.consent}
             className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
           >
             {validationErrors.consent && (
-              <p id="consent-error" className="govuk-error-message">
-                <span className="govuk-visually-hidden">Error: </span>{" "}
+              <p
+                id="consent-error"
+                className="govuk-error-message"
+                role="alert"
+              >
+                <span className="govuk-visually-hidden">Error:</span>{" "}
                 {validationErrors.consent}
               </p>
             )}
@@ -270,6 +349,10 @@ const CommentPersonalDetails = ({
                   type="checkbox"
                   checked={personalDetails.consent}
                   onChange={handleInputChange}
+                  aria-invalid={!!validationErrors.consent}
+                  aria-describedby={
+                    validationErrors.consent ? "consent-error" : undefined
+                  }
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"

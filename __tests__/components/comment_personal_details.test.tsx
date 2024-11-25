@@ -21,6 +21,7 @@ describe("CommentPersonalDetails", () => {
   beforeEach(() => {
     sessionStorage.clear();
     window.scrollTo = jest.fn();
+    Element.prototype.scrollIntoView = jest.fn();
     jest.clearAllMocks();
   });
 

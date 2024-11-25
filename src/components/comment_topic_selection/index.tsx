@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Details } from "../govuk/Details";
 import { Button } from "../button";
@@ -29,6 +29,8 @@ const CommentTopicSelection = ({
 }) => {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [validationError, setValidationError] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const checkboxGroupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedTopics = sessionStorage.getItem(`selectedTopics_${reference}`);
@@ -37,8 +39,29 @@ const CommentTopicSelection = ({
     }
   }, [reference]);
 
+  const scrollAndFocusError = () => {
+    if (
+      checkboxGroupRef.current &&
+      typeof checkboxGroupRef.current.scrollIntoView === "function"
+    ) {
+      checkboxGroupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      const firstCheckbox = checkboxGroupRef.current.querySelector(
+        'input[type="checkbox"]',
+      ) as HTMLInputElement;
+      if (firstCheckbox) {
+        firstCheckbox.focus();
+      }
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasSubmitted(true);
+
     if (selectedTopics.length > 0) {
       sessionStorage.setItem(
         `selectedTopics_${reference}`,
@@ -52,7 +75,7 @@ const CommentTopicSelection = ({
         event: "comment_validation_error",
         message: "error in topic selection",
       });
-      window.scrollTo(0, 0);
+      scrollAndFocusError();
     }
   };
 
@@ -66,34 +89,49 @@ const CommentTopicSelection = ({
         return [...prev, topic];
       }
     });
-    setValidationError(false);
+
+    if (hasSubmitted) {
+      setValidationError(false);
+    }
   };
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <form onSubmit={handleSubmit}>
-          <fieldset className="govuk-fieldset">
+        <form onSubmit={handleSubmit} noValidate>
+          <fieldset
+            className="govuk-fieldset"
+            aria-describedby={`topics-hint${validationError ? " topics-error" : ""}`}
+          >
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 className="govuk-fieldset__heading">
                 What topics do you want to comment on?
               </h1>
             </legend>
-            <div className="govuk-hint">
+
+            <div id="topics-hint" className="govuk-hint">
               Help us understand what your comments on this development are
               about. Select all the topics that apply.
             </div>
+
             <div
+              ref={checkboxGroupRef}
               className={`govuk-form-group ${
                 validationError ? "govuk-form-group--error" : ""
               }`}
             >
               {validationError && (
-                <p id="form-error" className="govuk-error-message">
+                <p
+                  id="topics-error"
+                  className="govuk-error-message"
+                  role="alert"
+                  aria-live="assertive"
+                >
                   <span className="govuk-visually-hidden">Error:</span> Please
                   select at least one topic
                 </p>
               )}
+
               <div
                 className={`govuk-checkboxes ${
                   validationError ? "govuk-checkboxes--error" : ""
@@ -123,6 +161,7 @@ const CommentTopicSelection = ({
                 ))}
               </div>
             </div>
+
             <Details
               summaryText={"What happens to your comments"}
               text={
