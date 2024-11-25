@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Header } from "./Header";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { createAppConfig, createCouncilConfig } from "@mocks/appConfigFactory";
 
 const appConfig = createAppConfig();
 const appConfigCouncilPage = createAppConfig("public-council-1");
@@ -26,49 +26,31 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const PublicPage: Story = {
+export const NoCouncil: Story = {
   args: {
     appConfig,
   },
 };
-export const CouncilPage: Story = {
+
+export const CouncilWithLogo: Story = {
   args: {
     appConfig: appConfigCouncilPage,
   },
 };
 
-// base council config for the following stories that require it
-const baseCouncilConfig = {
-  name: "Dev Test",
-  slug: "dev-test",
-  visibility: "public" as const,
-  dataSource: "local",
-  publicComments: true,
-  specialistComments: true,
-  pageContent: {
-    privacy_policy: {
-      privacy_policy_link: "dev-test-privacy-policy-link",
-    },
-  },
-};
+const baseCouncilConfig = createCouncilConfig({ councilName: "Dev Test" });
 const baseAppConfig = {
-  councils: appConfigCouncilPage.councils,
-  defaults: appConfigCouncilPage.defaults,
-  navigation: appConfigCouncilPage.navigation,
+  ...appConfig,
   council: baseCouncilConfig,
-  features: appConfigCouncilPage.features,
 };
 
-// This shows the header with no council logo and 'council' appended to the council name
-export const NoLogoCouncilPage: Story = {
+export const CouncilWithoutLogo: Story = {
   args: {
     appConfig: baseAppConfig,
   },
 };
 
-// This shows the header with no council logo and 'council' is not appended to the council name because it already has the word 'council' in it
-export const CouncilWithNoLogoPage: Story = {
+export const CouncilWithCouncilInNameWithoutLogo: Story = {
   args: {
     appConfig: appConfigCouncilNoLogoPage,
   },
