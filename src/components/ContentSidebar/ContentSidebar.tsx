@@ -50,7 +50,7 @@ const NestedContentList = ({
 
   if (depth === 0) {
     return (
-      <ul role="list" aria-labelledby="contents-title">
+      <ul aria-labelledby="contents-title">
         {content.map((page) => renderPage(page, depth))}
       </ul>
     );
