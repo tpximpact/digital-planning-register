@@ -5,8 +5,9 @@ import {
   BopsV2PublicPlanningApplicationDetail,
   BopsV2PlanningApplicationDetail,
 } from "@/handlers/bops/types";
-import { convertPlanningApplicationBops } from "../converters";
 import { handleBopsGetRequest } from "../requests";
+import { getAppConfig } from "@/config";
+import { convertBopsToDpr } from "../converters/planningApplication";
 
 /**
  * Get the details for an application
@@ -19,25 +20,26 @@ export async function show(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
-  const url = `public/planning_applications/${reference}`;
-  const missing_data_url = `planning_applications/${reference}`;
+  const appConfig = getAppConfig(council);
 
-  const [request, missing_data_request] = await Promise.all([
-    handleBopsGetRequest<
-      ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
-    >(council, url),
-    handleBopsGetRequest<ApiResponse<BopsV2PlanningApplicationDetail | null>>(
-      council,
-      missing_data_url,
-    ),
-  ]);
+  // only get missing data if the feature is enabled
+  let missingData;
+  if (
+    appConfig.features.getApplicationIdFromPrivateEndpoint ||
+    appConfig.features.getApplicantDetailsFromPrivateEndpoint
+  ) {
+    const privateApplication = await handleBopsGetRequest<
+      ApiResponse<BopsV2PlanningApplicationDetail | null>
+    >(council, `planning_applications/${reference}`);
+    missingData = privateApplication?.data;
+  }
+
+  const request = await handleBopsGetRequest<
+    ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
+  >(council, `public/planning_applications/${reference}`);
 
   const convertedData = request?.data
-    ? convertPlanningApplicationBops(
-        council,
-        request.data,
-        missing_data_request?.data,
-      )
+    ? convertBopsToDpr(council, request.data, missingData)
     : null;
 
   return { ...request, data: convertedData };

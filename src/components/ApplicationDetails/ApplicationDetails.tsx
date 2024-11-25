@@ -70,12 +70,7 @@ export const ApplicationDetails = ({
         documents={documents?.slice(0, 3) ?? null}
         totalDocuments={documents?.length ?? 0}
       />
-      <ApplicationPeople
-        applicant_first_name={application.application.applicant_first_name}
-        applicant_last_name={application.application.applicant_last_name}
-        agent_first_name={application.application.agent_first_name}
-        agent_last_name={application.application.agent_last_name}
-      />
+      <ApplicationPeople applicant={application.applicant} />
       {appConfig.council?.specialistComments && (
         <CommentsList
           councilSlug={appConfig?.council?.slug}

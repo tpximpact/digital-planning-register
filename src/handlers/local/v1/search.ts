@@ -56,10 +56,6 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
           determinedAt: null,
           decision: null,
           id: 0,
-          applicant_first_name: "",
-          applicant_last_name: "",
-          agent_first_name: "",
-          agent_last_name: "",
           documents: null,
         },
         property: {
@@ -87,6 +83,7 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
           },
         },
         proposal: { description: "6m extension" },
+        applicant: {},
       },
     ],
   },

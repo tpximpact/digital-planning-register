@@ -37,6 +37,8 @@ export const getAppConfig = (council?: string): AppConfig => {
     councils: councilConfigs,
     features: {
       documentsPublicEndpoint: true,
+      getApplicantDetailsFromPrivateEndpoint: true,
+      getApplicationIdFromPrivateEndpoint: true,
     },
     defaults: {
       resultsPerPage: 10,

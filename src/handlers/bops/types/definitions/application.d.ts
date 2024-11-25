@@ -5,6 +5,7 @@
 import { BopsBoundaryGeojson } from "./boundary-geojson";
 import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
+import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -71,6 +72,8 @@ export interface BopsPlanningApplication {
   proposal: {
     description: string;
   };
+  /** waiting on this */
+  applicant?: Applicant<any>;
 }
 
 /**

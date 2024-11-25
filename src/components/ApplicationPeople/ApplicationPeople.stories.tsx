@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationPeople } from "./ApplicationPeople";
+import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
 const meta = {
   title: "DPR Components/ApplicationPeople",
@@ -11,10 +12,7 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    applicant_first_name: "John",
-    applicant_last_name: "Smith",
-    agent_first_name: "Jane",
-    agent_last_name: "Smith",
+    applicant: generateDprApplication().applicant,
   },
 } satisfies Meta<typeof ApplicationPeople>;
 

@@ -143,10 +143,6 @@ export const generateDprApplication = (): DprPlanningApplication => {
       determinedAt: faker.date.anytime().toISOString(),
       decision: faker.helpers.arrayElement(["refused", "granted", null]),
       id: Number(faker.string.numeric(4)),
-      applicant_first_name: faker.person.firstName(),
-      applicant_last_name: faker.person.lastName(),
-      agent_first_name: faker.person.firstName(),
-      agent_last_name: faker.person.lastName(),
       documents: [
         {
           url: "/camden/24-00135-HAPP/application-form",
@@ -168,6 +164,30 @@ export const generateDprApplication = (): DprPlanningApplication => {
     },
     proposal: {
       description: faker.lorem.paragraphs(),
+    },
+    applicant: {
+      type: "company",
+      name: {
+        first: faker.person.firstName(),
+        last: faker.person.lastName(),
+      },
+      address: {
+        sameAsSiteAddress: true,
+      },
+      agent: {
+        name: {
+          first: faker.person.firstName(),
+          last: faker.person.lastName(),
+        },
+        address: {
+          line1: fakerEN_GB.location.street(),
+          line2: "",
+          town: fakerEN_GB.location.city(),
+          county: "",
+          postcode: fakerEN_GB.location.zipCode(),
+          country: "",
+        },
+      },
     },
   };
 };

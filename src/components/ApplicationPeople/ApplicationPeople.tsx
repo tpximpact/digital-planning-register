@@ -1,110 +1,142 @@
-import { BopsV2PlanningApplicationDetail } from "@/handlers/bops/types";
+import { DprPlanningApplication } from "@/types";
+import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 
-interface ApplicationPeopleProps
-  extends Pick<
-    BopsV2PlanningApplicationDetail,
-    | "applicant_first_name"
-    | "applicant_last_name"
-    | "agent_first_name"
-    | "agent_last_name"
-  > {}
+interface ApplicationPeopleProps {
+  applicant: DprPlanningApplication["applicant"];
+}
 
-export const ApplicationPeople = ({
-  applicant_first_name,
-  applicant_last_name,
-  agent_first_name,
-  agent_last_name,
-}: ApplicationPeopleProps) => {
+export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
+  const applicantName = concatenateFieldsInOrder(
+    applicant.name ?? {},
+    ["first", "last"],
+    " ",
+  );
+  const applicantType = applicant?.type;
+  const applicantAddress = applicant.address?.sameAsSiteAddress
+    ? "Same as site address"
+    : concatenateFieldsInOrder(applicant.address ?? {}, [
+        "line1",
+        "line2",
+        "town",
+        "county",
+        "postcode",
+        "country",
+      ]);
+  const agentName = concatenateFieldsInOrder(
+    applicant.agent?.name ?? {},
+    ["first", "last"],
+    " ",
+  );
+  const agentAddress = concatenateFieldsInOrder(
+    applicant.agent?.address ?? {},
+    ["line1", "line2", "town", "county", "postcode", "country"],
+  );
+
+  if (
+    (!applicantName &&
+      !applicantType &&
+      !applicantAddress &&
+      !agentName &&
+      !agentAddress) ||
+    !applicant
+  ) {
+    return <></>;
+  }
   return (
     <section aria-labelledby="people-section">
-      <h2 className="govuk-heading-l people-section" id="people-section">
+      <h2 className="govuk-heading-l" id="people-section">
         People
       </h2>
 
+      <p className="govuk-body">
+        If you want to find out more about this application, please contact the
+        case officer first.
+      </p>
+
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Applicant</h3>
+        {(agentName || agentAddress) && (
+          <div className="govuk-grid-column-one-half-from-desktop grid-row-extra-bottom-margin">
+            <h3 className="govuk-heading-m">Applicant&apos;s Agent</h3>
+            <p className="govuk-hint">
+              This is who the applicant has engaged to manage this application
+              for them.
+            </p>
 
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Name</dt>
-                <dd className="govuk-body">
-                  {applicant_first_name} {applicant_last_name}
-                </dd>
-              </dl>
-            </div>
+            {agentName && (
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">
+                    <span className="govuk-visually-hidden">
+                      Applicant&apos;s Agent{" "}
+                    </span>
+                    Name
+                  </h4>
+                  <p className="govuk-body">{agentName}</p>
+                </div>
+              </div>
+            )}
+            {agentAddress && (
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">
+                    <span className="govuk-visually-hidden">
+                      Applicant&apos;s Agent{" "}
+                    </span>
+                    Address
+                  </h4>
+                  <p className="govuk-body">{agentAddress}</p>
+                </div>
+              </div>
+            )}
           </div>
+        )}
 
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Type</dt>
-                <dd className="govuk-body">Company</dd>
-              </dl>
-            </div>
+        {(applicantName || applicantType || applicantAddress) && (
+          <div className="govuk-grid-column-one-half-from-desktop grid-row-extra-bottom-margin">
+            <h3 className="govuk-heading-m">Applicant</h3>
+            <p className="govuk-hint">
+              This is who has submitted this application.
+            </p>
+
+            {applicantName && (
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">
+                    <span className="govuk-visually-hidden">Applicant </span>
+                    Name
+                  </h4>
+                  <p className="govuk-body">{applicantName}</p>
+                </div>
+              </div>
+            )}
+
+            {applicantType && (
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">
+                    <span className="govuk-visually-hidden">Applicant </span>
+                    Type
+                  </h4>
+                  <p className="govuk-body">
+                    {capitalizeFirstLetter(applicantType)}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {applicantAddress && (
+              <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                  <h4 className="govuk-heading-s">
+                    <span className="govuk-visually-hidden">Applicant </span>
+                    Address
+                  </h4>
+                  <p className="govuk-body">{applicantAddress}</p>
+                </div>
+              </div>
+            )}
           </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Relationship to property</dt>
-                <dd className="govuk-body">No Information</dd>
-              </dl>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Company</dt>
-                <dd className="govuk-body">No Information</dd>
-              </dl>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Address</dt>
-                <dd className="govuk-body">No Information</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-
-        <div className="govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-          <h3 className="govuk-heading-m">Applicants Agent</h3>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Name</dt>
-                <dd className="govuk-body">
-                  {agent_first_name} {agent_last_name}
-                </dd>
-              </dl>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Company</dt>
-                <dd className="govuk-body">No Information</dd>
-              </dl>
-            </div>
-          </div>
-
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-              <dl>
-                <dt className="govuk-heading-s">Address</dt>
-                <dd className="govuk-body">No Information</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

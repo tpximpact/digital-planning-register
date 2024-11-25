@@ -8,6 +8,8 @@
  * DprBoundaryGeojson - the messy data bit that describes the boundary of a planning application
  */
 
+import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+
 /**
  *
  *
@@ -46,22 +48,6 @@ export interface DprPlanningApplication {
      * @todo this is missing from the public BOPS response
      */
     id: number;
-    /**
-     * @todo this is missing from the public BOPS response
-     */
-    applicant_first_name: string;
-    /**
-     * @todo this is missing from the public BOPS response
-     */
-    applicant_last_name: string;
-    /**
-     * @todo this is missing from the public BOPS response
-     */
-    agent_first_name: string;
-    /**
-     * @todo this is missing from the public BOPS response
-     */
-    agent_last_name: string;
 
     /**
      * @todo this is missing from the public BOPS response BUT we have a new public endpoint for them
@@ -79,6 +65,7 @@ export interface DprPlanningApplication {
   proposal: {
     description: string;
   };
+  applicant: Applicant<any>;
 }
 
 /**

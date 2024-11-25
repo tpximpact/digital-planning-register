@@ -5,3 +5,4 @@ export * from "./formatDates";
 export * from "./formatFileSize";
 export * from "./validation";
 export * from "./slugify";
+export * from "./concatenateFieldsInOrder";

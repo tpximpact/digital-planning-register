@@ -3,7 +3,7 @@
 import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
-import { convertPlanningApplicationBops } from "../converters";
+import { convertBopsToDpr } from "../converters/planningApplication";
 import { defaultPagination } from "@/handlers/lib";
 
 /**
@@ -63,9 +63,7 @@ export async function search(
       dsnApplicationIds.length > 0 ? fakePagination : defaultPagination,
     data: planningApplications
       .filter((ap) => dsnApplicationIds.includes(ap.application.reference))
-      .map((application) =>
-        convertPlanningApplicationBops(council, application),
-      ),
+      .map((application) => convertBopsToDpr(council, application)),
   };
 
   return { ...request, data: convertedData };

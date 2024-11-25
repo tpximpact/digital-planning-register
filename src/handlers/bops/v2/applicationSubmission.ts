@@ -3,9 +3,9 @@
 import { ApiResponse } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/handlers/bops/types";
 import { DprApplicationSubmissionApiResponse } from "@/types";
-import { convertPlanningApplicationOverviewBops } from "../converters";
 import { handleBopsGetRequest } from "../requests";
 import { convertApplicationSubmissionBops } from "../converters/applicationSubmission";
+import { convertBopsApplicationToDpr } from "../converters/planningApplication";
 
 /**
  * GET /api/v2/planning_applications/{reference}/submission
@@ -24,7 +24,7 @@ export async function applicationSubmission(
   >(council, url);
 
   if (request.data?.application) {
-    const application = convertPlanningApplicationOverviewBops(
+    const application = convertBopsApplicationToDpr(
       council,
       request.data?.application,
     );

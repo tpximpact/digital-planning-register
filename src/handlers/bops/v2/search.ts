@@ -3,8 +3,8 @@
 import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
-import { convertPlanningApplicationBops } from "../converters";
 import { defaultPagination } from "@/handlers/lib";
+import { convertBopsToDpr } from "../converters/planningApplication";
 
 /**
  * Get list of public applications, also used for search
@@ -42,7 +42,7 @@ export async function search(
   const convertedData = {
     pagination: request.data?.metadata ?? defaultPagination,
     data: planningApplications.map((application) =>
-      convertPlanningApplicationBops(council, application),
+      convertBopsToDpr(council, application),
     ),
   };
 
