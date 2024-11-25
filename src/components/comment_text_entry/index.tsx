@@ -170,6 +170,7 @@ const CommentTextEntry = ({
                     ? "length-error"
                     : undefined
               }
+              autoComplete="off"
             ></textarea>
           </div>
           {!hideContinue && (
