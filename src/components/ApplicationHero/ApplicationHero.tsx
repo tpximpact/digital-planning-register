@@ -63,8 +63,10 @@ export const ApplicationHero = ({
         </div>
 
         <div className="govuk-grid-column-two-thirds-from-desktop">
-          <h2 className="govuk-heading-s">Address</h2>
-          <p className="govuk-body">{address}</p>
+          <dl>
+            <dt className="govuk-heading-s">Address</dt>
+            <dd className="govuk-body">{address}</dd>
+          </dl>
         </div>
       </div>
 
