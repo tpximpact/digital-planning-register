@@ -1,5 +1,5 @@
 "use client";
-import { capitaliseWord } from "@/util";
+import { capitaliseWord, formatDprDate } from "@/util";
 import React, { useState, useEffect, useRef } from "react";
 import { DprComment } from "@/types";
 import "./CommentCard.scss";
@@ -52,13 +52,19 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
           ref={commentContainerRef}
           className={`comment-container ${isOverflowing ? "comment-container-js" : ""}`}
         >
-          <h3 className="govuk-heading-m">Comment #{commentNumber}</h3>
-          <p className="govuk-body">
-            <em>
-              Published{" "}
-              {new Date(comment?.received_at ?? "").toLocaleDateString("en-GB")}
-            </em>
-          </p>
+          <h3 className="govuk-heading-m">
+            {`Comment #${commentNumber}`}
+            {comment?.received_at && (
+              <span className="govuk-visually-hidden">
+                <em>published {formatDprDate(comment.received_at)}</em>
+              </span>
+            )}
+          </h3>
+          {comment?.received_at && (
+            <p className="govuk-body">
+              <em>Published {formatDprDate(comment.received_at)}</em>
+            </p>
+          )}
           {comment.sentiment && (
             <div>
               <div className="govuk-heading-s">
