@@ -27,38 +27,48 @@ export const ApplicationPeople = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">
-                {applicant_first_name} {applicant_last_name}
-              </p>
+              <dl>
+                <dt className="govuk-heading-s">Name</dt>
+                <dd className="govuk-body">
+                  {applicant_first_name} {applicant_last_name}
+                </dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Type</h4>
-              <p className="govuk-body">Company</p>
+              <dl>
+                <dt className="govuk-heading-s">Type</dt>
+                <dd className="govuk-body">Company</dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Relationship to property</h4>
-              <p className="govuk-body">No Information</p>
+              <dl>
+                <dt className="govuk-heading-s">Relationship to property</dt>
+                <dd className="govuk-body">No Information</dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Company</h4>
-              <p className="govuk-body">No Information</p>
+              <dl>
+                <dt className="govuk-heading-s">Company</dt>
+                <dd className="govuk-body">No Information</dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">No Information</p>
+              <dl>
+                <dt className="govuk-heading-s">Address</dt>
+                <dd className="govuk-body">No Information</dd>
+              </dl>
             </div>
           </div>
         </div>
@@ -68,24 +78,30 @@ export const ApplicationPeople = ({
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Name</h4>
-              <p className="govuk-body">
-                {agent_first_name} {agent_last_name}
-              </p>
+              <dl>
+                <dt className="govuk-heading-s">Name</dt>
+                <dd className="govuk-body">
+                  {agent_first_name} {agent_last_name}
+                </dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Company</h4>
-              <p className="govuk-body">No Information</p>
+              <dl>
+                <dt className="govuk-heading-s">Company</dt>
+                <dd className="govuk-body">No Information</dd>
+              </dl>
             </div>
           </div>
 
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
-              <h4 className="govuk-heading-s">Address</h4>
-              <p className="govuk-body">No Information</p>
+              <dl>
+                <dt className="govuk-heading-s">Address</dt>
+                <dd className="govuk-body">No Information</dd>
+              </dl>
             </div>
           </div>
         </div>

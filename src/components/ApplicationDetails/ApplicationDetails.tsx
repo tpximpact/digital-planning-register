@@ -42,10 +42,12 @@ export const ApplicationDetails = ({
           application={application}
         />
       )}
-      <h2 className="govuk-heading-l">Description</h2>
-      <p className="govuk-body" id="application-description">
-        {description}
-      </p>
+      <dl>
+        <dt className="govuk-heading-l">Description</dt>
+        <dd className="govuk-body" id="application-description">
+          {description}
+        </dd>
+      </dl>
       {applicationStatus !== "determined" && (
         <div className="govuk-grid-row extra-top-margin">
           <div className="govuk-grid-column-full">
