@@ -44,17 +44,19 @@ export const ApplicationCard = ({
       : undefined;
 
   return (
-    <div className="govuk-grid-row grid-row-extra-bottom-margin search-card">
+    <article className="govuk-grid-row grid-row-extra-bottom-margin search-card">
       <div className="govuk-grid-column-full">
         {/* row 1 - reference and address */}
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
-            <h2 className="govuk-heading-s">Application Reference</h2>
-            <p className="govuk-body">{reference}</p>
+            <p className="govuk-heading-s">Application Reference</p>
+            <h3 className="govuk-body">{reference}</h3>
           </div>
           <div className="govuk-grid-column-two-thirds">
-            <h3 className="govuk-heading-s">Address</h3>
-            <p className="govuk-body">{address}</p>
+            <dl>
+              <dt className="govuk-heading-s">Address</dt>
+              <dd className="govuk-body">{address}</dd>
+            </dl>
           </div>
         </div>
 
@@ -69,40 +71,44 @@ export const ApplicationCard = ({
             </div>
           )}
           <div className="govuk-grid-column-two-thirds">
-            <h3 className="govuk-heading-s">Description</h3>
-            <DescriptionCard description={description} />
+            <dl>
+              <dt className="govuk-heading-s">Description</dt>
+              <dd>
+                <DescriptionCard description={description} />
+              </dd>
+            </dl>
           </div>
         </div>
 
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             {applicationType && (
-              <>
-                <h3 className="govuk-heading-s">Application Type</h3>
-                <p className="govuk-body">
+              <dl>
+                <dt className="govuk-heading-s">Application Type</dt>
+                <dd className="govuk-body">
                   {formatApplicationType(applicationType)}
-                </p>
-              </>
+                </dd>
+              </dl>
             )}
           </div>
 
           <div className="govuk-grid-column-one-third">
             {applicationStatusDefined && (
-              <>
-                <h3 className="govuk-heading-s">Status</h3>
-                <p className="govuk-body">{applicationStatusDefined}</p>
-              </>
+              <dl>
+                <dt className="govuk-heading-s">Status</dt>
+                <dd className="govuk-body">{applicationStatusDefined}</dd>
+              </dl>
             )}
           </div>
 
           <div className="govuk-grid-column-one-third">
             {applicationReceivedAt && (
-              <>
-                <h3 className="govuk-heading-s">Received Date</h3>
-                <p className="govuk-body">
+              <dl>
+                <dt className="govuk-heading-s">Received Date</dt>
+                <dd className="govuk-body">
                   {formatDprDate(applicationReceivedAt)}
-                </p>
-              </>
+                </dd>
+              </dl>
             )}
           </div>
         </div>
@@ -110,38 +116,38 @@ export const ApplicationCard = ({
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             {applicationPublishedAt && (
-              <>
-                <h3 className="govuk-heading-s">Published Date</h3>
-                <p className="govuk-body">
+              <dl>
+                <dt className="govuk-heading-s">Published Date</dt>
+                <dd className="govuk-body">
                   {formatDprDate(applicationPublishedAt)}
-                </p>
-              </>
+                </dd>
+              </dl>
             )}
           </div>
           <div className="govuk-grid-column-one-third">
             {consultationEndDate && (
-              <>
-                <h3 className="govuk-heading-s">Consultation End Date</h3>
-                <p className="govuk-body">
+              <dl>
+                <dt className="govuk-heading-s">Consultation End Date</dt>
+                <dd className="govuk-body">
                   {formatDprDate(consultationEndDate)}
-                </p>
-              </>
+                </dd>
+              </dl>
             )}
           </div>
           <div className="govuk-grid-column-one-third">
             {decisionDate && (
-              <>
-                <h3 className="govuk-heading-s">Decision Date</h3>
-                <p className="govuk-body">{decisionDate}</p>
-              </>
+              <dl>
+                <dt className="govuk-heading-s">Decision Date</dt>
+                <dd className="govuk-body">{decisionDate}</dd>
+              </dl>
             )}
           </div>
           <div className="govuk-grid-column-one-third">
             {decisionDefined && (
-              <>
-                <h3 className="govuk-heading-s">Decision</h3>
-                <p className="govuk-body">{decisionDefined}</p>
-              </>
+              <dl>
+                <dt className="govuk-heading-s">Decision</dt>
+                <dd className="govuk-body">{decisionDefined}</dd>
+              </dl>
             )}
           </div>
         </div>
@@ -157,6 +163,6 @@ export const ApplicationCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
