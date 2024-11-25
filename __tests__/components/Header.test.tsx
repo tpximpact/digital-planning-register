@@ -93,7 +93,7 @@ describe("Header", () => {
       ).toBeInTheDocument();
 
       const councilElement = screen.getByRole("link", {
-        name: "Public Council 2 Council",
+        name: "Public Council 2",
       });
       expect(councilElement).toBeInTheDocument();
       expect(councilElement).toHaveClass("dpr-header__council-name");

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Header } from "./Header";
-import { createAppConfig } from "@mocks/appConfigFactory";
+import { createAppConfig, createCouncilConfig } from "@mocks/appConfigFactory";
 
 const appConfig = createAppConfig();
 const appConfigCouncilPage = createAppConfig("public-council-1");
@@ -26,18 +26,31 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const PublicPage: Story = {
+export const NoCouncil: Story = {
   args: {
     appConfig,
   },
 };
-export const CouncilPage: Story = {
+
+export const CouncilWithLogo: Story = {
   args: {
     appConfig: appConfigCouncilPage,
   },
 };
-export const CouncilWithNoLogoPage: Story = {
+
+const baseCouncilConfig = createCouncilConfig({ councilName: "Dev Test" });
+const baseAppConfig = {
+  ...appConfig,
+  council: baseCouncilConfig,
+};
+
+export const CouncilWithoutLogo: Story = {
+  args: {
+    appConfig: baseAppConfig,
+  },
+};
+
+export const CouncilWithCouncilInNameWithoutLogo: Story = {
   args: {
     appConfig: appConfigCouncilNoLogoPage,
   },

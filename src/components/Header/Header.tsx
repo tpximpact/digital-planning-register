@@ -51,7 +51,12 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
                 </span>
               </>
             ) : (
-              <span>{councilConfig.name} Council</span>
+              <span>
+                {councilConfig.name}
+                {!councilConfig.name?.toLowerCase().includes("council")
+                  ? " Council"
+                  : ""}
+              </span>
             )}
           </Link>
         )}
