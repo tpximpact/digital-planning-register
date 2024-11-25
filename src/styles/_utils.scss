@@ -1,3 +1,5 @@
+@import "node_modules/govuk-frontend/dist/govuk/base";
+
 %visually-hidden {
   position: absolute;
   width: 1px;
@@ -19,8 +21,7 @@
 }
 
 .grid-row-extra-bottom-margin {
-  margin-bottom: 2rem;
-  // margin-top: 2rem;
+  margin-bottom: govuk-spacing(6);
 }
 
 .js-enabled {
@@ -29,6 +30,7 @@
   }
 }
 
+// 99.9% sure this code is redundant
 .js-enabled .js-only {
   display: inline;
 }
