@@ -52,18 +52,35 @@ export const CommentsEnabled: Story = {
       ...baseApplication,
       application: {
         ...baseApplication.application,
-        status: "not_started",
+        consultation: {
+          ...baseApplication.application.consultation,
+          allowComments: true,
+        },
       },
     },
   },
 };
-export const CommentsDisabled: Story = {
+export const CommentsDisabledBecauseDetermined: Story = {
   args: {
     application: {
       ...baseApplication,
       application: {
         ...baseApplication.application,
         status: "determined",
+      },
+    },
+  },
+};
+export const CommentsDisabledBecauseFlag: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        consultation: {
+          ...baseApplication.application.consultation,
+          allowComments: false,
+        },
       },
     },
   },

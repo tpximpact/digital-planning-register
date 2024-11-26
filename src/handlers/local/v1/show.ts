@@ -7,7 +7,9 @@ const response = (reference: string): ApiResponse<DprShowApiResponse> => {
   const application = generateDprApplication();
   application.application.reference = reference;
 
+  // it can never be ldc because comments are disabled there!
   if (reference === "TEST-C0MNT-F10W") {
+    const application = generateDprApplication({ applicationType: "pp" });
     application.application.status = "in_assessment";
   }
 
