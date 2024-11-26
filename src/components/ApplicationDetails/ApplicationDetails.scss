@@ -1,0 +1,17 @@
+@import "src/styles/component-base";
+
+$selector: "dpr-application-details";
+.#{$selector} {
+  &--flow > * + * {
+    margin-block-start: govuk-spacing(8);
+  }
+
+  @include govuk-media-query($from: desktop) {
+    &--sticky {
+      .#{$selector}__sidebar {
+        position: sticky;
+        top: govuk-spacing(6);
+      }
+    }
+  }
+}
