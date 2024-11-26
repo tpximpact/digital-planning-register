@@ -1,25 +1,30 @@
 import { DprContentPage } from "@/types";
 import Link from "next/link";
 import "./ContentSidebar.scss";
-import { slugify } from "@/util";
 
 export interface ContentSidebarProps {
   content: DprContentPage[];
+  withHeadings?: boolean;
+  isSticky?: boolean;
 }
 
-export const ContentSidebar = ({ content }: ContentSidebarProps) => {
-  if (!content) {
+export const ContentSidebar = ({
+  content,
+  withHeadings,
+  isSticky,
+}: ContentSidebarProps) => {
+  if (!content || content.length === 0) {
     return null;
   }
   return (
-    <nav className="contents-bar" aria-label="Table of contents">
+    <nav
+      className={`dpr-content-sidebar${withHeadings ? ` dpr-content-sidebar--with-headings` : ``}${isSticky ? ` dpr-content-sidebar--sticky` : ``}`}
+      aria-label="Table of contents"
+    >
       <h2 className="govuk-heading-l" id="contents-title">
         Contents
       </h2>
       <NestedContentList content={content} depth={0} />
-      {/* <ul role="list" aria-labelledby="contents-title">
-        {renderContent(content)}
-      </ul> */}
     </nav>
   );
 };
@@ -32,14 +37,12 @@ const NestedContentList = ({
   depth: number;
 }) => {
   const renderPage = (c: DprContentPage, depth: number = 0) => {
-    const className =
-      depth > 0
-        ? `contents-bar__${depth} contents-bar__sub-list`
-        : `contents-bar__${depth} contents-bar__list-heading`;
-
     return (
-      <li key={c.key}>
-        <div className={className}>
+      <li
+        key={c.key}
+        className={`dpr-content-sidebar__level dpr-content-sidebar__level--${depth}`}
+      >
+        <div className={`dpr-content-sidebar__text`}>
           <Link href={`#${c.key}`}>{c.title}</Link>
         </div>
         {c.children && c.children.length > 0 && (
