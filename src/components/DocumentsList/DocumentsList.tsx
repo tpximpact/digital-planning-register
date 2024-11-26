@@ -25,21 +25,18 @@ export const DocumentsList = ({
   showMoreButton = false,
 }: DocumentsListProps) => {
   return (
-    <section
-      className="grid-row-extra-bottom-margin documents-container"
-      aria-labelledby="documents-section"
-    >
-      <h2 className="govuk-heading-l" id="documents-section">
+    <section className="dpr-documents-list" aria-labelledby="documents">
+      <h2 className="govuk-heading-l" id="documents">
         Documents
       </h2>
-      <p className="govuk-body documents-containers">
+      <p className="govuk-body">
         To find out more detailed information, please read the following
         document(s) provided by the applicant.
       </p>
 
       {documents && documents.length > 0 ? (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin file-table">
+          <div className="dpr-documents-list__cards">
             {documents.map((document, i) => (
               <DocumentCard key={i} document={document} />
             ))}
