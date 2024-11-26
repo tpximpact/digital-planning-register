@@ -3,17 +3,12 @@
 
 // currently used on the planning process page to amend the styles of list-heading
 
-.contents-bar {
+$selector: "dpr-content-sidebar";
+.#{$selector} {
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-
-  // third level down!
-  ul li ul li ul {
-    margin-left: govuk-spacing(4);
-    padding: 0;
   }
 
   div {
@@ -29,15 +24,8 @@
     }
   }
 
-  &__list-heading a {
-    font-weight: bold;
-  }
-
-  ul {
-    padding: 0 0 govuk-spacing(3) 0;
-  }
-
-  &__sub-list {
+  // give everything bullets
+  &__text {
     margin-left: 2em;
     position: relative;
 
@@ -45,6 +33,32 @@
       content: "—";
       position: relative;
       margin: 0 1em 0 -2em;
+    }
+  }
+
+  // nest the bullets
+  ul ul {
+    margin-left: govuk-spacing(4);
+    padding: 0;
+  }
+
+  &--with-headings {
+    // first level text is bold with no bullet
+    .#{$selector}__level--0 {
+      > .#{$selector}__text {
+        font-weight: bold;
+        &:before {
+          content: "";
+        }
+      }
+    }
+  }
+
+  // remember the nearest scrolling ancestor and/or containing block will need flex to behave if using govuk-row
+  @include govuk-media-query($from: desktop) {
+    &--sticky {
+      position: sticky;
+      top: govuk-spacing(6);
     }
   }
 }

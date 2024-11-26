@@ -10,8 +10,8 @@ export interface DocumentCardProps {
 
 export const DocumentCard = ({ document }: DocumentCardProps) => {
   return (
-    <div className="dpr-document-card govuk-grid-column-one-third-from-desktop grid-row-extra-bottom-margin">
-      <div className="govuk-grid-column-one-third">
+    <div className="dpr-document-card">
+      <div className="dpr-document-card__image" aria-hidden="true">
         <Image
           src={file}
           alt="Document"
@@ -22,7 +22,7 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
           role="img"
         />
       </div>
-      <div className="govuk-grid-column-two-thirds">
+      <div className="dpr-document-card__data">
         <p className="govuk-body document-title-link">
           <a
             href={document?.url}

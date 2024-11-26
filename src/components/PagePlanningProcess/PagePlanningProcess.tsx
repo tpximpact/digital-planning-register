@@ -9,13 +9,17 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
   return (
     <>
       <BackLink />
-      <div className="govuk-main-wrapper">
+      <div className="govuk-main-wrapper dpr-page-planning-process">
         <h1 className="govuk-heading-xl">
           Help using the Digital Planning Register
         </h1>
+
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third-from-desktop contents-bar">
-            <ContentSidebar content={contentPlanningProcess()} />
+          <div className="govuk-grid-column-one-third-from-desktop">
+            <ContentSidebar
+              content={contentPlanningProcess()}
+              withHeadings={true}
+            />
           </div>
 
           <div className="govuk-grid-column-two-thirds-from-desktop">

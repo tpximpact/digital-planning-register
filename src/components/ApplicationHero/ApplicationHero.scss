@@ -3,8 +3,6 @@
 $selector: "dpr-application-hero";
 
 .#{$selector} {
-  margin-bottom: govuk-spacing(6);
-
   &__head {
     margin-bottom: govuk-spacing(6);
   }
@@ -29,6 +27,7 @@ $selector: "dpr-application-hero";
     grid-template-columns: 1fr;
     gap: $govuk-gutter-half * 2;
     @include govuk-media-query($from: desktop) {
+      gap: $govuk-gutter-half * 4;
       grid-template-columns: 1fr 1fr;
     }
   }
