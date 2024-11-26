@@ -1,5 +1,4 @@
 import Image from "next/image";
-import file from "./file-icon--default.svg";
 import { DprDocument } from "@/types";
 import { formatFileSize } from "@/util";
 import "./DocumentCard.scss";
@@ -9,19 +8,10 @@ export interface DocumentCardProps {
 }
 
 export const DocumentCard = ({ document }: DocumentCardProps) => {
+  console.log(document.metadata.contentType);
   return (
     <div className="dpr-document-card">
-      <div className="dpr-document-card__image" aria-hidden="true">
-        <Image
-          src={file}
-          alt="Document"
-          width={130}
-          height={160}
-          className="file-icon"
-          aria-label="Document"
-          role="img"
-        />
-      </div>
+      <div className="dpr-document-card__image" aria-hidden="true"></div>
       <div className="dpr-document-card__data">
         <p className="govuk-body document-title-link">
           <a
