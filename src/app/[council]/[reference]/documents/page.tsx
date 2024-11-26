@@ -4,13 +4,14 @@ import {
   DprShowApiResponse,
   DprDocumentsApiResponse,
   SearchParams,
+  DprApplicationSubmissionApiResponse,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
 import { ContentNotFound } from "@/components/ContentNotFound";
-import { buildDocumentData } from "@/lib/documents";
+import { applicationFormObject, buildDocumentData } from "@/lib/documents";
 import { PageApplicationDocuments } from "@/components/PageApplicationDocuments";
 
 interface PlanningApplicationDetailsDocumentsProps {
@@ -26,18 +27,29 @@ async function fetchData({
 }: PlanningApplicationDetailsDocumentsProps): Promise<{
   applicationResponse: ApiResponse<DprShowApiResponse | null>;
   documentResponse: ApiResponse<DprDocumentsApiResponse | null>;
+  applicationSubmissionResponse: ApiResponse<DprApplicationSubmissionApiResponse | null>;
 }> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
-  const [applicationResponse, documentResponse] = await Promise.all([
-    ApiV1.show(appConfig.council?.dataSource ?? "none", council, reference),
-    ApiV1.documents(
-      appConfig.council?.dataSource ?? "none",
-      council,
-      reference,
-    ),
-  ]);
-  return { applicationResponse, documentResponse };
+  const [applicationResponse, documentResponse, applicationSubmissionResponse] =
+    await Promise.all([
+      ApiV1.show(appConfig.council?.dataSource ?? "none", council, reference),
+      ApiV1.documents(
+        appConfig.council?.dataSource ?? "none",
+        council,
+        reference,
+      ),
+      ApiV1.applicationSubmission(
+        appConfig.council?.dataSource ?? "none",
+        council,
+        reference,
+      ),
+    ]);
+  return {
+    applicationResponse,
+    documentResponse,
+    applicationSubmissionResponse,
+  };
 }
 
 export async function generateMetadata({
@@ -59,7 +71,11 @@ export default async function PlanningApplicationDetailsDocuments({
 }: PlanningApplicationDetailsDocumentsProps) {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
-  const { applicationResponse, documentResponse } = await fetchData({ params });
+  const {
+    applicationResponse,
+    documentResponse,
+    applicationSubmissionResponse,
+  } = await fetchData({ params });
 
   if (
     !documentResponse ||
@@ -74,7 +90,7 @@ export default async function PlanningApplicationDetailsDocuments({
   }
 
   const application = applicationResponse?.data;
-  const documents = appConfig.features.documentsPublicEndpoint
+  let documents = appConfig.features.documentsPublicEndpoint
     ? documentResponse?.data?.files
     : application?.application.documents;
 
@@ -84,6 +100,11 @@ export default async function PlanningApplicationDetailsDocuments({
         <ContentNotFound councilConfig={appConfig.council} />
       </PageWrapper>
     );
+  }
+
+  if (applicationSubmissionResponse.data?.submission) {
+    const applicationForm = applicationFormObject(council, reference);
+    documents = documents ? [applicationForm, ...documents] : [applicationForm];
   }
 
   const documentData = buildDocumentData(documents, searchParams);

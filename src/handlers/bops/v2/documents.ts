@@ -1,6 +1,4 @@
 "use server";
-
-import { ApplicationFormObject } from "@/components/application_form";
 import { ApiResponse, DprDocumentsApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
 import {
@@ -28,15 +26,11 @@ export async function documents(
       results: 0,
       totalResults: 0,
     },
-    ...restData
   } = request.data || {};
-
-  // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
 
   const convertedData = {
     pagination: convertBopsDocumentPagination(metadata),
-    files: [applicationFormDocument, ...files.map(convertDocumentBopsFile)],
+    files: files.map(convertDocumentBopsFile),
   };
 
   return { ...request, data: convertedData };

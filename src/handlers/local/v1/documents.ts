@@ -21,16 +21,10 @@ const responseQuery = (
   const appConfig = getAppConfig();
   const resultsPerPage = appConfig.defaults.resultsPerPage;
 
-  const documents = [
-    {
-      url: `/${council}/${reference}/application-form`,
-      title: "Application form",
-      metadata: {
-        contentType: "text/html",
-      },
-    },
-    ...generateNResults<DprDocument>(resultsPerPage, generateDocument),
-  ];
+  const documents = generateNResults<DprDocument>(
+    resultsPerPage,
+    generateDocument,
+  );
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {

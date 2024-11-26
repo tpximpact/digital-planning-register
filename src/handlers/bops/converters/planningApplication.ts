@@ -6,7 +6,6 @@ import {
 } from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
-import { ApplicationFormObject } from "@/components/application_form";
 import { convertDocumentBopsNonStandard } from "./documents";
 import { getCommentsAllowed } from "@/lib/planningApplication";
 
@@ -46,11 +45,6 @@ export const convertBopsApplicationToDpr = (
       ? sortComments(publishedComments?.map(convertCommentBops))
       : null;
 
-  const reference = application.reference;
-
-  // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
-
   return {
     reference: application.reference,
     type: {
@@ -72,10 +66,7 @@ export const convertBopsApplicationToDpr = (
     // missing fields from public endpoint
     id: privateApplication?.id ?? 0,
     documents: privateApplication?.documents
-      ? [
-          applicationFormDocument,
-          ...privateApplication.documents.map(convertDocumentBopsNonStandard),
-        ]
+      ? privateApplication.documents.map(convertDocumentBopsNonStandard)
       : null,
   };
 };
