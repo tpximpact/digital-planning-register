@@ -29,6 +29,11 @@ export interface DprPlanningApplication {
     consultation: {
       endDate: string | null;
       /**
+       * proposed new field by us
+       * commentingEnabled commentingAllowed allowComments ??
+       */
+      allowComments?: boolean;
+      /**
        * NB: These are only included in BOPS details call not search one
        */
       publishedComments: DprComment[] | null;

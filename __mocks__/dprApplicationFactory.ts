@@ -1,4 +1,7 @@
-import { validApplicationTypes } from "@/lib/planningApplication";
+import {
+  validApplicationTypes,
+  getCommentsAllowed,
+} from "@/lib/planningApplication";
 import {
   DprPlanningApplication,
   DprComment,
@@ -6,6 +9,7 @@ import {
   DprBoundaryGeojson,
   DprPagination,
 } from "@/types";
+import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
 
@@ -117,9 +121,12 @@ export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
  *
  * @returns {DprPlanningApplication} A random DPR application object.
  */
-export const generateDprApplication = (): DprPlanningApplication => {
+export const generateDprApplication = ({
+  applicationType,
+}: { applicationType?: ApplicationType } = {}): DprPlanningApplication => {
   const applicationTypes = Object.values(validApplicationTypes).flat();
-  const applicationType = faker.helpers.arrayElement(applicationTypes);
+  applicationType =
+    applicationType ?? faker.helpers.arrayElement(applicationTypes);
   return {
     applicationType: applicationType,
     application: {
@@ -133,6 +140,7 @@ export const generateDprApplication = (): DprPlanningApplication => {
         endDate: faker.date.anytime().toISOString(),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
+        allowComments: getCommentsAllowed(applicationType),
       },
       receivedAt: faker.date.anytime().toISOString(),
       validAt: faker.date.anytime().toISOString(),

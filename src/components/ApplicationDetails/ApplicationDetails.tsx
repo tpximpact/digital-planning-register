@@ -32,6 +32,8 @@ export const ApplicationDetails = ({
   const description = application.proposal.description;
   const applicationStatus = application.application.status;
   const councilSlug = appConfig.council.slug;
+  const commentsEnabled =
+    application.application.consultation.allowComments ?? true;
 
   return (
     <>
@@ -48,7 +50,7 @@ export const ApplicationDetails = ({
           {description}
         </dd>
       </dl>
-      {applicationStatus !== "determined" && (
+      {applicationStatus !== "determined" && commentsEnabled && (
         <div className="govuk-grid-row extra-top-margin">
           <div className="govuk-grid-column-full">
             <Link

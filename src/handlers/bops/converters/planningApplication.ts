@@ -8,6 +8,7 @@ import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
 import { ApplicationFormObject } from "@/components/application_form";
 import { convertDocumentBopsNonStandard } from "./documents";
+import { getCommentsAllowed } from "@/lib/planningApplication";
 
 export const convertBopsToDpr = (
   council: string,
@@ -60,6 +61,7 @@ export const convertBopsApplicationToDpr = (
       endDate: application.consultation?.endDate ?? null,
       consulteeComments: consultee_comments,
       publishedComments: published_comments,
+      allowComments: getCommentsAllowed(application.type.value),
     },
     receivedAt: application.receivedAt,
     validAt: application.validAt ?? null,
