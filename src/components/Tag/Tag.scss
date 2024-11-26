@@ -2,13 +2,13 @@
 @import "node_modules/govuk-frontend/dist/govuk/core/index";
 @import "node_modules/govuk-frontend/dist/govuk/components/tag/index";
 
-.dpr-application-decision-label {
+.dpr-tag {
   @extend .govuk-tag;
   max-width: fit-content;
 
   // when the component is use 'inline' the padding is removed for the --none modifier
   &--inline {
-    &.dpr-application-decision-label--none {
+    &.dpr-tag--none {
       padding-left: 0;
       padding-right: 0;
     }

@@ -1,11 +1,12 @@
+import { validApplicationTypes } from "@/lib/planningApplication";
 import {
-  ApiResponse,
   DprPlanningApplication,
   DprComment,
   DprDocument,
   DprBoundaryGeojson,
   DprPagination,
 } from "@/types";
+
 import { faker, fakerEN_GB } from "@faker-js/faker";
 
 /**
@@ -117,16 +118,12 @@ export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
  * @returns {DprPlanningApplication} A random DPR application object.
  */
 export const generateDprApplication = (): DprPlanningApplication => {
+  const applicationTypes = Object.values(validApplicationTypes).flat();
+  const applicationType = faker.helpers.arrayElement(applicationTypes);
   return {
+    applicationType: applicationType,
     application: {
       reference: generateReference(),
-      type: {
-        description: faker.helpers.arrayElement([
-          "planning_permission",
-          "prior_approval",
-          "lawfulness_certificate",
-        ]),
-      },
       status: faker.helpers.arrayElement([
         "not_started",
         "determined",

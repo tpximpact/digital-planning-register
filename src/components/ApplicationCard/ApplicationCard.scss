@@ -1,11 +1,41 @@
 @import "src/styles/component-base";
 
-.search-card {
+.dpr-application-card {
+  background: govuk-colour("light-grey");
   background: govuk-colour("light-grey");
   border: 2px solid white;
-  padding: 20px 10px 0 10px;
-}
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(6);
+  position: relative;
 
-.search-card .govuk-grid-row {
-  margin-bottom: 1em;
+  .govuk-grid-row {
+    margin-bottom: govuk-spacing(6);
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  // map and data
+  &__map {
+    @include govuk-grid-column("one-third", $at: desktop);
+    margin-bottom: govuk-spacing(6);
+  }
+  &__data {
+    @include govuk-grid-column("two-thirds", $at: desktop);
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $govuk-gutter-half * 2;
+    @include govuk-media-query($from: desktop) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  > .dpr-info-icon {
+    position: absolute;
+    right: govuk-spacing(4);
+    top: govuk-spacing(4);
+  }
 }

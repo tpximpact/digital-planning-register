@@ -15,6 +15,7 @@ export const convertBopsToDpr = (
   privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
   return {
+    applicationType: application.application.type.value,
     application: convertBopsApplicationToDpr(
       council,
       application.application,
@@ -80,12 +81,17 @@ export const convertBopsApplicationToDpr = (
 export const createProperty = (
   application: BopsPlanningApplication,
 ): DprPlanningApplication["property"] => {
+  // glitch in bops where boundary_geojson is coming through as {} not null seems to only affect the search endpoint
   return {
     address: {
       singleLine: application.property.address.singleLine,
     },
     boundary: {
-      site: application.property.boundary.site,
+      site:
+        application.property.boundary.site &&
+        Object.keys(application.property.boundary.site).length > 0
+          ? application.property.boundary.site
+          : undefined,
     },
   };
 };

@@ -169,11 +169,9 @@ export const DecisionPriorApprovalRequiredAndApproved: Story = {
   args: {
     application: {
       ...baseApplication,
+      applicationType: "pa",
       application: {
         ...baseApplication.application,
-        type: {
-          description: "prior_approval",
-        },
         status: "determined",
         decision: "granted",
       },
@@ -185,11 +183,10 @@ export const DecisionPriorApprovalNotRequired: Story = {
   args: {
     application: {
       ...baseApplication,
+      applicationType: "pa",
       application: {
         ...baseApplication.application,
-        type: {
-          description: "prior_approval",
-        },
+
         status: "determined",
         decision: "not_required",
       },
@@ -201,11 +198,9 @@ export const DecisionPriorApprovalRequiredAndRefused: Story = {
   args: {
     application: {
       ...baseApplication,
+      applicationType: "pa",
       application: {
         ...baseApplication.application,
-        type: {
-          description: "prior_approval",
-        },
         status: "determined",
         decision: "refused",
       },

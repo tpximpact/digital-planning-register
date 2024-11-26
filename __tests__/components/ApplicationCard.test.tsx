@@ -1,18 +1,14 @@
 import React from "react";
 import { render, screen, act } from "@testing-library/react";
-import { ApplicationHero } from "../../src/components/ApplicationHero";
+import { ApplicationCard } from "../../src/components/ApplicationCard";
 import "@testing-library/jest-dom";
 import { ApplicationDataFieldProps } from "@/components/ApplicationDataField";
 import { DprPlanningApplication } from "@/types";
 import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
-import { TagProps } from "@/components/Tag";
+import { DescriptionCardProps } from "@/components/DescriptionCard";
 
 jest.mock("@/components/InfoIcon", () => ({
   InfoIcon: () => <div data-testid="info-icon">Info Icon</div>,
-}));
-
-jest.mock("@/components/Tag", () => ({
-  Tag: ({ label, sentiment, id, isInline }: TagProps) => <>{label}</>,
 }));
 
 jest.mock("../../src/components/application_map", () => {
@@ -21,6 +17,12 @@ jest.mock("../../src/components/application_map", () => {
   return ApplicationMap;
 });
 
+jest.mock("../../src/components/DescriptionCard", () => ({
+  DescriptionCard: ({ description }: DescriptionCardProps) => (
+    <div data-testid="description-card">{description}</div>
+  ),
+}));
+
 jest.mock("@/components/ApplicationDataField", () => ({
   ApplicationDataField: ({
     title,
@@ -28,13 +30,16 @@ jest.mock("@/components/ApplicationDataField", () => ({
     infoIcon,
   }: ApplicationDataFieldProps) => (
     <div data-testid="application-data-field">
-      {title} - {value}
+      <p>
+        {title} - {value}
+        {infoIcon && ` - ${infoIcon}`}
+      </p>
     </div>
   ),
 }));
 
-describe("Render ApplicationHero", () => {
-  // the minimum required data for the application hero
+describe("Render ApplicationCard", () => {
+  // the minimum required data for the application card
   const applicationCardApplication = {
     applicationType: "pp.full",
     application: {
@@ -57,12 +62,15 @@ describe("Render ApplicationHero", () => {
         site: generateBoundaryGeoJson(),
       },
     },
+    proposal: {
+      description: "Test description",
+    },
   };
 
   it("should show all available data it can", async () => {
     await act(async () => {
       render(
-        <ApplicationHero
+        <ApplicationCard
           councilSlug="public-council-1"
           application={
             applicationCardApplication as unknown as DprPlanningApplication
@@ -77,6 +85,8 @@ describe("Render ApplicationHero", () => {
     expect(screen.queryByText("123 Fake Street")).toBeInTheDocument();
     // map
     expect(screen.queryByTestId("map")).toBeInTheDocument();
+    // Description
+    expect(screen.queryByTestId("description-card")).toBeInTheDocument();
     // applicationType
     expect(
       screen.queryByText("Application type - Planning permission"),
@@ -114,7 +124,7 @@ describe("Render ApplicationHero", () => {
   it("should not error when data isn't available", async () => {
     await act(async () => {
       render(
-        <ApplicationHero
+        <ApplicationCard
           councilSlug="public-council-1"
           application={{} as DprPlanningApplication}
         />,

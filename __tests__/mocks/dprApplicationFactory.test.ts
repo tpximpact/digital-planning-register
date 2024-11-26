@@ -114,7 +114,7 @@ describe("generateDprApplication", () => {
     const application = generateDprApplication();
     expect(application).toHaveProperty("application");
     expect(application.application).toHaveProperty("reference");
-    expect(application.application).toHaveProperty("type");
+    expect(application).toHaveProperty("applicationType");
     expect(application.application).toHaveProperty("status");
     expect(application.application).toHaveProperty("consultation");
   });

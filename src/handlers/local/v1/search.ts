@@ -25,9 +25,9 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
     },
     data: [
       {
+        applicationType: "pa",
         application: {
           reference: "24-00128-PA1A",
-          type: { description: "prior_approval" },
           status: "in_assessment",
           consultation: {
             endDate: "2024-05-17",

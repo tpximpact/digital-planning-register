@@ -148,7 +148,7 @@ const testSearchPage = async (
     page.getByLabel("Search by application reference, address or description"),
   ).toBeVisible();
 
-  const applications = await page.locator(".search-card");
+  const applications = await page.locator(".dpr-application-card");
   const applicationCount = await applications.count();
   expect(applicationCount).toBeGreaterThanOrEqual(1);
 
