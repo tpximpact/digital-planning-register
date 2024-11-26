@@ -43,7 +43,7 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
     return <></>;
   }
   return (
-    <section aria-labelledby="people-section">
+    <section aria-labelledby="people-section" id="people">
       <h2 className="govuk-heading-l" id="people-section">
         People
       </h2>
