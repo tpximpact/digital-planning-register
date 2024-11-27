@@ -5,7 +5,7 @@ import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import { Details } from "../govuk/Details";
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 
 interface PersonalDetails {
   name: string;

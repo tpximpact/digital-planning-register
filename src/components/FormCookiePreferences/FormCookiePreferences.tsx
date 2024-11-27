@@ -1,4 +1,4 @@
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 
 export interface FormCookiePreferencesProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
