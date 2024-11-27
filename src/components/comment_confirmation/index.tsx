@@ -2,7 +2,7 @@ import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
 import ApplicationMap from "../application_map";
 import { Panel } from "../govuk/Panel";
-import { Button } from "../Button";
+import { Button } from "@/components/Button";
 
 interface CommentConfirmationProps {
   reference: string;

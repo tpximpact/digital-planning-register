@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { capitaliseWord } from "@/util";
-import { Button } from "../Button";
+import { Button } from "@/components/Button";
 import { ApiV1 } from "@/actions/api";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";

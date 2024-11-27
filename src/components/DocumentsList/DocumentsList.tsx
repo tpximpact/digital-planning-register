@@ -1,7 +1,7 @@
 import { DprDocument } from "@/types";
 import { DocumentCard } from "@/components/DocumentCard";
 import "./DocumentsList.scss";
-import { Button } from "../Button";
+import { Button } from "@/components/Button";
 
 export interface DocumentsListProps {
   councilSlug: string;

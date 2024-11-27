@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Details } from "../govuk/Details";
-import { Button } from "../Button";
+import { Button } from "@/components/Button";
 
 export const topics_selection = [
   {
