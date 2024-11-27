@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 
 const MAX_COMMENT_LENGTH = 6000;
 

@@ -1,6 +1,6 @@
 import { SearchParams } from "@/types";
 import "./FormSearch.scss";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 
 export interface FormSearchProps {
   action: string;

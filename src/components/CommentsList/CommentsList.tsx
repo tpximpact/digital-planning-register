@@ -1,7 +1,7 @@
 import { DprComment, DprCommentTypes, DprPagination } from "@/types";
 import { CommentCard } from "@/components/CommentCard";
 import "./CommentsList.scss";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 
 export interface CommentsListProps {
   councilSlug: string;

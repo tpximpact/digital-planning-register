@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { setConsentCookie } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 
 type BannerState = "initial" | "accepted" | "rejected" | "hidden";
 

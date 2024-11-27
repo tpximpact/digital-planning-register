@@ -1,5 +1,5 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { ButtonEmailSignUp } from "../Button";
+import { ButtonEmailSignUp } from "../button";
 import { BackButton } from "../BackButton";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";

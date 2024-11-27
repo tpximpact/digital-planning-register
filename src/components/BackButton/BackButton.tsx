@@ -3,7 +3,7 @@ import "./BackButton.scss";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 
 // ============= Legacy Components (To be deprecated) =============
 
