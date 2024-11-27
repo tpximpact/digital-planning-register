@@ -1,4 +1,4 @@
-import { BackLink } from "@/components/button";
+import { BackLink } from "@/components/BackButton";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { AppConfig } from "@/config/types";
 

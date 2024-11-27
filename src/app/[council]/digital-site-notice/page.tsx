@@ -5,7 +5,7 @@ import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
 import { PageSearchSiteNotices } from "@/components/PageSearchSiteNotices";
-import { BackLink } from "@/components/button";
+import { BackLink } from "@/components/BackButton";
 import { ContentNotFound } from "@/components/ContentNotFound";
 
 interface DigitalSiteNoticeProps {

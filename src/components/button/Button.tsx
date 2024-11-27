@@ -1,52 +1,6 @@
-"use client";
-import "./Button.scss";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-
-// ============= Legacy Components (To be deprecated) =============
-
-export const BackLink = ({ link }: { link?: string }) => {
-  const router = useRouter();
-  const [isJsEnabled, setIsJsEnabled] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.className = "js-enabled";
-    setIsJsEnabled(true);
-  }, []);
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (!link) {
-      e.preventDefault();
-      router.back();
-    }
-  };
-
-  return (
-    <>
-      {isJsEnabled && (
-        <Link
-          href={link || "#"}
-          onClick={handleClick}
-          className="govuk-back-link back-button"
-        >
-          Back
-        </Link>
-      )}
-    </>
-  );
-};
-
-/** @deprecated Use Button with element="link" instead */
-export const OldBackButton = ({ href }: { href: string }) => {
-  return (
-    <Link href={href} className="govuk-back-link back-button">
-      Back
-    </Link>
-  );
-};
-
 // ============= New Button Components =============
+import "./Button.scss";
+import Link from "next/link";
 
 // The types for the Button component are defined here
 type ButtonElement = "button" | "link" | "span" | "div";
@@ -177,38 +131,6 @@ export const Button = ({
   }
 
   return null;
-};
-
-interface BackButtonProps {
-  baseUrl: string;
-  searchParams?: Record<string, string>;
-  className?: string;
-}
-
-export const BackButton = ({
-  baseUrl,
-  searchParams,
-  className = "",
-}: BackButtonProps) => {
-  const href = baseUrl
-    ? searchParams
-      ? {
-          pathname: baseUrl,
-          query: searchParams,
-        }
-      : baseUrl
-    : "#";
-
-  return (
-    <Button
-      element="link"
-      href={href}
-      className={`govuk-back-link back-button ${className}`.trim()}
-      variant="text-only"
-    >
-      Back
-    </Button>
-  );
 };
 
 export const ButtonEmailSignUp = ({ href }: { href: string }) => (

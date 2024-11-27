@@ -2,7 +2,7 @@ import { DprDocument } from "@/types";
 import { DocumentCard } from "@/components/DocumentCard";
 import "./DocumentsList.scss";
 import Link from "next/link";
-import { Button } from "../button/Button";
+import { Button } from "../Button/Button";
 
 export interface DocumentsListProps {
   councilSlug: string;

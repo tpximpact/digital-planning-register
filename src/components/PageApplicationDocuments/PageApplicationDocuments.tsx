@@ -1,4 +1,4 @@
-import { BackButton } from "../button/Button";
+import { BackButton } from "../Button/Button";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import {

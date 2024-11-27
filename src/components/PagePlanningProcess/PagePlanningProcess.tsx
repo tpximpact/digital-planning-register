@@ -1,4 +1,4 @@
-import { BackLink } from "@/components/button";
+import { BackLink } from "@/components/BackButton";
 import { ContentPage } from "../ContentPage";
 import { contentPlanningProcess } from "./PagePlanningProcessContent";
 import { ContentSidebar } from "../ContentSidebar";

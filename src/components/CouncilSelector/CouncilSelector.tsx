@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./CouncilSelector.scss";
 import { AppConfig } from "@/config/types";
 import { useRouter } from "next/navigation";
-import { Button } from "../button/Button";
+import { Button } from "../Button/Button";
 
 export interface CouncilSelectorProps {
   councils: AppConfig["councils"];

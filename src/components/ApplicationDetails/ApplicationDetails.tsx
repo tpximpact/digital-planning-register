@@ -9,7 +9,7 @@ import { ContentError } from "../ContentError";
 import "./ApplicationDetails.scss";
 import { ContentSidebar } from "../ContentSidebar";
 import { slugify } from "@/util";
-import { Button } from "../button";
+import { Button } from "../Button";
 
 export interface ApplicationDetailsProps {
   reference: string;

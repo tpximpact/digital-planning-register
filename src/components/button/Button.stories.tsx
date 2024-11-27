@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./Button";
 import { action } from "@storybook/addon-actions";
+import { Button } from "./Button";
 
 const meta = {
   title: "DPR Components/Button",
@@ -44,7 +44,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "Button",
+    children: "Click this button",
     onClick: action("Button clicked"),
   },
 };
@@ -161,16 +161,5 @@ export const EmailSignUpButton: Story = {
       </>
     ),
     onClick: action("Email Sign-Up Button clicked"),
-  },
-};
-
-export const BackButton: Story = {
-  args: {
-    element: "link",
-    href: "#",
-    className: "govuk-back-link back-button",
-    variant: "text-only",
-    children: "Back",
-    onClick: action("Back Button clicked"),
   },
 };
