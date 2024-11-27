@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { BackButton } from "./BackButton";
+import { BackButton } from "@/components/BackButton";
 
 const meta = {
   title: "DPR Components/BackButton",

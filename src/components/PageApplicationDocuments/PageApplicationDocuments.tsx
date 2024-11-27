@@ -1,4 +1,4 @@
-import { BackButton } from "../Button/Button";
+import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import {
