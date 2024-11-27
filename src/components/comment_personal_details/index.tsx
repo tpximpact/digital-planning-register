@@ -5,7 +5,7 @@ import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import { Details } from "../govuk/Details";
-import { Button } from "../button";
+import { Button } from "../button/Button";
 
 interface PersonalDetails {
   name: string;
@@ -426,7 +426,7 @@ const CommentPersonalDetails = ({
             }
           />
 
-          {!hideContinue && <Button type="submit" content={"Continue"} />}
+          {!hideContinue && <Button type="submit">Continue</Button>}
         </form>
       </div>
     </div>

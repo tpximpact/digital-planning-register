@@ -1,5 +1,5 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { BackLink, ButtonEmailSignUp } from "../button";
+import { BackButton, ButtonEmailSignUp } from "../button/Button";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";
 import { AppConfig } from "@/config/types";
@@ -30,9 +30,12 @@ export const PageSearch = ({
     ? "Search results"
     : "Recently published applications";
 
+  const council = appConfig.council;
+  const baseUrl = `/${council.slug}`;
+
   return (
     <>
-      {!applications && <BackLink />}
+      {!applications && <BackButton baseUrl={baseUrl} />}
       <div className="govuk-main-wrapper">
         {!hasSearchQuery && (
           <div className="govuk-grid-row intro-text">

@@ -1,6 +1,6 @@
 import { SearchParams } from "@/types";
 import "./FormSearch.scss";
-import { Button } from "../button";
+import { Button } from "../button/Button";
 
 export interface FormSearchProps {
   action: string;
@@ -28,7 +28,7 @@ export const FormSearch = ({ action, searchParams }: FormSearchProps) => {
         </div>
       </div>
       <div className="govuk-grid-column-one-quarter search-bar-buttons">
-        <Button type="submit" content="Search" />
+        <Button type="submit">Search</Button>
       </div>
     </form>
   );

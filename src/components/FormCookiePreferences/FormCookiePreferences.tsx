@@ -1,4 +1,4 @@
-import { Button } from "../button";
+import { Button } from "../button/Button";
 
 export interface FormCookiePreferencesProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -59,7 +59,7 @@ export const FormCookiePreferences = ({
               </div>
             </fieldset>
           </div>
-          <Button content="Save cookie settings" type="submit" />
+          <Button type="submit">Save cookie settings</Button>
         </form>
       </div>
     </div>

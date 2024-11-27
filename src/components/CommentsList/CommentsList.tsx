@@ -1,7 +1,7 @@
 import { DprComment, DprCommentTypes, DprPagination } from "@/types";
 import { CommentCard } from "@/components/CommentCard";
 import "./CommentsList.scss";
-import { LinkButton } from "../button";
+import { Button } from "../button/Button";
 
 export interface CommentsListProps {
   councilSlug: string;
@@ -72,14 +72,17 @@ export const CommentsList = ({
                   Showing {displayedComments.length} of {totalComments} comments
                 </p>
                 {councilSlug && (
-                  <LinkButton
+                  <Button
+                    variant="blue"
+                    element="link"
                     href={`/${councilSlug}/${reference}/comments`}
-                    text={`Show all ${totalComments} ${
+                  >
+                    {`Show all ${totalComments} ${
                       type === "specialist"
                         ? "professional consultee"
                         : "neighbour"
                     } comments`}
-                  />
+                  </Button>
                 )}
               </div>
             </div>

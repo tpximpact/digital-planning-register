@@ -5,7 +5,7 @@ import {
   DprPlanningApplication,
   SearchParams,
 } from "@/types";
-import { BackButton } from "../button";
+import { BackButton } from "../button/Button";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import { AppConfig } from "@/config/types";
@@ -42,7 +42,7 @@ export const PageApplicationComments = ({
   const councilSlug = appConfig.council.slug;
   return (
     <>
-      <BackButton href={`/${councilSlug}/${reference}`} />
+      <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={reference}
