@@ -10,6 +10,7 @@ import {
   DprPagination,
 } from "@/types";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
 
@@ -141,7 +142,8 @@ export const generateDprApplication = ({
   decision =
     decision ?? faker.helpers.arrayElement(["refused", "granted", null]);
 
-  const determinedAt = decision ? faker.date.anytime().toISOString() : null;
+  const determinedAt =
+    decision !== null ? faker.date.anytime().toISOString() : null;
 
   return {
     applicationType: applicationType,
@@ -149,14 +151,14 @@ export const generateDprApplication = ({
       reference: generateReference(),
       status: applicationStatus,
       consultation: {
-        endDate: faker.date.anytime().toISOString(),
+        endDate: formatDateToYmd(faker.date.anytime()),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
         allowComments: getCommentsAllowed(applicationType),
       },
-      receivedAt: faker.date.anytime().toISOString(),
-      validAt: faker.date.anytime().toISOString(),
-      publishedAt: faker.date.anytime().toISOString(),
+      receivedDate: formatDateToYmd(faker.date.anytime()),
+      validDate: formatDateToYmd(faker.date.anytime()),
+      publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
       documents: [

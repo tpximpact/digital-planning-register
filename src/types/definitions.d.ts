@@ -27,6 +27,9 @@ export interface DprPlanningApplication {
     reference: string;
     status: string;
     consultation: {
+      /**
+       * YYYY-MM-DD
+       */
       endDate: string | null;
       /**
        * proposed new field by us
@@ -42,11 +45,27 @@ export interface DprPlanningApplication {
        */
       consulteeComments: DprComment[] | null;
     };
-    receivedAt: string;
-    publishedAt?: string | null;
+    /**
+     * YYYY-MM-DD
+     * NB coverting from recievedAt to recievedDate in the BOPs handlers
+     */
+    receivedDate: string;
+    /**
+     * YYYY-MM-DD
+     * NB coverting from publishedAt to publishedDate in the BOPs handlers
+     */
+    publishedDate?: string | null;
+    /**
+     * YYYY-MM-DD
+     * NB coverting from validAt to validDate in the BOPs handlers
+     */
+    validDate: string | null;
+    /**
+     * 2024-05-30T14:23:21.936Z
+     * NB coverting to UTC in the converters
+     */
     determinedAt?: string | null;
     decision?: string | null;
-    validAt: string | null;
 
     /**
      * @todo this is missing from the public BOPS response BUT we have a new public endpoint for them

@@ -6,6 +6,7 @@ import {
   generateNResults,
   generateDprApplication,
   generateBoundaryGeoJson,
+  formatDateToYmd,
 } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
 
@@ -134,6 +135,22 @@ describe("generateDprApplication", () => {
     const application = generateDprApplication({ applicationType: "ldc" });
     expect(application.applicationType).toEqual("ldc");
     expect(application.application.consultation.allowComments).toBe(false);
+  });
+
+  it("should generate dates in the formats we expect", () => {
+    const application = generateDprApplication({ decision: "granted" });
+
+    // YYYY-MM-DD
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    // YYYY-MM-DDTHH:MM:SS.SSSZ
+    const utcDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+    expect(application.application.consultation.endDate).toMatch(dateRegex);
+    expect(application.application.receivedDate).toMatch(dateRegex);
+    expect(application.application.validDate).toMatch(dateRegex);
+    expect(application.application.publishedDate).toMatch(dateRegex);
+    expect(application.application.determinedAt).toMatch(utcDateRegex);
   });
 });
 

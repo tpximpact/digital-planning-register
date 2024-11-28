@@ -9,6 +9,7 @@ import { convertCommentBops } from "./comments";
 import { ApplicationFormObject } from "@/components/application_form";
 import { convertDocumentBopsNonStandard } from "./documents";
 import { getCommentsAllowed } from "@/lib/planningApplication";
+import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
 
 export const convertBopsToDpr = (
   council: string,
@@ -58,15 +59,23 @@ export const convertBopsApplicationToDpr = (
     },
     status: application.status,
     consultation: {
-      endDate: application.consultation?.endDate ?? null,
+      endDate: application.consultation?.endDate,
       consulteeComments: consultee_comments,
       publishedComments: published_comments,
       allowComments: getCommentsAllowed(application.type.value),
     },
-    receivedAt: application.receivedAt,
-    validAt: application.validAt ?? null,
-    publishedAt: application.publishedAt ?? null,
-    determinedAt: application.determinedAt ?? null,
+    receivedDate: application.receivedAt
+      ? convertDateNoTimeToDprDate(application.receivedAt)
+      : null,
+    validDate: application.validAt
+      ? convertDateNoTimeToDprDate(application.validAt)
+      : null,
+    publishedDate: application.publishedAt
+      ? convertDateNoTimeToDprDate(application.publishedAt)
+      : null,
+    determinedAt: application.determinedAt
+      ? convertDateTimeToUtc(application.determinedAt)
+      : null,
     decision: application.decision ?? null,
 
     // missing fields from public endpoint
