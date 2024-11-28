@@ -123,19 +123,31 @@ export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
  */
 export const generateDprApplication = ({
   applicationType,
-}: { applicationType?: ApplicationType } = {}): DprPlanningApplication => {
+  applicationStatus,
+  decision,
+}: {
+  applicationType?: ApplicationType;
+  applicationStatus?: string;
+  decision?: string | null;
+} = {}): DprPlanningApplication => {
   const applicationTypes = Object.values(validApplicationTypes).flat();
   applicationType =
     applicationType ?? faker.helpers.arrayElement(applicationTypes);
+
+  applicationStatus =
+    applicationStatus ??
+    faker.helpers.arrayElement(["not_started", "determined", "in_assessment"]);
+
+  decision =
+    decision ?? faker.helpers.arrayElement(["refused", "granted", null]);
+
+  const determinedAt = decision ? faker.date.anytime().toISOString() : null;
+
   return {
     applicationType: applicationType,
     application: {
       reference: generateReference(),
-      status: faker.helpers.arrayElement([
-        "not_started",
-        "determined",
-        "in_assessment",
-      ]),
+      status: applicationStatus,
       consultation: {
         endDate: faker.date.anytime().toISOString(),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
@@ -145,8 +157,8 @@ export const generateDprApplication = ({
       receivedAt: faker.date.anytime().toISOString(),
       validAt: faker.date.anytime().toISOString(),
       publishedAt: faker.date.anytime().toISOString(),
-      determinedAt: faker.date.anytime().toISOString(),
-      decision: faker.helpers.arrayElement(["refused", "granted", null]),
+      determinedAt: determinedAt,
+      decision: decision,
       id: Number(faker.string.numeric(4)),
       documents: [
         {
