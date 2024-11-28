@@ -403,7 +403,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
     <>
       {page < 6 && applicationData && <BackLink />}
       {page <= 6 && (
-        <div className="govuk-main-wrapper">
+        <div className="govuk-main-wrapper" id="submit-comment">
           {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
               council={council}

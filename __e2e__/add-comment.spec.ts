@@ -29,6 +29,13 @@ const testCommentFlow = async (page: Page) => {
 
   await page.getByRole("link", { name: "Comment on this application" }).click();
 
+  // there is a race condition here
+  // when the page first loads it shows a non-js message to say 'enable js pls'
+  // playwright is sometimes reading that and failing the test
+  // so we wait for the submit comment page content to appear and then test for the title
+  // @todo refine the comment flow feature and tests so this is not needed!
+  await page.waitForSelector("#submit-comment");
+
   // 2. Start the comment flow
   await expect(page).toHaveTitle(
     "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
