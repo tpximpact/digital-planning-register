@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { getAppConfig } from "@/config";
 import { ContentNotFound } from "@/components/ContentNotFound";
-import { BackLink } from "@/components/BackButton";
+import { BackButton } from "@/components/BackButton";
 import { PageTemplate } from "@/components/PageTemplate";
 
 export async function generateMetadata({
@@ -40,9 +40,11 @@ export default function SiteLayout({
   ) {
     // cant use this because of bug in nextjs
     // return notFound();
+
+    const baseUrl = `/`;
     return (
       <PageTemplate appConfig={appConfig}>
-        <BackLink />
+        <BackButton baseUrl={baseUrl} />
         <div className="govuk-main-wrapper">
           <ContentNotFound />
         </div>

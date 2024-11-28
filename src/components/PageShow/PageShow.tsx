@@ -1,5 +1,5 @@
 import { DprDocument, DprPlanningApplication, SearchParams } from "@/types";
-import { BackButton, BackLink } from "@/components/BackButton";
+import { BackButton } from "@/components/BackButton";
 import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
 import { PageWrapper } from "../PageWrapper";

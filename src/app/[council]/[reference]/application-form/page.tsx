@@ -70,6 +70,7 @@ export default async function ApplicationFormPage({
       reference={reference}
       submittedAt={submittedAt}
       applicationSubmissionData={applicationSubmissionData}
+      council={council}
     />
   );
 }
