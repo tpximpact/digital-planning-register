@@ -1,8 +1,10 @@
 import { DprComment } from "@/types";
 import { BopsComment } from "../types";
+import { convertDateTimeToUtc } from "@/util";
 
 /**
  * Converts BOPS comments into our standard format (which RN is the same as BOPS!)
+ * @todo some dates seem to be coming in without times!
  * @param comment
  * @returns
  */
@@ -12,7 +14,7 @@ export const convertCommentBops = (
 ): DprComment => {
   return {
     comment: comment.comment,
-    received_at: comment.receivedAt,
+    receivedDate: convertDateTimeToUtc(comment.receivedAt),
     sentiment: comment.summaryTag || "",
   };
 };

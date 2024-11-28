@@ -34,7 +34,7 @@ export const generateReference = (): string => {
 export const generateComment = (): DprComment => {
   return {
     comment: faker.lorem.paragraphs(),
-    received_at: faker.date.anytime().toISOString(),
+    receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([
       "objection",
       "neutral",
@@ -55,7 +55,7 @@ export const generateDocument = (): DprDocument => {
     /**
      * Optional because of the need to insert fake application form document
      */
-    created_at: faker.date.anytime().toISOString(),
+    createdDate: faker.date.anytime().toISOString(),
     metadata: {
       byteSize: Number(faker.string.numeric(8)),
       contentType: faker.system.mimeType(),

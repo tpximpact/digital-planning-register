@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageShow } from "./PageShow";
 import {
+  generateComment,
   generateDocument,
   generateDprApplication,
   generateNResults,
@@ -418,11 +419,7 @@ export const NoViewAllPublicCommentsButton: Story = {
         decision: null,
         consultation: {
           endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: generateNResults(1, () => ({
-            id: "1",
-            comment: "This is a public comment",
-            received_at: new Date(Date.now() - 86400000).toISOString(),
-          })),
+          publishedComments: generateNResults(1, generateComment),
           consulteeComments: null,
         },
       },
@@ -441,11 +438,7 @@ export const NoViewAllSpecialistCommentsButton: Story = {
         consultation: {
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
-          consulteeComments: generateNResults(1, () => ({
-            id: "1",
-            comment: "This is a specialist comment",
-            received_at: new Date(Date.now() - 86400000).toISOString(),
-          })),
+          consulteeComments: generateNResults(1, generateComment),
         },
       },
     },
