@@ -87,21 +87,17 @@ export const ApplicationDetails = ({
         application={application}
       />
       <div className="govuk-grid-row dpr-application-details__content">
-        <div className="govuk-grid-column-one-third-from-desktop  dpr-application-details--flow dpr-application-details__sidebar">
+        <div className="govuk-grid-column-one-third-from-desktop dpr-application-details__sidebar">
           <ContentSidebar content={sidebar} />
 
           {applicationStatus !== "determined" && commentsEnabled && (
-            <div className="govuk-grid-row extra-top-margin">
-              <div className="govuk-grid-column-full">
-                <Link
-                  href={`/${councilSlug}/${reference}/submit-comment`}
-                  className="govuk-button govuk-button--primary"
-                  data-module="govuk-button"
-                >
-                  Comment on this application
-                </Link>
-              </div>
-            </div>
+            <Link
+              href={`/${councilSlug}/${reference}/submit-comment`}
+              className="govuk-button govuk-button--primary"
+              data-module="govuk-button"
+            >
+              Comment on this application
+            </Link>
           )}
 
           {appConfig.council?.pageContent?.email_alerts

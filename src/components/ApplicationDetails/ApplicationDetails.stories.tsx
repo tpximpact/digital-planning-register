@@ -9,6 +9,12 @@ import {
 import { DprDocument } from "@/types";
 
 const baseApplication = generateDprApplication();
+let baseAppConfig = createAppConfig("public-council-1");
+if (baseAppConfig?.council) {
+  baseAppConfig.council.pageContent.email_alerts = {
+    sign_up_for_alerts_link: "/signup",
+  };
+}
 
 const meta = {
   title: "DPR Components/ApplicationDetails",
@@ -21,7 +27,7 @@ const meta = {
   },
   args: {
     reference: "12345",
-    appConfig: createAppConfig("public-council-1"),
+    appConfig: baseAppConfig,
     application: baseApplication,
     documents: generateNResults<DprDocument>(3, generateDocument),
   },

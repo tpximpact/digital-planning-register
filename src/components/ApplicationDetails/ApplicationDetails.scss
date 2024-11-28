@@ -3,7 +3,13 @@
 $selector: "dpr-application-details";
 .#{$selector} {
   &--flow > * + * {
-    margin-block-start: govuk-spacing(8);
+    margin-block-start: govuk-spacing(6);
+  }
+
+  &__sidebar {
+    > * {
+      margin-bottom: govuk-spacing(6);
+    }
   }
 
   @include govuk-media-query($from: desktop) {
