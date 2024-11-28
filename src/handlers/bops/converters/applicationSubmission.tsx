@@ -4,7 +4,7 @@ import {
   DprApplicationSubmissionSubtopicValue,
 } from "@/types";
 import { BopsApplicationSubmission } from "@/handlers/bops/types";
-import { capitalizeFirstLetter } from "@/util";
+import { capitalizeFirstLetter, convertDateTimeToUtc } from "@/util";
 import { BopsProperty } from "../formatters/application-submission--property";
 import { BopsProposal } from "../formatters/application-submission--proposal";
 import { BopsApplicant } from "../formatters/application-submission--applicant";
@@ -23,7 +23,7 @@ export const convertApplicationSubmissionBops = (
   return {
     data: convertApplicationSubmissionDataBops(submission),
     metadata: {
-      submittedAt: submission.metadata.submittedAt,
+      submittedAt: convertDateTimeToUtc(submission.metadata.submittedAt),
       raw: JSON.stringify(submission),
     },
   };
