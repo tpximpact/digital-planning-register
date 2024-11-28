@@ -65,14 +65,6 @@ export default async function ApplicationFormPage({
   const submittedAt = response?.data?.submission?.metadata.submittedAt;
   const applicationSubmissionData = response?.data?.submission?.data;
 
-  if (!applicationSubmissionData) {
-    return (
-      <PageWrapper>
-        <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
-    );
-  }
-
   return (
     <PageApplicationSubmission
       reference={reference}
