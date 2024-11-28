@@ -6,6 +6,7 @@ import { ApplicationDataFieldProps } from "@/components/ApplicationDataField";
 import { DprPlanningApplication } from "@/types";
 import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
 import { TagProps } from "@/components/Tag";
+import { slugify } from "@/util";
 
 jest.mock("@/components/InfoIcon", () => ({
   InfoIcon: () => <div data-testid="info-icon">Info Icon</div>,
@@ -27,7 +28,7 @@ jest.mock("@/components/ApplicationDataField", () => ({
     value,
     infoIcon,
   }: ApplicationDataFieldProps) => (
-    <div data-testid="application-data-field">
+    <div data-testid={`application-data-field-${slugify(title)}`}>
       {title} - {value}
     </div>
   ),
@@ -39,14 +40,14 @@ describe("Render ApplicationHero", () => {
     applicationType: "pp.full",
     application: {
       status: "in_assessment",
-      receivedAt: "2023-05-18T00:00:00.000+00:00",
-      validAt: "2023-11-14T00:00:00.000+00:00",
-      publishedAt: "2023-05-18T00:00:00.000+00:00",
+      receivedDate: "2023-05-08",
+      validDate: "2023-11-14",
+      publishedDate: "2023-05-18",
       consultation: {
         endDate: "2023-12-05",
       },
       decision: "granted",
-      determinedAt: "2023-11-14T13:40:51.567+00:00",
+      determinedAt: "2023-11-14T13:40:51.567Z",
     },
     property: {
       address: {
@@ -86,7 +87,7 @@ describe("Render ApplicationHero", () => {
     ).toBeInTheDocument();
     //Recieved date
     expect(
-      screen.queryByText("Recieved date - 18 May 2023"),
+      screen.queryByText("Recieved date - 8 May 2023"),
     ).toBeInTheDocument();
     // Valid from date
     expect(
@@ -98,12 +99,19 @@ describe("Render ApplicationHero", () => {
     ).toBeInTheDocument();
     //Consultation end date
     expect(
-      screen.queryByText("Consultation end date - 05 Dec 2023"),
+      screen.queryByText("Consultation end date - 5 Dec 2023"),
     ).toBeInTheDocument();
     //Decision Date
-    expect(
-      screen.queryByText("Decision Date - 14 Nov 2023"),
-    ).toBeInTheDocument();
+    const decisionDate = screen.queryByTestId(
+      "application-data-field-decision-date",
+    );
+    expect(decisionDate?.querySelector("time")).toHaveAttribute(
+      "datetime",
+      "2023-11-14T13:40:51.567Z",
+    );
+    expect(decisionDate?.querySelector("time")).toHaveTextContent(
+      "14 Nov 2023",
+    );
     // Decision
     expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
   });
