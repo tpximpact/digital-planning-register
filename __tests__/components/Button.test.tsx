@@ -52,14 +52,6 @@ describe("Button Component", () => {
     );
   });
 
-  it("includes the start icon when variant='start'", () => {
-    render(<Button variant="start">Start Now</Button>);
-    const buttonElement = screen.getByRole("button", { name: "Start Now" });
-    expect(buttonElement).toContainHTML("svg");
-    const svgElement = buttonElement.querySelector("svg");
-    expect(svgElement).toHaveClass("govuk-button__start-icon");
-  });
-
   it("renders as text-only when variant='text-only'", () => {
     render(<Button variant="text-only">Text Only</Button>);
     const linkElement = screen.getByText("Text Only");

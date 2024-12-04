@@ -8,7 +8,6 @@ type ButtonVariant =
   | "primary"
   | "blue"
   | "default"
-  | "start"
   | "secondary"
   | "warning"
   | "text-only";
@@ -51,8 +50,6 @@ export const Button = ({
         return "govuk-button--secondary";
       case "warning":
         return "govuk-button--warning";
-      case "start":
-        return "govuk-button--start";
       case "blue":
         return "govuk-button--secondary blue-button";
       case "text-only":
@@ -67,22 +64,6 @@ export const Button = ({
     variant === "text-only" ? "" : "govuk-button"
   } ${getVariantClass(variant)} ${className}`.trim();
 
-  // If it is a start button, we want to add the start icon svg
-  const startIcon =
-    variant === "start" ? (
-      <svg
-        className="govuk-button__start-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="17.5"
-        height="19"
-        viewBox="0 0 33 40"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-      </svg>
-    ) : null;
-
   if (element === "link" && href) {
     return (
       <Link
@@ -94,7 +75,6 @@ export const Button = ({
         data-module={variant === "text-only" ? undefined : "govuk-button"}
       >
         {children}
-        {startIcon}
       </Link>
     );
   }
@@ -109,7 +89,6 @@ export const Button = ({
         role="button"
       >
         {children}
-        {startIcon}
       </Element>
     );
   }
@@ -125,7 +104,6 @@ export const Button = ({
         data-prevent-double-click="true"
       >
         {children}
-        {startIcon}
       </button>
     );
   }
