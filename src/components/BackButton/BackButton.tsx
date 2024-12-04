@@ -1,5 +1,4 @@
 import { Button } from "@/components/button";
-import "./BackButton.scss";
 
 interface BackButtonProps {
   baseUrl: string;
@@ -25,7 +24,7 @@ export const BackButton = ({
     <Button
       element="link"
       href={href}
-      className={`govuk-back-link back-button ${className}`.trim()}
+      className={`govuk-back-link ${className}`.trim()}
       variant="text-only"
     >
       Back

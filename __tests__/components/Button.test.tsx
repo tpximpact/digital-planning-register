@@ -2,7 +2,7 @@
 
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Button, ButtonEmailSignUp } from "@/components/button";
+import { Button } from "@/components/button";
 import "@testing-library/jest-dom";
 
 describe("Button Component", () => {
@@ -82,22 +82,5 @@ describe("Button Component", () => {
       name: "Default Aria Label",
     });
     expect(buttonElement).toHaveAttribute("aria-label", "Default Aria Label");
-  });
-
-  it("renders the ButtonEmailSignUp component correctly", () => {
-    render(<ButtonEmailSignUp href="/sign-up" />);
-    const buttonElement = screen.getByRole("button", {
-      name: "Sign up for email alerts",
-    });
-    expect(buttonElement).toBeInTheDocument();
-    expect(buttonElement.tagName).toBe("A");
-    expect(buttonElement).toHaveAttribute("href", "/sign-up");
-    expect(buttonElement).toHaveClass(
-      "govuk-button",
-      "govuk-button--secondary",
-      "blue-button",
-      "email-signup-button",
-    );
-    expect(buttonElement).toContainHTML("svg");
   });
 });

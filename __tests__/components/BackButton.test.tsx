@@ -11,7 +11,7 @@ describe("BackButton Component", () => {
     const backButton = screen.getByText("Back");
     expect(backButton).toBeInTheDocument();
     expect(backButton).toHaveAttribute("href", "/previous-page");
-    expect(backButton).toHaveClass("govuk-back-link", "back-button");
+    expect(backButton).toHaveClass("govuk-back-link");
   });
 
   it("renders correctly with baseUrl and searchParams", () => {
@@ -36,6 +36,6 @@ describe("BackButton Component", () => {
     render(<BackButton baseUrl="/default" />);
     const backButton = screen.getByText("Back");
     expect(backButton).toHaveAttribute("href", "/default");
-    expect(backButton).toHaveClass("govuk-back-link", "back-button");
+    expect(backButton).toHaveClass("govuk-back-link");
   });
 });

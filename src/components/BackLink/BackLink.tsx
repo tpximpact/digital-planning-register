@@ -1,5 +1,4 @@
 "use client";
-import "../BackButton/BackButton.scss";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -26,7 +25,7 @@ export const BackLink = ({ link }: { link?: string }) => {
         <Link
           href={link || "#"}
           onClick={handleClick}
-          className="govuk-back-link back-button"
+          className="govuk-back-link"
         >
           Back
         </Link>
@@ -38,7 +37,7 @@ export const BackLink = ({ link }: { link?: string }) => {
 /** @deprecated Use Button with element="link" instead */
 export const OldBackButton = ({ href }: { href: string }) => {
   return (
-    <Link href={href} className="govuk-back-link back-button">
+    <Link href={href} className="govuk-back-link">
       Back
     </Link>
   );
