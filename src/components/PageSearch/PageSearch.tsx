@@ -1,5 +1,4 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { ButtonEmailSignUp } from "../button";
 import { BackButton } from "../BackButton";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";
@@ -7,6 +6,7 @@ import { AppConfig } from "@/config/types";
 import { ApplicationCard } from "../ApplicationCard";
 import { Pagination } from "@/components/Pagination";
 import "./PageSearch.scss";
+import { EmailSignUpButton } from "../EmailSignUpButton";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
@@ -59,7 +59,7 @@ export const PageSearch = ({
               ?.sign_up_for_alerts_link && (
               <div className="govuk-grid-column-one-third">
                 <div className="email-signup-button-container">
-                  <ButtonEmailSignUp
+                  <EmailSignUpButton
                     href={
                       appConfig.council?.pageContent?.email_alerts
                         ?.sign_up_for_alerts_link
