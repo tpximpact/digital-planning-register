@@ -50,7 +50,7 @@ export const DocumentsList = ({
                   </p>
                   {councilSlug && (
                     <Button
-                      variant="blue"
+                      variant="information"
                       element="link"
                       href={`/${councilSlug}/${reference}/documents`}
                     >

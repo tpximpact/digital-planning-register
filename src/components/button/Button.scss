@@ -2,52 +2,19 @@
 @import "node_modules/govuk-frontend/dist/govuk/components/button/index";
 @import "node_modules/govuk-frontend/dist/govuk/components/back-link/index";
 
-.govuk-button--secondary.blue-button {
-  background: govuk-colour("blue");
-  color: white;
-  box-shadow: 0 2px 0 #001e37;
-}
-.govuk-button--secondary.blue-button:hover {
-  background: #095ba1;
-  color: white;
-}
-
-.button-link-change {
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.25;
-  background-color: transparent;
-  border: none;
-}
-
-@media (min-width: 40.0625em) {
-  .button-link-change {
-    font-size: 1.1875rem;
-    line-height: 1.3157894737;
-  }
-}
-
-.button-link-change:visited {
-  color: #4c2c92;
-}
-
-.button-link-change:hover {
-  color: #4c2c92;
-  cursor: pointer;
-}
-
 // ^ remake of the above based on govuk scss
 // @todo update all buttons to use this class
 
 // Secondary blue button variables
-$dpr-secondary-blue-button-colour: govuk-colour("blue");
-$dpr-secondary-blue-button-text-colour: govuk-colour("white");
-$dpr-secondary-blue-button-hover-colour: govuk-shade(
-  $dpr-secondary-blue-button-colour,
+
+$dpr-information-button-colour: govuk-colour("blue");
+$dpr-information-button-text-colour: govuk-colour("white");
+$dpr-information-button-hover-colour: govuk-shade(
+  $dpr-information-button-colour,
   10%
 );
-$dpr-secondary-blue-button-shadow-colour: govuk-shade(
-  $dpr-secondary-blue-button-colour,
+$dpr-information-button-shadow-colour: govuk-shade(
+  $dpr-information-button-colour,
   40%
 );
 
@@ -56,28 +23,23 @@ $dpr-secondary-blue-button-shadow-colour: govuk-shade(
 // increase the bottom margin to include it (s2).
 $button-shadow-size: $govuk-border-width-form-element;
 
-.dpr-button {
-  @extend .govuk-button;
+.dpr-button--information {
+  background-color: $dpr-information-button-colour;
+  box-shadow: 0 $button-shadow-size 0 $dpr-information-button-shadow-colour;
 
-  //based on govuk secondary button scss but blue
-  &--secondary-blue {
-    background-color: $dpr-secondary-blue-button-colour;
-    box-shadow: 0 $button-shadow-size 0 $dpr-secondary-blue-button-shadow-colour;
+  &,
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    color: $dpr-information-button-text-colour;
+  }
 
-    &,
-    &:link,
-    &:visited,
-    &:active,
-    &:hover {
-      color: $dpr-secondary-blue-button-text-colour;
-    }
+  &:hover {
+    background-color: $dpr-information-button-hover-colour;
 
-    &:hover {
-      background-color: $dpr-secondary-blue-button-hover-colour;
-
-      &[disabled] {
-        background-color: $dpr-secondary-blue-button-colour;
-      }
+    &[disabled] {
+      background-color: $dpr-information-button-colour;
     }
   }
 }

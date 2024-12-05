@@ -28,7 +28,9 @@ export const FormSearch = ({ action, searchParams }: FormSearchProps) => {
         </div>
       </div>
       <div className="govuk-grid-column-one-quarter search-bar-buttons">
-        <Button type="submit">Search</Button>
+        <Button type="submit" element="button" variant="default">
+          Search
+        </Button>
       </div>
     </form>
   );

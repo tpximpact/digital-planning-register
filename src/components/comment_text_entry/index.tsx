@@ -175,7 +175,9 @@ const CommentTextEntry = ({
           </div>
           {!hideContinue && (
             <div className="govuk-button-group">
-              <Button type="submit">Continue</Button>
+              <Button variant="default" type="submit" element="button">
+                Continue
+              </Button>
             </div>
           )}
         </form>

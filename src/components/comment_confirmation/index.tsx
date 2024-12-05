@@ -48,7 +48,7 @@ const CommentConfirmation = ({
         comments on them.
       </p>
       <form action={`/${council}`} method="GET">
-        <Button type="submit" variant="secondary">
+        <Button element="button" type="submit" variant="secondary">
           Back to application search
         </Button>
       </form>

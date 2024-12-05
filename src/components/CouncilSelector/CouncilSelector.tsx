@@ -60,7 +60,11 @@ export const CouncilSelector = ({
                 </option>
               ))}
             </select>
-            <Button type="submit" className="hidden-js-enabled">
+            <Button
+              type="submit"
+              className="hidden-js-enabled"
+              variant="default"
+            >
               Select
             </Button>
           </div>

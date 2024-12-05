@@ -6,9 +6,9 @@ import Link from "next/link";
 type ButtonElement = "button" | "link" | "span" | "div";
 type ButtonVariant =
   | "primary"
-  | "blue"
-  | "default"
   | "secondary"
+  | "default"
+  | "information"
   | "warning"
   | "text-only";
 
@@ -50,8 +50,8 @@ export const Button = ({
         return "govuk-button--secondary";
       case "warning":
         return "govuk-button--warning";
-      case "blue":
-        return "govuk-button--secondary blue-button";
+      case "information":
+        return "dpr-button--information";
       case "text-only":
         return "govuk-link";
       default:

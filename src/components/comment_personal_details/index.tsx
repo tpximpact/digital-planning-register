@@ -426,7 +426,11 @@ const CommentPersonalDetails = ({
             }
           />
 
-          {!hideContinue && <Button type="submit">Continue</Button>}
+          {!hideContinue && (
+            <Button variant="default" type="submit" element="button">
+              Continue
+            </Button>
+          )}
         </form>
       </div>
     </div>

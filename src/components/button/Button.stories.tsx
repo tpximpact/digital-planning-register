@@ -21,7 +21,7 @@ const meta = {
     },
     variant: {
       control: { type: "select" },
-      options: ["default", "secondary", "blue", "green", "grey", "text-only"],
+      options: ["default", "secondary", "warning", "information", "text-only"],
     },
     onClick: { action: "clicked" },
     href: { control: "text" },
@@ -65,10 +65,10 @@ export const WarningButton: Story = {
   },
 };
 
-export const BlueButton: Story = {
+export const BlueInformationButton: Story = {
   args: {
     children: "Blue Button",
-    variant: "blue",
+    variant: "information",
     onClick: action("Blue Button clicked"),
   },
 };
@@ -76,7 +76,7 @@ export const BlueButton: Story = {
 export const ShowAllCommentsButton: Story = {
   args: {
     children: "Show all 5 neighbour comments",
-    variant: "blue",
+    variant: "information",
     element: "link",
     href: "#",
   },
@@ -85,27 +85,8 @@ export const ShowAllCommentsButton: Story = {
 export const ShowAllDocumentsButton: Story = {
   args: {
     children: "Show all 10 documents",
-    variant: "blue",
+    variant: "information",
     element: "link",
     href: "#",
-  },
-};
-
-export const TextOnlyChangeButton: Story = {
-  args: {
-    children: "Change",
-    variant: "text-only",
-    onClick: action("Text Only Button clicked"),
-    className: "button-link-change",
-  },
-};
-
-export const TextOnlyLinkButton: Story = {
-  args: {
-    element: "link",
-    href: "#",
-    children: "Link Button",
-    variant: "text-only",
-    onClick: action("Link Button clicked"),
   },
 };

@@ -59,7 +59,9 @@ export const FormCookiePreferences = ({
               </div>
             </fieldset>
           </div>
-          <Button type="submit">Save cookie settings</Button>
+          <Button type="submit" element="button" variant="default">
+            Save cookie settings
+          </Button>
         </form>
       </div>
     </div>

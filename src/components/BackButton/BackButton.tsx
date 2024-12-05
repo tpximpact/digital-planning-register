@@ -1,4 +1,4 @@
-import { Button } from "@/components/button";
+import Link from "next/link";
 
 interface BackButtonProps {
   baseUrl: string;
@@ -21,13 +21,8 @@ export const BackButton = ({
     : "#";
 
   return (
-    <Button
-      element="link"
-      href={href}
-      className={`govuk-back-link ${className}`.trim()}
-      variant="text-only"
-    >
+    <Link href={href} className={`govuk-back-link ${className}`.trim()}>
       Back
-    </Button>
+    </Link>
   );
 };

@@ -207,7 +207,9 @@ const CommentTopicSelection = ({
                 </>
               }
             />
-            <Button type="submit">Continue</Button>
+            <Button element="button" type="submit" variant="default">
+              Continue
+            </Button>
           </fieldset>
         </form>
       </div>

@@ -73,7 +73,7 @@ export const CommentsList = ({
                 </p>
                 {councilSlug && (
                   <Button
-                    variant="blue"
+                    variant="information"
                     element="link"
                     href={`/${councilSlug}/${reference}/comments`}
                   >

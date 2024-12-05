@@ -11,6 +11,7 @@ export const StartButton = ({
   ariaLabel,
 }: StartButtonProps) => (
   <Button
+    element="button"
     type={type}
     className={`govuk-button--start ${className}`}
     ariaLabel={ariaLabel}

@@ -10,6 +10,7 @@ import {
 } from "@/lib/planningApplication";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { formatDprDate } from "@/util";
+import { Button } from "../button";
 // import { InfoIcon } from "../InfoIcon";
 
 export interface ApplicationCardProps {
@@ -166,12 +167,13 @@ export const ApplicationCard = ({
       {reference && (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
-            <a
+            <Button
+              element="link"
               href={`/${councilSlug}/${reference}`}
-              className="govuk-button govuk-button--secondary blue-button"
+              variant="information"
             >
               View details
-            </a>
+            </Button>
           </div>
         </div>
       )}

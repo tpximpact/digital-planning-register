@@ -6,6 +6,7 @@ import { setConsentCookie } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
+import { TextButton } from "../TextButton";
 
 type BannerState = "initial" | "accepted" | "rejected" | "hidden";
 
@@ -76,15 +77,15 @@ export function CookieBanner() {
             </div>
           </div>
           <div className="govuk-button-group">
-            <Button element="button" onClick={handleAccept}>
+            <Button element="button" onClick={handleAccept} variant="default">
               Accept analytics cookies
             </Button>
-            <Button element="button" onClick={handleReject}>
+            <Button element="button" onClick={handleReject} variant="default">
               Reject analytics cookies
             </Button>
-            <Button element="link" variant="text-only" href="/cookie-policy">
+            <TextButton element="link" href="/cookie-policy">
               View cookies
-            </Button>
+            </TextButton>
           </div>
         </div>
       )}
@@ -108,7 +109,7 @@ export function CookieBanner() {
             </div>
           </div>
           <div className="govuk-button-group">
-            <Button onClick={handleHide} element="button">
+            <Button onClick={handleHide} element="button" variant="default">
               Hide cookie message
             </Button>
           </div>
