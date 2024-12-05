@@ -11,7 +11,6 @@ import {
 import { ApplicationDataField } from "../ApplicationDataField";
 import { formatDprDate } from "@/util";
 import { Button } from "../button";
-// import { InfoIcon } from "../InfoIcon";
 
 export interface ApplicationCardProps {
   councilSlug: string;
