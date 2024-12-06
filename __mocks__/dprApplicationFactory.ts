@@ -159,7 +159,6 @@ export const generateDprApplication = ({
       publishedAt: faker.date.anytime().toISOString(),
       determinedAt: determinedAt,
       decision: decision,
-      id: Number(faker.string.numeric(4)),
       documents: [
         {
           url: "/camden/24-00135-HAPP/application-form",

@@ -341,7 +341,6 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
           <CommentCheckAnswer
             councilConfig={appConfig?.council}
             {...commonProps}
-            applicationId={applicationData.application.id}
           />
         );
       case 6:

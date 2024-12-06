@@ -56,13 +56,11 @@ const topics_selection = [
 const CommentCheckAnswer = ({
   councilConfig,
   reference,
-  applicationId,
   navigateToPage,
   updateProgress,
 }: {
   councilConfig: AppConfig["council"];
   reference: string;
-  applicationId: number;
   navigateToPage: (page: number, params?: object) => void;
   updateProgress: (completedPage: number) => void;
 }) => {
@@ -146,7 +144,7 @@ const CommentCheckAnswer = ({
         const response = await ApiV1.postComment(
           councilConfig?.dataSource ?? "none",
           councilConfig?.slug,
-          applicationId,
+          reference,
           apiData,
         );
         if (response?.status?.code === 200) {

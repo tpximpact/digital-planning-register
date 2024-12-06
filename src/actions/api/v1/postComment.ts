@@ -15,18 +15,18 @@ import { apiReturnError } from "@/handlers/lib";
 export async function postComment(
   source: string,
   council: string,
-  applicationId: number,
+  reference: string,
   apiData: object,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
-  if (!council || !applicationId || !apiData) {
+  if (!council || !reference || !apiData) {
     return apiReturnError("Council and reference are required");
   }
 
   switch (source) {
     case "bops":
-      return await BopsV2.postComment(council, applicationId, apiData);
+      return await BopsV2.postComment(council, reference, apiData);
     case "local":
-      return await LocalV1.postComment(council, applicationId, apiData);
+      return await LocalV1.postComment(council, reference, apiData);
     default:
       return apiReturnError("Invalid source");
   }

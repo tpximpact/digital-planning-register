@@ -35,7 +35,6 @@ describe("CommentCheckAnswer", () => {
   const defaultProps = {
     councilConfig: appConfig.council,
     reference: "REF-001",
-    applicationId: 1,
     navigateToPage: jest.fn(),
     updateProgress: jest.fn(),
   };
@@ -131,7 +130,7 @@ describe("CommentCheckAnswer", () => {
       expect(ApiV1.postComment).toHaveBeenCalledWith(
         "local",
         "public-council-1",
-        1,
+        "REF-001",
         expect.any(Object),
       );
       expect(sendGTMEvent).toHaveBeenCalledWith({ event: "comment_submit" });
