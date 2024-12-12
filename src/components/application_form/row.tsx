@@ -1,5 +1,5 @@
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
-import ApplicationMap from "../application_map";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 export const Row = ({
   description,
@@ -17,9 +17,11 @@ export const Row = ({
       <dd className="govuk-summary-list__value">
         {/* show a map if map is present */}
         {map && (
-          <ApplicationMap
-            mapData={map}
+          <ApplicationMapLoader
             reference={`${description.split(" ").join("-")}-application-submission`}
+            mapData={map}
+            description=""
+            mapType="application-show"
           />
         )}
         {typeof value === "string" ? (
