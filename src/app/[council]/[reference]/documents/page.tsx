@@ -74,9 +74,7 @@ export default async function PlanningApplicationDetailsDocuments({
   }
 
   const application = applicationResponse?.data;
-  const documents = appConfig.features.documentsPublicEndpoint
-    ? documentResponse?.data?.files
-    : application?.application.documents;
+  const documents = application?.application.documents;
 
   if (!documents || !application) {
     return (

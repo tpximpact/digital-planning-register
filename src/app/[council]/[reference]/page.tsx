@@ -66,9 +66,7 @@ const PlanningApplicationDetails = async ({
     );
   }
   const application = applicationResponse.data;
-  const documents = appConfig.features.documentsPublicEndpoint
-    ? (documentResponse?.data?.files ?? null)
-    : (application?.application.documents ?? null);
+  const documents = application?.application.documents ?? null;
 
   return (
     <PageShow
