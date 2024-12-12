@@ -64,15 +64,19 @@ export const Button = ({
     variant === "text-only" ? "" : "govuk-button"
   } ${getVariantClass(variant)} ${className}`.trim();
 
+  const optionalProps = {
+    ...(ariaLabel && { "aria-label": ariaLabel as string }),
+  };
+
   if (element === "link" && href) {
     return (
       <Link
         href={href}
         className={baseClassName}
-        aria-label={ariaLabel}
         onClick={onClick}
         role={variant === "text-only" ? undefined : "button"}
         data-module={variant === "text-only" ? undefined : "govuk-button"}
+        {...optionalProps}
       >
         {children}
       </Link>
@@ -85,8 +89,8 @@ export const Button = ({
       <Element
         className={baseClassName}
         onClick={onClick}
-        aria-label={ariaLabel}
         role="button"
+        {...optionalProps}
       >
         {children}
       </Element>
@@ -99,9 +103,9 @@ export const Button = ({
         type={type}
         className={baseClassName}
         onClick={onClick}
-        aria-label={ariaLabel}
         data-module={variant === "text-only" ? undefined : "govuk-button"}
         data-prevent-double-click="true"
+        {...optionalProps}
       >
         {children}
       </button>

@@ -75,12 +75,4 @@ describe("Button Component", () => {
     });
     expect(buttonElement).toHaveAttribute("aria-label", "Custom Aria Label");
   });
-
-  it("defaults aria-label to children text when not provided", () => {
-    render(<Button>Default Aria Label</Button>);
-    const buttonElement = screen.getByRole("button", {
-      name: "Default Aria Label",
-    });
-    expect(buttonElement).toHaveAttribute("aria-label", "Default Aria Label");
-  });
 });
