@@ -1,5 +1,4 @@
 import "./ApplicationHero.scss";
-import ApplicationMap from "../application_map";
 import { DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import {
@@ -15,6 +14,7 @@ import {
 import { flattenObject, formatDprDate, slugify } from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 interface ApplicationHeroProps {
   councilSlug: string;
@@ -61,7 +61,13 @@ export const ApplicationHero = ({
       <div className="govuk-grid-row">
         {boundary_geojson && (
           <div className="dpr-application-hero__map">
-            <ApplicationMap reference={reference} mapData={boundary_geojson} />
+            <ApplicationMapLoader
+              reference={reference}
+              mapData={boundary_geojson}
+              description="Interactive map showing the location of the application"
+              mapType="application-show"
+              // mapType="context-setter"
+            />
           </div>
         )}
         <div className="dpr-application-hero__data">

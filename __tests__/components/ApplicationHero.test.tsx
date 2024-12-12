@@ -15,11 +15,11 @@ jest.mock("@/components/Tag", () => ({
   Tag: ({ label, sentiment, id, isInline }: TagProps) => <>{label}</>,
 }));
 
-jest.mock("../../src/components/application_map", () => {
-  const ApplicationMap = () => <div data-testid="map">map</div>;
-  ApplicationMap.displayName = "ApplicationMap";
-  return ApplicationMap;
-});
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
+}));
 
 jest.mock("@/components/ApplicationDataField", () => ({
   ApplicationDataField: ({
@@ -73,7 +73,9 @@ describe("Render ApplicationHero", () => {
     // Address
     expect(screen.queryByText("Address - 123 Fake Street")).toBeInTheDocument();
     // map
-    expect(screen.queryByTestId("map")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("mock-application-map-loader"),
+    ).toBeInTheDocument();
     // applicationType
     expect(
       screen.queryByText("Application type - Planning permission"),
