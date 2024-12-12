@@ -2,7 +2,7 @@ import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
 import ApplicationMap from "../application_map";
 import { Panel } from "../govuk/Panel";
-import { Button } from "../button";
+import { Button } from "@/components/button";
 
 interface CommentConfirmationProps {
   reference: string;
@@ -48,11 +48,9 @@ const CommentConfirmation = ({
         comments on them.
       </p>
       <form action={`/${council}`} method="GET">
-        <Button
-          type="submit"
-          className={"govuk-button--secondary"}
-          content={"Back to application search"}
-        />
+        <Button element="button" type="submit" variant="secondary">
+          Back to application search
+        </Button>
       </form>
     </>
   );

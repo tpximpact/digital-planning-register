@@ -9,8 +9,7 @@ import { ContentError } from "../ContentError";
 import "./ApplicationDetails.scss";
 import { ContentSidebar } from "../ContentSidebar";
 import { slugify } from "@/util";
-import Link from "next/link";
-import { LinkButton } from "../button";
+import { Button } from "@/components/button";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -89,26 +88,29 @@ export const ApplicationDetails = ({
       <div className="govuk-grid-row dpr-application-details__content">
         <div className="govuk-grid-column-one-third-from-desktop dpr-application-details__sidebar">
           <ContentSidebar content={sidebar} />
-
           {applicationStatus !== "determined" && commentsEnabled && (
-            <Link
+            <Button
+              variant="primary"
+              element="link"
               href={`/${councilSlug}/${reference}/submit-comment`}
-              className="govuk-button govuk-button--primary"
-              data-module="govuk-button"
             >
               Comment on this application
-            </Link>
+            </Button>
           )}
 
           {appConfig.council?.pageContent?.email_alerts
             ?.sign_up_for_alerts_link && (
-            <LinkButton
+            <Button
               href={
                 appConfig.council?.pageContent?.email_alerts
                   ?.sign_up_for_alerts_link
               }
-              text="Sign up for email alerts"
-            />
+              element="link"
+              ariaLabel="Sign up for email alerts"
+              variant="information"
+            >
+              Sign up for email alerts
+            </Button>
           )}
         </div>
         <div className="govuk-grid-column-two-thirds-from-desktop dpr-application-details--flow">

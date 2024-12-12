@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { capitaliseWord } from "@/util";
-import { Button, ButtonLink } from "../button";
+import { Button } from "@/components/button";
 import { ApiV1 } from "@/actions/api";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govuk/Details";
+import { TextButton } from "../TextButton";
 
 const topics_selection = [
   {
@@ -238,10 +239,15 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{capitaliseWord(sentiment)}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(1, { edit: true })}
                     ariaLabel="Change how you feel about this development"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -259,10 +265,15 @@ const CommentCheckAnswer = ({
                   ))}
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(2, { edit: true })}
                     ariaLabel="Change what topics you want to comment on"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -285,12 +296,17 @@ const CommentCheckAnswer = ({
                       </p>
                     </dd>
                     <dd className="govuk-summary-list__actions">
-                      <ButtonLink
+                      <TextButton
+                        element="button"
+                        className="button-link-change"
                         onClick={() =>
                           navigateToPage(3, { topicIndex: index, edit: true })
                         }
                         ariaLabel={`Change ${topicLabel} comment`}
-                      />
+                        variant="plain"
+                      >
+                        Change
+                      </TextButton>
                     </dd>
                   </div>
                 </dl>
@@ -306,10 +322,15 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.name}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change name"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -321,10 +342,15 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.address}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change address"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -336,10 +362,15 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.postcode}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change postcode"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -351,10 +382,15 @@ const CommentCheckAnswer = ({
                   <p className="govuk-body">{personalDetails.emailAddress}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change email address"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -368,10 +404,15 @@ const CommentCheckAnswer = ({
                   </p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
-                  <ButtonLink
+                  <TextButton
+                    element="button"
+                    className="button-link-change"
                     onClick={() => navigateToPage(4, { edit: true })}
                     ariaLabel="Change telephone number"
-                  />
+                    variant="plain"
+                  >
+                    Change
+                  </TextButton>
                 </dd>
               </div>
             </dl>
@@ -443,8 +484,9 @@ const CommentCheckAnswer = ({
                 </>
               }
             />
-
-            <Button type="submit" content={"Accept and send"} />
+            <Button variant="default" element="button" type="submit">
+              Accept and send
+            </Button>
           </form>
         </div>
       </div>

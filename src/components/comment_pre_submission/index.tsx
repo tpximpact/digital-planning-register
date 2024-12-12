@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { ContentCommentsPreSubmission } from "../ContentCommentsPreSubmission";
-import { StartButton } from "../button";
 import { AppConfig } from "@/config/types";
+import { StartButton } from "../StartButton";
 
 const PreSubmission = ({
   councilConfig,
@@ -26,7 +26,7 @@ const PreSubmission = ({
     <>
       <ContentCommentsPreSubmission councilConfig={councilConfig} />
       <form onSubmit={handleSubmit}>
-        <StartButton />
+        <StartButton type="submit" />
       </form>
     </>
   );

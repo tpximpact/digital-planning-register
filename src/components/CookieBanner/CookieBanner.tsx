@@ -5,7 +5,8 @@ import React, { useState, useEffect } from "react";
 import { setConsentCookie } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "../button";
+import { Button } from "@/components/button";
+import { TextButton } from "../TextButton";
 
 type BannerState = "initial" | "accepted" | "rejected" | "hidden";
 
@@ -76,19 +77,15 @@ export function CookieBanner() {
             </div>
           </div>
           <div className="govuk-button-group">
-            <Button
-              type="button"
-              onClick={handleAccept}
-              content="Accept analytics cookies"
-            />
-            <Button
-              type="button"
-              onClick={handleReject}
-              content="Reject analytics cookies"
-            />
-            <Link className="govuk-link" href="/cookie-policy">
+            <Button element="button" onClick={handleAccept} variant="default">
+              Accept analytics cookies
+            </Button>
+            <Button element="button" onClick={handleReject} variant="default">
+              Reject analytics cookies
+            </Button>
+            <TextButton element="link" href="/cookie-policy">
               View cookies
-            </Link>
+            </TextButton>
           </div>
         </div>
       )}
@@ -112,11 +109,9 @@ export function CookieBanner() {
             </div>
           </div>
           <div className="govuk-button-group">
-            <Button
-              type="button"
-              onClick={handleHide}
-              content=" Hide cookie message"
-            />
+            <Button onClick={handleHide} element="button" variant="default">
+              Hide cookie message
+            </Button>
           </div>
         </div>
       )}

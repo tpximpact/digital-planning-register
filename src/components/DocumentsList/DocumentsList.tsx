@@ -1,8 +1,7 @@
 import { DprDocument } from "@/types";
 import { DocumentCard } from "@/components/DocumentCard";
 import "./DocumentsList.scss";
-import Link from "next/link";
-import { LinkButton } from "../button";
+import { Button } from "@/components/button";
 
 export interface DocumentsListProps {
   councilSlug: string;
@@ -50,10 +49,13 @@ export const DocumentsList = ({
                     Showing {documents.length} of {totalDocuments} documents
                   </p>
                   {councilSlug && (
-                    <LinkButton
+                    <Button
+                      variant="information"
+                      element="link"
                       href={`/${councilSlug}/${reference}/documents`}
-                      text={`Show all ${totalDocuments} documents`}
-                    />
+                    >
+                      {`Show all ${totalDocuments} documents`}
+                    </Button>
                   )}
                 </div>
               </div>

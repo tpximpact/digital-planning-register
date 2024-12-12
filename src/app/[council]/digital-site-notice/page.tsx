@@ -5,7 +5,7 @@ import { getAppConfig } from "@/config";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ContentError } from "@/components/ContentError";
 import { PageSearchSiteNotices } from "@/components/PageSearchSiteNotices";
-import { BackLink } from "@/components/button";
+import { BackButton } from "@/components/BackButton";
 import { ContentNotFound } from "@/components/ContentNotFound";
 
 interface DigitalSiteNoticeProps {
@@ -63,11 +63,12 @@ const DigitalSiteNotice = async ({
 }: DigitalSiteNoticeProps) => {
   const { council } = params;
   const appConfig = getAppConfig(council);
+  const baseUrl = `/${council}`;
 
   if (!appConfig.council?.features?.dsn) {
     return (
       <>
-        <BackLink />
+        <BackButton baseUrl={baseUrl} />
         <div className="govuk-main-wrapper">
           <ContentNotFound />
         </div>

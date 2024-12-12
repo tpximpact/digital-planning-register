@@ -11,10 +11,6 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { ApplicationCard } from "@/components/ApplicationCard";
 
-jest.mock("@/components/button", () => ({
-  BackLink: () => <div data-testid="back-link"></div>,
-}));
-
 jest.mock("@/components/FormSearch", () => ({
   FormSearch: () => <div data-testid="form-search"></div>,
 }));
@@ -70,7 +66,7 @@ describe("PageSearch Component", () => {
     expect(screen.getByTestId("pagination")).toBeInTheDocument();
   });
 
-  it("renders a list of search results", async () => {
+  it("does not render a list of search results", async () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
@@ -80,7 +76,6 @@ describe("PageSearch Component", () => {
       />,
     );
     expect(screen.queryByRole("heading")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("back-link")).toBeInTheDocument();
     expect(screen.getByTestId("form-search")).toBeInTheDocument();
     expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
     expect(screen.queryByTestId("application-card")).not.toBeInTheDocument();

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./CouncilSelector.scss";
 import { AppConfig } from "@/config/types";
 import { useRouter } from "next/navigation";
-import { Button } from "../button";
+import { Button } from "@/components/button";
 
 export interface CouncilSelectorProps {
   councils: AppConfig["councils"];
@@ -62,9 +62,11 @@ export const CouncilSelector = ({
             </select>
             <Button
               type="submit"
-              content="Select"
               className="hidden-js-enabled"
-            />
+              variant="default"
+            >
+              Select
+            </Button>
           </div>
         </form>
       )}

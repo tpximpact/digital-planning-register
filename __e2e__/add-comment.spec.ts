@@ -27,7 +27,9 @@ const testCommentFlow = async (page: Page) => {
     },
   );
 
-  await page.getByRole("link", { name: "Comment on this application" }).click();
+  await page
+    .getByRole("button", { name: "Comment on this application" })
+    .click();
 
   // there is a race condition here
   // when the page first loads it shows a non-js message to say 'enable js pls'

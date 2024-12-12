@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Details } from "../govuk/Details";
-import { Button } from "../button";
+import { Button } from "@/components/button";
 
 export const topics_selection = [
   {
@@ -207,12 +207,9 @@ const CommentTopicSelection = ({
                 </>
               }
             />
-
-            <Button
-              type="submit"
-              data-module="govuk-button"
-              content="Continue"
-            />
+            <Button element="button" type="submit" variant="default">
+              Continue
+            </Button>
           </fieldset>
         </form>
       </div>

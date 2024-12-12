@@ -1,5 +1,5 @@
 import { DprDocument, DprPlanningApplication, SearchParams } from "@/types";
-import { BackLink } from "../button";
+import { BackButton } from "@/components/BackButton";
 import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
 import { PageWrapper } from "../PageWrapper";
@@ -31,9 +31,10 @@ export const PageShow = ({
       </PageWrapper>
     );
   }
+  const baseUrl = `/${council}`;
   return (
     <>
-      <BackLink />
+      <BackButton baseUrl={baseUrl} />
       <PageWrapper>
         <ApplicationDetails
           reference={reference}

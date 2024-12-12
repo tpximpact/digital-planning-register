@@ -1,21 +1,24 @@
 import { formatIsoDateTime } from "@/util";
-import { BackLink } from "../button";
+import { BackButton } from "@/components/BackButton";
 import ApplicationForm from "../application_form";
 
 export interface PageApplicationSubmissionProps {
   reference: string;
   applicationSubmissionData?: any;
   submittedAt?: string;
+  council?: string;
 }
 
 export const PageApplicationSubmission = ({
   reference,
   applicationSubmissionData,
   submittedAt,
+  council,
 }: PageApplicationSubmissionProps) => {
+  const baseUrl = `/${council}`;
   return (
     <>
-      <BackLink />
+      <BackButton baseUrl={`${baseUrl}/${reference}`} />
       <div className="govuk-main-wrapper">
         <h1 className="govuk-heading-xl">Application form as submitted</h1>
         <p className="govuk-body">

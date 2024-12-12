@@ -1,4 +1,4 @@
-import { BackButton } from "../button";
+import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "../Pagination";
 import {
@@ -38,7 +38,7 @@ export const PageApplicationDocuments = ({
   );
   return (
     <>
-      <BackButton href={`/${councilSlug}/${reference}`} />
+      <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <div className="govuk-main-wrapper">
         <ApplicationHeader
           reference={reference}

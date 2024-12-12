@@ -1,7 +1,7 @@
-import { BackLink } from "@/components/button";
 import { ContentPage } from "../ContentPage";
 import { contentPlanningProcess } from "./PagePlanningProcessContent";
 import { ContentSidebar } from "../ContentSidebar";
+import { BackLink } from "../BackLink/BackLink";
 
 export interface PagePlanningProcessProps {}
 

@@ -1,11 +1,12 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
-import { BackLink, ButtonEmailSignUp } from "../button";
+import { BackButton } from "../BackButton";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";
 import { AppConfig } from "@/config/types";
 import { ApplicationCard } from "../ApplicationCard";
 import { Pagination } from "@/components/Pagination";
 import "./PageSearch.scss";
+import { EmailSignUpButton } from "../EmailSignUpButton";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
@@ -30,9 +31,12 @@ export const PageSearch = ({
     ? "Search results"
     : "Recently published applications";
 
+  const council = appConfig.council;
+  const baseUrl = `/${council.slug}`;
+
   return (
     <>
-      {!applications && <BackLink />}
+      {!applications && <BackButton baseUrl={baseUrl} />}
       <div className="govuk-main-wrapper">
         {!hasSearchQuery && (
           <div className="govuk-grid-row intro-text">
@@ -55,7 +59,7 @@ export const PageSearch = ({
               ?.sign_up_for_alerts_link && (
               <div className="govuk-grid-column-one-third">
                 <div className="email-signup-button-container">
-                  <ButtonEmailSignUp
+                  <EmailSignUpButton
                     href={
                       appConfig.council?.pageContent?.email_alerts
                         ?.sign_up_for_alerts_link
