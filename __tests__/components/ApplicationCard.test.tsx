@@ -11,11 +11,11 @@ jest.mock("@/components/InfoIcon", () => ({
   InfoIcon: () => <div data-testid="info-icon">Info Icon</div>,
 }));
 
-jest.mock("../../src/components/application_map", () => {
-  const ApplicationMap = () => <div data-testid="map">map</div>;
-  ApplicationMap.displayName = "ApplicationMap";
-  return ApplicationMap;
-});
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
+}));
 
 jest.mock("../../src/components/DescriptionCard", () => ({
   DescriptionCard: ({ description }: DescriptionCardProps) => (
@@ -84,7 +84,9 @@ describe("Render ApplicationCard", () => {
     // Address
     expect(screen.queryByText("123 Fake Street")).toBeInTheDocument();
     // map
-    expect(screen.queryByTestId("map")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("mock-application-map-loader"),
+    ).toBeInTheDocument();
     // Description
     expect(screen.queryByTestId("description-card")).toBeInTheDocument();
     // applicationType
