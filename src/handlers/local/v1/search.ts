@@ -55,7 +55,6 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
           publishedAt: "2024-04-25T00:00:00.000+01:00",
           determinedAt: null,
           decision: null,
-          id: 0,
           documents: null,
         },
         property: {

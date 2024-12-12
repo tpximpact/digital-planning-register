@@ -17,7 +17,6 @@ const meta = {
   args: {
     councilConfig: councilConfig,
     reference: "12345",
-    applicationId: 1,
     navigateToPage: () => {},
     updateProgress: () => {},
   },

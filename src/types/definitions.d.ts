@@ -49,11 +49,6 @@ export interface DprPlanningApplication {
     validAt: string | null;
 
     /**
-     * @todo this is missing from the public BOPS response
-     */
-    id: number;
-
-    /**
      * @todo this is missing from the public BOPS response BUT we have a new public endpoint for them
      */
     documents: DprDocument[] | null;
