@@ -1,6 +1,6 @@
 import { DprPlanningApplication } from "@/types";
-import ApplicationMap from "../application_map";
 import "./SiteNoticeCard.scss";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 interface SiteNoticeCardProps {
   councilSlug: string;
@@ -21,10 +21,11 @@ export const SiteNoticeCard = ({
     >
       <a href={`/${councilSlug}/${reference}`}>
         {boundary_geojson && (
-          <ApplicationMap
+          <ApplicationMapLoader
             reference={reference}
             mapData={boundary_geojson}
-            staticMap={true}
+            description=""
+            mapType="application-search"
           />
         )}
         <div className="govuk-link govuk-link--no-visited-state govuk-heading-m dsn-link">
