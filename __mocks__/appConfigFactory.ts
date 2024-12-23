@@ -168,6 +168,9 @@ const defaultCouncils: Council[] = [
   createCouncilConfig({
     councilName: "Public Council 1",
     visibility: "public",
+    features: {
+      dsn: true,
+    },
   }),
   createCouncilConfig({
     councilName: "Public Council 2",

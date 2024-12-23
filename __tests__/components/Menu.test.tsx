@@ -61,7 +61,7 @@ describe("Menu", () => {
     );
     expect(screen.getByText("Application search")).toBeInTheDocument();
     expect(screen.getByText("Help")).toBeInTheDocument();
-    expect(screen.queryByText("Digital site notice")).toBeNull();
+    expect(screen.queryByText("Digital site notice")).toBeInTheDocument();
   });
 
   it("highlights the current navigation link", () => {
