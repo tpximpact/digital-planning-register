@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { ApiResponse, DprShowApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
@@ -58,9 +58,9 @@ export default async function PlanningApplicationDetailsComments({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -72,9 +72,9 @@ export default async function PlanningApplicationDetailsComments({
 
   if (!application || availableCommentTypes.length === 0) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
+      </PageMain>
     );
   }
 

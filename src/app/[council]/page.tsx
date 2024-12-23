@@ -3,7 +3,7 @@ import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { PageSearch } from "@/components/PageSearch";
 
 interface HomeProps {
@@ -54,9 +54,9 @@ export default async function PlanningApplicationSearch({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 

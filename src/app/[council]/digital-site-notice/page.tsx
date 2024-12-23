@@ -2,7 +2,7 @@ import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { Metadata } from "next";
 import { ApiP05 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageSearchSiteNotices } from "@/components/PageSearchSiteNotices";
 import { BackButton } from "@/components/BackButton";
@@ -69,9 +69,9 @@ const DigitalSiteNotice = async ({
     return (
       <>
         <BackButton baseUrl={baseUrl} />
-        <div className="govuk-main-wrapper">
+        <PageMain>
           <ContentNotFound />
-        </div>
+        </PageMain>
       </>
     );
   }
@@ -84,19 +84,21 @@ const DigitalSiteNotice = async ({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
   return (
-    <PageSearchSiteNotices
-      appConfig={appConfig}
-      applications={response.data?.data}
-      pagination={response.data?.pagination}
-      searchParams={searchParams}
-    />
+    <PageMain>
+      <PageSearchSiteNotices
+        appConfig={appConfig}
+        applications={response.data?.data}
+        pagination={response.data?.pagination}
+        searchParams={searchParams}
+      />
+    </PageMain>
   );
 };
 

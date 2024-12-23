@@ -9,6 +9,7 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { DocumentsList } from "@/components/DocumentsList";
+import { PageMain } from "../PageMain";
 
 export interface PageApplicationDocumentsProps {
   reference: string;
@@ -39,7 +40,7 @@ export const PageApplicationDocuments = ({
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
-      <div className="govuk-main-wrapper">
+      <PageMain>
         <ApplicationHeader
           reference={reference}
           address={application.property.address.singleLine}
@@ -67,7 +68,7 @@ export const PageApplicationDocuments = ({
             totalPages={pagination.total_pages}
           />
         )}
-      </div>
+      </PageMain>
     </>
   );
 };

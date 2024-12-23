@@ -11,7 +11,7 @@ import { Pagination } from "../Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ContentNotFound } from "../ContentNotFound";
-import { PageWrapper } from "../PageWrapper";
+import { PageMain } from "../PageMain";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -34,16 +34,16 @@ export const PageApplicationComments = ({
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentNotFound />
-      </PageWrapper>
+      </PageMain>
     );
   }
   const councilSlug = appConfig.council.slug;
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
-      <div className="govuk-main-wrapper">
+      <PageMain>
         <ApplicationHeader
           reference={reference}
           address={application?.property.address.singleLine}
@@ -78,7 +78,7 @@ export const PageApplicationComments = ({
             />
           </>
         )}
-      </div>
+      </PageMain>
     </>
   );
 };

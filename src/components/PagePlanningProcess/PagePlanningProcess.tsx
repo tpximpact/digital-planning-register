@@ -2,6 +2,7 @@ import { ContentPage } from "../ContentPage";
 import { contentPlanningProcess } from "./PagePlanningProcessContent";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
+import { PageMain } from "../PageMain";
 
 export interface PagePlanningProcessProps {}
 
@@ -9,7 +10,7 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
   return (
     <>
       <BackLink />
-      <div className="govuk-main-wrapper dpr-page-planning-process">
+      <PageMain className="dpr-page-planning-process">
         <h1 className="govuk-heading-xl">
           Help using the Digital Planning Register
         </h1>
@@ -26,7 +27,7 @@ export const PagePlanningProcess = ({}: PagePlanningProcessProps) => {
             <ContentPage content={contentPlanningProcess()} />
           </div>
         </div>
-      </div>
+      </PageMain>
     </>
   );
 };

@@ -6,7 +6,7 @@ import {
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageShow } from "@/components/PageShow";
 
@@ -60,9 +60,9 @@ const PlanningApplicationDetails = async ({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
   const application = applicationResponse.data;

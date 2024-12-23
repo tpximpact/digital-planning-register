@@ -7,7 +7,7 @@ import {
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildDocumentData } from "@/lib/documents";
@@ -67,9 +67,9 @@ export default async function PlanningApplicationDetailsDocuments({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -78,9 +78,9 @@ export default async function PlanningApplicationDetailsDocuments({
 
   if (!documents || !application) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
+      </PageMain>
     );
   }
 

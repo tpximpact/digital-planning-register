@@ -11,7 +11,7 @@ import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
 import { DprShowApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
@@ -360,9 +360,9 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
 
   if (error) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -370,7 +370,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   // TODO when we're ready this is the beginings of a server side version of the comment form
   if (!isClient) {
     return (
-      <PageWrapper>
+      <PageMain>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-full">
             <h2 className="govuk-heading-s" role="title">
@@ -381,7 +381,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
             </p>
           </div>
         </div>
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -402,7 +402,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
     <>
       {page < 6 && applicationData && <BackLink />}
       {page <= 6 && (
-        <div className="govuk-main-wrapper" id="submit-comment">
+        <PageMain className="submit-comment">
           {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
               council={council}
@@ -412,7 +412,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
             />
           )}
           {renderComponent()}
-        </div>
+        </PageMain>
       )}
     </>
   );

@@ -3,6 +3,7 @@ import { getAppConfig } from "@/config";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { BackButton } from "@/components/BackButton";
 import { PageTemplate } from "@/components/PageTemplate";
+import { PageMain } from "@/components/PageMain";
 
 export async function generateMetadata({
   params,
@@ -45,9 +46,9 @@ export default function SiteLayout({
     return (
       <PageTemplate appConfig={appConfig}>
         <BackButton baseUrl={baseUrl} />
-        <div className="govuk-main-wrapper">
+        <PageMain>
           <ContentNotFound />
-        </div>
+        </PageMain>
       </PageTemplate>
     );
   }

@@ -25,7 +25,7 @@ export const PageSearchSiteNotices = ({
     searchParams?.query && searchParams?.query.length < 3 ? true : false;
 
   return (
-    <div className="govuk-main-wrapper">
+    <>
       <h1 className="govuk-heading-xl">Find digital site notices near you</h1>
       <p className="govuk-body grid-row-extra-bottom-margin">
         Digital site notices are created for significant planning applications
@@ -76,6 +76,6 @@ export const PageSearchSiteNotices = ({
           <ContentNoResult councilConfig={appConfig.council} />
         </>
       )}
-    </div>
+    </>
   );
 };

@@ -4,7 +4,6 @@ import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
 import { DocumentsList } from "@/components/DocumentsList";
-import { PageWrapper } from "../PageWrapper";
 import { ContentError } from "../ContentError";
 import "./ApplicationDetails.scss";
 import { ContentSidebar } from "../ContentSidebar";
@@ -25,11 +24,7 @@ export const ApplicationDetails = ({
   documents,
 }: ApplicationDetailsProps) => {
   if (!appConfig.council) {
-    return (
-      <PageWrapper>
-        <ContentError />
-      </PageWrapper>
-    );
+    return <ContentError />;
   }
 
   const applicationStatus = application.application.status;

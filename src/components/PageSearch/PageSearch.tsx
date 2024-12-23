@@ -7,6 +7,7 @@ import { ApplicationCard } from "../ApplicationCard";
 import { Pagination } from "@/components/Pagination";
 import "./PageSearch.scss";
 import { EmailSignUpButton } from "../EmailSignUpButton";
+import { PageMain } from "../PageMain";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
@@ -37,7 +38,7 @@ export const PageSearch = ({
   return (
     <>
       {!applications && <BackButton baseUrl={baseUrl} />}
-      <div className="govuk-main-wrapper">
+      <PageMain>
         {!hasSearchQuery && (
           <div className="govuk-grid-row intro-text">
             <div className="govuk-grid-column-two-thirds">
@@ -102,7 +103,7 @@ export const PageSearch = ({
             <ContentNoResult councilConfig={appConfig.council} />
           </>
         )}
-      </div>
+      </PageMain>
     </>
   );
 };

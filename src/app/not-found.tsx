@@ -1,5 +1,7 @@
-import { BackLink } from "@/components/BackLink/BackLink";
 import { ContentNotFound } from "@/components/ContentNotFound";
+import { PageMain } from "@/components/PageMain";
+import { PageTemplate } from "@/components/PageTemplate";
+import { getAppConfig } from "@/config";
 import { AppConfig } from "@/config/types";
 
 export default function NotFound({
@@ -7,12 +9,12 @@ export default function NotFound({
 }: {
   councilConfig: AppConfig["council"];
 }) {
+  const appConfig = getAppConfig();
   return (
-    <>
-      <BackLink />
-      <div className="govuk-main-wrapper">
+    <PageTemplate appConfig={appConfig}>
+      <PageMain>
         <ContentNotFound councilConfig={councilConfig} />
-      </div>
-    </>
+      </PageMain>
+    </PageTemplate>
   );
 }
