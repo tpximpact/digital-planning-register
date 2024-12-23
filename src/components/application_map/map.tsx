@@ -101,7 +101,7 @@ const ApplicationMapMap = ({
       return (
         <div
           role="region"
-          aria-label="map"
+          aria-label={`Map showing application ${reference}`}
           id={`${reference}-map-test`}
           className="osl-map"
         >
