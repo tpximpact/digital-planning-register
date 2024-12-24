@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CouncilSelector } from "@/components/CouncilSelector";
 import { AppConfig } from "@/config/types";
 import "./Menu.scss";
 
@@ -24,12 +23,6 @@ export const Menu = ({
         <div className="govuk-service-navigation__container">
           <nav aria-label="Menu" className="govuk-service-navigation__wrapper">
             <ul className="govuk-service-navigation__list" id="navigation">
-              <li className="dpr-menu__dropdown">
-                <CouncilSelector
-                  councils={councils}
-                  selectedCouncil={selectedCouncil}
-                />
-              </li>
               {navigation &&
                 navigation.map((item, index) => {
                   const href =
