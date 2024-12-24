@@ -373,7 +373,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
       <PageMain>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-full">
-            <h2 className="govuk-heading-s" role="title">
+            <h2 className="govuk-heading-s">
               Javascript is required to submit comments
             </h2>
             <p className="govuk-body">
