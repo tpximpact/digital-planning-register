@@ -1,13 +1,18 @@
 import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
 import { ContentNoResult } from "../ContentNoResult/ContentNoResult";
 import { AppConfig } from "@/config/types";
-import { Pagination } from "../Pagination";
+import { Pagination } from "@/components/govuk/Pagination";
 import { SiteNoticeCard } from "../SiteNoticeCard";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageSearchSiteNoticesProps {
   appConfig: AppConfig;
   applications: DprPlanningApplication[] | undefined;
   pagination: DprPagination | undefined;
+  params?: {
+    council: string;
+    reference?: string;
+  };
   searchParams?: SearchParams;
 }
 
@@ -15,6 +20,7 @@ export const PageSearchSiteNotices = ({
   appConfig,
   applications,
   pagination,
+  params,
   searchParams,
 }: PageSearchSiteNoticesProps) => {
   if (!appConfig || !appConfig.council) {
@@ -60,14 +66,9 @@ export const PageSearchSiteNotices = ({
           </div>
           {pagination && pagination.total_pages > 1 && (
             <Pagination
-              currentPage={page - 1}
-              totalItems={
-                pagination.total_pages * appConfig.defaults.resultsPerPage
-              }
-              itemsPerPage={appConfig.defaults.resultsPerPage}
-              totalPages={pagination.total_pages}
-              baseUrl={`/${appConfig.council.slug}/digital-site-notice`}
-              queryParams={searchParams}
+              baseUrl={createPathFromParams(params)}
+              searchParams={searchParams}
+              pagination={pagination}
             />
           )}
         </>

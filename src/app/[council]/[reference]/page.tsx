@@ -66,7 +66,7 @@ const PlanningApplicationDetails = async ({
     );
   }
   const application = applicationResponse.data;
-  const documents = application?.application.documents ?? null;
+  const documents = documentResponse?.data?.files ?? null;
 
   return (
     <PageShow

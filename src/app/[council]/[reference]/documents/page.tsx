@@ -74,7 +74,7 @@ export default async function PlanningApplicationDetailsDocuments({
   }
 
   const application = applicationResponse?.data;
-  const documents = application?.application.documents;
+  const documents = documentResponse?.data?.files;
 
   if (!documents || !application) {
     return (
@@ -93,6 +93,7 @@ export default async function PlanningApplicationDetailsDocuments({
       documents={documentData.data}
       pagination={documentData.pagination}
       appConfig={appConfig}
+      params={params}
       searchParams={searchParams}
     />
   );

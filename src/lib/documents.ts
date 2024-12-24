@@ -7,7 +7,7 @@ export const buildDocumentData = (
 ) => {
   const totalDocuments = documents ? documents.length : 0;
   const currentPage = Number(searchParams?.page ?? 1);
-  const maxDisplayDocuments = 10;
+  const maxDisplayDocuments = searchParams?.resultsPerPage ?? 9;
   const documentData: { pagination: DprPagination; data: DprDocument[] } = {
     pagination: {
       ...createItemPagination(totalDocuments, currentPage, maxDisplayDocuments),

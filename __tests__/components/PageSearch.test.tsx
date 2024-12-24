@@ -19,7 +19,7 @@ jest.mock("@/components/ApplicationCard", () => ({
   ApplicationCard: () => <div data-testid="application-card"></div>,
 }));
 
-jest.mock("@/components/Pagination", () => ({
+jest.mock("@/components/govuk/Pagination", () => ({
   Pagination: () => <div data-testid="pagination"></div>,
 }));
 

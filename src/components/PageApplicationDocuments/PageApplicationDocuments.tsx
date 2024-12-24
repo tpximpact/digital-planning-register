@@ -1,6 +1,6 @@
 import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
-import { Pagination } from "../Pagination";
+import { Pagination } from "@/components/govuk/Pagination";
 import {
   DprDocument,
   DprPagination,
@@ -10,6 +10,7 @@ import {
 import { AppConfig } from "@/config/types";
 import { DocumentsList } from "@/components/DocumentsList";
 import { PageMain } from "../PageMain";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageApplicationDocumentsProps {
   reference: string;
@@ -17,6 +18,10 @@ export interface PageApplicationDocumentsProps {
   documents: DprDocument[] | null;
   pagination: DprPagination;
   appConfig: AppConfig;
+  params?: {
+    council: string;
+    reference?: string;
+  };
   searchParams?: SearchParams;
 }
 
@@ -26,6 +31,7 @@ export const PageApplicationDocuments = ({
   documents,
   pagination,
   appConfig,
+  params,
   searchParams,
 }: PageApplicationDocumentsProps) => {
   if (!appConfig || !appConfig.council) {
@@ -52,20 +58,11 @@ export const PageApplicationDocuments = ({
           totalDocuments={documents?.length ?? displayedDocuments?.length ?? 0}
           showMoreButton={false}
         />
-        {pagination && (
+        {pagination && pagination.total_pages > 1 && (
           <Pagination
-            currentPage={pagination.page - 1}
-            totalItems={
-              pagination.total_pages * appConfig.defaults.resultsPerPage
-            }
-            itemsPerPage={appConfig.defaults.resultsPerPage}
-            baseUrl={
-              appConfig?.council?.slug
-                ? `/${appConfig.council.slug}/${reference}/documents`
-                : ""
-            }
-            queryParams={searchParams}
-            totalPages={pagination.total_pages}
+            baseUrl={createPathFromParams(params, "documents")}
+            searchParams={searchParams}
+            pagination={pagination}
           />
         )}
       </PageMain>

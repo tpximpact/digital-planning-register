@@ -21,19 +21,16 @@ async function fetchData({
 }: DigitalSiteNoticeProps): Promise<ApiResponse<DprSearchApiResponse | null>> {
   const { council } = params;
 
-  const page = searchParams?.page ? searchParams.page : 1;
-  const tweakedSearchParams = {
-    type: "dsn",
-    page,
-    resultsPerPage: 10,
-    ...searchParams,
-  };
-
   const appConfig = getAppConfig(council);
   const response = await ApiP05.search(
     appConfig.council?.dataSource ?? "none",
     council,
-    tweakedSearchParams,
+    {
+      ...searchParams,
+      type: "dsn",
+      page: searchParams?.page ?? 1,
+      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    },
   );
 
   return response;

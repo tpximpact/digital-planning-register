@@ -7,17 +7,22 @@ import {
 } from "@/types";
 import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
-import { Pagination } from "../Pagination";
+import { Pagination } from "@/components/govuk/Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageApplicationCommentsProps {
   reference: string;
   application: DprPlanningApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
+  params?: {
+    council: string;
+    reference?: string;
+  };
   type: DprCommentTypes;
   pagination?: DprPagination;
   searchParams?: SearchParams;
@@ -28,6 +33,7 @@ export const PageApplicationComments = ({
   application,
   comments,
   appConfig,
+  params,
   type,
   pagination,
   searchParams,
@@ -61,22 +67,11 @@ export const PageApplicationComments = ({
           }
         />
         {pagination && pagination.total_pages > 1 && (
-          <>
-            <Pagination
-              currentPage={pagination.page - 1}
-              totalItems={
-                pagination.total_pages * appConfig.defaults.resultsPerPage
-              }
-              itemsPerPage={appConfig.defaults.resultsPerPage}
-              baseUrl={
-                appConfig?.council?.slug
-                  ? `/${appConfig.council.slug}/${reference}/comments`
-                  : ""
-              }
-              queryParams={searchParams}
-              totalPages={pagination.total_pages}
-            />
-          </>
+          <Pagination
+            baseUrl={createPathFromParams(params, "comments")}
+            searchParams={searchParams}
+            pagination={pagination}
+          />
         )}
       </PageMain>
     </>
