@@ -20,12 +20,11 @@ const testCommentFlow = async (page: Page) => {
     "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
-  await expect(page.locator("#application-reference")).toHaveText(
-    /TEST-C0MNT-F10W/,
-    {
-      useInnerText: true,
-    },
-  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Application reference TEST-C0MNT-F10W",
+    }),
+  ).toBeVisible();
 
   await page
     .getByRole("button", { name: "Comment on this application" })

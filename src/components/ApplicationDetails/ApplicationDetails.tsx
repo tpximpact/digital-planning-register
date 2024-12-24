@@ -74,8 +74,10 @@ export const ApplicationDetails = ({
 
   return (
     <article className="dpr-application-details dpr-application-details--flow  dpr-application-details--sticky">
-      {/* @TODO when we have site notice this will be name of the site according to the design */}
-      <h1 className="govuk-heading-l">{reference}</h1>
+      <h1>
+        <span className="govuk-heading-s">Application reference</span>
+        <span className="govuk-heading-l">{reference}</span>
+      </h1>
       <ApplicationHero
         councilSlug={appConfig.council.slug}
         application={application}

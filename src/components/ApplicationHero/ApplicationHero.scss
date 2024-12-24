@@ -3,10 +3,6 @@
 $selector: "dpr-application-hero";
 
 .#{$selector} {
-  &__head {
-    margin-bottom: govuk-spacing(6);
-  }
-
   // map and data
   &__map {
     @include govuk-grid-column("one-third", $at: desktop);
@@ -29,6 +25,10 @@ $selector: "dpr-application-hero";
     @include govuk-media-query($from: desktop) {
       gap: $govuk-gutter-half * 4;
       grid-template-columns: 1fr 1fr;
+    }
+
+    .dpr-application-data-field--address {
+      grid-column: 1 / -1;
     }
   }
 }

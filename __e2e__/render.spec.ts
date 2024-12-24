@@ -210,12 +210,11 @@ const testCouncilReference = async (page: Page) => {
     "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
   );
 
-  await expect(page.locator("#application-reference")).toHaveText(
-    /24-00135-HAPP/,
-    {
-      useInnerText: true,
-    },
-  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Application reference 24-00135-HAPP",
+    }),
+  ).toBeVisible();
 };
 
 /**

@@ -38,7 +38,6 @@ describe("Render ApplicationHero", () => {
   const applicationCardApplication = {
     applicationType: "pp.full",
     application: {
-      reference: "DPR/1234/2021",
       status: "in_assessment",
       receivedAt: "2023-05-18T00:00:00.000+00:00",
       validAt: "2023-11-14T00:00:00.000+00:00",
@@ -71,10 +70,8 @@ describe("Render ApplicationHero", () => {
       );
     });
 
-    // Application reference
-    expect(screen.queryByText("DPR/1234/2021")).toBeInTheDocument();
     // Address
-    expect(screen.queryByText("123 Fake Street")).toBeInTheDocument();
+    expect(screen.queryByText("Address - 123 Fake Street")).toBeInTheDocument();
     // map
     expect(screen.queryByTestId("map")).toBeInTheDocument();
     // applicationType
