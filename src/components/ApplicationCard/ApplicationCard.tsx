@@ -165,13 +165,13 @@ export const ApplicationCard = ({
 
       {reference && (
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third">
+          <div className="govuk-grid-column-two-thirds">
             <Button
               element="link"
               href={`/${councilSlug}/${reference}`}
               variant="information"
             >
-              View details
+              View details of {reference}
             </Button>
           </div>
         </div>
