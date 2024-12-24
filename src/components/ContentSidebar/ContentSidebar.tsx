@@ -43,7 +43,7 @@ const NestedContentList = ({
         className={`dpr-content-sidebar__level dpr-content-sidebar__level--${depth}`}
       >
         <div className={`dpr-content-sidebar__text`}>
-          <Link href={`#${c.key}`}>{c.title}</Link>
+          <a href={`#${c.key}`}>{c.title}</a>
         </div>
         {c.children && c.children.length > 0 && (
           <ul>{c.children.map((page) => renderPage(page, depth + 1))}</ul>
