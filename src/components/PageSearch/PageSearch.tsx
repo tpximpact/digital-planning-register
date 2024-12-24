@@ -83,7 +83,12 @@ export const PageSearch = ({
         />
         {applications && applications?.length > 0 ? (
           <>
-            <h2 className="govuk-heading-l">{title}</h2>
+            {hasSearchQuery ? (
+              <h1 className="govuk-heading-l">{title}</h1>
+            ) : (
+              <h2 className="govuk-heading-l">{title}</h2>
+            )}
+
             {applications.map((application) => (
               <ApplicationCard
                 key={application.application.reference}
@@ -101,6 +106,7 @@ export const PageSearch = ({
           </>
         ) : (
           <>
+            <h1 className="govuk-visually-hidden">Search results</h1>
             <ContentNoResult councilConfig={appConfig.council} />
           </>
         )}

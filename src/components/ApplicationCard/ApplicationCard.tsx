@@ -55,13 +55,15 @@ export const ApplicationCard = ({
       <div className="dpr-application-card__head govuk-grid-row">
         {reference && (
           <div className="govuk-grid-column-one-third-from-desktop">
-            <p className="govuk-heading-s">Application reference</p>
-            <h3
-              className="govuk-body"
-              id={`application-information-section-${reference}`}
-            >
-              {reference}
-            </h3>
+            <dl>
+              <dt className="govuk-heading-s">Application reference</dt>
+              <dd
+                className="govuk-body"
+                id={`application-information-section-${reference}`}
+              >
+                {reference}
+              </dd>
+            </dl>
           </div>
         )}
 
