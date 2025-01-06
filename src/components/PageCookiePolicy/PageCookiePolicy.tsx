@@ -40,34 +40,32 @@ export const PageCookiePolicy = () => {
     router.back();
   };
   return (
-    <>
-      <div className="govuk-main-wrapper dpr-cookie-policy">
-        {showSuccess && (
-          <NotificationBanner
-            type="success"
-            content={
-              <>
-                You&rsquo;ve set your cookie preferences.{" "}
-                <Link
-                  href="#"
-                  className="govuk-notification-banner__link"
-                  onClick={handleClick}
-                >
-                  Go back to the page you were looking at
-                </Link>
-                .
-              </>
-            }
-          />
-        )}{" "}
-        <CookiePolicyContent />
-        <FormCookiePreferences
-          handleSubmit={handleSubmit}
-          setAnalyticsConsent={setAnalyticsConsent}
-          analyticsConsent={analyticsConsent}
+    <div className="dpr-cookie-policy">
+      {showSuccess && (
+        <NotificationBanner
+          type="success"
+          content={
+            <>
+              You&rsquo;ve set your cookie preferences.{" "}
+              <Link
+                href="#"
+                className="govuk-notification-banner__link"
+                onClick={handleClick}
+              >
+                Go back to the page you were looking at
+              </Link>
+              .
+            </>
+          }
         />
-      </div>
-    </>
+      )}{" "}
+      <CookiePolicyContent />
+      <FormCookiePreferences
+        handleSubmit={handleSubmit}
+        setAnalyticsConsent={setAnalyticsConsent}
+        analyticsConsent={analyticsConsent}
+      />
+    </div>
   );
 };
 
@@ -79,7 +77,7 @@ const CookiePolicyContent: React.FC = () => {
   return (
     <>
       <h1 className="govuk-heading-l">Cookies</h1>
-      <h3 className="govuk-heading-m">What cookies are</h3>
+      <h2 className="govuk-heading-m">What cookies are</h2>
       <p className="govuk-body">
         Cookies are small files saved on your phone, tablet or computer when you
         visit a website.
@@ -88,7 +86,7 @@ const CookiePolicyContent: React.FC = () => {
         We use an essential cookie to keep your data secure while you use the
         Digital Planning Register.
       </p>
-      <h3 className="govuk-heading-m">Essential cookies</h3>
+      <h2 className="govuk-heading-m">Essential cookies</h2>
       <p className="govuk-body">
         Essential cookies keep your information secure while you use this
         service. We do not need to ask permission to use essential cookies.
@@ -120,7 +118,7 @@ const CookiePolicyContent: React.FC = () => {
           </tr>
         </tbody>
       </table>
-      <h3 className="govuk-heading-m">Essential session storage</h3>
+      <h2 className="govuk-heading-m">Essential session storage</h2>
       <p className="govuk-body">
         This service uses session storage to temporarily store small amounts of
         data on your device. This helps the service work properly and improves

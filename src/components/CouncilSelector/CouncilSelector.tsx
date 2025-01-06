@@ -10,6 +10,11 @@ export interface CouncilSelectorProps {
   selectedCouncil?: AppConfig["council"];
 }
 
+/**
+ * @deprecated
+ * @param param0
+ * @returns
+ */
 export const CouncilSelector = ({
   councils,
   selectedCouncil,

@@ -4,14 +4,20 @@ import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";
 import { AppConfig } from "@/config/types";
 import { ApplicationCard } from "../ApplicationCard";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/govuk/Pagination";
 import "./PageSearch.scss";
 import { EmailSignUpButton } from "../EmailSignUpButton";
+import { PageMain } from "../PageMain";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
   applications: DprPlanningApplication[] | undefined;
   pagination: DprPagination | undefined;
+  params?: {
+    council: string;
+    reference?: string;
+  };
   searchParams?: SearchParams;
 }
 
@@ -19,6 +25,7 @@ export const PageSearch = ({
   appConfig,
   applications,
   pagination,
+  params,
   searchParams,
 }: PageSearchProps) => {
   if (!appConfig || !appConfig.council) {
@@ -37,7 +44,7 @@ export const PageSearch = ({
   return (
     <>
       {!applications && <BackButton baseUrl={baseUrl} />}
-      <div className="govuk-main-wrapper">
+      <PageMain>
         {!hasSearchQuery && (
           <div className="govuk-grid-row intro-text">
             <div className="govuk-grid-column-two-thirds">
@@ -76,7 +83,12 @@ export const PageSearch = ({
         />
         {applications && applications?.length > 0 ? (
           <>
-            <h2 className="govuk-heading-l">{title}</h2>
+            {hasSearchQuery ? (
+              <h1 className="govuk-heading-l">{title}</h1>
+            ) : (
+              <h2 className="govuk-heading-l">{title}</h2>
+            )}
+
             {applications.map((application) => (
               <ApplicationCard
                 key={application.application.reference}
@@ -86,23 +98,19 @@ export const PageSearch = ({
             ))}
             {pagination && pagination.total_pages > 1 && (
               <Pagination
-                currentPage={page - 1}
-                totalItems={
-                  pagination.total_pages * appConfig.defaults.resultsPerPage
-                }
-                itemsPerPage={appConfig.defaults.resultsPerPage}
-                totalPages={pagination.total_pages}
-                baseUrl={`/${appConfig.council.slug}/`}
-                queryParams={searchParams}
+                baseUrl={createPathFromParams(params)}
+                searchParams={searchParams}
+                pagination={pagination}
               />
             )}
           </>
         ) : (
           <>
+            <h1 className="govuk-visually-hidden">Search results</h1>
             <ContentNoResult councilConfig={appConfig.council} />
           </>
         )}
-      </div>
+      </PageMain>
     </>
   );
 };

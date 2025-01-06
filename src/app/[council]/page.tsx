@@ -3,7 +3,7 @@ import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { PageSearch } from "@/components/PageSearch";
 
 interface HomeProps {
@@ -23,7 +23,11 @@ async function fetchData({
   const response = await ApiV1.search(
     appConfig.council?.dataSource ?? "none",
     council,
-    searchParams,
+    {
+      ...searchParams,
+      page: searchParams?.page ?? 1,
+      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    },
   );
 
   return response;
@@ -54,9 +58,9 @@ export default async function PlanningApplicationSearch({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -65,6 +69,7 @@ export default async function PlanningApplicationSearch({
       appConfig={appConfig}
       applications={response.data?.data}
       pagination={response.data?.pagination}
+      params={params}
       searchParams={searchParams}
     />
   );

@@ -7,7 +7,7 @@ export interface PageLandingProps {
 
 export const PageLanding = ({ councils }: PageLandingProps) => {
   return (
-    <div className="govuk-main-wrapper">
+    <>
       <h1 className="govuk-heading-l">
         Welcome to the Digital Planning Register
       </h1>
@@ -26,6 +26,6 @@ export const PageLanding = ({ councils }: PageLandingProps) => {
           <CouncilCards councils={councils} />
         </>
       ) : null}
-    </div>
+    </>
   );
 };

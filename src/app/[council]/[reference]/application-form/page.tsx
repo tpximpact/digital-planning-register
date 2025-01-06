@@ -2,9 +2,8 @@ import { ApiResponse, DprApplicationSubmissionApiResponse } from "@/types";
 import { Metadata } from "next";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
-import { ContentNotFound } from "@/components/ContentNotFound";
 import { PageApplicationSubmission } from "@/components/PageApplicationSubmission";
 
 interface ApplicationFormProps {
@@ -56,9 +55,9 @@ export default async function ApplicationFormPage({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 

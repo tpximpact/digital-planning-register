@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PageWrapper } from "./PageWrapper";
+import { PageMain } from "./PageMain";
 
 const meta = {
-  title: "Utils/PageWrapper",
-  component: PageWrapper,
+  title: "Utils/PageMain",
+  component: PageMain,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -11,9 +11,9 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    children: <>Wraps content in govuk-main-wrapper class</>,
+    children: <>Wraps content in main div</>,
   },
-} satisfies Meta<typeof PageWrapper>;
+} satisfies Meta<typeof PageMain>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

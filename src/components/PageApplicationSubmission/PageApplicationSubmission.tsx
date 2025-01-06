@@ -1,6 +1,7 @@
 import { formatIsoDateTime } from "@/util";
 import { BackButton } from "@/components/BackButton";
 import ApplicationForm from "../application_form";
+import { PageMain } from "../PageMain";
 
 export interface PageApplicationSubmissionProps {
   reference: string;
@@ -19,7 +20,7 @@ export const PageApplicationSubmission = ({
   return (
     <>
       <BackButton baseUrl={`${baseUrl}/${reference}`} />
-      <div className="govuk-main-wrapper">
+      <PageMain>
         <h1 className="govuk-heading-xl">Application form as submitted</h1>
         <p className="govuk-body">
           This is the full application form as submitted by the applicant to the
@@ -47,7 +48,7 @@ export const PageApplicationSubmission = ({
         ) : (
           <p className="govuk-body">Submission data not available</p>
         )}
-      </div>
+      </PageMain>
     </>
   );
 };

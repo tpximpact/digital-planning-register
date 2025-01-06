@@ -7,7 +7,7 @@ import {
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
-import { PageWrapper } from "@/components/PageWrapper";
+import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildDocumentData } from "@/lib/documents";
@@ -67,20 +67,20 @@ export default async function PlanningApplicationDetailsDocuments({
     appConfig.council === undefined
   ) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentError />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
   const application = applicationResponse?.data;
-  const documents = application?.application.documents;
+  const documents = documentResponse?.data?.files;
 
   if (!documents || !application) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
+      </PageMain>
     );
   }
 
@@ -93,6 +93,7 @@ export default async function PlanningApplicationDetailsDocuments({
       documents={documentData.data}
       pagination={documentData.pagination}
       appConfig={appConfig}
+      params={params}
       searchParams={searchParams}
     />
   );

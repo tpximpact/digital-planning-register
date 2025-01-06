@@ -58,31 +58,6 @@ export const ApplicationHero = ({
       className={`dpr-application-hero${boundary_geojson ? "" : " dpr-application-hero--no-map"}`}
       id="key-information"
     >
-      <div className="dpr-application-hero__head govuk-grid-row">
-        {reference && (
-          <div className="govuk-grid-column-one-third-from-desktop">
-            <h1
-              className="govuk-heading-s"
-              id={`application-information-section-${reference}`}
-            >
-              Application reference
-            </h1>
-            <p className="govuk-body" id="application-reference">
-              {reference}
-            </p>
-          </div>
-        )}
-
-        {address && (
-          <div className="govuk-grid-column-two-thirds-from-desktop">
-            <dl>
-              <dt className="govuk-heading-s">Address</dt>
-              <dd className="govuk-body">{address}</dd>
-            </dl>
-          </div>
-        )}
-      </div>
-
       <div className="govuk-grid-row">
         {boundary_geojson && (
           <div className="dpr-application-hero__map">
@@ -91,6 +66,9 @@ export const ApplicationHero = ({
         )}
         <div className="dpr-application-hero__data">
           <dl className="dpr-application-hero__fields">
+            {address && (
+              <ApplicationDataField title="Address" value={address} />
+            )}
             {application?.applicationType && (
               <ApplicationDataField
                 title="Application type"

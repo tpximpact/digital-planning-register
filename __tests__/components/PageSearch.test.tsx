@@ -19,7 +19,7 @@ jest.mock("@/components/ApplicationCard", () => ({
   ApplicationCard: () => <div data-testid="application-card"></div>,
 }));
 
-jest.mock("@/components/Pagination", () => ({
+jest.mock("@/components/govuk/Pagination", () => ({
   Pagination: () => <div data-testid="pagination"></div>,
 }));
 
@@ -75,7 +75,7 @@ describe("PageSearch Component", () => {
         searchParams={{ page: 1, resultsPerPage: 10, query: "noresultsplease" }}
       />,
     );
-    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading")).toBeInTheDocument();
     expect(screen.getByTestId("form-search")).toBeInTheDocument();
     expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
     expect(screen.queryByTestId("application-card")).not.toBeInTheDocument();

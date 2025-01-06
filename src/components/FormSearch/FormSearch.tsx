@@ -12,11 +12,9 @@ export const FormSearch = ({ action, searchParams }: FormSearchProps) => {
     <form action={action} method="get" className="govuk-grid-row">
       <div className="govuk-grid-column-one-half">
         <div className="govuk-form-group">
-          <h1 className="govuk-label-wrapper">
-            <label className="govuk-label" htmlFor="query">
-              Search by application reference, address or description
-            </label>
-          </h1>
+          <label className="govuk-label" htmlFor="query">
+            Search by application reference, address or description
+          </label>
           <input
             className="govuk-input"
             id="query"

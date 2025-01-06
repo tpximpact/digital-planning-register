@@ -5,21 +5,6 @@ import { Menu } from "@/components/Menu";
 import { AppConfig } from "@/config/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
-// Mock the CouncilSelector component
-jest.mock("@/components/CouncilSelector", () => ({
-  CouncilSelector: ({
-    councils,
-    selectedCouncil,
-  }: {
-    councils: AppConfig["councils"];
-    selectedCouncil?: AppConfig["council"];
-  }) => (
-    <div data-testid="council-selector">
-      {selectedCouncil ? selectedCouncil.name : "No council selected"}
-    </div>
-  ),
-}));
-
 describe("Menu", () => {
   const appConfig = createAppConfig("public-council-1");
 
@@ -35,21 +20,6 @@ describe("Menu", () => {
     expect(screen.getByLabelText("Menu")).toBeInTheDocument();
   });
 
-  it("displays the CouncilSelector component", () => {
-    render(
-      <Menu
-        navigation={appConfig.navigation}
-        currentPath="/"
-        councils={appConfig.councils}
-        selectedCouncil={appConfig.council}
-      />,
-    );
-    expect(screen.getByTestId("council-selector")).toBeInTheDocument();
-    expect(screen.getByTestId("council-selector")).toHaveTextContent(
-      "Council 1",
-    );
-  });
-
   it("displays the navigation links", () => {
     render(
       <Menu
@@ -61,7 +31,7 @@ describe("Menu", () => {
     );
     expect(screen.getByText("Application search")).toBeInTheDocument();
     expect(screen.getByText("Help")).toBeInTheDocument();
-    expect(screen.queryByText("Digital site notice")).toBeNull();
+    expect(screen.queryByText("Digital site notice")).toBeInTheDocument();
   });
 
   it("highlights the current navigation link", () => {

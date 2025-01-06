@@ -25,6 +25,7 @@
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@faker-js/faker": "^8.4.1",
     "@next/third-parties": "^14.2.14",
     "@opensystemslab/map": "^0.8.3",

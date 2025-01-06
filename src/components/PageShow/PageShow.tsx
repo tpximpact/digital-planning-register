@@ -2,7 +2,7 @@ import { DprDocument, DprPlanningApplication, SearchParams } from "@/types";
 import { BackButton } from "@/components/BackButton";
 import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
-import { PageWrapper } from "../PageWrapper";
+import { PageMain } from "../PageMain";
 import { ContentNotFound } from "../ContentNotFound";
 
 export interface PageShowProps {
@@ -26,23 +26,23 @@ export const PageShow = ({
 
   if (!application) {
     return (
-      <PageWrapper>
+      <PageMain>
         <ContentNotFound councilConfig={appConfig.council} />
-      </PageWrapper>
+      </PageMain>
     );
   }
   const baseUrl = `/${council}`;
   return (
     <>
       <BackButton baseUrl={baseUrl} />
-      <PageWrapper>
+      <PageMain>
         <ApplicationDetails
           reference={reference}
           application={application}
           documents={documents}
           appConfig={appConfig}
         />
-      </PageWrapper>
+      </PageMain>
     </>
   );
 };

@@ -20,12 +20,11 @@ const testCommentFlow = async (page: Page) => {
     "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
-  await expect(page.locator("#application-reference")).toHaveText(
-    /TEST-C0MNT-F10W/,
-    {
-      useInnerText: true,
-    },
-  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Application reference TEST-C0MNT-F10W",
+    }),
+  ).toBeVisible();
 
   await page
     .getByRole("button", { name: "Comment on this application" })
@@ -36,7 +35,7 @@ const testCommentFlow = async (page: Page) => {
   // playwright is sometimes reading that and failing the test
   // so we wait for the submit comment page content to appear and then test for the title
   // @todo refine the comment flow feature and tests so this is not needed!
-  await page.waitForSelector("#submit-comment");
+  await page.waitForSelector(".submit-comment");
 
   // 2. Start the comment flow
   await expect(page).toHaveTitle(

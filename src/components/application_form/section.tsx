@@ -26,7 +26,7 @@ export const Section = ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
         <h3 className="govuk-heading-m">{subtopic}</h3>
-        <dl className="govuk-summary-list">{renderRow(value, 0)}</dl>
+        <div className="govuk-summary-list">{renderRow(value, 0)}</div>
       </div>
     </div>
   );
