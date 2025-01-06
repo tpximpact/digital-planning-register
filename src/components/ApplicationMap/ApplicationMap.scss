@@ -1,0 +1,118 @@
+@import "node_modules/govuk-frontend/dist/govuk/base";
+
+.dpr-application-map {
+  // add margin to account for the focus outline of .25em
+  margin: 0.35em;
+
+  // default size
+  width: 300px;
+  height: 300px;
+
+  &--default,
+  &--application-search,
+  &--application-show {
+    width: 300px;
+    height: 300px;
+  }
+  // mapType context-setter
+  &--context-setter {
+    width: 220px;
+    height: 220px;
+  }
+
+  &--unavailable,
+  &--loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.15em solid govuk-colour("black");
+  }
+  // when its loading
+  &--loading {
+    &::after {
+      content: "";
+      width: 48px;
+      height: 48px;
+      border: 5px solid govuk-colour("mid-grey");
+      border-bottom-color: govuk-colour("blue");
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+  }
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/**
+overwrite the :host styles
+for reference they are here https://github.com/theopensystemslab/map/blob/ec983bd382d626fe1b142c0d1df12affb719d8c6/src/components/my-map/styles.scss#L6
+:host {
+  display: block;
+  width: 650px;
+  height: 650px;
+  position: relative;
+}
+  Theres an issue where the shadow-root is overlapping somewhere on the bottom, possibly due to the border so we're adding .15em padding to the bottom to account for that
+*/
+my-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  // 0.25em for outline when focused 0.15 for border
+  padding-bottom: 0.15em;
+}
+
+// .dpr-application-map {
+//   &--context-setter {
+//     width: 100%;
+//     max-width: 220px;
+//     height: 220px;
+//     margin-bottom: 1rem;
+//   }
+// }
+
+// .dpr-application-map > * {
+//   width: 28rem;
+//   height: 14rem;
+
+//   @media (min-width: 1090px) {
+//     height: 20rem;
+//   }
+//   display: table-cell;
+// }
+
+// .shadow-map {
+//   width: 28rem;
+//   height: 14rem;
+
+//   @media (min-width: 1090px) {
+//     height: 20rem;
+//   }
+//   background-color: transparent;
+//   display: table-cell;
+// }
+
+// :host {
+//   display: block;
+//   width: 288px;
+//   height: 320px;
+//   position: relative;
+// }
+
+// @media (max-width: 1090px) {
+//   .app-map {
+//     display: block;
+//     width: 100%;
+//     margin-bottom: 2rem;
+//   }
+// }

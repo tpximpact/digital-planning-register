@@ -4,9 +4,11 @@ import CommentConfirmation from "@/components/comment_confirmation";
 import "@testing-library/jest-dom";
 import { DprBoundaryGeojson } from "@/types";
 
-jest.mock("../../src/components/application_map", () => {
-  return jest.fn(() => <div data-testid="mocked-map">Mocked Map</div>);
-});
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
+}));
 
 // stop Not implemented: HTMLFormElement.prototype.requestSubmit error
 beforeAll(() => {
@@ -73,7 +75,9 @@ describe("CommentConfirmation", () => {
   it("renders the map component when boundary_geojson is provided", () => {
     render(<CommentConfirmation {...defaultProps} />);
 
-    expect(screen.getByTestId("mocked-map")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("mock-application-map-loader"),
+    ).toBeInTheDocument();
   });
 
   it("does not render the map component when boundary_geojson is not provided", () => {
@@ -81,7 +85,9 @@ describe("CommentConfirmation", () => {
       <CommentConfirmation {...defaultProps} boundary_geojson={undefined} />,
     );
 
-    expect(screen.queryByTestId("mocked-map")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("mock-application-map-loader"),
+    ).not.toBeInTheDocument();
   });
 
   it('navigates to the council page when the "Back to application search" button is clicked', () => {

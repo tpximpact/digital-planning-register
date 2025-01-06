@@ -4,9 +4,11 @@ import CommentHeader from "../../src/components/comment-header";
 import "@testing-library/jest-dom";
 import { DprBoundaryGeojson } from "@/types";
 
-jest.mock("../../src/components/application_map", () => {
-  return jest.fn(() => <div data-testid="mockMap"></div>);
-});
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
+}));
 
 describe("CommentHeader", () => {
   const defaultProps = {
@@ -45,17 +47,23 @@ describe("CommentHeader", () => {
     expect(
       screen.getByText(/Your feedback helps us improve developments/i),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("mockMap")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("mock-application-map-loader"),
+    ).toBeInTheDocument();
   });
 
   it("renders the map component when boundary_geojson is provided", () => {
     render(<CommentHeader {...defaultProps} />);
-    expect(screen.getByTestId("mockMap")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("mock-application-map-loader"),
+    ).toBeInTheDocument();
   });
 
   it("does not render the map component when boundary_geojson is not provided", () => {
     render(<CommentHeader {...defaultProps} boundary_geojson={undefined} />);
-    expect(screen.queryByTestId("mockMap")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("mock-application-map-loader"),
+    ).not.toBeInTheDocument();
   });
 
   it("capitalizes the council name", () => {

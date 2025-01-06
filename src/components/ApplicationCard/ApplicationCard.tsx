@@ -1,7 +1,5 @@
 import { DprPlanningApplication } from "@/types";
 import { DescriptionCard } from "../DescriptionCard";
-
-import ApplicationMap from "../application_map";
 import "./ApplicationCard.scss";
 import {
   getApplicationDecisionSummary,
@@ -11,6 +9,7 @@ import {
 import { ApplicationDataField } from "../ApplicationDataField";
 import { formatDprDate } from "@/util";
 import { Button } from "../button";
+import { ApplicationMapLoader } from "../ApplicationMap";
 
 export interface ApplicationCardProps {
   councilSlug: string;
@@ -81,10 +80,11 @@ export const ApplicationCard = ({
         <div className="govuk-grid-row">
           {boundary_geojson && (
             <div className="dpr-application-card__map">
-              <ApplicationMap
+              <ApplicationMapLoader
                 reference={reference}
-                staticMap={true}
                 mapData={boundary_geojson}
+                description=""
+                mapType="application-search"
               />
             </div>
           )}

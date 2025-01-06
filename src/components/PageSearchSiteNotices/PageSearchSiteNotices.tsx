@@ -30,6 +30,20 @@ export const PageSearchSiteNotices = ({
   const validationError =
     searchParams?.query && searchParams?.query.length < 3 ? true : false;
 
+  // Group applications into chunks of 3)
+  const groupedApplications = applications
+    ? applications.reduce(
+        (acc, application, index) => {
+          if (index % 3 === 0) {
+            acc.push([]);
+          }
+          acc[acc.length - 1].push(application);
+          return acc;
+        },
+        [] as Array<Array<(typeof applications)[0]>>,
+      )
+    : [];
+
   return (
     <>
       <h1 className="govuk-heading-xl">Find digital site notices near you</h1>
@@ -55,15 +69,20 @@ export const PageSearchSiteNotices = ({
       )}
       {applications && applications?.length > 0 ? (
         <>
-          <div className="govuk-grid-row grid-row-extra-bottom-margin ">
-            {applications.map((application, index) => (
-              <SiteNoticeCard
-                key={`sitenoticecard-${index}`}
-                councilSlug={appConfig.council!.slug}
-                application={application}
-              />
-            ))}
-          </div>
+          {groupedApplications.map((group, groupIndex) => (
+            <div
+              className="govuk-grid-row grid-row-extra-bottom-margin"
+              key={`group-${groupIndex}`}
+            >
+              {group.map((application, index) => (
+                <SiteNoticeCard
+                  key={`sitenoticecard-${groupIndex * 3 + index}`}
+                  councilSlug={appConfig.council!.slug}
+                  application={application}
+                />
+              ))}
+            </div>
+          ))}
           {pagination && pagination.total_pages > 1 && (
             <Pagination
               baseUrl={createPathFromParams(params)}

@@ -7,15 +7,15 @@ import {
   DprApplicationSubmissionSubtopicValue,
   DprBoundaryGeojson,
 } from "@/types";
-import ApplicationMap from "../../src/components/application_map";
 import { Section } from "@/components/application_form/section";
 import ApplicationForm from "@/components/application_form";
 
 // Mock the ApplicationMap component
-// eslint-disable-next-line react/display-name
-jest.mock("../../src/components/application_map", () => () => (
-  <div>Mocked ApplicationMap</div>
-));
+jest.mock("@/components/ApplicationMap", () => ({
+  ApplicationMapLoader: () => (
+    <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
+  ),
+}));
 
 const mapData: DprBoundaryGeojson = {
   type: "Feature",
