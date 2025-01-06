@@ -1,13 +1,8 @@
 name: build and deploy staging
 
-# TEMPORARILY DISABLE AUTOMATIC DEPLOYMENT TO STAGING
-# WCAG TESTING IN PROGRESS
 on:
   push:
-    # branches: ["main"]
-    branches-ignore:
-      - "*" # This ignores all branches, effectively disabling automatic deployment
-      # TODO Remove the above line and uncomment the line above it to enable automatic deployment
+    branches: ["main"]
 
 jobs:
   build-and-deploy-staging:
