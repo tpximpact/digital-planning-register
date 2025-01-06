@@ -1,7 +1,7 @@
-import { formatIsoDateTime } from "@/util";
 import { BackButton } from "@/components/BackButton";
 import ApplicationForm from "../application_form";
 import { PageMain } from "../PageMain";
+import { formatDateTimeToDprDateTime } from "@/util";
 
 export interface PageApplicationSubmissionProps {
   reference: string;
@@ -36,7 +36,7 @@ export const PageApplicationSubmission = ({
             <h2 className="govuk-heading-m">Submitted</h2>
             <div>
               {submittedAt ? (
-                formatIsoDateTime(submittedAt)
+                formatDateTimeToDprDateTime(submittedAt)
               ) : (
                 <p className="govuk-body">Date not available</p>
               )}

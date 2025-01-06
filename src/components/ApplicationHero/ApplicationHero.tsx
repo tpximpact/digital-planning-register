@@ -11,7 +11,12 @@ import {
   getApplicationDecisionSummarySentiment,
   contentApplicationDecisions,
 } from "@/lib/planningApplication";
-import { flattenObject, formatDprDate, slugify } from "@/util";
+import {
+  flattenObject,
+  formatDateToDprDate,
+  formatDateTimeToDprDate,
+  slugify,
+} from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
@@ -117,10 +122,12 @@ export const ApplicationHero = ({
                 }
               />
             )}
-            {application.application?.receivedAt && (
+            {application.application?.receivedDate && (
               <ApplicationDataField
                 title="Recieved date"
-                value={formatDprDate(application.application.receivedAt)}
+                value={formatDateToDprDate(
+                  application.application.receivedDate,
+                )}
                 infoIcon={
                   <InfoIcon
                     href={`/${councilSlug}/planning-process#${slugify("Received date")}`}
@@ -130,10 +137,10 @@ export const ApplicationHero = ({
                 }
               />
             )}
-            {application.application?.validAt && (
+            {application.application?.validDate && (
               <ApplicationDataField
                 title="Valid from date"
-                value={formatDprDate(application.application.validAt)}
+                value={formatDateToDprDate(application.application.validDate)}
                 infoIcon={
                   <InfoIcon
                     href={`/${councilSlug}/planning-process#${slugify("Valid from date")}`}
@@ -143,10 +150,12 @@ export const ApplicationHero = ({
                 }
               />
             )}
-            {application.application?.publishedAt && (
+            {application.application?.publishedDate && (
               <ApplicationDataField
                 title="Published date"
-                value={formatDprDate(application.application.publishedAt)}
+                value={formatDateToDprDate(
+                  application.application.publishedDate,
+                )}
                 infoIcon={
                   <InfoIcon
                     href={`/${councilSlug}/planning-process#${slugify("Published date")}`}
@@ -159,7 +168,7 @@ export const ApplicationHero = ({
             {application.application?.consultation?.endDate && (
               <ApplicationDataField
                 title="Consultation end date"
-                value={formatDprDate(
+                value={formatDateToDprDate(
                   application.application.consultation.endDate,
                 )}
                 infoIcon={
@@ -177,7 +186,13 @@ export const ApplicationHero = ({
                 {application.application.determinedAt && (
                   <ApplicationDataField
                     title="Decision Date"
-                    value={formatDprDate(application.application.determinedAt)}
+                    value={
+                      <time dateTime={application.application.determinedAt}>
+                        {formatDateTimeToDprDate(
+                          application.application.determinedAt,
+                        )}
+                      </time>
+                    }
                     infoIcon={
                       <InfoIcon
                         href={`/${councilSlug}/planning-process#${slugify("Decision date")}`}

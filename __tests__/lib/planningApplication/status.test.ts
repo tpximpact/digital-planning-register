@@ -3,6 +3,7 @@ import {
   getApplicationStatusSummarySentiment,
 } from "@/lib/planningApplication";
 import { DprPlanningApplication } from "@/types";
+import { formatDateToYmd } from "@/util";
 
 describe("getApplicationStatusSummary", () => {
   it("should return the capitalized status with spaces for underscores", () => {
@@ -12,10 +13,22 @@ describe("getApplicationStatusSummary", () => {
     expect(result).toBe("In assessment");
   });
 
-  it('should return "Consultation in progress" if end date is today or in the future', () => {
+  it('should return "Consultation in progress" if end date is today', () => {
     const status: DprPlanningApplication["application"]["status"] =
       "in_assessment";
-    const endDate = new Date().toISOString();
+    const today = new Date();
+    const endDate = formatDateToYmd(today);
+    const result = getApplicationStatusSummary(status, endDate);
+    expect(result).toBe("Consultation in progress");
+  });
+
+  it('should return "Consultation in progress" if end date is in the future', () => {
+    const status: DprPlanningApplication["application"]["status"] =
+      "in_assessment";
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const endDate = formatDateToYmd(tomorrow);
     const result = getApplicationStatusSummary(status, endDate);
     expect(result).toBe("Consultation in progress");
   });
@@ -23,7 +36,10 @@ describe("getApplicationStatusSummary", () => {
   it('should return "Assessment in progress" if end date is in the past', () => {
     const status: DprPlanningApplication["application"]["status"] =
       "in_assessment";
-    const endDate = new Date(Date.now() - 86400000).toISOString(); // Yesterday
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const endDate = formatDateToYmd(yesterday);
     const result = getApplicationStatusSummary(status, endDate);
     expect(result).toBe("Assessment in progress");
   });
@@ -33,6 +49,14 @@ describe("getApplicationStatusSummary", () => {
       "awaiting_determination";
     const result = getApplicationStatusSummary(status);
     expect(result).toBe("Awaiting determination");
+  });
+
+  it("should return the capitalized status with spaces for underscores if end date is invalid", () => {
+    const status: DprPlanningApplication["application"]["status"] =
+      "determined";
+    const endDate = new Date().toISOString();
+    const result = getApplicationStatusSummary(status, endDate);
+    expect(result).toBe("Determined");
   });
 
   it("should return the capitalized status with spaces for underscores if status is not in relevantStatus", () => {

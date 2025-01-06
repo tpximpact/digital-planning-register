@@ -6,8 +6,15 @@ import {
   generateNResults,
   generateDprApplication,
   generateBoundaryGeoJson,
+  formatDateToYmd,
 } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
+
+// YYYY-MM-DD
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+// YYYY-MM-DDTHH:MM:SS.SSSZ
+const utcDateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 describe("generateReference", () => {
   it("should generate a reference string in the correct format", () => {
@@ -36,7 +43,8 @@ describe("generateComment", () => {
   it("should generate a comment object with the correct structure", () => {
     const comment = generateComment();
     expect(comment).toHaveProperty("comment");
-    expect(comment).toHaveProperty("received_at");
+    expect(comment).toHaveProperty("receivedDate");
+    expect(comment.receivedDate).toMatch(utcDateRegex);
     expect(comment).toHaveProperty("sentiment");
   });
 
@@ -58,7 +66,8 @@ describe("generateDocument", () => {
     const document = generateDocument();
     expect(document).toHaveProperty("title");
     expect(document).toHaveProperty("url");
-    expect(document).toHaveProperty("created_at");
+    expect(document).toHaveProperty("createdDate");
+    expect(document.createdDate).toMatch(utcDateRegex);
   });
 
   it("should generate different documents on subsequent calls", () => {
@@ -134,6 +143,15 @@ describe("generateDprApplication", () => {
     const application = generateDprApplication({ applicationType: "ldc" });
     expect(application.applicationType).toEqual("ldc");
     expect(application.application.consultation.allowComments).toBe(false);
+  });
+
+  it("should generate dates in the formats we expect", () => {
+    const application = generateDprApplication({ decision: "granted" });
+    expect(application.application.consultation.endDate).toMatch(dateRegex);
+    expect(application.application.receivedDate).toMatch(dateRegex);
+    expect(application.application.validDate).toMatch(dateRegex);
+    expect(application.application.publishedDate).toMatch(dateRegex);
+    expect(application.application.determinedAt).toMatch(utcDateRegex);
   });
 });
 

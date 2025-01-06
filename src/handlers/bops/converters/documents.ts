@@ -4,7 +4,7 @@ import {
   BopsFile,
   BopsNonStandardDocument,
 } from "@/handlers/bops/types";
-import { formatTag } from "@/util";
+import { convertDateTimeToUtc, formatTag } from "@/util";
 
 /**
  * Converts Bops documents metadata into our standard format
@@ -29,7 +29,9 @@ export const convertDocumentBopsFile = (document: BopsFile): DprDocument => {
   return {
     url: document.url,
     title: document.name ?? "Unnamed document",
-    created_at: document.createdAt ?? undefined,
+    createdDate: document.createdAt
+      ? convertDateTimeToUtc(document.createdAt)
+      : undefined,
     metadata: {
       byteSize: document.metadata?.byteSize,
       contentType: document.metadata?.contentType,
@@ -51,6 +53,8 @@ export const convertDocumentBopsNonStandard = (
       document?.tags?.length > 0
         ? document.tags.map(formatTag).join(", ")
         : "Unnamed Document",
-    created_at: document.created_at,
+    createdDate: document.created_at
+      ? convertDateTimeToUtc(document.created_at)
+      : undefined,
   };
 };

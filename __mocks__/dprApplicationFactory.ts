@@ -10,6 +10,7 @@ import {
   DprPagination,
 } from "@/types";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
 
@@ -33,7 +34,7 @@ export const generateReference = (): string => {
 export const generateComment = (): DprComment => {
   return {
     comment: faker.lorem.paragraphs(),
-    received_at: faker.date.anytime().toISOString(),
+    receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([
       "objection",
       "neutral",
@@ -54,7 +55,7 @@ export const generateDocument = (): DprDocument => {
     /**
      * Optional because of the need to insert fake application form document
      */
-    created_at: faker.date.anytime().toISOString(),
+    createdDate: faker.date.anytime().toISOString(),
     metadata: {
       byteSize: Number(faker.string.numeric(8)),
       contentType: faker.system.mimeType(),
@@ -141,7 +142,8 @@ export const generateDprApplication = ({
   decision =
     decision ?? faker.helpers.arrayElement(["refused", "granted", null]);
 
-  const determinedAt = decision ? faker.date.anytime().toISOString() : null;
+  const determinedAt =
+    decision !== null ? faker.date.anytime().toISOString() : null;
 
   return {
     applicationType: applicationType,
@@ -149,14 +151,14 @@ export const generateDprApplication = ({
       reference: generateReference(),
       status: applicationStatus,
       consultation: {
-        endDate: faker.date.anytime().toISOString(),
+        endDate: formatDateToYmd(faker.date.anytime()),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
         allowComments: getCommentsAllowed(applicationType),
       },
-      receivedAt: faker.date.anytime().toISOString(),
-      validAt: faker.date.anytime().toISOString(),
-      publishedAt: faker.date.anytime().toISOString(),
+      receivedDate: formatDateToYmd(faker.date.anytime()),
+      validDate: formatDateToYmd(faker.date.anytime()),
+      publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
       documents: [

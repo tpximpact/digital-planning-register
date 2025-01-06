@@ -1,7 +1,7 @@
 import Image from "next/image";
 import file from "./file-icon--default.svg";
 import { DprDocument } from "@/types";
-import { formatFileSize } from "@/util";
+import { formatDateTimeToDmyDate, formatFileSize } from "@/util";
 import "./DocumentCard.scss";
 
 export interface DocumentCardProps {
@@ -33,27 +33,30 @@ export const DocumentCard = ({ document }: DocumentCardProps) => {
         </p>
         <p className="govuk-hint">
           {document?.metadata?.contentType && (
-            <>
+            <span className="dpr-document-card__file-type">
               {document?.metadata?.contentType !== "text/html"
                 ? document.metadata.contentType
                     ?.split("/")
                     .pop()
                     ?.toUpperCase() + ", "
                 : document.metadata.contentType.toUpperCase()}
-            </>
+            </span>
           )}
           {document?.metadata?.byteSize && (
-            <>{formatFileSize(document.metadata.byteSize)}, </>
+            <>
+              <span className="dpr-document-card__size">
+                {formatFileSize(document.metadata.byteSize)}
+              </span>
+              ,{" "}
+            </>
           )}
 
-          {document?.created_at && (
+          {document?.createdDate && (
             <>
               uploaded{" "}
-              {new Date(document.created_at).toLocaleDateString("en-GB", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              <time dateTime={document.createdDate}>
+                {formatDateTimeToDmyDate(document.createdDate)}
+              </time>
             </>
           )}
         </p>

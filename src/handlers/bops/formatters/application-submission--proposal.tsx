@@ -1,5 +1,4 @@
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
-import { formatDprDate } from "@/util";
 import { capitalizeFirstLetter } from "@/util";
 import {
   formatBoundary,
@@ -74,10 +73,10 @@ const formatDate = (
 ): DprApplicationSubmissionSubtopicValue => {
   const values = [];
   if (data?.start) {
-    values.push(formatDprDate(data?.start));
+    values.push(data?.start);
   }
   if (data?.completion) {
-    values.push(formatDprDate(data?.completion));
+    values.push(data?.completion);
   }
 
   return {

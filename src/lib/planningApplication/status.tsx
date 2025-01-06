@@ -1,12 +1,22 @@
-import { isAfter, isBefore, isEqual } from "date-fns";
 import { DprContentPage, DprPlanningApplication } from "@/types";
-import { capitalizeFirstLetter, slugify } from "@/util";
+import { capitalizeFirstLetter, isDate, slugify } from "@/util";
+
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(isSameOrAfter);
+dayjs.utc().isUTC();
 
 /**
  * Determines the formatted status based on the provided status and end date.
  *
  * @param {string} status - The current status, which may include underscores.
- * @param {string | null} end_date - The end date of the status in ISO format, or null if not applicable.
+ * @param {string | null} end_date - The end date of the status in YYYY-MM-DD format, or null if not applicable.
  * @returns {string} - The formatted status string.
  *
  * If `end_date` is null, the status is returned with underscores replaced by spaces and capitalized.
@@ -17,26 +27,30 @@ import { capitalizeFirstLetter, slugify } from "@/util";
  */
 export const getApplicationStatusSummary = (
   status: DprPlanningApplication["application"]["status"],
-  end_date?: string,
+  consultationEndDate?: string,
 ) => {
-  const relevantStatus = [
+  const isRelevantStatus = [
     "in_assessment",
     "assessment_in_progress",
     "awaiting_determination",
-  ];
+  ].includes(status);
 
-  if (!end_date || !relevantStatus.includes(status)) {
-    return capitalizeFirstLetter(status?.replace(/_/g, " "));
-  }
+  const isEndDateValid = consultationEndDate
+    ? isDate(consultationEndDate)
+    : false;
 
-  if (relevantStatus.includes(status)) {
-    const endDate = new Date(end_date);
-    const today = new Date();
-    if (isAfter(endDate, today) || isEqual(endDate, today)) {
+  if (isRelevantStatus && isEndDateValid) {
+    const date: Dayjs = dayjs.utc(consultationEndDate);
+
+    if (date.isSameOrAfter(dayjs(), "day")) {
+      // if consultation is today or in the future
       return "Consultation in progress";
-    } else if (isBefore(endDate, today)) {
+    } else if (date.isBefore(dayjs(), "day")) {
+      // if consultation is before today
       return "Assessment in progress";
     }
+  } else {
+    return capitalizeFirstLetter(status?.replace(/_/g, " "));
   }
 };
 

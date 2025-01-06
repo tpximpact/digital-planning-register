@@ -7,9 +7,9 @@ import {
   getPrimaryApplicationType,
 } from "@/lib/planningApplication";
 import { ApplicationDataField } from "../ApplicationDataField";
-import { formatDprDate } from "@/util";
 import { Button } from "../button";
 import { ApplicationMapLoader } from "../ApplicationMap";
+import { formatDateToDprDate, formatDateTimeToDprDate } from "@/util";
 
 export interface ApplicationCardProps {
   councilSlug: string;
@@ -119,28 +119,32 @@ export const ApplicationCard = ({
               />
             )}
 
-            {application.application?.receivedAt && (
+            {application.application?.receivedDate && (
               <ApplicationDataField
                 title="Recieved date"
-                value={formatDprDate(application.application.receivedAt)}
+                value={formatDateToDprDate(
+                  application.application.receivedDate,
+                )}
               />
             )}
-            {application.application?.validAt && (
+            {application.application?.validDate && (
               <ApplicationDataField
                 title="Valid from date"
-                value={formatDprDate(application.application.validAt)}
+                value={formatDateToDprDate(application.application.validDate)}
               />
             )}
-            {application.application?.publishedAt && (
+            {application.application?.publishedDate && (
               <ApplicationDataField
                 title="Published date"
-                value={formatDprDate(application.application.publishedAt)}
+                value={formatDateToDprDate(
+                  application.application.publishedDate,
+                )}
               />
             )}
             {application.application?.consultation?.endDate && (
               <ApplicationDataField
                 title="Consultation end date"
-                value={formatDprDate(
+                value={formatDateToDprDate(
                   application.application.consultation.endDate,
                 )}
               />
@@ -151,7 +155,13 @@ export const ApplicationCard = ({
                 {application.application?.determinedAt && (
                   <ApplicationDataField
                     title="Decision Date"
-                    value={formatDprDate(application.application.determinedAt)}
+                    value={
+                      <time dateTime={application.application.determinedAt}>
+                        {formatDateTimeToDprDate(
+                          application.application.determinedAt,
+                        )}
+                      </time>
+                    }
                   />
                 )}
 

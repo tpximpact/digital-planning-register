@@ -19,8 +19,8 @@ import { createItemPagination } from "./pagination";
  */
 export const sortComments = (comments: DprComment[]) => {
   return comments?.sort((a, b) => {
-    const dateA = a.received_at ? new Date(a.received_at).getTime() : 0;
-    const dateB = b.received_at ? new Date(b.received_at).getTime() : 0;
+    const dateA = a.receivedDate ? new Date(a.receivedDate).getTime() : 0;
+    const dateB = b.receivedDate ? new Date(b.receivedDate).getTime() : 0;
     return dateB - dateA;
   });
 };
