@@ -13,7 +13,6 @@ interface PersonalDetails {
   postcode: string;
   emailAddress: string;
   telephoneNumber: string;
-  consent: boolean;
 }
 
 interface ValidationErrors {
@@ -22,7 +21,6 @@ interface ValidationErrors {
   postcode?: string;
   emailAddress?: string;
   telephoneNumber?: string;
-  consent?: string;
 }
 
 const CommentPersonalDetails = ({
@@ -46,7 +44,6 @@ const CommentPersonalDetails = ({
     postcode: "",
     emailAddress: "",
     telephoneNumber: "",
-    consent: false,
   });
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {},
@@ -59,7 +56,6 @@ const CommentPersonalDetails = ({
     postcode: useRef<HTMLDivElement>(null),
     emailAddress: useRef<HTMLDivElement>(null),
     telephoneNumber: useRef<HTMLDivElement>(null),
-    consent: useRef<HTMLDivElement>(null),
   };
 
   const contactPlanningAdviceLink =
@@ -131,7 +127,6 @@ const CommentPersonalDetails = ({
       !phoneValidation(personalDetails.telephoneNumber)
     )
       errors.telephoneNumber = "Telephone number must be valid";
-    if (!personalDetails.consent) errors.consent = "You need to consent";
 
     setValidationErrors(errors);
 
@@ -323,46 +318,6 @@ const CommentPersonalDetails = ({
                 validationErrors.telephoneNumber ? "telephone-error" : undefined
               }
             />
-          </div>
-
-          {/* Consent checkbox */}
-          <div
-            ref={fieldRefs.consent}
-            className={`govuk-form-group ${validationErrors.consent ? "govuk-form-group--error" : ""}`}
-          >
-            {validationErrors.consent && (
-              <p
-                id="consent-error"
-                className="govuk-error-message"
-                role="alert"
-              >
-                <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.consent}
-              </p>
-            )}
-            <div className="govuk-checkboxes" data-module="govuk-checkboxes">
-              <div className="govuk-checkboxes__item">
-                <input
-                  className={`govuk-checkboxes__input ${validationErrors.consent ? "govuk-input--error" : ""}`}
-                  id="consent"
-                  name="consent"
-                  type="checkbox"
-                  checked={personalDetails.consent}
-                  onChange={handleInputChange}
-                  aria-invalid={!!validationErrors.consent}
-                  aria-describedby={
-                    validationErrors.consent ? "consent-error" : undefined
-                  }
-                />
-                <label
-                  className="govuk-label govuk-checkboxes__label"
-                  htmlFor="consent"
-                >
-                  I consent to {councilConfig?.name ?? "the"} Council using my
-                  data for the purposes of assessing this planning application
-                </label>
-              </div>
-            </div>
           </div>
 
           <Details
