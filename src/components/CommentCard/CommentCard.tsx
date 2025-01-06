@@ -1,5 +1,5 @@
 "use client";
-import { capitaliseWord, formatDateTimeToDprDateTime } from "@/util";
+import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
 import React, { useState, useEffect, useRef } from "react";
 import { DprComment } from "@/types";
 import "./CommentCard.scss";
@@ -56,7 +56,7 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
             {`Comment #${commentNumber}`}
             {comment?.receivedDate && (
               <span className="govuk-visually-hidden">
-                published {formatDateTimeToDprDateTime(comment.receivedDate)}
+                published {formatDateTimeToDprDate(comment.receivedDate)}
               </span>
             )}
           </h3>
@@ -65,7 +65,7 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
               <em>
                 Published{" "}
                 <time dateTime={comment.receivedDate}>
-                  {formatDateTimeToDprDateTime(comment.receivedDate)}
+                  {formatDateTimeToDprDate(comment.receivedDate)}
                 </time>
               </em>
             </p>

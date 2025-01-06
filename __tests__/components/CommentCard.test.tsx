@@ -18,7 +18,7 @@ describe("Render CommentCard", () => {
     expect(
       screen.getByRole("heading", {
         level: 3,
-        name: "Comment #1 published 14 Nov 2023 01:40 PM",
+        name: "Comment #1 published 14 Nov 2023",
       }),
     ).toBeInTheDocument();
 
@@ -26,9 +26,7 @@ describe("Render CommentCard", () => {
       "datetime",
       "2023-11-14T13:40:51.567Z",
     );
-    expect(container.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023 01:40 PM",
-    );
+    expect(container.querySelector("time")).toHaveTextContent("14 Nov 2023");
 
     expect(screen.getByText("Neutral")).toBeInTheDocument();
     expect(screen.getByText("insightful comment here")).toBeInTheDocument();
