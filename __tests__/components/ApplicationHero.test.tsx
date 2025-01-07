@@ -103,7 +103,7 @@ describe("Render ApplicationHero", () => {
     ).toBeInTheDocument();
     //Decision Date
     const decisionDate = screen.queryByTestId(
-      "application-data-field-decision-date",
+      "application-data-field-council-decision-date",
     );
     expect(decisionDate?.querySelector("time")).toHaveAttribute(
       "datetime",

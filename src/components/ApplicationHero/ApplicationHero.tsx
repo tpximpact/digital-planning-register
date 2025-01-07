@@ -185,7 +185,7 @@ export const ApplicationHero = ({
               <>
                 {application.application.determinedAt && (
                   <ApplicationDataField
-                    title="Decision Date"
+                    title="Council decision date"
                     value={
                       <time dateTime={application.application.determinedAt}>
                         {formatDateTimeToDprDate(
@@ -195,7 +195,7 @@ export const ApplicationHero = ({
                     }
                     infoIcon={
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#${slugify("Decision date")}`}
+                        href={`/${councilSlug}/planning-process#${slugify("Council decision date")}`}
                         title="Understanding dates"
                         ariaLabel="Understanding dates"
                       />
@@ -204,7 +204,7 @@ export const ApplicationHero = ({
                 )}
 
                 <ApplicationDataField
-                  title="Decision"
+                  title="Council decision"
                   value={
                     applicationDecisionSummary && (
                       <Tag
