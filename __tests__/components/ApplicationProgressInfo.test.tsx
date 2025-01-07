@@ -31,15 +31,17 @@ describe("ApplicationProgressInfo", () => {
 
   it("renders closed section", async () => {
     const defaultProps = {
+      councilSlug: "public-council-1",
+      reference: "ABC123",
       sections: [
         {
           title: "Section 1",
-          date: "2025-01-02",
+          date: "2 Jan 2021",
           content: <p>Content 1</p>,
         },
         {
           title: "Section 2",
-          date: "2025-01-03",
+          date: "3 Jan 2021",
           content: <p>Content 2</p>,
         },
       ],
@@ -62,7 +64,7 @@ describe("ApplicationProgressInfo", () => {
       expect.objectContaining({
         title: "Section 1",
         content: <p>Content 1</p>,
-        date: "2025-01-02",
+        date: "2 Jan 2021",
         isExpanded: false,
         accordionSectionId: 0,
       }),
@@ -74,7 +76,7 @@ describe("ApplicationProgressInfo", () => {
       expect.objectContaining({
         title: "Section 2",
         content: <p>Content 2</p>,
-        date: "2025-01-03",
+        date: "3 Jan 2021",
         isExpanded: false,
         accordionSectionId: 1,
       }),

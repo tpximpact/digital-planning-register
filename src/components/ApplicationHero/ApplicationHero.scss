@@ -23,11 +23,15 @@ $selector: "dpr-application-hero";
     grid-template-columns: 1fr;
     gap: $govuk-gutter-half * 2;
     @include govuk-media-query($from: desktop) {
-      gap: $govuk-gutter-half * 4;
+      gap: $govuk-gutter-half * 3;
       grid-template-columns: 1fr 1fr;
     }
 
     .dpr-application-data-field--address {
+      grid-column: 1 / -1;
+    }
+
+    .dpr-application-data-field--full {
       grid-column: 1 / -1;
     }
   }

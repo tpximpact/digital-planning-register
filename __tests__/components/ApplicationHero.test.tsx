@@ -40,14 +40,10 @@ describe("Render ApplicationHero", () => {
     applicationType: "pp.full",
     application: {
       status: "in_assessment",
-      receivedDate: "2023-05-08",
-      validDate: "2023-11-14",
-      publishedDate: "2023-05-18",
       consultation: {
         endDate: "2023-12-05",
       },
       decision: "granted",
-      determinedAt: "2023-11-14T13:40:51.567Z",
     },
     property: {
       address: {
@@ -85,33 +81,6 @@ describe("Render ApplicationHero", () => {
     expect(
       screen.queryByText("Status - Assessment in progress"),
     ).toBeInTheDocument();
-    //Recieved date
-    expect(
-      screen.queryByText("Recieved date - 8 May 2023"),
-    ).toBeInTheDocument();
-    // Valid from date
-    expect(
-      screen.queryByText("Valid from date - 14 Nov 2023"),
-    ).toBeInTheDocument();
-    // Published date
-    expect(
-      screen.queryByText("Published date - 18 May 2023"),
-    ).toBeInTheDocument();
-    //Consultation end date
-    expect(
-      screen.queryByText("Consultation end date - 5 Dec 2023"),
-    ).toBeInTheDocument();
-    //Decision Date
-    const decisionDate = screen.queryByTestId(
-      "application-data-field-council-decision-date",
-    );
-    expect(decisionDate?.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(decisionDate?.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023",
-    );
     // Decision
     expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
   });

@@ -1,7 +1,6 @@
 import React from "react";
 import "./ApplicationProgressInfo.scss";
 import { uniqueID } from "./ApplicationProgressInfoUtils";
-import { formatDateToDprDate } from "@/util";
 import { ApplicationProgressInfoToggleButton } from "./ApplicationProgressInfoToggleButton";
 
 export interface ProgressSectionBase {
@@ -9,8 +8,8 @@ export interface ProgressSectionBase {
   /**
    * YYYY-MM-DD
    */
-  date: string;
-  content: React.ReactNode;
+  date: string | JSX.Element;
+  content: JSX.Element;
   /**
    * Optional id = useful if we ever add auto opening of sections via url
    */
@@ -77,7 +76,7 @@ export const ApplicationProgressInfoSection = ({
                 className="dpr-progress-info--section-date"
                 id={`${thisSectionId}_${accordionSectionId}-date`}
               >
-                {formatDateToDprDate(date)}
+                {date}
               </div>
             )}
 

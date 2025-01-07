@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationProgressInfo } from "./ApplicationProgressInfo";
+import { formatDateTimeToDprDate } from "@/util";
 
 const meta = {
   title: "DPR Components/ApplicationProgressInfo",
@@ -15,7 +16,7 @@ const meta = {
     sections: [
       {
         title: "Recieved",
-        date: "2025-01-02",
+        date: "2 Jan 2021",
         content: (
           <p>
             Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
@@ -26,7 +27,7 @@ const meta = {
       },
       {
         title: "Valid from",
-        date: "2025-01-03",
+        date: "3 Jan 2021",
         content: (
           <p>
             Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
@@ -37,7 +38,7 @@ const meta = {
       },
       {
         title: "Published",
-        date: "2025-01-04",
+        date: "4 Jan 2021",
         content: (
           <p>
             Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
@@ -48,7 +49,7 @@ const meta = {
       },
       {
         title: "Consultation ended",
-        date: "2025-01-05",
+        date: "5 Jan 2021",
         content: (
           <p>
             Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
@@ -59,7 +60,11 @@ const meta = {
       },
       {
         title: "Council decision made",
-        date: "2025-01-06",
+        date: (
+          <time dateTime={"2025-07-05T06:37:03.217Z"}>
+            {formatDateTimeToDprDate("2025-07-05T06:37:03.217Z")}
+          </time>
+        ),
         content: (
           <p>
             Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque

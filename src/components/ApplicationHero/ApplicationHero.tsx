@@ -11,12 +11,7 @@ import {
   getApplicationDecisionSummarySentiment,
   contentApplicationDecisions,
 } from "@/lib/planningApplication";
-import {
-  flattenObject,
-  formatDateToDprDate,
-  formatDateTimeToDprDate,
-  slugify,
-} from "@/util";
+import { flattenObject, slugify } from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
@@ -80,21 +75,8 @@ export const ApplicationHero = ({
             {address && (
               <ApplicationDataField title="Address" value={address} />
             )}
-            {application?.applicationType && (
-              <ApplicationDataField
-                title="Application type"
-                value={getPrimaryApplicationType(application.applicationType)}
-                infoIcon={
-                  getDocumentedApplicationType(application.applicationType) ? (
-                    <InfoIcon
-                      href={`/${councilSlug}/planning-process#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
-                      title="Understanding application types"
-                      ariaLabel="Understanding application types"
-                    />
-                  ) : undefined
-                }
-              />
-            )}
+
+            {/* Status */}
             {applicationStatusSummary && (
               <ApplicationDataField
                 title="Status"
@@ -122,87 +104,27 @@ export const ApplicationHero = ({
                 }
               />
             )}
-            {application.application?.receivedDate && (
+
+            {/* application type */}
+            {application?.applicationType && (
               <ApplicationDataField
-                title="Recieved date"
-                value={formatDateToDprDate(
-                  application.application.receivedDate,
-                )}
+                title="Application type"
+                value={getPrimaryApplicationType(application.applicationType)}
                 infoIcon={
-                  <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Received date")}`}
-                    title="Understanding dates"
-                    ariaLabel="Understanding dates"
-                  />
-                }
-              />
-            )}
-            {application.application?.validDate && (
-              <ApplicationDataField
-                title="Valid from date"
-                value={formatDateToDprDate(application.application.validDate)}
-                infoIcon={
-                  <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Valid from date")}`}
-                    title="Understanding dates"
-                    ariaLabel="Understanding dates"
-                  />
-                }
-              />
-            )}
-            {application.application?.publishedDate && (
-              <ApplicationDataField
-                title="Published date"
-                value={formatDateToDprDate(
-                  application.application.publishedDate,
-                )}
-                infoIcon={
-                  <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Published date")}`}
-                    title="Understanding dates"
-                    ariaLabel="Understanding dates"
-                  />
-                }
-              />
-            )}
-            {application.application?.consultation?.endDate && (
-              <ApplicationDataField
-                title="Consultation end date"
-                value={formatDateToDprDate(
-                  application.application.consultation.endDate,
-                )}
-                infoIcon={
-                  <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Consultation end date")}`}
-                    title="Understanding consultation end date"
-                    ariaLabel="Understanding consultation end date"
-                  />
+                  getDocumentedApplicationType(application.applicationType) ? (
+                    <InfoIcon
+                      href={`/${councilSlug}/planning-process#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
+                      title="Understanding application types"
+                      ariaLabel="Understanding application types"
+                    />
+                  ) : undefined
                 }
               />
             )}
 
+            {/* decision */}
             {application.application?.decision && (
               <>
-                {application.application.determinedAt && (
-                  <ApplicationDataField
-                    title="Council decision date"
-                    value={
-                      <time dateTime={application.application.determinedAt}>
-                        {formatDateTimeToDprDate(
-                          application.application.determinedAt,
-                        )}
-                      </time>
-                    }
-                    infoIcon={
-                      <InfoIcon
-                        href={`/${councilSlug}/planning-process#${slugify("Council decision date")}`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    }
-                  />
-                )}
-
                 <ApplicationDataField
                   title="Council decision"
                   value={
@@ -228,6 +150,8 @@ export const ApplicationHero = ({
                       />
                     ) : undefined
                   }
+                  // @TODO don't make this full width if there are appeals info afterwards
+                  // isFull={isThereANextItemInTheList ? false : true}
                 />
               </>
             )}

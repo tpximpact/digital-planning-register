@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import "./ApplicationProgressInfo.scss";
 import { uniqueID } from "./ApplicationProgressInfoUtils";
@@ -8,6 +10,7 @@ import {
 } from "./ApplicationProgressInfoSection";
 import { ApplicationProgressInfoToggleButton } from "./ApplicationProgressInfoToggleButton";
 import { Button } from "../button";
+import { Details } from "../govuk/Details";
 
 export interface ApplicationProgressInfoProps {
   sections: ProgressSectionBase[];
@@ -22,6 +25,11 @@ export const ApplicationProgressInfo = ({
   councilSlug,
   reference,
 }: ApplicationProgressInfoProps) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const accordionSections: ProgressSection[] = sections.map((section, i) => ({
     ...section,
     accordionSectionId: i,
@@ -66,37 +74,59 @@ export const ApplicationProgressInfo = ({
 
   const accordionId = `accordion${uniqueID()}`;
 
+  if (sections.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className="dpr-progress-info__container"
-      aria-labelledby="documents"
+      aria-labelledby="progress"
     >
-      <h2 className="govuk-heading-l" id="Progress">
+      <h2 className="govuk-heading-l" id="progress">
         Progress
       </h2>
-      <div className="dpr-progress-info" id={accordionId}>
-        {showControls && sections.length > 1 && (
-          <div className="dpr-progress-info__controls">
-            <ApplicationProgressInfoToggleButton
-              toggleAll={toggleAll}
-              openAll={openAll}
-              showText="Show"
-              hideText="Hide"
-              textContinued="all sections"
+
+      {isClient ? (
+        <div className="dpr-progress-info" id={accordionId}>
+          {showControls && sections.length > 1 && (
+            <div className="dpr-progress-info__controls">
+              <ApplicationProgressInfoToggleButton
+                toggleAll={toggleAll}
+                openAll={openAll}
+                showText="Show"
+                hideText="Hide"
+                textContinued="all sections"
+              />
+            </div>
+          )}
+
+          {accordionStates.map((section, i) => (
+            <ApplicationProgressInfoSection
+              {...section}
+              key={i}
+              onToggle={updateAccordionState}
             />
-          </div>
-        )}
+          ))}
+        </div>
+      ) : (
+        <>
+          {accordionStates.map((section, i) => (
+            <Details
+              key={i}
+              summaryText={
+                <>
+                  {section.title} - {section.date}
+                </>
+              }
+              text={section.content}
+            />
+          ))}
+        </>
+      )}
 
-        {accordionStates.map((section, i) => (
-          <ApplicationProgressInfoSection
-            {...section}
-            key={i}
-            onToggle={updateAccordionState}
-          />
-        ))}
-      </div>
-
-      {councilSlug && reference && (
+      {/* commented out until we do this work */}
+      {/* {councilSlug && reference && (
         <div className="govuk-grid-row grid-row-extra-bottom-margin">
           <div className="govuk-grid-column-full">
             <Button
@@ -108,7 +138,7 @@ export const ApplicationProgressInfo = ({
             </Button>
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 };
