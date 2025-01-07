@@ -6,7 +6,7 @@ import {
 } from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
-import { ApplicationFormObject } from "@/components/application_form";
+import { applicationFormObject } from "@/lib/planningApplication";
 import { convertDocumentBopsNonStandard } from "./documents";
 import { getCommentsAllowed } from "@/lib/planningApplication";
 import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
@@ -50,7 +50,7 @@ export const convertBopsApplicationToDpr = (
   const reference = application.reference;
 
   // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
+  const applicationFormDocument = applicationFormObject(council, reference);
 
   return {
     reference: application.reference,
