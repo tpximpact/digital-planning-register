@@ -9,18 +9,6 @@ const normaliseAndCountChars = (text: string) => {
   return text.replace(/\s+/g, " ").trim().length;
 };
 
-const topicLabels = {
-  design:
-    "Comment on the design, size or height of new buildings or extensions",
-  use: "Comment on the use and function of the proposed development",
-  light: "Comment on impacts on natural light",
-  privacy: "Comment on impacts to the privacy of neighbours",
-  access: "Comment on impacts on disabled persons' access",
-  noise: "Comment on any noise from new uses",
-  traffic: "Comment on impacts to traffic, parking or road safety",
-  other: "Comment on other things",
-};
-
 const CommentTextEntry = ({
   reference,
   currentTopic,
@@ -29,6 +17,7 @@ const CommentTextEntry = ({
   currentTopicIndex,
   totalTopics,
   hideContinue,
+  topicLabels,
 }: {
   reference: string;
   currentTopic: string;
@@ -37,6 +26,7 @@ const CommentTextEntry = ({
   currentTopicIndex: number;
   totalTopics: number;
   hideContinue?: boolean;
+  topicLabels: Record<string, string>;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);

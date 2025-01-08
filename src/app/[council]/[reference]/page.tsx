@@ -39,6 +39,8 @@ export async function generateMetadata({
 }: PlanningApplicationDetailsProps): Promise<Metadata | undefined> {
   const { applicationResponse } = await fetchData({ params });
   const appConfig = getAppConfig(params.council);
+  const reference = params.reference;
+  const council = params.council;
 
   if (!applicationResponse.data) {
     return {
@@ -46,6 +48,10 @@ export async function generateMetadata({
       description: "An error occurred",
     };
   }
+  return {
+    title: `Application ${reference}`,
+    description: `${council} planning application ${reference}`,
+  };
 }
 
 const PlanningApplicationDetails = async ({

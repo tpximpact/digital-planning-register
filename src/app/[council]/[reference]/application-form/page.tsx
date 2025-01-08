@@ -33,6 +33,8 @@ export async function generateMetadata({
   params,
 }: ApplicationFormProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
+  const reference = params.reference;
+  const council = params.council;
 
   if (!response.data) {
     return {
@@ -40,6 +42,10 @@ export async function generateMetadata({
       description: "An error occurred",
     };
   }
+  return {
+    title: `Application form as submitted | Application ${reference}`,
+    description: `${council} planning application ${reference}`,
+  };
 }
 
 export default async function ApplicationFormPage({

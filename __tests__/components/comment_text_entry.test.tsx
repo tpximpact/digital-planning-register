@@ -2,12 +2,24 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentTextEntry from "@/components/comment_text_entry";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google"; // Import the GTM event mock
+import { sendGTMEvent } from "@next/third-parties/google";
 
 // Mock sendGTMEvent to track its calls
 jest.mock("@next/third-parties/google", () => ({
   sendGTMEvent: jest.fn(),
 }));
+
+const topicLabels = {
+  design:
+    "Comment on the design, size or height of new buildings or extensions",
+  use: "Comment on the use and function of the proposed development",
+  light: "Comment on impacts on natural light",
+  privacy: "Comment on impacts to the privacy of neighbours",
+  access: "Comment on impacts on disabled persons' access",
+  noise: "Comment on any noise from new uses",
+  traffic: "Comment on impacts to traffic, parking or road safety",
+  other: "Comment on other things",
+} as const;
 
 describe("CommentTextEntry", () => {
   const defaultProps = {
@@ -17,12 +29,14 @@ describe("CommentTextEntry", () => {
     updateProgress: jest.fn(),
     currentTopicIndex: 0,
     totalTopics: 1,
+    topicLabels,
   };
 
   beforeEach(() => {
     sessionStorage.clear();
     window.scrollTo = jest.fn();
     jest.clearAllMocks();
+    document.title = "";
   });
 
   it("renders the component with the correct content", () => {
