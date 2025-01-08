@@ -17,7 +17,7 @@ const testCommentFlow = async (page: Page) => {
   await page.goto(`/public-council-1/TEST-C0MNT-F10W`);
 
   await expect(page).toHaveTitle(
-    "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
+    "What you need to know before you comment | Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
   await expect(
@@ -39,7 +39,7 @@ const testCommentFlow = async (page: Page) => {
 
   // 2. Start the comment flow
   await expect(page).toHaveTitle(
-    "Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
+    "What you need to know before you comment | Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
   );
 
   await expect(
