@@ -40,7 +40,7 @@ export async function generateMetadata({
   const { applicationResponse } = await fetchData({ params });
   const appConfig = getAppConfig(params.council);
   const reference = params.reference;
-  const council = params.council;
+  const council = appConfig?.council?.name;
 
   if (!applicationResponse.data) {
     return {

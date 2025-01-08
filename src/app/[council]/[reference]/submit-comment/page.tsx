@@ -69,9 +69,9 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
 
   useEffect(() => {
     console.log("Setting client title...");
-    const councilName = appConfig?.council?.name;
+    const council = appConfig?.council?.name;
 
-    const baseTitle = `Application ${reference} | ${councilName} Planning Register`;
+    const baseTitle = `Application ${reference} | ${council} Digital Planning Register`;
     let stepTitle = pageTitles[page] ?? "Comment page";
 
     if (page === 3 && selectedTopics[currentTopicIndex]) {
