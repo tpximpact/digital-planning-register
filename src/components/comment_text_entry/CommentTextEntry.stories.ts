@@ -17,6 +17,17 @@ const meta = {
     updateProgress: () => {},
     currentTopicIndex: 0,
     totalTopics: 2,
+    topicLabels: {
+      design:
+        "Comment on the design, size or height of new buildings or extensions",
+      use: "Comment on the use and function of the proposed development",
+      light: "Comment on impacts on natural light",
+      privacy: "Comment on impacts to the privacy of neighbours",
+      access: "Comment on impacts on disabled persons' access",
+      noise: "Comment on any noise from new uses",
+      traffic: "Comment on impacts to traffic, parking or road safety",
+      other: "Comment on other things",
+    },
   },
 } satisfies Meta<typeof CommentTextEntry>;
 
