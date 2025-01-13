@@ -1,8 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { SentimentIcon } from "../SentimentIcon";
-import "./CommentSentiment.scss";
 
 const CommentSentiment = ({
   reference,
@@ -131,7 +129,6 @@ const CommentSentiment = ({
                   htmlFor={option.id}
                   data-testid={option.id}
                 >
-                  <SentimentIcon sentiment={option.label.toLowerCase()} />
                   <span className="govuk-body">{option.label}</span>
                 </label>
               </div>
