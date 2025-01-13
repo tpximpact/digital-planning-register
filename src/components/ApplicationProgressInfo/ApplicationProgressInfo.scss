@@ -1,0 +1,141 @@
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core";
+
+$govuk-accordion-base-colour: govuk-colour("black");
+$govuk-accordion-hover-colour: govuk-colour("light-grey");
+$govuk-accordion-icon-focus-colour: $govuk-focus-colour;
+
+$selector: dpr-progress-info;
+.#{$selector} {
+  margin-bottom: govuk-spacing(6);
+
+  &__controls {
+    margin-bottom: 9px;
+    @include govuk-media-query($from: tablet) {
+      margin-bottom: 14px;
+    }
+  }
+
+  // show hide functionality
+  &__section-content {
+    display: none;
+
+    &[hidden] {
+      @supports (content-visibility: hidden) {
+        content-visibility: hidden;
+        display: inherit;
+      }
+
+      // Hide the padding of collapsed sections
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .#{$selector}__section--expanded & {
+      display: block;
+    }
+  }
+
+  // header styles
+
+  &__section {
+    position: relative;
+
+    // dots
+    &:before {
+      content: "";
+      position: absolute;
+      top: 1.25em;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 100px;
+      background: white;
+      border: 1px solid $govuk-brand-colour;
+      z-index: 10;
+    }
+
+    // lines
+    &:after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 1.35em;
+      width: 3px;
+      height: 100%;
+      background: $govuk-brand-colour;
+      z-index: 5;
+    }
+
+    &:last-of-type:after {
+      display: none;
+    }
+  }
+
+  &--section-heading {
+    padding: 0;
+    margin: 0;
+  }
+
+  &--section-button {
+    // remove button styles
+    width: 100%;
+    padding: 0;
+    border-width: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: left;
+
+    // Remove default button focus outline in Firefox
+    &::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+
+    &:hover {
+      background-color: govuk-colour(light-grey);
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+
+    // align content
+    padding: govuk-spacing(3) 0 govuk-spacing(3) govuk-spacing(6);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: govuk-spacing(4);
+
+    @include govuk-media-query($from: tablet) {
+      grid-template-columns: 1fr max-content minmax(max-content, 12%);
+      grid-template-rows: 1fr;
+      gap: govuk-spacing(8);
+    }
+  }
+
+  &--section-title {
+    @include govuk-text-colour;
+    @include govuk-font($size: 19, $weight: bold);
+    // flex: 1;
+  }
+
+  &--section-date {
+    @include govuk-text-colour;
+    @include govuk-font($size: 19);
+
+    text-align: right;
+
+    @include govuk-media-query($from: tablet) {
+      text-align: left;
+    }
+  }
+
+  // content styles
+  &__section-content {
+    @include govuk-global-styles;
+    padding: govuk-spacing(3) 0 govuk-spacing(3) govuk-spacing(6);
+  }
+}
