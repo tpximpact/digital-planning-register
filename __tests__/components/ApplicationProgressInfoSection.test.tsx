@@ -21,7 +21,7 @@ describe("ApplicationProgressInfoSection", () => {
   it("renders closed section", () => {
     const defaultProps = {
       title: "Donec sed odio dui",
-      date: "2021-01-01",
+      date: "1 Jan 2021",
       content: (
         <div>
           Maecenas sed diam eget risus varius blandit sit amet non magna.
@@ -71,7 +71,7 @@ describe("ApplicationProgressInfoSection", () => {
   it("renders open section", () => {
     const defaultProps = {
       title: "Donec sed odio dui",
-      date: "2021-01-01",
+      date: "1 Jan 2021",
       content: (
         <div>
           Maecenas sed diam eget risus varius blandit sit amet non magna.
@@ -125,7 +125,7 @@ describe("ApplicationProgressInfoSection", () => {
     const onToggle = jest.fn();
     const defaultProps = {
       title: "Donec sed odio dui",
-      date: "2021-01-01",
+      date: "1 Jan 2021",
       content: (
         <div>
           Maecenas sed diam eget risus varius blandit sit amet non magna.

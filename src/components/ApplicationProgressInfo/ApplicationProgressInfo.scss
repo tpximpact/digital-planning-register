@@ -110,7 +110,7 @@ $selector: dpr-progress-info;
     gap: govuk-spacing(4);
 
     @include govuk-media-query($from: tablet) {
-      grid-template-columns: 1fr max-content minmax(max-content, 12%);
+      grid-template-columns: 1fr max-content minmax(max-content, 26%);
       grid-template-rows: 1fr;
       gap: govuk-spacing(8);
     }

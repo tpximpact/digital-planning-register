@@ -9,6 +9,8 @@ import "./ApplicationDetails.scss";
 import { ContentSidebar } from "../ContentSidebar";
 import { slugify } from "@/util";
 import { Button } from "@/components/button";
+import { ApplicationProgressInfo } from "../ApplicationProgressInfo";
+import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -32,6 +34,7 @@ export const ApplicationDetails = ({
   const description = application.proposal.description;
   const commentsEnabled =
     application.application.consultation.allowComments ?? true;
+  const applicationProgress = buildApplicationProgress(application);
 
   const sidebar = [
     {
@@ -39,6 +42,13 @@ export const ApplicationDetails = ({
       title: "Key information",
     },
   ];
+
+  if (applicationProgress) {
+    sidebar.push({
+      key: slugify("Progress"),
+      title: "Progress",
+    });
+  }
 
   if (description) {
     sidebar.push({
@@ -111,6 +121,11 @@ export const ApplicationDetails = ({
           )}
         </div>
         <div className="govuk-grid-column-two-thirds-from-desktop dpr-application-details--flow">
+          <ApplicationProgressInfo
+            councilSlug={appConfig.council.slug}
+            reference={reference}
+            sections={applicationProgress}
+          />
           <h2 className="govuk-heading-l" id="description">
             Description
           </h2>
