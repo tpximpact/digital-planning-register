@@ -5,7 +5,6 @@ import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageApplicationSubmission } from "@/components/PageApplicationSubmission";
-import { capitalizeFirstLetter } from "@/util";
 
 interface ApplicationFormProps {
   params: {
@@ -35,7 +34,7 @@ export async function generateMetadata({
 }: ApplicationFormProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
   const { reference, council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
   if (!response.data) {
     return {
       title: "Error",

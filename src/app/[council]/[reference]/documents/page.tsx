@@ -12,7 +12,6 @@ import { ContentError } from "@/components/ContentError";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildDocumentData } from "@/lib/documents";
 import { PageApplicationDocuments } from "@/components/PageApplicationDocuments";
-import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsDocumentsProps {
   params: {
@@ -46,7 +45,7 @@ export async function generateMetadata({
 }: PlanningApplicationDetailsDocumentsProps): Promise<Metadata | undefined> {
   const { applicationResponse } = await fetchData({ params });
   const { reference, council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!applicationResponse.data) {
     return {

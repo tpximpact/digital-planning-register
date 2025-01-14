@@ -7,7 +7,6 @@ import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildCommentResult, getCommentTypeToShow } from "@/lib/comments";
-import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsCommentsProps {
   params: {
@@ -37,7 +36,7 @@ export async function generateMetadata({
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
   const { reference, council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!response.data) {
     return {

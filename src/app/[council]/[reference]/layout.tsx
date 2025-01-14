@@ -1,5 +1,4 @@
 import { getAppConfig } from "@/config";
-import { capitalizeFirstLetter } from "@/util";
 import { ReactNode } from "react";
 
 /**
@@ -13,7 +12,7 @@ export async function generateMetadata({
   params: { council: string; reference: string };
 }) {
   const { reference, council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   return {
     title: `Application ${reference} | ${councilName} Digital Planning Register`,

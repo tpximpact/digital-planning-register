@@ -9,7 +9,6 @@ import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageShow } from "@/components/PageShow";
-import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsProps {
   params: {
@@ -40,7 +39,7 @@ export async function generateMetadata({
 }: PlanningApplicationDetailsProps): Promise<Metadata | undefined> {
   const { applicationResponse } = await fetchData({ params });
   const { reference, council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!applicationResponse.data) {
     return {

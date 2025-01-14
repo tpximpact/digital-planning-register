@@ -7,7 +7,6 @@ import { ContentError } from "@/components/ContentError";
 import { PageSearchSiteNotices } from "@/components/PageSearchSiteNotices";
 import { BackButton } from "@/components/BackButton";
 import { ContentNotFound } from "@/components/ContentNotFound";
-import { capitalizeFirstLetter } from "@/util";
 
 interface DigitalSiteNoticeProps {
   params: {
@@ -43,7 +42,7 @@ export async function generateMetadata({
 }: DigitalSiteNoticeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
   const { council } = params;
-  const councilName = capitalizeFirstLetter(council);
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!response.data) {
     return {
