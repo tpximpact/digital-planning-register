@@ -5,6 +5,7 @@ import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageApplicationSubmission } from "@/components/PageApplicationSubmission";
+import { capitalizeFirstLetter } from "@/util";
 
 interface ApplicationFormProps {
   params: {
@@ -33,9 +34,8 @@ export async function generateMetadata({
   params,
 }: ApplicationFormProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
-  const reference = params.reference;
-  const council = getAppConfig(params.council)?.council?.name;
-
+  const { reference, council } = params;
+  const councilName = capitalizeFirstLetter(council);
   if (!response.data) {
     return {
       title: "Error",
@@ -43,8 +43,8 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Application form as submitted | Application ${reference} | ${council} Digital Planning Register`,
-    description: `Application form as submitted for ${council} Council planning application ${reference}`,
+    title: `Application form as submitted | Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `Application form as submitted for ${councilName} Council planning application ${reference}`,
   };
 }
 

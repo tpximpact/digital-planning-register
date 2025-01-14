@@ -16,28 +16,7 @@ import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
-
-const pageTitles: Record<number, string> = {
-  0: "What you need to know before you comment",
-  1: "How do you feel about this development?",
-  2: "What topics do you want to comment on?",
-  3: "Write your comment",
-  4: "Your details",
-  5: "Check what you have written before sending your comment",
-  6: "Comment submitted",
-};
-
-const topicLabels = {
-  design:
-    "Comment on the design, size or height of new buildings or extensions",
-  use: "Comment on the use and function of the proposed development",
-  light: "Comment on impacts on natural light",
-  privacy: "Comment on impacts to the privacy of neighbours",
-  access: "Comment on impacts on disabled persons' access",
-  noise: "Comment on any noise from new uses",
-  traffic: "Comment on impacts to traffic, parking or road safety",
-  other: "Comment on other things",
-} as const;
+import { topicLabels, pageTitles } from "@/lib/comments";
 
 type Props = {
   params: { reference: string; council: string };
@@ -366,7 +345,6 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
             onContinue={handleTopicNavigation}
             currentTopicIndex={currentTopicIndex}
             totalTopics={selectedTopics.length}
-            topicLabels={topicLabels}
           />
         );
       case 4:

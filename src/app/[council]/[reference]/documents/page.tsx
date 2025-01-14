@@ -12,6 +12,7 @@ import { ContentError } from "@/components/ContentError";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildDocumentData } from "@/lib/documents";
 import { PageApplicationDocuments } from "@/components/PageApplicationDocuments";
+import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsDocumentsProps {
   params: {
@@ -44,8 +45,8 @@ export async function generateMetadata({
   params,
 }: PlanningApplicationDetailsDocumentsProps): Promise<Metadata | undefined> {
   const { applicationResponse } = await fetchData({ params });
-  const reference = params.reference;
-  const council = getAppConfig(params.council)?.council?.name;
+  const { reference, council } = params;
+  const councilName = capitalizeFirstLetter(council);
 
   if (!applicationResponse.data) {
     return {
@@ -54,8 +55,8 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Documents | Application ${reference} | ${council} Digital Planning Register`,
-    description: `All documents for ${council} Council planning application ${reference}`,
+    title: `Documents | Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `All documents for ${councilName} Council planning application ${reference}`,
   };
 }
 

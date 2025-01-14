@@ -7,6 +7,7 @@ import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildCommentResult, getCommentTypeToShow } from "@/lib/comments";
+import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsCommentsProps {
   params: {
@@ -35,8 +36,8 @@ export async function generateMetadata({
   params,
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
-  const reference = params.reference;
-  const council = getAppConfig(params?.council)?.council?.name;
+  const { reference, council } = params;
+  const councilName = capitalizeFirstLetter(council);
 
   if (!response.data) {
     return {
@@ -45,8 +46,8 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Comments | Application ${reference} | ${council} Digital Planning Register`,
-    description: `All comments for ${council} Council planning application ${reference}`,
+    title: `Comments | Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `All comments for ${councilName} Council planning application ${reference}`,
   };
 }
 

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Button } from "@/components/button";
+import { topicLabels } from "@/lib/comments";
 
 const MAX_COMMENT_LENGTH = 6000;
 
@@ -17,7 +18,6 @@ const CommentTextEntry = ({
   currentTopicIndex,
   totalTopics,
   hideContinue,
-  topicLabels,
 }: {
   reference: string;
   currentTopic: string;
@@ -26,7 +26,6 @@ const CommentTextEntry = ({
   currentTopicIndex: number;
   totalTopics: number;
   hideContinue?: boolean;
-  topicLabels: Record<string, string>;
 }) => {
   const [comment, setComment] = useState("");
   const [normalisedCharCount, setNormalisedCharCount] = useState(0);
