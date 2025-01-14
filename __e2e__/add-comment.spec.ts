@@ -146,16 +146,10 @@ const testCommentFlow = async (page: Page) => {
   expect(page.getByText("Your name is required", { exact: true }));
   expect(page.getByText("Your address is required", { exact: true }));
   expect(page.getByText("A valid postcode is required", { exact: true }));
-  expect(page.getByText("You need to consent", { exact: true }));
 
   await page.getByLabel("Name", { exact: true }).fill("Test Name");
   await page.getByLabel("Address", { exact: true }).fill("Test Address");
   await page.getByLabel("Postcode", { exact: true }).fill("EC1N 8BA");
-  await page
-    .getByLabel(
-      "I consent to Public Council 1 Council using my data for the purposes of assessing this planning application",
-    )
-    .check();
   await page.getByRole("button", { name: "Continue" }).click();
 
   // 10. Comment flow - review

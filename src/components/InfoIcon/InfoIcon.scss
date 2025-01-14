@@ -1,28 +1,29 @@
 @import "src/styles/component-base";
 
 // Info icons - used on the application page to link to relevant guidance
-a.info-icon {
+.info-icon {
   display: inline-block;
   font-size: 0.8em;
   border-radius: 50%;
   height: 1.3em;
   width: 1.3em;
-  background: govuk-colour("light-grey");
-  text-align: center;
-  text-decoration: none;
-  color: govuk-colour("blue");
-  margin-left: 5px;
-}
-a.info-icon:visited {
-  color: govuk-colour("blue");
-}
-a.info-icon:hover {
+
   background: govuk-colour("blue");
   color: white;
-}
-a.info-icon:focus {
-  background: govuk-colour("yellow");
-  box-shadow: none;
-  outline: 3px solid govuk-colour("black");
-  color: govuk-colour("black");
+  text-align: center;
+  text-decoration: none;
+
+  margin-left: 5px;
+  aspect-ratio: 1;
+
+  &:hover {
+    background: govuk-colour("light-grey");
+    color: govuk-colour("blue");
+  }
+  &:focus {
+    background: govuk-colour("yellow");
+    box-shadow: none;
+    outline: 3px solid govuk-colour("black");
+    color: govuk-colour("black");
+  }
 }

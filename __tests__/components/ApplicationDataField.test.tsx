@@ -39,4 +39,17 @@ describe("Render ApplicationDataField", () => {
     expect(screen.queryByText("value text")).toBeInTheDocument();
     expect(screen.queryByText("Info Icon")).toBeInTheDocument();
   });
+
+  it("should add new class if set to full width", () => {
+    const { container } = render(
+      <ApplicationDataField
+        title="title text"
+        value="value text"
+        isFull={true}
+      />,
+    );
+    expect(container.firstChild).toHaveClass(
+      "dpr-application-data-field--full",
+    );
+  });
 });

@@ -36,7 +36,6 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByLabelText("Postcode")).toBeInTheDocument();
     expect(screen.getByLabelText("Email address")).toBeInTheDocument();
     expect(screen.getByLabelText("Telephone number")).toBeInTheDocument();
-    expect(screen.getByLabelText(/I consent to/)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Continue" }),
     ).toBeInTheDocument();
@@ -51,7 +50,6 @@ describe("CommentPersonalDetails", () => {
     expect(
       screen.getByText("A valid postcode is required"),
     ).toBeInTheDocument();
-    expect(screen.getByText("You need to consent")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
     expect(sendGTMEvent).toHaveBeenCalledWith({
@@ -77,7 +75,6 @@ describe("CommentPersonalDetails", () => {
     fireEvent.change(screen.getByLabelText("Telephone number"), {
       target: { value: "01234567890" },
     });
-    fireEvent.click(screen.getByLabelText(/I consent to/));
     fireEvent.click(screen.getByRole("button", { name: "Continue" }));
 
     expect(defaultProps.navigateToPage).toHaveBeenCalledWith(5);
@@ -89,7 +86,6 @@ describe("CommentPersonalDetails", () => {
       postcode: "AB12 3CD",
       emailAddress: "john@example.com",
       telephoneNumber: "01234567890",
-      consent: true,
     });
   });
 
@@ -102,7 +98,6 @@ describe("CommentPersonalDetails", () => {
         postcode: "XY98 7ZA",
         emailAddress: "jane@example.com",
         telephoneNumber: "09876543210",
-        consent: true,
       }),
     );
     render(<CommentPersonalDetails {...defaultProps} />);
@@ -116,7 +111,6 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByLabelText("Telephone number")).toHaveValue(
       "09876543210",
     );
-    expect(screen.getByLabelText(/I consent to/)).toBeChecked();
     expect(sendGTMEvent).not.toHaveBeenCalled();
   });
 });
