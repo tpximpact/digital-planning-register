@@ -5,7 +5,7 @@ import { DprDocument } from "@/types";
  * @param url
  * @returns
  */
-export const DecisionNoticeObject = (url: string): DprDocument => {
+export const decisionNoticeObject = (url: string): DprDocument => {
   return {
     url: url,
     title: "Decision notice",
@@ -15,4 +15,4 @@ export const DecisionNoticeObject = (url: string): DprDocument => {
   };
 };
 
-export default DecisionNoticeObject;
+export default decisionNoticeObject;

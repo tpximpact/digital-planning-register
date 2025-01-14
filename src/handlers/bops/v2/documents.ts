@@ -1,7 +1,7 @@
 "use server";
 
 import { applicationFormObject } from "@/lib/planningApplication";
-import DecisionNoticeObject from "@/components/DecisionNotice";
+import decisionNoticeObject from "@/lib/planningApplication/decisionNotice";
 import { ApiResponse, DprDocumentsApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
 import {
@@ -35,17 +35,20 @@ export async function documents(
   // add fake application form document
   const applicationFormDocument = applicationFormObject(council, reference);
 
-  // add fake decision notice document and only show if decision has been made and url is present
-  const decision = request?.data?.application?.decision;
-  const decisionNotice = request?.data?.decisionNotice;
-  const decisionNoticeUrl = decisionNotice?.url;
-  const decisionNoticeDocument = DecisionNoticeObject(decisionNoticeUrl);
+  const { decision } = request?.data?.application || {};
+  const decisionNoticeUrl = request?.data?.decisionNotice?.url;
+
+  // Create the decision notice document if applicable
+  const decisionNoticeDocument =
+    decision && decisionNoticeUrl
+      ? decisionNoticeObject(decisionNoticeUrl)
+      : null;
 
   const convertedData = {
     pagination: convertBopsDocumentPagination(metadata),
     files: [
       applicationFormDocument,
-      ...(decision && decisionNoticeUrl ? [decisionNoticeDocument] : []),
+      ...(decisionNoticeDocument ? [decisionNoticeDocument] : []),
       ...files.map(convertDocumentBopsFile),
     ],
   };
