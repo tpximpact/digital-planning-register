@@ -59,7 +59,7 @@ export const getAppConfig = (council?: string): AppConfig => {
       },
       {
         label: "Help",
-        href: "/planning-process",
+        href: "/help",
         councilBase: true,
         showCondition: true,
       },

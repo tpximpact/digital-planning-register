@@ -87,7 +87,7 @@ export const ApplicationHero = ({
                 infoIcon={
                   getDocumentedApplicationType(application.applicationType) ? (
                     <InfoIcon
-                      href={`/${councilSlug}/planning-process#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
+                      href={`/${councilSlug}/help#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
                       title="Understanding application types"
                       ariaLabel="Understanding application types"
                     />
@@ -114,7 +114,7 @@ export const ApplicationHero = ({
                     applicationStatusSummary,
                   ) ? (
                     <InfoIcon
-                      href={`/${councilSlug}/planning-process#${slugify(applicationStatusSummary)}`}
+                      href={`/${councilSlug}/help#${slugify(applicationStatusSummary)}`}
                       title="Understanding application statuses"
                       ariaLabel="Understanding application statuses"
                     />
@@ -130,7 +130,7 @@ export const ApplicationHero = ({
                 )}
                 infoIcon={
                   <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Received date")}`}
+                    href={`/${councilSlug}/help#${slugify("Received date")}`}
                     title="Understanding dates"
                     ariaLabel="Understanding dates"
                   />
@@ -143,7 +143,7 @@ export const ApplicationHero = ({
                 value={formatDateToDprDate(application.application.validDate)}
                 infoIcon={
                   <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Valid from date")}`}
+                    href={`/${councilSlug}/help#${slugify("Valid from date")}`}
                     title="Understanding dates"
                     ariaLabel="Understanding dates"
                   />
@@ -158,7 +158,7 @@ export const ApplicationHero = ({
                 )}
                 infoIcon={
                   <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Published date")}`}
+                    href={`/${councilSlug}/help#${slugify("Published date")}`}
                     title="Understanding dates"
                     ariaLabel="Understanding dates"
                   />
@@ -173,7 +173,7 @@ export const ApplicationHero = ({
                 )}
                 infoIcon={
                   <InfoIcon
-                    href={`/${councilSlug}/planning-process#${slugify("Consultation end date")}`}
+                    href={`/${councilSlug}/help#${slugify("Consultation end date")}`}
                     title="Understanding consultation end date"
                     ariaLabel="Understanding consultation end date"
                   />
@@ -195,7 +195,7 @@ export const ApplicationHero = ({
                     }
                     infoIcon={
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#${slugify("Decision date")}`}
+                        href={`/${councilSlug}/help#${slugify("Decision date")}`}
                         title="Understanding dates"
                         ariaLabel="Understanding dates"
                       />
@@ -222,7 +222,7 @@ export const ApplicationHero = ({
                       applicationDecisionSummary,
                     ) ? (
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#${slugify(applicationDecisionSummary)}`}
+                        href={`/${councilSlug}/help#${slugify(applicationDecisionSummary)}`}
                         title="Understanding decisions"
                         ariaLabel="Understanding decisions"
                       />
