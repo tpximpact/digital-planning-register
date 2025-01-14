@@ -50,3 +50,9 @@ export const WithInlineTag: Story = {
     value: <Tag label="Example tag" id="example-tag" isInline={true} />,
   },
 };
+
+export const FullWidth: Story = {
+  args: {
+    isFull: true,
+  },
+};

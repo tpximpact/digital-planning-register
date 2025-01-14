@@ -1,6 +1,6 @@
 "use server";
 
-import { ApplicationFormObject } from "@/components/application_form";
+import { applicationFormObject } from "@/lib/planningApplication";
 import DecisionNoticeObject from "@/components/DecisionNotice";
 import { ApiResponse, DprDocumentsApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
@@ -33,7 +33,7 @@ export async function documents(
   } = request.data || {};
 
   // add fake application form document
-  const applicationFormDocument = ApplicationFormObject(council, reference);
+  const applicationFormDocument = applicationFormObject(council, reference);
 
   // add fake decision notice document and only show if decision has been made and url is present
   const decision = request?.data?.application?.decision;

@@ -4,6 +4,8 @@
 .dpr-application-data-field {
   dd {
     @extend .govuk-body;
+    display: flex;
+    align-items: center;
     &:last-of-type {
       margin-bottom: 0;
     }

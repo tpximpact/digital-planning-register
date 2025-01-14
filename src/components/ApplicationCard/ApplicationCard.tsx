@@ -154,7 +154,7 @@ export const ApplicationCard = ({
               <>
                 {application.application?.determinedAt && (
                   <ApplicationDataField
-                    title="Decision Date"
+                    title="Council decision date"
                     value={
                       <time dateTime={application.application.determinedAt}>
                         {formatDateTimeToDprDate(
@@ -166,7 +166,7 @@ export const ApplicationCard = ({
                 )}
 
                 <ApplicationDataField
-                  title="Decision"
+                  title="Council decision"
                   value={applicationDecisionSummary}
                 />
               </>
