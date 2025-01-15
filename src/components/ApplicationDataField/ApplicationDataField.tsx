@@ -26,7 +26,7 @@ export const ApplicationDataField = ({
         className={`dpr-application-data-field dpr-application-data-field--${slugify(title)} ${isFull ? "dpr-application-data-field--full" : ""}`}
       >
         <dt>
-          <p className="govuk-heading-s">{title}</p>
+          <span className="govuk-heading-s">{title}</span>
         </dt>
         <dd>
           {value}
