@@ -50,4 +50,21 @@ describe("Menu", () => {
       "govuk-service-navigation__item--active",
     );
   });
+
+  it("displays the home link only when no selected council", () => {
+    const { container } = render(
+      <Menu
+        navigation={appConfig.navigation}
+        currentPath="/"
+        councils={appConfig.councils}
+      />,
+    );
+    const menu = container.querySelector(".dpr-menu");
+    expect(menu).toBeInTheDocument();
+    expect(menu).toHaveClass("govuk-visually-hidden", { exact: false });
+    expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.queryByText("Application search")).not.toBeInTheDocument();
+    expect(screen.queryByText("Help")).not.toBeInTheDocument();
+    expect(screen.queryByText("Digital site notice")).not.toBeInTheDocument();
+  });
 });
