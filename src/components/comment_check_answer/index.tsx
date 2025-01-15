@@ -9,6 +9,12 @@ import "./CommentCheckAnswer.scss";
 import { Details } from "../govuk/Details";
 import { TextButton } from "../TextButton";
 
+const sentiment_options = [
+  { id: "objection", label: "Opposed" },
+  { id: "neutral", label: "Neutral" },
+  { id: "supportive", label: "Support" },
+];
+
 const topics_selection = [
   {
     label:
@@ -236,7 +242,10 @@ const CommentCheckAnswer = ({
                   How do you feel about this development
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{capitaliseWord(sentiment)}</p>
+                  {
+                    sentiment_options.find((option) => option.id === sentiment)
+                      ?.label
+                  }
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
