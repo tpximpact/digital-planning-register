@@ -54,7 +54,6 @@ export const ApplicationHero = ({
 
   return (
     <section
-      aria-labelledby={`application-information-section-${reference}`}
       className={`dpr-application-hero${boundary_geojson ? "" : " dpr-application-hero--no-map"}`}
       id="key-information"
     >
