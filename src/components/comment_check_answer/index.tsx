@@ -8,12 +8,7 @@ import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govuk/Details";
 import { TextButton } from "../TextButton";
-
-const sentiment_options = [
-  { id: "objection", label: "Opposed" },
-  { id: "neutral", label: "Neutral" },
-  { id: "supportive", label: "Support" },
-];
+import { sentiment_options } from "@/lib/comments";
 
 const topics_selection = [
   {

@@ -79,3 +79,9 @@ export const buildCommentResult = (
 
   return commentData;
 };
+
+export const sentiment_options = [
+  { id: "objection", label: "Opposed" },
+  { id: "neutral", label: "Neutral" },
+  { id: "supportive", label: "Support" },
+];
