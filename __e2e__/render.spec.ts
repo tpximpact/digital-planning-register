@@ -227,7 +227,7 @@ const testCouncilReferenceApplicationForm = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/application-form`);
 
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Application form as submitted | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
   );
 
   await expect(
@@ -247,7 +247,7 @@ const testCouncilReferenceComments = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/comments`);
 
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Comments | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
   );
 
   await expect(
@@ -267,7 +267,7 @@ const testCouncilReferenceDocuments = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/documents`);
 
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Documents | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
   );
 
   await expect(
@@ -295,7 +295,7 @@ const testCouncilReferenceSubmitComment = async (
     await page.goto(`/public-council-1/24-00135-HAPP/submit-comment`);
 
     await expect(page).toHaveTitle(
-      "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+      "What you need to know before you comment | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
     );
 
     await expect(

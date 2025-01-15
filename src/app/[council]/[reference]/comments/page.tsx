@@ -35,6 +35,8 @@ export async function generateMetadata({
   params,
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
+  const { reference, council } = params;
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!response.data) {
     return {
@@ -42,6 +44,10 @@ export async function generateMetadata({
       description: "An error occurred",
     };
   }
+  return {
+    title: `Comments | Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `All comments for ${councilName} Council planning application ${reference}`,
+  };
 }
 
 export default async function PlanningApplicationDetailsComments({
