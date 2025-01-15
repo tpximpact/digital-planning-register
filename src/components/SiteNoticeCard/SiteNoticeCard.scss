@@ -1,4 +1,8 @@
-.dsn-link {
-  color: #1d70b8;
-  margin-top: 0.5em;
+@import "src/styles/component-base";
+
+.dpr-site-notice-card {
+  .dsn-link {
+    color: $govuk-brand-colour;
+    margin-top: 0.5em;
+  }
 }
