@@ -225,9 +225,9 @@ const CommentCheckAnswer = ({
               </div>
             </div>
           )}
-          <h1 className="govuk-heading-l">
+          <h2 className="govuk-heading-l">
             Check what you have written before sending your comment
-          </h1>
+          </h2>
 
           <form onSubmit={handleSubmit}>
             <dl className="govuk-summary-list">
