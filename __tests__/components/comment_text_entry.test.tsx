@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentTextEntry from "@/components/comment_text_entry";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google"; // Import the GTM event mock
+import { sendGTMEvent } from "@next/third-parties/google";
 
 // Mock sendGTMEvent to track its calls
 jest.mock("@next/third-parties/google", () => ({
@@ -23,6 +23,7 @@ describe("CommentTextEntry", () => {
     sessionStorage.clear();
     window.scrollTo = jest.fn();
     jest.clearAllMocks();
+    document.title = "";
   });
 
   it("renders the component with the correct content", () => {

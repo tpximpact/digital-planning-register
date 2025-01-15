@@ -33,13 +33,18 @@ export async function generateMetadata({
   params,
 }: ApplicationFormProps): Promise<Metadata | undefined> {
   const response = await fetchData({ params });
-
+  const { reference, council } = params;
+  const councilName = getAppConfig(council)?.council?.name ?? "";
   if (!response.data) {
     return {
       title: "Error",
       description: "An error occurred",
     };
   }
+  return {
+    title: `Application form as submitted | Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `Application form as submitted for ${councilName} Council planning application ${reference}`,
+  };
 }
 
 export default async function ApplicationFormPage({

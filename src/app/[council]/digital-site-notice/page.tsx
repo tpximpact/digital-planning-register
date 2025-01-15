@@ -41,6 +41,8 @@ export async function generateMetadata({
   searchParams,
 }: DigitalSiteNoticeProps): Promise<Metadata> {
   const response = await fetchData({ params, searchParams });
+  const { council } = params;
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   if (!response.data) {
     return {
@@ -50,7 +52,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Digital Site Notice`,
+    title: `Digital Site Notice | ${councilName} Digital Planning Register`,
   };
 }
 
