@@ -451,34 +451,46 @@ const CommentCheckAnswer = ({
                     </a>{" "}
                     If you have concerns about any data you have sent being
                     published,{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={contactPlanningAdviceLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      contact the Planning Advice and Information Service.
-                    </a>
+                    {contactPlanningAdviceLink ? (
+                      <a
+                        className="govuk-link govuk-link--no-visited-state"
+                        href={contactPlanningAdviceLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        contact the Planning Advice and Information Service.
+                      </a>
+                    ) : (
+                      "contact the Planning Advice and Information Service."
+                    )}
                   </p>
                   <p className="govuk-body">
                     Read our{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={corporatePrivacyLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      corporate privacy statement
-                    </a>{" "}
-                    and our{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={planningServicePrivacyStatementLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      planning service statement
-                    </a>{" "}
+                    {corporatePrivacyLink && (
+                      <>
+                        <a
+                          className="govuk-link govuk-link--no-visited-state"
+                          href={corporatePrivacyLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          corporate privacy statement
+                        </a>
+                        {planningServicePrivacyStatementLink && " and our "}
+                      </>
+                    )}
+                    {planningServicePrivacyStatementLink && (
+                      <>
+                        <a
+                          className="govuk-link govuk-link--no-visited-state"
+                          href={planningServicePrivacyStatementLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          planning service statement
+                        </a>
+                      </>
+                    )}{" "}
                     for more information.
                   </p>
                 </>

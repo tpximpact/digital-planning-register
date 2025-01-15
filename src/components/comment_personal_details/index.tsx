@@ -158,7 +158,7 @@ const CommentPersonalDetails = ({
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <h1 className="govuk-heading-l">Your details</h1>
+        <h2 className="govuk-heading-l">Your details</h2>
         <form onSubmit={handleSubmit} noValidate>
           {/* Name input */}
           <div
@@ -348,33 +348,45 @@ const CommentPersonalDetails = ({
                   {""}
                   If you have concerns about any data you have sent being
                   published,{" "}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={contactPlanningAdviceLink}
-                    target="_blank"
-                  >
-                    contact the Planning Advice and Information Service.
-                  </a>
+                  {contactPlanningAdviceLink ? (
+                    <a
+                      className="govuk-link govuk-link--no-visited-state"
+                      href={contactPlanningAdviceLink}
+                      target="_blank"
+                    >
+                      contact the Planning Advice and Information Service.
+                    </a>
+                  ) : (
+                    "contact the Planning Advice and Information Service."
+                  )}
                 </p>
                 <p className="govuk-body">
-                  Read our {""}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={corporatePrivacyLink}
-                    target="_blank"
-                  >
-                    {""}
-                    corporate privacy statement
-                  </a>
-                  and our {""}
-                  <a
-                    className="govuk-link govuk-link--no-visited-state"
-                    href={planningServicePrivacyStatementLink}
-                    target="_blank"
-                  >
-                    planning service statement
-                  </a>{" "}
-                  {""}
+                  Read our{" "}
+                  {corporatePrivacyLink && (
+                    <>
+                      <a
+                        className="govuk-link govuk-link--no-visited-state"
+                        href={corporatePrivacyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        corporate privacy statement
+                      </a>
+                      {planningServicePrivacyStatementLink && " and our "}
+                    </>
+                  )}
+                  {planningServicePrivacyStatementLink && (
+                    <>
+                      <a
+                        className="govuk-link govuk-link--no-visited-state"
+                        href={planningServicePrivacyStatementLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        planning service statement
+                      </a>
+                    </>
+                  )}{" "}
                   for more information.
                 </p>
               </>
