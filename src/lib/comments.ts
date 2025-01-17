@@ -80,6 +80,12 @@ export const buildCommentResult = (
   return commentData;
 };
 
+export const sentiment_options = [
+  { id: "objection", label: "Opposed" },
+  { id: "neutral", label: "Neutral" },
+  { id: "supportive", label: "Support" },
+];
+
 export const topicLabels = {
   design:
     "Comment on the design, size or height of new buildings or extensions",

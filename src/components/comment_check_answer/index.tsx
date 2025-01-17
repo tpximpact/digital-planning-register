@@ -8,6 +8,7 @@ import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govuk/Details";
 import { TextButton } from "../TextButton";
+import { sentiment_options } from "@/lib/comments";
 
 const topics_selection = [
   {
@@ -236,7 +237,10 @@ const CommentCheckAnswer = ({
                   How do you feel about this development
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{capitaliseWord(sentiment)}</p>
+                  {
+                    sentiment_options.find((option) => option.id === sentiment)
+                      ?.label
+                  }
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton

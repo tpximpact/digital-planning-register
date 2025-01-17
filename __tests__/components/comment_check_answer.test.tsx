@@ -74,7 +74,7 @@ describe("CommentCheckAnswer", () => {
 
     render(<CommentCheckAnswer {...defaultProps} />);
 
-    expect(screen.getByText("Supportive")).toBeInTheDocument();
+    expect(screen.getByText("Support")).toBeInTheDocument();
     expect(screen.getByText("Use comment")).toBeInTheDocument();
     expect(screen.getByText("John Doe")).toBeInTheDocument();
     expect(screen.getByText("john@example.com")).toBeInTheDocument();
