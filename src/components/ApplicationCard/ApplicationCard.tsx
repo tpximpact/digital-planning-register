@@ -83,7 +83,7 @@ export const ApplicationCard = ({
               <ApplicationMapLoader
                 reference={reference}
                 mapData={boundary_geojson}
-                description=""
+                description={`Map showing the boundaries for application reference ${reference}`}
                 mapType="application-search"
               />
             </div>

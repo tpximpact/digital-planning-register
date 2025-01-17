@@ -104,9 +104,9 @@ const CommentTopicSelection = ({
             aria-describedby={`topics-hint${validationError ? " topics-error" : ""}`}
           >
             <legend className="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 className="govuk-fieldset__heading">
+              <h2 className="govuk-fieldset__heading">
                 What topics do you want to comment on?
-              </h1>
+              </h2>
             </legend>
 
             <div id="topics-hint" className="govuk-hint">

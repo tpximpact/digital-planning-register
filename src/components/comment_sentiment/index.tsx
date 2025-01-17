@@ -84,9 +84,9 @@ const CommentSentiment = ({
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h1 className="govuk-heading-l">
+      <h2 className="govuk-heading-l">
         How do you feel about this development?
-      </h1>
+      </h2>
 
       <div
         ref={radioGroupRef}

@@ -35,9 +35,7 @@ export const DescriptionCard = ({ description }: DescriptionCardProps) => {
               .trim()
               .concat(`...`),
           );
-          setContinuedText(
-            <span style={{ fontStyle: "italic" }}>(continued)</span>,
-          );
+          setContinuedText(<em>(continued)</em>);
         }
       }
     };

@@ -8,6 +8,12 @@ interface MenuProps {
   councils: AppConfig["councils"];
   selectedCouncil?: AppConfig["council"];
 }
+
+/**
+ * Show menu items based on the selected council, if no selected council show the home link but visually-hidden for accessiblity purposes
+ * @param param0
+ * @returns
+ */
 export const Menu = ({
   navigation,
   currentPath,
@@ -16,14 +22,14 @@ export const Menu = ({
 }: MenuProps) => {
   return (
     <div
-      className="dpr-menu govuk-service-navigation"
+      className={`dpr-menu govuk-service-navigation ${selectedCouncil ? "" : "govuk-visually-hidden"}`}
       data-module="govuk-service-navigation"
     >
       <div className="govuk-width-container">
         <div className="govuk-service-navigation__container">
           <nav aria-label="Menu" className="govuk-service-navigation__wrapper">
             <ul className="govuk-service-navigation__list" id="navigation">
-              {navigation &&
+              {selectedCouncil && navigation ? (
                 navigation.map((item, index) => {
                   const href =
                     item.councilBase && selectedCouncil?.slug
@@ -75,7 +81,27 @@ export const Menu = ({
                       </Link>
                     </li>
                   );
-                })}
+                })
+              ) : (
+                <li
+                  className={`govuk-service-navigation__item${currentPath === "/" ? " govuk-service-navigation__item--active" : ""}`}
+                >
+                  <Link
+                    className={`govuk-service-navigation__link`}
+                    role="link"
+                    href="/"
+                    aria-current={currentPath === "/" ? true : undefined}
+                  >
+                    {currentPath === "/" ? (
+                      <strong className="govuk-service-navigation__active-fallback">
+                        Home
+                      </strong>
+                    ) : (
+                      <>Home</>
+                    )}
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
