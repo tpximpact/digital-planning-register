@@ -24,10 +24,7 @@ export async function show(
 
   // only get missing data if the feature is enabled
   let missingData;
-  if (
-    appConfig.features.getApplicationIdFromPrivateEndpoint ||
-    appConfig.features.getApplicantDetailsFromPrivateEndpoint
-  ) {
+  if (appConfig.features.getApplicantDetailsFromPrivateEndpoint) {
     const privateApplication = await handleBopsGetRequest<
       ApiResponse<BopsV2PlanningApplicationDetail | null>
     >(council, `planning_applications/${reference}`);
