@@ -24,10 +24,7 @@ export async function applicationSubmission(
   >(council, url);
 
   if (request.data?.application) {
-    const application = convertBopsApplicationToDpr(
-      council,
-      request.data?.application,
-    );
+    const application = convertBopsApplicationToDpr(request.data?.application);
     const submission = request.data?.submission
       ? convertApplicationSubmissionBops(request.data?.submission)
       : null;

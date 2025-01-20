@@ -71,7 +71,6 @@ export const createAppConfig = (council?: string): AppConfig => {
     council: council ? getCouncil(council) : undefined,
     councils: councilConfigs,
     features: {
-      getApplicantDetailsFromPrivateEndpoint: true,
       getApplicationIdFromPrivateEndpoint: true,
     },
     defaults: {

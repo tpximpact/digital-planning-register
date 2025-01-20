@@ -10,28 +10,20 @@ import { getCommentsAllowed } from "@/lib/planningApplication";
 import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
 
 export const convertBopsToDpr = (
-  council: string,
   application: BopsPlanningApplication,
-  privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication => {
   return {
     applicationType: application.application.type.value,
-    application: convertBopsApplicationToDpr(
-      council,
-      application.application,
-      privateApplication,
-    ),
+    application: convertBopsApplicationToDpr(application.application),
     property: createProperty(application),
     proposal: createProposal(application),
-    applicant: createApplicant(application, privateApplication),
+    applicant: createApplicant(application),
     officer: createOfficer(application),
   };
 };
 
 export const convertBopsApplicationToDpr = (
-  council: string,
   application: BopsApplicationOverview,
-  privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication["applicant"] => {
   const { consulteeComments = [], publishedComments = [] } =
     application.consultation || {};
@@ -102,42 +94,9 @@ export const createProposal = (
 
 export const createApplicant = (
   application: BopsPlanningApplication,
-  privateApplication?: BopsV2PlanningApplicationDetail | null,
 ): DprPlanningApplication["applicant"] => {
   if (application?.applicant) {
-    // remove when bops sends back applicant info in the show endpoint
-    if (privateApplication) {
-      const applicant = {
-        name: {
-          first:
-            application.applicant?.name?.first ||
-            privateApplication?.applicant_first_name ||
-            undefined,
-          last:
-            application.applicant?.name?.last ||
-            privateApplication?.applicant_last_name ||
-            undefined,
-        },
-        agent: {
-          name: {
-            first:
-              application.applicant?.agent?.name?.first ||
-              privateApplication?.agent_first_name ||
-              undefined,
-            last:
-              application.applicant?.agent?.name?.last ||
-              privateApplication?.agent_last_name ||
-              undefined,
-          },
-        },
-      };
-      return {
-        ...application.applicant,
-        ...applicant,
-      };
-    } else {
-      return application.applicant;
-    }
+    return application.applicant;
   } else {
     return null;
   }

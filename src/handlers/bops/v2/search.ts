@@ -42,7 +42,7 @@ export async function search(
   const convertedData = {
     pagination: request.data?.metadata ?? defaultPagination,
     data: planningApplications.map((application) =>
-      convertBopsToDpr(council, application),
+      convertBopsToDpr(application),
     ),
   };
 
