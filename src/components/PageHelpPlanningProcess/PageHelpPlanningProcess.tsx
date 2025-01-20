@@ -2,7 +2,7 @@ import { ContentPage } from "../ContentPage";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { contentPlanningProcess } from "./PagePlanningProcessContent";
+import { contentPlanningProcess } from "./PageHelpPlanningProcessContent";
 import { c } from "openapi-typescript";
 
 export interface PlanningProcessProps {

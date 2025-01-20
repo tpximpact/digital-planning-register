@@ -1,7 +1,8 @@
 import { PageHelpPlanningProcess } from "@/components/PageHelpPlanningProcess/PageHelpPlanningProcess";
 
 export const metadata = {
-  title: "Help using the Digital Planning Register",
+  title:
+    "Help page - Overview of the Planning Process - Digital Planning Register",
 };
 
 const PlanningProcess = ({ params }: { params: { council: string } }) => {

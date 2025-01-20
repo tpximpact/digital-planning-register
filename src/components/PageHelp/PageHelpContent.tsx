@@ -1,11 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
-import {
-  contentApplicationDecisions,
-  contentApplicationStatuses,
-  contentApplicationTypes,
-} from "@/lib/planningApplication";
 
 export const PageHelpContent = [
   {
@@ -58,7 +52,7 @@ export const PageHelpContent = [
     ),
   },
   {
-    key: slugify("What to do if your concerns can't be addressed by planning"),
+    key: slugify("concerns"),
     title: "What to do if your concerns can't be addressed by planning",
     content: (
       <p className="govuk-body">

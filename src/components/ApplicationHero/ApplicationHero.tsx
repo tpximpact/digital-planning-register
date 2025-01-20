@@ -2,14 +2,12 @@ import "./ApplicationHero.scss";
 import { DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import {
-  contentApplicationStatuses,
   getApplicationStatusSummary,
   getDocumentedApplicationType,
   getPrimaryApplicationType,
   getApplicationStatusSummarySentiment,
   getApplicationDecisionSummary,
   getApplicationDecisionSummarySentiment,
-  contentApplicationDecisions,
 } from "@/lib/planningApplication";
 import {
   flattenObject,
@@ -20,6 +18,8 @@ import {
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
+import { contentApplicationStatuses } from "../PageHelpApplicationStatuses/PageHelpApplicationStatusesContent";
+import { contentDecisions } from "../PageHelpDecisions/PageHelpDecisionsContent";
 
 interface ApplicationHeroProps {
   councilSlug: string;
@@ -53,7 +53,7 @@ export const ApplicationHero = ({
   );
 
   const documentedApplicationDecisions = flattenObject(
-    contentApplicationDecisions,
+    contentDecisions(),
     "title",
   );
 
@@ -87,7 +87,7 @@ export const ApplicationHero = ({
                 infoIcon={
                   getDocumentedApplicationType(application.applicationType) ? (
                     <InfoIcon
-                      href={`/${councilSlug}/help#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
+                      href={`/${councilSlug}/help/application-types/#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
                       title="Understanding application types"
                       ariaLabel="Understanding application types"
                     />

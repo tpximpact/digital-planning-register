@@ -256,6 +256,22 @@ const councils: Council[] = [
           council_local_plan_link:
             "https://www.camden.gov.uk/camden-local-plan1",
         },
+        concerns: {
+          parking_link: "https://www.camden.gov.uk/parking",
+          building_control_link: "https://www.camden.gov.uk/building-control",
+          housing_repair_link:
+            "https://www.camden.gov.uk/report-a-housing-repair",
+          street_issues_link: "https://www.camden.gov.uk/report-street-issue",
+          abandoned_vehicles_link:
+            "https://www.camden.gov.uk/abandoned-vehicles",
+          fly_tipping_link:
+            "https://www.camden.gov.uk/fly-tipping-street-obstructions",
+          noise_link: "https://www.camden.gov.uk/noise",
+          licensing_link:
+            "https://www.camden.gov.uk/complain-about-licensed-premises",
+          apply_for_building_control_regularisation_link:
+            "https://www.camden.gov.uk/apply-for-building-control-regularisation",
+        },
       },
     },
   },
