@@ -55,7 +55,6 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
           publishedDate: "2024-04-25",
           determinedAt: null,
           decision: null,
-          documents: null,
         },
         property: {
           address: { singleLine: "5, PANCRAS SQUARE, LONDON, N1C 4AG" },
