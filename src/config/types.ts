@@ -86,5 +86,10 @@ export interface Council {
     email_alerts?: {
       sign_up_for_alerts_link: string;
     };
+    help?: {
+      planning_process?: {
+        council_local_plan_link: string;
+      };
+    };
   };
 }

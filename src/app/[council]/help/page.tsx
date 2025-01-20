@@ -1,20 +1,20 @@
-import { PagePlanningProcess } from "@/components/PagePlanningProcess";
+import { PageHelp } from "@/components/PageHelp";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Help using the Digital Planning Register",
 };
 
-interface PlanningProcessProps {
+interface HelpProps {
   params: {
     council: string;
   };
 }
 
-const PlanningProcess = ({ params }: PlanningProcessProps) => {
+const Help = ({ params }: HelpProps) => {
   const { council } = params;
 
-  return <PagePlanningProcess council={council} />;
+  return <PageHelp council={council} />;
 };
 
-export default PlanningProcess;
+export default Help;

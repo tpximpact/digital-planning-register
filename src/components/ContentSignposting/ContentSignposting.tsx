@@ -17,7 +17,7 @@ export const ContentSignposting: React.FC<ContentSignpostingProps> = ({
       {pages.map((page) => (
         <li key={page.key}>
           <h3 className="govuk-heading-s">
-            <Link href={`${council}/help/${page.key}`} className="govuk-link">
+            <Link href={`/${council}/help/${page.key}`} className="govuk-link">
               {page.title}
             </Link>
           </h3>

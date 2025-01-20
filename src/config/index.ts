@@ -251,6 +251,12 @@ const councils: Council[] = [
         sign_up_for_alerts_link:
           "https://accountforms.camden.gov.uk/alert-web/select.xhtml?alertType=PLANNING",
       },
+      help: {
+        planning_process: {
+          council_local_plan_link:
+            "https://www.camden.gov.uk/camden-local-plan1",
+        },
+      },
     },
   },
   {
