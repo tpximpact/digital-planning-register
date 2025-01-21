@@ -4,12 +4,15 @@ $selector: "dpr-application-hero";
 
 .#{$selector} {
   // map and data
-  &__map {
-    @include govuk-grid-column("one-third", $at: desktop);
+  &__map-data {
+    display: flex;
+    flex-direction: column;
+    gap: $govuk-gutter-half * 2;
     margin-bottom: govuk-spacing(6);
-  }
-  &__data {
-    @include govuk-grid-column("two-thirds", $at: desktop);
+
+    @include govuk-media-query($from: desktop) {
+      flex-direction: row;
+    }
   }
 
   @include govuk-media-query($from: desktop) {

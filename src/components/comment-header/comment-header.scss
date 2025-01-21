@@ -1,0 +1,15 @@
+@import "node_modules/govuk-frontend/dist/govuk/base";
+
+.comment-header {
+  // map and data
+  &__map-data {
+    display: flex;
+    flex-direction: column;
+    gap: $govuk-gutter-half * 2;
+    margin-bottom: govuk-spacing(6);
+
+    @include govuk-media-query($from: desktop) {
+      flex-direction: row;
+    }
+  }
+}

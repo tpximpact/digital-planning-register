@@ -423,6 +423,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
         <PageMain className="submit-comment">
           {page >= 1 && page < 6 && applicationData && (
             <CommentHeader
+              title="Tell us what you think"
               council={council}
               reference={reference}
               boundary_geojson={boundary_geojson}

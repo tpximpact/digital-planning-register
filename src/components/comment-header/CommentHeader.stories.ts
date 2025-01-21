@@ -23,6 +23,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const WithData: Story = {
   args: {
+    title: "Tell us what you think",
+    boundary_geojson: generateBoundaryGeoJson(),
+    address: "123 Fake Street",
+  },
+};
+
+export const NoTitle: Story = {
+  args: {
     boundary_geojson: generateBoundaryGeoJson(),
     address: "123 Fake Street",
   },

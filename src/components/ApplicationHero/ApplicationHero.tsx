@@ -57,7 +57,7 @@ export const ApplicationHero = ({
       className={`dpr-application-hero${boundary_geojson ? "" : " dpr-application-hero--no-map"}`}
       id="key-information"
     >
-      <div className="govuk-grid-row">
+      <div className="dpr-application-hero__map-data">
         {boundary_geojson && (
           <div className="dpr-application-hero__map">
             <ApplicationMapLoader
