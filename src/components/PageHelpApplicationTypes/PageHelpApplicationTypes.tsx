@@ -13,6 +13,7 @@ export interface ApplicationTypesProps {
 
 export const PageHelpApplicationTypes = ({ params }: ApplicationTypesProps) => {
   const content = contentApplicationTypes(params?.council);
+  const isSticky = true;
   return (
     <>
       <BackLink />
@@ -24,10 +25,15 @@ export const PageHelpApplicationTypes = ({ params }: ApplicationTypesProps) => {
         </p>
 
         <div className="govuk-grid-row">
-          <div className="govuk-grid-column-one-third-from-desktop">
-            <ContentSidebar content={content} withHeadings={true} />
+          <div
+            className={`govuk-grid-column-one-third-from-desktop${isSticky ? " dpr-content-sidebar--sticky" : ""}`}
+          >
+            <ContentSidebar
+              content={content}
+              withHeadings={true}
+              isSticky={isSticky}
+            />
           </div>
-
           <div className="govuk-grid-column-two-thirds-from-desktop">
             <ContentPage content={content} />
           </div>
