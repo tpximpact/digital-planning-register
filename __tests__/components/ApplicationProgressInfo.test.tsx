@@ -9,7 +9,6 @@ jest.mock(
   "@/components/ApplicationProgressInfo/ApplicationProgressInfoSection",
   () => ({
     ApplicationProgressInfoSection: jest.fn(() => {
-      console.log("ApplicationProgressInfoSection");
       return <div>Mocked ApplicationProgressInfoSection</div>;
     }),
   }),
