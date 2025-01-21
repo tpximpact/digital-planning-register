@@ -4,8 +4,8 @@ export const metadata = {
   title: "Help page - Application Types - Digital Planning Register",
 };
 
-const ApplicationTypes = ({ params }: { params: { council: string } }) => {
-  return <PageHelpApplicationTypes params={params} />;
+const ApplicationTypes = () => {
+  return <PageHelpApplicationTypes />;
 };
 
 export default ApplicationTypes;

@@ -2,17 +2,9 @@ import { ContentPage } from "../ContentPage";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { contentApplicationStatuses } from "./PageHelpApplicationStatusesContent";
+import { contentApplicationStatuses } from "@/lib/planningApplication";
 
-export interface ApplicationStatusesProps {
-  params: {
-    council: string;
-  };
-}
-
-export const PageHelpApplicationStatuses = ({
-  params,
-}: ApplicationStatusesProps) => {
+export const PageHelpApplicationStatuses = () => {
   const content = contentApplicationStatuses;
   const isSticky = true;
   return (

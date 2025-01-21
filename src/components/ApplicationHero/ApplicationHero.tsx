@@ -9,6 +9,7 @@ import {
   getApplicationDecisionSummary,
   getApplicationDecisionSummarySentiment,
   contentDecisions,
+  contentApplicationStatuses,
 } from "@/lib/planningApplication";
 import {
   flattenObject,
@@ -19,7 +20,6 @@ import {
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
-import { contentApplicationStatuses } from "../PageHelpApplicationStatuses/PageHelpApplicationStatusesContent";
 
 interface ApplicationHeroProps {
   councilSlug: string;

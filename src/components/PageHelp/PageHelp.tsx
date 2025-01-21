@@ -4,7 +4,6 @@ import { PageMain } from "../PageMain";
 import { getAppConfig } from "@/config";
 import Link from "next/link";
 import { ContentSignposting } from "../ContentSignposting";
-import { slugify } from "@/util";
 import { PageHelpContent } from "./PageHelpContent";
 export interface PageHelpProps {
   council: string;
@@ -12,7 +11,7 @@ export interface PageHelpProps {
 
 export const PageHelp = ({ council }: PageHelpProps) => {
   const councilConfig = getAppConfig(council);
-  const councilLink = councilConfig?.council?.contact || "#";
+  const councilLink = councilConfig?.council?.contact;
   const pages = PageHelpContent;
 
   return (
@@ -33,9 +32,13 @@ export const PageHelp = ({ council }: PageHelpProps) => {
             <p className="govuk-body grid-row-extra-bottom-margin">
               If you cannot find the information you are looking for, you can
               always{" "}
-              <Link className="govuk-link" href={councilLink}>
-                contact your council
-              </Link>{" "}
+              {councilLink ? (
+                <Link className="govuk-link" href={councilLink}>
+                  contact your council
+                </Link>
+              ) : (
+                <span>contact your council</span>
+              )}{" "}
               for more help.
             </p>
             <h2 className="govuk-heading-l">Topics</h2>

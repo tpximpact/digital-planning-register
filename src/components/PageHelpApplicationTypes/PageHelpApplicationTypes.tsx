@@ -5,14 +5,8 @@ import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
 import { contentApplicationTypes } from "@/lib/planningApplication";
 
-export interface ApplicationTypesProps {
-  params: {
-    council: string;
-  };
-}
-
-export const PageHelpApplicationTypes = ({ params }: ApplicationTypesProps) => {
-  const content = contentApplicationTypes(params?.council);
+export const PageHelpApplicationTypes = () => {
+  const content = contentApplicationTypes();
   const isSticky = true;
   return (
     <>

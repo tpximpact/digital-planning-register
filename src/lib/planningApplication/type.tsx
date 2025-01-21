@@ -165,7 +165,7 @@ export const getDocumentedApplicationType = (
   return undefined;
 };
 
-export const contentApplicationTypes = (council: string): DprContentPage[] => {
+export const contentApplicationTypes = (): DprContentPage[] => {
   return [
     {
       key: slugify("Householder"),
