@@ -43,7 +43,7 @@ export const ApplicationHero = ({
       application.application.consultation.endDate ?? undefined,
     );
   const documentedApplicationStatuses = flattenObject(
-    contentApplicationStatuses,
+    contentApplicationStatuses(),
     "title",
   );
 
