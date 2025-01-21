@@ -4,7 +4,6 @@ import { getAppConfig } from "@/config";
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
 import Link from "next/link";
-import { title } from "process";
 
 export const contentConcerns = (council: string): DprContentPage[] => {
   const appConfig = getAppConfig(council);
@@ -168,12 +167,17 @@ export const contentConcerns = (council: string): DprContentPage[] => {
                 considered by planning officers during assessment. But if you
                 have concerns about existing parking arrangements, you can find
                 more information about who to contact{" "}
-                <a
-                  href="https://www.camden.gov.uk/parking"
-                  className="govuk-link"
-                >
-                  on your council's website
-                </a>
+                {parkingLink ? (
+                  <Link
+                    className="govuk-link"
+                    href={parkingLink}
+                    target="_blank"
+                  >
+                    on your council's website
+                  </Link>
+                ) : (
+                  <span>on your council's website</span>
+                )}
                 .
               </p>
             </>

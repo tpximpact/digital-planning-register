@@ -1,6 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-
-import { getAppConfig } from "@/config";
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
 import Link from "next/link";

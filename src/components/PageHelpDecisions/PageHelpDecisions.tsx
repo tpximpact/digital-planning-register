@@ -3,7 +3,7 @@ import { ContentPage } from "../ContentPage";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { contentDecisions } from "./PageHelpDecisionsContent";
+import { contentDecisions } from "@/lib/planningApplication";
 
 export interface DecisionsProps {
   params: {

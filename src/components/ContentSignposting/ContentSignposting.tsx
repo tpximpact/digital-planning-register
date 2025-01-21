@@ -13,7 +13,7 @@ export const ContentSignposting: React.FC<ContentSignpostingProps> = ({
   council,
 }) => {
   return (
-    <nav aria-label="Help topics" className="content-signposting">
+    <nav aria-label="Table of contents" className="content-signposting">
       <ul className="help-links" role="list">
         {pages.map((page) => (
           <li key={page.key} className="help-links__item">

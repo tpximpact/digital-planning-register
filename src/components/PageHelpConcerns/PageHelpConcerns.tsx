@@ -3,7 +3,7 @@ import { ContentPage } from "../ContentPage";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { contentConcerns } from "./PageHelpConcernsContent";
+import { contentConcerns } from "@/lib/planningApplication/concerns";
 
 export interface ConcernsProps {
   params: {

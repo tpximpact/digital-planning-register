@@ -3,7 +3,7 @@ import { ContentPage } from "../ContentPage";
 import { ContentSidebar } from "../ContentSidebar";
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { contentImportantDates } from "./PageHelpImportantDatesContent";
+import { contentImportantDates } from "@/lib/planningApplication/date";
 
 export const PageHelpImportantDates = () => {
   const content = contentImportantDates();
