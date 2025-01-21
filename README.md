@@ -26,6 +26,16 @@ Install dependencies:
 npm install
 ```
 
+### Getting some data
+
+If you have specific environment variables for your backend you can see [Environment setup](#environment%20setup) below.
+
+If you wish to use the test API data, the `.env.test` file will run your application using the local API.
+
+```sh
+cp .env.test .env
+```
+
 ### Running the Development Server
 
 To start the development server, run the following command:
@@ -41,22 +51,14 @@ This will start the Next.js development server at `http://localhost:3000`. Open 
 To build the application for production, run the following command:
 
 ```bash
-npm run build
+./build.sh
 ```
 
-This will generate an optimized production build.
-
-### Running the Production Build
-
-To start the production server, run the following command:
-
-```bash
-npm start
-```
-
-This will start the Next.js production server at `http://localhost:3000`.
+This will generate an optimized production build and start the Next.js production server at `http://localhost:3000`.
 
 ## Testing
+
+> NB e2e tests require the test API to be enabled using `.env.test`
 
 The project is using [Jest](https://jestjs.io/) for testing.
 
@@ -85,7 +87,7 @@ The project structure follows the Next.js App Router conventions and includes a 
 
 ## Environment setup
 
-`cp -rp .env .env`
+`cp -rp sample.env .env`
 
 Ensure that the .env or .env.local file also has the following environment variables:
 
