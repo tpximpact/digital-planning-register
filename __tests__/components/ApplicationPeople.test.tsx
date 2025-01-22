@@ -5,9 +5,12 @@ import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
 describe("Render ApplicationPeople", () => {
   const applicant = generateDprApplication().applicant;
+  const caseOfficer = generateDprApplication().officer;
 
   it("should render correct if it has all the data", async () => {
-    render(<ApplicationPeople applicant={applicant} />);
+    render(
+      <ApplicationPeople applicant={applicant} caseOfficer={caseOfficer} />,
+    );
 
     // it should be showing
     expect(screen.getByRole("heading", { name: "People" })).toBeInTheDocument();
@@ -120,6 +123,22 @@ describe("Render ApplicationPeople", () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Applicant Address" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("should show the case officer column if there is data", async () => {
+    render(
+      <ApplicationPeople applicant={applicant} caseOfficer={caseOfficer} />,
+    );
+    expect(
+      screen.getByRole("heading", { name: "Case Officer" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shouldn't show the case officer column if there the field we need is empty", async () => {
+    render(<ApplicationPeople applicant={applicant} />);
+    expect(
+      screen.queryByRole("heading", { name: "Case Officer" }),
     ).not.toBeInTheDocument();
   });
 });

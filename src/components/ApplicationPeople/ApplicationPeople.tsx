@@ -3,9 +3,13 @@ import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 
 interface ApplicationPeopleProps {
   applicant: DprPlanningApplication["applicant"];
+  caseOfficer?: DprPlanningApplication["officer"];
 }
 
-export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
+export const ApplicationPeople = ({
+  applicant,
+  caseOfficer,
+}: ApplicationPeopleProps) => {
   const applicantName = concatenateFieldsInOrder(
     applicant.name ?? {},
     ["first", "last"],
@@ -54,6 +58,26 @@ export const ApplicationPeople = ({ applicant }: ApplicationPeopleProps) => {
       </p>
 
       <div className="govuk-grid-row">
+        {caseOfficer?.name && (
+          <div className="govuk-grid-column-one-half-from-desktop grid-row-extra-bottom-margin">
+            <h3 className="govuk-heading-m">Case Officer</h3>
+            <p className="govuk-hint">
+              This is the individual at the council who is currently responsible
+              for assessing this application.
+            </p>
+
+            <div className="govuk-grid-row">
+              <div className="govuk-grid-column-full">
+                <h4 className="govuk-heading-s">
+                  <span className="govuk-visually-hidden">Case Officer </span>
+                  Name
+                </h4>
+                <p className="govuk-body">{caseOfficer?.name}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {(agentName || agentAddress) && (
           <div className="govuk-grid-column-one-half-from-desktop grid-row-extra-bottom-margin">
             <h3 className="govuk-heading-m">Applicant&apos;s Agent</h3>

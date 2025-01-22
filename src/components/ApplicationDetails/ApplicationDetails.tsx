@@ -137,7 +137,10 @@ export const ApplicationDetails = ({
             documents={documents?.slice(0, 6) ?? null}
             totalDocuments={documents?.length ?? 0}
           />
-          <ApplicationPeople applicant={application.applicant} />
+          <ApplicationPeople
+            applicant={application.applicant}
+            caseOfficer={application.officer}
+          />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
             <CommentsList

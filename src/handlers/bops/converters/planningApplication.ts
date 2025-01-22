@@ -26,6 +26,7 @@ export const convertBopsToDpr = (
     property: createProperty(application),
     proposal: createProposal(application),
     applicant: createApplicant(application, privateApplication),
+    officer: createOfficer(application),
   };
 };
 
@@ -156,4 +157,12 @@ export const createApplicant = (
   } else {
     return null;
   }
+};
+
+export const createOfficer = (
+  application: BopsPlanningApplication,
+): DprPlanningApplication["officer"] => {
+  return {
+    name: application.officer?.name ?? null,
+  };
 };
