@@ -12,6 +12,7 @@ jest.mock("@/components/ApplicationMap", () => ({
 
 describe("CommentHeader", () => {
   const defaultProps = {
+    title: "Tell us what you think",
     boundary_geojson: {
       type: "Feature",
       geometry: {

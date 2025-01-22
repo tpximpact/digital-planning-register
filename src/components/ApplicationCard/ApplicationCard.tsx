@@ -77,7 +77,7 @@ export const ApplicationCard = ({
       </div>
 
       {(boundary_geojson || description) && (
-        <div className="govuk-grid-row">
+        <div className="dpr-application-card__map-data">
           {boundary_geojson && (
             <div className="dpr-application-card__map">
               <ApplicationMapLoader
