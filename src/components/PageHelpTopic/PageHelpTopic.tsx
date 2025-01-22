@@ -7,14 +7,14 @@ import { JSX } from "react";
 
 interface PageHelpTopicProps {
   title: string;
-  description: string | JSX.Element;
-  content: DprContentPage[];
+  summary?: string | JSX.Element;
+  content?: DprContentPage[];
   isSticky?: boolean;
 }
 
 export const PageHelpTopic = ({
   title,
-  description,
+  summary,
   content,
   isSticky = true,
 }: PageHelpTopicProps) => {
@@ -23,24 +23,28 @@ export const PageHelpTopic = ({
       <BackLink />
       <PageMain className="dpr-page-planning-process">
         <h1 className="govuk-heading-xl">{title}</h1>
-        <p className="govuk-body govuk-!-margin-bottom-8">{description}</p>
-        <div className="govuk-grid-row">
-          <div
-            className={`govuk-grid-column-one-third-from-desktop${
-              isSticky ? " dpr-content-sidebar--sticky" : ""
-            }`}
-          >
-            <ContentSidebar
-              content={content}
-              withHeadings={true}
-              isSticky={isSticky}
-            />
-          </div>
+        {summary && (
+          <p className="govuk-body govuk-!-margin-bottom-8">{summary}</p>
+        )}
+        {content && (
+          <div className="govuk-grid-row">
+            <div
+              className={`govuk-grid-column-one-third-from-desktop${
+                isSticky ? " dpr-content-sidebar--sticky" : ""
+              }`}
+            >
+              <ContentSidebar
+                content={content}
+                withHeadings={true}
+                isSticky={isSticky}
+              />
+            </div>
 
-          <div className="govuk-grid-column-two-thirds-from-desktop">
-            <ContentPage content={content} />
+            <div className="govuk-grid-column-two-thirds-from-desktop">
+              <ContentPage content={content} />
+            </div>
           </div>
-        </div>
+        )}
       </PageMain>
     </>
   );

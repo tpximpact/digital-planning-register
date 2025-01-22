@@ -2,6 +2,7 @@
 import { DprContentPage, DprPlanningApplication } from "@/types";
 import { capitalizeFirstLetter, slugify } from "@/util";
 import { getPrimaryApplicationTypeKey } from "./type";
+import { Council } from "@/config/types";
 
 /**
  * Returns a formatted decision string based on the application type.
@@ -54,7 +55,7 @@ export function getApplicationDecisionSummarySentiment(status: string) {
   return decisionDefined[status] || undefined;
 }
 
-export const contentDecisions = (council?: string): DprContentPage[] => [
+export const contentDecisions = (councilConfig?: Council): DprContentPage[] => [
   {
     key: slugify("Granted"),
     title: "Granted",
@@ -100,7 +101,9 @@ export const contentDecisions = (council?: string): DprContentPage[] => [
       <>
         <p className="govuk-body">
           When a{" "}
-          <a href={`/${council}/help/application-types#prior-approval`}>
+          <a
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
+          >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal requires
@@ -120,7 +123,9 @@ export const contentDecisions = (council?: string): DprContentPage[] => [
       <>
         <p className="govuk-body">
           When a{" "}
-          <a href={`/${council}/help/application-types#prior-approval`}>
+          <a
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
+          >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal does not
@@ -141,7 +146,9 @@ export const contentDecisions = (council?: string): DprContentPage[] => [
         {" "}
         <p className="govuk-body">
           When a{" "}
-          <a href={`/${council}/help/application-types#prior-approval`}>
+          <a
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
+          >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal requires

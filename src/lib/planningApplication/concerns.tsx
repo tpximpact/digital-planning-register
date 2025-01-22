@@ -1,31 +1,29 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { getAppConfig } from "@/config";
+import { Council } from "@/config/types";
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
 import Link from "next/link";
 
-export const contentConcerns = (council: string): DprContentPage[] => {
-  const appConfig = getAppConfig(council);
-  const parkingLink =
-    appConfig?.council?.pageContent?.help?.concerns?.parking_link;
+export const contentConcerns = (councilConfig?: Council): DprContentPage[] => {
+  const parkingLink = councilConfig?.pageContent?.help?.concerns?.parking_link;
   const buildingControlLink =
-    appConfig?.council?.pageContent?.help?.concerns?.building_control_link;
+    councilConfig?.pageContent?.help?.concerns?.building_control_link;
   const housingRepairLink =
-    appConfig?.council?.pageContent?.help?.concerns?.housing_repair_link;
+    councilConfig?.pageContent?.help?.concerns?.housing_repair_link;
   const streetIssuesLink =
-    appConfig?.council?.pageContent?.help?.concerns?.street_issues_link;
+    councilConfig?.pageContent?.help?.concerns?.street_issues_link;
   const abandonedVehiclesLink =
-    appConfig?.council?.pageContent?.help?.concerns?.abandoned_vehicles_link;
+    councilConfig?.pageContent?.help?.concerns?.abandoned_vehicles_link;
   const flyTippingLink =
-    appConfig?.council?.pageContent?.help?.concerns?.fly_tipping_link;
-  const noiseLink = appConfig?.council?.pageContent?.help?.concerns?.noise_link;
+    councilConfig?.pageContent?.help?.concerns?.fly_tipping_link;
+  const noiseLink = councilConfig?.pageContent?.help?.concerns?.noise_link;
   const licensingLink =
-    appConfig?.council?.pageContent?.help?.concerns?.licensing_link;
+    councilConfig?.pageContent?.help?.concerns?.licensing_link;
   const applyForBuildingControlRegularisationLink =
-    appConfig?.council?.pageContent?.help?.concerns
+    councilConfig?.pageContent?.help?.concerns
       ?.apply_for_building_control_regularisation_link;
-  const contactCouncilLink = appConfig?.council?.contact;
+  const contactCouncilLink = councilConfig?.contact;
   return [
     {
       key: slugify("Loss of property value"),
@@ -408,10 +406,10 @@ export const contentConcerns = (council: string): DprContentPage[] => {
                     href={contactCouncilLink}
                     target="_blank"
                   >
-                    {appConfig.council?.name} council
+                    {councilConfig?.name} council
                   </Link>
                 ) : (
-                  <span>{appConfig.council?.name} council</span>
+                  <span>{councilConfig?.name} council</span>
                 )}
               </p>
             </>
