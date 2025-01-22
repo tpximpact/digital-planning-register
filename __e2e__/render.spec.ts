@@ -292,11 +292,18 @@ const testCouncilReferenceSubmitComment = async (
   javascriptEnabled: boolean,
 ) => {
   if (javascriptEnabled) {
-    await page.goto(`/public-council-1/24-00135-HAPP/submit-comment`);
+    await page.goto(`/public-council-1/TEST-C0MNT-F10W/submit-comment`);
 
     await expect(page).toHaveTitle(
-      "What you need to know before you comment | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+      "What you need to know before you comment | Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
     );
+
+    // there is a race condition here
+    // when the page first loads it shows a non-js message to say 'enable js pls'
+    // playwright is sometimes reading that and failing the test
+    // so we wait for the submit comment page content to appear and then test for the title
+    // @todo refine the comment flow feature and tests so this is not needed!
+    await page.waitForSelector(".submit-comment");
 
     await expect(
       page.getByRole("heading", {

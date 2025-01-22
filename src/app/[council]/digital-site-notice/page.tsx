@@ -1,6 +1,6 @@
 import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { Metadata } from "next";
-import { ApiP05 } from "@/actions/api";
+import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
@@ -22,7 +22,7 @@ async function fetchData({
   const { council } = params;
 
   const appConfig = getAppConfig(council);
-  const response = await ApiP05.search(
+  const response = await ApiV1.search(
     appConfig.council?.dataSource ?? "none",
     council,
     {

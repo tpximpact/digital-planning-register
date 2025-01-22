@@ -5,25 +5,18 @@
 
 import { NextResponse, NextRequest } from "next/server";
 import { LocalV1Documentation } from "@/handlers/local";
-import { BopsP05Documentation, BopsV2Documentation } from "@/handlers/bops";
+import { BopsV2Documentation } from "@/handlers/bops";
 import { ApiV1Documentation } from "@/actions/api/v1";
-import { ApiP05Documentation } from "@/actions/api/P05AdvancedSearch";
 
 const apis: Record<string, any> = {
   ApiV1: {
     ...ApiV1Documentation,
-  },
-  ApiP05: {
-    ...ApiP05Documentation,
   },
   LocalV1: {
     ...LocalV1Documentation,
   },
   BopsV2: {
     ...BopsV2Documentation,
-  },
-  BopsP05: {
-    ...BopsP05Documentation,
   },
 };
 
