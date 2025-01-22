@@ -11,14 +11,13 @@ export interface DocumentCardProps {
 export const DocumentCard = ({ document }: DocumentCardProps) => {
   return (
     <div className="dpr-document-card">
-      <div className="dpr-document-card__image" aria-hidden="true">
+      <div className="dpr-document-card__image">
         <Image
           src={file}
           alt="Document"
           width={130}
           height={160}
           className="file-icon"
-          aria-label="Document"
           role="img"
         />
       </div>

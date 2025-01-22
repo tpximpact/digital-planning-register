@@ -1,6 +1,7 @@
 import { DprPlanningApplication } from "@/types";
 import "./SiteNoticeCard.scss";
 import { ApplicationMapLoader } from "../ApplicationMap";
+import Link from "next/link";
 
 interface SiteNoticeCardProps {
   councilSlug: string;
@@ -17,21 +18,21 @@ export const SiteNoticeCard = ({
   return (
     <div
       key={application.application.reference}
-      className="govuk-grid-column-one-third"
+      className="dpr-site-notice-card govuk-grid-column-one-third"
     >
-      <a href={`/${councilSlug}/${reference}`}>
+      <Link href={`/${councilSlug}/${reference}`}>
         {boundary_geojson && (
           <ApplicationMapLoader
             reference={reference}
             mapData={boundary_geojson}
-            description=""
+            description={`Map showing the boundaries for application reference ${reference}`}
             mapType="application-search"
           />
         )}
         <div className="govuk-link govuk-link--no-visited-state govuk-heading-m dsn-link">
           {reference}
         </div>
-      </a>
+      </Link>
       <span>
         <p className="govuk-body">
           <svg
@@ -40,6 +41,9 @@ export const SiteNoticeCard = ({
             height="20"
             viewBox="0 -4 10 18"
             fill="none"
+            role="img"
+            focusable="false"
+            aria-hidden="true"
           >
             <path
               d="M5 0.163574C2.24311 0.163574 0 2.40641 0 5.16357C0 9.30637 4.44743 13.198 4.63677 13.3618L5 13.6759L5.36323 13.3618C5.55257 13.198 10 9.30637 10 5.16357C10 2.40641 7.75689 0.163574 5 0.163574ZM5 12.1834C3.97054 11.189 1.11111 8.15728 1.11111 5.16357C1.11111 3.01948 2.85563 1.27469 5 1.27469C7.14437 1.27469 8.88889 3.01948 8.88889 5.16357C8.88889 8.15728 6.02946 11.189 5 12.1834Z"

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DocumentCard } from "./DocumentCard";
 import { generateDocument } from "@mocks/dprApplicationFactory";
-import { ApplicationFormObject } from "../application_form";
+import { applicationFormObject } from "@/lib/planningApplication";
 
 const meta = {
   title: "DPR Components/DocumentCard",
@@ -23,6 +23,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const ApplicationFormDocument: Story = {
   args: {
-    document: ApplicationFormObject("public-council-1", "12345"),
+    document: applicationFormObject("public-council-1", "12345"),
   },
 };

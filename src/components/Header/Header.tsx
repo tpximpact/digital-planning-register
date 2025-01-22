@@ -40,7 +40,7 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
             key={councilConfig.slug}
             className={`dpr-header__link ${logo ? " dpr-header__logo" : "dpr-header__council-name"}`}
             href={`/${councilConfig.slug}`}
-            title={`${councilConfig.name} Council`}
+            aria-label={`${councilConfig.name} Council`}
             data-council-slug={councilConfig.slug}
           >
             {logo ? (

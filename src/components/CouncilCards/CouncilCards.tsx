@@ -20,7 +20,7 @@ export const CouncilCards = ({
           area
         </h2>
 
-        <div className="dpr-council-cards">
+        <nav className="dpr-council-cards" aria-label="Council selection">
           {availableCouncils.map((council) => {
             const logo = councilLogos[council.slug] ?? null;
             return (
@@ -44,7 +44,7 @@ export const CouncilCards = ({
               </Link>
             );
           })}
-        </div>
+        </nav>
       </>
     );
   } else {

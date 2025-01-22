@@ -4,7 +4,7 @@ import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
 import Link from "next/link";
 
-export const contentPlanningProcess = (council: string): DprContentPage[] => {
+export const contentPlanningProcess = (council?: string): DprContentPage[] => {
   const appConfig = getAppConfig(council);
   const localPlanLink =
     appConfig?.council?.pageContent?.help?.planning_process

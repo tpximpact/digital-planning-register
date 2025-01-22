@@ -16,6 +16,7 @@ import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
+import { topicLabels, pageTitles } from "@/lib/comments";
 
 type Props = {
   params: { reference: string; council: string };
@@ -44,6 +45,23 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
   const [submissionComplete, setSubmissionComplete] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    console.log("Setting client title...");
+    const council = appConfig?.council?.name;
+
+    const baseTitle = `Application ${reference} | ${council} Digital Planning Register`;
+    let stepTitle = pageTitles[page] ?? "Comment page";
+
+    if (page === 3 && selectedTopics[currentTopicIndex]) {
+      const topicKey = selectedTopics[currentTopicIndex];
+      const overrideTitle = topicLabels[topicKey as keyof typeof topicLabels];
+      if (overrideTitle) {
+        stepTitle = overrideTitle;
+      }
+    }
+    document.title = `${stepTitle} | ${baseTitle}`;
+  }, [isClient, page, reference, appConfig, selectedTopics, currentTopicIndex]);
 
   useEffect(() => {
     setIsClient(true);

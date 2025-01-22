@@ -11,12 +11,12 @@ export async function generateMetadata({
 }: {
   params: { council: string; reference: string };
 }) {
-  const { council, reference } = params;
-  const appConfig = getAppConfig(council);
+  const { reference, council } = params;
+  const councilName = getAppConfig(council)?.council?.name ?? "";
 
   return {
-    title: `Application ${reference}`,
-    description: `${appConfig.council?.name} planning application ${reference}`,
+    title: `Application ${reference} | ${councilName} Digital Planning Register`,
+    description: `${councilName} planning application ${reference}`,
   };
 }
 

@@ -20,7 +20,7 @@ export const Row = ({
           <ApplicationMapLoader
             reference={`${description.split(" ").join("-")}-application-submission`}
             mapData={map}
-            description=""
+            description="Interactive map showing the location of the application"
             mapType="application-show"
           />
         )}

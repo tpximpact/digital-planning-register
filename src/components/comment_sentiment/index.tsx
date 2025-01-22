@@ -1,8 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { SentimentIcon } from "../SentimentIcon";
-import "./CommentSentiment.scss";
+import { sentiment_options } from "@/lib/comments";
 
 const CommentSentiment = ({
   reference,
@@ -78,17 +77,11 @@ const CommentSentiment = ({
     }
   };
 
-  const options = [
-    { id: "objection", label: "Opposed" },
-    { id: "neutral", label: "Neutral" },
-    { id: "supportive", label: "Support" },
-  ];
-
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h1 className="govuk-heading-l">
+      <h2 className="govuk-heading-l">
         How do you feel about this development?
-      </h1>
+      </h2>
 
       <div
         ref={radioGroupRef}
@@ -115,7 +108,7 @@ const CommentSentiment = ({
           </legend>
 
           <div className="govuk-radios dsn-sentiment">
-            {options.map((option) => (
+            {sentiment_options.map((option) => (
               <div className="govuk-radios__item" key={option.id}>
                 <input
                   className="govuk-radios__input"
@@ -131,7 +124,6 @@ const CommentSentiment = ({
                   htmlFor={option.id}
                   data-testid={option.id}
                 >
-                  <SentimentIcon sentiment={option.label.toLowerCase()} />
                   <span className="govuk-body">{option.label}</span>
                 </label>
               </div>

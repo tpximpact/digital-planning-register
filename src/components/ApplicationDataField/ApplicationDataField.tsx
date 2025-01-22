@@ -6,6 +6,7 @@ export interface ApplicationDataFieldProps {
   value?: string | JSX.Element;
   infoIcon?: JSX.Element;
   className?: string;
+  isFull?: boolean;
 }
 
 /**
@@ -17,14 +18,15 @@ export const ApplicationDataField = ({
   title,
   value,
   infoIcon,
+  isFull,
 }: ApplicationDataFieldProps) => {
   if (value) {
     return (
       <div
-        className={`dpr-application-data-field dpr-application-data-field--${slugify(title)}`}
+        className={`dpr-application-data-field dpr-application-data-field--${slugify(title)} ${isFull ? "dpr-application-data-field--full" : ""}`}
       >
         <dt>
-          <p className="govuk-heading-s">{title}</p>
+          <span className="govuk-heading-s">{title}</span>
         </dt>
         <dd>
           {value}

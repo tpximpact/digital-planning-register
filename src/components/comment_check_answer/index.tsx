@@ -8,6 +8,7 @@ import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govuk/Details";
 import { TextButton } from "../TextButton";
+import { sentiment_options } from "@/lib/comments";
 
 const topics_selection = [
   {
@@ -225,9 +226,9 @@ const CommentCheckAnswer = ({
               </div>
             </div>
           )}
-          <h1 className="govuk-heading-l">
+          <h2 className="govuk-heading-l">
             Check what you have written before sending your comment
-          </h1>
+          </h2>
 
           <form onSubmit={handleSubmit}>
             <dl className="govuk-summary-list">
@@ -236,7 +237,10 @@ const CommentCheckAnswer = ({
                   How do you feel about this development
                 </dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{capitaliseWord(sentiment)}</p>
+                  {
+                    sentiment_options.find((option) => option.id === sentiment)
+                      ?.label
+                  }
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
@@ -451,34 +455,46 @@ const CommentCheckAnswer = ({
                     </a>{" "}
                     If you have concerns about any data you have sent being
                     published,{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={contactPlanningAdviceLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      contact the Planning Advice and Information Service.
-                    </a>
+                    {contactPlanningAdviceLink ? (
+                      <a
+                        className="govuk-link govuk-link--no-visited-state"
+                        href={contactPlanningAdviceLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        contact the Planning Advice and Information Service.
+                      </a>
+                    ) : (
+                      "contact the Planning Advice and Information Service."
+                    )}
                   </p>
                   <p className="govuk-body">
                     Read our{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={corporatePrivacyLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      corporate privacy statement
-                    </a>{" "}
-                    and our{" "}
-                    <a
-                      className="govuk-link govuk-link--no-visited-state"
-                      href={planningServicePrivacyStatementLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      planning service statement
-                    </a>{" "}
+                    {corporatePrivacyLink && (
+                      <>
+                        <a
+                          className="govuk-link govuk-link--no-visited-state"
+                          href={corporatePrivacyLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          corporate privacy statement
+                        </a>
+                        {planningServicePrivacyStatementLink && " and our "}
+                      </>
+                    )}
+                    {planningServicePrivacyStatementLink && (
+                      <>
+                        <a
+                          className="govuk-link govuk-link--no-visited-state"
+                          href={planningServicePrivacyStatementLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          planning service statement
+                        </a>
+                      </>
+                    )}{" "}
                     for more information.
                   </p>
                 </>

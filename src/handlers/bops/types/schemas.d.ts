@@ -60,7 +60,7 @@ export interface BopsV2PublicPlanningApplicationDocuments {
   metadata: BopsDocumentsMetadata;
   application: BopsApplicationOverview;
   files: BopsFile[];
-  decisionNotice: {
+  decisionNotice?: {
     name: string;
     url: string;
   };
