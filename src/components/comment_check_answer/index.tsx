@@ -169,7 +169,7 @@ const CommentCheckAnswer = ({
           sendGTMEvent({
             event: "error_submission",
           });
-          throw new Error("Submission failed");
+          throw new Error(`Submission failed ${response.status.detail}`);
         }
       }
     } catch (error) {

@@ -79,7 +79,6 @@ export const convertBopsApplicationToDpr = (
     decision: application.decision ?? null,
 
     // missing fields from public endpoint
-    id: privateApplication?.id ?? 0,
     documents: privateApplication?.documents
       ? [
           applicationFormDocument,

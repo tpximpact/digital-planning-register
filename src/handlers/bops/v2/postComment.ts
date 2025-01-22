@@ -7,6 +7,7 @@ import {
 } from "@/handlers/bops/types";
 import { handleBopsGetRequest, handleBopsPostRequest } from "../requests";
 import { apiReturnError } from "@/handlers/lib";
+import { getAppConfig } from "@/config";
 
 /**
  * POST planning_applications/${id}/neighbour_responses
@@ -21,18 +22,28 @@ export async function postComment(
   reference: string,
   apiData: object,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
-  if (!reference) {
-    return apiReturnError("Reference is required");
-  }
-  const privateApplicationData = await handleBopsGetRequest<
-    ApiResponse<BopsV2PlanningApplicationDetail | null>
-  >(council, `planning_applications/${reference}`);
+  const appConfig = getAppConfig(council);
+  let applicationId = undefined;
 
-  const applicationId = privateApplicationData.data?.id;
+  if (appConfig.features.getApplicationIdFromPrivateEndpoint) {
+    const privateApplicationData = await handleBopsGetRequest<
+      ApiResponse<BopsV2PlanningApplicationDetail | null>
+    >(council, `planning_applications/${reference}`);
 
-  if (!applicationId) {
-    return apiReturnError("ApplicationId is required");
+    applicationId = privateApplicationData.data?.id;
   }
+
+  const missingFields = [];
+  if (!council) missingFields.push("council");
+  if (!reference) missingFields.push("reference");
+  if (!applicationId) missingFields.push("applicationId");
+
+  if (missingFields.length > 0) {
+    return apiReturnError(
+      `Missing required field(s): ${missingFields.join(", ")}`,
+    );
+  }
+
   const url = `planning_applications/${applicationId}/neighbour_responses`;
   const postRequest = await handleBopsPostRequest<
     ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
