@@ -6,8 +6,6 @@ import {
 } from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
-import { applicationFormObject } from "@/lib/planningApplication";
-import { convertDocumentBopsNonStandard } from "./documents";
 import { getCommentsAllowed } from "@/lib/planningApplication";
 import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
 
@@ -47,11 +45,6 @@ export const convertBopsApplicationToDpr = (
       ? sortComments(publishedComments?.map(convertCommentBops))
       : null;
 
-  const reference = application.reference;
-
-  // add fake application form document
-  const applicationFormDocument = applicationFormObject(council, reference);
-
   return {
     reference: application.reference,
     type: {
@@ -77,14 +70,6 @@ export const convertBopsApplicationToDpr = (
       ? convertDateTimeToUtc(application.determinedAt)
       : null,
     decision: application.decision ?? null,
-
-    // missing fields from public endpoint
-    documents: privateApplication?.documents
-      ? [
-          applicationFormDocument,
-          ...privateApplication.documents.map(convertDocumentBopsNonStandard),
-        ]
-      : null,
   };
 };
 

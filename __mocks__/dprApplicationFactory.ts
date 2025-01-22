@@ -161,16 +161,6 @@ export const generateDprApplication = ({
       publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
-      documents: [
-        {
-          url: "/camden/24-00135-HAPP/application-form",
-          title: "Application form",
-          metadata: {
-            contentType: "text/html",
-          },
-        },
-        ...generateNResults<DprDocument>(20, generateDocument),
-      ],
     },
     property: {
       address: {
