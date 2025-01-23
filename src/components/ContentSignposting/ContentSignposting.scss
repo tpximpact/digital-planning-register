@@ -1,45 +1,46 @@
-.help-links {
+@import "src/styles/component-base";
+
+.dpr-content-signposting__links {
   list-style: none;
   padding: 0;
   margin: 0;
+  cursor: pointer;
 
-  li {
+  .dpr-content-signposting__links-item {
     position: relative;
-    padding: 1.5em 24px 1em 0;
-    border-top: 1px solid rgb(177, 180, 182);
+    padding: govuk-spacing(4) govuk-spacing(6) govuk-spacing(3) 0;
+    border-top: 1px solid govuk-colour("mid-grey");
 
     &:first-child {
       border-top: 0;
     }
 
-    h3 {
-      a {
-        &::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-        }
+    .dpr-content-signposting__topic-link {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
 
-        &::before {
-          content: "";
-          display: block;
-          position: absolute;
-          right: 5px;
-          top: 50%;
-          transform: translateY(0) rotate(45deg) scale(1);
-          width: 7px;
-          height: 7px;
-          margin-top: 5px;
-          border-right: 3px solid rgb(29, 112, 184);
-          border-top: 3px solid rgb(29, 112, 184);
-        }
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(0) rotate(45deg) scale(1);
+        width: 7px;
+        height: 7px;
+        margin-top: 5px;
+        border-right: 3px solid govuk-colour("blue");
+        border-top: 3px solid govuk-colour("blue");
+      }
 
-        &:hover::before {
-          border-color: rgb(0, 48, 120);
-        }
+      &:hover::before {
+        border-color: govuk-colour("dark-blue");
       }
     }
   }

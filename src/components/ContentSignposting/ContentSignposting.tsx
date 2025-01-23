@@ -13,19 +13,19 @@ export const ContentSignposting: React.FC<ContentSignpostingProps> = ({
   council,
 }) => {
   return (
-    <nav aria-label="Table of contents" className="content-signposting">
-      <ul className="help-links" role="list">
+    <nav aria-label="Table of contents" className="dpr-content-signposting">
+      <ul className="dpr-content-signposting__links" role="list">
         {pages.map((page) => (
-          <li key={page.key} className="help-links__item">
+          <li key={page.key} className="dpr-content-signposting__links-item">
             <h3 className="govuk-heading-s">
               <Link
                 href={`/${council}/help/${page.key}`}
-                className="govuk-link"
+                className="dpr-content-signposting__topic-link govuk-link"
               >
                 {page.title}
               </Link>
             </h3>
-            <div className="help-topic__content">{page.content}</div>
+            <div className="dpr-content-signposting__topic">{page.content}</div>
           </li>
         ))}
       </ul>
