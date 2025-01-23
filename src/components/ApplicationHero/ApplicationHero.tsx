@@ -11,7 +11,7 @@ import {
   contentDecisions,
   contentApplicationStatuses,
 } from "@/lib/planningApplication";
-import { flattenObject, formatDateTimeToDprDate, slugify } from "@/util";
+import { flattenObject, slugify } from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";

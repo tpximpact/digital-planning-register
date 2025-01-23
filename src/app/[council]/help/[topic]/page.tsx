@@ -5,6 +5,7 @@ import { PageHelpTopic } from "@/components/PageHelpTopic";
 import { PageMain } from "@/components/PageMain";
 import { getAppConfig } from "@/config";
 import { contentHelp } from "@/lib/help";
+import { Metadata } from "next";
 
 interface PageProps {
   params: {
@@ -13,6 +14,27 @@ interface PageProps {
   };
 }
 
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { council } = params;
+  const appConfig = getAppConfig(council);
+
+  if (appConfig.council === undefined) {
+    return {
+      title: " Sorry, there is a problem with the service",
+    };
+  }
+
+  const content = contentHelp(appConfig.council);
+  const pageContent = content.find((page) => page.key === params.topic);
+
+  return {
+    title: pageContent?.title
+      ? `${pageContent?.title} | Help using the Digital Planning Register`
+      : "Help using the Digital Planning Register",
+  };
+}
 export default function HelpTopicPage({ params }: PageProps) {
   const { council } = params;
   const appConfig = getAppConfig(council);
