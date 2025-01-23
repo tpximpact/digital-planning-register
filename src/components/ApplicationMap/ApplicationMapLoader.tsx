@@ -1,4 +1,3 @@
-"use client";
 import { Suspense, lazy } from "react";
 import { ApplicationMapProps } from "./ApplicationMap";
 import "./ApplicationMap.scss";
@@ -27,10 +26,11 @@ const ApplicationMap = lazy(async () => ({
  * @returns
  */
 export const ApplicationMapLoader = (props: ApplicationMapProps) => {
+  const osMapProxyUrl = process.env.OS_MAP_PROXY_URL;
   return (
     <>
       <Suspense fallback={<ApplicationMapLoading {...props} />}>
-        <ApplicationMap {...props} />
+        <ApplicationMap osMapProxyUrl={osMapProxyUrl} {...props} />
       </Suspense>
     </>
   );

@@ -6,6 +6,7 @@ export interface mapTypeProps {
   geojsonbuffer: number;
   staticMode?: boolean;
   hideResetControl?: boolean;
+  osProxyEndpoint?: string;
 }
 
 /**

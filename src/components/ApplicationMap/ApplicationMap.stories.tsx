@@ -18,6 +18,7 @@ const meta = {
   },
 
   args: {
+    osMapProxyUrl: process.env.OS_MAP_PROXY_URL ?? undefined,
     reference: "12345",
     mapData: {
       type: "Feature",
