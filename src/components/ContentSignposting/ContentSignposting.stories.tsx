@@ -75,6 +75,46 @@ export const SinglePage: Story = {
   },
 };
 
+export const MultiplePages: Story = {
+  args: {
+    pages: [
+      {
+        key: "planning-process",
+        title: "Planning Process Overview",
+        content: (
+          <p className="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            aliquet quam id dui
+          </p>
+        ),
+        linked: true,
+      },
+      {
+        key: "before-you-apply",
+        title: "Pre-Application Guidelines",
+        content: (
+          <p className="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            aliquet quam id dui
+          </p>
+        ),
+        linked: true,
+      },
+      {
+        key: "submitting-application",
+        title: "Application Submission Process",
+        content: (
+          <p className="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            aliquet quam id dui
+          </p>
+        ),
+        linked: false,
+      },
+    ],
+  },
+};
+
 export const WithoutContent: Story = {
   args: {
     pages: [
@@ -92,7 +132,7 @@ export const WithoutContent: Story = {
   },
 };
 
-export const WithNestedChildren: Story = {
+export const WithSummaryContent: Story = {
   args: {
     pages: [
       {
