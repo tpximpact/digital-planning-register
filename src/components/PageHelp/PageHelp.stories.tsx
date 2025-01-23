@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageHelp } from "./PageHelp";
+import { createCouncilConfig } from "@mocks/appConfigFactory";
 
 const meta = {
   title: "Council pages/Help page ",
@@ -26,11 +27,15 @@ const meta = {
   args: {},
 } satisfies Meta<typeof PageHelp>;
 
+const baseCouncilConfig = createCouncilConfig({
+  councilName: "Public Council 1",
+});
+
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    council: "Example Council",
+    councilConfig: baseCouncilConfig,
   },
 };
