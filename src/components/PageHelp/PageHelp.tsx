@@ -1,23 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
 import { BackLink } from "../BackLink/BackLink";
 import { PageMain } from "../PageMain";
-import { getAppConfig } from "@/config";
 import Link from "next/link";
 import { ContentSignposting } from "../ContentSignposting";
-import { PageHelpContent } from "./PageHelpContent";
+import { Council } from "@/config/types";
+import { contentHelp } from "@/lib/help";
 export interface PageHelpProps {
-  council: string;
+  councilConfig: Council;
 }
 
-export const PageHelp = ({ council }: PageHelpProps) => {
-  const councilConfig = getAppConfig(council);
-  const councilLink = councilConfig?.council?.contact;
-  const pages = PageHelpContent;
+export const PageHelp = ({ councilConfig }: PageHelpProps) => {
+  const councilLink = councilConfig?.contact;
+
+  const content = contentHelp(councilConfig);
 
   return (
     <>
       <BackLink />
-      <PageMain className="dpr-page-planning-process">
+      <PageMain>
         <h1 className="govuk-heading-xl">
           Help using the Digital Planning Register
         </h1>
@@ -42,7 +42,7 @@ export const PageHelp = ({ council }: PageHelpProps) => {
               for more help.
             </p>
             <h2 className="govuk-heading-l">Topics</h2>
-            <ContentSignposting pages={pages} council={council} />
+            <ContentSignposting pages={content} council={councilConfig.slug} />
           </div>
         </div>
       </PageMain>

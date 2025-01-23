@@ -124,26 +124,6 @@ export const ApplicationHero = ({
             {/* decision */}
             {application.application?.decision && (
               <>
-                {application.application.determinedAt && (
-                  <ApplicationDataField
-                    title="Decision Date"
-                    value={
-                      <time dateTime={application.application.determinedAt}>
-                        {formatDateTimeToDprDate(
-                          application.application.determinedAt,
-                        )}
-                      </time>
-                    }
-                    infoIcon={
-                      <InfoIcon
-                        href={`/${councilSlug}/help/important-dates/#${slugify("Decision date")}`}
-                        title="Understanding dates"
-                        ariaLabel="Understanding dates"
-                      />
-                    }
-                  />
-                )}
-
                 <ApplicationDataField
                   title="Council decision"
                   value={

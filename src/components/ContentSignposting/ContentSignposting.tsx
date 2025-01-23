@@ -17,17 +17,15 @@ export const ContentSignposting: React.FC<ContentSignpostingProps> = ({
       <ul className="help-links" role="list">
         {pages.map((page) => (
           <li key={page.key} className="help-links__item">
-            <article className="help-topic">
-              <h3 className="govuk-heading-s">
-                <Link
-                  href={`/${council}/help/${page.key}`}
-                  className="govuk-link"
-                >
-                  {page.title}
-                </Link>
-              </h3>
-              <div className="help-topic__content">{page.content}</div>
-            </article>
+            <h3 className="govuk-heading-s">
+              <Link
+                href={`/${council}/help/${page.key}`}
+                className="govuk-link"
+              >
+                {page.title}
+              </Link>
+            </h3>
+            <div className="help-topic__content">{page.content}</div>
           </li>
         ))}
       </ul>

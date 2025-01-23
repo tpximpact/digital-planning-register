@@ -1,18 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
 import { getAppConfig } from "@/config";
+import { Council } from "@/config/types";
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
 import Link from "next/link";
 
-export const contentPlanningProcess = (council?: string): DprContentPage[] => {
-  const appConfig = getAppConfig(council);
+export const contentPlanningProcess = (
+  councilConfig?: Council,
+): DprContentPage[] => {
   const localPlanLink =
-    appConfig?.council?.pageContent?.help?.planning_process
-      ?.council_local_plan_link;
+    councilConfig?.pageContent?.help?.planning_process?.council_local_plan_link;
 
   const materialConsiderationsLink =
-    appConfig?.council?.pageContent
-      ?.council_reference_submit_comment_pre_submission
+    councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
   return [
     {

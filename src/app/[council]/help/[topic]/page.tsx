@@ -1,7 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
+import { ContentError } from "@/components/ContentError";
+import { ContentNotFound } from "@/components/ContentNotFound";
 import { PageHelpTopic } from "@/components/PageHelpTopic";
-import { getHelpPageContent } from "@/lib/helpContent";
-import { notFound } from "next/navigation";
+import { PageMain } from "@/components/PageMain";
+import { getAppConfig } from "@/config";
+import { contentHelp } from "@/lib/help";
 
 interface PageProps {
   params: {
@@ -11,17 +14,33 @@ interface PageProps {
 }
 
 export default function HelpTopicPage({ params }: PageProps) {
-  const pageContent = getHelpPageContent(params.topic, params.council);
+  const { council } = params;
+  const appConfig = getAppConfig(council);
+
+  if (appConfig.council === undefined) {
+    return (
+      <PageMain>
+        <ContentError />
+      </PageMain>
+    );
+  }
+
+  const content = contentHelp(appConfig.council);
+  const pageContent = content.find((page) => page.key === params.topic);
 
   if (!pageContent) {
-    notFound();
+    return (
+      <PageMain>
+        <ContentNotFound councilConfig={appConfig.council} />
+      </PageMain>
+    );
   }
 
   return (
     <PageHelpTopic
       title={pageContent.title}
-      description={pageContent.description}
-      content={pageContent.content}
+      summary={pageContent.summary}
+      content={pageContent.children}
     />
   );
 }
