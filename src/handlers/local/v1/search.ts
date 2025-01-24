@@ -83,6 +83,9 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
         },
         proposal: { description: "6m extension" },
         applicant: {},
+        officer: {
+          name: "John Doe",
+        },
       },
     ],
   },
