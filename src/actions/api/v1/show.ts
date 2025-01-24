@@ -7,6 +7,7 @@ import { ApiResponse, DprShowApiResponse } from "@/types";
 import { BopsV2 } from "@/handlers/bops";
 import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
+import { OpenData } from "@/handlers/opendata";
 
 /**
  * /api/docs?handler=ApiV1&method=show
@@ -25,6 +26,8 @@ export async function show(
       return await BopsV2.show(council, reference);
     case "local":
       return await LocalV1.show(council, reference);
+    case "opendata":
+      return await OpenData.show(council, reference);
     default:
       return apiReturnError("Invalid source");
   }

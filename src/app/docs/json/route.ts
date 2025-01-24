@@ -7,6 +7,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { LocalV1Documentation } from "@/handlers/local";
 import { BopsV2Documentation } from "@/handlers/bops";
 import { ApiV1Documentation } from "@/actions/api/v1";
+import { OpenDataDocumentation } from "@/handlers/opendata/api";
 
 const apis: Record<string, any> = {
   ApiV1: {
@@ -17,6 +18,9 @@ const apis: Record<string, any> = {
   },
   BopsV2: {
     ...BopsV2Documentation,
+  },
+  OpenData: {
+    ...OpenDataDocumentation,
   },
 };
 

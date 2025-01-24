@@ -15,7 +15,7 @@ import { DprPaginationBase, DprPagination } from "./types";
  */
 export interface DprSearchApiResponse {
   pagination: DprPagination;
-  data: DprPlanningApplication[];
+  data: DprPlanningApplication[] | null;
 }
 
 /**

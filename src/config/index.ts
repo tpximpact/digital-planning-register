@@ -215,6 +215,20 @@ const councils: Council[] = [
     },
   },
   {
+    name: "Camden Open Data",
+    slug: "camden-open-data",
+    visibility: "public",
+    dataSource: "opendata",
+    publicComments: false,
+    specialistComments: false,
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link:
+          "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-policy/",
+      },
+    },
+  },
+  {
     name: "Camden",
     slug: "camden",
     visibility: "public",
