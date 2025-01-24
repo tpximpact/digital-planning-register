@@ -1,37 +1,127 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAppConfig } from "@/config";
-import path from "path";
-import { notFound } from "next/navigation";
+
+const OS_DOMAIN_URL = "https://api.os.uk";
 
 export const config = {
   matcher: [
     /*
      * Match all paths except for:
-     * 1. /api routes
+     * 1. /docs routes
      * 2. /_next (Next.js internals)
      * 3. /_static (inside /public)
-     * 3. /assets (inside /public)
-     * 4. all root files inside /public (e.g. /favicon.ico)
+     * 4. /assets (inside /public)
+     * 5. all root files inside /public (e.g. /favicon.ico)
      */
     "/((?!docs/|_next/|_static/|_vercel|assets|images|icons|[\\w-]+\\.\\w+).*)",
   ],
 };
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { searchParams } = new URL(request.url);
   const council = searchParams.get("council");
   const appConfig = getAppConfig();
 
-  // console.log(request);
+  /******************
+   *
+   *  Match /proxy/ordnance-survey/*
+   *
+   *********************/
 
-  // && appConfig.councils.includes(council)
+  if (/^\/proxy\/ordnance-survey/.test(pathname)) {
+    const proxyUrl = process.env.OS_MAP_PROXY_URL;
+    if (!proxyUrl) {
+      return NextResponse.json(
+        { error: "Proxy URL not found" },
+        { status: 404 },
+      );
+    }
+
+    const token = process.env.OS_MAP_API_KEY;
+    if (!token) {
+      return NextResponse.json(
+        { error: "Unauthorized no API token" },
+        { status: 401 },
+      );
+    }
+
+    if (process.env.NODE_ENV !== "development") {
+      const OS_MAP_ALLOWED_ORIGIN = process.env.OS_MAP_ALLOWED_ORIGIN;
+      if (!OS_MAP_ALLOWED_ORIGIN) {
+        return NextResponse.json(
+          { error: "Allowed origin not found" },
+          { status: 404 },
+        );
+      }
+
+      // Check the Referer or Origin header
+      const referer = request.headers.get("referer");
+      const origin = request.headers.get("origin");
+
+      if (!referer && !origin) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
+      const allowedOrigin = new URL(OS_MAP_ALLOWED_ORIGIN).origin;
+
+      if (
+        referer &&
+        !referer.startsWith(allowedOrigin) &&
+        origin &&
+        !origin.startsWith(allowedOrigin)
+      ) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+    }
+
+    // create the target URL dpr/proxy/ordnance-survey/* > https://api.os.uk/*?key=token
+    const targetUrl = new URL(
+      request.nextUrl.pathname.replace("/proxy/ordnance-survey", ""),
+      OS_DOMAIN_URL,
+    );
+    targetUrl.search = request.nextUrl.search;
+    targetUrl.searchParams.append("key", token || "");
+
+    // set the headers
+    // basing this off request.headers causes it to fail so we're starting from scratch!
+    const requestHeaders = new Headers();
+    requestHeaders.set("Cross-Origin-Resource-Policy", "cross-origin");
+    requestHeaders.set("Accept-Encoding", "gzip, deflate, br");
+
+    // get the goods
+    const response = await fetch(targetUrl.toString(), {
+      method: request.method,
+      headers: requestHeaders,
+      body: request.body,
+    });
+
+    // send the response back as if we were never here 👻
+    const nextResponse = new NextResponse(response.body, {
+      status: response.status,
+      headers: response.headers,
+    });
+
+    return nextResponse;
+  }
+
+  /******************
+   *
+   *  Match /?council=selected-council
+   *
+   *********************/
 
   // without js the select dropdown will send a GET request with the council query param to /?council=selected-council
   // redirect to council page if that happens
   if (pathname === "/" && council) {
     return NextResponse.redirect(new URL(`/${council}`, request.url));
   }
+
+  /******************
+   *
+   *  Match /validcouncilname and /validcouncilname/*
+   *
+   *********************/
 
   // this redirects people away from invalid council pages before it even hits the page
   // the same logic is in [council]/layout but having it here should increase performance

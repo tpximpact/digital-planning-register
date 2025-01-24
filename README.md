@@ -91,12 +91,24 @@ The project structure follows the Next.js App Router conventions and includes a 
 
 Ensure that the .env or .env.local file also has the following environment variables:
 
-|     Variable Name     | Value |
-| :-------------------: | :---: |
-|  [COUNCIL]\_API_URL   |  ###  |
-| [COUNCIL]\_API_URL_V1 |  ###  |
-|  [COUNCIL]\_API_KEY   |  ###  |
+|      Variable Name      | Value |
+| :---------------------: | :---: |
+|   `[COUNCIL]_API_URL`   |  ###  |
+| `[COUNCIL]_API_URL_V1 ` |  ###  |
+|   `[COUNCIL]_API_KEY`   |  ###  |
 
 Please ensure you replace [COUNCIL] with the council name.
 
 Each council has its own set of environment variables that specify the API URL and the required API key. If you require access to multiple councils, you can do this by duplicating the variables and adding the relevant council name.
+
+## Map setup
+
+To use the OS maps vector API you will need an API key and a proxy.
+
+You can enter any proxy URL, if you wish to use the one built into DPR you will also need to provide the `OS_MAP_API_KEY`
+
+|      Variable Name      |                    Value                    |
+| :---------------------: | :-----------------------------------------: |
+|    `OS_MAP_API_KEY`     |                     ###                     |
+|   `OS_MAP_PROXY_URL`    | http://localhost:3000/proxy/ordnance-survey |
+| `OS_MAP_ALLOWED_ORIGIN` |            http://localhost:3000            |

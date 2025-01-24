@@ -9,6 +9,12 @@ export interface AppConfig {
      * Set this to true to fetch id from the BOPs private endpoint for submitting comments
      */
     getApplicationIdFromPrivateEndpoint: boolean;
+
+    /**
+     * This is set to the OS_MAP_PROXY_URL environment variable
+     * This is done so that we don't need to provide OS_MAP_PROXY_URL at build time so the map component can access it
+     */
+    osMapProxyUrl?: string | undefined;
   };
   /**
    * All the council configuration options

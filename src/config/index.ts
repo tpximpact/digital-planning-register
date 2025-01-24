@@ -38,6 +38,7 @@ export const getAppConfig = (council?: string): AppConfig => {
     features: {
       getApplicantDetailsFromPrivateEndpoint: true,
       getApplicationIdFromPrivateEndpoint: true,
+      osMapProxyUrl: process.env.OS_MAP_PROXY_URL ?? undefined,
     },
     defaults: {
       resultsPerPage: 10,
