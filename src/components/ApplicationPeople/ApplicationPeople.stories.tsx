@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationPeople } from "./ApplicationPeople";
 import { generateDprApplication } from "@mocks/dprApplicationFactory";
-import { faker, fakerEN_GB } from "@faker-js/faker";
 
 const meta = {
   title: "DPR Components/ApplicationPeople",
@@ -17,64 +16,46 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const fullApplication = generateDprApplication();
+
 export const Default: Story = {
   args: {
-    applicant: generateDprApplication().applicant,
-    caseOfficer: generateDprApplication().officer,
+    applicant: fullApplication.applicant,
+    caseOfficer: fullApplication.officer,
   },
 };
 
 export const AllApplicationPeople: Story = {
   args: {
-    applicant: generateDprApplication().applicant,
-    caseOfficer: generateDprApplication().officer,
+    applicant: fullApplication.applicant,
+    caseOfficer: fullApplication.officer,
   },
 };
 
 export const ApplicantAndAgent: Story = {
   args: {
-    applicant: generateDprApplication().applicant,
+    applicant: {
+      ...fullApplication.applicant,
+      agent: fullApplication.applicant.agent,
+    },
   },
 };
 
 export const ApplicantAndCaseOfficer: Story = {
   args: {
     applicant: {
-      type: "company",
-      name: {
-        first: faker.person.firstName(),
-        last: faker.person.lastName(),
-      },
-      address: {
-        sameAsSiteAddress: true,
-      },
+      ...fullApplication.applicant,
+      agent: undefined,
     },
-    caseOfficer: {
-      name: faker.person.fullName(),
-    },
+    caseOfficer: fullApplication.officer,
   },
 };
 
 export const CaseOfficerAndAgent: Story = {
   args: {
-    caseOfficer: {
-      name: faker.person.fullName(),
-    },
+    caseOfficer: fullApplication.officer,
     applicant: {
-      agent: {
-        name: {
-          first: faker.person.firstName(),
-          last: faker.person.lastName(),
-        },
-        address: {
-          line1: fakerEN_GB.location.street(),
-          line2: "",
-          town: fakerEN_GB.location.city(),
-          county: "",
-          postcode: fakerEN_GB.location.zipCode(),
-          country: "",
-        },
-      },
+      agent: fullApplication.applicant.agent,
     },
   },
 };
@@ -82,14 +63,8 @@ export const CaseOfficerAndAgent: Story = {
 export const OnlyApplicant: Story = {
   args: {
     applicant: {
-      type: "company",
-      name: {
-        first: faker.person.firstName(),
-        last: faker.person.lastName(),
-      },
-      address: {
-        sameAsSiteAddress: true,
-      },
+      ...fullApplication.applicant,
+      agent: undefined,
     },
   },
 };
@@ -97,10 +72,7 @@ export const OnlyApplicant: Story = {
 export const OnlyApplicantMinimalData: Story = {
   args: {
     applicant: {
-      name: {
-        first: faker.person.firstName(),
-        last: faker.person.lastName(),
-      },
+      name: fullApplication.applicant.name,
     },
   },
 };
@@ -108,20 +80,7 @@ export const OnlyApplicantMinimalData: Story = {
 export const OnlyAgent: Story = {
   args: {
     applicant: {
-      agent: {
-        name: {
-          first: faker.person.firstName(),
-          last: faker.person.lastName(),
-        },
-        address: {
-          line1: fakerEN_GB.location.street(),
-          line2: "",
-          town: fakerEN_GB.location.city(),
-          county: "",
-          postcode: fakerEN_GB.location.zipCode(),
-          country: "",
-        },
-      },
+      agent: fullApplication.applicant.agent,
     },
   },
 };
@@ -130,10 +89,7 @@ export const OnlyAgentMinimalData: Story = {
   args: {
     applicant: {
       agent: {
-        name: {
-          first: faker.person.firstName(),
-          last: faker.person.lastName(),
-        },
+        name: fullApplication.applicant.agent?.name,
       },
     },
   },
@@ -141,8 +97,6 @@ export const OnlyAgentMinimalData: Story = {
 
 export const OnlyCaseOfficer: Story = {
   args: {
-    caseOfficer: {
-      name: faker.person.fullName(),
-    },
+    caseOfficer: fullApplication.officer,
   },
 };
