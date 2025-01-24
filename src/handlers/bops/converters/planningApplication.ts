@@ -163,6 +163,6 @@ export const createOfficer = (
   application: BopsPlanningApplication,
 ): DprPlanningApplication["officer"] => {
   return {
-    name: application.officer?.name ?? null,
+    name: application?.officer?.name ?? null,
   };
 };
