@@ -32,6 +32,7 @@ export const ApplicationDetails = ({
   const applicationStatus = application.application.status;
   const councilSlug = appConfig.council.slug;
   const description = application.proposal.description;
+  const people = application.officer || application.applicant;
   const commentsEnabled =
     application.application.consultation.allowComments ?? true;
   const applicationProgress = buildApplicationProgress(application);
@@ -57,16 +58,17 @@ export const ApplicationDetails = ({
     });
   }
 
-  sidebar.push(
-    {
-      key: slugify("Documents"),
-      title: "Documents",
-    },
-    {
+  sidebar.push({
+    key: slugify("Documents"),
+    title: "Documents",
+  });
+
+  if (people) {
+    sidebar.push({
       key: slugify("People"),
       title: "People",
-    },
-  );
+    });
+  }
 
   if (appConfig.council?.specialistComments) {
     sidebar.push({

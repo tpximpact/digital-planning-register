@@ -52,6 +52,7 @@ export const ApplicationPeople = ({
     <section
       aria-labelledby="people-section"
       className="dpr-application-people"
+      id="people"
     >
       <h2 className="govuk-heading-l" id="people-section">
         People
