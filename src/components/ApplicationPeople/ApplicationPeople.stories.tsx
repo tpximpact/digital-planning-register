@@ -31,9 +31,51 @@ export const AllApplicationPeople: Story = {
   },
 };
 
-export const OnlyApplicantAndAgent: Story = {
+export const ApplicantAndAgent: Story = {
   args: {
     applicant: generateDprApplication().applicant,
+  },
+};
+
+export const ApplicantAndCaseOfficer: Story = {
+  args: {
+    applicant: {
+      type: "company",
+      name: {
+        first: faker.person.firstName(),
+        last: faker.person.lastName(),
+      },
+      address: {
+        sameAsSiteAddress: true,
+      },
+    },
+    caseOfficer: {
+      name: faker.person.fullName(),
+    },
+  },
+};
+
+export const CaseOfficerAndAgent: Story = {
+  args: {
+    caseOfficer: {
+      name: faker.person.fullName(),
+    },
+    applicant: {
+      agent: {
+        name: {
+          first: faker.person.firstName(),
+          last: faker.person.lastName(),
+        },
+        address: {
+          line1: fakerEN_GB.location.street(),
+          line2: "",
+          town: fakerEN_GB.location.city(),
+          county: "",
+          postcode: fakerEN_GB.location.zipCode(),
+          country: "",
+        },
+      },
+    },
   },
 };
 
@@ -47,6 +89,17 @@ export const OnlyApplicant: Story = {
       },
       address: {
         sameAsSiteAddress: true,
+      },
+    },
+  },
+};
+
+export const OnlyApplicantMinimalData: Story = {
+  args: {
+    applicant: {
+      name: {
+        first: faker.person.firstName(),
+        last: faker.person.lastName(),
       },
     },
   },
@@ -67,6 +120,19 @@ export const OnlyAgent: Story = {
           county: "",
           postcode: fakerEN_GB.location.zipCode(),
           country: "",
+        },
+      },
+    },
+  },
+};
+
+export const OnlyAgentMinimalData: Story = {
+  args: {
+    applicant: {
+      agent: {
+        name: {
+          first: faker.person.firstName(),
+          last: faker.person.lastName(),
         },
       },
     },
