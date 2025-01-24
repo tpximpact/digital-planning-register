@@ -1,0 +1,17 @@
+@import "src/styles/component-base";
+
+.dpr-application-people {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: govuk-spacing(7);
+
+    @include govuk-media-query($from: desktop) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__grid-item {
+    margin-bottom: govuk-spacing(3);
+  }
+}
