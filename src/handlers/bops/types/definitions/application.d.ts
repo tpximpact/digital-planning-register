@@ -77,7 +77,7 @@ export interface BopsPlanningApplication {
   applicant?: Applicant<any>;
   officer?: {
     name: string;
-  };
+  } | null;
 }
 
 /**

@@ -85,8 +85,8 @@ export interface DprPlanningApplication {
   };
   applicant: Applicant<any>;
   officer: {
-    name: string | null;
-  };
+    name: string;
+  } | null;
 }
 
 /**
