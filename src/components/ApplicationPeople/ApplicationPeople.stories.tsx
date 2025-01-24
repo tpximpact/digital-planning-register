@@ -31,8 +31,6 @@ export const AllApplicationPeople: Story = {
   },
 };
 
-// Applicant is not an optional field, so we can't presently have a story without an applicant
-
 export const OnlyApplicantAndAgent: Story = {
   args: {
     applicant: generateDprApplication().applicant,
@@ -71,6 +69,14 @@ export const OnlyAgent: Story = {
           country: "",
         },
       },
+    },
+  },
+};
+
+export const OnlyCaseOfficer: Story = {
+  args: {
+    caseOfficer: {
+      name: faker.person.fullName(),
     },
   },
 };

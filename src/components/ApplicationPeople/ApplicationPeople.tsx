@@ -3,7 +3,7 @@ import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 import "./ApplicationPeople.scss";
 
 interface ApplicationPeopleProps {
-  applicant: DprPlanningApplication["applicant"];
+  applicant?: DprPlanningApplication["applicant"];
   caseOfficer?: DprPlanningApplication["officer"];
 }
 
