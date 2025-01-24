@@ -75,6 +75,9 @@ export interface BopsPlanningApplication {
   };
   /** waiting on this */
   applicant?: Applicant<any>;
+  officer?: {
+    name: string;
+  } | null;
 }
 
 /**

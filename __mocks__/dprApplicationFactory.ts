@@ -197,6 +197,9 @@ export const generateDprApplication = ({
         },
       },
     },
+    officer: {
+      name: faker.person.fullName(),
+    },
   };
 };
 
