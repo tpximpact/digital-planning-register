@@ -43,9 +43,17 @@ $selector: "dpr-content-sidebar";
   }
 
   &--with-headings {
+    ul ul {
+      margin-left: 0;
+    }
+    ul ul ul {
+      margin-left: govuk-spacing(4);
+    }
+
     // first level text is bold with no bullet
     .#{$selector}__level--0 {
       > .#{$selector}__text {
+        margin-left: 1rem;
         font-weight: bold;
         &:before {
           content: "";

@@ -2,14 +2,14 @@ import "./ApplicationHero.scss";
 import { DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import {
-  contentApplicationStatuses,
   getApplicationStatusSummary,
   getDocumentedApplicationType,
   getPrimaryApplicationType,
   getApplicationStatusSummarySentiment,
   getApplicationDecisionSummary,
   getApplicationDecisionSummarySentiment,
-  contentApplicationDecisions,
+  contentDecisions,
+  contentApplicationStatuses,
 } from "@/lib/planningApplication";
 import { flattenObject, slugify } from "@/util";
 import { Tag } from "../Tag";
@@ -38,7 +38,7 @@ export const ApplicationHero = ({
       application.application.consultation.endDate ?? undefined,
     );
   const documentedApplicationStatuses = flattenObject(
-    contentApplicationStatuses,
+    contentApplicationStatuses(),
     "title",
   );
 
@@ -48,7 +48,7 @@ export const ApplicationHero = ({
   );
 
   const documentedApplicationDecisions = flattenObject(
-    contentApplicationDecisions,
+    contentDecisions(),
     "title",
   );
 
@@ -95,7 +95,7 @@ export const ApplicationHero = ({
                     applicationStatusSummary,
                   ) ? (
                     <InfoIcon
-                      href={`/${councilSlug}/planning-process#${slugify(applicationStatusSummary)}`}
+                      href={`/${councilSlug}/help/application-statuses#${slugify(applicationStatusSummary)}`}
                       title="Understanding application statuses"
                       ariaLabel="Understanding application statuses"
                     />
@@ -112,7 +112,7 @@ export const ApplicationHero = ({
                 infoIcon={
                   getDocumentedApplicationType(application.applicationType) ? (
                     <InfoIcon
-                      href={`/${councilSlug}/planning-process#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
+                      href={`/${councilSlug}/help/application-types#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
                       title="Understanding application types"
                       ariaLabel="Understanding application types"
                     />
@@ -143,7 +143,7 @@ export const ApplicationHero = ({
                       applicationDecisionSummary,
                     ) ? (
                       <InfoIcon
-                        href={`/${councilSlug}/planning-process#${slugify(applicationDecisionSummary)}`}
+                        href={`/${councilSlug}/help/decisions#${slugify(applicationDecisionSummary)}`}
                         title="Understanding decisions"
                         ariaLabel="Understanding decisions"
                       />

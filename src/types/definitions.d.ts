@@ -172,6 +172,10 @@ export interface DprBoundaryGeojson {
 export interface DprContentPage {
   key: string;
   title: string;
+  /**
+   * A short summary of the content
+   */
+  summary?: string | JSX.Element;
   content?: JSX.Element;
   /**
    * Items with 'linked' set to true are linked to from the application details page, If this changes we can get rid of the linked field

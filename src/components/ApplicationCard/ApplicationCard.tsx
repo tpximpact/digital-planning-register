@@ -47,7 +47,7 @@ export const ApplicationCard = ({
     >
       {/* uncomment and make sure using dpr-info-icon class when infoicon is styled correctly */}
       {/* <InfoIcon
-        href={`/${councilSlug}/planning-process`}
+        href={`/${councilSlug}/help`}
         title="Get help understanding what everything here means"
         ariaLabel="Get help understanding what everything here means"
       /> */}

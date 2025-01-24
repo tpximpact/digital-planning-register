@@ -15,7 +15,6 @@
  */
 
 import { ProgressSectionBase } from "@/components/ApplicationProgressInfo/ApplicationProgressInfoSection";
-import { contentPlanningProcess } from "@/components/PagePlanningProcess";
 import { DprContentPage, DprPlanningApplication } from "@/types";
 import {
   findItemByKey,
@@ -23,6 +22,7 @@ import {
   formatDateToDprDate,
   slugify,
 } from "@/util";
+import { contentImportantDates } from "./date";
 
 export const buildApplicationProgress = (
   application: DprPlanningApplication,
@@ -35,7 +35,7 @@ export const buildApplicationProgress = (
       title: "Recieved",
       date: formatDateToDprDate(application.application.receivedDate),
       content: findItemByKey<DprContentPage>(
-        contentPlanningProcess(),
+        contentImportantDates(),
         slugify("Received date"),
       )?.content ?? <></>,
     });
@@ -48,7 +48,7 @@ export const buildApplicationProgress = (
       title: "Valid from",
       date: formatDateToDprDate(application.application.validDate),
       content: findItemByKey<DprContentPage>(
-        contentPlanningProcess(),
+        contentImportantDates(),
         slugify("Valid from date"),
       )?.content ?? <></>,
     });
@@ -61,7 +61,7 @@ export const buildApplicationProgress = (
       title: "Published",
       date: formatDateToDprDate(application.application.publishedDate),
       content: findItemByKey<DprContentPage>(
-        contentPlanningProcess(),
+        contentImportantDates(),
         slugify("Published date"),
       )?.content ?? <></>,
     });
@@ -74,7 +74,7 @@ export const buildApplicationProgress = (
       title: "Consultation ended",
       date: formatDateToDprDate(application.application.consultation.endDate),
       content: findItemByKey<DprContentPage>(
-        contentPlanningProcess(),
+        contentImportantDates(),
         slugify("Consultation end date"),
       )?.content ?? <></>,
     });
@@ -94,8 +94,8 @@ export const buildApplicationProgress = (
         </time>
       ),
       content: findItemByKey<DprContentPage>(
-        contentPlanningProcess(),
-        slugify("Council decision date"),
+        contentImportantDates(),
+        slugify("Decision date"),
       )?.content ?? <></>,
     });
   }

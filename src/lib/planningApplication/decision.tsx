@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import { DprContentPage, DprPlanningApplication } from "@/types";
 import { capitalizeFirstLetter, slugify } from "@/util";
 import { getPrimaryApplicationTypeKey } from "./type";
+import { Council } from "@/config/types";
 
 /**
  * Returns a formatted decision string based on the application type.
@@ -53,12 +55,13 @@ export function getApplicationDecisionSummarySentiment(status: string) {
   return decisionDefined[status] || undefined;
 }
 
-export const contentApplicationDecisions: DprContentPage[] = [
+export const contentDecisions = (councilConfig?: Council): DprContentPage[] => [
   {
     key: slugify("Granted"),
     title: "Granted",
     content: (
       <>
+        {" "}
         <p className="govuk-body">
           Planning applications which have been granted are given permission to
           go ahead. The work must begin within three years of approval, unless
@@ -77,6 +80,7 @@ export const contentApplicationDecisions: DprContentPage[] = [
     title: "Refused",
     content: (
       <>
+        {" "}
         <p className="govuk-body">
           Refused planning applications do not have permission to go ahead. The
           applicant is not allowed to perform the work they applied to do. The
@@ -98,13 +102,12 @@ export const contentApplicationDecisions: DprContentPage[] = [
         <p className="govuk-body">
           When a{" "}
           <a
-            href={`#${slugify("Prior approval")}`}
-            className="govuk-link govuk-link--no-visited-state"
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
           >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal requires
-          prior approval to go ahead, and prior approval has been granted.
+          prior approval, and prior approval has been granted.
         </p>
         <p className="govuk-body">
           This means that the work proposed can go ahead, and does not require
@@ -121,13 +124,12 @@ export const contentApplicationDecisions: DprContentPage[] = [
         <p className="govuk-body">
           When a{" "}
           <a
-            href={`#${slugify("Prior approval")}`}
-            className="govuk-link govuk-link--no-visited-state"
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
           >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal does not
-          require prior approval to go ahead.
+          require prior approval.
         </p>
         <p className="govuk-body">
           This means that the works can go ahead without prior approval or
@@ -141,16 +143,16 @@ export const contentApplicationDecisions: DprContentPage[] = [
     title: "Prior approval required and refused",
     content: (
       <>
+        {" "}
         <p className="govuk-body">
           When a{" "}
           <a
-            href={`#${slugify("Prior approval")}`}
-            className="govuk-link govuk-link--no-visited-state"
+            href={`/${councilConfig?.slug}/help/application-types#prior-approval`}
           >
             prior approval
           </a>{" "}
           application has been examined, it was found that the proposal requires
-          prior approval to go ahead, and prior approval has been refused.
+          prior approval, and prior approval has been refused.
         </p>
         <p className="govuk-body">
           This means that the work proposed cannot go ahead without submitting

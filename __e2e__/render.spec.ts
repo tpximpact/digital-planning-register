@@ -14,7 +14,7 @@ import { test, expect, Page } from "@playwright/test";
  * /[council]/[reference]/documents
  * /[council]/[reference/submit-comment
  * /[council]/digital-site-notice @todo
- * /[council]/planning-process
+ * /[council]/help
  *
  */
 
@@ -179,12 +179,12 @@ const testSearchPage = async (
 
 /**
  *
- * /[council]/planning-process
+ * /[council]/help
  *
  */
 
 const testCouncilPlanningProcess = async (page: Page) => {
-  await page.goto(`/public-council-1/planning-process`);
+  await page.goto(`/public-council-1/help`);
 
   await expect(page).toHaveTitle(
     "Help using the Digital Planning Register | Public Council 1 Digital Planning Register",
@@ -439,18 +439,18 @@ test.describe("/[council]", () => {
   });
 });
 
-test.describe("/[council]/planning-process", () => {
+test.describe("/[council]/help", () => {
   test.describe("javascript disabled", () => {
     test.use({ javaScriptEnabled: false });
     test("should show no-js message", async ({ page }) => {
       await testJavascriptStatus(
         page,
-        "/public-council-1/planning-process",
-        "05-council--planning-process",
+        "/public-council-1/help",
+        "05-council--help",
         false,
       );
     });
-    test("/public-council-1/planning-process", async ({ page }) => {
+    test("/public-council-1/help", async ({ page }) => {
       await testCouncilPlanningProcess(page);
     });
   });
@@ -458,12 +458,12 @@ test.describe("/[council]/planning-process", () => {
     test("should not show no-js message", async ({ page }) => {
       await testJavascriptStatus(
         page,
-        "/public-council-1/planning-process",
-        "05-council--planning-process",
+        "/public-council-1/help",
+        "05-council--help",
         true,
       );
     });
-    test("/public-council-1/planning-process", async ({ page }) => {
+    test("/public-council-1/help", async ({ page }) => {
       await testCouncilPlanningProcess(page);
     });
   });
