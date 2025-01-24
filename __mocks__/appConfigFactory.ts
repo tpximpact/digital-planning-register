@@ -10,8 +10,8 @@ import { slugify } from "@/util";
  * PUBLIC_OVERWRITTEN_VISIBILITY=private
  *
  * # keep commented out - leaving here for reference
- * #PUBLIC_NO_ENV_VARS_BOPS_API_KEY=BLAH
- * #PUBLIC_NO_ENV_VARS_BOPS_API_URL=BLAH
+ * #PUBLIC_NO_BOPS_ENV_VARS_BOPS_API_KEY=BLAH
+ * #PUBLIC_NO_BOPS_ENV_VARS_BOPS_API_URL=BLAH
  *
  * PUBLIC_COUNCIL_1_BOPS_API_KEY=blah
  * PUBLIC_COUNCIL_1_BOPS_API_URL=blah
@@ -33,7 +33,7 @@ import { slugify } from "@/util";
  *
  * This will give you a public, private and unlisted council
  * It will also give you a public council with visibility overwritten (public overwritten)
- * It will also give you a public council with no env vars (public no env vars) that is set to public in the config but which should then default to private
+ * It will also give you a public council with no bops env vars (public no bops env vars) that is set to public in the config but which should then default to private
  *
  */
 
@@ -200,7 +200,8 @@ const defaultCouncils: Council[] = [
     visibility: "public",
   }),
   createCouncilConfig({
-    councilName: "Public no env vars",
+    councilName: "Public no bops env vars",
     visibility: "public",
+    dataSource: "bops",
   }),
 ];

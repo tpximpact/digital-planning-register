@@ -52,7 +52,7 @@ describe("CouncilSelector", () => {
 
     // unit tests have no env vars
     expect(screen.getByText("Public overwritten")).toBeInTheDocument();
-    expect(screen.getByText("Public no env vars")).toBeInTheDocument();
+    expect(screen.getByText("Public no bops env vars")).toBeInTheDocument();
   });
 
   it("selects the correct council when changed", () => {

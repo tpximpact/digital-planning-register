@@ -115,11 +115,13 @@ const determineCouncilVisibility = (councilConfig: Council) => {
     process.env[`${slug.toUpperCase().split("-").join("_")}_VISIBILITY`];
   let visibility = (overrideVisibility || configVisibility) ?? "private";
 
-  if (
-    !process.env[`${slug.toUpperCase().split("-").join("_")}_BOPS_API_KEY`] ||
-    !process.env[`${slug.toUpperCase().split("-").join("_")}_BOPS_API_URL`]
-  ) {
-    visibility = "private";
+  if (councilConfig.dataSource === "bops") {
+    if (
+      !process.env[`${slug.toUpperCase().split("-").join("_")}_BOPS_API_KEY`] ||
+      !process.env[`${slug.toUpperCase().split("-").join("_")}_BOPS_API_URL`]
+    ) {
+      visibility = "private";
+    }
   }
 
   // console.log([
