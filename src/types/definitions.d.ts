@@ -66,6 +66,29 @@ export interface DprPlanningApplication {
      */
     determinedAt?: string | null;
     decision?: string | null;
+    appeal?: {
+      decision?: "allowed" | "dismissed" | "split_decision" | "withdrawn";
+      /**
+       * YYYY-MM-DD
+       * Follows convention of if date in the name it is YYYY-MM-DD
+       */
+      decisionDate?: string;
+      /**
+       * YYYY-MM-DD
+       * Follows convention of if date in the name it is YYYY-MM-DD
+       */
+      lodgedDate?: string;
+      /**
+       * YYYY-MM-DD
+       * Follows convention of if date in the name it is YYYY-MM-DD
+       */
+      startedDate?: string;
+      /**
+       * YYYY-MM-DD
+       * Follows convention of if date in the name it is YYYY-MM-DD
+       */
+      validatedDate?: string;
+    } | null;
   };
   property: {
     address: {

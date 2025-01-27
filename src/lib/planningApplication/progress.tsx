@@ -100,5 +100,57 @@ export const buildApplicationProgress = (
     });
   }
 
+  // 06 appealLodged
+
+  if (application?.application?.appeal?.lodgedDate) {
+    progressData.push({
+      title: "Appeal lodged",
+      date: formatDateToDprDate(application.application.appeal.lodgedDate),
+      content: findItemByKey<DprContentPage>(
+        contentImportantDates(),
+        slugify("Appeal lodged date"),
+      )?.content ?? <></>,
+    });
+  }
+
+  // 07 appealValidFrom
+
+  if (application?.application?.appeal?.validatedDate) {
+    progressData.push({
+      title: "Appeal valid from",
+      date: formatDateToDprDate(application.application.appeal.validatedDate),
+      content: findItemByKey<DprContentPage>(
+        contentImportantDates(),
+        slugify("Appeal valid from date"),
+      )?.content ?? <></>,
+    });
+  }
+
+  // 08 appealStarted
+
+  if (application?.application?.appeal?.startedDate) {
+    progressData.push({
+      title: "Appeal started",
+      date: formatDateToDprDate(application.application.appeal.startedDate),
+      content: findItemByKey<DprContentPage>(
+        contentImportantDates(),
+        slugify("Appeal started date"),
+      )?.content ?? <></>,
+    });
+  }
+
+  // 09 appealDecided
+
+  if (application?.application?.appeal?.decisionDate) {
+    progressData.push({
+      title: "Appeal decided",
+      date: formatDateToDprDate(application.application.appeal.decisionDate),
+      content: findItemByKey<DprContentPage>(
+        contentImportantDates(),
+        slugify("Appeal decision date"),
+      )?.content ?? <></>,
+    });
+  }
+
   return progressData;
 };

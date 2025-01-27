@@ -73,6 +73,50 @@ const meta = {
           </p>
         ),
       },
+      {
+        title: "Appeal lodged",
+        date: "6 Jan 2021",
+        content: (
+          <p>
+            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
+            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
+            mollis interdum. Nulla vitae elit libero, a pharetra augue.
+          </p>
+        ),
+      },
+      {
+        title: "Appeal valid from",
+        date: "7 Jan 2021",
+        content: (
+          <p>
+            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
+            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
+            mollis interdum. Nulla vitae elit libero, a pharetra augue.
+          </p>
+        ),
+      },
+      {
+        title: "Appeal started",
+        date: "8 Jan 2021",
+        content: (
+          <p>
+            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
+            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
+            mollis interdum. Nulla vitae elit libero, a pharetra augue.
+          </p>
+        ),
+      },
+      {
+        title: "Appeal decided",
+        date: "9 Jan 2021",
+        content: (
+          <p>
+            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
+            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
+            mollis interdum. Nulla vitae elit libero, a pharetra augue.
+          </p>
+        ),
+      },
     ],
     councilSlug: "public-council-1",
     reference: "ABC123",

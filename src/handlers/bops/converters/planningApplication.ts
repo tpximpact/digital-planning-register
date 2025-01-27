@@ -71,6 +71,7 @@ export const convertBopsApplicationToDpr = (
       ? convertDateTimeToUtc(application.determinedAt)
       : null,
     decision: application.decision ?? null,
+    appeal: application.appeal ?? null,
   };
 };
 

@@ -26,6 +26,13 @@ export interface BopsApplicationOverview {
   determinedAt?: string | null;
   status: string;
   decision?: string | null;
+  appeal?: {
+    decision: string;
+    decisionDate: string;
+    lodgedDate: string;
+    startedDate: string;
+    validatedDate: string;
+  } | null;
   consultation: {
     startDate: string | null;
     endDate: string | null;
