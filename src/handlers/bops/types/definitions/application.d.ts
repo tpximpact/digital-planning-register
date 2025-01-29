@@ -7,6 +7,7 @@ import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import { DprDocument } from "@/types";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -59,6 +60,10 @@ export interface BopsApplicationOverview {
         }[]
       | null;
   };
+  appeal?: {
+    reason?: string;
+    documents?: DprDocument[];
+  } | null;
 }
 
 export interface BopsPlanningApplication {

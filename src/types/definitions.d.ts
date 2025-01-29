@@ -67,6 +67,8 @@ export interface DprPlanningApplication {
      */
     determinedAt?: string | null;
     decision?: string | null;
+       */
+
     appeal?: {
       decision?: "allowed" | "dismissed" | "split_decision" | "withdrawn";
       /**
@@ -89,6 +91,8 @@ export interface DprPlanningApplication {
        * Follows convention of if date in the name it is YYYY-MM-DD
        */
       validatedDate?: string;
+      reason?: string;
+      documents?: DprDocument[];
     } | null;
   };
   property: {
