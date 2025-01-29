@@ -12,6 +12,7 @@ import { Button } from "@/components/button";
 import { ApplicationProgressInfo } from "../ApplicationProgressInfo";
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 import { ApplicationAppeals } from "../ApplicationAppeals";
+import { ImpactMeasures } from "../ImpactMeasures";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -147,6 +148,7 @@ export const ApplicationDetails = ({
               appealDocuments={appeal?.documents}
             />
           )}
+          {/* <ImpactMeasures /> */}
           <DocumentsList
             councilSlug={appConfig?.council?.slug}
             reference={reference}

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Details } from "./Details";
 
 const meta = {
-  title: "GOV UK Components/Details",
+  title: "GOV UK DPR Components/Details",
   component: Details,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -25,3 +25,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const White: Story = {
+  args: {
+    isInverted: true,
+  },
+};

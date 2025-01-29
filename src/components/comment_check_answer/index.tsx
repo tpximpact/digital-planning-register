@@ -6,7 +6,7 @@ import { ApiV1 } from "@/actions/api";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
-import { Details } from "../govuk/Details";
+import { Details } from "../govukDpr/Details";
 import { TextButton } from "../TextButton";
 import { sentiment_options } from "@/lib/comments";
 
