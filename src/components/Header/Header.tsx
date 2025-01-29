@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Menu } from "../Menu";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { AppConfig } from "@/config/types";
 import { councilLogos } from "../CouncilLogos";
@@ -12,17 +12,6 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
   const currentPath = usePathname();
   const [isExtended, setIsExtended] = useState(false);
   const councilConfig = appConfig?.council;
-
-  useEffect(() => {
-    async function initiateMockAPI() {
-      if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-        const initMocks = (await import("../../../mocks")).default;
-        await initMocks();
-      }
-    }
-
-    initiateMockAPI();
-  }, []);
 
   // only show a logo if it exists and if the council config has not disabled it in the header
   let logo = null;
