@@ -46,10 +46,10 @@ describe("CouncilCards", () => {
     render(<CouncilCards councils={appConfig.councils} />);
     // Use getByRole to find the links by their accessible name
     const link1 = screen.getByRole("link", {
-      name: /Public Council 1/i,
+      name: "Public Council 1",
     });
     const link2 = screen.getByRole("link", {
-      name: /Public Council 2/i,
+      name: "Public Council 2",
     });
 
     expect(link1).toHaveAttribute("href", "/public-council-1");

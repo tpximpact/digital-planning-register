@@ -1,4 +1,5 @@
 @import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
 @import "node_modules/govuk-frontend/dist/govuk/components/button/index";
 
 .dpr-council-cards {
@@ -45,8 +46,10 @@ $dpr-council-card-shadow-colour: govuk-shade($dpr-council-card-colour, 40%);
 
   // our custom styles
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: $govuk-gutter-half;
 
   > svg {
     width: 100%;
@@ -56,8 +59,15 @@ $dpr-council-card-shadow-colour: govuk-shade($dpr-council-card-colour, 40%);
   margin: 0;
   @include govuk-font($size: 24, $weight: bold);
 
-  height: 140px;
+  height: 160px;
   padding: govuk-spacing(3);
+
+  &__title {
+    @extend %govuk-body-m;
+    margin: 0;
+    padding: 0;
+  }
+
   @include govuk-media-query($from: tablet) {
   }
 }

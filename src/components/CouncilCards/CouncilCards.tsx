@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { AppConfig } from "@/config/types";
 import "./CouncilCards.scss";
 import { councilLogos } from "../CouncilLogos";
@@ -28,19 +27,11 @@ export const CouncilCards = ({
                 key={council.slug}
                 className={`dpr-council-card ${logo ? "dpr-council-card--logo" : ""}`}
                 href={`/${council.slug}`}
-                title={`${council.name} Council`}
+                aria-label={council.name}
                 data-council-slug={council.slug}
               >
-                {logo ? (
-                  <>
-                    {councilLogos[council.slug]}
-                    <span className="govuk-visually-hidden">
-                      {council.name}
-                    </span>
-                  </>
-                ) : (
-                  <span>{council.name}</span>
-                )}
+                {logo && <>{councilLogos[council.slug]}</>}
+                <div className={`dpr-council-card__title`}>{council.name}</div>
               </Link>
             );
           })}
