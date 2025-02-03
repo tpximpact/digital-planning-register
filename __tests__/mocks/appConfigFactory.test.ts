@@ -15,7 +15,7 @@ describe("createAppConfig", () => {
     expect(config.councils[4].name).toBe("Private Council 1");
     expect(config.councils[5].name).toBe("Private Council 2");
     expect(config.councils[6].name).toBe("Public overwritten");
-    expect(config.councils[7].name).toBe("Public no env vars");
+    expect(config.councils[7].name).toBe("Public no bops env vars");
   });
 
   it("returns the correct council when getCouncil is called", () => {

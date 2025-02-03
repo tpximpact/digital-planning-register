@@ -79,7 +79,7 @@ const testLandingPage = async (page: Page) => {
     "private-council-2",
     "unlisted-council-1",
     "unlisted-council-2",
-    "public-no-env-vars",
+    "public-no-bops-env-vars",
     "public-overwritten",
   ];
   hidden.forEach(async (slug) => {
