@@ -98,9 +98,9 @@ describe("Render ApplicationCard", () => {
     expect(
       screen.queryByText("Status - Assessment in progress"),
     ).toBeInTheDocument();
-    //Recieved date
+    //Received date
     expect(
-      screen.queryByText("Recieved date - 8 May 2023"),
+      screen.queryByText("Received date - 8 May 2023"),
     ).toBeInTheDocument();
     // Valid from date
     expect(

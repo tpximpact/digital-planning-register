@@ -65,7 +65,7 @@ export const isDateTime = (date: string): boolean => {
  * Mostly used in the BOPS handlers to convert dates passed in as datetimes to UTC - without the date changing when we format it!
  *
  * We're opinionated on what constitutes a valid date string.
- * In this function if we recieved a datetime with no time set, we're making an assumption that its meant to be a date only
+ * In this function if we received a datetime with no time set, we're making an assumption that its meant to be a date only
  * 2024-06-12 will be returned as 2024-06-11T23:00:00.000Z
  * 2024-07-02T00:00:00.000+01:00 will be returned as 2024-07-01
  * 2024-07-05T12:05:14.224+01:00 will be returned as 2024-07-05

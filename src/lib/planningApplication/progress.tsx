@@ -1,5 +1,5 @@
 /**
- * The progress of a planning application should always follow the order: recieved, validated, published, consulted on, (appealed), decided
+ * The progress of a planning application should always follow the order: received, validated, published, consulted on, (appealed), decided
 
  * "received",
  * "validFrom",
@@ -32,7 +32,7 @@ export const buildApplicationProgress = (
   // 01 received
   if (application.application?.receivedDate) {
     progressData.push({
-      title: "Recieved",
+      title: "Received",
       date: formatDateToDprDate(application.application.receivedDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),

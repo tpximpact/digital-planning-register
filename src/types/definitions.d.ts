@@ -47,7 +47,7 @@ export interface DprPlanningApplication {
     };
     /**
      * YYYY-MM-DD
-     * NB coverting from recievedAt to recievedDate in the BOPs handlers
+     * NB coverting from receivedAt to receivedDate in the BOPs handlers
      */
     receivedDate: string;
     /**
