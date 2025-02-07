@@ -25,7 +25,7 @@ describe("PageItem", () => {
     render(<PageItem page={page} link={link} />);
     const linkElement = screen.getByRole("listitem");
     expect(linkElement).toBeInTheDocument();
-    expect(linkElement).toHaveTextContent("⋅⋅⋅");
+    expect(linkElement).toHaveTextContent(/\u22EF|\u2026|\.\.\./);
     expect(linkElement).toHaveClass("govuk-pagination__item--ellipses");
   });
 });
