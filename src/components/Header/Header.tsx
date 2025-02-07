@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AppConfig } from "@/config/types";
 import { councilLogos } from "../CouncilLogos";
 import "./Header.scss";
+import { addCouncilToName, capitaliseWord } from "@/util";
 
 export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
   const currentPath = usePathname();
@@ -52,10 +53,7 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
               </>
             ) : (
               <span>
-                {councilConfig.name}
-                {!councilConfig.name?.toLowerCase().includes("council")
-                  ? " Council"
-                  : ""}
+                {capitaliseWord(addCouncilToName(councilConfig.name))}
               </span>
             )}
           </Link>
