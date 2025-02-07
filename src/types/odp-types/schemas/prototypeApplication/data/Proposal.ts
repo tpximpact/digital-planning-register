@@ -1,3 +1,6 @@
+import { GeoBoundary } from "../../../shared/Boundaries";
+import { Materials } from "../../../shared/Materials";
+import { ProposedLondonParking } from "../../../shared/Parking";
 import { Area, Date, Integer } from "../../../shared/utils";
 import { PrimaryApplicationType } from "../enums/ApplicationType";
 import { BuildingRegulation } from "../enums/BuildingRegulation";
@@ -8,7 +11,7 @@ import { ProjectType } from "../enums/ProjectType";
 import { ProtectedSpaceDesignation } from "../enums/ProtectedSpaceDesignation";
 import { GLAResidentialUnitType } from "../enums/ResidentialUnitType";
 import { GLATenureType } from "../enums/TenureType";
-import { GeoBoundaryPrototype, Materials, ResidentialUnits } from "./shared";
+import { ResidentialUnits } from "./shared";
 
 /**
  * @description Information about the proposed works and any changes to the property
@@ -22,7 +25,7 @@ export interface EnglandProposal {
   /**
    * @description Location plan boundary proposed by the user, commonly referred to as the red line boundary
    */
-  boundary?: GeoBoundaryPrototype;
+  boundary?: GeoBoundary;
   /**
    * @description Proposed materials, if applicable to projectType
    */
@@ -136,20 +139,7 @@ export interface EnglandProposal {
  */
 export interface LondonProposal extends Omit<EnglandProposal, "units"> {
   schemeName?: string;
-  /**
-   * @description Proposed parking spaces
-   */
-  parking?: {
-    cars?: ProposedCount;
-    vans?: ProposedCount;
-    motorcycles?: ProposedCount;
-    cycles?: ProposedCount;
-    buses?: ProposedCount;
-    disabled?: ProposedCount;
-    carClub?: ProposedCount;
-    offStreet?: { residential: ProposedCount };
-    other?: ProposedCount;
-  };
+  parking?: ProposedLondonParking;
   /**
    * @description Creating new buildings
    */
@@ -260,11 +250,6 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
     };
   };
 }
-
-type ProposedCount = {
-  count: number;
-  difference: number;
-};
 
 /**
  * @description Details about creating new buildings or increasing the height of existing buildings
