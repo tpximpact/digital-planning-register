@@ -38,6 +38,7 @@ export const ApplicationCard = ({
     application.application?.status &&
     getApplicationStatusSummary(
       application.application.status,
+      application.application.consultation?.startDate ?? undefined,
       application.application.consultation?.endDate ?? undefined,
     );
 

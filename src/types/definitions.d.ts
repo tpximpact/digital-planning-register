@@ -26,8 +26,32 @@ export interface DprPlanningApplication {
   applicationType: ApplicationType;
   application: {
     reference: string;
-    status: string;
+    status:
+      | "Appeal allowed"
+      | "Appeal dismissed"
+      | "Appeal split decision"
+      | "Appeal withdrawn"
+      | "Appeal lodged"
+      | "Appeal valid"
+      | "Appeal started"
+      | "Appeal determined"
+      | "pending"
+      | "not_started"
+      | "invalid"
+      | "assessment_in_progress"
+      | "in_assessment"
+      | "awaiting_determination"
+      | "in_committee"
+      | "to_be_reviewed"
+      | "determined"
+      | "returned"
+      | "withdrawn"
+      | "closed";
     consultation: {
+      /**
+       * YYYY-MM-DD
+       */
+      startDate: string | null;
       /**
        * YYYY-MM-DD
        */

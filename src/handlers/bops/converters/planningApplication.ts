@@ -45,6 +45,7 @@ export const convertBopsApplicationToDpr = (
     },
     status: application.status,
     consultation: {
+      startDate: application.consultation?.startDate,
       endDate: application.consultation?.endDate,
       consulteeComments: consultee_comments,
       publishedComments: published_comments,

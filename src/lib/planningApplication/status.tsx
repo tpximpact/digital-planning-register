@@ -15,45 +15,95 @@ dayjs.extend(isSameOrAfter);
 dayjs.utc().isUTC();
 
 /**
- * Determines the formatted status based on the provided status and end date.
+ * Determines the formatted status based on the provided status and consultation start/end date.
  *
  * @param {string} status - The current status, which may include underscores.
+ * @param {string | null} start_date - The start date of the status in YYYY-MM-DD format, or null if not applicable.
  * @param {string | null} end_date - The end date of the status in YYYY-MM-DD format, or null if not applicable.
  * @returns {string} - The formatted status string.
+ * If status is one of: "assessment_in_progress", "in_assessment", "to_be_reviewed", "awaiting_determination", "in_committee",
+ *   then:
+ *      - If both consultation start_date and end_date are provided and today is between them,
+ *        return "Consultation in progress".
+ *      - Otherwise, return "Assessment in progress".
  *
- * If `end_date` is null, the status is returned with underscores replaced by spaces and capitalized.
- * If `end_date` is provided and the status is one of the specified match statuses, the function will
- * return "Consultation in progress" if the end date is today or in the future, or "Assessment in progress"
- * if the end date is in the past. Otherwise, the status is returned with underscores replaced by spaces
- * and capitalized.
+ * - If status is "closed", return "Closed".
+ * - If status is "determined", return "Determined".
+ * - If status is "returned", return "Returned".
+ * - If status is "withdrawn", return "Application withdrawn".
+ *
+ * - If status is one of:
+ *    "Appeal lodged", "Appeal valid", "Appeal started", "Appeal determined",
+ *   return the status as-is.
+ *
+ * - If status is one of:
+ *    "Appeal allowed", "Appeal dismissed", "Appeal split decision", "Appeal withdrawn",
+ *   return "Appeal determined".
+ *
+ * - All others fall through and are formatted by replacing underscores with spaces and capitalizing.
+ *
  */
 export const getApplicationStatusSummary = (
   status: DprPlanningApplication["application"]["status"],
-  consultationEndDate?: string,
-) => {
-  const isRelevantStatus = [
-    "in_assessment",
+  start_date?: string | null,
+  end_date?: string | null,
+): string => {
+  if (status === null || status === undefined) return "";
+
+  const assessmentStatuses = [
     "assessment_in_progress",
+    "in_assessment",
+    "to_be_reviewed",
     "awaiting_determination",
-  ].includes(status);
-
-  const isEndDateValid = consultationEndDate
-    ? isDate(consultationEndDate)
-    : false;
-
-  if (isRelevantStatus && isEndDateValid) {
-    const date: Dayjs = dayjs.utc(consultationEndDate);
-
-    if (date.isSameOrAfter(dayjs(), "day")) {
-      // if consultation is today or in the future
-      return "Consultation in progress";
-    } else if (date.isBefore(dayjs(), "day")) {
-      // if consultation is before today
-      return "Assessment in progress";
+    "in_committee",
+  ];
+  if (assessmentStatuses.includes(status)) {
+    if (start_date && end_date && isDate(start_date) && isDate(end_date)) {
+      const consultationStartDate: Dayjs = dayjs.utc(start_date);
+      const consultationEndDate: Dayjs = dayjs.utc(end_date);
+      const now: Dayjs = dayjs.utc();
+      if (
+        now.isSameOrAfter(consultationStartDate, "day") &&
+        (now.isSame(consultationEndDate, "day") ||
+          now.isBefore(consultationEndDate, "day"))
+      ) {
+        return "Consultation in progress";
+      }
     }
-  } else {
-    return capitalizeFirstLetter(status?.replace(/_/g, " "));
+    return "Assessment in progress";
   }
+
+  const finalStatuses: Record<string, string> = {
+    closed: "Closed",
+    determined: "Determined",
+    returned: "Returned",
+    withdrawn: "Application withdrawn",
+  };
+  if (finalStatuses[status]) {
+    return finalStatuses[status];
+  }
+
+  const appealStatuses = [
+    "Appeal lodged",
+    "Appeal valid",
+    "Appeal started",
+    "Appeal determined",
+  ];
+  if (appealStatuses.includes(status)) {
+    return status;
+  }
+
+  const appealStatusesDetermined = [
+    "Appeal allowed",
+    "Appeal dismissed",
+    "Appeal split decision",
+    "Appeal withdrawn",
+  ];
+  if (appealStatusesDetermined.includes(status)) {
+    return "Appeal determined";
+  }
+
+  return capitalizeFirstLetter(status?.replace(/_/g, " "));
 };
 
 /**

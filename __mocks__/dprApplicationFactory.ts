@@ -13,6 +13,7 @@ import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/
 import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
+import { start } from "repl";
 
 /**
  * Generates a random reference string in the format `XX-XXXXX-XXXX`.
@@ -129,7 +130,7 @@ export const generateDprApplication = ({
   appeal,
 }: {
   applicationType?: ApplicationType;
-  applicationStatus?: string;
+  applicationStatus?: DprPlanningApplication["application"]["status"];
   decision?: string | null;
   appeal?: DprPlanningApplication["application"]["appeal"] | null;
 } = {}): DprPlanningApplication => {
@@ -167,6 +168,7 @@ export const generateDprApplication = ({
 
   const determinedAt =
     decision !== null ? faker.date.anytime().toISOString() : null;
+  const startDate = faker.date.anytime();
 
   const decisionStatuses = [
     "Appeal allowed",
@@ -214,7 +216,10 @@ export const generateDprApplication = ({
       reference: generateReference(),
       status: applicationStatus,
       consultation: {
-        endDate: formatDateToYmd(faker.date.anytime()),
+        startDate: formatDateToYmd(startDate),
+        endDate: formatDateToYmd(
+          new Date(startDate.setDate(startDate.getDate() + 21)),
+        ),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
         allowComments: getCommentsAllowed(applicationType),

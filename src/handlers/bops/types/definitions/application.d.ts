@@ -24,7 +24,27 @@ export interface BopsApplicationOverview {
   validAt: string | null;
   publishedAt?: string | null;
   determinedAt?: string | null;
-  status: string;
+  status:
+    | "Appeal allowed"
+    | "Appeal dismissed"
+    | "Appeal split decision"
+    | "Appeal withdrawn"
+    | "Appeal lodged"
+    | "Appeal valid"
+    | "Appeal started"
+    | "Appeal determined"
+    | "pending"
+    | "not_started"
+    | "invalid"
+    | "assessment_in_progress"
+    | "in_assessment"
+    | "awaiting_determination"
+    | "in_committee"
+    | "to_be_reviewed"
+    | "determined"
+    | "returned"
+    | "withdrawn"
+    | "closed";
   decision?: string | null;
   appeal?: {
     decision: string;
