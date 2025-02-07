@@ -121,7 +121,7 @@ export const ApplicationCard = ({
 
             {application.application?.receivedDate && (
               <ApplicationDataField
-                title="Recieved date"
+                title="Received date"
                 value={formatDateToDprDate(
                   application.application.receivedDate,
                 )}

@@ -15,7 +15,7 @@ const meta = {
     withReadMore: true,
     sections: [
       {
-        title: "Recieved",
+        title: "Received",
         date: "2 Jan 2021",
         content: (
           <p>
@@ -87,7 +87,7 @@ export const One: Story = {
   args: {
     sections: [
       {
-        title: "Recieved",
+        title: "Received",
         date: "2025-01-02",
         content: (
           <p>
