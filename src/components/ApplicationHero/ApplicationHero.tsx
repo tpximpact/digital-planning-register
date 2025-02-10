@@ -144,8 +144,8 @@ export const ApplicationHero = ({
                     ) ? (
                       <InfoIcon
                         href={`/${councilSlug}/help/decisions#${slugify(applicationDecisionSummary)}`}
-                        title="Understanding decisions"
-                        ariaLabel="Understanding decisions"
+                        title="Understanding council decisions"
+                        ariaLabel="Understanding council decisions"
                       />
                     ) : undefined
                   }

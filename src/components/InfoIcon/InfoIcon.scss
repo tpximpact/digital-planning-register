@@ -8,8 +8,8 @@
   height: 1.3em;
   width: 1.3em;
 
-  background: govuk-colour("blue");
-  color: white;
+  background: white;
+  color: govuk-colour("blue");
   text-align: center;
   text-decoration: none;
 
@@ -17,13 +17,15 @@
   aspect-ratio: 1;
 
   &:hover {
-    background: govuk-colour("light-grey");
-    color: govuk-colour("blue");
-  }
-  &:focus {
-    background: govuk-colour("yellow");
+    background: govuk-colour("black");
     box-shadow: none;
     outline: 3px solid govuk-colour("black");
-    color: govuk-colour("black");
+    color: govuk-colour("yellow");
+  }
+  &:focus {
+    background: govuk-colour("black");
+    box-shadow: none;
+    outline: 3px solid govuk-colour("black");
+    color: govuk-colour("yellow");
   }
 }
