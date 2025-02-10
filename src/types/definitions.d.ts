@@ -10,6 +10,70 @@
 
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
+
+/**
+ * Utility to change fields (omit certain fields and replace with modified ones)
+ * @internal
+ */
+type ChangeFields<T, R> = Omit<T, keyof R> & R;
+
+/**
+ *
+ *
+ *
+ * DprApplication
+ * the most important object, contains all the information about a planning application
+ *
+ * This is PostSubmissionApplication with only the extra information we need from the submission object
+ * @todo this doesn't exclude email address etc yet
+ *
+ *
+ */
+type DprApplicant = DprBaseApplicant | DprAgent;
+
+type DprContactDetails = {
+  name: {
+    title?: string;
+    first: string;
+    last: string;
+  };
+  company?: {
+    name: string;
+  };
+};
+
+type DprBaseApplicant = DprContactDetails & {
+  type: "individual" | "company" | "charity" | "public" | "parishCouncil";
+  address: UserAddress;
+};
+
+interface DprAgent extends DprBaseApplicant {
+  agent: DprContactDetails & { address: Address };
+}
+
+export type DprApplication = ChangeFields<
+  PostSubmissionApplication,
+  {
+    submission: ChangeFields<
+      Pick<PostSubmissionApplication["submission"], "files">,
+      {
+        data: {
+          property: Pick<
+            PostSubmissionApplication["submission"]["data"]["property"],
+            "address" | "boundary"
+          >;
+          proposal: Pick<
+            PostSubmissionApplication["submission"]["data"]["proposal"],
+            "description"
+          >;
+          applicant: DprApplicant;
+        };
+        files: DprDocument[];
+      }
+    >;
+  }
+>;
 
 /**
  *
