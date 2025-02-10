@@ -1,11 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
-import { DprContentPage, DprPlanningApplication } from "@/types";
+import {
+  DprApplication,
+  DprContentPage,
+  DprDecisionSummary,
+  DprPlanningApplication,
+} from "@/types";
 import { capitalizeFirstLetter, slugify } from "@/util";
 import { getPrimaryApplicationTypeKey } from "./type";
 import { Council } from "@/config/types";
 import Link from "next/link";
+import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 /**
+ * @deprecated Use getApplicationDprDecisionSummary in future when using PostSubmission schema
  * Returns a formatted decision string based on the application type.
  *
  * For "prior_approval" application types, it returns a specific message
@@ -55,6 +63,68 @@ export function getApplicationDecisionSummarySentiment(status: string) {
 
   return decisionDefined[status] || undefined;
 }
+
+/**
+ *
+ *
+ * Determines the decision summary for a given application.
+ * replaces getApplicationDecisionSummary
+ *
+ * For most applications this will return
+ * Granted
+ * Refused
+ *
+ * If prior approval is required we return
+ * Prior approval required and approved
+ * Prior approval not required
+ * Prior approval required and refused
+ *
+ * If priorApprovalRequired is not there:
+ * Granted
+ * Refused
+ *
+ * If priorApprovalRequired is true:
+ * councilDecision: granted -> Prior approval required and approved
+ * councilDecision: refused -> Prior approval required and refused
+ *
+ * If priorApprovalRequired is false:
+ * councilDecision: granted -> Prior approval not required
+ * councilDecision: refused -> Prior approval not required
+ *
+ *
+ * @param application
+ * @returns  DprDecisionSummary | undefined
+ */
+export const getApplicationDprDecisionSummary = (
+  application:
+    | PostSubmissionApplication
+    | Omit<
+        DprApplication,
+        "applicationStatusSummary" | "applicationDecisionSummary"
+      >,
+): DprDecisionSummary | undefined => {
+  const assessment = application.data.assessment;
+  const decision = assessment?.councilDecision || assessment?.committeeDecision;
+
+  if (!decision) {
+    return undefined;
+  }
+
+  const priorApprovalRequired = (assessment as PriorApprovalAssessment)
+    ?.priorApprovalRequired;
+
+  if (priorApprovalRequired === undefined) {
+    return capitalizeFirstLetter(decision) as DprDecisionSummary;
+  }
+
+  if (priorApprovalRequired) {
+    return `Prior approval required and ${
+      decision === "granted" ? "approved" : "refused"
+    }`;
+  }
+
+  return "Prior approval not required";
+};
 
 export const contentDecisions = (councilConfig?: Council): DprContentPage[] => {
   return [

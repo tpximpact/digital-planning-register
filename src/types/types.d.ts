@@ -1,3 +1,5 @@
+import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
+
 /**
  * This file contains the definitions for common objects used accross the application
  *
@@ -5,6 +7,8 @@
  * DprPagination - the object that describes the pagination of a list of objects
  * SearchParams - common object to represent search parameters
  * Documentation - common object to represent documentation for a handler
+ * DprStatusSummary - the dpr version of the application status
+ * DprDecisionSummary - the dpr version of the decision summary
  */
 
 /**
@@ -97,3 +101,44 @@ export interface Documentation {
   }[];
   source?: string[];
 }
+
+/**
+ *
+ *
+ *
+ * DprStatusSummary
+ * the dpr version of the application status
+ *
+ *
+ *
+ */
+export type DprStatusSummary =
+  | "Application submitted"
+  | "Application returned"
+  | "Consultation in progress"
+  | "Assessment in progress"
+  | "Determined"
+  | "Withdrawn"
+  | "Appeal lodged"
+  | "Appeal validated"
+  | "Appeal in progress"
+  | "Appeal decided"
+  | "Appeal withdrawn"
+  | "Unknown";
+
+/**
+ *
+ *
+ *
+ * DprDecisionSummary
+ * the dpr version of the decision summary
+ *
+ *
+ *
+ */
+type DprPriorApprovalDecision =
+  | "Prior approval required and approved"
+  | "Prior approval not required"
+  | "Prior approval required and refused";
+
+export type DprDecisionSummary = AssessmentDecision | DprPriorApprovalDecision;

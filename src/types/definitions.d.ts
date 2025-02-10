@@ -11,6 +11,25 @@
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
+import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
+import { DprStatusSummary, DprDecisionSummary } from "@/types";
+
+/**
+ *
+ *
+ *
+ * DprApplication
+ * the most important object, contains all the information about a planning application
+ *
+ * NB this will need to be changes to PublishedApplication when the redacted version is made
+ * NB this doesn't exclude email address etc yet that will be done through the redacted application submission schema
+ *
+ *
+ */
+export type DprApplication = PostSubmissionApplication & {
+  applicationStatusSummary: DprStatusSummary;
+  applicationDecisionSummary?: DprDecisionSummary;
+};
 
 /**
  *
