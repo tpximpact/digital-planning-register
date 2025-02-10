@@ -11,6 +11,7 @@
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
+import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
 
 /**
  * Utility to change fields (omit certain fields and replace with modified ones)
@@ -211,22 +212,7 @@ export interface DprComment {
  * @todo refine this formate further to be more generic or inherit from ODP
  *
  */
-export interface DprBoundaryGeojson {
-  type: "FeatureCollection" | "Feature";
-  geometry?: {
-    type: "Polygon" | "MultiPolygon";
-    coordinates: number[][][] | number[][][][];
-  };
-  properties?: { [key: string]: any } | null;
-  features?: {
-    type: string;
-    geometry: {
-      type: "Polygon" | "MultiPolygon";
-      coordinates: number[][][] | number[][][][];
-    };
-    properties: { [key: string]: any } | null;
-  }[];
-}
+export type DprBoundaryGeojson = GeoBoundary["site"];
 
 /**
  *

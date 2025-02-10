@@ -102,11 +102,7 @@ export const ApplicationMap = ({
     };
   }
 
-  const geojsonData =
-    !mapData?.type ||
-    (mapData?.type !== "Feature" && mapData?.type !== "FeatureCollection")
-      ? false
-      : JSON.stringify(mapData);
+  const geojsonData = JSON.stringify(mapData);
 
   if (isClient && geojsonData) {
     return (
