@@ -6,9 +6,15 @@ interface InfoIconProps {
   href: string;
   title: string;
   ariaLabel?: string;
+  className?: string;
 }
 
-export const InfoIcon = ({ href, title, ariaLabel }: InfoIconProps) => {
+export const InfoIcon = ({
+  href,
+  title,
+  ariaLabel,
+  className = "",
+}: InfoIconProps) => {
   if (!href) {
     return null;
   }
@@ -19,7 +25,7 @@ export const InfoIcon = ({ href, title, ariaLabel }: InfoIconProps) => {
 
   return (
     <Link
-      className="info-icon"
+      className={`info-icon ${className}`.trim()}
       href={href}
       title={title}
       aria-label={ariaLabel}

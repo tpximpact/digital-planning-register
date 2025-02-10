@@ -127,6 +127,8 @@ describe("Render ApplicationCard", () => {
     );
     // Decision
     expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
+
+    expect(screen.getByTestId("info-icon")).toBeInTheDocument();
   });
 
   // This should never happen but good way to make sure theres no errors
@@ -141,8 +143,13 @@ describe("Render ApplicationCard", () => {
       );
     });
 
-    // Check if any text is being rendered
-    const textElements = screen.queryAllByText(/./);
-    expect(textElements.length).toBe(0);
+    // Ensure application-specific data is NOT present
+    expect(
+      screen.queryByText(/Application reference/i),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Application type/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Status/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Received date/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Decision/i)).not.toBeInTheDocument();
   });
 });
