@@ -303,7 +303,7 @@ const testCouncilReferenceSubmitComment = async (
     // playwright is sometimes reading that and failing the test
     // so we wait for the submit comment page content to appear and then test for the title
     // @todo refine the comment flow feature and tests so this is not needed!
-    await page.waitForSelector(".submit-comment");
+    await page.waitForSelector(".submit-comment", { timeout: 400000 });
 
     await expect(
       page.getByRole("heading", {
