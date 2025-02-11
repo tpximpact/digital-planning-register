@@ -1,26 +1,8 @@
-import { GeoJSON } from "geojson";
+import { URL } from "../../../shared/utils";
 import { UKResidentialUnitType } from "../enums/ResidentialUnitType";
 import { UKTenureType } from "../enums/TenureType";
-import { Area, URL } from "../../../shared/utils";
 
-export type Materials = {
-  boundary?: string;
-  door?: string;
-  lighting?: string;
-  roof?: string;
-  surface?: string;
-  wall?: string;
-  window?: string;
-  other?: string;
-};
-
-// TODO - Rename when prototype application replaces application
-export type GeoBoundaryPrototype = {
-  site: GeoJSON;
-  area: Area;
-};
-
-export type Entity = {
+export type PrototypeEntity = {
   name: string;
   description?: string;
   source: PlanningDataSource | OSRoadsSource;

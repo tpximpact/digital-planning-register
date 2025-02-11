@@ -1,28 +1,17 @@
+import { OSAddress, ProposedAddress } from "../../../shared/Addresses";
+import { GeoBoundary } from "./../../../shared/Boundaries";
+import { Materials } from "../../../shared/Materials";
+import { Region } from "../../../shared/Regions";
 import { URL } from "../../../shared/utils";
-import { GeoBoundary } from "../../application/data/shared";
 import { PrimaryApplicationType } from "../enums/ApplicationType";
 import {
   PlanningConstraint,
   PlanningDesignation,
 } from "../enums/PlanningDesignation";
 import { PropertyType } from "../enums/PropertyTypes";
-import { Materials } from "./shared";
+import { ExistingLondonParking } from "../../../shared/Parking";
 
 export type PropertyBase = EnglandProperty | LondonProperty;
-
-/**
- * @description The region in England that contains this address sourced from planning.data.gov.uk/dataset/region, where London is a proxy for the Greater London Authority (GLA) area
- */
-export type Region =
-  | "North East"
-  | "North West"
-  | "Yorkshire and The Humber"
-  | "East Midlands"
-  | "West Midlands"
-  | "East of England"
-  | "London"
-  | "South East"
-  | "South West";
 
 /**
  * @description Property details for sites anywhere in England
@@ -77,91 +66,7 @@ export interface LondonProperty extends EnglandProperty {
       | "No";
     number?: string;
   };
-  parking?: {
-    cars?: ExistingCount;
-    vans?: ExistingCount;
-    motorcycles?: ExistingCount;
-    cycles?: ExistingCount;
-    buses?: ExistingCount;
-    disabled?: ExistingCount;
-    carClub?: ExistingCount;
-    offStreet?: { residential: ExistingCount };
-    other?: ExistingCount;
-  };
-}
-
-type ExistingCount = { count: number };
-
-/**
- * @description Address information available for any site, whether existing or proposed
- */
-export interface SiteAddress {
-  title: string;
-  /**
-   * @description Easting coordinate in British National Grid (OSGB36)
-   */
-  x: number;
-  /**
-   * @description Northing coordinate in British National Grid (OSGB36)
-   */
-  y: number;
-  /**
-   * @description Latitude coordinate in EPSG:4326 (WGS84)
-   */
-  latitude: number;
-  /**
-   * @description Longitude coordinate in EPSG:4326 (WGS84)
-   */
-  longitude: number;
-}
-
-/**
- * @description Address information for sites without a known Unique Property Reference Number (UPRN)
- */
-export interface ProposedAddress extends SiteAddress {
-  source: "Proposed by applicant";
-}
-
-/**
- * @description Address information for sites with a known address sourced from Ordnance Survey AddressBase Premium (LPI)
- */
-export interface OSAddress extends SiteAddress {
-  /**
-   * @title Unique Property Reference Number
-   * @maxLength 12
-   */
-  uprn: string;
-  /**
-   * @title Unique Street Reference Number
-   * @maxLength 8
-   */
-  usrn: string;
-  /**
-   * @title Primary Addressable Object start range and/or building description
-   * @description Combined `PAO_START_NUMBER`, `PAO_START_SUFFIX`, `PAO_TEXT` OS LPI properties
-   */
-  pao: string;
-  /**
-   * @title Primary Addressable Object (PAO) end range
-   * @description Combined `PAO_END_NUMBER`, `PAO_END_SUFFIX` OS LPI properties
-   */
-  paoEnd?: string;
-  /**
-   * @title Secondary Addressable Object (SAO) start range and/or building description
-   * @description Combined `SAO_START_NUMBER`, `SAO_START_SUFFIX`, `SAO_TEXT` OS LPI properties
-   */
-  sao?: string;
-  /**
-   * @title Secondary Addressable Object (SAO) end range
-   * @description Combined `SAO_END_NUMBER`, `SAO_END_SUFFIX` OS LPI properties
-   */
-  saoEnd?: string;
-  street: string;
-  town: string;
-  postcode: string;
-  organisation?: string;
-  singleLine: string;
-  source: "Ordnance Survey";
+  parking?: ExistingLondonParking;
 }
 
 export type PPProperty = PropertyBase & {
@@ -176,6 +81,7 @@ export type PPProperty = PropertyBase & {
  */
 interface PropertyVariants {
   pp: PPProperty;
+  wtt: EnglandProperty;
 }
 
 /**
