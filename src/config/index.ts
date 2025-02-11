@@ -36,7 +36,6 @@ export const getAppConfig = (council?: string): AppConfig => {
     council: council ? getCouncil(council) : undefined,
     councils: councilConfigs,
     features: {
-      getApplicantDetailsFromPrivateEndpoint: true,
       getApplicationIdFromPrivateEndpoint: true,
       osMapProxyUrl: process.env.OS_MAP_PROXY_URL ?? undefined,
     },

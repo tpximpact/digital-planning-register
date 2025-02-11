@@ -25,7 +25,7 @@ export async function postComment(
   const appConfig = getAppConfig(council);
   let applicationId = undefined;
 
-  if (appConfig.features.getApplicationIdFromPrivateEndpoint) {
+  if (appConfig.features?.getApplicationIdFromPrivateEndpoint) {
     const privateApplicationData = await handleBopsGetRequest<
       ApiResponse<BopsV2PlanningApplicationDetail | null>
     >(council, `planning_applications/${reference}`);

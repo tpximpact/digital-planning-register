@@ -22,22 +22,11 @@ export async function show(
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
   const appConfig = getAppConfig(council);
 
-  // only get missing data if the feature is enabled
-  let missingData;
-  if (appConfig.features.getApplicantDetailsFromPrivateEndpoint) {
-    const privateApplication = await handleBopsGetRequest<
-      ApiResponse<BopsV2PlanningApplicationDetail | null>
-    >(council, `planning_applications/${reference}`);
-    missingData = privateApplication?.data;
-  }
-
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
   >(council, `public/planning_applications/${reference}`);
 
-  const convertedData = request?.data
-    ? convertBopsToDpr(council, request.data, missingData)
-    : null;
+  const convertedData = request?.data ? convertBopsToDpr(request.data) : null;
 
   return { ...request, data: convertedData };
 }
