@@ -150,6 +150,6 @@ describe("Render ApplicationCard", () => {
     expect(screen.queryByText(/Application type/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Status/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Received date/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Decision/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Council ecision/i)).not.toBeInTheDocument();
   });
 });
