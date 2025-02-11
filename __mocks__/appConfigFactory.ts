@@ -85,13 +85,6 @@ export const createAppConfig = (council?: string): AppConfig => {
         councilBase: true,
       },
       {
-        id: "dsn",
-        label: "Digital site notice",
-        href: "/digital-site-notice",
-        showCondition: false,
-        councilBase: true,
-      },
-      {
         label: "Help",
         href: "/help",
         showCondition: true,
@@ -167,9 +160,7 @@ const defaultCouncils: Council[] = [
   createCouncilConfig({
     councilName: "Public Council 1",
     visibility: "public",
-    features: {
-      dsn: true,
-    },
+    features: {},
   }),
   createCouncilConfig({
     councilName: "Public Council 2",

@@ -13,7 +13,6 @@ import { test, expect, Page } from "@playwright/test";
  * /[council]/[reference]/comments
  * /[council]/[reference]/documents
  * /[council]/[reference/submit-comment
- * /[council]/digital-site-notice @todo
  * /[council]/help
  *
  */
@@ -467,10 +466,6 @@ test.describe("/[council]/help", () => {
       await testCouncilPlanningProcess(page);
     });
   });
-});
-
-test.describe.fixme("/[council]/digital-site-notice", () => {
-  test.fixme("Add tests for digital-site-notice", async ({ page }) => {});
 });
 
 test.describe("/[council]/[reference]", () => {

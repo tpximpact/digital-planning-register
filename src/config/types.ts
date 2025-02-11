@@ -64,7 +64,6 @@ export interface Council {
   specialistComments: boolean;
   contact?: string;
   features?: {
-    dsn?: boolean;
     logoInHeader?: boolean;
   };
   pageContent: {

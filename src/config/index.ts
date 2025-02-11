@@ -51,13 +51,6 @@ export const getAppConfig = (council?: string): AppConfig => {
         showCondition: true,
       },
       {
-        id: "dsn",
-        showCondition: false,
-        label: "Digital site notice",
-        href: "/digital-site-notice",
-        councilBase: true,
-      },
-      {
         label: "Help",
         href: "/help",
         councilBase: true,
@@ -222,7 +215,7 @@ const councils: Council[] = [
     publicComments: true,
     specialistComments: false,
     features: {
-      dsn: false,
+      logoInHeader: true,
     },
     pageContent: {
       council_reference_submit_comment_pre_submission: {
