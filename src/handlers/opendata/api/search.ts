@@ -27,12 +27,15 @@ export async function search(
   search?: SearchParams,
 ): Promise<ApiResponse<DprSearchApiResponse | null>> {
   const appConfig = getAppConfig(council);
-  let url = "";
 
   const resultsPerPage = appConfig.defaults.resultsPerPage ?? 10;
   const params = new URLSearchParams({
     $limit: resultsPerPage.toString(),
     $order: "registered_date DESC",
+  });
+
+  const countParams = new URLSearchParams({
+    $select: "count(*)",
   });
 
   if (search) {
@@ -44,20 +47,20 @@ export async function search(
     }
 
     if (search?.query) {
-      params.append("$where=", `application_number='${search?.query}'`);
+      const whereClause = `application_number like '%${search.query}%' OR development_address like '%${search.query}%' OR development_description like '%${search.query}%'`;
+      params.append("$where", whereClause);
+      countParams.append("$where", whereClause);
     }
   }
-
-  url = `${url}?${params.toString()}`;
 
   const [request, totalItemsRequest] = await Promise.all([
     handleOpenDataGetRequest<ApiResponse<OpenDataApplication[] | null>>(
       council,
-      url,
+      `?${params.toString()}`,
     ),
     handleOpenDataGetRequest<ApiResponse<any | null>>(
       council,
-      `?$select=count(*)`,
+      `?${countParams.toString()}`,
     ),
   ]);
 

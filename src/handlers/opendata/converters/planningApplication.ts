@@ -42,10 +42,20 @@ export const createProperty = (
   const latitude = parseFloat(application.location.latitude);
   const longitude = parseFloat(application.location.longitude);
 
-  const polygonCoordinates = createPolygonCoordinatesAsCircle(
-    latitude,
-    longitude,
-  );
+  const rectangleCoordinates = {
+    type: "Polygon",
+    coordinates: createPolygonCoordinates(latitude, longitude),
+  };
+
+  const circleCoordinates = {
+    type: "Polygon",
+    coordinates: createPolygonCoordinatesAsCircle(latitude, longitude),
+  };
+
+  const pointCoordinates = {
+    type: "Point",
+    coordinates: createPointCoordinates(latitude, longitude),
+  };
 
   return {
     address: {
@@ -54,10 +64,7 @@ export const createProperty = (
     boundary: {
       site: {
         type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: polygonCoordinates,
-        },
+        geometry: circleCoordinates,
         properties: null,
       },
     },
@@ -120,6 +127,13 @@ const createPolygonCoordinatesAsCircle = (
   polygonCoordinates.push(polygonCoordinates[0]);
 
   return [polygonCoordinates];
+};
+
+const createPointCoordinates = (
+  latitude: number,
+  longitude: number,
+): number[] => {
+  return [longitude, latitude];
 };
 
 const mapApplicationType = (
