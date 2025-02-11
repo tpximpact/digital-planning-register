@@ -10,7 +10,6 @@ import {
 import { ApplicationDataField } from "../ApplicationDataField";
 import { Button } from "../button";
 import { ApplicationMapLoader } from "../ApplicationMap";
-import { getApplicationAppealDecisionSummary } from "@/lib/planningApplication/appeal";
 import { InfoIcon } from "../InfoIcon";
 import {
   formatDateToDprDate,
