@@ -1,7 +1,8 @@
-import { DprPlanningApplication } from "@/types";
+import { DprContentPage, DprPlanningApplication } from "@/types";
 import { DescriptionCard } from "../DescriptionCard";
 import "./ApplicationCard.scss";
 import {
+  contentDecisions,
   getApplicationDecisionSummary,
   getApplicationStatusSummary,
   getPrimaryApplicationType,
@@ -9,8 +10,12 @@ import {
 import { ApplicationDataField } from "../ApplicationDataField";
 import { Button } from "../button";
 import { ApplicationMapLoader } from "../ApplicationMap";
-import { formatDateToDprDate, formatDateTimeToDprDate } from "@/util";
 import { InfoIcon } from "../InfoIcon";
+import {
+  formatDateToDprDate,
+  formatDateTimeToDprDate,
+  findItemByKey,
+} from "@/util";
 
 export interface ApplicationCardProps {
   councilSlug: string;
@@ -40,6 +45,11 @@ export const ApplicationCard = ({
     application.applicationType,
     application.application?.decision ?? undefined,
   );
+
+  const applicationAppealDecisionSummary = findItemByKey<DprContentPage>(
+    contentDecisions(),
+    application?.application?.appeal?.decision?.replaceAll("_", "-") ?? "",
+  )?.title;
 
   return (
     <article
@@ -169,6 +179,29 @@ export const ApplicationCard = ({
                 <ApplicationDataField
                   title="Council decision"
                   value={applicationDecisionSummary}
+                />
+              </>
+            )}
+            {application?.application?.appeal?.decision && (
+              <>
+                {application?.application?.appeal?.decisionDate ? (
+                  <ApplicationDataField
+                    title="Appeal decision date"
+                    value={
+                      <time
+                        dateTime={application.application.appeal.decisionDate}
+                      >
+                        {formatDateToDprDate(
+                          application.application.appeal.decisionDate,
+                        )}
+                      </time>
+                    }
+                  />
+                ) : null}
+
+                <ApplicationDataField
+                  title="Appeal decision"
+                  value={applicationAppealDecisionSummary}
                 />
               </>
             )}

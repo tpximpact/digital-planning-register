@@ -207,3 +207,82 @@ export const DecisionPriorApprovalRequiredAndRefused: Story = {
     },
   },
 };
+
+export const AppealDecisionAllowed: Story = {
+  args: {
+    application: generateDprApplication({
+      decision: "refused",
+      applicationStatus: "Appeal allowed",
+      appeal: {
+        decision: "allowed",
+        decisionDate: new Date().toISOString(),
+        lodgedDate: new Date().toISOString(),
+        startedDate: new Date().toISOString(),
+        validatedDate: new Date().toISOString(),
+      },
+    }),
+  },
+};
+
+export const AppealDecisionDismissed: Story = {
+  args: {
+    application: generateDprApplication({
+      decision: "refused",
+      applicationStatus: "Appeal allowed",
+      appeal: {
+        decision: "dismissed",
+        decisionDate: new Date().toISOString(),
+        lodgedDate: new Date().toISOString(),
+        startedDate: new Date().toISOString(),
+        validatedDate: new Date().toISOString(),
+      },
+    }),
+  },
+};
+
+export const AppealDecisionSplitDecision: Story = {
+  args: {
+    application: generateDprApplication({
+      decision: "refused",
+      applicationStatus: "Appeal allowed",
+      appeal: {
+        decision: "split_decision",
+        decisionDate: new Date().toISOString(),
+        lodgedDate: new Date().toISOString(),
+        startedDate: new Date().toISOString(),
+        validatedDate: new Date().toISOString(),
+      },
+    }),
+  },
+};
+
+export const AppealDecisionWithdrawn: Story = {
+  args: {
+    application: generateDprApplication({
+      decision: "refused",
+      applicationStatus: "Appeal allowed",
+      appeal: {
+        decision: "withdrawn",
+        decisionDate: new Date().toISOString(),
+        lodgedDate: new Date().toISOString(),
+        startedDate: new Date().toISOString(),
+        validatedDate: new Date().toISOString(),
+      },
+    }),
+  },
+};
+
+export const AppealDecisionNotDecidedYet: Story = {
+  args: {
+    application: generateDprApplication({
+      decision: "refused",
+      applicationStatus: "Appeal lodged",
+      appeal: {
+        decision: undefined, // explicitly setting it to null
+        lodgedDate: new Date().toISOString(),
+        startedDate: new Date().toISOString(),
+        validatedDate: new Date().toISOString(),
+      },
+    }),
+  },
+};

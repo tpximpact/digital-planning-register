@@ -150,7 +150,7 @@ export const contentImportantDates = (): DprContentPage[] => {
             <>
               {" "}
               <p className="govuk-body">
-                The date the appeal beganm to be assessed by the planning
+                The date the appeal began to be assessed by the planning
                 inspectorate.{" "}
                 <Link
                   className="govuk-link"
@@ -164,7 +164,7 @@ export const contentImportantDates = (): DprContentPage[] => {
           ),
         },
         {
-          key: slugify("Appeal decided date"),
+          key: slugify("Appeal decision date"),
           title: "Appeal decided date",
           content: (
             <>

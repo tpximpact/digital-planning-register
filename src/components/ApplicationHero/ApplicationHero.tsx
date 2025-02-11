@@ -1,5 +1,5 @@
 import "./ApplicationHero.scss";
-import { DprPlanningApplication } from "@/types";
+import { DprContentPage, DprPlanningApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import {
   getApplicationStatusSummary,
@@ -10,11 +10,18 @@ import {
   getApplicationDecisionSummarySentiment,
   contentDecisions,
   contentApplicationStatuses,
+  contentImportantDates,
 } from "@/lib/planningApplication";
-import { flattenObject, slugify } from "@/util";
+import {
+  findItemByKey,
+  flattenObject,
+  formatDateToDprDate,
+  slugify,
+} from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
+import { appealDecisionSentiment } from "@/lib/planningApplication/appeal";
 
 interface ApplicationHeroProps {
   councilSlug: string;
@@ -51,6 +58,11 @@ export const ApplicationHero = ({
     contentDecisions(),
     "title",
   );
+
+  const applicationAppealDecisionSummary = findItemByKey<DprContentPage>(
+    contentDecisions(),
+    application?.application?.appeal?.decision?.replaceAll("_", "-") ?? "",
+  )?.title;
 
   return (
     <section
@@ -149,10 +161,47 @@ export const ApplicationHero = ({
                       />
                     ) : undefined
                   }
-                  // @TODO don't make this full width if there are appeals info afterwards
-                  // isFull={isThereANextItemInTheList ? false : true}
+                  isFull={
+                    application?.application?.appeal?.decision ? false : true
+                  }
                 />
               </>
+            )}
+
+            {/* Appeal decision */}
+            {application?.application?.appeal?.decision && (
+              <ApplicationDataField
+                title="Appeal decision"
+                value={
+                  applicationAppealDecisionSummary && (
+                    <Tag
+                      label={applicationAppealDecisionSummary}
+                      isInline={true}
+                      {...(applicationAppealDecisionSummary &&
+                      appealDecisionSentiment[applicationAppealDecisionSummary]
+                        ? {
+                            sentiment:
+                              appealDecisionSentiment[
+                                applicationAppealDecisionSummary
+                              ],
+                          }
+                        : {})}
+                    />
+                  )
+                }
+                infoIcon={
+                  applicationAppealDecisionSummary &&
+                  documentedApplicationDecisions.includes(
+                    applicationAppealDecisionSummary,
+                  ) ? (
+                    <InfoIcon
+                      href={`/${councilSlug}/help/decisions#${slugify(applicationAppealDecisionSummary)}`}
+                      title="Understanding appeal decisions"
+                      ariaLabel="Understanding appeal decisions"
+                    />
+                  ) : undefined
+                }
+              />
             )}
           </dl>
         </div>

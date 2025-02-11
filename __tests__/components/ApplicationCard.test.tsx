@@ -54,6 +54,13 @@ describe("Render ApplicationCard", () => {
       },
       decision: "granted",
       determinedAt: "2023-11-14T13:40:51.567Z",
+      appeal: {
+        decision: "allowed",
+        decisionDate: "2023-11-14",
+        lodgedDate: "2023-11-14",
+        startedDate: "2023-11-14",
+        validatedDate: "2023-11-14",
+      },
     },
     property: {
       address: {
@@ -127,6 +134,9 @@ describe("Render ApplicationCard", () => {
     );
     // Decision
     expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
+
+    // Appeal
+    expect(screen.queryByText("Appeal decision - Allowed")).toBeInTheDocument();
 
     expect(screen.getByTestId("info-icon")).toBeInTheDocument();
   });

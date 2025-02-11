@@ -55,6 +55,13 @@ const responseDsn: ApiResponse<DprSearchApiResponse> = {
           publishedDate: "2024-04-25",
           determinedAt: null,
           decision: null,
+          appeal: {
+            decision: "allowed",
+            decisionDate: "2024-06-09",
+            lodgedDate: "2024-05-30",
+            startedDate: "2024-05-29",
+            validatedDate: "2024-06-02",
+          },
         },
         property: {
           address: { singleLine: "5, PANCRAS SQUARE, LONDON, N1C 4AG" },

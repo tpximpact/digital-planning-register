@@ -126,10 +126,12 @@ export const generateDprApplication = ({
   applicationType,
   applicationStatus,
   decision,
+  appeal,
 }: {
   applicationType?: ApplicationType;
   applicationStatus?: string;
   decision?: string | null;
+  appeal?: DprPlanningApplication["application"]["appeal"] | null;
 } = {}): DprPlanningApplication => {
   const applicationTypes = Object.values(validApplicationTypes).flat();
   applicationType =
@@ -137,7 +139,28 @@ export const generateDprApplication = ({
 
   applicationStatus =
     applicationStatus ??
-    faker.helpers.arrayElement(["not_started", "determined", "in_assessment"]);
+    faker.helpers.arrayElement([
+      "Appeal allowed",
+      "Appeal dismissed",
+      "Appeal split decision",
+      "Appeal withdrawn",
+      "Appeal lodged",
+      "Appeal valid",
+      "Appeal started",
+      "Appeal determined",
+      "pending",
+      "not_started",
+      "invalid",
+      "assessment_in_progress",
+      "in_assessment",
+      "awaiting_determination",
+      "in_committee",
+      "to_be_reviewed",
+      "determined",
+      "returned",
+      "withdrawn",
+      "closed",
+    ]);
 
   decision =
     decision ?? faker.helpers.arrayElement(["refused", "granted", null]);
@@ -145,8 +168,48 @@ export const generateDprApplication = ({
   const determinedAt =
     decision !== null ? faker.date.anytime().toISOString() : null;
 
+  const decisionStatuses = [
+    "Appeal allowed",
+    "Appeal dismissed",
+    "Appeal split decision",
+    "Appeal withdrawn",
+    "Appeal determined",
+  ];
+
+  const dateStatuses = [
+    ...decisionStatuses,
+    "Appeal lodged",
+    "Appeal valid",
+    "Appeal started",
+  ];
+
+  const hasAppealDecisionStatus = decisionStatuses.includes(applicationStatus);
+  const hasAppealDateStatus = dateStatuses.includes(applicationStatus);
+
+  if (hasAppealDecisionStatus && appeal) {
+    appeal.decision =
+      appeal.decision ??
+      faker.helpers.arrayElement([
+        "allowed",
+        "dismissed",
+        "split_decision",
+        "withdrawn",
+      ]);
+    appeal.decisionDate =
+      appeal.decisionDate ?? formatDateToYmd(faker.date.anytime());
+  }
+
+  if (hasAppealDateStatus && appeal) {
+    appeal.lodgedDate =
+      appeal.lodgedDate ?? formatDateToYmd(faker.date.anytime());
+    appeal.startedDate =
+      appeal.startedDate ?? formatDateToYmd(faker.date.anytime());
+    appeal.validatedDate =
+      appeal.validatedDate ?? formatDateToYmd(faker.date.anytime());
+  }
+
   return {
-    applicationType: applicationType,
+    applicationType,
     application: {
       reference: generateReference(),
       status: applicationStatus,
@@ -161,6 +224,7 @@ export const generateDprApplication = ({
       publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
+      appeal: appeal,
     },
     property: {
       address: {
