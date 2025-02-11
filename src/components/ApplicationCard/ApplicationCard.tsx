@@ -10,6 +10,7 @@ import { ApplicationDataField } from "../ApplicationDataField";
 import { Button } from "../button";
 import { ApplicationMapLoader } from "../ApplicationMap";
 import { formatDateToDprDate, formatDateTimeToDprDate } from "@/util";
+import { InfoIcon } from "../InfoIcon";
 
 export interface ApplicationCardProps {
   councilSlug: string;
@@ -45,12 +46,12 @@ export const ApplicationCard = ({
       aria-labelledby={`application-information-section-${reference}`}
       className={`dpr-application-card${boundary_geojson ? "" : " dpr-application-card--no-map"}`}
     >
-      {/* uncomment and make sure using dpr-info-icon class when infoicon is styled correctly */}
-      {/* <InfoIcon
+      <InfoIcon
         href={`/${councilSlug}/help`}
         title="Get help understanding what everything here means"
         ariaLabel="Get help understanding what everything here means"
-      /> */}
+        className="dpr-info-icon"
+      />
       <div className="dpr-application-card__head govuk-grid-row">
         {reference && (
           <div className="govuk-grid-column-one-third-from-desktop">
