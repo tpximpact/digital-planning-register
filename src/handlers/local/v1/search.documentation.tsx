@@ -24,9 +24,5 @@ export const documentation: Documentation = {
       url: `/docs/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP`,
       description: "search search w results",
     },
-    {
-      url: `/docs/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=noresultsplease&searchType=dsn`,
-      description: "show DSN's",
-    },
   ],
 };

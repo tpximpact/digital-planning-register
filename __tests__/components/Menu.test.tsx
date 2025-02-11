@@ -31,7 +31,6 @@ describe("Menu", () => {
     );
     expect(screen.getByText("Application search")).toBeInTheDocument();
     expect(screen.getByText("Help")).toBeInTheDocument();
-    expect(screen.queryByText("Digital site notice")).toBeInTheDocument();
   });
 
   it("highlights the current navigation link", () => {
@@ -65,6 +64,5 @@ describe("Menu", () => {
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.queryByText("Application search")).not.toBeInTheDocument();
     expect(screen.queryByText("Help")).not.toBeInTheDocument();
-    expect(screen.queryByText("Digital site notice")).not.toBeInTheDocument();
   });
 });

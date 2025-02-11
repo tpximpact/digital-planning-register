@@ -107,7 +107,7 @@ const CommentSentiment = ({
             Select your sentiment about this development
           </legend>
 
-          <div className="govuk-radios dsn-sentiment">
+          <div className="govuk-radios">
             {sentiment_options.map((option) => (
               <div className="govuk-radios__item" key={option.id}>
                 <input
