@@ -60,7 +60,7 @@ export const ApplicationDetails = ({
     });
   }
 
-  if (appeal?.reason && appeal?.documents) {
+  if (appeal?.reason || appeal?.documents) {
     sidebar.push({
       key: slugify("Appeal"),
       title: "Appeal",
