@@ -6,6 +6,7 @@
     @extend .govuk-body;
     display: flex;
     align-items: center;
+    gap: $govuk-gutter-half;
     &:last-of-type {
       margin-bottom: 0;
     }
