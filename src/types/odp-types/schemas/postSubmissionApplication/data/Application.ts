@@ -1,3 +1,4 @@
+import { DateTime } from "../../../shared/utils";
 import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
 import { ApplicationStatus } from "../enums/ApplicationStatus";
 import { ProcessStage } from "../enums/ProcessStage";
@@ -19,6 +20,14 @@ type ApplicationBase = {
    * Additional contextual information can be found in the rest of the application
    */
   status: ApplicationStatus;
+  /**
+   * Date the application was withdrawn
+   */
+  withdrawnAt?: DateTime;
+  /**
+   * The reason the application was withdrawn
+   */
+  withdrawnReason?: string;
 };
 
 /**
