@@ -13,7 +13,6 @@ import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/
 import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
-import { start } from "repl";
 
 /**
  * Generates a random reference string in the format `XX-XXXXX-XXXX`.
