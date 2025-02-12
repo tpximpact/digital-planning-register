@@ -11,6 +11,7 @@ import { slugify } from "@/util";
 import { Button } from "@/components/button";
 import { ApplicationProgressInfo } from "../ApplicationProgressInfo";
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
+import { ApplicationAppeals } from "../ApplicationAppeals";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -36,6 +37,7 @@ export const ApplicationDetails = ({
   const commentsEnabled =
     application.application.consultation.allowComments ?? true;
   const applicationProgress = buildApplicationProgress(application);
+  const appeal = application.application.appeal;
 
   const sidebar = [
     {
@@ -55,6 +57,13 @@ export const ApplicationDetails = ({
     sidebar.push({
       key: slugify("Description"),
       title: "Description",
+    });
+  }
+
+  if (appeal?.reason || appeal?.documents) {
+    sidebar.push({
+      key: slugify("Appeal"),
+      title: "Appeal",
     });
   }
 
@@ -132,6 +141,12 @@ export const ApplicationDetails = ({
             Description
           </h2>
           <p className="govuk-body">{description}</p>
+          {(appeal?.documents || appeal?.reason) && (
+            <ApplicationAppeals
+              appealReason={appeal?.reason}
+              appealDocuments={appeal?.documents}
+            />
+          )}
           <DocumentsList
             councilSlug={appConfig?.council?.slug}
             reference={reference}

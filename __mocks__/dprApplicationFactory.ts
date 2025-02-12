@@ -187,26 +187,33 @@ export const generateDprApplication = ({
   const hasAppealDecisionStatus = decisionStatuses.includes(applicationStatus);
   const hasAppealDateStatus = dateStatuses.includes(applicationStatus);
 
-  if (hasAppealDecisionStatus && appeal) {
-    appeal.decision =
-      appeal.decision ??
-      faker.helpers.arrayElement([
-        "allowed",
-        "dismissed",
-        "split_decision",
-        "withdrawn",
-      ]);
-    appeal.decisionDate =
-      appeal.decisionDate ?? formatDateToYmd(faker.date.anytime());
-  }
+  if (appeal) {
+    if (hasAppealDecisionStatus) {
+      appeal.decision =
+        appeal.decision ??
+        faker.helpers.arrayElement([
+          "allowed",
+          "dismissed",
+          "split_decision",
+          "withdrawn",
+        ]);
+      appeal.decisionDate =
+        appeal.decisionDate ?? formatDateToYmd(faker.date.anytime());
+    }
 
-  if (hasAppealDateStatus && appeal) {
-    appeal.lodgedDate =
-      appeal.lodgedDate ?? formatDateToYmd(faker.date.anytime());
-    appeal.startedDate =
-      appeal.startedDate ?? formatDateToYmd(faker.date.anytime());
-    appeal.validatedDate =
-      appeal.validatedDate ?? formatDateToYmd(faker.date.anytime());
+    if (hasAppealDateStatus) {
+      appeal.lodgedDate =
+        appeal.lodgedDate ?? formatDateToYmd(faker.date.anytime());
+      appeal.startedDate =
+        appeal.startedDate ?? formatDateToYmd(faker.date.anytime());
+      appeal.validatedDate =
+        appeal.validatedDate ?? formatDateToYmd(faker.date.anytime());
+    }
+
+    appeal.reason = appeal.reason ?? faker.lorem.paragraph();
+    appeal.documents = appeal.documents ?? [
+      ...generateNResults<DprDocument>(2, generateDocument),
+    ];
   }
 
   return {

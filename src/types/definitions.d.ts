@@ -113,6 +113,8 @@ export interface DprPlanningApplication {
        * Follows convention of if date in the name it is YYYY-MM-DD
        */
       validatedDate?: string;
+      reason?: string;
+      documents?: DprDocument[];
     } | null;
   };
   property: {

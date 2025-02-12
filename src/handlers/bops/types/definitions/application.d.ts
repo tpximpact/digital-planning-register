@@ -7,6 +7,7 @@ import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import { DprDocument } from "@/types";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -52,6 +53,8 @@ export interface BopsApplicationOverview {
     lodgedDate: string;
     startedDate: string;
     validatedDate: string;
+    reason?: string;
+    documents?: DprDocument[];
   } | null;
   consultation: {
     startDate: string | null;
