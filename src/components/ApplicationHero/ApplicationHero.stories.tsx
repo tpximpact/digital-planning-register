@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationHero } from "./ApplicationHero";
 import { generateDprApplication } from "@mocks/dprApplicationFactory";
+import { formatDateToYmd } from "@/util";
 
 const baseApplication = generateDprApplication();
 
@@ -23,17 +24,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
 export const StatusConsultationInProgress: Story = {
   args: {
     application: {
       ...baseApplication,
       application: {
         ...baseApplication.application,
-        status: "in_progress",
+        status: "assessment_in_progress",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() + 86400000).toISOString(),
+          startDate: formatDateToYmd(new Date(Date.now() - 5 * 86400000)),
+          endDate: formatDateToYmd(new Date(Date.now() + 86400000)),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -51,7 +52,8 @@ export const StatusAssessmentInProgress: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(),
+          startDate: formatDateToYmd(new Date(Date.now() - 5 * 86400000)),
+          endDate: formatDateToYmd(new Date(Date.now() - 86400000)),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -69,6 +71,7 @@ export const StatusDetermined: Story = {
         status: "determined",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 5 * 86400000).toISOString(),
           endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -78,41 +81,6 @@ export const StatusDetermined: Story = {
   },
 };
 
-export const StatusAwaitingDetermination: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "awaiting_determination",
-        decision: null,
-        consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-  },
-};
-
-export const StatusAwaitingCorrection: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "awaiting_correction",
-        decision: null,
-        consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-  },
-};
 export const StatusWithdrawn: Story = {
   args: {
     application: {
@@ -126,6 +94,31 @@ export const StatusWithdrawn: Story = {
   },
 };
 
+export const StatusClosed: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "closed",
+        decision: null,
+      },
+    },
+  },
+};
+export const StatusReturned: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "returned",
+        decision: null,
+      },
+    },
+  },
+};
+
 export const StatusNotStarted: Story = {
   args: {
     application: {
@@ -133,6 +126,136 @@ export const StatusNotStarted: Story = {
       application: {
         ...baseApplication.application,
         status: "not_started",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusPending: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "pending",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusInvalid: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "invalid",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealLodged: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal lodged",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealValid: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal valid",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealStarted: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal started",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealDetermined: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal determined",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealAllowed: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal allowed",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealDismissed: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal dismissed",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealSplitDecision: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal split decision",
+        decision: null,
+      },
+    },
+  },
+};
+
+export const StatusAppealWithdrawn: Story = {
+  args: {
+    application: {
+      ...baseApplication,
+      application: {
+        ...baseApplication.application,
+        status: "Appeal withdrawn",
         decision: null,
       },
     },

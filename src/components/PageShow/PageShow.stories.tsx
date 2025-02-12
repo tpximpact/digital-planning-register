@@ -8,6 +8,7 @@ import {
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
+import { formatDateToYmd } from "@/util";
 
 const baseApplication = generateDprApplication();
 
@@ -63,6 +64,7 @@ export const CommentingEnabled: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -81,6 +83,7 @@ export const CommentingDisabled: Story = {
         status: "determined",
         decision: "granted",
         consultation: {
+          startDate: new Date(Date.now() - 172800000).toISOString(),
           endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -96,10 +99,11 @@ export const StatusConsultationInProgress: Story = {
       ...baseApplication,
       application: {
         ...baseApplication.application,
-        status: "in_progress",
+        status: "assessment_in_progress",
         decision: null,
         consultation: {
-          endDate: new Date(Date.now() + 86400000).toISOString(),
+          startDate: formatDateToYmd(new Date(Date.now() - 86400000)),
+          endDate: formatDateToYmd(new Date(Date.now() + 86400000)),
           publishedComments: null,
           consulteeComments: null,
         },
@@ -117,6 +121,7 @@ export const StatusAssessmentInProgress: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 172800000).toISOString(),
           endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -135,6 +140,7 @@ export const StatusDetermined: Story = {
         status: "determined",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 172800000).toISOString(),
           endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -153,6 +159,7 @@ export const StatusAwaitingDetermination: Story = {
         status: "awaiting_determination",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 172800000).toISOString(),
           endDate: new Date(Date.now() - 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -162,23 +169,6 @@ export const StatusAwaitingDetermination: Story = {
   },
 };
 
-export const StatusAwaitingCorrection: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "awaiting_correction",
-        decision: null,
-        consultation: {
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-  },
-};
 export const StatusWithdrawn: Story = {
   args: {
     application: {
@@ -340,6 +330,7 @@ export const AllCommentsDisabled: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -366,6 +357,7 @@ export const OnlyPublicCommentsDisabled: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -392,6 +384,7 @@ export const OnlySpecialistCommentsDisabled: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: null,
@@ -418,6 +411,7 @@ export const NoViewAllPublicCommentsButton: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: generateNResults(1, generateComment),
           consulteeComments: null,
@@ -436,6 +430,7 @@ export const NoViewAllSpecialistCommentsButton: Story = {
         status: "in_assessment",
         decision: null,
         consultation: {
+          startDate: new Date(Date.now() - 86400000).toISOString(),
           endDate: new Date(Date.now() + 86400000).toISOString(),
           publishedComments: null,
           consulteeComments: generateNResults(1, generateComment),
