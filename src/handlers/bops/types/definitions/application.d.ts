@@ -33,6 +33,8 @@ export interface BopsApplicationOverview {
     lodgedDate: string;
     startedDate: string;
     validatedDate: string;
+    reason?: string;
+    documents?: DprDocument[];
   } | null;
   consultation: {
     startDate: string | null;
@@ -60,10 +62,6 @@ export interface BopsApplicationOverview {
         }[]
       | null;
   };
-  appeal?: {
-    reason?: string;
-    documents?: DprDocument[];
-  } | null;
 }
 
 export interface BopsPlanningApplication {

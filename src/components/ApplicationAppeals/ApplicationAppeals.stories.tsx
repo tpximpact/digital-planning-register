@@ -7,6 +7,13 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
 
+const appWithAppeal = generateDprApplication({
+  appeal: {
+    reason: "This is the reason for the appeal",
+    documents: generateNResults<DprDocument>(2, generateDocument),
+  },
+});
+
 const meta = {
   title: "DPR Components/ApplicationAppeals",
   component: ApplicationAppeals,
@@ -17,8 +24,8 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    appealReason: generateDprApplication().application.appeal?.reason,
-    appealDocuments: generateNResults<DprDocument>(2, generateDocument),
+    appealReason: appWithAppeal.application.appeal?.reason,
+    appealDocuments: appWithAppeal.application.appeal?.documents,
   },
 } satisfies Meta<typeof ApplicationAppeals>;
 

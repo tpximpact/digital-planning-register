@@ -189,7 +189,8 @@ export const generateDprApplication = ({
   if (appeal) {
     if (hasAppealDecisionStatus) {
       appeal.decision =
-        appeal.decision ?? faker.helpers.arrayElement([
+        appeal.decision ??
+        faker.helpers.arrayElement([
           "allowed",
           "dismissed",
           "split_decision",
@@ -209,10 +210,10 @@ export const generateDprApplication = ({
     }
 
     appeal.reason = appeal.reason ?? faker.lorem.paragraph();
-    appeal.documents =
-      appeal.documents ?? [...generateNResults<DprDocument>(2, generateDocument)];
+    appeal.documents = appeal.documents ?? [
+      ...generateNResults<DprDocument>(2, generateDocument),
+    ];
   }
-
 
   return {
     applicationType,
@@ -230,6 +231,7 @@ export const generateDprApplication = ({
       publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
+      appeal: appeal,
     },
     property: {
       address: {

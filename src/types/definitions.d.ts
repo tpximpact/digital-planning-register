@@ -67,8 +67,6 @@ export interface DprPlanningApplication {
      */
     determinedAt?: string | null;
     decision?: string | null;
-       */
-
     appeal?: {
       decision?: "allowed" | "dismissed" | "split_decision" | "withdrawn";
       /**
