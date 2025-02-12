@@ -294,3 +294,35 @@ I have purposely not modified anything in `PrototypeApplication` and have chosen
 One more diagram! [flow.png](flow.png)
 
 ![flow.png](flow.png)
+
+### Current valid application types for Post Submission Schema:
+
+- ldc (Lawful Development Certificate)
+  - doesn't have a consultation period
+- pa (Prior Approval)
+  - has an additional field in assessment to generate an alternate decision
+- pp
+- listed
+- landDrainageConsent
+
+Test case for application type: pp.full
+
+1.  stage: submission, status: undetermined
+2.  (before validation happens) stage: validation, status: undetermined, only validation.receivedAt is set
+3.  (validated - passed - this will never exist - go straight to consultation step 5) stage: validation, status: undetermined, validation.receivedAt is set, validation.validatedAt is set, validatedAt.isValid is true
+4.  (validated - failed) stage: validation, status: returned, validation.receivedAt is set, validation.validatedAt is set, validatedAt.isValid is false
+5.  (consultation is in progress - current date is between consultation start and end date) stage: consultation, status: undetermined, consultation.startDate is set, consultation.endDate is set
+6.  (withdrawn during consultation) stage: consultation, status: withdrawn, withdrawnAt is set, withdrawnReason is set, consultation.startDate is set, consultation.endDate is set
+7.  (current date is after consultation end date) stage: assessment, status: undetermined
+8.  (withdrawn during assessment before council determination made) stage: assessment, status: withdrawn, consultation.startDate is set, consultation.endDate is set
+9.  (assessment has a decision - passed) stage: assessment, status: determined, councilDecision is granted
+10. (assessment has a gone to committee - no decision yet) stage: assessment, status: determined, councilDecision is granted, committeeSentDate is set
+11. (assessment has a gone to committee - decision) stage: assessment, status: determined, councilDecision is granted, committeeSentDate is set, committeeDecision is set
+12. (assessment has a decision - failed) stage: assessment, status: determined, councilDecision is refused
+13. (appeal has been made - failed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set,
+14. (appeal has been validated) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set
+15. (appeal has been started) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set
+16. (appeal has finished - allowed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is allowed
+17. (appeal has finished - dismissed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is dismissed
+18. (appeal has finished - split_decision) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is split_decision
+19. (appeal has finished - withdrawn) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is withdrawn

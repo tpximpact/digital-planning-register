@@ -13,12 +13,13 @@ type ValidationBase = {
    * DateTime
    * This is the date that the application was validated. Usually this will be the same as the received date, but sometimes applications are submitted incorrectly, and need correcting to be valid.
    * Having a validatedAt date doesn't neccearily mean the application is valid, it just means it has been checked.
+   * This could also be considered the return date, as it is the date the application is returned to the applicant if it is invalid.
    */
   validatedAt?: DateTime;
   /**
    * This determines whether or not an application was found to be valid
    */
-  isValid: boolean;
+  isValid?: boolean;
 };
 
 /**

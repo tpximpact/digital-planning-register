@@ -36,7 +36,7 @@ interface ApplicationSpecification<
     application: Application<TPrimary>;
     localPlanningAuthority: LocalPlanningAuthority<TPrimary>;
     submission: Submission<TPrimary>;
-    validation: Validation<TPrimary>;
+    validation?: Validation<TPrimary>;
     consultation?: Consultation<TPrimary>;
     assessment?: Assessment<TPrimary>;
     appeal?: Appeal<TPrimary>;
