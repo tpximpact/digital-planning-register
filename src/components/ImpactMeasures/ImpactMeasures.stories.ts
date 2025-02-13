@@ -11,7 +11,42 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    councilName: "camden",
+    data: {
+      housing: {
+        dataPoints: [
+          { key: "New homes", value: "100" },
+          { key: "affordable housing", value: "10%" },
+        ],
+      },
+      "open-spaces": {
+        dataPoints: [
+          {
+            key: "square metres",
+            value: "1200",
+          },
+        ],
+      },
+      jobs: {
+        dataPoints: [
+          {
+            key: "new roles",
+            value: "45-100 ",
+          },
+        ],
+      },
+      carbon: {
+        dataPoints: [
+          {
+            key: "less than minimum requirements",
+            value: "66%",
+          },
+        ],
+      },
+      access: {
+        text: "Two access points from Finchley Road to the east. One access point from Blackburn Road to the west.",
+      },
+      healthcare: null,
+    },
   },
 } satisfies Meta<typeof ImpactMeasures>;
 
