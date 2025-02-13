@@ -18,7 +18,7 @@ const meta = {
   args: {
     reference: "12345",
     council: "public-council-1",
-
+    councilConfig,
     navigateToPage: () => {},
   },
 } satisfies Meta<typeof CommentConfirmation>;
@@ -31,5 +31,30 @@ export const WithData: Story = {
   args: {
     boundary_geojson: generateBoundaryGeoJson(),
     address: "123 Fake Street",
+  },
+};
+
+export const WithEmailAlerts: Story = {
+  args: {
+    councilConfig: {
+      ...councilConfig,
+      pageContent: {
+        ...councilConfig?.pageContent,
+        email_alerts: {
+          sign_up_for_alerts_link: "http://example.com",
+        },
+      },
+    },
+  },
+};
+
+export const WithoutEmailAlerts: Story = {
+  args: {
+    councilConfig: {
+      ...councilConfig,
+      pageContent: {
+        ...councilConfig?.pageContent,
+      },
+    },
   },
 };

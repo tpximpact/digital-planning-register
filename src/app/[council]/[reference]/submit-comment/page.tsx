@@ -367,6 +367,7 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
             {...commonProps}
             address={address}
             boundary_geojson={boundary_geojson}
+            councilConfig={appConfig?.council}
           />
         );
       default:
