@@ -65,6 +65,7 @@ export const PageCookiePolicy = () => {
         setAnalyticsConsent={setAnalyticsConsent}
         analyticsConsent={analyticsConsent}
       />
+      <AnalyticsPolicyConsent />
     </div>
   );
 };
@@ -260,6 +261,77 @@ const CookiePolicyContent: React.FC = () => {
           </tr>
         </tbody>
       </table>
+    </>
+  );
+};
+
+const AnalyticsPolicyConsent: React.FC = () => {
+  return (
+    <>
+      <hr className="analytics-margin" />
+      <h2 className="govuk-heading-l">Analytics without cookies</h2>
+      <h3 className="govuk-heading-m">Planning Register and Analytics</h3>
+      <p className="govuk-body">
+        We use a cookieless analytics tool to collect information about how
+        users interact with our website and services. This information is used
+        to improve our services and provide a better user experience.
+      </p>
+      <h3 className="govuk-heading-m"> What data is collected?</h3>
+      <p className="govuk-body">
+        The analytics tool collects data around user engagement including:
+      </p>
+      <ul className="ul-cookies-padding">
+        <li className="govuk-body">Clicks on links and buttons</li>
+        <li className="govuk-body">
+          Scrolls and interactions with our website and services
+        </li>
+        <li className="govuk-body">
+          Device information, such as browser type and operating system
+        </li>
+      </ul>
+      <h3 className="govuk-heading-m"> What data is not collected?</h3>
+      <p className="govuk-body">
+        We do not collect any personal data through our analytics tool,
+        including:
+      </p>
+      <ul className="ul-cookies-padding">
+        <li className="govuk-body">
+          Names, email addresses, or other contact information
+        </li>
+        <li className="govuk-body">
+          IP addresses or other identifying information inc Google cookie IDs
+        </li>
+        <li className="govuk-body">
+          Sensitive information, such as financial or health data
+        </li>
+      </ul>
+      <h3 className="govuk-heading-m">How is the data used?</h3>
+      <p className="govuk-body">
+        The data collected through our analytics tool is used to:
+      </p>
+      <ul className="ul-cookies-padding">
+        <li className="govuk-body">
+          Improve the user experience and functionality of our website and
+          services
+        </li>
+        <li className="govuk-body">
+          Optimize our content and marketing efforts
+        </li>
+        <li className="govuk-body">
+          Analyse usage patterns and identify areas for improvement
+        </li>
+      </ul>
+      <h3 className="govuk-heading-m">How is the data stored and secured?</h3>
+      <p className="govuk-body">
+        The data collected through our analytics tool is stored securely and in
+        accordance with industry standards. We take appropriate measures to
+        ensure that the data is protected from unauthorized access, disclosure,
+        or use. We rely on terms and conditions of the analytics from Google.
+      </p>
+      <p className="govuk-body">
+        Cookieless information cannot be associated with any use, it is
+        unidentifiable, and therefore deletion or extraction cannot apply
+      </p>
     </>
   );
 };
