@@ -63,7 +63,7 @@ const CommentConfirmation = ({
             receive notifications when anything else changes with this
             application.
           </p>
-          <Button variant="secondary" href={emailAlertsLink}>
+          <Button variant="information" href={emailAlertsLink} element="button">
             Sign up for email alerts
           </Button>
         </>
