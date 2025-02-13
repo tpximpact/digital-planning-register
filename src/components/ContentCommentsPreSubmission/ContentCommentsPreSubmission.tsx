@@ -1,10 +1,14 @@
 import { AppConfig } from "@/config/types";
+import { Button } from "../button";
 
 export const ContentCommentsPreSubmission = ({
   councilConfig,
 }: {
   councilConfig: AppConfig["council"];
 }) => {
+  const council = councilConfig?.slug;
+  const concernsLink = `/${council}/help/concerns`;
+  console.log(concernsLink);
   const whatHappensToYourCommentsLink =
     councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
@@ -40,9 +44,13 @@ export const ContentCommentsPreSubmission = ({
           other sensitive neighbours.
         </p>
         <p className="govuk-body">
-          {/* <a href="#" className="govuk-link govuk-link--no-visited-state">
-          What can you do if these things concern you?
-        </a> */}
+          <Button
+            variant="secondary"
+            href={`/${council}/help/concerns`}
+            element="link"
+          >
+            What to do if these things concern you
+          </Button>
         </p>
 
         <h2 className="govuk-heading-m">Why your comments are important</h2>
