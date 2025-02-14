@@ -8,7 +8,6 @@ export const ContentCommentsPreSubmission = ({
 }) => {
   const council = councilConfig?.slug;
   const concernsLink = `/${council}/help/concerns`;
-  console.log(concernsLink);
   const whatHappensToYourCommentsLink =
     councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
