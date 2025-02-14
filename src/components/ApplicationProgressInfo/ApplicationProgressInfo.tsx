@@ -17,6 +17,7 @@ export interface ApplicationProgressInfoProps {
   withReadMore?: boolean;
   councilSlug: string;
   reference: string;
+  siteNoticeUrl?: string;
 }
 
 export const ApplicationProgressInfo = ({
@@ -24,6 +25,7 @@ export const ApplicationProgressInfo = ({
   withReadMore = false,
   councilSlug,
   reference,
+  siteNoticeUrl,
 }: ApplicationProgressInfoProps) => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -124,7 +126,11 @@ export const ApplicationProgressInfo = ({
           ))}
         </>
       )}
-
+      {siteNoticeUrl && (
+        <Button variant="information" element="link" href={siteNoticeUrl}>
+          View decision notice
+        </Button>
+      )}
       {/* commented out until we do this work */}
       {/* {councilSlug && reference && (
         <div className="govuk-grid-row grid-row-extra-bottom-margin">
