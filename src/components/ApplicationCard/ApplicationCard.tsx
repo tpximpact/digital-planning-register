@@ -1,5 +1,4 @@
 import { DprContentPage, DprPlanningApplication } from "@/types";
-import { DescriptionCard } from "../DescriptionCard";
 import "./ApplicationCard.scss";
 import {
   contentDecisions,
@@ -15,6 +14,7 @@ import {
   formatDateToDprDate,
   formatDateTimeToDprDate,
   findItemByKey,
+  splitStringOnOrBeforeMaxChars,
 } from "@/util";
 
 export interface ApplicationCardProps {
@@ -106,7 +106,15 @@ export const ApplicationCard = ({
               <dl>
                 <dt className="govuk-heading-s">Description</dt>
                 <dd>
-                  <DescriptionCard description={description} />
+                  <p className="govuk-body">
+                    {splitStringOnOrBeforeMaxChars(description, 500).summary}
+                    {splitStringOnOrBeforeMaxChars(description, 500)
+                      .continued && (
+                      <>
+                        &hellip;<em>(continued)</em>
+                      </>
+                    )}
+                  </p>
                 </dd>
               </dl>
             </div>
