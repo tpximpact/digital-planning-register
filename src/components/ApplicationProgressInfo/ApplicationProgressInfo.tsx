@@ -17,7 +17,7 @@ export interface ApplicationProgressInfoProps {
   withReadMore?: boolean;
   councilSlug: string;
   reference: string;
-  siteNoticeUrl?: string;
+  decisionNoticeUrl?: string;
 }
 
 export const ApplicationProgressInfo = ({
@@ -25,7 +25,7 @@ export const ApplicationProgressInfo = ({
   withReadMore = false,
   councilSlug,
   reference,
-  siteNoticeUrl,
+  decisionNoticeUrl,
 }: ApplicationProgressInfoProps) => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -126,8 +126,8 @@ export const ApplicationProgressInfo = ({
           ))}
         </>
       )}
-      {siteNoticeUrl && (
-        <Button variant="information" element="link" href={siteNoticeUrl}>
+      {decisionNoticeUrl && (
+        <Button variant="information" element="link" href={decisionNoticeUrl}>
           View decision notice
         </Button>
       )}
