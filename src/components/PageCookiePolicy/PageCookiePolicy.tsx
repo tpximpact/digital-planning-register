@@ -268,7 +268,7 @@ const CookiePolicyContent: React.FC = () => {
 const AnalyticsPolicyConsent: React.FC = () => {
   return (
     <>
-      <hr className="analytics-margin" />
+      <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
       <h2 className="govuk-heading-l">Analytics without cookies</h2>
       <h3 className="govuk-heading-m">Planning Register and Analytics</h3>
       <p className="govuk-body">
@@ -280,7 +280,7 @@ const AnalyticsPolicyConsent: React.FC = () => {
       <p className="govuk-body">
         The analytics tool collects data around user engagement including:
       </p>
-      <ul className="ul-cookies-padding">
+      <ul className="govuk-list govuk-list--bullet">
         <li className="govuk-body">Clicks on links and buttons</li>
         <li className="govuk-body">
           Scrolls and interactions with our website and services
@@ -294,7 +294,7 @@ const AnalyticsPolicyConsent: React.FC = () => {
         We do not collect any personal data through our analytics tool,
         including:
       </p>
-      <ul className="ul-cookies-padding">
+      <ul className="govuk-list govuk-list--bullet">
         <li className="govuk-body">
           Names, email addresses, or other contact information
         </li>
@@ -309,7 +309,7 @@ const AnalyticsPolicyConsent: React.FC = () => {
       <p className="govuk-body">
         The data collected through our analytics tool is used to:
       </p>
-      <ul className="ul-cookies-padding">
+      <ul className="govuk-list govuk-list--bullet">
         <li className="govuk-body">
           Improve the user experience and functionality of our website and
           services
