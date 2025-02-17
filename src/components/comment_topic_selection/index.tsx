@@ -8,14 +8,43 @@ export const topics_selection = [
   {
     label: "Design, size or height of new buildings or extensions",
     value: "design",
+    hint: "Such as if a building is too tall, or does not fit into the surrounding environment.",
   },
-  { label: "Use and function of the proposed development", value: "use" },
-  { label: "Impacts on natural light", value: "light" },
-  { label: "Privacy of neighbours", value: "privacy" },
-  { label: "Disabled persons' access", value: "access" },
-  { label: "Noise from new uses", value: "noise" },
-  { label: "Traffic, parking or road safety", value: "traffic" },
-  { label: "Other", value: "other" },
+  {
+    label: "Use and function of the proposed development",
+    value: "use",
+    hint: "Such as a proposed business that would not serve the area well, or could cause problems due to its operation.",
+  },
+  {
+    label: "Impacts on natural light",
+    value: "light",
+    hint: "Such as a building casting a shadow over residential buildings nearby.",
+  },
+  {
+    label: "Privacy of neighbours",
+    value: "privacy",
+    hint: "Such as a large building overlooking houses and gardens next to it, or being too close to prevent viewing into neighbours windows.",
+  },
+  {
+    label: "Disabled persons' access",
+    value: "access",
+    hint: "Such as a development not providing accessible access to it's entrance, or removing a previous accessible route.",
+  },
+  {
+    label: "Noise from new uses",
+    value: "noise",
+    hint: "Such as a new business causing excessive noise in a residential area.",
+  },
+  {
+    label: "Traffic, parking or road safety",
+    value: "traffic",
+    hint: "Such as the parking proposed being inadequate, or important parking provisions being removed.",
+  },
+  {
+    label: "Other",
+    value: "other",
+    hint: "Anything that does not fit into other categories.",
+  },
 ];
 
 const CommentTopicSelection = ({
@@ -157,6 +186,12 @@ const CommentTopicSelection = ({
                     >
                       {topic.label}
                     </label>
+                    <div
+                      id="topics-hint"
+                      className="govuk-hint govuk-checkboxes__hint"
+                    >
+                      {topic.hint}
+                    </div>
                   </div>
                 ))}
               </div>
