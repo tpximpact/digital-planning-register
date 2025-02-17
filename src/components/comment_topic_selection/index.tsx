@@ -174,7 +174,8 @@ const CommentTopicSelection = ({
                         validationError ? "govuk-input--error" : ""
                       }`}
                       id={topic.value}
-                      name="topics"
+                      aria-describedby={`${topic.value}-hint`}
+                      name={topic.value}
                       type="checkbox"
                       value={topic.value}
                       checked={selectedTopics.includes(topic.value)}
@@ -187,7 +188,8 @@ const CommentTopicSelection = ({
                       {topic.label}
                     </label>
                     <div
-                      id="topics-hint"
+                      id={`${topic.value}-hint`}
+                      aria-describedby={`${topic.value}-hint`}
                       className="govuk-hint govuk-checkboxes__hint"
                     >
                       {topic.hint}
