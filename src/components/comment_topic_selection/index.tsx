@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { Details } from "../govuk/Details";
+import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
 
 export const topics_selection = [

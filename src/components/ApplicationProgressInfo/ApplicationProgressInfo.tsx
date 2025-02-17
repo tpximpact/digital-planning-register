@@ -10,7 +10,7 @@ import {
 } from "./ApplicationProgressInfoSection";
 import { ApplicationProgressInfoToggleButton } from "./ApplicationProgressInfoToggleButton";
 import { Button } from "../button";
-import { Details } from "../govuk/Details";
+import { Details } from "../govukDpr/Details";
 
 export interface ApplicationProgressInfoProps {
   sections: ProgressSectionBase[];

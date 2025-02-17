@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "./Details";
+import { DataPoints } from "./DataPoints";
 
 const meta = {
-  title: "GOV UK Components/Details",
-  component: Details,
+  title: "DPR components/DataPoints",
+  component: DataPoints,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -11,15 +11,14 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    summaryText: "Help with commenting",
-    text: (
-      <>
-        Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a
-        ante venenatis dapibus posuere velit aliquet.
-      </>
-    ),
+    data: [
+      { key: "new homes", value: "100" },
+      { key: "affordable housing", value: "20%" },
+      { key: "additional demand on GPs and hospitals", value: "12%" },
+      { key: "square meters", value: "21,360" },
+    ],
   },
-} satisfies Meta<typeof Details>;
+} satisfies Meta<typeof DataPoints>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

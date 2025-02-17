@@ -4,7 +4,7 @@ import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
-import { Details } from "../govuk/Details";
+import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
 
 interface PersonalDetails {
