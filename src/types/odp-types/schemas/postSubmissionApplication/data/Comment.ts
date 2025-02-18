@@ -2,6 +2,7 @@
  *
  */
 
+import { Entity, PlanningConstraint } from "../../../shared/Constraints";
 import { DateTime } from "../../../shared/utils";
 import { File } from "../../prototypeApplication/File";
 import {
@@ -9,12 +10,19 @@ import {
   SpecialistCommentSentiment,
 } from "../enums/CommentSentiment";
 import { CommentTopic } from "../enums/CommentTopic";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "./CommentSummary";
 
 /**
  * @id #PublicComments
  * @description The ordered list of public comments any associated metadata
  */
-export type PublicComments = PublicComment[];
+export type PublicComments = {
+  summary: PublicCommentSummary;
+  comments: PublicComment[];
+};
 
 export interface PublicComment {
   sentiment: CommentSentiment;
@@ -61,7 +69,10 @@ export interface CommentMetaData {
  * @id #SpecialistComments
  * @description The ordered list of specialist comments any associated metadata
  */
-export type SpecialistComments = SpecialistComment[];
+export type SpecialistComments = {
+  summary: SpecialistCommentSummary;
+  comments: SpecialistComment[];
+};
 
 /**
  * @todo Organisation / Specialism is one or both required?
@@ -77,14 +88,20 @@ export interface SpecialistCommentAuthor extends CommentAuthor {
  * @todo is reason/constraint the same thing? is one or both required?
  */
 export interface SpecialistComment {
-  sentiment: SpecialistCommentSentiment;
   /**
-   * @todo I feel like I've seen constaints elsewhere?
+   * @todo how do we get from CommentSentiment to SpecialistCommentSentiment?
    */
-  constraint?: {
-    name: string;
-    url: string;
-  };
+  // acceptance: SpecialistCommentSentiment;
+  sentiment: CommentSentiment;
+  /**
+   * @todo fix we get a clash in the schema if we use the shared PlanningConstraint type here
+   */
+  constraints?: {
+    value: string;
+    description: string;
+    intersects?: boolean;
+    entities: Entity[];
+  }[];
   reason?: string;
   comment: string;
   author: SpecialistCommentAuthor;

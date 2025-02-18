@@ -1,4 +1,4 @@
-import { Date } from "../../../shared/utils";
+import { Date, DateTime } from "../../../shared/utils";
 import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
 import { AppealDecision } from "../enums/AppealDecision";
 
@@ -35,6 +35,15 @@ type AppealBase = {
    */
   decisionDate?: Date;
   decision?: AppealDecision;
+
+  /**
+   * Date the appeal was withdrawn
+   */
+  withdrawnAt?: DateTime;
+  /**
+   * The reason the appeal was withdrawn
+   */
+  withdrawnReason?: string;
 
   /**
    * @todo Will documents always be returned?

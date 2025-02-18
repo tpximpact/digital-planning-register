@@ -3,8 +3,8 @@ import { PrimaryApplicationType } from "../../prototypeApplication/enums/Applica
 type LocalPlanningAuthorityBase = {
   /**
    * When an application is validated it immediately goes into the consultation stage (if the application type allows it)
-   * However some LPA's allow comments until a decision is made even if there is no consultation stage
-   * This field allows LPA's to set this behaviour in their back office and not obstruct the planning process
+   * However some LPA's allow comments until a decision regardles of whether there is a consultation stage
+   * This field allows LPA's to set this behaviour per application in their back office and not obstruct the planning process
    */
   commentsAcceptedUntilDecision: boolean;
 };
