@@ -5,8 +5,8 @@ export const EmailSignUpButton = ({ href }: { href: string }) => (
   <Button
     element="link"
     href={href}
-    variant="secondary"
-    className="dpr-button--information dpr-email-sign-up-button"
+    variant="information"
+    className="dpr-email-sign-up-button"
     ariaLabel="Sign up for email alerts"
   >
     <svg
