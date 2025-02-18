@@ -39,6 +39,8 @@ export const ApplicationDetails = ({
     application.application.consultation.allowComments ?? true;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.application.appeal;
+  const { url: decisionNoticeUrl } =
+    documents?.find((d) => d.title === "Decision notice") ?? {};
 
   const sidebar = [
     {
@@ -137,6 +139,7 @@ export const ApplicationDetails = ({
             councilSlug={appConfig.council.slug}
             reference={reference}
             sections={applicationProgress}
+            decisionNoticeUrl={decisionNoticeUrl}
           />
           <h2 className="govuk-heading-l" id="description">
             Description
