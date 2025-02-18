@@ -23,7 +23,7 @@ $dpr-information-button-shadow-colour: govuk-shade(
 // increase the bottom margin to include it (s2).
 $button-shadow-size: $govuk-border-width-form-element;
 
-.dpr-button--information {
+.govuk-button.dpr-button--information {
   background-color: $dpr-information-button-colour;
   box-shadow: 0 $button-shadow-size 0 $dpr-information-button-shadow-colour;
 
