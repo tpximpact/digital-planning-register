@@ -98,6 +98,23 @@ export const topicLabels = {
   other: "Comment on other things",
 };
 
+export const topicLabelsHint = {
+  design:
+    "Such as if a building is too tall, or does not fit into the surrounding environment.",
+  use: "Such as a proposed business that would not serve the area well, or could cause problems due to its operation.",
+  light:
+    "Such as a building casting a shadow over residential buildings nearby.",
+  privacy:
+    "Such as a large building overlooking houses and gardens next to it, or being too close to prevent viewing into neighbours windows.",
+  access:
+    "Such as a development not providing accessible access to it's entrance, or removing a previous accessible route.",
+  noise:
+    "Such as a new business causing excessive noise in a residential area.",
+  traffic:
+    "Such as the parking proposed being inadequate, or important parking provisions being removed.",
+  other: "Anything that does not fit into other categories.",
+};
+
 export const pageTitles: Record<number, string> = {
   0: "What you need to know before you comment",
   1: "How do you feel about this development?",

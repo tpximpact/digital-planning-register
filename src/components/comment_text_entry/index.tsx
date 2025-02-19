@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { Button } from "@/components/button";
-import { topicLabels } from "@/lib/comments";
+import { topicLabels, topicLabelsHint } from "@/lib/comments";
 
 const MAX_COMMENT_LENGTH = 6000;
 
@@ -139,6 +139,9 @@ const CommentTextEntry = ({
               </label>
             </h2>
 
+            <p className="govuk-hint">
+              {topicLabelsHint[currentTopic as keyof typeof topicLabelsHint]}
+            </p>
             <p className="govuk-hint">
               {currentTopicIndex + 1} of {totalTopics}
             </p>
