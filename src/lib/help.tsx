@@ -53,7 +53,7 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
           &lsquo;determined&rsquo; mean for a planning application.
         </p>
       ),
-      children: [...contentApplicationStatuses()],
+      children: [...contentApplicationStatuses(councilConfig)],
     },
     {
       key: slugify("Important dates"),

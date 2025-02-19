@@ -180,7 +180,7 @@ export const contentImportantDates = (): DprContentPage[] => {
           ),
         },
         {
-          key: slugify("Appeal decision date"),
+          key: slugify("Appeal decided date"),
           title: "Appeal decided date",
           content: (
             <>

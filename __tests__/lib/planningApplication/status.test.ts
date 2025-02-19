@@ -106,7 +106,7 @@ describe("getApplicationStatusSummary", () => {
 
   describe("Appeal statuses returned as is", () => {
     const appealStatusesAsIs: DprPlanningApplication["application"]["status"][] =
-      ["Appeal lodged", "Appeal valid", "Appeal started", "Appeal determined"];
+      ["Appeal lodged", "Appeal valid", "Appeal started", "Appeal withdrawn"];
     appealStatusesAsIs.forEach((status) => {
       it(`should return "${status}" for status "${status}"`, () => {
         expect(getApplicationStatusSummary(status)).toBe(status);
@@ -114,17 +114,17 @@ describe("getApplicationStatusSummary", () => {
     });
   });
 
-  describe("Appeal statuses mapped to 'Appeal determined'", () => {
+  describe("Appeal statuses mapped to 'Appeal decided'", () => {
     const appealStatusesDetermined: DprPlanningApplication["application"]["status"][] =
       [
+        "Appeal determined",
         "Appeal allowed",
         "Appeal dismissed",
         "Appeal split decision",
-        "Appeal withdrawn",
       ];
     appealStatusesDetermined.forEach((status) => {
-      it(`should return "Appeal determined" for status "${status}"`, () => {
-        expect(getApplicationStatusSummary(status)).toBe("Appeal determined");
+      it(`should return "Appeal decided" for status "${status}"`, () => {
+        expect(getApplicationStatusSummary(status)).toBe("Appeal decided");
       });
     });
   });
