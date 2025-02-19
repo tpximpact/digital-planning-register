@@ -39,12 +39,13 @@ export async function search(
 
   const { data: planningApplications = [], ...restData } = request.data || {};
 
-  const convertedData = {
-    pagination: request.data?.metadata ?? defaultPagination,
-    data: planningApplications.map((application) =>
-      convertBopsToDpr(application),
-    ),
-  };
+  const convertedApplications = planningApplications.map((application) =>
+    convertBopsToDpr(application),
+  );
 
-  return { ...request, data: convertedData };
+  return {
+    ...request,
+    data: convertedApplications,
+    pagination: request.data?.metadata ?? defaultPagination,
+  };
 }

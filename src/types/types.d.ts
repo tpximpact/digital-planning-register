@@ -19,6 +19,7 @@
  */
 export interface ApiResponse<T> {
   data: T | null;
+  pagination?: DprPagination;
   status?: {
     code: number;
     message: string;

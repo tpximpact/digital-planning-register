@@ -27,13 +27,10 @@ const responseQuery = (
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
-    applications[0].application.reference = searchParams?.query;
+    applications[0].application.reference = searchParams.query;
   }
 
-  let data: DprSearchApiResponse | null = {
-    data: applications,
-    pagination: pagination,
-  };
+  let data: DprSearchApiResponse | null = applications;
 
   if (searchParams?.query === "noresultsplease") {
     data = null;
@@ -41,6 +38,7 @@ const responseQuery = (
 
   return {
     data,
+    pagination,
     status: {
       code: 200,
       message: "",

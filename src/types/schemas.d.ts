@@ -13,23 +13,19 @@ import { DprPaginationBase, DprPagination } from "./types";
  * /api/search
  * Listing of applications and search results
  */
-export interface DprSearchApiResponse {
-  pagination: DprPagination;
-  data: DprPlanningApplication[];
-}
+export type DprSearchApiResponse = DprPlanningApplication[];
 
 /**
  * /api/show
  * Details view of a single application
  */
-export interface DprShowApiResponse extends DprPlanningApplication {}
+export type DprShowApiResponse = DprPlanningApplication;
 
 /**
  * /api/documents
  * Documents for a single application
  */
 export interface DprDocumentsApiResponse {
-  pagination: DprPaginationBase;
   files: DprDocument[];
 }
 
