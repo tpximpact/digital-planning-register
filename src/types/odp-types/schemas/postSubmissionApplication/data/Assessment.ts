@@ -5,7 +5,7 @@ import { AssessmentDecision } from "../enums/AssessmentDecision";
 /**
  * 'Granted', 'Refused', 'Prior approval required and approved', 'Prior approval not required', 'Prior approval required and refused';
  */
-type AssessmentBase = {
+export type AssessmentBase = {
   /**
    * This is the decision made by the council
    */
@@ -16,6 +16,11 @@ type AssessmentBase = {
    */
   councilDecisionDate?: Date;
 
+  /**
+   * This is the recommendation made by a council to the committee
+   * This is an alternative to a decision - either councilDecision or councilRecommendation can be set not both
+   */
+  councilRecommendation?: AssessmentDecision;
   /**
    * YYYY-MM-DD
    * Follows convention of if date in the name it is YYYY-MM-DD
@@ -32,13 +37,17 @@ type AssessmentBase = {
    * The date the committee made their decision
    */
   committeeDecisionDate?: Date;
+  /**
+   * The url to the decision notice
+   * A decision notice is issued when an application is determined or withdrawn
+   * @todo can there be multiple decision notices?
+   */
+  decisionNotice?: {
+    url: string;
+  };
 };
 
 export type PriorApprovalAssessment = AssessmentBase & {
-  /**
-   * Council decision is optional - if prior approval is not required then neither is a council decision
-   */
-  councilDecision?: AssessmentDecision;
   /**
    * Only applies for prior approval applications so we can say 'Prior approval required and approved', 'Prior approval not required', 'Prior approval required and refused';
    */

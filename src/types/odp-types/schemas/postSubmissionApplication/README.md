@@ -299,30 +299,99 @@ One more diagram! [flow.png](flow.png)
 
 - ldc (Lawful Development Certificate)
   - doesn't have a consultation period
+  - Camden allow comments through localPlanningAuthority.commentsAcceptedUntilDecision
 - pa (Prior Approval)
   - has an additional field in assessment to generate an alternate decision
 - pp
 - listed
 - landDrainageConsent
 
-Test case for application type: pp.full
+### Test cases in the examples
 
-1.  stage: submission, status: undetermined
-2.  (before validation happens) stage: validation, status: undetermined, only validation.receivedAt is set
-3.  (validated - passed - this will never exist - go straight to consultation step 5) stage: validation, status: undetermined, validation.receivedAt is set, validation.validatedAt is set, validatedAt.isValid is true
-4.  (validated - failed) stage: validation, status: returned, validation.receivedAt is set, validation.validatedAt is set, validatedAt.isValid is false
-5.  (consultation is in progress - current date is between consultation start and end date) stage: consultation, status: undetermined, consultation.startDate is set, consultation.endDate is set
-6.  (withdrawn during consultation) stage: consultation, status: withdrawn, withdrawnAt is set, withdrawnReason is set, consultation.startDate is set, consultation.endDate is set
-7.  (current date is after consultation end date) stage: assessment, status: undetermined
-8.  (withdrawn during assessment before council determination made) stage: assessment, status: withdrawn, consultation.startDate is set, consultation.endDate is set
-9.  (assessment has a decision - passed) stage: assessment, status: determined, councilDecision is granted
-10. (assessment has a gone to committee - no decision yet) stage: assessment, status: determined, councilDecision is granted, committeeSentDate is set
-11. (assessment has a gone to committee - decision) stage: assessment, status: determined, councilDecision is granted, committeeSentDate is set, committeeDecision is set
-12. (assessment has a decision - failed) stage: assessment, status: determined, councilDecision is refused
-13. (appeal has been made - failed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set,
-14. (appeal has been validated) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set
-15. (appeal has been started) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set
-16. (appeal has finished - allowed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is allowed
-17. (appeal has finished - dismissed) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is dismissed
-18. (appeal has finished - split_decision) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is split_decision
-19. (appeal has finished - withdrawn) stage: appeal, status: determined, councilDecision is refused, appeal.reason is set, appeal.lodgedDate is set, appeal.validatedDate is set, appeal.startedDate is set, appeal.decisonDate is set, appeal.decision is withdrawn
+#### 01 Application submitted
+
+When an application is submitted this how it would be represented in the post-submission schema
+
+#### 02 Application validated
+
+Technically this stage shouldn't exist as an application should pass straight to its consultation/assessment state (depending on application type)
+
+#### 02.01 Application returned / Application invalid
+
+If it fails validation the application is set to returned
+
+#### 03 Consultation in progress
+
+Applications goes into consultation (depending on application type)
+Applications that are valid move immediately into consultation or assessment depending on whether the application type has a consultation period
+
+#### 04 Assessment in progress
+
+Application goes into assessment
+Comments are no longer allowed unless the LPA allows it and a decision is made
+
+#### 04 01 Council determined / Determined
+
+Council decision is made
+This is mostly where applications will be 'done'
+This is what the application will look like when the council has made a decision and the applicaton is determined, comments will no longer be accepted.
+Prior approval applications also have priorApprovalRequired flag which help determine the 'Prior approval required and approved', 'Prior approval not required', 'Prior approval required and refused' status
+
+#### 04 02 Application in committee / Assessment in progress
+
+Alternatively application goes to committee for determination
+It goes with a recommendation for a decision from the council but this is different to the council decision.
+
+#### 04 03 Committee determined / Determined
+
+The committee then makes a decision
+
+#### 05 Appeal lodged
+
+An appeal is made
+
+Things can end before this but within 6 months of the determination a decision can be appealed
+
+#### 05 01 Appeal validated
+
+After the appeal starts its validated
+
+#### 05 02 Appeal started
+
+Then it starts
+
+#### 05 03 Appeal determined
+
+appeal is determined
+
+#### 05 04 Appeal withdrawn
+
+At any point between appeal lodged and a decision an appeal can be withdrawn
+
+```json
+{
+  "application": {"withdrawnAt": "2024-02-20T15:54:31.021Z"},
+  "submission": {"submittedAt": "2024-02-18T15:54:30.821Z"},
+  "validation": {
+    "receivedAt": "2024-02-18T15:54:31.021Z",
+    "validatedAt": "2024-02-19T15:54:31.021Z"
+  },
+  "publishedAt": "2024-02-19T15:54:31.221Z",
+  "consultation": {
+    "startAt": "2024-02-19T15:54:31.021Z",
+    "endAt": "2024-03-11T15:54:31.021Z"
+  },
+  "assessment": {
+    "councilDecisionAt": "2024-03-21T15:54:31.021Z",
+    "committeeSentAt": "2024-03-22T15:54:31.021Z",
+    "committeeDecisionAt": "2024-04-01T14:54:31.021Z"
+  },
+  "appeal": {
+    "lodgedAt": "2024-05-01T14:54:31.021Z",
+    "validatedAt": "2024-05-02T14:54:31.021Z",
+    "startedAt": "2024-05-02T14:54:31.221Z",
+    "decidedAt": "2024-05-07T14:54:31.221Z",
+    "withdrawnAt": "2024-05-02T14:54:31.021Z"
+  }
+}
+```
