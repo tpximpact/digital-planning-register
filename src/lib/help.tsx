@@ -10,6 +10,7 @@ import {
   contentPlanningProcess,
 } from "./planningApplication";
 import { Council } from "@/config/types";
+import Link from "next/link";
 
 export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
   return [
@@ -67,8 +68,28 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
     {
       key: slugify("Application types"),
       title: "Application types",
-      summary:
-        "The different sorts of applications that are published on the planning register, and what they are for.",
+      summary: (
+        <>
+          <p className="govuk-body">
+            The different sorts of applications that are published on the
+            planning register, and what they are for.
+          </p>
+          <p className="govuk-body">
+            This list includes only the most common application types. There are
+            many more that are difficult to explain simply, due to the
+            complexities of planning law. If there is an application type you
+            need more information about, but do not see here, please{" "}
+            {councilConfig?.contact ? (
+              <Link className="govuk-link" href={councilConfig.contact}>
+                contact your council
+              </Link>
+            ) : (
+              <span>contact your council</span>
+            )}{" "}
+            for more information.
+          </p>
+        </>
+      ),
       content: (
         <p className="govuk-body">
           The different sorts of applications that are published on the planning
