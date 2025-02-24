@@ -5,7 +5,6 @@ import "@testing-library/jest-dom";
 import { ApplicationDataFieldProps } from "@/components/ApplicationDataField";
 import { DprPlanningApplication } from "@/types";
 import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
-import { DescriptionCardProps } from "@/components/DescriptionCard";
 import { slugify } from "@/util";
 
 jest.mock("@/components/InfoIcon", () => ({
@@ -15,12 +14,6 @@ jest.mock("@/components/InfoIcon", () => ({
 jest.mock("@/components/ApplicationMap", () => ({
   ApplicationMapLoader: () => (
     <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
-  ),
-}));
-
-jest.mock("../../src/components/DescriptionCard", () => ({
-  DescriptionCard: ({ description }: DescriptionCardProps) => (
-    <div data-testid="description-card">{description}</div>
   ),
 }));
 
@@ -96,7 +89,7 @@ describe("Render ApplicationCard", () => {
       screen.queryByTestId("mock-application-map-loader"),
     ).toBeInTheDocument();
     // Description
-    expect(screen.queryByTestId("description-card")).toBeInTheDocument();
+    expect(screen.queryByText("Test description")).toBeInTheDocument();
     // applicationType
     expect(
       screen.queryByText("Application type - Planning permission"),

@@ -24,7 +24,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-// @todo bring <DescriptionCard into this component
 export const LongDescriptionWithMap: Story = {
   args: {
     application: {

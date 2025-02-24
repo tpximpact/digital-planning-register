@@ -246,7 +246,7 @@ export const generateDprApplication = ({
       },
     },
     proposal: {
-      description: faker.lorem.paragraphs(),
+      description: faker.lorem.paragraphs({ min: 1, max: 10 }),
     },
     applicant: {
       type: "company",
