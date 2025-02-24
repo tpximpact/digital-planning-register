@@ -33,7 +33,7 @@ import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
-import { topicLabels, pageTitles } from "@/lib/comments";
+import { topicLabels, pageTitles, checkCommentsEnabled } from "@/lib/comments";
 
 type Props = {
   params: { reference: string; council: string };
@@ -142,7 +142,8 @@ const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
           setApplicationData(response.data);
-          if (response?.data?.application.status === "determined") {
+          const commentsEnabled = checkCommentsEnabled(response.data);
+          if (!commentsEnabled) {
             router.push(`/${council}/${reference}`);
           }
         }

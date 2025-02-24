@@ -17,7 +17,7 @@
 
 import {
   validApplicationTypes,
-  getCommentsAllowed,
+  getPrimaryApplicationTypeKey,
 } from "@/lib/planningApplication";
 import {
   DprPlanningApplication,
@@ -154,6 +154,8 @@ export const generateDprApplication = ({
   applicationType =
     applicationType ?? faker.helpers.arrayElement(applicationTypes);
 
+  const primaryApplicationType = getPrimaryApplicationTypeKey(applicationType);
+
   applicationStatus =
     applicationStatus ??
     faker.helpers.arrayElement([
@@ -235,6 +237,12 @@ export const generateDprApplication = ({
 
   return {
     applicationType,
+    data: {
+      localPlanningAuthority: {
+        commentsAcceptedUntilDecision:
+          primaryApplicationType === "ldc" ? true : false,
+      },
+    },
     application: {
       reference: generateReference(),
       status: applicationStatus,
@@ -245,7 +253,6 @@ export const generateDprApplication = ({
         ),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
-        allowComments: getCommentsAllowed(applicationType),
       },
       receivedDate: formatDateToYmd(faker.date.anytime()),
       validDate: formatDateToYmd(faker.date.anytime()),

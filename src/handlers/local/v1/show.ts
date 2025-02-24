@@ -18,6 +18,7 @@
 "use server";
 
 import { ApiResponse, DprShowApiResponse } from "@/types";
+import { formatDateToYmd } from "@/util";
 import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
 const response = (reference: string): ApiResponse<DprShowApiResponse> => {
@@ -25,11 +26,25 @@ const response = (reference: string): ApiResponse<DprShowApiResponse> => {
 
   // it can never be ldc or determined because comments are disabled there!
   if (reference === "TEST-C0MNT-F10W") {
-    application = generateDprApplication({
-      applicationType: "pp",
-      applicationStatus: "in_assessment",
-      decision: null,
+    const today = new Date();
+    const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
+    const endDate = formatDateToYmd(new Date(today));
+    const applicationInAssessment = generateDprApplication({
+      applicationType: "pp.full",
+      applicationStatus: "assessment_in_progress",
     });
+    const applicationInConsultation = {
+      ...applicationInAssessment,
+      application: {
+        ...applicationInAssessment.application,
+        consultation: {
+          ...applicationInAssessment.application.consultation,
+          startDate,
+          endDate,
+        },
+      },
+    };
+    application = applicationInConsultation;
   } else {
     application = generateDprApplication();
   }

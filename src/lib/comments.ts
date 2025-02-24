@@ -28,6 +28,7 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
+import { getApplicationStatusSummary } from "./planningApplication";
 
 /**
  * Sort comments by newest first
@@ -140,4 +141,30 @@ export const pageTitles: Record<number, string> = {
   4: "Your details",
   5: "Check what you have written before sending your comment",
   6: "Comment submitted",
+};
+
+/**
+ * Determine if comments are enabled for the application
+ * This should already work with DprStatusSummary
+ * @todo just need ot update to the new getApplicationStatusSummary method
+ *
+ * @param applicationType
+ * @returns
+ */
+export const checkCommentsEnabled = (
+  application: DprPlanningApplication,
+): boolean => {
+  const applicationStatusSummary =
+    application.application?.status &&
+    getApplicationStatusSummary(
+      application.application.status,
+      application.application.consultation.startDate ?? undefined,
+      application.application.consultation.endDate ?? undefined,
+    );
+
+  let commentsAllowedInStatus = ["Consultation in progress"];
+  if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
+    commentsAllowedInStatus.push("Assessment in progress");
+  }
+  return commentsAllowedInStatus.includes(applicationStatusSummary);
 };
