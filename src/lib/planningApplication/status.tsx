@@ -1,5 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import { DprContentPage, DprPlanningApplication } from "@/types";
+import {
+  DprApplication,
+  DprContentPage,
+  DprPlanningApplication,
+  DprStatusSummary,
+} from "@/types";
 import { capitalizeFirstLetter, isDate, slugify } from "@/util";
 import Link from "next/link";
 
@@ -8,6 +13,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
@@ -15,6 +21,8 @@ dayjs.extend(isSameOrAfter);
 dayjs.utc().isUTC();
 
 /**
+ *
+ * @deprecated Use getApplicationDprStatusSummary in future when using PostSubmission schema
  * Determines the formatted status based on the provided status and consultation start/end date.
  *
  * @param {string} status - The current status, which may include underscores.
@@ -104,6 +112,106 @@ export const getApplicationStatusSummary = (
   }
 
   return capitalizeFirstLetter(status?.replace(/_/g, " "));
+};
+
+/**
+ *
+ * Roughly determines the DPR status summary based on the provided application.
+ * There are a lot of specific details missing in this function we're
+ * relying on the data source to be accurate
+ *
+ * "Application submitted"
+ * "Application returned"
+ * "Consultation in progress"
+ * "Assessment in progress"
+ * "Determined"
+ * "Withdrawn"
+ * "Appeal lodged"
+ * "Appeal validated"
+ * "Appeal in progress"
+ * "Appeal decided"
+ * "Appeal withdrawn"
+ * "Unknown"
+ * @param application
+ * @returns
+ */
+export const getApplicationDprStatusSummary = (
+  application:
+    | PostSubmissionApplication
+    | Omit<
+        DprApplication,
+        "applicationStatusSummary" | "applicationDecisionSummary"
+      >,
+): DprStatusSummary => {
+  const { stage, status } = application.data.application;
+
+  const { submission, validation, consultation, assessment, appeal } =
+    application.data;
+
+  if (application.data.application.withdrawnAt) {
+    return "Withdrawn";
+  }
+
+  if (stage === "submission" && status === "undetermined" && submission) {
+    return "Application submitted";
+  }
+
+  if (stage === "validation" && status === "returned" && validation) {
+    return "Application returned";
+  }
+
+  let consultationCurrentlyActive: boolean = false;
+  if (consultation) {
+    const consultationStartDate: Dayjs = dayjs.utc(consultation.startDate);
+    const consultationEndDate: Dayjs = dayjs.utc(consultation.endDate);
+    const now: Dayjs = dayjs.utc();
+    consultationCurrentlyActive =
+      now.isSameOrAfter(consultationStartDate, "day") &&
+      now.isBefore(consultationEndDate, "day");
+  }
+
+  if (stage === "consultation" && status === "undetermined" && consultation) {
+    if (consultationCurrentlyActive) {
+      return "Consultation in progress";
+    } else {
+      return "Assessment in progress";
+    }
+  }
+
+  if (stage === "assessment") {
+    const hasAssessmentDecisionData =
+      assessment?.councilDecision || assessment?.committeeDecision;
+
+    if (status === "determined" && hasAssessmentDecisionData) {
+      return "Determined";
+    } else {
+      return "Assessment in progress";
+    }
+  }
+
+  if (stage === "appeal" && appeal) {
+    if (appeal.withdrawnAt) {
+      return "Appeal withdrawn";
+    }
+
+    if (appeal.decision) {
+      return "Appeal decided";
+    }
+
+    if (appeal.lodgedDate && appeal.validatedDate && appeal.startedDate) {
+      return "Appeal in progress";
+    }
+
+    if (appeal.lodgedDate && appeal.validatedDate && !appeal.startedDate) {
+      return "Appeal validated";
+    }
+
+    if (appeal.lodgedDate && !appeal.validatedDate && !appeal.startedDate) {
+      return "Appeal lodged";
+    }
+  }
+
+  return "Unknown";
 };
 
 /**

@@ -1,8 +1,9 @@
 import {
   getApplicationDecisionSummary,
   getApplicationDecisionSummarySentiment,
+  getApplicationDprDecisionSummary,
 } from "@/lib/planningApplication";
-import { DprPlanningApplication } from "@/types";
+import { DprApplication, DprPlanningApplication } from "@/types";
 
 describe("getApplicationDecisionSummary", () => {
   it('should return "Prior approval required and approved" for prior approval application type and "granted" decision', () => {
@@ -88,5 +89,206 @@ describe("getApplicationDecisionSummarySentiment", () => {
     const status = "Unknown status";
     const result = getApplicationDecisionSummarySentiment(status);
     expect(result).toBeUndefined();
+  });
+});
+
+describe("getApplicationDprDecisionSummary", () => {
+  describe("getApplicationDprDecisionSummary with council decisions", () => {
+    it('should return "Granted" if priorApprovalRequired is undefined and councilDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "granted",
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Granted");
+    });
+
+    it('should return "Refused" if priorApprovalRequired is undefined and councilDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "refused",
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Refused");
+    });
+
+    it('should return "Prior approval required and approved" if priorApprovalRequired is true and councilDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "granted",
+            priorApprovalRequired: true,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval required and approved");
+    });
+
+    it('should return "Prior approval required and refused" if priorApprovalRequired is true and councilDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "refused",
+            priorApprovalRequired: true,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval required and refused");
+    });
+
+    it('should return "Prior approval not required" if priorApprovalRequired is false and councilDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "granted",
+            priorApprovalRequired: false,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval not required");
+    });
+
+    it('should return "Prior approval not required" if priorApprovalRequired is false and councilDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            councilDecision: "refused",
+            priorApprovalRequired: false,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval not required");
+    });
+
+    it("should return undefined if no councilDecision is set", () => {
+      const application = {
+        data: {},
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBeUndefined();
+    });
+  });
+  describe("getApplicationDprDecisionSummary with committee decisions", () => {
+    it('should return "Granted" if priorApprovalRequired is undefined and committeeDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "granted",
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Granted");
+    });
+
+    it('should return "Refused" if priorApprovalRequired is undefined and committeeDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "refused",
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Refused");
+    });
+
+    it('should return "Prior approval required and approved" if priorApprovalRequired is true and committeeDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "granted",
+            priorApprovalRequired: true,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval required and approved");
+    });
+
+    it('should return "Prior approval required and refused" if priorApprovalRequired is true and committeeDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "refused",
+            priorApprovalRequired: true,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval required and refused");
+    });
+
+    it('should return "Prior approval not required" if priorApprovalRequired is false and committeeDecision is granted ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "granted",
+            priorApprovalRequired: false,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval not required");
+    });
+
+    it('should return "Prior approval not required" if priorApprovalRequired is false and committeeDecision is refused ', () => {
+      const application = {
+        data: {
+          assessment: {
+            committeeDecision: "refused",
+            priorApprovalRequired: false,
+          },
+        },
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBe("Prior approval not required");
+    });
+
+    it("should return undefined if no committeeDecision is set", () => {
+      const application = {
+        data: {},
+      };
+      const result = getApplicationDprDecisionSummary(
+        application as unknown as DprApplication,
+      );
+      expect(result).toBeUndefined();
+    });
   });
 });
