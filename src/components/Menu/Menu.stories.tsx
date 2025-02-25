@@ -36,7 +36,6 @@ const meta = {
   args: {
     currentPath: "/hello",
     navigation: appConfig.navigation,
-    councils: appConfig.councils,
   },
 } satisfies Meta<typeof Menu>;
 
@@ -48,14 +47,12 @@ export const PublicPage: Story = {
   args: {
     currentPath: "/",
     navigation: appConfig.navigation,
-    councils: appConfig.councils,
   },
 };
 export const CouncilPage: Story = {
   args: {
     currentPath: "/public-council-1",
     navigation: appConfigCouncilPage.navigation,
-    councils: appConfigCouncilPage.councils,
     selectedCouncil: appConfigCouncilPage.council,
   },
 };

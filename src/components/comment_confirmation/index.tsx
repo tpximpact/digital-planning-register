@@ -15,11 +15,9 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { capitaliseWord } from "@/util";
 import { DprBoundaryGeojson } from "@/types";
 import { Panel } from "../govuk/Panel";
 import { Button } from "@/components/button";
-import { ApplicationMapLoader } from "../ApplicationMap";
 import "./comment-confirmation.scss";
 import CommentHeader from "../comment-header";
 import { AppConfig } from "@/config/types";
@@ -38,7 +36,6 @@ const CommentConfirmation = ({
   council,
   address,
   boundary_geojson,
-  navigateToPage,
   councilConfig,
 }: CommentConfirmationProps) => {
   const emailAlertsLink =

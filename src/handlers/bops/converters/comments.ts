@@ -25,10 +25,7 @@ import { convertDateTimeToUtc } from "@/util";
  * @param comment
  * @returns
  */
-export const convertCommentBops = (
-  comment: BopsComment,
-  i: number,
-): DprComment => {
+export const convertCommentBops = (comment: BopsComment): DprComment => {
   return {
     comment: comment.comment,
     receivedDate: convertDateTimeToUtc(comment.receivedAt),

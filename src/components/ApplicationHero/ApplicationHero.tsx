@@ -27,14 +27,8 @@ import {
   getApplicationDecisionSummarySentiment,
   contentDecisions,
   contentApplicationStatuses,
-  contentImportantDates,
 } from "@/lib/planningApplication";
-import {
-  findItemByKey,
-  flattenObject,
-  formatDateToDprDate,
-  slugify,
-} from "@/util";
+import { findItemByKey, flattenObject, slugify } from "@/util";
 import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";

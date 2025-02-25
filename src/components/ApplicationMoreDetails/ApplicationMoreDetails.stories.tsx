@@ -17,7 +17,6 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationMoreDetails } from "./ApplicationMoreDetails";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
 
 const meta = {
   title: "DPR Components/ApplicationMoreDetails",

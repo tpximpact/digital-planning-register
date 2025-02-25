@@ -24,7 +24,7 @@ const meta = {
   title: "DPR components/ApplicationDataField",
   component: ApplicationDataField,
   decorators: [
-    (Story, { args }) => {
+    (Story) => {
       // since this is a page we need to add a decorator to add the main element to make it look a bit more like a page
       return (
         <dl>

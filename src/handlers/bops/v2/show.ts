@@ -18,12 +18,8 @@
 "use server";
 
 import { ApiResponse, DprShowApiResponse } from "@/types";
-import {
-  BopsV2PublicPlanningApplicationDetail,
-  BopsV2PlanningApplicationDetail,
-} from "@/handlers/bops/types";
+import { BopsV2PublicPlanningApplicationDetail } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
-import { getAppConfig } from "@/config";
 import { convertBopsToDpr } from "../converters/planningApplication";
 
 /**
@@ -37,8 +33,6 @@ export async function show(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
-  const appConfig = getAppConfig(council);
-
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
   >(council, `public/planning_applications/${reference}`);

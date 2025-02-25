@@ -84,7 +84,6 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
         <Menu
           currentPath={currentPath}
           navigation={appConfig.navigation}
-          councils={appConfig.councils}
           selectedCouncil={councilConfig}
         />
       </div>

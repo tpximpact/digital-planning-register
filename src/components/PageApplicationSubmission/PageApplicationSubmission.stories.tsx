@@ -23,7 +23,7 @@ const meta = {
   title: "Council pages/Application submission",
   component: PageApplicationSubmission,
   decorators: [
-    (Story, { args }) => {
+    (Story) => {
       // since this is a page we need to add a decorator to add the main element to make it look a bit more like a page
       return (
         <main className="govuk-width-container" id="main">

@@ -48,8 +48,6 @@ export const PageSearch = ({
   if (!appConfig || !appConfig.council) {
     return null;
   }
-  const page = searchParams?.page ? searchParams.page : 1;
-
   const hasSearchQuery = searchParams?.query ? true : false;
   const title = hasSearchQuery
     ? "Search results"

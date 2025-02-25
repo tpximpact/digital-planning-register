@@ -17,7 +17,6 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import CommentTopicSelection from ".";
-import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
 
 const meta = {
   title: "Comments/CommentTopicSelection",

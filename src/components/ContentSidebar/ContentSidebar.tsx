@@ -16,7 +16,6 @@
  */
 
 import { DprContentPage } from "@/types";
-import Link from "next/link";
 import "./ContentSidebar.scss";
 
 export interface ContentSidebarProps {

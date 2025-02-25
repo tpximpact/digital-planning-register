@@ -18,7 +18,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
-import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import { Details } from "../govukDpr/Details";

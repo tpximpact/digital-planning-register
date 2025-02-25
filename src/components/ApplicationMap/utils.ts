@@ -15,8 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprBoundaryGeojson } from "@/types";
-
 export interface mapTypeProps {
   showScale: boolean;
   zoom: number;

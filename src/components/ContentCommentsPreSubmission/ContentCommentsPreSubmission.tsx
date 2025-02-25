@@ -24,7 +24,6 @@ export const ContentCommentsPreSubmission = ({
   councilConfig: AppConfig["council"];
 }) => {
   const council = councilConfig?.slug;
-  const concernsLink = `/${council}/help/concerns`;
   const whatHappensToYourCommentsLink =
     councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;

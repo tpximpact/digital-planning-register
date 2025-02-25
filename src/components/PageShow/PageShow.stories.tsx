@@ -22,7 +22,6 @@ import {
   generateDocument,
   generateDprApplication,
   generateNResults,
-  generatePagination,
 } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { formatDateToYmd } from "@/util";
@@ -33,7 +32,7 @@ const meta = {
   title: "Council pages/Show",
   component: PageShow,
   decorators: [
-    (Story, { args }) => {
+    (Story) => {
       // since this is a page we need to add a decorator to add the main element to make it look a bit more like a page
       return (
         <main className="govuk-width-container" id="main">

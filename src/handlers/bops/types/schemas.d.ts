@@ -15,14 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BopsApplicationSubmission } from "./application-submission";
 import {
   BopsApplicationOverview,
   BopsNonStandardApplication,
   BopsPlanningApplication,
   BopsSearchLinks,
   BopsSearchMetadata,
-  BopsApplicationSubmission,
 } from "./definitions/application";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
 

@@ -17,7 +17,6 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { InfoIcon } from "./InfoIcon";
-import { ar } from "@faker-js/faker";
 
 const meta = {
   title: "DPR Components/InfoIcon",
