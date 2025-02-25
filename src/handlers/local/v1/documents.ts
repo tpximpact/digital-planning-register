@@ -38,9 +38,7 @@ const responseQuery = (
   }
 
   return {
-    data: {
-      files: documents,
-    },
+    data: documents,
     pagination: generatePagination(searchParams?.page ?? 1),
     status: {
       code: 200,

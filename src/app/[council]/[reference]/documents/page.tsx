@@ -80,7 +80,7 @@ export default async function PlanningApplicationDetailsDocuments({
   }
 
   const application = applicationResponse?.data;
-  const documents = documentResponse?.data?.files;
+  const documents = documentResponse?.data;
 
   if (!documents || !application) {
     return (
