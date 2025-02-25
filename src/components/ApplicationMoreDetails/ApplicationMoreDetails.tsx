@@ -38,12 +38,12 @@ export const ApplicationMoreDetails = () => {
       <h2 className="govuk-heading-l">Related Applications</h2>
       <ul className="govuk-list govuk-list--bullet grid-row-extra-bottom-margin">
         <li>
-          <a href="#" className="govuk-link govuk-link--no-visited-state">
+          <a href="/" className="govuk-link govuk-link--no-visited-state">
             Pre-application - 2024/0452/C
           </a>
         </li>
         <li>
-          <a href="#" className="govuk-link govuk-link--no-visited-state">
+          <a href="/" className="govuk-link govuk-link--no-visited-state">
             Conditions of construction - 2024/0685/A
           </a>
         </li>

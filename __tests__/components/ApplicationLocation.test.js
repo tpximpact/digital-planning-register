@@ -5,6 +5,6 @@ describe("Render ApplicationLocation", () => {
   it("should render correct", () => {
     render(<ApplicationLocation />);
 
-    expect(screen.getByRole("location-title", { Name: "Location" }));
+    expect(screen.getByRole("heading", { name: "Location" }));
   });
 });
