@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
+// allowing any here because this code will be replaced soon
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * Returns description and value from first entry of type for each file
