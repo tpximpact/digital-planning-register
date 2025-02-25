@@ -2,9 +2,7 @@ export const ApplicationLocation = () => {
   return (
     <>
       {/* Add real data when available */}
-      <h2 className="govuk-heading-l" role="location-title">
-        Location
-      </h2>
+      <h2 className="govuk-heading-l">Location</h2>
       <div className="govuk-grid-row  grid-row-extra-bottom-margin">
         <div className="govuk-grid-column">
           <div className="govuk-grid-column-one-quarter">
