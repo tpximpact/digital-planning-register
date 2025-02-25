@@ -19,7 +19,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { CouncilCards } from "./CouncilCards";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
-let councils = createAppConfig().councils;
+const councils = createAppConfig().councils;
 
 const meta = {
   title: "DPR Components/CouncilCards",

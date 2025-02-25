@@ -59,7 +59,7 @@ export const ApplicationMapLoader = (props: ApplicationMapProps) => {
  * @returns
  */
 export const ApplicationMapLoading = (props: ApplicationMapProps) => {
-  let { classModifier } = determineMapTypeProps(props.mapType);
+  const { classModifier } = determineMapTypeProps(props.mapType);
   return (
     <div
       className={`dpr-application-map dpr-application-map--loading dpr-application-map--${classModifier}`}
@@ -75,7 +75,7 @@ export const ApplicationMapLoading = (props: ApplicationMapProps) => {
  * @returns
  */
 export const ApplicationMapUnavailable = (props: ApplicationMapProps) => {
-  let { classModifier } = determineMapTypeProps(props.mapType);
+  const { classModifier } = determineMapTypeProps(props.mapType);
   return (
     <div
       className={`dpr-application-map dpr-application-map--unavailable dpr-application-map--${classModifier}`}

@@ -147,6 +147,8 @@ const Comment = ({ params }: Props) => {
             router.push(`/${council}/${reference}`);
           }
         }
+        // disabling as we need err but don't want to log it as its client side
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         setError("An unexpected error occurred");
       }
