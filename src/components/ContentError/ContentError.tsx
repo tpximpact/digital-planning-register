@@ -18,7 +18,7 @@
 import Link from "next/link";
 
 export const ContentError = () => {
-  let links = [
+  const links = [
     {
       href: "/",
       text: "Try selecting a council",
