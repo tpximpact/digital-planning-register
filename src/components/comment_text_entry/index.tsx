@@ -135,13 +135,11 @@ const CommentTextEntry = ({
 
             <h2 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--m" htmlFor="comment">
-                {topicLabels[currentTopic as keyof typeof topicLabels]}
+                {topicLabels[currentTopic]}
               </label>
             </h2>
 
-            <p className="govuk-hint">
-              {topicLabelsHint[currentTopic as keyof typeof topicLabelsHint]}
-            </p>
+            <p className="govuk-hint">{topicLabelsHint[currentTopic]}</p>
             <p className="govuk-hint">
               {currentTopicIndex + 1} of {totalTopics}
             </p>
