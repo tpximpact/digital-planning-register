@@ -23,18 +23,11 @@ import { AppConfig } from "@/config/types";
 import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
 
-interface PersonalDetails {
+type PersonalDetailKeys = keyof PersonalDetails;
+export interface PersonalDetails {
   name: string;
   address: string;
   postcode: string;
-  emailAddress: string;
-  telephoneNumber: string;
-}
-
-interface ValidationErrors {
-  name?: string;
-  address?: string;
-  postcode?: string;
   emailAddress?: string;
   telephoneNumber?: string;
 }
@@ -43,27 +36,21 @@ const CommentPersonalDetails = ({
   councilConfig,
   reference,
   navigateToPage,
-  isEditing,
   updateProgress,
   hideContinue,
 }: {
   councilConfig: AppConfig["council"];
   reference: string;
   navigateToPage: (page: number, params?: object) => void;
-  isEditing: boolean;
   updateProgress: (completedPage: number) => void;
   hideContinue?: boolean;
 }) => {
-  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
-    name: "",
-    address: "",
-    postcode: "",
-    emailAddress: "",
-    telephoneNumber: "",
-  });
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
-    {},
-  );
+  const [personalDetails, setPersonalDetails] = useState<
+    Partial<PersonalDetails> | undefined
+  >(undefined);
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<PersonalDetails> | undefined
+  >(undefined);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const fieldRefs: Record<string, React.RefObject<HTMLDivElement>> = {
@@ -96,24 +83,28 @@ const CommentPersonalDetails = ({
     }
   }, [reference]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (
+    key: PersonalDetailKeys,
+    target: EventTarget & HTMLInputElement,
+  ) => {
+    const { value, type, checked } = target;
     const newValue = type === "checkbox" ? checked : value;
 
-    setPersonalDetails((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
+    setPersonalDetails({
+      ...personalDetails,
+      [key]: newValue,
+    });
 
     if (hasSubmitted) {
-      setValidationErrors((prev) => {
-        const { [name as keyof ValidationErrors]: removed, ...rest } = prev;
-        return rest;
-      });
+      const { [key]: removed, ...errors } = {
+        ...validationErrors,
+      };
+
+      setValidationErrors(errors);
     }
   };
 
-  const scrollToError = (errors: ValidationErrors) => {
+  const scrollToError = (errors: Partial<PersonalDetails>) => {
     const firstErrorField = Object.keys(errors)[0];
     const errorRef = fieldRefs[firstErrorField];
 
@@ -128,33 +119,62 @@ const CommentPersonalDetails = ({
   };
 
   const validatePersonalDetails = (): boolean => {
-    const errors: ValidationErrors = {};
-    if (!personalDetails.name) errors.name = "Your name is required";
-    if (!personalDetails.address) errors.address = "Your address is required";
-    if (!postcodeValidation(personalDetails.postcode))
-      errors.postcode = "A valid postcode is required";
+    const errors: Partial<PersonalDetails> = {};
+
+    const allErrors: Record<PersonalDetailKeys, string> = {
+      name: "Your name is required",
+      address: "Your address is required",
+      postcode: "A valid postcode is required",
+      emailAddress: "Email address must be valid",
+      telephoneNumber: "Telephone number must be valid",
+    };
+
+    const allRequired: PersonalDetailKeys[] = ["name", "address", "postcode"];
+
+    // Check if all required fields are present and not empty
+    const hasAllRequired = allRequired.every(
+      (key) => personalDetails?.[key] && personalDetails[key]?.trim() !== "",
+    );
+
+    if (!hasAllRequired) {
+      allRequired.forEach((key) => {
+        if (!personalDetails?.[key] || personalDetails[key]?.trim() === "") {
+          errors[key] = allErrors[key];
+        }
+      });
+    }
+
+    // Validate specific fields
     if (
-      personalDetails.emailAddress &&
+      personalDetails?.postcode &&
+      !postcodeValidation(personalDetails.postcode)
+    ) {
+      errors.postcode = allErrors.postcode;
+    }
+    if (
+      personalDetails?.emailAddress &&
       !emailValidation(personalDetails.emailAddress)
-    )
-      errors.emailAddress = "Email address must be valid";
+    ) {
+      errors.emailAddress = allErrors.emailAddress;
+    }
     if (
-      personalDetails.telephoneNumber &&
+      personalDetails?.telephoneNumber &&
       !phoneValidation(personalDetails.telephoneNumber)
-    )
-      errors.telephoneNumber = "Telephone number must be valid";
+    ) {
+      errors.telephoneNumber = allErrors.telephoneNumber;
+    }
 
-    setValidationErrors(errors);
-
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length === 0) {
+      return true;
+    } else {
+      setValidationErrors(errors);
       sendGTMEvent({
         event: "comment_validation_error",
         message: "error in personal details",
       });
       scrollToError(errors);
+      return false;
     }
-
-    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -179,28 +199,28 @@ const CommentPersonalDetails = ({
           {/* Name input */}
           <div
             ref={fieldRefs.name}
-            className={`govuk-form-group ${validationErrors.name ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors?.name ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="name">
               Name
             </label>
-            {validationErrors.name && (
+            {validationErrors?.name && (
               <p id="name-error" className="govuk-error-message" role="alert">
                 <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.name}
+                {validationErrors?.name}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.name ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors?.name ? "govuk-input--error" : ""}`}
               id="name"
               name="name"
               type="text"
-              value={personalDetails.name}
-              onChange={handleInputChange}
+              value={personalDetails?.name ?? ""}
+              onChange={(e) => handleInputChange("name", e.target)}
               autoComplete="name"
-              aria-invalid={!!validationErrors.name}
+              aria-invalid={!!validationErrors?.name}
               aria-describedby={
-                validationErrors.name ? "name-error" : undefined
+                validationErrors?.name ? "name-error" : undefined
               }
             />
           </div>
@@ -208,32 +228,32 @@ const CommentPersonalDetails = ({
           {/* Address input */}
           <div
             ref={fieldRefs.address}
-            className={`govuk-form-group ${validationErrors.address ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors?.address ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="address">
               Address
             </label>
-            {validationErrors.address && (
+            {validationErrors?.address && (
               <p
                 id="address-error"
                 className="govuk-error-message"
                 role="alert"
               >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.address}
+                {validationErrors?.address}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.address ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors?.address ? "govuk-input--error" : ""}`}
               id="address"
               name="address"
               type="text"
-              value={personalDetails.address}
-              onChange={handleInputChange}
+              value={personalDetails?.address ?? ""}
+              onChange={(e) => handleInputChange("address", e.target)}
               autoComplete="street-address"
-              aria-invalid={!!validationErrors.address}
+              aria-invalid={!!validationErrors?.address}
               aria-describedby={
-                validationErrors.address ? "address-error" : undefined
+                validationErrors?.address ? "address-error" : undefined
               }
             />
           </div>
@@ -241,32 +261,32 @@ const CommentPersonalDetails = ({
           {/* Postcode input */}
           <div
             ref={fieldRefs.postcode}
-            className={`govuk-form-group ${validationErrors.postcode ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors?.postcode ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="postcode">
               Postcode
             </label>
-            {validationErrors.postcode && (
+            {validationErrors?.postcode && (
               <p
                 id="postcode-error"
                 className="govuk-error-message"
                 role="alert"
               >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.postcode}
+                {validationErrors?.postcode}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-10 ${validationErrors.postcode ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-10 ${validationErrors?.postcode ? "govuk-input--error" : ""}`}
               id="postcode"
               name="postcode"
               type="text"
-              value={personalDetails.postcode}
-              onChange={handleInputChange}
+              value={personalDetails?.postcode ?? ""}
+              onChange={(e) => handleInputChange("postcode", e.target)}
               autoComplete="postal-code"
-              aria-invalid={!!validationErrors.postcode}
+              aria-invalid={!!validationErrors?.postcode}
               aria-describedby={
-                validationErrors.postcode ? "postcode-error" : undefined
+                validationErrors?.postcode ? "postcode-error" : undefined
               }
             />
           </div>
@@ -274,30 +294,30 @@ const CommentPersonalDetails = ({
           {/* Email address input */}
           <div
             ref={fieldRefs.emailAddress}
-            className={`govuk-form-group ${validationErrors.emailAddress ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors?.emailAddress ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="emailAddress">
               Email address
             </label>
             <div className="govuk-hint">Optional</div>
-            {validationErrors.emailAddress && (
+            {validationErrors?.emailAddress && (
               <p id="email-error" className="govuk-error-message" role="alert">
                 <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.emailAddress}
+                {validationErrors?.emailAddress}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.emailAddress ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors?.emailAddress ? "govuk-input--error" : ""}`}
               id="emailAddress"
               name="emailAddress"
               type="email"
-              value={personalDetails.emailAddress}
-              onChange={handleInputChange}
+              value={personalDetails?.emailAddress ?? ""}
+              onChange={(e) => handleInputChange("emailAddress", e.target)}
               spellCheck="false"
               autoComplete="email"
-              aria-invalid={!!validationErrors.emailAddress}
+              aria-invalid={!!validationErrors?.emailAddress}
               aria-describedby={
-                validationErrors.emailAddress ? "email-error" : undefined
+                validationErrors?.emailAddress ? "email-error" : undefined
               }
             />
           </div>
@@ -305,33 +325,35 @@ const CommentPersonalDetails = ({
           {/* Telephone number input */}
           <div
             ref={fieldRefs.telephoneNumber}
-            className={`govuk-form-group ${validationErrors.telephoneNumber ? "govuk-form-group--error" : ""}`}
+            className={`govuk-form-group ${validationErrors?.telephoneNumber ? "govuk-form-group--error" : ""}`}
           >
             <label className="govuk-label" htmlFor="telephoneNumber">
               Telephone number
             </label>
             <div className="govuk-hint">Optional</div>
-            {validationErrors.telephoneNumber && (
+            {validationErrors?.telephoneNumber && (
               <p
                 id="telephone-error"
                 className="govuk-error-message"
                 role="alert"
               >
                 <span className="govuk-visually-hidden">Error:</span>{" "}
-                {validationErrors.telephoneNumber}
+                {validationErrors?.telephoneNumber}
               </p>
             )}
             <input
-              className={`govuk-input govuk-input--width-20 ${validationErrors.telephoneNumber ? "govuk-input--error" : ""}`}
+              className={`govuk-input govuk-input--width-20 ${validationErrors?.telephoneNumber ? "govuk-input--error" : ""}`}
               id="telephoneNumber"
               name="telephoneNumber"
               type="tel"
-              value={personalDetails.telephoneNumber}
-              onChange={handleInputChange}
+              value={personalDetails?.telephoneNumber ?? ""}
+              onChange={(e) => handleInputChange("telephoneNumber", e.target)}
               autoComplete="tel"
-              aria-invalid={!!validationErrors.telephoneNumber}
+              aria-invalid={!!validationErrors?.telephoneNumber}
               aria-describedby={
-                validationErrors.telephoneNumber ? "telephone-error" : undefined
+                validationErrors?.telephoneNumber
+                  ? "telephone-error"
+                  : undefined
               }
             />
           </div>
