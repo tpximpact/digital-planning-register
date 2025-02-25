@@ -38,10 +38,8 @@ const responseQuery = (
   }
 
   return {
-    data: {
-      files: documents,
-      pagination: generatePagination(searchParams?.page ?? 1),
-    },
+    data: documents,
+    pagination: generatePagination(searchParams?.page ?? 1),
     status: {
       code: 200,
       message: "",

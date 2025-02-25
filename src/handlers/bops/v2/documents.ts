@@ -4,10 +4,7 @@ import { applicationFormObject } from "@/lib/planningApplication";
 import decisionNoticeObject from "@/lib/planningApplication/decisionNotice";
 import { ApiResponse, DprDocumentsApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
-import {
-  convertBopsDocumentPagination,
-  convertDocumentBopsFile,
-} from "../converters/documents";
+import { convertDocumentBopsFile } from "../converters/documents";
 import { handleBopsGetRequest } from "../requests";
 
 export async function documents(
@@ -44,14 +41,11 @@ export async function documents(
       ? decisionNoticeObject(decisionNoticeUrl)
       : null;
 
-  const convertedData = {
-    pagination: convertBopsDocumentPagination(metadata),
-    files: [
-      applicationFormDocument,
-      ...(decisionNoticeDocument ? [decisionNoticeDocument] : []),
-      ...files.map(convertDocumentBopsFile),
-    ],
-  };
+  const convertedData = [
+    applicationFormDocument,
+    ...(decisionNoticeDocument ? [decisionNoticeDocument] : []),
+    ...files.map(convertDocumentBopsFile),
+  ];
 
   return { ...request, data: convertedData };
 }

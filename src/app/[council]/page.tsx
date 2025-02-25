@@ -67,8 +67,8 @@ export default async function PlanningApplicationSearch({
   return (
     <PageSearch
       appConfig={appConfig}
-      applications={response.data?.data}
-      pagination={response.data?.pagination}
+      applications={response.data}
+      pagination={response.pagination}
       params={params}
       searchParams={searchParams}
     />

@@ -23,6 +23,7 @@ import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionAppl
  */
 export interface ApiResponse<T> {
   data: T | null;
+  pagination?: DprPagination;
   status?: {
     code: number;
     message: string;
