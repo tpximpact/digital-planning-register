@@ -86,7 +86,7 @@ export const sentiment_options = [
   { id: "supportive", label: "Support" },
 ];
 
-export const topicLabels = {
+export const topicLabels: Record<string, string> = {
   design:
     "Comment on the design, size or height of new buildings or extensions",
   use: "Comment on the use and function of the proposed development",
@@ -96,6 +96,23 @@ export const topicLabels = {
   noise: "Comment on any noise from new uses",
   traffic: "Comment on impacts to traffic, parking or road safety",
   other: "Comment on other things",
+};
+
+export const topicLabelsHint: Record<string, string> = {
+  design:
+    "Such as if a building is too tall, or does not fit into the surrounding environment.",
+  use: "Such as a proposed business that would not serve the area well, or could cause problems due to its operation.",
+  light:
+    "Such as a building casting a shadow over residential buildings nearby.",
+  privacy:
+    "Such as a large building overlooking houses and gardens next to it, or being too close to prevent viewing into neighbours windows.",
+  access:
+    "Such as a development not providing accessible access to it's entrance, or removing a previous accessible route.",
+  noise:
+    "Such as a new business causing excessive noise in a residential area.",
+  traffic:
+    "Such as the parking proposed being inadequate, or important parking provisions being removed.",
+  other: "Anything that does not fit into other categories.",
 };
 
 export const pageTitles: Record<number, string> = {
