@@ -90,7 +90,7 @@ export interface Documentation {
   file: string;
   description: string | JSX.Element;
   arguments?: string[];
-  run: any;
+  run: Awaited<(...args) => void>;
   validate?: {
     url: string;
     type: "application" | "prototypeApplication";

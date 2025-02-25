@@ -35,12 +35,12 @@ const primaryApplicationTypeTitles: Record<PrimaryApplicationType, string> = {
 };
 
 /**
- * Utility class that returns the first part of pp.part1.classA
+ * Utility class that checks if a value is a valid PrimaryApplicationType
  * @param value
  * @returns
  */
 export const isValidPrimaryApplicationType = (
-  value: any,
+  value: string,
 ): value is PrimaryApplicationType => {
   return Object.keys(primaryApplicationTypeTitles).includes(value);
 };
@@ -58,10 +58,9 @@ export const getPrimaryApplicationTypeKey = (
     return undefined;
   }
   const type = applicationType.split(".")[0];
-  if (isValidPrimaryApplicationType(type)) {
+  if (type && isValidPrimaryApplicationType(type)) {
     return type || undefined;
   }
-  return undefined;
 };
 
 /**
@@ -75,7 +74,7 @@ export const getPrimaryApplicationType = (
   applicationType: DprPlanningApplication["applicationType"],
 ): string | undefined => {
   const type = getPrimaryApplicationTypeKey(applicationType);
-  if (isValidPrimaryApplicationType(type)) {
+  if (type && isValidPrimaryApplicationType(type)) {
     return primaryApplicationTypeTitles[type] || undefined;
   }
   return undefined;
@@ -128,7 +127,7 @@ export const getDocumentedApplicationType = (
     }
   }
 
-  if (isValidPrimaryApplicationType(type)) {
+  if (type && isValidPrimaryApplicationType(type)) {
     const primaryApplicationTypeToContentApplicationType: Record<
       PrimaryApplicationType,
       string | undefined
