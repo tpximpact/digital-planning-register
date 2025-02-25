@@ -54,6 +54,8 @@ export interface BopsApplicationSubmission {
     proposal: BaseProposal | LondonProposal;
     user: User;
   };
+  // allowing any here because this type will be replaced soon
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   preAssessment?: any[];
   responses?: BopsApplicationSubmissionResponses[];
   files?: BopsApplicationSubmissionFile[];
@@ -987,6 +989,8 @@ type BBox =
   | [number, number, number, number, number, number];
 
 interface BaseGeometry {
+  // allowing any here because this type will be replaced soon
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

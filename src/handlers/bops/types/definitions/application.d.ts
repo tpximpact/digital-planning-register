@@ -121,6 +121,8 @@ export interface BopsPlanningApplication {
     description: string;
   };
   /** waiting on this */
+  // allowing any here because this type will be replaced soon
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   applicant?: Applicant<any>;
   officer?: {
     name: string;

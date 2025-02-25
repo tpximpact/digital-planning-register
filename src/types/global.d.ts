@@ -20,6 +20,8 @@ declare module "@opensystemslab/map";
 
 declare namespace JSX {
   interface IntrinsicElements {
+    // allowing any here because this component will be replaced soon
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     "my-map": any;
   }
 }
