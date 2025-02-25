@@ -14,17 +14,11 @@ import { Details } from "../govukDpr/Details";
 
 export interface ApplicationProgressInfoProps {
   sections: ProgressSectionBase[];
-  withReadMore?: boolean;
-  councilSlug: string;
-  reference: string;
   decisionNoticeUrl?: string;
 }
 
 export const ApplicationProgressInfo = ({
   sections,
-  withReadMore = false,
-  councilSlug,
-  reference,
   decisionNoticeUrl,
 }: ApplicationProgressInfoProps) => {
   const [isClient, setIsClient] = useState(false);
@@ -47,7 +41,7 @@ export const ApplicationProgressInfo = ({
     const anyOpen = accordionStates.find(
       (accordionState) => accordionState.isExpanded === true,
     );
-    anyOpen ? setOpenAll(false) : setOpenAll(true);
+    setOpenAll(!anyOpen);
     setShowControls(true);
   }, [accordionStates]);
 
@@ -62,15 +56,15 @@ export const ApplicationProgressInfo = ({
     setAccordionStates(newStatus);
 
     // update the text that shows open all / close all
-    value ? setOpenAll(false) : setOpenAll(true);
+    setOpenAll(!value);
   };
 
   const toggleAll = () => {
     setOpenAll(!openAll);
-    const newStatus = accordionStates.map((accordionState) => {
-      accordionState.isExpanded = openAll;
-      return accordionState;
-    });
+    const newStatus = accordionStates.map((accordionState) => ({
+      ...accordionState,
+      isExpanded: openAll,
+    }));
     setAccordionStates(newStatus);
   };
 

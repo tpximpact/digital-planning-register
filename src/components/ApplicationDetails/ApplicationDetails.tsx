@@ -136,8 +136,6 @@ export const ApplicationDetails = ({
         </div>
         <div className="govuk-grid-column-two-thirds-from-desktop dpr-application-details--flow">
           <ApplicationProgressInfo
-            councilSlug={appConfig.council.slug}
-            reference={reference}
             sections={applicationProgress}
             decisionNoticeUrl={decisionNoticeUrl}
           />
