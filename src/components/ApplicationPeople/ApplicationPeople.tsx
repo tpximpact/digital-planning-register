@@ -11,7 +11,7 @@ export const ApplicationPeople = ({
   applicant,
   caseOfficer,
 }: ApplicationPeopleProps) => {
-  const applicantName = concatenateFieldsInOrder(
+  const applicantName = concatenateFieldsInOrder<string>(
     applicant?.name ?? {},
     ["first", "last"],
     " ",
@@ -19,7 +19,7 @@ export const ApplicationPeople = ({
   const applicantType = applicant?.type;
   const applicantAddress = applicant?.address?.sameAsSiteAddress
     ? "Same as site address"
-    : concatenateFieldsInOrder(applicant?.address ?? {}, [
+    : concatenateFieldsInOrder<string>(applicant?.address ?? {}, [
         "line1",
         "line2",
         "town",
@@ -27,12 +27,12 @@ export const ApplicationPeople = ({
         "postcode",
         "country",
       ]);
-  const agentName = concatenateFieldsInOrder(
+  const agentName = concatenateFieldsInOrder<string>(
     applicant?.agent?.name ?? {},
     ["first", "last"],
     " ",
   );
-  const agentAddress = concatenateFieldsInOrder(
+  const agentAddress = concatenateFieldsInOrder<string>(
     applicant?.agent?.address ?? {},
     ["line1", "line2", "town", "county", "postcode", "country"],
   );
