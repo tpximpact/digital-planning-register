@@ -15,6 +15,9 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+// allowing any here because this code will be replaced soon
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 
