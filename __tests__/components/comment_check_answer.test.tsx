@@ -119,6 +119,20 @@ describe("CommentCheckAnswer", () => {
   });
 
   it("submits the comment and navigates to the confirmation page on successful submission", async () => {
+    sessionStorage.setItem("sentiment_REF-001", "supportive");
+    sessionStorage.setItem("selectedTopics_REF-001", "use");
+    sessionStorage.setItem("comment_use_REF-001", "Use comment");
+    sessionStorage.setItem(
+      "personalDetails_REF-001",
+      JSON.stringify({
+        name: "John Doe",
+        emailAddress: "john@example.com",
+        address: "123 Main St",
+        postcode: "AB12 3CD",
+        telephoneNumber: "01234567890",
+      }),
+    );
+
     (ApiV1.postComment as jest.Mock).mockResolvedValueOnce({
       status: { code: 200 },
     });

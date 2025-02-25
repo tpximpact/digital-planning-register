@@ -18,7 +18,6 @@ const meta = {
     councilConfig,
     reference: "12345",
     navigateToPage: () => {},
-    isEditing: true,
     updateProgress: () => {},
   },
 } satisfies Meta<typeof CommentPersonalDetails>;
@@ -27,16 +26,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Editing: Story = {
-  args: {
-    isEditing: true,
-  },
-};
-export const NotEditing: Story = {
-  args: {
-    isEditing: false,
-  },
-};
 
 export const WithCouncilData: Story = {
   args: {

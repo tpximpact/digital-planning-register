@@ -9,6 +9,7 @@ import "./CommentCheckAnswer.scss";
 import { Details } from "../govukDpr/Details";
 import { TextButton } from "../TextButton";
 import { sentiment_options } from "@/lib/comments";
+import { PersonalDetails } from "../comment_personal_details";
 
 const topics_selection = [
   {
@@ -68,12 +69,13 @@ const CommentCheckAnswer = ({
 }) => {
   const [sentiment, setSentiment] = useState("");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-  const [personalDetails, setPersonalDetails] = useState<any>({});
+  const [personalDetails, setPersonalDetails] = useState<
+    PersonalDetails | undefined
+  >(undefined);
   const [comments, setComments] = useState<
     { topic: string; comment: string }[]
   >([]);
   const [submissionError, setSubmissionError] = useState(false);
-  const [hasLoadedData, setHasLoadedData] = useState(false);
 
   const contactPlanningAdviceLink =
     councilConfig?.pageContent?.council_reference_submit_comment_check_answer
@@ -106,7 +108,6 @@ const CommentCheckAnswer = ({
         comment: sessionStorage.getItem(`comment_${topic}_${reference}`) || "",
       }));
       setComments(loadedComments);
-      setHasLoadedData(true);
     };
 
     loadData();
@@ -124,6 +125,15 @@ const CommentCheckAnswer = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmissionError(false);
+
+    if (!personalDetails) {
+      sendGTMEvent({
+        event: "error_submission",
+      });
+      setSubmissionError(true);
+      window.scrollTo(0, 0);
+      return false;
+    }
 
     const apiData = {
       name: personalDetails.name,
@@ -323,7 +333,7 @@ const CommentCheckAnswer = ({
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Name</dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{personalDetails.name}</p>
+                  <p className="govuk-body">{personalDetails?.name}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
@@ -343,7 +353,7 @@ const CommentCheckAnswer = ({
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Address</dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{personalDetails.address}</p>
+                  <p className="govuk-body">{personalDetails?.address}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
@@ -363,7 +373,7 @@ const CommentCheckAnswer = ({
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Postcode</dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{personalDetails.postcode}</p>
+                  <p className="govuk-body">{personalDetails?.postcode}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
@@ -383,7 +393,7 @@ const CommentCheckAnswer = ({
               <div className="govuk-summary-list__row">
                 <dt className="govuk-summary-list__key">Email address</dt>
                 <dd className="govuk-summary-list__value">
-                  <p className="govuk-body">{personalDetails.emailAddress}</p>
+                  <p className="govuk-body">{personalDetails?.emailAddress}</p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
                   <TextButton
@@ -404,7 +414,7 @@ const CommentCheckAnswer = ({
                 <dt className="govuk-summary-list__key">Telephone number</dt>
                 <dd className="govuk-summary-list__value">
                   <p className="govuk-body">
-                    {personalDetails.telephoneNumber}
+                    {personalDetails?.telephoneNumber}
                   </p>
                 </dd>
                 <dd className="govuk-summary-list__actions">
