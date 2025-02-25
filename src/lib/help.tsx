@@ -1,4 +1,20 @@
-/* eslint-disable react/no-unescaped-entities */
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util/slugify";
 import {
@@ -33,8 +49,8 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
         "Planning applications use different statuses to show where they are in the application process. You can find these statuses when checking the details of an application on this register.",
       content: (
         <p className="govuk-body">
-          What the statuses like 'assessment in progress' or 'determined' mean
-          for a planning application.
+          What the statuses like &lsquo;assessment in progress&rsquo; or
+          &lsquo;determined&rsquo; mean for a planning application.
         </p>
       ),
       children: [...contentApplicationStatuses()],
@@ -47,7 +63,7 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
       content: (
         <p className="govuk-body">
           What the important dates are for planning applications. Explains what
-          things like 'valid from date' mean.
+          things like &lsquo;valid from date&rsquo; mean.
         </p>
       ),
       children: [...contentImportantDates()],
@@ -60,7 +76,8 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
       content: (
         <p className="govuk-body">
           What kinds of outcomes different planning applications can have,
-          because there can be more complexity than just 'granted' or 'refused'.
+          because there can be more complexity than just &lsquo;granted&rsquo;
+          or &lsquo;refused&rsquo;.
         </p>
       ),
       children: [...contentDecisions(councilConfig)],
@@ -105,7 +122,7 @@ export const contentHelp = (councilConfig?: Council): DprContentPage[] => {
         "If you have concerns about the issues on this page, planning cannot consider them in their assessment. We know that these can be very important, and have big impacts on people, so we want to ensure you can reach the appropriate people to address them.",
       content: (
         <p className="govuk-body">
-          There are some concerns that your local planning authority can't
+          There are some concerns that your local planning authority can&rsquo;t
           address. Find out what you can do about these issues.
         </p>
       ),

@@ -1,5 +1,20 @@
-/* eslint-disable react/no-unescaped-entities */
-import { getAppConfig } from "@/config";
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Council } from "@/config/types";
 import { DprContentPage } from "@/types";
 import { slugify } from "@/util";
@@ -23,7 +38,7 @@ export const contentPlanningProcess = (
           <p className="govuk-body">
             An application can be submitted by the person who wants to apply
             (the applicant) or by a professional with experience of planning
-            applications (an agent) acting on the applicant's behalf.
+            applications (an agent) acting on the applicant&#39;s behalf.
           </p>
           <p className="govuk-body">
             When an application is submitted through a service like Planning
@@ -79,8 +94,8 @@ export const contentPlanningProcess = (
             comments that are published, to address any issues raised.
           </p>
           <p className="govuk-body">
-            Applications that don't need a public consultation will be assessed
-            immediately.{" "}
+            Applications that don&#39;t need a public consultation will be
+            assessed immediately.{" "}
           </p>
         </>
       ),
@@ -93,7 +108,7 @@ export const contentPlanningProcess = (
           <p className="govuk-body">
             An application is assessed by a planning case officer. They check
             that the application meets all relevant policies, which are set out
-            in the council's{" "}
+            in the council&#39;s{" "}
             {localPlanLink ? (
               <Link className="govuk-link" href={localPlanLink} target="_blank">
                 Local Plan
@@ -122,7 +137,7 @@ export const contentPlanningProcess = (
           </p>
           <p className="govuk-body">
             The council may contact the applicant and suggest changes to the
-            application to meet the council's policies. This will delay the
+            application to meet the council&#39;s policies. This will delay the
             assessment process.
           </p>
           <p className="govuk-body">
@@ -158,8 +173,8 @@ export const contentPlanningProcess = (
         <>
           <p className="govuk-body">
             If an applicant or an affected community do not agree with the
-            council's decision on a planning application, they can register an
-            appeal with the planning inspectorate.
+            council&#39;s decision on a planning application, they can register
+            an appeal with the planning inspectorate.
           </p>
           <p className="govuk-body">
             The planning inspectorate will check that the council has followed
@@ -168,8 +183,8 @@ export const contentPlanningProcess = (
           </p>
           <p className="govuk-body">
             Once the planning inspectorate has completed their process, the
-            council's original decision will either be repealed or upheld. The
-            planning inspectorate's decision is final.
+            council&#39;s original decision will either be repealed or upheld.
+            The planning inspectorate&#39;s decision is final.
           </p>
         </>
       ),

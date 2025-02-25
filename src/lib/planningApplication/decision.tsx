@@ -1,4 +1,20 @@
-/* eslint-disable react/no-unescaped-entities */
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import {
   DprApplication,
   DprContentPage,
@@ -279,7 +295,7 @@ export const contentDecisions = (councilConfig?: Council): DprContentPage[] => {
           content: (
             <>
               <p className="govuk-body">
-                This means that the appeal was successful, and the council's
+                This means that the appeal was successful, and the council&#39;s
                 original decision has been overturned. The planned works can now
                 go ahead.
               </p>
@@ -292,9 +308,9 @@ export const contentDecisions = (councilConfig?: Council): DprContentPage[] => {
           content: (
             <>
               <p className="govuk-body">
-                This means that the appeal was unsuccessful, and the council's
-                original decision has been upheld. The planned works cannot go
-                ahead.
+                This means that the appeal was unsuccessful, and the
+                council&#39;s original decision has been upheld. The planned
+                works cannot go ahead.
               </p>
             </>
           ),
