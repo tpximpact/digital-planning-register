@@ -25,9 +25,7 @@ export type DprShowApiResponse = DprPlanningApplication;
  * /api/documents
  * Documents for a single application
  */
-export interface DprDocumentsApiResponse {
-  files: DprDocument[];
-}
+export type DprDocumentsApiResponse = DprDocument[];
 
 /**
  * /api/applicationSubmission

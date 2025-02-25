@@ -12,7 +12,7 @@ import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
-  applications: DprPlanningApplication[] | null;
+  applications: DprPlanningApplication[] | undefined;
   pagination: DprPagination | undefined;
   params?: {
     council: string;
