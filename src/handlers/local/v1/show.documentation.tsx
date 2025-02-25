@@ -33,7 +33,7 @@ export const documentation: Documentation = {
     },
   ],
   arguments: ["council", "reference"],
-  run: async (args: [any, any]) => {
+  run: async (args: [string, string]) => {
     return await show(...args);
   },
   examples: [

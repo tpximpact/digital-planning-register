@@ -24,8 +24,9 @@ import { NextResponse, NextRequest } from "next/server";
 import { LocalV1Documentation } from "@/handlers/local";
 import { BopsV2Documentation } from "@/handlers/bops";
 import { ApiV1Documentation } from "@/actions/api/v1";
+import { Documentation } from "@/types";
 
-const apis: Record<string, any> = {
+const apis: Record<string, Record<string, Documentation>> = {
   ApiV1: {
     ...ApiV1Documentation,
   },
@@ -37,7 +38,7 @@ const apis: Record<string, any> = {
   },
 };
 
-const getResponse = async (searchParams: URLSearchParams, body?: any) => {
+const getResponse = async (searchParams: URLSearchParams, body?: string) => {
   const handler = searchParams.get("handler");
   const method = searchParams.get("method");
   let response;
@@ -56,7 +57,7 @@ const getResponse = async (searchParams: URLSearchParams, body?: any) => {
     let args = handlerMethod.arguments?.map((arg: string) => {
       return searchParams.get(arg);
     });
-    if (body) {
+    if (body && args) {
       args = [...args, body];
     }
     response = await handlerMethod.run(args);
@@ -69,7 +70,7 @@ const getResponse = async (searchParams: URLSearchParams, body?: any) => {
 /**
  * Shows the data returned from the server actions for development only!!
  */
-export async function GET(request: NextRequest, params: Record<string, any>) {
+export async function GET(request: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -77,14 +78,14 @@ export async function GET(request: NextRequest, params: Record<string, any>) {
     );
   }
   const searchParams = request.nextUrl.searchParams;
-  let response = await getResponse(searchParams);
+  const response = await getResponse(searchParams);
   return NextResponse.json(response);
 }
 
 /**
  * Shows the data returned from the server actions for development only!!
  */
-export async function POST(request: NextRequest, params: Record<string, any>) {
+export async function POST(request: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -93,6 +94,6 @@ export async function POST(request: NextRequest, params: Record<string, any>) {
   }
   const body = await request.json();
   const searchParams = request.nextUrl.searchParams;
-  let response = await getResponse(searchParams, body);
+  const response = await getResponse(searchParams, body);
   return NextResponse.json(response);
 }

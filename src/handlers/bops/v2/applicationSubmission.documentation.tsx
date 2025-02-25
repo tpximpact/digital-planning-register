@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/bops/v2/applicationSubmission.ts`,
   description: "applicationSubmission",
   arguments: ["council", "reference"],
-  run: async (args: [any, any]) => {
+  run: async (args: [string, string]) => {
     return await applicationSubmission(...args);
   },
   examples: [

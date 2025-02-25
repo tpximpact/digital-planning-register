@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/local/v1/postComment.ts`,
   description: "postComment",
   arguments: ["council", "applicationId"],
-  run: async (args: [any, any, any]) => {
+  run: async (args: [string, number]) => {
     return await postComment(...args);
   },
 };

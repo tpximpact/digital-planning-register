@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, SearchParams } from "@/types";
 import { search } from "./search";
 
 export const documentation: Documentation = {
@@ -23,8 +23,8 @@ export const documentation: Documentation = {
   file: `src/handlers/bops/v2/search.ts`,
   description: "getPlanningApplications",
   arguments: ["council", "page", "resultsPerPage", "searchQuery"],
-  run: async (args: [any, any, any, any]) => {
-    const searchObj = {
+  run: async (args: [string, number, number, string]) => {
+    const searchObj: SearchParams = {
       page: args[1],
       resultsPerPage: args[2],
       query: args[3],

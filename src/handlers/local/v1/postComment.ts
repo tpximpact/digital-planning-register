@@ -58,10 +58,10 @@ const responseQuery = (
 export const postComment = (
   council: string,
   applicationId: number,
-  apiData: object,
+  // apiData: object,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> => {
   // console.log("apiData", apiData);
-  let error = false;
+  const error = false;
   // uncomment for testing
   // error = true;
   return Promise.resolve(responseQuery(council, applicationId, error));
