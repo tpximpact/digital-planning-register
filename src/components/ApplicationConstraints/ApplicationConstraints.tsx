@@ -1,9 +1,7 @@
 export const ApplicationConstraints = () => {
   return (
     <>
-      <h2 className="govuk-heading-l" role="constraints-title">
-        Constraints
-      </h2>
+      <h2 className="govuk-heading-l">Constraints</h2>
       <p className="govuk-body">
         <em>
           Planning constraints, guidance and designations that intersect with
@@ -16,7 +14,7 @@ export const ApplicationConstraints = () => {
           <h3 className="govuk-heading-s">General policy</h3>
           <p className="govuk-body">Article 4 direction areas</p>
           <p className="govuk-body">
-            <a href="#" className="govuk-link govuk-link--no-visited-state">
+            <a href="/" className="govuk-link govuk-link--no-visited-state">
               Source
             </a>
           </p>
@@ -25,7 +23,7 @@ export const ApplicationConstraints = () => {
         <div className="govuk-grid-column-one-third">
           <h3 className="govuk-heading-s">Heritage conservation area</h3>
           <p className="govuk-body">
-            <a href="#" className="govuk-link govuk-link--no-visited-state">
+            <a href="/" className="govuk-link govuk-link--no-visited-state">
               Source
             </a>
           </p>
@@ -35,7 +33,7 @@ export const ApplicationConstraints = () => {
           <h3 className="govuk-heading-s">General policy</h3>
           <p className="govuk-body">Classified roads</p>
           <p className="govuk-body">
-            <a href="#" className="govuk-link govuk-link--no-visited-state">
+            <a href="/" className="govuk-link govuk-link--no-visited-state">
               Source
             </a>
           </p>
@@ -52,7 +50,7 @@ export const ApplicationConstraints = () => {
             </em>
           </p>
           <p className="govuk-body">
-            <a href="#" className="govuk-link govuk-link--no-visited-state">
+            <a href="/" className="govuk-link govuk-link--no-visited-state">
               DE-9IM spatial relationship definition of intersects
             </a>
           </p>

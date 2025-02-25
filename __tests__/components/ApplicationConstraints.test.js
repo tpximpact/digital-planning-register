@@ -4,6 +4,6 @@ describe("Render ApplicationConstraints", () => {
   it("should render correct", () => {
     render(<ApplicationConstraints />);
 
-    expect(screen.getByRole("constraints-title", { Name: "Constraints" }));
+    expect(screen.getByRole("heading", { name: "Constraints" }));
   });
 });
