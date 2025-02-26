@@ -30,7 +30,7 @@ import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appe
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
-import { DprStatusSummary, DprDecisionSummary } from "@/types";
+// import { DprStatusSummary, DprDecisionSummary } from "@/types";
 
 /**
  *
@@ -44,7 +44,10 @@ import { DprStatusSummary, DprDecisionSummary } from "@/types";
  *
  *
  */
-export type DprApplication = PostSubmissionApplication & {
+export type DprApplication = Omit<
+  PostSubmissionApplication,
+  "submission" | "comments"
+> & {
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;
 };
