@@ -46,7 +46,10 @@ import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplicatio
  *
  *
  */
-export type DprApplication = PostSubmissionApplication & {
+export type DprApplication = Omit<
+  PostSubmissionApplication,
+  "submission" | "comments"
+> & {
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;
 };
