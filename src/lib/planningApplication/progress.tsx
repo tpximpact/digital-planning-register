@@ -40,6 +40,9 @@ import {
   slugify,
 } from "@/util";
 import { contentImportantDates } from "./date";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 export const buildApplicationProgress = (
   application: DprPlanningApplication,
@@ -87,8 +90,16 @@ export const buildApplicationProgress = (
   // 04 consultationEnded
 
   if (application.application?.consultation?.endDate) {
+    const consultationEndDate = dayjs.utc(
+      application.application.consultation.endDate,
+    );
+    const now = dayjs.utc();
+    const title = consultationEndDate.isBefore(now, "day")
+      ? "Consultation ended"
+      : "Consultation ends";
+
     progressData.push({
-      title: "Consultation ended",
+      title,
       date: formatDateToDprDate(application.application.consultation.endDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
