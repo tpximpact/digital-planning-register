@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprPagination, DprPlanningApplication, SearchParams } from "@/types";
+import { DprApplication, DprPagination, SearchParams } from "@/types";
 import { BackButton } from "../BackButton";
 import { FormSearch } from "../FormSearch";
 import { ContentNoResult } from "../ContentNoResult";
@@ -29,7 +29,7 @@ import { createPathFromParams } from "@/lib/navigation";
 
 export interface PageSearchProps {
   appConfig: AppConfig;
-  applications: DprPlanningApplication[] | null;
+  applications: DprApplication[] | null;
   pagination: DprPagination | undefined;
   params?: {
     council: string;
@@ -106,7 +106,7 @@ export const PageSearch = ({
 
             {applications.map((application) => (
               <ApplicationCard
-                key={application.application.reference}
+                key={application?.data?.application?.reference}
                 councilSlug={appConfig.council!.slug}
                 application={application}
               />

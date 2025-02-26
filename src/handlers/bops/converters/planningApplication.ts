@@ -26,6 +26,7 @@ import { convertCommentBops } from "./comments";
 import { convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 import { convertDocumentBopsFile } from "./documents";
+import { Area } from "@/types/odp-types/shared/utils";
 
 export const convertBopsToDpr = (
   application: BopsPlanningApplication,
@@ -44,7 +45,7 @@ export const convertBopsToDpr = (
 
 export const convertBopsApplicationToDpr = (
   application: BopsApplicationOverview,
-): DprPlanningApplication["applicant"] => {
+): DprPlanningApplication["application"] => {
   const { consulteeComments = [], publishedComments = [] } =
     application.consultation || {};
 
@@ -60,9 +61,6 @@ export const convertBopsApplicationToDpr = (
 
   return {
     reference: application.reference,
-    type: {
-      description: application.type.description,
-    },
     status: application.status,
     consultation: {
       startDate: application.consultation?.startDate,
@@ -72,7 +70,7 @@ export const convertBopsApplicationToDpr = (
     },
     receivedAt: application.receivedAt
       ? convertDateTimeToUtc(application.receivedAt)
-      : null,
+      : "",
     validAt: application.validAt
       ? convertDateTimeToUtc(application.validAt)
       : null,
@@ -141,17 +139,35 @@ export const createProperty = (
   application: BopsPlanningApplication,
 ): DprPlanningApplication["property"] => {
   // glitch in bops where boundary_geojson is coming through as {} not null seems to only affect the search endpoint
+  let boundary = undefined;
+  if (
+    application.property.boundary.site &&
+    Object.keys(application.property.boundary.site).length > 0
+  ) {
+    boundary = {
+      site: application.property.boundary.site,
+      // we don't use this so its ok for now to do this
+      area: "" as unknown as Area,
+    };
+  }
   return {
+    // making up the missing required fields for now
     address: {
       singleLine: application.property.address.singleLine,
+      title: application.property.address.singleLine,
+      x: 0,
+      y: 0,
+      latitude: application.property.address.latitude,
+      longitude: application.property.address.longitude,
+      uprn: application.property.address.uprn,
+      usrn: "",
+      pao: "",
+      street: "",
+      town: "",
+      postcode: "",
+      source: "Ordnance Survey",
     },
-    boundary: {
-      site:
-        application.property.boundary.site &&
-        Object.keys(application.property.boundary.site).length > 0
-          ? application.property.boundary.site
-          : undefined,
-    },
+    boundary,
   };
 };
 
@@ -169,15 +185,41 @@ export const createApplicant = (
   if (application?.applicant) {
     return application.applicant;
   } else {
-    return null;
+    /**
+     * This should never occur in the code but we still need to return a valid BaseApplicant object to prevent errors
+     * BOPS usually returns with which even though not valid we account for in the frontend so nothing wonky shows
+     *
+     * {
+     *   type: null,
+     *   address: null,
+     *   ownership: null,
+     *   agent: { address: null }
+     * }
+     */
+    return {
+      name: {
+        first: null,
+        last: null,
+      },
+      email: "REDACTED",
+      phone: {
+        primary: "REDACTED",
+      },
+      address: {
+        line1: null,
+        town: null,
+        postcode: null,
+        sameAsSiteAddress: false,
+      },
+      siteContact: {
+        role: "proxy",
+      },
+    };
   }
 };
 
 export const createOfficer = (
   application: BopsPlanningApplication,
 ): DprPlanningApplication["officer"] => {
-  if (!application.officer) {
-    return null;
-  }
-  return { name: application.officer.name };
+  return { name: application.officer ? application.officer.name : "" };
 };

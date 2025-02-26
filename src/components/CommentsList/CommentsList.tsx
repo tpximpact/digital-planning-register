@@ -23,7 +23,7 @@ import { Button } from "@/components/button";
 export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  comments: DprComment[] | null;
+  comments: DprComment[] | null | undefined;
   pagination: Pick<DprPagination, "resultsPerPage" | "currentPage">;
   showMoreButton?: boolean;
   type?: DprCommentTypes;

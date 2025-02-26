@@ -22,20 +22,24 @@
  * documents
  * applicationSubmission
  */
-import { DprPlanningApplication, DprDocument } from "./definitions";
+import {
+  DprPlanningApplication,
+  DprDocument,
+  DprApplication,
+} from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
 
 /**
  * /api/search
  * Listing of applications and search results
  */
-export type DprSearchApiResponse = DprPlanningApplication[];
+export type DprSearchApiResponse = DprApplication[];
 
 /**
  * /api/show
  * Details view of a single application
  */
-export type DprShowApiResponse = DprPlanningApplication;
+export type DprShowApiResponse = DprApplication;
 
 /**
  * /api/documents
