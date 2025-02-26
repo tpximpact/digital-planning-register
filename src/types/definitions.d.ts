@@ -43,7 +43,7 @@ import { DprStatusSummary, DprDecisionSummary } from "@/types";
  *
  *
  */
-export type DprApplication = PostSubmissionApplication & {
+export type DprApplication = Omit<PostSubmissionApplication, "submission"> & {
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;
 };
