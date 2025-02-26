@@ -30,30 +30,40 @@ export function convertDprPlanningApplication(app: any): DprApplication {
 
   // Build the base post-submission application.
   const baseApplication = {
+    // getting some errors when assigning application type
     applicationType: planningApp?.applicationType,
     data: {
       application: {
         reference: planningApp?.application?.reference,
-        // Set a default ProcessStage (submission) for required fields.
+        // Set a default ProcessStage, not sure where the value should come from
         stage: "submission" as ProcessStage,
         status: planningApp?.application?.status,
-        // withdrawnAt: planningApp?.application?.withdrawnAt || null,
-        // withdrawnReason: planningApp?.application?.withdrawnReason || "",
+
+        // not sure where the value should come from for these withdrawn fields
+        // withdrawnAt: planningApp?.application?.withdrawnAt,
+        // withdrawnReason: planningApp?.application?.withdrawnReason,
       },
       localPlanningAuthority: {
+        // not sure where the value should come from
         commentsAcceptedUntilDecision: false,
       },
       submission: {
+        // not sure where the value should come from, so chose received date for now
         submittedAt: planningApp?.application?.receivedDate,
       },
       validation: {
+        // is there a difference between receivedAt and receivedDate?
         receivedAt: planningApp?.application?.receivedDate,
+        // is there a difference between validatedAt and validDate?
         validatedAt: planningApp?.application?.validDate,
+        // not sure where the value should come from, checking it based on presence of validDate for now
         isValid: Boolean(planningApp?.application?.validDate),
       },
       assessment: {
         councilDecision: planningApp?.application?.decision,
+        // is determinedAt the right field?
         councilDecisionDate: planningApp?.application?.determinedAt,
+        // hardcoded based on the data example in the generate function in the mocks
         decisionNotice: {
           url: "https://planningregister.org",
         },
@@ -61,7 +71,8 @@ export function convertDprPlanningApplication(app: any): DprApplication {
       consultation: {
         startDate: planningApp.application.consultation.startDate,
         endDate: planningApp.application.consultation.endDate,
-        siteNotice: planningApp.application.consultation.allowComments || false,
+        // not sure where the value should come from, maybe the documents?
+        siteNotice: false,
       },
       appeal: {
         lodgedDate: planningApp?.application?.appeal?.lodgedDate,
@@ -76,7 +87,9 @@ export function convertDprPlanningApplication(app: any): DprApplication {
         name: planningApp?.officer?.name,
       },
     },
+    // comments null for now todo
     comments: null,
+    // submission null for now todo
     submission: null,
     metadata: {
       organisation: "BOPS",
