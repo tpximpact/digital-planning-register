@@ -1,129 +1,190 @@
-import { DprPlanningApplication, DprApplication } from "@/types";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import {
+  DprApplication,
+  DprDecisionSummary,
+  DprPlanningApplication,
+  DprStatusSummary,
+} from "@/types";
+import {
+  getApplicationDprDecisionSummary,
+  getApplicationDprStatusSummary,
+} from "@/lib/planningApplication";
 import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(isSameOrAfter);
+dayjs.utc().isUTC();
 
 /**
  * Checks if the given object is a DprApplication.
  */
-function isDprApplication(app: any): app is DprApplication {
+function isDprApplication(
+  app: DprPlanningApplication | DprApplication,
+): app is DprApplication {
   return (
     app &&
     typeof app === "object" &&
-    "applicationStatusSummary" in app &&
     "data" in app &&
     "submission" in app &&
     "metadata" in app
   );
 }
 
+// Helper to compute the stage based on the planning app's fields.
+function determineStage(app: DprPlanningApplication): ProcessStage {
+  // If appeal exists, then stage is "appeal".
+  if (app.application.appeal) {
+    return "appeal";
+  }
+  // If no validDate exists, then it's still in submission.
+  if (!app.application.validDate) {
+    return "submission";
+  }
+  // If status indicates failure, then it's in validation.
+  if (
+    app.application.status === "invalid" ||
+    app.application.status === "returned"
+  ) {
+    return "validation";
+  }
+  // Check consultation dates inline.
+  if (app.application.consultation && app.application.consultation.endDate) {
+    if (
+      app.application.consultation.startDate &&
+      app.application.consultation.endDate &&
+      dayjs(app.application.consultation.startDate).isValid() &&
+      dayjs(app.application.consultation.endDate).isValid()
+    ) {
+      const consultationStartDate: Dayjs = dayjs.utc(
+        app.application.consultation.startDate,
+      );
+      const consultationEndDate: Dayjs = dayjs.utc(
+        app.application.consultation.endDate,
+      );
+      const now: Dayjs = dayjs.utc();
+      if (
+        now.isSameOrAfter(consultationStartDate, "day") &&
+        now.isBefore(consultationEndDate, "day")
+      ) {
+        return "consultation";
+      }
+    }
+  }
+  return "assessment";
+}
 /**
  * Converts a DprPlanningApplication to a DprApplication.
- * If the input already is a DprApplication, it is returned as-is.
- *
- * This function maps the planning application's fields into the PostSubmissionApplication data structure.
+ * Depending on the computed stage, only the allowed fields are mapped.
+ * The original status and decision fields are preserved.
  */
-
-export function convertDprPlanningApplication(app: any): DprApplication {
+export function convertDprPlanningApplication(
+  app: DprPlanningApplication | DprApplication,
+): DprApplication {
   if (isDprApplication(app)) {
-    return app;
+    return app as DprApplication;
   }
   const planningApp = app as DprPlanningApplication;
+  const stage = determineStage(planningApp);
 
-  // Build the base post-submission application.
+  const baseData: any = {
+    application: {
+      reference: planningApp.application.reference,
+      stage: stage,
+      status: planningApp.application.status,
+      // withdrawnAt: planningApp.application.withdrawnAt || null,
+      // withdrawnReason: planningApp.application.withdrawnReason,
+    },
+    localPlanningAuthority: {
+      commentsAcceptedUntilDecision:
+        planningApp.application.consultation?.allowComments,
+    },
+    submission: {
+      submittedAt: planningApp.application.receivedDate,
+    },
+    caseOfficer: {
+      name: planningApp.officer?.name,
+    },
+  };
+
+  // Add the validation section only if we have a validDate.
+  if (planningApp.application.validDate) {
+    baseData.validation = {
+      receivedAt: planningApp.application.receivedDate,
+      validatedAt: planningApp.application.validDate,
+      // isValid: "",
+    };
+  }
+
+  // For consultation, add the section only if the stage is consultation or later and consultation exists.
+  if (
+    planningApp.application.consultation &&
+    (stage === "consultation" || stage === "assessment" || stage === "appeal")
+  ) {
+    baseData.consultation = {
+      startDate: planningApp.application.consultation.startDate,
+      endDate: planningApp.application.consultation.endDate,
+      // siteNotice: "",
+    };
+  }
+
+  // For assessment: include if stage is "assessment" or "appeal"
+  if (stage === "assessment" || stage === "appeal") {
+    baseData.assessment = {
+      councilDecision: planningApp.application.decision,
+      councilDecisionDate: planningApp.application.determinedAt,
+      // committeeSentDate: "",
+      // committeeDecision: "",
+      // committeeDecisionDate: "",
+      decisionNotice: {
+        // this should be the decision notice we get from the documents API
+        url: "https://planningregister.org",
+      },
+    };
+  }
+
+  // For appeal, add the section only if stage is appeal.
+  if (stage === "appeal" && planningApp.application.appeal) {
+    baseData.appeal = {
+      lodgedDate: planningApp.application.appeal.lodgedDate,
+      reason: planningApp.application.appeal.reason,
+      validatedDate: planningApp.application.appeal.validatedDate,
+      startedDate: planningApp.application.appeal.startedDate,
+      decisionDate: planningApp.application.appeal.decisionDate,
+      decision: planningApp.application.appeal.decision,
+      // withdrawnAt: planningApp.application.appeal.withdrawnAt || null,
+      // withdrawnReason: planningApp.application.appeal.withdrawnReason,
+    };
+  }
+
   const baseApplication = {
-    // getting some errors when assigning application type
-    applicationType: planningApp?.applicationType,
-    data: {
-      application: {
-        reference: planningApp?.application?.reference,
-        // Set a default ProcessStage, not sure where the value should come from
-        stage: "submission" as ProcessStage,
-        status: planningApp?.application?.status,
-
-        // not sure where the value should come from for these withdrawn fields
-        // withdrawnAt: planningApp?.application?.withdrawnAt,
-        // withdrawnReason: planningApp?.application?.withdrawnReason,
-      },
-      localPlanningAuthority: {
-        // not sure where the value should come from
-        commentsAcceptedUntilDecision: false,
-      },
-      submission: {
-        // not sure where the value should come from, so chose received date for now
-        submittedAt: planningApp?.application?.receivedDate,
-      },
-      validation: {
-        // is there a difference between receivedAt and receivedDate?
-        receivedAt: planningApp?.application?.receivedDate,
-        // is there a difference between validatedAt and validDate?
-        validatedAt: planningApp?.application?.validDate,
-        // not sure where the value should come from, checking it based on presence of validDate for now
-        isValid: Boolean(planningApp?.application?.validDate),
-      },
-      assessment: {
-        councilDecision: planningApp?.application?.decision,
-        // is determinedAt the right field?
-        councilDecisionDate: planningApp?.application?.determinedAt,
-        // hardcoded based on the data example in the generate function in the mocks
-        decisionNotice: {
-          url: "https://planningregister.org",
-        },
-      },
-      consultation: {
-        startDate: planningApp.application.consultation.startDate,
-        endDate: planningApp.application.consultation.endDate,
-        // not sure where the value should come from, maybe the documents?
-        siteNotice: false,
-      },
-      appeal: {
-        lodgedDate: planningApp?.application?.appeal?.lodgedDate,
-        reason: planningApp?.application?.appeal?.reason,
-        validatedDate: planningApp?.application?.appeal?.validatedDate,
-        startedDate: planningApp?.application?.appeal?.startedDate,
-        decisionDate: planningApp?.application?.appeal?.decisionDate,
-        decision: planningApp?.application?.appeal?.decision,
-      },
-
-      caseOfficer: {
-        name: planningApp?.officer?.name,
-      },
-    },
-    comments: {
-      public: {
-        summary: {
-          totalComments:
-            planningApp?.application?.consultation?.publishedComments?.length,
-          // sentiment:
-          //   planningApp?.application?.consultation?.publishedComments
-          //     ?.sentiment,
-        },
-        comments: planningApp?.application?.consultation?.publishedComments,
-        // comments: {
-        //     sentiment: CommentSentiment;
-        //     comment: TopicAndComments[] | string;
-        //     author: CommentAuthor;
-        //     metadata?: CommentMetaData;
-        // }
-      },
-      // specialist: SpecialistComments;
-    },
-    // submission null for now todo
-    submission: null,
+    applicationType: planningApp.applicationType,
+    data: baseData,
+    submission: {},
     metadata: {
       organisation: "BOPS",
       id: "",
-      publishedAt: planningApp?.application?.publishedDate,
-      submittedAt: planningApp?.application?.receivedDate,
+      publishedAt: planningApp.application.publishedDate,
+      submittedAt: planningApp.application.receivedDate,
       schema:
         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
     },
   };
 
-  // return converted data
-  const converted = {
-    ...baseApplication,
-  } as unknown as DprApplication;
+  // const applicationDecisionSummary: DprDecisionSummary | undefined =
+  //   getApplicationDprDecisionSummary(baseApplication);
+  // const applicationStatusSummary: DprStatusSummary =
+  //   getApplicationDprStatusSummary(baseApplication) || "Unknown";
 
-  console.log("converted", converted);
+  const converted: DprApplication = {
+    // applicationStatusSummary,
+    // applicationDecisionSummary,
+    ...baseApplication,
+  } as DprApplication;
 
   return converted;
 }
