@@ -87,8 +87,25 @@ export function convertDprPlanningApplication(app: any): DprApplication {
         name: planningApp?.officer?.name,
       },
     },
-    // comments null for now todo
-    comments: null,
+    comments: {
+      public: {
+        summary: {
+          totalComments:
+            planningApp?.application?.consultation?.publishedComments?.length,
+          // sentiment:
+          //   planningApp?.application?.consultation?.publishedComments
+          //     ?.sentiment,
+        },
+        comments: planningApp?.application?.consultation?.publishedComments,
+        // comments: {
+        //     sentiment: CommentSentiment;
+        //     comment: TopicAndComments[] | string;
+        //     author: CommentAuthor;
+        //     metadata?: CommentMetaData;
+        // }
+      },
+      // specialist: SpecialistComments;
+    },
     // submission null for now todo
     submission: null,
     metadata: {
