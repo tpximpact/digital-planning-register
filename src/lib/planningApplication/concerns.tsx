@@ -1,4 +1,19 @@
-/* eslint-disable react/no-unescaped-entities */
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
 
 import { Council } from "@/config/types";
 import { DprContentPage } from "@/types";
@@ -47,7 +62,7 @@ export const contentConcerns = (councilConfig?: Council): DprContentPage[] => {
           <p className="govuk-body">These sort of matters include:</p>
           <ul className="govuk-list govuk-list--bullet">
             <li>Personal disputes with neighbours</li>
-            <li>Disputes around 'right to light'</li>
+            <li>Disputes around &lsquo;right to light&rsquo;</li>
           </ul>
           <p className="govuk-body">
             These are concerned with the private affairs of citizens. If you are
@@ -69,7 +84,8 @@ export const contentConcerns = (councilConfig?: Council): DprContentPage[] => {
               target="_blank"
               className="govuk-link"
             >
-              additional information about 'right to light' on gov.uk
+              additional information about &lsquo;right to light&rsquo; on
+              gov.uk
             </a>
           </p>
         </>
@@ -106,7 +122,7 @@ export const contentConcerns = (councilConfig?: Council): DprContentPage[] => {
               href="https://www.gov.uk/party-walls-building-works"
               target="_blank"
             >
-              the government's advice on party wall disputes
+              the government&#39;s advice on party wall disputes
             </a>
             .
           </p>
@@ -171,10 +187,10 @@ export const contentConcerns = (councilConfig?: Council): DprContentPage[] => {
                     href={parkingLink}
                     target="_blank"
                   >
-                    on your council's website
+                    on your council&#39;s website
                   </Link>
                 ) : (
-                  <span>on your council's website</span>
+                  <span>on your council&#39;s website</span>
                 )}
                 .
               </p>

@@ -1,4 +1,19 @@
-/* eslint-disable react/no-unescaped-entities */
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
 
 /**
  * This file contains libs relating to application types
@@ -259,12 +274,12 @@ export const contentApplicationTypes = (): DprContentPage[] => {
       content: (
         <>
           <p className="govuk-body">
-            This checks whether the proposal is considered 'permitted
-            development' according to national legislation. If the proposal does
-            not receive or is not eligible for prior approval, a planning
-            application needs to be submitted. If the proposal is considered
-            'permitted development' it can be done without further planning
-            applications.
+            This checks whether the proposal is considered &lsquo;permitted
+            development&rsquo; according to national legislation. If the
+            proposal does not receive or is not eligible for prior approval, a
+            planning application needs to be submitted. If the proposal is
+            considered &lsquo;permitted development&rsquo; it can be done
+            without further planning applications.
           </p>
           <p className="govuk-body">
             This covers a wide range of changes or additions to buildings,
