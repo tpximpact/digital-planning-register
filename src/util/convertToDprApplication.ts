@@ -17,7 +17,7 @@ function isDprApplication(app: any): app is DprApplication {
 
 /**
  * Converts a DprPlanningApplication to a DprApplication.
- * If the input already is a DprApplication (determined by the presence of applicationStatusSummary), it is returned as-is.
+ * If the input already is a DprApplication, it is returned as-is.
  *
  * This function maps the planning application's fields into the PostSubmissionApplication data structure.
  */
