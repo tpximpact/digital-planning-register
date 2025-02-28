@@ -164,6 +164,44 @@ export function convertDprPlanningApplication(
   const baseApplication = {
     applicationType: planningApp.applicationType,
     data: baseData,
+    // comments: {
+    //   public: {
+    //     summary: {},
+    //     comments: {
+    //       sentiment: {},
+    //       comment: app.application.consultation.publishedComments,
+    //       author: {},
+    //       metadata: {
+    //         submittedAt:"",
+    //         publishedAt:"",
+    //         validAt: "",
+    //       }
+    //     },
+    //   },
+    //   specialist: {
+    //     summary: {},
+    //     comments: {
+    //       sentiment: {},
+    //       constraints: {
+    //         value: "",
+    //         description: "",
+    //         intersects?: "",
+    //         entities: {
+    //           name: "",
+    //           description: "",
+    //           source: "",
+    //         },
+    //         reason: "",
+    //         comment: "",
+    //         author: "",
+    //         consultedAt: "",
+    //         respondedAt: "",
+    //         files: [],
+    //         responses: [],
+    //       },
+    //     }
+    //   },
+    // },
     submission: {},
     metadata: {
       organisation: "BOPS",
@@ -175,14 +213,7 @@ export function convertDprPlanningApplication(
     },
   };
 
-  // const applicationDecisionSummary: DprDecisionSummary | undefined =
-  //   getApplicationDprDecisionSummary(baseApplication);
-  // const applicationStatusSummary: DprStatusSummary =
-  //   getApplicationDprStatusSummary(baseApplication) || "Unknown";
-
   const converted: DprApplication = {
-    // applicationStatusSummary,
-    // applicationDecisionSummary,
     ...baseApplication,
   } as DprApplication;
 
