@@ -2,38 +2,60 @@ import { DprApplication } from "@/types";
 import { convertDprPlanningApplication } from "@/util/convertToDprApplication";
 import { generateDprApplication as generateNewDprApplication } from "@mocks/dprNewApplicationFactory";
 import { generateDprApplication as generateOldDprApplication } from "@mocks/dprApplicationFactory";
-import { pl } from "@faker-js/faker";
 
 describe("convertDprPlanningApplication", () => {
   it("should return the same DprApplication if already in the correct structure", () => {
-    const generatedApp: DprApplication = generateNewDprApplication();
-    console.log("test 1 pre-function", generatedApp);
-    const result = convertDprPlanningApplication(generatedApp);
-    console.log("test 1 result:", result);
-    expect(result).toBe(generatedApp);
+    const newApp: DprApplication = generateNewDprApplication();
+    const result = convertDprPlanningApplication(newApp);
+    expect(result).toBe(newApp);
   });
 
-  it("should convert a DprPlanningApplication (old structure) to a DprApplication", () => {
-    const planningApp = generateOldDprApplication();
-    console.log("test 2, prefunction", planningApp);
-    const result = convertDprPlanningApplication(planningApp);
-    console.log("test 2 result:", result);
-
-    expect(result.data.submission).toBeDefined();
-    expect(result.data.validation).toBeDefined();
-    expect(result.data.assessment).toBeDefined();
-    if (planningApp.application.consultation) {
-      expect(result.data.consultation).toBeDefined();
-    }
-    if (planningApp.application.appeal) {
-      expect(result.data.appeal).toBeDefined();
-    }
-    expect(result.data.application.reference).toBe(
-      planningApp.application.reference,
+  it("should convert an old DprPlanningApplication to a DprApplication with the correct structure", () => {
+    const oldApp = generateOldDprApplication();
+    const result = convertDprPlanningApplication(oldApp);
+    expect(result?.data?.submission).toBeDefined();
+    expect(result?.data?.application).toBeDefined();
+    expect(result?.data?.application.reference).toBe(
+      oldApp?.application?.reference,
     );
-    expect(result.data.application.status).toBe(planningApp.application.status);
+    expect(result?.data?.application.status).toBe(oldApp?.application?.status);
+    if (oldApp?.application?.validDate) {
+      expect(result?.data?.validation).toBeDefined();
+      expect(result?.data?.validation?.receivedAt).toBe(
+        oldApp?.application?.receivedDate,
+      );
+      expect(result?.data?.validation?.validatedAt).toBe(
+        oldApp?.application?.validDate,
+      );
+    } else {
+      expect(result?.data?.validation).toBeUndefined();
+    }
+    if (oldApp?.application?.consultation) {
+      expect(result?.data?.consultation).toBeDefined();
+      expect(result?.data?.consultation?.startDate).toBe(
+        oldApp?.application?.consultation?.startDate,
+      );
+      expect(result?.data?.consultation?.endDate).toBe(
+        oldApp?.application?.consultation.endDate,
+      );
+    } else {
+      expect(result?.data?.consultation).toBeUndefined();
+    }
+    if (oldApp?.application?.appeal) {
+      expect(result?.data?.appeal).toBeDefined();
+      expect(result?.data?.appeal?.lodgedDate).toBe(
+        oldApp?.application?.appeal.lodgedDate,
+      );
+      expect(result?.data?.appeal?.reason).toBe(
+        oldApp?.application?.appeal?.reason,
+      );
+    } else {
+      expect(result?.data?.appeal).toBeUndefined();
+    }
     expect(result.metadata.publishedAt).toBe(
-      planningApp.application.publishedDate,
+      oldApp?.application?.publishedDate,
     );
+    expect(result.metadata.submittedAt).toBe(oldApp?.application?.receivedDate);
+    console.log("2 structure (post):", result);
   });
 });
