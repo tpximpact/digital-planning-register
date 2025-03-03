@@ -3,22 +3,13 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import {
-  DprApplication,
-  DprDecisionSummary,
-  DprPlanningApplication,
-  DprStatusSummary,
-} from "@/types";
-import {
-  getApplicationDprDecisionSummary,
-  getApplicationDprStatusSummary,
-} from "@/lib/planningApplication";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
-
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
 dayjs.extend(isSameOrAfter);
 dayjs.utc().isUTC();
+
+import { DprApplication, DprPlanningApplication } from "@/types";
+import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
 
 /**
  * Checks if the given object is a DprApplication.
@@ -34,29 +25,25 @@ function isDprApplication(
     "metadata" in app
   );
 }
-
-// Helper to compute the stage based on the planning app's fields.
+/**
+ * Determines the stage
+ */
 function determineStage(app: DprPlanningApplication): ProcessStage {
-  // If appeal exists, then stage is "appeal".
   if (app.application.appeal) {
     return "appeal";
   }
-  // If no validDate exists, then it's still in submission.
   if (!app.application.validDate) {
     return "submission";
   }
-  // If status indicates failure, then it's in validation.
   if (
     app.application.status === "invalid" ||
     app.application.status === "returned"
   ) {
     return "validation";
   }
-  // Check consultation dates inline.
   if (app.application.consultation && app.application.consultation.endDate) {
     if (
       app.application.consultation.startDate &&
-      app.application.consultation.endDate &&
       dayjs(app.application.consultation.startDate).isValid() &&
       dayjs(app.application.consultation.endDate).isValid()
     ) {
@@ -77,10 +64,159 @@ function determineStage(app: DprPlanningApplication): ProcessStage {
   }
   return "assessment";
 }
+
 /**
- * Converts a DprPlanningApplication to a DprApplication.
- * Depending on the computed stage, only the allowed fields are mapped.
- * The original status and decision fields are preserved.
+ * Maps the "application" section.
+ */
+function mapApplicationSection(
+  app: DprPlanningApplication,
+  stage: ProcessStage,
+) {
+  return {
+    reference: app.application.reference,
+    stage: stage,
+    status: app.application.status,
+    // can't map these yet
+    // withdrawnAt: app.application.withdrawnAt || null,
+    // withdrawnReason: app.application.withdrawnReason || "",
+  };
+}
+
+/**
+ * Maps the "localPlanningAuthority" section.
+ */
+function mapLocalPlanningAuthoritySection(app: DprPlanningApplication) {
+  return {
+    commentsAcceptedUntilDecision:
+      app.application.consultation?.allowComments || false,
+  };
+}
+
+/**
+ * Maps the common "submission" section.
+ */
+function mapSubmissionSection(app: DprPlanningApplication) {
+  return {
+    submittedAt: app.application.receivedDate,
+  };
+}
+
+/**
+ * Maps the "validation" section if a validDate exists.
+ */
+function mapValidationSection(app: DprPlanningApplication) {
+  return {
+    receivedAt: app.application.receivedDate,
+    validatedAt: app.application.validDate,
+    isValid: true,
+  };
+}
+
+/**
+ * Maps the "consultation" section if it exists.
+ */
+function mapConsultationSection(
+  app: DprPlanningApplication,
+  stage: ProcessStage,
+) {
+  if (
+    app.application.consultation &&
+    (stage === "consultation" || stage === "assessment" || stage === "appeal")
+  ) {
+    return {
+      startDate: app.application.consultation.startDate,
+      endDate: app.application.consultation.endDate,
+      // siteNotice: {},
+    };
+  }
+  return undefined;
+}
+
+/**
+ * Maps the "assessment" section if the stage is assessment or appeal.
+ */
+function mapAssessmentSection(
+  app: DprPlanningApplication,
+  stage: ProcessStage,
+) {
+  if (stage === "assessment" || stage === "appeal") {
+    return {
+      councilDecision: app.application.decision,
+      councilDecisionDate: app.application.determinedAt,
+      decisionNotice: {
+        url: "https://planningregister.org",
+      },
+      // committeeSentDate: app.application.committeeSentDate,
+      // committeeDecision: app.applicationcommitteeDecision,
+      // committeeDecisionDate: app.applicationcommitteeDecisionDate,
+    };
+  }
+  return undefined;
+}
+
+/**
+ * Maps the "appeal" section if the stage is appeal.
+ */
+function mapAppealSection(app: DprPlanningApplication, stage: ProcessStage) {
+  if (stage === "appeal" && app.application.appeal) {
+    return {
+      lodgedDate: app.application.appeal.lodgedDate,
+      reason: app.application.appeal.reason,
+      validatedDate: app.application.appeal.validatedDate,
+      startedDate: app.application.appeal.startedDate,
+      decisionDate: app.application.appeal.decisionDate,
+      decision: app.application.appeal.decision,
+      // withdrawnAt: app.application.appeal.withdrawnAt || null,
+      // withdrawnReason: app.application.appeal.withdrawnReason || "",
+    };
+  }
+  return undefined;
+}
+
+/**
+ * Maps the submission object (PrototypeApplication) from the legacy DprPlanningApplication.
+ */
+// function mapToPrototypeApplication(
+//   app: DprPlanningApplication,
+// ): PrototypeApplication {
+//   // Map user data if available; using an empty object as default.
+//   const userData = {} as any;
+//   const applicationData = {
+//     reference: app.application.reference,
+//     status: app.application.status,
+//     receivedDate: app.application.receivedDate,
+//     publishedDate: app.application.publishedDate || "",
+//     validDate: app.application.validDate || "",
+//     determinedAt: app.application.determinedAt || "",
+//     decision: app.application.decision || "",
+//     consultation: app.application.consultation,
+//     appeal: app.application.appeal,
+//   };
+
+//   return {
+//     applicationType: app.applicationType,
+//     data: {
+//       user: userData,
+//       applicant: app.applicant,
+//       application: applicationData,
+//       property: app.property,
+//       proposal: app.proposal,
+//     },
+//     preAssessment: undefined,
+//     responses: [],
+//     files: [],
+//     metadata: {
+//       organisation: "BOPS",
+//       id: "",
+//       submittedAt: app.application.receivedDate,
+//       schema:
+//         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
+//     },
+//   };
+// }
+
+/**
+ * Main conversion function.
  */
 export function convertDprPlanningApplication(
   app: DprPlanningApplication | DprApplication,
@@ -91,118 +227,23 @@ export function convertDprPlanningApplication(
   const planningApp = app as DprPlanningApplication;
   const stage = determineStage(planningApp);
 
-  const baseData: any = {
-    application: {
-      reference: planningApp.application.reference,
-      stage: stage,
-      status: planningApp.application.status,
-      // withdrawnAt: planningApp.application.withdrawnAt || null,
-      // withdrawnReason: planningApp.application.withdrawnReason,
-    },
-    localPlanningAuthority: {
-      commentsAcceptedUntilDecision:
-        planningApp.application.consultation?.allowComments,
-    },
-    submission: {
-      submittedAt: planningApp.application.receivedDate,
-    },
-    caseOfficer: {
-      name: planningApp.officer?.name,
-    },
+  const baseData = {
+    application: mapApplicationSection(planningApp, stage),
+    localPlanningAuthority: mapLocalPlanningAuthoritySection(planningApp),
+    validation: mapValidationSection(planningApp),
+    consultation: mapConsultationSection(planningApp, stage),
+    assessment: mapAssessmentSection(planningApp, stage),
+    appeal: mapAppealSection(planningApp, stage),
+    submission: mapSubmissionSection(planningApp),
+    caseOfficer: { name: planningApp.officer?.name || "" },
   };
 
-  // Add the validation section only if we have a validDate.
-  if (planningApp.application.validDate) {
-    baseData.validation = {
-      receivedAt: planningApp.application.receivedDate,
-      validatedAt: planningApp.application.validDate,
-      // isValid: "",
-    };
-  }
-
-  // For consultation, add the section only if the stage is consultation or later and consultation exists.
-  if (
-    planningApp.application.consultation &&
-    (stage === "consultation" || stage === "assessment" || stage === "appeal")
-  ) {
-    baseData.consultation = {
-      startDate: planningApp.application.consultation.startDate,
-      endDate: planningApp.application.consultation.endDate,
-      // siteNotice: "",
-    };
-  }
-
-  // For assessment: include if stage is "assessment" or "appeal"
-  if (stage === "assessment" || stage === "appeal") {
-    baseData.assessment = {
-      councilDecision: planningApp.application.decision,
-      councilDecisionDate: planningApp.application.determinedAt,
-      // committeeSentDate: "",
-      // committeeDecision: "",
-      // committeeDecisionDate: "",
-      decisionNotice: {
-        // this should be the decision notice we get from the documents API
-        url: "https://planningregister.org",
-      },
-    };
-  }
-
-  // For appeal, add the section only if stage is appeal.
-  if (stage === "appeal" && planningApp.application.appeal) {
-    baseData.appeal = {
-      lodgedDate: planningApp.application.appeal.lodgedDate,
-      reason: planningApp.application.appeal.reason,
-      validatedDate: planningApp.application.appeal.validatedDate,
-      startedDate: planningApp.application.appeal.startedDate,
-      decisionDate: planningApp.application.appeal.decisionDate,
-      decision: planningApp.application.appeal.decision,
-      // withdrawnAt: planningApp.application.appeal.withdrawnAt || null,
-      // withdrawnReason: planningApp.application.appeal.withdrawnReason,
-    };
-  }
+  // const submission = mapToPrototypeApplication(planningApp);
 
   const baseApplication = {
     applicationType: planningApp.applicationType,
     data: baseData,
-    // comments: {
-    //   public: {
-    //     summary: {},
-    //     comments: {
-    //       sentiment: {},
-    //       comment: app.application.consultation.publishedComments,
-    //       author: {},
-    //       metadata: {
-    //         submittedAt:"",
-    //         publishedAt:"",
-    //         validAt: "",
-    //       }
-    //     },
-    //   },
-    //   specialist: {
-    //     summary: {},
-    //     comments: {
-    //       sentiment: {},
-    //       constraints: {
-    //         value: "",
-    //         description: "",
-    //         intersects?: "",
-    //         entities: {
-    //           name: "",
-    //           description: "",
-    //           source: "",
-    //         },
-    //         reason: "",
-    //         comment: "",
-    //         author: "",
-    //         consultedAt: "",
-    //         respondedAt: "",
-    //         files: [],
-    //         responses: [],
-    //       },
-    //     }
-    //   },
-    // },
-    submission: {},
+    // submission,
     metadata: {
       organisation: "BOPS",
       id: "",
