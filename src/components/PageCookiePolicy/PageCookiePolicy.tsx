@@ -20,7 +20,7 @@
 import { NotificationBanner } from "@/components/govuk/NotificationBanner";
 import Link from "next/link";
 import "./PageCookiePolicy.scss";
-import { setConsentCookie } from "@/actions";
+import { clearAnalyticsCookies, setConsentCookie } from "@/actions";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormCookiePreferences } from "../FormCookiePreferences";
@@ -46,10 +46,17 @@ export const PageCookiePolicy = () => {
     const formData = new FormData(event.currentTarget);
     const analyticsValue = formData.get("cookies[analytics]") === "yes";
 
+    if (!analyticsValue) {
+      clearAnalyticsCookies();
+    }
+
     await setConsentCookie(analyticsValue);
     setAnalyticsConsent(analyticsValue);
     setShowSuccess(true);
     window.scrollTo(0, 0);
+    if (!analyticsValue) {
+      window.location.reload();
+    }
   };
 
   const handleClick = (e: React.MouseEvent) => {

@@ -18,7 +18,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { setConsentCookie } from "@/actions";
+import { clearAnalyticsCookies, setConsentCookie } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
@@ -55,6 +55,7 @@ export function CookieBanner() {
 
   const handleReject = async () => {
     await setConsentCookie(false);
+    clearAnalyticsCookies();
     setBannerState("rejected");
     router.refresh();
   };

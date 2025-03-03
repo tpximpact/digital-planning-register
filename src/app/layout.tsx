@@ -22,6 +22,7 @@ import { SkipLink } from "@/components/govuk/SkipLink";
 import { GovUkInitAll } from "@/components/GovUkInitAll";
 import { Metadata } from "next";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
+import { cookies } from "next/headers";
 
 export function generateMetadata(): Metadata {
   const title = "Digital Planning Register";
@@ -56,6 +57,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const consentCookie = cookies().get("consentCookie");
+  const acceptAnalytics = consentCookie?.value === "true";
   return (
     <html lang="en" className="govuk-template">
       <body className={`govuk-template__body`}>
@@ -68,10 +71,10 @@ export default async function RootLayout({
         <SkipLink href="#main" />
         {children}
         <GovUkInitAll />
-        {process.env.GTM && process.env.GA && (
+        {acceptAnalytics && (
           <>
-            <GoogleTagManager gtmId={process.env.GTM} />
-            <GoogleAnalytics gaId={process.env.GA} />
+            {process.env.GTM && <GoogleTagManager gtmId={process.env.GTM} />}
+            {process.env.GA && <GoogleAnalytics gaId={process.env.GA} />}
           </>
         )}
       </body>
