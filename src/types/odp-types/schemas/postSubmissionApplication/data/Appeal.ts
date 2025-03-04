@@ -1,6 +1,7 @@
 import { Date, DateTime } from "../../../shared/utils";
 import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
 import { AppealDecision } from "../enums/AppealDecision";
+import { PostSubmissionFile } from "./File";
 
 type AppealBase = {
   /**
@@ -34,6 +35,10 @@ type AppealBase = {
    * The date the planning inspectorate published their decision about the appeal. This decision is final.
    */
   decisionDate?: Date;
+
+  /**
+   * The decision made by the planning inspectorate
+   */
   decision?: AppealDecision;
 
   /**
@@ -46,10 +51,12 @@ type AppealBase = {
   withdrawnReason?: string;
 
   /**
+   *
+   * Any files returned from PINS as part of the appeal process
    * @todo Will documents always be returned?
    * @todo is there a max limit - should they live here or with all the other documents?
    */
-  documents?: string;
+  files?: PostSubmissionFile[];
 };
 
 /**

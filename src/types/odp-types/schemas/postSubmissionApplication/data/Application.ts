@@ -21,7 +21,7 @@ type ApplicationBase = {
    */
   status: ApplicationStatus;
   /**
-   * Date the application was withdrawn
+   * Applications can be withdrawn by the applicant at any time before a decision is made. This is the date the appeal was withdrawn.
    */
   withdrawnAt?: DateTime;
   /**
