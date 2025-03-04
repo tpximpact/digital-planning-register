@@ -251,7 +251,31 @@ Not all application types have consultation periods - this is something that wil
 
 ### data.assessment?
 
-Assessment is when the council and optionally a committee make a decision. `councilDecision`, `committeeSentDate` and `committeeDecision`
+Assessment is when the council and optionally a committee make a decision. The specification differentiates between `planningOfficerDecision` and `committeeDecision` on purpose in order to show our workings as to how the council decision was arrived at.
+
+`Council decision = planningOfficerDecision || committeeDecision`
+
+We don't show council decision as its own field as its too prone to errors and is a duplication of data.
+
+An application in assessment can have either `planningOfficerDecision` or `planningOfficerRecommendation + CommitteeDecision`
+
+```json
+{
+  "planningOfficerDecision": "granted",
+  "planningOfficerDecisionDate": "2024-03-21"
+}
+```
+
+or
+
+```json
+{
+  "planningOfficerRecommendation": "granted",
+  "committeeSentDate": "2024-03-21",
+  "committeeDecision": "granted",
+  "committeeDecisionDate": "2024-04-01"
+}
+```
 
 If an application is Prior Approval it also has `priorApprovalRequired` since they can be 'Prior approval required and approved', 'Prior approval not required', 'Prior approval required and refused'
 
@@ -368,30 +392,6 @@ appeal is determined
 
 At any point between appeal lodged and a decision an appeal can be withdrawn
 
-```json
-{
-  "application": {"withdrawnAt": "2024-02-20T15:54:31.021Z"},
-  "submission": {"submittedAt": "2024-02-18T15:54:30.821Z"},
-  "validation": {
-    "receivedAt": "2024-02-18T15:54:31.021Z",
-    "validatedAt": "2024-02-19T15:54:31.021Z"
-  },
-  "publishedAt": "2024-02-19T15:54:31.221Z",
-  "consultation": {
-    "startAt": "2024-02-19T15:54:31.021Z",
-    "endAt": "2024-03-11T15:54:31.021Z"
-  },
-  "assessment": {
-    "councilDecisionAt": "2024-03-21T15:54:31.021Z",
-    "committeeSentAt": "2024-03-22T15:54:31.021Z",
-    "committeeDecisionAt": "2024-04-01T14:54:31.021Z"
-  },
-  "appeal": {
-    "lodgedAt": "2024-05-01T14:54:31.021Z",
-    "validatedAt": "2024-05-02T14:54:31.021Z",
-    "startedAt": "2024-05-02T14:54:31.221Z",
-    "decidedAt": "2024-05-07T14:54:31.221Z",
-    "withdrawnAt": "2024-05-02T14:54:31.021Z"
-  }
-}
-```
+#### 06 Application withdrawn
+
+An application can be with drawn only after validation and before a decision is made

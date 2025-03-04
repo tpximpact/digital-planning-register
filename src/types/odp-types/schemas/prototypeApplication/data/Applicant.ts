@@ -17,7 +17,7 @@ export type BaseApplicant = ContactDetails & {
   /**
    * @description The type of applicant
    */
-  type: "individual" | "company" | "charity" | "public" | "parishCouncil";
+  type?: "individual" | "company" | "charity" | "public" | "parishCouncil";
   /**
    * @description Address information for the applicant
    */
@@ -40,7 +40,12 @@ export type LDCApplicant = ApplicantBase & {
    * @description Information about the property owners, if different than the applicant
    */
   ownership:
-    | { interest: Extract<OwnersInterest, "owner"> }
+    | { interest: Extract<OwnersInterest, "owner"> } // sole owner does not report `owners`
+    | {
+        interest: Extract<OwnersInterest, "other">;
+        interestDescription: string; // "other" interest uniquely requires a free text description
+        owners: (OwnersNoticeGiven | OwnersNoNoticeGiven)[];
+      }
     | {
         interest: OwnersInterest; // `Exclude<OwnershipInterest, "owner">` ? But I think you can be co-owner & report other owners?
         owners: (OwnersNoticeGiven | OwnersNoNoticeGiven)[];
@@ -98,6 +103,12 @@ export type LandDrainageConsentApplicant = ApplicantBase & {
 
 export type WTTApplicant = Omit<ApplicantBase, "siteContact">;
 
+export type HedgerowRemovalNoticeApplicant = ApplicantBase & {
+  ownership: {
+    interest: OwnersInterest | "owner.sole" | "owner.co";
+  };
+};
+
 /**
  * TypeMap of PrimaryApplicationTypes to their specific Applicant models
  */
@@ -107,6 +118,7 @@ interface ApplicantVariants {
   landDrainageConsent: LandDrainageConsentApplicant;
   listed: PPApplicant;
   wtt: WTTApplicant;
+  hedgerowRemovalNotice: HedgerowRemovalNoticeApplicant;
 }
 
 /**

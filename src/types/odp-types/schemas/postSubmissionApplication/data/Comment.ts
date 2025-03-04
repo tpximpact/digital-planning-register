@@ -2,18 +2,15 @@
  *
  */
 
-import { Entity, PlanningConstraint } from "../../../shared/Constraints";
+import { PlanningConstraint } from "../../../shared/Constraints";
 import { DateTime } from "../../../shared/utils";
-import { File } from "../../prototypeApplication/File";
-import {
-  CommentSentiment,
-  SpecialistCommentSentiment,
-} from "../enums/CommentSentiment";
+import { CommentSentiment } from "../enums/CommentSentiment";
 import { CommentTopic } from "../enums/CommentTopic";
 import {
   PublicCommentSummary,
   SpecialistCommentSummary,
 } from "./CommentSummary";
+import { PostSubmissionFile } from "./File";
 
 /**
  * @id #PublicComments
@@ -96,12 +93,7 @@ export interface SpecialistComment {
   /**
    * @todo fix we get a clash in the schema if we use the shared PlanningConstraint type here
    */
-  constraints?: {
-    value: string;
-    description: string;
-    intersects?: boolean;
-    entities: Entity[];
-  }[];
+  constraints?: PlanningConstraint[];
   reason?: string;
   comment: string;
   author: SpecialistCommentAuthor;
@@ -110,7 +102,7 @@ export interface SpecialistComment {
    * @todo responded at is different to published at?
    */
   respondedAt: DateTime;
-  files?: File[];
+  files?: PostSubmissionFile[];
   /**
    * @todo nested comments probably needs a better structure no?
    * @todo do these have as much data as the parent?
