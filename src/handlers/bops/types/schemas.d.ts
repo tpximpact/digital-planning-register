@@ -52,23 +52,21 @@ export interface BopsV2Determined {
 /**
  * GET /api/v2/public/planning_applications/{reference}
  */
-export interface BopsV2PublicPlanningApplicationDetail
-  extends BopsPlanningApplication {}
+export type BopsV2PublicPlanningApplicationDetail = BopsPlanningApplication;
 
 /**
  * GET /api/v2/planning_applications/{reference}
  * this interface is temporary until we get the data from the public endpoint
  */
-export interface BopsV2PlanningApplicationDetail
-  extends Pick<
-    BopsNonStandardApplication,
-    | "id"
-    | "applicant_first_name"
-    | "applicant_last_name"
-    | "agent_first_name"
-    | "agent_last_name"
-    | "documents"
-  > {}
+export type BopsV2PlanningApplicationDetail = Pick<
+  BopsNonStandardApplication,
+  | "id"
+  | "applicant_first_name"
+  | "applicant_last_name"
+  | "agent_first_name"
+  | "agent_last_name"
+  | "documents"
+>;
 
 /**
  * GET /api/v2/public/planning_applications/{reference}/documents
