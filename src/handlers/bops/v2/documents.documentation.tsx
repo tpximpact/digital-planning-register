@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/bops/v2/documents.ts`,
   description: "documents",
   arguments: ["council", "reference"],
-  run: async (args: [any, any]) => {
+  run: async (args: [string, string]) => {
     return await documents(...args);
   },
   examples: [

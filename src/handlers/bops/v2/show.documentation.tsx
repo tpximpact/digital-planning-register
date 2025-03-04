@@ -26,7 +26,7 @@ export const documentation: Documentation = {
   ],
   description: "show",
   arguments: ["council", "reference"],
-  run: async (args: [any, any]) => {
+  run: async (args: [string, string]) => {
     return await show(...args);
   },
   examples: [

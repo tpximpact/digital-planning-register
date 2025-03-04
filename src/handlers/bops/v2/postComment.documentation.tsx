@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/bops/v2/postComment.ts`,
   description: "Post a comment to BOPS",
   arguments: ["council", "applicationId"],
-  run: async (args: [any, any, any]) => {
+  run: async (args: [string, string, object]) => {
     return await postComment(...args);
   },
   examples: [

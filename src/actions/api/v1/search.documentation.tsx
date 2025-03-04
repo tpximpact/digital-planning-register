@@ -14,8 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { Documentation } from "@/types";
+import { Documentation, SearchParams } from "@/types";
 import { search } from "./search";
 
 export const documentation: Documentation = {
@@ -23,8 +22,8 @@ export const documentation: Documentation = {
   file: `src/actions/api/v1/search.ts`,
   description: "getPlanningApplications",
   arguments: ["source", "council", "page", "resultsPerPage", "searchQuery"],
-  run: async (args: [any, any, any, any, any]) => {
-    const searchObj = {
+  run: async (args: [string, string, number, number, string]) => {
+    const searchObj: SearchParams = {
       page: args[2],
       resultsPerPage: args[3],
       query: args[4],

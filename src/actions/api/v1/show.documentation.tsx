@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/actions/api/v1/show.ts`,
   description: "show",
   arguments: ["source", "council", "reference"],
-  run: async (args: [any, any, any]) => {
+  run: async (args: [string, string, string]) => {
     return await show(...args);
   },
   examples: [
