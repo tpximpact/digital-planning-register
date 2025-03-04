@@ -44,7 +44,7 @@ import { contentImportantDates } from "./date";
 export const buildApplicationProgress = (
   application: DprPlanningApplication,
 ): ProgressSectionBase[] => {
-  let progressData: ProgressSectionBase[] = [];
+  const progressData: ProgressSectionBase[] = [];
 
   // 01 received
   if (application.application?.receivedDate) {

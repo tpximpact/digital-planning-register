@@ -197,7 +197,7 @@ const formatSiteContact = (
 ): DprApplicationSubmissionSubtopicValue => {
   let value = "";
   if (data?.role === "other") {
-    let other = [];
+    const other = [];
     if (data?.name) {
       other.push(data?.name);
     }
@@ -231,7 +231,7 @@ const formatAgent = (
 ): DprApplicationSubmissionSubtopicValue[] => {
   const agent = flattenObjectIntoRow(data, "Agent ", ["name"]);
 
-  let agentName = [];
+  const agentName = [];
   if (data?.name?.first) {
     agentName.push(data?.name?.first);
   }

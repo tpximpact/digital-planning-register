@@ -118,7 +118,7 @@ export const getCouncilConfig = (
  * @returns
  */
 const determineCouncilVisibility = (councilConfig: Council) => {
-  let { visibility: configVisibility, slug } = councilConfig;
+  const { visibility: configVisibility, slug } = councilConfig;
 
   const overrideVisibility =
     process.env[`${slug.toUpperCase().split("-").join("_")}_VISIBILITY`];

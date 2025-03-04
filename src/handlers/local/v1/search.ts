@@ -36,11 +36,11 @@ const responseQuery = (
   const appConfig = getAppConfig();
   const resultsPerPage = appConfig.defaults.resultsPerPage;
 
-  let applications = generateNResults<DprPlanningApplication>(
+  const applications = generateNResults<DprPlanningApplication>(
     resultsPerPage,
     generateDprApplication,
   );
-  let pagination = generatePagination(searchParams?.page);
+  const pagination = generatePagination(searchParams?.page);
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
