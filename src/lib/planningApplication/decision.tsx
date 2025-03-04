@@ -103,12 +103,12 @@ export function getApplicationDecisionSummarySentiment(status: string) {
  * Refused
  *
  * If priorApprovalRequired is true:
- * councilDecision: granted -> Prior approval required and approved
- * councilDecision: refused -> Prior approval required and refused
+ * planningOfficerDecision: granted -> Prior approval required and approved
+ * planningOfficerDecision: refused -> Prior approval required and refused
  *
  * If priorApprovalRequired is false:
- * councilDecision: granted -> Prior approval not required
- * councilDecision: refused -> Prior approval not required
+ * planningOfficerDecision: granted -> Prior approval not required
+ * planningOfficerDecision: refused -> Prior approval not required
  *
  *
  * @param application
@@ -129,7 +129,8 @@ export const getApplicationDprDecisionSummary = (
     | PostSubmissionAssessment
     | PriorApprovalAssessmentBase;
 
-  const decision = assessment?.councilDecision || assessment?.committeeDecision;
+  const decision =
+    assessment?.planningOfficerDecision || assessment?.committeeDecision;
 
   if (!decision) {
     return undefined;

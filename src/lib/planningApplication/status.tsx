@@ -202,7 +202,7 @@ export const getApplicationDprStatusSummary = (
   if (stage === "assessment") {
     const hasAssessmentDecisionData =
       (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
-        ?.councilDecision ||
+        ?.planningOfficerDecision ||
       (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
         ?.committeeDecision;
 

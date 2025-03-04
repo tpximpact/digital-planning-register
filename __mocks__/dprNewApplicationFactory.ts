@@ -75,7 +75,7 @@ type PossibleDates = {
   };
   assessment: {
     expiryAt: Dayjs;
-    councilDecisionAt: Dayjs;
+    planningOfficerDecisionAt: Dayjs;
     committeeSentAt: Dayjs;
     committeeDecisionAt: Dayjs;
   };
@@ -110,10 +110,10 @@ export const generateAllPossibleDates = (): PossibleDates => {
   const expiryAt = consultationEndAt.add(1, "month");
 
   // the council decision is made sometime after the consultation ends
-  const councilDecisionAt = consultationEndAt.add(10, "day");
+  const planningOfficerDecisionAt = consultationEndAt.add(10, "day");
 
-  // if it's sent to committee it's sent after the council decision
-  const committeeSentAt = councilDecisionAt.add(1, "day");
+  // if it's sent to committee it's sent after the planning officers recommendation
+  const committeeSentAt = planningOfficerDecisionAt.add(1, "day");
 
   // after it's sent to the committee the decision is made after that date
   const committeeDecisionAt = committeeSentAt.add(10, "day");
@@ -131,7 +131,7 @@ export const generateAllPossibleDates = (): PossibleDates => {
   // appeal decided
   const appealDecidedAt = dayjs(appealStartedAt).add(5, "day");
 
-  // application can be withdrawn any time between consultationStartAt and councilDecisionAt
+  // application can be withdrawn any time between consultationStartAt and planningOfficerDecisionAt
   const withdrawnAt = dayjs(consultationStartAt).add(1, "day");
 
   // appeal is withdrawn any time between appealLodgedAt and appealDecidedAt
@@ -155,7 +155,7 @@ export const generateAllPossibleDates = (): PossibleDates => {
     },
     assessment: {
       expiryAt: expiryAt,
-      councilDecisionAt: councilDecisionAt,
+      planningOfficerDecisionAt: planningOfficerDecisionAt,
       committeeSentAt: committeeSentAt,
       committeeDecisionAt: committeeDecisionAt,
     },
@@ -446,9 +446,12 @@ export const generateDprApplication = ({
       },
       assessment: {
         expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
-        councilDecision: faker.helpers.arrayElement(["granted", "refused"]),
-        councilDecisionDate:
-          dates.assessment.councilDecisionAt.format("YYYY-MM-DD"),
+        planningOfficerDecision: faker.helpers.arrayElement([
+          "granted",
+          "refused",
+        ]),
+        planningOfficerDecisionDate:
+          dates.assessment.planningOfficerDecisionAt.format("YYYY-MM-DD"),
         decisionNotice: {
           url: "https://planningregister.org",
         },
@@ -547,7 +550,10 @@ export const generateDprApplication = ({
   if (customStatus === "assessmentInCommittee") {
     data.data.assessment = {
       expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
-      councilRecommendation: faker.helpers.arrayElement(["granted", "refused"]),
+      planningOfficerRecommendation: faker.helpers.arrayElement([
+        "granted",
+        "refused",
+      ]),
       committeeSentDate: dates.assessment.committeeSentAt.format("YYYY-MM-DD"),
     };
   }
@@ -556,7 +562,10 @@ export const generateDprApplication = ({
   if (customStatus === "assessmentCommitteeDetermined") {
     data.data.assessment = {
       expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
-      councilRecommendation: faker.helpers.arrayElement(["granted", "refused"]),
+      planningOfficerRecommendation: faker.helpers.arrayElement([
+        "granted",
+        "refused",
+      ]),
       committeeSentDate: dates.assessment.committeeSentAt.format("YYYY-MM-DD"),
       committeeDecision: faker.helpers.arrayElement(["granted", "refused"]),
       committeeDecisionDate:

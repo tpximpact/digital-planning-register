@@ -413,11 +413,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .assessment?.councilDecision,
+        .assessment?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .assessment?.councilDecisionDate,
+        .assessment?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
@@ -425,7 +425,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .assessment?.councilRecommendation,
+        .assessment?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
@@ -533,11 +533,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
@@ -545,7 +545,7 @@ describe("generateDprApplication", () => {
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
@@ -639,11 +639,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
-        .assessment?.councilDecision,
+        .assessment?.planningOfficerDecision,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
-        .assessment?.councilDecisionDate,
+        .assessment?.planningOfficerDecisionDate,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
@@ -651,7 +651,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
-        .assessment?.councilRecommendation,
+        .assessment?.planningOfficerRecommendation,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
@@ -735,11 +735,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
@@ -747,7 +747,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
@@ -850,11 +850,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
@@ -862,7 +862,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
@@ -965,11 +965,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
@@ -977,7 +977,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
@@ -1082,11 +1082,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
@@ -1094,7 +1094,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
@@ -1200,11 +1200,11 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
-        ?.councilDecision,
+        ?.planningOfficerDecision,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
-        ?.councilDecisionDate,
+        ?.planningOfficerDecisionDate,
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
@@ -1212,7 +1212,7 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
-        ?.councilRecommendation,
+        ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
