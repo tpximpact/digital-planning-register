@@ -191,46 +191,64 @@ function mapAppealSection(app: DprPlanningApplication, stage: ProcessStage) {
 }
 
 /**
+ * fields that exist in DprPlanningApplication that I'm guessing exist in the submission object
+ *
+ *   property: {
+     address: {
+       singleLine: string;
+     };
+     boundary: {
+       site?: DprBoundaryGeojson;
+     };
+   };
+   proposal: {
+     description: string;
+   };
+   applicant: Applicant<any>;
+ */
+
+/**
  * Maps the submission object (PrototypeApplication) from the legacy DprPlanningApplication.
  */
-// function mapToPrototypeApplication(
-//   app: DprPlanningApplication,
-// ): PrototypeApplication {
-//   // Map user data if available; using an empty object as default.
-//   const userData = {} as any;
-//   const applicationData = {
-//     reference: app.application.reference,
-//     status: app.application.status,
-//     receivedDate: app.application.receivedDate,
-//     publishedDate: app.application.publishedDate || "",
-//     validDate: app.application.validDate || "",
-//     determinedAt: app.application.determinedAt || "",
-//     decision: app.application.decision || "",
-//     consultation: app.application.consultation,
-//     appeal: app.application.appeal,
-//   };
+function mapToPrototypeApplication(app: DprPlanningApplication): any {
+  const applicationData = {
+    reference: app.application.reference,
+    status: app.application.status,
+    receivedDate: app.application.receivedDate,
+    publishedDate: app.application.publishedDate || "",
+    validDate: app.application.validDate || "",
+    determinedAt: app.application.determinedAt || "",
+    decision: app.application.decision || "",
+    consultation: app.application.consultation,
+    appeal: app.application.appeal,
+  };
 
-//   return {
-//     applicationType: app.applicationType,
-//     data: {
-//       user: userData,
-//       applicant: app.applicant,
-//       application: applicationData,
-//       property: app.property,
-//       proposal: app.proposal,
-//     },
-//     preAssessment: undefined,
-//     responses: [],
-//     files: [],
-//     metadata: {
-//       organisation: "BOPS",
-//       id: "",
-//       submittedAt: app.application.receivedDate,
-//       schema:
-//         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
-//     },
-//   };
-// }
+  const userData = {};
+  const applicantData = {};
+  const propertyData = {};
+  const proposalData = {};
+
+  return {
+    applicationType: app.applicationType,
+    data: {
+      user: userData,
+      applicant: app.applicant,
+      application: applicationData,
+      property: app.property,
+      proposal: app.proposal,
+    },
+    // preAssessment: {},
+    responses: [],
+    files: [],
+    metadata: {
+      organisation: "BOPS",
+      id: "",
+      submittedAt: app.application.receivedDate,
+      schema:
+        "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
+    },
+  };
+}
 
 /**
  * Main conversion function.
