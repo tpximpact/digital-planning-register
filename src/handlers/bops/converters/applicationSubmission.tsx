@@ -123,7 +123,7 @@ const convertApplicationSubmissionDataBops = (
  */
 export const flattenObjectIntoRow = (
   field: Record<string, any>,
-  prefix: String = "",
+  prefix: string = "",
   exclude: string[] = [],
   include: string[] = [],
 ): DprApplicationSubmissionSubtopicValue[] => {

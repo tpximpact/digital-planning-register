@@ -248,7 +248,7 @@ export const formatParking = (
  */
 export const parseParking = (
   parking: Record<string, any>,
-  prefix: String = "",
+  prefix: string = "",
   valuePrefix: string = "",
   field: string = "count",
 ): DprApplicationSubmissionSubtopicValue[] => {
