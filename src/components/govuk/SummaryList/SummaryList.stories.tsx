@@ -125,7 +125,7 @@ const meta = {
         value: {
           text: (
             <>
-              <a href="#" className="govuk-link">
+              <a href="/" className="govuk-link">
                 Enter contact information
               </a>
             </>
@@ -139,7 +139,7 @@ const meta = {
         value: {
           text: (
             <>
-              <a href="#" className="govuk-link">
+              <a href="/" className="govuk-link">
                 Enter contact details
               </a>
             </>

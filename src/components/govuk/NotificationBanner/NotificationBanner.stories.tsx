@@ -46,7 +46,7 @@ export const Success: Story = {
     content: (
       <>
         You&rsquo;ve set your cookie preferences.{" "}
-        <a href="#" className="govuk-notification-banner__link">
+        <a href="/" className="govuk-notification-banner__link">
           Go back to the page you were looking at
         </a>
         .

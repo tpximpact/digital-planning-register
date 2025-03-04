@@ -31,7 +31,7 @@ export const ContentSignposting: React.FC<ContentSignpostingProps> = ({
 }) => {
   return (
     <nav aria-label="Table of contents" className="dpr-content-signposting">
-      <ul className="dpr-content-signposting__links" role="list">
+      <ul className="dpr-content-signposting__links">
         {pages.map((page) => (
           <li key={page.key} className="dpr-content-signposting__links-item">
             <h3 className="govuk-heading-s">
