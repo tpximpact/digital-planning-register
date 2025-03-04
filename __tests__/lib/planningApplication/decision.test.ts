@@ -111,11 +111,11 @@ describe("getApplicationDecisionSummarySentiment", () => {
 
 describe("getApplicationDprDecisionSummary", () => {
   describe("getApplicationDprDecisionSummary with council decisions", () => {
-    it('should return "Granted" if priorApprovalRequired is undefined and councilDecision is granted ', () => {
+    it('should return "Granted" if priorApprovalRequired is undefined and planningOfficerDecision is granted ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "granted",
+            planningOfficerDecision: "granted",
           },
         },
       };
@@ -125,11 +125,11 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Granted");
     });
 
-    it('should return "Refused" if priorApprovalRequired is undefined and councilDecision is refused ', () => {
+    it('should return "Refused" if priorApprovalRequired is undefined and planningOfficerDecision is refused ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "refused",
+            planningOfficerDecision: "refused",
           },
         },
       };
@@ -139,11 +139,11 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Refused");
     });
 
-    it('should return "Prior approval required and approved" if priorApprovalRequired is true and councilDecision is granted ', () => {
+    it('should return "Prior approval required and approved" if priorApprovalRequired is true and planningOfficerDecision is granted ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "granted",
+            planningOfficerDecision: "granted",
             priorApprovalRequired: true,
           },
         },
@@ -154,11 +154,11 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Prior approval required and approved");
     });
 
-    it('should return "Prior approval required and refused" if priorApprovalRequired is true and councilDecision is refused ', () => {
+    it('should return "Prior approval required and refused" if priorApprovalRequired is true and planningOfficerDecision is refused ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "refused",
+            planningOfficerDecision: "refused",
             priorApprovalRequired: true,
           },
         },
@@ -169,11 +169,11 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Prior approval required and refused");
     });
 
-    it('should return "Prior approval not required" if priorApprovalRequired is false and councilDecision is granted ', () => {
+    it('should return "Prior approval not required" if priorApprovalRequired is false and planningOfficerDecision is granted ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "granted",
+            planningOfficerDecision: "granted",
             priorApprovalRequired: false,
           },
         },
@@ -184,11 +184,11 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Prior approval not required");
     });
 
-    it('should return "Prior approval not required" if priorApprovalRequired is false and councilDecision is refused ', () => {
+    it('should return "Prior approval not required" if priorApprovalRequired is false and planningOfficerDecision is refused ', () => {
       const application = {
         data: {
           assessment: {
-            councilDecision: "refused",
+            planningOfficerDecision: "refused",
             priorApprovalRequired: false,
           },
         },
@@ -199,7 +199,7 @@ describe("getApplicationDprDecisionSummary", () => {
       expect(result).toBe("Prior approval not required");
     });
 
-    it("should return undefined if no councilDecision is set", () => {
+    it("should return undefined if no planningOfficerDecision is set", () => {
       const application = {
         data: {},
       };

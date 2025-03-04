@@ -530,7 +530,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -573,9 +573,9 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilDecision: "granted",
-            councilDecisionDate: formatDateToYmd(
-              dates.assessment.councilDecisionAt.toDate(),
+            planningOfficerDecision: "granted",
+            planningOfficerDecisionDate: formatDateToYmd(
+              dates.assessment.planningOfficerDecisionAt.toDate(),
             ),
             decisionNotice: {
               url: "https://planningregister.org",
@@ -619,7 +619,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -669,8 +669,8 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilDecisionDate: formatDateToYmd(
-              dates.assessment.councilDecisionAt.toDate(),
+            planningOfficerDecisionDate: formatDateToYmd(
+              dates.assessment.planningOfficerDecisionAt.toDate(),
             ),
             decisionNotice: {
               url: "https://planningregister.org",
@@ -714,7 +714,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -765,7 +765,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -818,7 +818,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -872,7 +872,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -927,7 +927,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
@@ -984,7 +984,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
-            councilRecommendation: "refused",
+            planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
             ),
