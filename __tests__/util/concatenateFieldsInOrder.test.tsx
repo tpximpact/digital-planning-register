@@ -28,7 +28,7 @@ describe("concatenateFieldsInOrder", () => {
       country: "USA",
     };
     const fields = ["line1", "line2", "town", "county", "postcode", "country"];
-    const result = concatenateFieldsInOrder(obj, fields);
+    const result = concatenateFieldsInOrder<string>(obj, fields);
     expect(result).toBe(
       "123 Main St, Apt 4B, Springfield, Some County, 12345, USA",
     );
@@ -41,7 +41,7 @@ describe("concatenateFieldsInOrder", () => {
       postcode: "12345",
     };
     const fields = ["line1", "line2", "town", "county", "postcode", "country"];
-    const result = concatenateFieldsInOrder(obj, fields);
+    const result = concatenateFieldsInOrder<string>(obj, fields);
     expect(result).toBe("123 Main St, Springfield, 12345");
   });
 
@@ -55,14 +55,14 @@ describe("concatenateFieldsInOrder", () => {
       country: undefined,
     };
     const fields = ["line1", "line2", "town", "county", "postcode", "country"];
-    const result = concatenateFieldsInOrder(obj, fields);
+    const result = concatenateFieldsInOrder<string>(obj, fields);
     expect(result).toBe("123 Main St, Springfield, 12345");
   });
 
   it("should return an empty string if no fields are present in the object", () => {
     const obj = {};
     const fields = ["line1", "line2", "town", "county", "postcode", "country"];
-    const result = concatenateFieldsInOrder(obj, fields);
+    const result = concatenateFieldsInOrder<string>(obj, fields);
     expect(result).toBe("");
   });
 
@@ -73,7 +73,7 @@ describe("concatenateFieldsInOrder", () => {
       postcode: "12345",
     };
     const fields: string[] = [];
-    const result = concatenateFieldsInOrder(obj, fields);
+    const result = concatenateFieldsInOrder<string>(obj, fields);
     expect(result).toBe("");
   });
 
@@ -83,7 +83,7 @@ describe("concatenateFieldsInOrder", () => {
       last: "Smith",
     };
     const fields = ["first", "last"];
-    const result = concatenateFieldsInOrder(obj, fields, "HELLO");
+    const result = concatenateFieldsInOrder<string>(obj, fields, "HELLO");
     expect(result).toBe("JohnHELLOSmith");
   });
 });

@@ -21,8 +21,8 @@
  * @param fields - The array of field names in the order to concatenate.
  * @returns A concatenated string of field values.
  */
-export const concatenateFieldsInOrder = (
-  obj: Record<string, any>,
+export const concatenateFieldsInOrder = <T>(
+  obj: Record<string, T>,
   fields: string[],
   separator: string = ", ",
 ): string => {
