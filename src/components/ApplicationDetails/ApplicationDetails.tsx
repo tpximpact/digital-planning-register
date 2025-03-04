@@ -29,7 +29,8 @@ import { Button } from "@/components/button";
 import { ApplicationProgressInfo } from "../ApplicationProgressInfo";
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 import { ApplicationAppeals } from "../ApplicationAppeals";
-import { ImpactMeasures } from "../ImpactMeasures";
+// import { ImpactMeasures } from "../ImpactMeasures";
+import { checkCommentsEnabled } from "@/lib/comments";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -48,12 +49,10 @@ export const ApplicationDetails = ({
     return <ContentError />;
   }
 
-  const applicationStatus = application.application.status;
+  const commentsEnabled = checkCommentsEnabled(application);
   const councilSlug = appConfig.council.slug;
   const description = application.proposal.description;
   const people = application.officer || application.applicant;
-  const commentsEnabled =
-    application.application.consultation.allowComments ?? true;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.application.appeal;
   const { url: decisionNoticeUrl } =
@@ -126,7 +125,7 @@ export const ApplicationDetails = ({
       <div className="govuk-grid-row dpr-application-details__content">
         <div className="govuk-grid-column-one-third-from-desktop dpr-application-details__sidebar">
           <ContentSidebar content={sidebar} />
-          {applicationStatus !== "determined" && commentsEnabled && (
+          {commentsEnabled && (
             <Button
               variant="primary"
               element="link"

@@ -16,21 +16,19 @@
  */
 
 import { DprPlanningApplication } from "@/types";
-import {
-  BopsApplicationOverview,
-  BopsPlanningApplication,
-  BopsV2PlanningApplicationDetail,
-} from "../types";
+import { BopsApplicationOverview, BopsPlanningApplication } from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
-import { getCommentsAllowed } from "@/lib/planningApplication";
 import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
+import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 
 export const convertBopsToDpr = (
   application: BopsPlanningApplication,
+  council: string,
 ): DprPlanningApplication => {
   return {
     applicationType: application.application.type.value,
+    data: createData(application.application, council),
     application: convertBopsApplicationToDpr(application.application),
     property: createProperty(application),
     proposal: createProposal(application),
@@ -66,7 +64,6 @@ export const convertBopsApplicationToDpr = (
       endDate: application.consultation?.endDate,
       consulteeComments: consultee_comments,
       publishedComments: published_comments,
-      allowComments: getCommentsAllowed(application.type.value),
     },
     receivedDate: application.receivedAt
       ? convertDateNoTimeToDprDate(application.receivedAt)
@@ -82,6 +79,37 @@ export const convertBopsApplicationToDpr = (
       : null,
     decision: application.decision ?? null,
     appeal: application.appeal ?? null,
+  };
+};
+
+/**
+ *
+ * Temporary until this logic is added into BOPS
+ * if camden and ldc then comments accepted until decision
+ * @param application
+ * @param council
+ * @returns DprPlanningApplication["data"]
+ */
+const createData = (
+  application: BopsApplicationOverview,
+  council: string,
+): DprPlanningApplication["data"] => {
+  const primaryApplicationType = getPrimaryApplicationTypeKey(
+    application.type.value,
+  );
+
+  if (council === "camden" && primaryApplicationType === "ldc") {
+    return {
+      localPlanningAuthority: {
+        commentsAcceptedUntilDecision: true,
+      },
+    };
+  }
+
+  return {
+    localPlanningAuthority: {
+      commentsAcceptedUntilDecision: false,
+    },
   };
 };
 

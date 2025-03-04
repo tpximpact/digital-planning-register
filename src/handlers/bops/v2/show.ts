@@ -43,7 +43,9 @@ export async function show(
     ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
   >(council, `public/planning_applications/${reference}`);
 
-  const convertedData = request?.data ? convertBopsToDpr(request.data) : null;
+  const convertedData = request?.data
+    ? convertBopsToDpr(request.data, council)
+    : null;
 
   return { ...request, data: convertedData };
 }

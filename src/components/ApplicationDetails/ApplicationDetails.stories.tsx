@@ -24,6 +24,7 @@ import {
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
+import { formatDateToYmd } from "@/util";
 
 const baseApplication = generateDprApplication();
 let baseAppConfig = createAppConfig("public-council-1");
@@ -69,40 +70,39 @@ export const ManyDocuments: Story = {
     documents: generateNResults<DprDocument>(30, generateDocument),
   },
 };
+
+const today = new Date();
+const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
+const endDate = formatDateToYmd(new Date(today));
+const applicationInAssessment = generateDprApplication({
+  applicationType: "pp.full",
+  applicationStatus: "assessment_in_progress",
+});
+const applicationInConsultation = {
+  ...applicationInAssessment,
+  application: {
+    ...applicationInAssessment.application,
+    consultation: {
+      ...applicationInAssessment.application.consultation,
+      startDate,
+      endDate,
+    },
+  },
+};
+
 export const CommentsEnabled: Story = {
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        consultation: {
-          ...baseApplication.application.consultation,
-          allowComments: true,
-        },
-      },
-    },
+    application: applicationInConsultation,
   },
 };
-export const CommentsDisabledBecauseDetermined: Story = {
+
+export const CommentsEnabledBecauseFlag: Story = {
   args: {
     application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-      },
-    },
-  },
-};
-export const CommentsDisabledBecauseFlag: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        consultation: {
-          ...baseApplication.application.consultation,
-          allowComments: false,
+      ...applicationInAssessment,
+      data: {
+        localPlanningAuthority: {
+          commentsAcceptedUntilDecision: true,
         },
       },
     },

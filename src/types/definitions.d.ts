@@ -60,6 +60,11 @@ export type DprApplication = PostSubmissionApplication & {
  */
 export interface DprPlanningApplication {
   applicationType: ApplicationType;
+  data: {
+    localPlanningAuthority: {
+      commentsAcceptedUntilDecision: boolean;
+    };
+  };
   application: {
     reference: string;
     status:
@@ -92,11 +97,6 @@ export interface DprPlanningApplication {
        * YYYY-MM-DD
        */
       endDate: string | null;
-      /**
-       * proposed new field by us
-       * commentingEnabled commentingAllowed allowComments ??
-       */
-      allowComments?: boolean;
       /**
        * NB: These are only included in BOPS details call not search one
        */

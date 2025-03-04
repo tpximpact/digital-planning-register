@@ -57,7 +57,7 @@ export async function search(
   const { data: planningApplications = [], ...restData } = request.data || {};
 
   const convertedApplications = planningApplications.map((application) =>
-    convertBopsToDpr(application),
+    convertBopsToDpr(application, council),
   );
 
   return {

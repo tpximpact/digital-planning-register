@@ -153,12 +153,17 @@ describe("generateDprApplication", () => {
   it("should create the application type we request", () => {
     const application = generateDprApplication({ applicationType: "pp.full" });
     expect(application.applicationType).toEqual("pp.full");
+    expect(
+      application.data.localPlanningAuthority.commentsAcceptedUntilDecision,
+    ).toBe(false);
   });
 
   it("should temporarily disable comments for ldc applications until we get the field from BOPs", () => {
     const application = generateDprApplication({ applicationType: "ldc" });
     expect(application.applicationType).toEqual("ldc");
-    expect(application.application.consultation.allowComments).toBe(false);
+    expect(
+      application.data.localPlanningAuthority.commentsAcceptedUntilDecision,
+    ).toBe(true);
   });
 
   it("should generate dates in the formats we expect", () => {
