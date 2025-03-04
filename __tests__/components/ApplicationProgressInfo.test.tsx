@@ -47,8 +47,6 @@ describe("ApplicationProgressInfo", () => {
 
   it("renders closed section", async () => {
     const defaultProps = {
-      councilSlug: "public-council-1",
-      reference: "ABC123",
       sections: [
         {
           title: "Section 1",

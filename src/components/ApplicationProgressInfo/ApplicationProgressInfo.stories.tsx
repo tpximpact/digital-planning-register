@@ -29,7 +29,6 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    withReadMore: true,
     sections: [
       {
         title: "Received",
@@ -135,8 +134,6 @@ const meta = {
         ),
       },
     ],
-    councilSlug: "public-council-1",
-    reference: "ABC123",
   },
 } satisfies Meta<typeof ApplicationProgressInfo>;
 
