@@ -211,35 +211,39 @@ function mapAppealSection(app: DprPlanningApplication, stage: ProcessStage) {
  * Maps the submission object (PrototypeApplication) from the legacy DprPlanningApplication.
  */
 function mapToPrototypeApplication(app: DprPlanningApplication): any {
-  const applicationData = {
-    reference: app.application.reference,
-    status: app.application.status,
-    receivedDate: app.application.receivedDate,
-    publishedDate: app.application.publishedDate || "",
-    validDate: app.application.validDate || "",
-    determinedAt: app.application.determinedAt || "",
-    decision: app.application.decision || "",
-    consultation: app.application.consultation,
-    appeal: app.application.appeal,
-  };
+  // const applicationData = {
+  //   reference: app.application.reference,
+  //   status: app.application.status,
+  //   receivedDate: app.application.receivedDate,
+  //   publishedDate: app.application.publishedDate,
+  //   validDate: app.application.validDate,
+  //   determinedAt: app.application.determinedAt,
+  //   decision: app.application.decision,
+  //   consultation: app.application.consultation,
+  //   appeal: app.application.appeal,
+  // };
 
-  const userData = {};
-  const applicantData = {};
-  const propertyData = {};
-  const proposalData = {};
+  const applicantData = { applicant: app.applicant };
+  const propertyData = {
+    property: {
+      address: {
+        singleLine: app.property.address.singleLine,
+      },
+      boundary: app.property.boundary.site,
+    },
+  };
+  const proposalData = {
+    description: app.proposal.description,
+  };
 
   return {
     applicationType: app.applicationType,
     data: {
-      user: userData,
-      applicant: app.applicant,
-      application: applicationData,
-      property: app.property,
-      proposal: app.proposal,
+      applicant: applicantData,
+      // application: applicationData,
+      property: propertyData,
+      proposal: proposalData,
     },
-    // preAssessment: {},
-    responses: [],
-    files: [],
     metadata: {
       organisation: "BOPS",
       id: "",
@@ -273,12 +277,12 @@ export function convertDprPlanningApplication(
     caseOfficer: { name: planningApp.officer?.name || "" },
   };
 
-  // const submission = mapToPrototypeApplication(planningApp);
+  const submission = mapToPrototypeApplication(planningApp);
 
   const baseApplication = {
     applicationType: planningApp.applicationType,
     data: baseData,
-    // submission,
+    submission,
     metadata: {
       organisation: "BOPS",
       id: "",
