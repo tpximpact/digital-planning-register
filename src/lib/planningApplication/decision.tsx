@@ -25,7 +25,10 @@ import { capitalizeFirstLetter, slugify } from "@/util";
 import { getPrimaryApplicationTypeKey } from "./type";
 import { Council } from "@/config/types";
 import Link from "next/link";
-import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+import {
+  PostSubmissionAssessment,
+  PriorApprovalAssessmentBase,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 /**
@@ -119,14 +122,20 @@ export const getApplicationDprDecisionSummary = (
         "applicationStatusSummary" | "applicationDecisionSummary"
       >,
 ): DprDecisionSummary | undefined => {
-  const assessment = application.data.assessment;
+  if (!application.data.assessment) {
+    return undefined;
+  }
+  const assessment = application.data.assessment as
+    | PostSubmissionAssessment
+    | PriorApprovalAssessmentBase;
+
   const decision = assessment?.councilDecision || assessment?.committeeDecision;
 
   if (!decision) {
     return undefined;
   }
 
-  const priorApprovalRequired = (assessment as PriorApprovalAssessment)
+  const priorApprovalRequired = (assessment as PriorApprovalAssessmentBase)
     ?.priorApprovalRequired;
 
   if (priorApprovalRequired === undefined) {

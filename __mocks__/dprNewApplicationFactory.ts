@@ -74,6 +74,7 @@ type PossibleDates = {
     endAt: Dayjs;
   };
   assessment: {
+    expiryAt: Dayjs;
     councilDecisionAt: Dayjs;
     committeeSentAt: Dayjs;
     committeeDecisionAt: Dayjs;
@@ -104,6 +105,9 @@ export const generateAllPossibleDates = (): PossibleDates => {
   // startDate - as soon as validated
   const consultationStartAt = validatedAt;
   const consultationEndAt = consultationStartAt.add(21, "day");
+
+  // An assessment has an expiry date which is different per application type
+  const expiryAt = consultationEndAt.add(1, "month");
 
   // the council decision is made sometime after the consultation ends
   const councilDecisionAt = consultationEndAt.add(10, "day");
@@ -150,6 +154,7 @@ export const generateAllPossibleDates = (): PossibleDates => {
       endAt: consultationEndAt,
     },
     assessment: {
+      expiryAt: expiryAt,
       councilDecisionAt: councilDecisionAt,
       committeeSentAt: committeeSentAt,
       committeeDecisionAt: committeeDecisionAt,
@@ -440,6 +445,7 @@ export const generateDprApplication = ({
         siteNotice: true,
       },
       assessment: {
+        expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
         councilDecision: faker.helpers.arrayElement(["granted", "refused"]),
         councilDecisionDate:
           dates.assessment.councilDecisionAt.format("YYYY-MM-DD"),
@@ -510,7 +516,12 @@ export const generateDprApplication = ({
 
     if (applicationStatus === "undetermined") {
       const { assessment, ...rest } = data.data;
-      data.data = rest;
+      data.data = {
+        ...rest,
+        assessment: {
+          expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
+        },
+      };
     }
   }
 
@@ -535,6 +546,7 @@ export const generateDprApplication = ({
   // only get in committee if we request it using customStatus
   if (customStatus === "assessmentInCommittee") {
     data.data.assessment = {
+      expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
       councilRecommendation: faker.helpers.arrayElement(["granted", "refused"]),
       committeeSentDate: dates.assessment.committeeSentAt.format("YYYY-MM-DD"),
     };
@@ -543,6 +555,7 @@ export const generateDprApplication = ({
   // only get in committee determined if we request it using customStatus
   if (customStatus === "assessmentCommitteeDetermined") {
     data.data.assessment = {
+      expiryDate: dates.assessment.expiryAt.format("YYYY-MM-DD"),
       councilRecommendation: faker.helpers.arrayElement(["granted", "refused"]),
       committeeSentDate: dates.assessment.committeeSentAt.format("YYYY-MM-DD"),
       committeeDecision: faker.helpers.arrayElement(["granted", "refused"]),

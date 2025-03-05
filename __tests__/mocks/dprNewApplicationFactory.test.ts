@@ -312,13 +312,32 @@ describe("generateDprApplication", () => {
 
     // assessment data checks
     expect(
-      planningPermissionFullHouseholderAssessmentInProgress.data.assessment,
-    ).toBeUndefined();
+      planningPermissionFullHouseholderAssessmentInProgress.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
+    expect(
+      Object.keys(
+        planningPermissionFullHouseholderAssessmentInProgress.data
+          .assessment as AssessmentBase,
+      ),
+    ).toHaveLength(1);
 
     // appeal data checks
     expect(
       planningPermissionFullHouseholderAssessmentInProgress.data.appeal,
     ).toBeUndefined();
+
+    const PriorApprovalLargerExtensionAssessmentAssessmentInProgress =
+      generateDprApplication({
+        applicationType: "pa.part1.classA",
+        customStatus: "assessmentInProgress",
+      });
+    const paAssessment =
+      PriorApprovalLargerExtensionAssessmentAssessmentInProgress.data
+        .assessment as PriorApprovalAssessment;
+
+    expect(paAssessment.expiryDate).toBeDefined();
+    expect(Object.values(paAssessment)).toHaveLength(1);
   });
 
   // 04 01 council makes a decision on the application (comments are no longer allowed for those exempted per council)
@@ -390,6 +409,10 @@ describe("generateDprApplication", () => {
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
+        .assessment?.expiryDate,
+    ).toBeDefined();
+    expect(
+      planningPermissionFullHouseholderAssessmentCouncilDetermined.data
         .assessment?.councilDecision,
     ).toBeDefined();
     expect(
@@ -434,6 +457,7 @@ describe("generateDprApplication", () => {
     const paAssessment = PriorApprovalLargerExtensionAssessmentCouncilDetermined
       .data.assessment as PriorApprovalAssessment;
     expect(paAssessment.priorApprovalRequired).toBeDefined();
+    expect(paAssessment.expiryDate).toBeDefined();
   });
 
   // 04 02 Alternatively application goes to committee for a decision
@@ -503,6 +527,10 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
 
     // assessment data checks
+    expect(
+      planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
         ?.councilDecision,
@@ -607,6 +635,10 @@ describe("generateDprApplication", () => {
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
+        .assessment?.expiryDate,
+    ).toBeDefined();
+    expect(
+      planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
         .assessment?.councilDecision,
     ).not.toBeDefined();
     expect(
@@ -698,6 +730,9 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
 
     // assessment data checks
+    expect(
+      planningPermissionFullHouseholderAppealLodged.data.assessment?.expiryDate,
+    ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealLodged.data.assessment
         ?.councilDecision,
@@ -811,6 +846,10 @@ describe("generateDprApplication", () => {
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAppealValidated.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
+    expect(
+      planningPermissionFullHouseholderAppealValidated.data.assessment
         ?.councilDecision,
     ).toBeDefined();
     expect(
@@ -920,6 +959,10 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
 
     // assessment data checks
+    expect(
+      planningPermissionFullHouseholderAppealStarted.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealStarted.data.assessment
         ?.councilDecision,
@@ -1035,6 +1078,10 @@ describe("generateDprApplication", () => {
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
+    expect(
+      planningPermissionFullHouseholderAppealDetermined.data.assessment
         ?.councilDecision,
     ).toBeDefined();
     expect(
@@ -1147,6 +1194,10 @@ describe("generateDprApplication", () => {
     ).toBeDefined();
 
     // assessment data checks
+    expect(
+      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+        ?.expiryDate,
+    ).toBeDefined();
     expect(
       planningPermissionFullHouseholderAppealWithdrawn.data.assessment
         ?.councilDecision,
