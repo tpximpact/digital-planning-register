@@ -59,6 +59,14 @@ export const Footer = ({
                   Cookie policy
                 </a>
               </li>
+              <li className="govuk-footer__inline-list-item">
+                <a
+                  className="govuk-footer__link"
+                  href={`/accessibility-statement`}
+                >
+                  Accessibility statement
+                </a>
+              </li>
             </ul>
             <svg
               aria-hidden="true"
