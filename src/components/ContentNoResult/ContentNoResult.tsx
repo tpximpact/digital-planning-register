@@ -23,8 +23,6 @@ interface ContentNoResultProps {
 }
 
 export const ContentNoResult = ({ councilConfig }: ContentNoResultProps) => {
-  const getInTouchURL = councilConfig?.contact || "https://www.gov.uk/";
-
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
@@ -47,13 +45,17 @@ export const ContentNoResult = ({ councilConfig }: ContentNoResultProps) => {
           <li>Check you have spelled everything correctly</li>
           <li>Try being less specific with your search query</li>
           <li>
-            <Link
-              href={getInTouchURL}
-              className="govuk-link govuk-link--no-visited-state"
-              target="_blank"
-            >
-              Get in touch with the council
-            </Link>
+            {councilConfig?.contact ? (
+              <Link
+                href={councilConfig?.contact}
+                className="govuk-link govuk-link--no-visited-state"
+                target="_blank"
+              >
+                Get in touch with the council
+              </Link>
+            ) : (
+              <>Get in touch with the council</>
+            )}
           </li>
         </ul>
       </div>
