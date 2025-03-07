@@ -182,7 +182,7 @@ export const StatusAppealLodged: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal lodged",
-        decision: null,
+        decision: "refused",
       },
     },
   },
@@ -195,7 +195,7 @@ export const StatusAppealValid: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal valid",
-        decision: null,
+        decision: "granted",
       },
     },
   },
@@ -208,7 +208,7 @@ export const StatusAppealStarted: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal started",
-        decision: null,
+        decision: "granted",
       },
     },
   },
@@ -221,7 +221,7 @@ export const StatusAppealDetermined: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal determined",
-        decision: null,
+        decision: "granted",
         appeal: {
           decision: "allowed",
           decisionDate: new Date().toISOString(),
@@ -241,7 +241,7 @@ export const StatusAppealAllowed: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal allowed",
-        decision: null,
+        decision: "granted",
         appeal: {
           decision: "allowed",
           decisionDate: new Date().toISOString(),
@@ -261,7 +261,7 @@ export const StatusAppealDismissed: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal dismissed",
-        decision: null,
+        decision: "refused",
         appeal: {
           decision: "dismissed",
           decisionDate: new Date().toISOString(),
@@ -281,7 +281,7 @@ export const StatusAppealSplitDecision: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal split decision",
-        decision: null,
+        decision: "granted",
         appeal: {
           decision: "split_decision",
           decisionDate: new Date().toISOString(),
@@ -301,7 +301,7 @@ export const StatusAppealWithdrawn: Story = {
       application: {
         ...baseApplication.application,
         status: "Appeal withdrawn",
-        decision: null,
+        decision: "granted",
         appeal: {
           decision: "withdrawn",
           decisionDate: new Date().toISOString(),
