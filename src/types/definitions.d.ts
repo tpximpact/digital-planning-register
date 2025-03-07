@@ -26,6 +26,7 @@
  */
 
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appeal";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
@@ -63,6 +64,9 @@ export interface DprPlanningApplication {
   data: {
     localPlanningAuthority: {
       commentsAcceptedUntilDecision: boolean;
+    };
+    appeal?: Appeal & {
+      files?: DprDocument[];
     };
   };
   application: {
@@ -127,31 +131,6 @@ export interface DprPlanningApplication {
      */
     determinedAt?: string | null;
     decision?: string | null;
-    appeal?: {
-      decision?: "allowed" | "dismissed" | "split_decision" | "withdrawn";
-      /**
-       * YYYY-MM-DD
-       * Follows convention of if date in the name it is YYYY-MM-DD
-       */
-      decisionDate?: string;
-      /**
-       * YYYY-MM-DD
-       * Follows convention of if date in the name it is YYYY-MM-DD
-       */
-      lodgedDate?: string;
-      /**
-       * YYYY-MM-DD
-       * Follows convention of if date in the name it is YYYY-MM-DD
-       */
-      startedDate?: string;
-      /**
-       * YYYY-MM-DD
-       * Follows convention of if date in the name it is YYYY-MM-DD
-       */
-      validatedDate?: string;
-      reason?: string;
-      documents?: DprDocument[];
-    } | null;
   };
   property: {
     address: {

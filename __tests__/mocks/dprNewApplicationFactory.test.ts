@@ -16,7 +16,7 @@
  */
 
 import {
-  AssessmentBase,
+  PostSubmissionAssessment,
   PriorApprovalAssessment,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
@@ -318,7 +318,7 @@ describe("generateDprApplication", () => {
     expect(
       Object.keys(
         planningPermissionFullHouseholderAssessmentInProgress.data
-          .assessment as AssessmentBase,
+          .assessment as PostSubmissionAssessment,
       ),
     ).toHaveLength(1);
 
@@ -1235,12 +1235,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.reason,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.withdrawnAt,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.appeal
-        ?.withdrawnReason,
-    ).toBeDefined();
+      planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.decision,
+    ).toEqual("withdrawn");
   });
 
   it("Certain application types don't have consultation phases", () => {

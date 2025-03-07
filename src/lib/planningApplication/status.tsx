@@ -33,7 +33,7 @@ import { Council } from "@/config/types";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 import {
   PostSubmissionAssessment,
-  PriorApprovalAssessmentBase,
+  PriorApprovalAssessment,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 
 dayjs.extend(customParseFormat);
@@ -201,9 +201,9 @@ export const getApplicationDprStatusSummary = (
 
   if (stage === "assessment") {
     const hasAssessmentDecisionData =
-      (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
+      (assessment as PostSubmissionAssessment | PriorApprovalAssessment)
         ?.planningOfficerDecision ||
-      (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
+      (assessment as PostSubmissionAssessment | PriorApprovalAssessment)
         ?.committeeDecision;
 
     if (status === "determined" && hasAssessmentDecisionData) {
@@ -214,12 +214,15 @@ export const getApplicationDprStatusSummary = (
   }
 
   if (stage === "appeal" && appeal) {
-    if (appeal.withdrawnAt) {
-      return "Appeal withdrawn";
-    }
-
     if (appeal.decision) {
-      return "Appeal decided";
+      switch (appeal.decision) {
+        case "allowed":
+        case "dismissed":
+        case "splitDecision":
+          return "Appeal decided";
+        case "withdrawn":
+          return "Appeal withdrawn";
+      }
     }
 
     if (appeal.lodgedDate && appeal.validatedDate && appeal.startedDate) {

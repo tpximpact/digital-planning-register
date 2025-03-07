@@ -25,6 +25,7 @@ import { BopsNonStandardComment } from "./comment";
 import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { DprDocument } from "@/types";
+import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appeal";
 
 /**
  * #/components/definitions/ApplicationOverview
@@ -103,6 +104,11 @@ export interface BopsApplicationOverview {
 
 export interface BopsPlanningApplication {
   application: BopsApplicationOverview;
+  data: {
+    appeal?: Appeal & {
+      files?: BopsFile[];
+    };
+  };
   property: {
     address: {
       latitude: number;
