@@ -66,7 +66,7 @@ export const ApplicationCard = ({
 
   const applicationAppealDecisionSummary = findItemByKey<DprContentPage>(
     contentDecisions(),
-    application?.application?.appeal?.decision?.replaceAll("_", "-") ?? "",
+    application?.data?.appeal?.decision?.replaceAll("_", "-") ?? "",
   )?.title;
 
   return (
@@ -208,17 +208,15 @@ export const ApplicationCard = ({
                 />
               </>
             )}
-            {application?.application?.appeal?.decision && (
+            {application?.data?.appeal?.decision && (
               <>
-                {application?.application?.appeal?.decisionDate ? (
+                {application?.data?.appeal?.decisionDate ? (
                   <ApplicationDataField
                     title="Appeal decision date"
                     value={
-                      <time
-                        dateTime={application.application.appeal.decisionDate}
-                      >
+                      <time dateTime={application.data.appeal.decisionDate}>
                         {formatDateToDprDate(
-                          application.application.appeal.decisionDate,
+                          application.data.appeal.decisionDate,
                         )}
                       </time>
                     }

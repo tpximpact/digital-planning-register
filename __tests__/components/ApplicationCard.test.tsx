@@ -53,9 +53,19 @@ describe("Render ApplicationCard", () => {
   // the minimum required data for the application card
   const applicationCardApplication = {
     applicationType: "pp.full",
+    data: {
+      appeal: {
+        reason: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        decision: "allowed",
+        decisionDate: "2023-11-14",
+        lodgedDate: "2023-11-14",
+        startedDate: "2023-11-14",
+        validatedDate: "2023-11-14",
+      },
+    },
     application: {
       reference: "DPR/1234/2021",
-      status: "in_assessment",
+      status: "Appeal allowed",
       receivedDate: "2023-05-08",
       validDate: "2023-11-14",
       publishedDate: "2023-05-18",
@@ -64,13 +74,6 @@ describe("Render ApplicationCard", () => {
       },
       decision: "granted",
       determinedAt: "2023-11-14T13:40:51.567Z",
-      appeal: {
-        decision: "allowed",
-        decisionDate: "2023-11-14",
-        lodgedDate: "2023-11-14",
-        startedDate: "2023-11-14",
-        validatedDate: "2023-11-14",
-      },
     },
     property: {
       address: {
@@ -112,9 +115,7 @@ describe("Render ApplicationCard", () => {
       screen.queryByText("Application type - Planning permission"),
     ).toBeInTheDocument();
     // application status
-    expect(
-      screen.queryByText("Status - Assessment in progress"),
-    ).toBeInTheDocument();
+    expect(screen.queryByText("Status - Appeal decided")).toBeInTheDocument();
     //Received date
     expect(
       screen.queryByText("Received date - 8 May 2023"),
@@ -147,6 +148,7 @@ describe("Render ApplicationCard", () => {
 
     // Appeal
     expect(screen.queryByText("Appeal decision - Allowed")).toBeInTheDocument();
+    expect(screen.queryByText(/Appeal decision date/)).toBeInTheDocument();
 
     expect(screen.getByTestId("info-icon")).toBeInTheDocument();
   });

@@ -999,9 +999,7 @@ describe("getApplicationDprStatusSummary", () => {
             lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
             validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
             startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
-            withdrawnAt: formatDateToYmd(dates.appeal.withdrawnAt.toDate()),
-            withdrawnReason: "No longer needed",
-            decision: "allowed",
+            decision: "withdrawn",
             reason: "The council's decision was unfair",
           },
           caseOfficer: {

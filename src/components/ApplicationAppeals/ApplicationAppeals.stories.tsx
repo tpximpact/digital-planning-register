@@ -41,8 +41,8 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    appealReason: appWithAppeal.application.appeal?.reason,
-    appealDocuments: appWithAppeal.application.appeal?.documents,
+    appealReason: appWithAppeal.data.appeal?.reason,
+    appealDocuments: appWithAppeal.data.appeal?.documents,
   },
 } satisfies Meta<typeof ApplicationAppeals>;
 
