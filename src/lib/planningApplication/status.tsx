@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { Council } from "@/config/types";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 dayjs.extend(customParseFormat);
@@ -57,11 +58,11 @@ dayjs.utc().isUTC();
  * - If status is "withdrawn", return "Application withdrawn".
  *
  * - If status is one of:
- *    "Appeal lodged", "Appeal valid", "Appeal started", "Appeal determined",
+ *    "Appeal lodged", "Appeal valid", "Appeal started",
  *   return the status as-is.
  *
  * - If status is one of:
- *    "Appeal allowed", "Appeal dismissed", "Appeal split decision", "Appeal withdrawn",
+ *    "Appeal determined", "Appeal allowed", "Appeal dismissed", "Appeal split decision", "Appeal withdrawn",
  *   return "Appeal determined".
  *
  * - All others fall through and are formatted by replacing underscores with spaces and capitalizing.
@@ -111,20 +112,20 @@ export const getApplicationStatusSummary = (
     "Appeal lodged",
     "Appeal valid",
     "Appeal started",
-    "Appeal determined",
+    "Appeal withdrawn",
   ];
   if (appealStatuses.includes(status)) {
     return status;
   }
 
   const appealStatusesDetermined = [
+    "Appeal determined",
     "Appeal allowed",
     "Appeal dismissed",
     "Appeal split decision",
-    "Appeal withdrawn",
   ];
   if (appealStatusesDetermined.includes(status)) {
-    return "Appeal determined";
+    return "Appeal decided";
   }
 
   return capitalizeFirstLetter(status?.replace(/_/g, " "));
@@ -247,11 +248,22 @@ export function getApplicationStatusSummarySentiment(status: string) {
   return statusDefined[status] || undefined;
 }
 
-export const contentApplicationStatuses = (): DprContentPage[] => {
+export const contentApplicationStatuses = (
+  councilConfig?: Council,
+): DprContentPage[] => {
+  const council = councilConfig?.slug;
   return [
     {
       key: slugify("Council process"),
       title: "Council process",
+      content: (
+        <>
+          <p className="govuk-body">
+            These statuses apply to applications being handled by the local
+            council planning authority.
+          </p>
+        </>
+      ),
       children: [
         {
           key: slugify("Consultation in progress"),
@@ -302,7 +314,7 @@ export const contentApplicationStatuses = (): DprContentPage[] => {
                 A determined application has had a decision made about it, so it
                 has completed its journey through the application process. The{" "}
                 <a
-                  href={`#${slugify("Decisions")}`}
+                  href={`/${council}/help/decisions`}
                   className="govuk-link govuk-link--no-visited-state"
                 >
                   decision
@@ -313,7 +325,7 @@ export const contentApplicationStatuses = (): DprContentPage[] => {
               <p className="govuk-body">
                 Determined planning applications which have been{" "}
                 <a
-                  href={`#${slugify("Refused")}`}
+                  href={`/${council}/help/decisions/#${slugify("Refused")}`}
                   className="govuk-link govuk-link--no-visited-state"
                 >
                   refused
@@ -343,6 +355,21 @@ export const contentApplicationStatuses = (): DprContentPage[] => {
     {
       key: slugify("Appeals process"),
       title: "Appeals process",
+      content: (
+        <>
+          <p className="govuk-body">
+            These statuses apply to applications that are going through the
+            appeal process, or have gone through it. Appeals are handled by the{" "}
+            <Link
+              className="govuk-link"
+              href="https://www.gov.uk/government/organisations/planning-inspectorate"
+            >
+              planning inspectorate
+            </Link>
+            .
+          </p>
+        </>
+      ),
       children: [
         {
           key: slugify("Appeal lodged"),
@@ -359,7 +386,7 @@ export const contentApplicationStatuses = (): DprContentPage[] => {
         },
         {
           key: slugify("Appeal validated"),
-          title: "Appeal decision",
+          title: "Appeal validated",
           content: (
             <>
               <p className="govuk-body">
@@ -396,6 +423,19 @@ export const contentApplicationStatuses = (): DprContentPage[] => {
               <p className="govuk-body">
                 The planning inspectorate has published their decision about the
                 appeal. This decision is final.
+              </p>
+            </>
+          ),
+        },
+        {
+          key: slugify("Appeal withdrawn"),
+          title: "Appeal withdrawn",
+          content: (
+            <>
+              <p className="govuk-body">
+                The applicant has withdrawn their appeal from consideration by
+                the planning inspectorate. They can lodge another appeal in
+                future, if they wish.
               </p>
             </>
           ),
