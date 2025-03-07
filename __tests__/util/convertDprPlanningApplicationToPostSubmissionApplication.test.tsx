@@ -16,20 +16,20 @@
  */
 
 import { DprApplication } from "@/types";
-import { convertDprPlanningApplication } from "@/util/convertToDprApplication";
+import { convertToDprApplication } from "@/util/convertToDprApplication";
 import { generateDprApplication as generateNewDprApplication } from "@mocks/dprNewApplicationFactory";
 import { generateDprApplication as generateOldDprApplication } from "@mocks/dprApplicationFactory";
 
-describe("convertDprPlanningApplication", () => {
+describe("convertToDprApplication", () => {
   it("should return the same DprApplication if already in the correct structure", () => {
     const newApp: DprApplication = generateNewDprApplication();
-    const result = convertDprPlanningApplication(newApp);
+    const result = convertToDprApplication(newApp);
     expect(result).toBe(newApp);
   });
 
   it("should convert an old DprPlanningApplication to a DprApplication with the correct structure", () => {
     const oldApp = generateOldDprApplication();
-    const result = convertDprPlanningApplication(oldApp);
+    const result = convertToDprApplication(oldApp);
     expect(result?.data?.submission).toBeDefined();
     expect(result?.data?.application).toBeDefined();
     expect(result?.data?.application.reference).toBe(

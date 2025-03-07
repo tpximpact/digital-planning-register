@@ -257,9 +257,13 @@ function mapToPrototypeApplication(app: DprPlanningApplication): any {
 /**
  * Main conversion function.
  */
-export function convertDprPlanningApplication(
-  app: DprPlanningApplication | DprApplication,
-): DprApplication {
+export function convertToDprApplication(
+  app: DprPlanningApplication | DprApplication | null,
+): DprApplication | null {
+  console.log("pre-conversion data", app);
+  if (app === null) {
+    return null;
+  }
   if (isDprApplication(app)) {
     return app as DprApplication;
   }
@@ -285,7 +289,7 @@ export function convertDprPlanningApplication(
     submission,
     metadata: {
       organisation: "BOPS",
-      id: "",
+      // id: "",
       publishedAt: planningApp.application.publishedDate,
       submittedAt: planningApp.application.receivedDate,
       schema:
@@ -296,6 +300,8 @@ export function convertDprPlanningApplication(
   const converted: DprApplication = {
     ...baseApplication,
   } as DprApplication;
+
+  console.log("converted data", converted);
 
   return converted;
 }
