@@ -28,6 +28,10 @@ import { documentation as postCommentDocumentation } from "./postComment.documen
 import { documentation as showDocumentation } from "./show.documentation";
 
 import { Documentation } from "@/types";
+
+// only allowing any here because we don't (yet!) export the types for each handler and it would be too big a change rn
+// @TODO update each handler to export its types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type HandlerFunction = (...args: any[]) => Promise<any>;
 
 const handlers: Record<string, HandlerFunction> = {

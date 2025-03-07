@@ -92,20 +92,21 @@ export const ApplicationMap = ({
     });
   }, []);
 
-  let { staticMode, classModifier, mapTypeProps } =
+  const { staticMode, classModifier, mapTypeProps } =
     determineMapTypeProps(mapType);
 
   isStatic = isStatic ?? staticMode;
 
+  let mapProps = {};
   // static override
   if (isStatic) {
-    mapTypeProps = {
+    mapProps = {
       ...mapTypeProps,
       staticMode: true,
       hideResetControl: true,
     };
   } else {
-    mapTypeProps = {
+    mapProps = {
       ...mapTypeProps,
       hideResetControl: false,
     };
@@ -113,7 +114,7 @@ export const ApplicationMap = ({
 
   // Add os proxy to use OS maps vector tile maps which show boundaries, otherwise use plain OS maps
   if (osMapProxyUrl) {
-    mapTypeProps = {
+    mapProps = {
       ...mapTypeProps,
       osProxyEndpoint: osMapProxyUrl,
     };
@@ -137,7 +138,7 @@ export const ApplicationMap = ({
           osCopyright={
             "© Crown copyright and database rights 2024 OS (0)100024857"
           }
-          {...mapTypeProps}
+          {...mapProps}
         />
       </div>
     );

@@ -42,6 +42,8 @@ export const CouncilConfigComponent = ({
   ...props
 }: {
   appConfig: AppConfig;
+  // allowing any here because this component is deprecated
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Component: React.ComponentType<any>;
 }) => {
   const { council } = useParams<{ council?: string; reference?: string }>();
