@@ -31,6 +31,10 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { Council } from "@/config/types";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
+import {
+  PostSubmissionAssessment,
+  PriorApprovalAssessmentBase,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
@@ -197,7 +201,10 @@ export const getApplicationDprStatusSummary = (
 
   if (stage === "assessment") {
     const hasAssessmentDecisionData =
-      assessment?.councilDecision || assessment?.committeeDecision;
+      (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
+        ?.councilDecision ||
+      (assessment as PostSubmissionAssessment | PriorApprovalAssessmentBase)
+        ?.committeeDecision;
 
     if (status === "determined" && hasAssessmentDecisionData) {
       return "Determined";
