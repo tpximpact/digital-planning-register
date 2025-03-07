@@ -37,14 +37,7 @@ export async function documents(
     return { ...request, data: null };
   }
 
-  const {
-    files = [],
-    metadata = {
-      results: 0,
-      totalResults: 0,
-    },
-    ...restData
-  } = request.data || {};
+  const { files = [] } = request.data || {};
 
   // add fake application form document
   const applicationFormDocument = applicationFormObject(council, reference);

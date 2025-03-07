@@ -37,7 +37,7 @@ export const defaultPagination = {
  * @returns
  */
 
-export const createItemPagination = <T>(
+export const createItemPagination = (
   totalItems: number = 0,
   paramsPage: number = 1,
   maxDisplayItems: number = 10,

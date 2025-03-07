@@ -22,7 +22,7 @@ import {
   generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { DprComment, DprDocument } from "@/types";
+import { DprComment } from "@/types";
 
 const meta = {
   title: "DPR Components/CommentsList",

@@ -33,7 +33,7 @@ const meta = {
   },
   decorators: [
     // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, { parameters }) => {
+    (Story) => {
       return (
         <div style={{ color: "blue" }}>
           <Story />

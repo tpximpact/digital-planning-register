@@ -73,7 +73,7 @@ export async function generateMetadata({
 const PlanningApplicationDetails = async ({
   params,
 }: PlanningApplicationDetailsProps) => {
-  const { reference, council } = params;
+  const { council } = params;
   const appConfig = getAppConfig(council);
   const { applicationResponse, documentResponse } = await fetchData({ params });
   if (

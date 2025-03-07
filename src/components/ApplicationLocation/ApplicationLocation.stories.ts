@@ -17,7 +17,6 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationLocation } from "./ApplicationLocation";
-import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
 
 const meta = {
   title: "DPR Components/ApplicationLocation",

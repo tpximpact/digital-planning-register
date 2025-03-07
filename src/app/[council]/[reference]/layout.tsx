@@ -37,12 +37,6 @@ export async function generateMetadata({
   };
 }
 
-export default function ReferenceLayout({
-  params,
-  children,
-}: {
-  params: { council: string };
-  children: ReactNode;
-}) {
+export default function ReferenceLayout({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }

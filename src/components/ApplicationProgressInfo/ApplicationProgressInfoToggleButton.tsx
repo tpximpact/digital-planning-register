@@ -15,7 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { StringLiteral } from "typescript";
 import "./ApplicationProgressInfoToggleButton.scss";
 
 export interface ApplicationProgressInfoToggleButtonProps {

@@ -19,7 +19,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Menu } from "@/components/Menu";
-import { AppConfig } from "@/config/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 describe("Menu", () => {
@@ -30,7 +29,6 @@ describe("Menu", () => {
       <Menu
         navigation={appConfig.navigation}
         currentPath="/"
-        councils={appConfig.councils}
         selectedCouncil={appConfig.council}
       />,
     );
@@ -42,7 +40,6 @@ describe("Menu", () => {
       <Menu
         navigation={appConfig.navigation}
         currentPath="/"
-        councils={appConfig.councils}
         selectedCouncil={appConfig.council}
       />,
     );
@@ -55,7 +52,6 @@ describe("Menu", () => {
       <Menu
         navigation={appConfig.navigation}
         currentPath="/public-council-1"
-        councils={appConfig.councils}
         selectedCouncil={appConfig.council}
       />,
     );
@@ -69,11 +65,7 @@ describe("Menu", () => {
 
   it("displays the home link only when no selected council", () => {
     const { container } = render(
-      <Menu
-        navigation={appConfig.navigation}
-        currentPath="/"
-        councils={appConfig.councils}
-      />,
+      <Menu navigation={appConfig.navigation} currentPath="/" />,
     );
     const menu = container.querySelector(".dpr-menu");
     expect(menu).toBeInTheDocument();

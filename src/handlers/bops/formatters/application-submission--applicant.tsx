@@ -15,7 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { flattenObjectIntoRow } from "../converters/applicationSubmission";
 import { DprApplicationSubmissionSubtopicValue } from "@/types";
 import { capitalizeFirstLetter } from "@/util";
 
@@ -169,7 +168,7 @@ const formatOwnership = (
   description: string,
   data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue[] => {
-  const ownership = flattenObjectIntoRow(data, "", ["certificate"]);
+  // const ownership = flattenObjectIntoRow(data, "", ["certificate"]);
 
   const certificateValue: Record<string, string> = {
     a: "Certificate A - Sole owner",
@@ -229,7 +228,7 @@ const formatAgent = (
   description: string,
   data: Record<string, any>,
 ): DprApplicationSubmissionSubtopicValue[] => {
-  const agent = flattenObjectIntoRow(data, "Agent ", ["name"]);
+  // const agent = flattenObjectIntoRow(data, "Agent ", ["name"]);
 
   const agentName = [];
   if (data?.name?.first) {

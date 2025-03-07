@@ -42,7 +42,7 @@ type Props = {
     | Pick<SearchParams, "page">;
 };
 
-const Comment = ({ params, searchParams: searchParamsFromPage }: Props) => {
+const Comment = ({ params }: Props) => {
   const { reference, council } = params;
   const router = useRouter();
   const searchParams = useSearchParams();

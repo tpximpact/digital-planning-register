@@ -54,7 +54,7 @@ export async function search(
     ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
   >(council, url);
 
-  const { data: planningApplications = [], ...restData } = request.data || {};
+  const { data: planningApplications = [] } = request.data || {};
 
   const convertedApplications = planningApplications.map((application) =>
     convertBopsToDpr(application, council),

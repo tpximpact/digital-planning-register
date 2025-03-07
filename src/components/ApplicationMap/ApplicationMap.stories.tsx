@@ -18,7 +18,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   ApplicationMap,
-  ApplicationMapLoader,
   ApplicationMapLoading,
   ApplicationMapLoaderDelay,
   ApplicationMapUnavailable,

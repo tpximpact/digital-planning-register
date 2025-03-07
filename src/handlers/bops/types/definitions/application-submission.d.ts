@@ -24,8 +24,6 @@
  * much control over the data as possible while we develop and build this
  * for now the application-form page does what it needs to do and outputs everything submitted
  */
-
-import { BopsApplicationOverview } from ".";
 import { BopsApplicationSubmissionResponses } from "./application-submission--responses";
 
 export * from "./application-submission--responses";

@@ -22,7 +22,6 @@ import "./Menu.scss";
 interface MenuProps {
   currentPath: string;
   navigation: AppConfig["navigation"];
-  councils: AppConfig["councils"];
   selectedCouncil?: AppConfig["council"];
 }
 
@@ -34,7 +33,6 @@ interface MenuProps {
 export const Menu = ({
   navigation,
   currentPath,
-  councils,
   selectedCouncil,
 }: MenuProps) => {
   return (

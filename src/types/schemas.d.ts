@@ -24,7 +24,6 @@
  */
 import { DprPlanningApplication, DprDocument } from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
-import { DprPaginationBase, DprPagination } from "./types";
 
 /**
  * /api/search

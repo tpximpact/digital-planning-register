@@ -17,9 +17,7 @@
 
 "use client";
 import { initAll } from "govuk-frontend";
-
 import { useState, useEffect } from "react";
-import Script from "next/script";
 
 /**
  * Initialises the GovUK components

@@ -28,11 +28,10 @@ export const Section = ({
   // if value is an array it will be an array of DprApplicationSubmissionSubtopicValue
   const renderRow = (
     value: DprApplicationSubmissionSubtopicValue[],
-    i: number,
   ): React.ReactNode => {
     return value.map((item, i) => {
       if (Array.isArray(item.value)) {
-        return renderRow(item.value, i);
+        return renderRow(item.value);
       } else {
         return <Row key={i} {...item} />;
       }
@@ -43,7 +42,7 @@ export const Section = ({
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
         <h3 className="govuk-heading-m">{subtopic}</h3>
-        <div className="govuk-summary-list">{renderRow(value, 0)}</div>
+        <div className="govuk-summary-list">{renderRow(value)}</div>
       </div>
     </div>
   );
