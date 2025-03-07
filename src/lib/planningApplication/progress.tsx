@@ -130,10 +130,10 @@ export const buildApplicationProgress = (
 
   // 06 appealLodged
 
-  if (application?.application?.appeal?.lodgedDate) {
+  if (application?.data?.appeal?.lodgedDate) {
     progressData.push({
       title: "Appeal lodged",
-      date: formatDateToDprDate(application.application.appeal.lodgedDate),
+      date: formatDateToDprDate(application.data.appeal.lodgedDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Appeal lodged date"),
@@ -143,10 +143,10 @@ export const buildApplicationProgress = (
 
   // 07 appealValidFrom
 
-  if (application?.application?.appeal?.validatedDate) {
+  if (application?.data?.appeal?.validatedDate) {
     progressData.push({
       title: "Appeal valid from",
-      date: formatDateToDprDate(application.application.appeal.validatedDate),
+      date: formatDateToDprDate(application.data.appeal.validatedDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Appeal valid from date"),
@@ -156,10 +156,10 @@ export const buildApplicationProgress = (
 
   // 08 appealStarted
 
-  if (application?.application?.appeal?.startedDate) {
+  if (application?.data?.appeal?.startedDate) {
     progressData.push({
       title: "Appeal started",
-      date: formatDateToDprDate(application.application.appeal.startedDate),
+      date: formatDateToDprDate(application.data.appeal.startedDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Appeal started date"),
@@ -169,13 +169,13 @@ export const buildApplicationProgress = (
 
   // 09 appealDecided
 
-  if (application?.application?.appeal?.decisionDate) {
+  if (application?.data?.appeal?.decisionDate) {
     progressData.push({
       title: "Appeal decided",
-      date: formatDateToDprDate(application.application.appeal.decisionDate),
+      date: formatDateToDprDate(application.data.appeal.decisionDate),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
-        slugify("Appeal decision date"),
+        slugify("Appeal decided date"),
       )?.content ?? <></>,
     });
   }

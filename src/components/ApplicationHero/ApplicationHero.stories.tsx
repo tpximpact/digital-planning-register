@@ -222,6 +222,9 @@ export const StatusAppealDetermined: Story = {
         ...baseApplication.application,
         status: "Appeal determined",
         decision: "granted",
+      },
+      data: {
+        ...baseApplication.data,
         appeal: {
           decision: "allowed",
           decisionDate: new Date().toISOString(),
@@ -242,6 +245,9 @@ export const StatusAppealAllowed: Story = {
         ...baseApplication.application,
         status: "Appeal allowed",
         decision: "granted",
+      },
+      data: {
+        ...baseApplication.data,
         appeal: {
           decision: "allowed",
           decisionDate: new Date().toISOString(),
@@ -262,6 +268,9 @@ export const StatusAppealDismissed: Story = {
         ...baseApplication.application,
         status: "Appeal dismissed",
         decision: "refused",
+      },
+      data: {
+        ...baseApplication.data,
         appeal: {
           decision: "dismissed",
           decisionDate: new Date().toISOString(),
@@ -282,6 +291,9 @@ export const StatusAppealSplitDecision: Story = {
         ...baseApplication.application,
         status: "Appeal split decision",
         decision: "granted",
+      },
+      data: {
+        ...baseApplication.data,
         appeal: {
           decision: "split_decision",
           decisionDate: new Date().toISOString(),
@@ -302,6 +314,9 @@ export const StatusAppealWithdrawn: Story = {
         ...baseApplication.application,
         status: "Appeal withdrawn",
         decision: "granted",
+      },
+      data: {
+        ...baseApplication.data,
         appeal: {
           decision: "withdrawn",
           decisionDate: new Date().toISOString(),
@@ -389,6 +404,7 @@ export const AppealDecisionAllowed: Story = {
       decision: "refused",
       applicationStatus: "Appeal allowed",
       appeal: {
+        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
         decision: "allowed",
         decisionDate: new Date().toISOString(),
         lodgedDate: new Date().toISOString(),
@@ -405,6 +421,7 @@ export const AppealDecisionDismissed: Story = {
       decision: "refused",
       applicationStatus: "Appeal allowed",
       appeal: {
+        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
         decision: "dismissed",
         decisionDate: new Date().toISOString(),
         lodgedDate: new Date().toISOString(),
@@ -421,7 +438,8 @@ export const AppealDecisionSplitDecision: Story = {
       decision: "refused",
       applicationStatus: "Appeal allowed",
       appeal: {
-        decision: "split_decision",
+        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+        decision: "splitDecision",
         decisionDate: new Date().toISOString(),
         lodgedDate: new Date().toISOString(),
         startedDate: new Date().toISOString(),
@@ -437,6 +455,7 @@ export const AppealDecisionWithdrawn: Story = {
       decision: "refused",
       applicationStatus: "Appeal allowed",
       appeal: {
+        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
         decision: "withdrawn",
         decisionDate: new Date().toISOString(),
         lodgedDate: new Date().toISOString(),
@@ -453,6 +472,7 @@ export const AppealDecisionNotDecidedYet: Story = {
       decision: "refused",
       applicationStatus: "Appeal lodged",
       appeal: {
+        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
         decision: undefined, // explicitly setting it to null
         lodgedDate: new Date().toISOString(),
         startedDate: new Date().toISOString(),

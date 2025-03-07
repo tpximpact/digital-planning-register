@@ -54,7 +54,7 @@ export const ApplicationDetails = ({
   const description = application.proposal.description;
   const people = application.officer || application.applicant;
   const applicationProgress = buildApplicationProgress(application);
-  const appeal = application.application.appeal;
+  const appeal = application.data.appeal;
   const { url: decisionNoticeUrl } =
     documents?.find((d) => d.title === "Decision notice") ?? {};
 
@@ -79,7 +79,7 @@ export const ApplicationDetails = ({
     });
   }
 
-  if (appeal?.reason || appeal?.documents) {
+  if (appeal?.reason || appeal?.files) {
     sidebar.push({
       key: slugify("Appeal"),
       title: "Appeal",
@@ -159,10 +159,10 @@ export const ApplicationDetails = ({
             Description
           </h2>
           <p className="govuk-body">{description}</p>
-          {(appeal?.documents || appeal?.reason) && (
+          {(appeal?.files || appeal?.reason) && (
             <ApplicationAppeals
               appealReason={appeal?.reason}
-              appealDocuments={appeal?.documents}
+              appealDocuments={appeal?.files}
             />
           )}
           {/* <ImpactMeasures /> */}
