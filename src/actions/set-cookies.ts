@@ -26,3 +26,17 @@ export async function setConsentCookie(value: boolean) {
     sameSite: "strict",
   });
 }
+
+export async function clearAnalyticsCookies() {
+  const cookieStore = cookies();
+  cookieStore.getAll().forEach((cookie) => {
+    if (
+      cookie.name === "_ga" ||
+      cookie.name.startsWith("_ga_") ||
+      cookie.name === "_gid" ||
+      cookie.name === "_gat"
+    ) {
+      cookieStore.delete(cookie.name);
+    }
+  });
+}
