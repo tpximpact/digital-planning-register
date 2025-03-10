@@ -27,7 +27,7 @@ import { DprDocument } from "@/types";
 import { formatDateToYmd } from "@/util";
 
 const baseApplication = generateDprApplication();
-let baseAppConfig = createAppConfig("public-council-1");
+const baseAppConfig = createAppConfig("public-council-1");
 if (baseAppConfig?.council) {
   baseAppConfig.council.pageContent.email_alerts = {
     sign_up_for_alerts_link: "/signup",

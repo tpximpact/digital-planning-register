@@ -22,6 +22,8 @@ import { formatDateTimeToDprDateTime } from "@/util";
 
 export interface PageApplicationSubmissionProps {
   reference: string;
+  // allowing any here because this type will be replaced soon
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   applicationSubmissionData?: any;
   submittedAt?: string;
   council?: string;

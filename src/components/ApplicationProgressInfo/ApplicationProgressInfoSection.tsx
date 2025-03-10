@@ -67,10 +67,7 @@ export const ApplicationProgressInfoSection = ({
       id={thisSectionId}
       className={`dpr-progress-info__section ${isExpanded ? "dpr-progress-info__section--expanded" : ""}`}
     >
-      <div
-        className="dpr-progress-info--section-header"
-        onClick={onSectionToggle}
-      >
+      <div className="dpr-progress-info--section-header">
         {/* h3 */}
         <h3 className="dpr-progress-info--section-heading">
           <button
@@ -79,6 +76,7 @@ export const ApplicationProgressInfoSection = ({
             id={`${thisSectionId}_${accordionSectionId}-heading`}
             aria-controls={`${thisSectionId}_${accordionSectionId}-content`}
             aria-expanded={isExpanded ? "true" : "false"}
+            onClick={onSectionToggle}
           >
             <div
               className="dpr-progress-info--section-title"

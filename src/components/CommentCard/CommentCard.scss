@@ -39,7 +39,12 @@
     font-size: 19px;
   }
 
-  .comment-expander {
+  .comment-container-js {
+    max-height: 25rem;
+    overflow: hidden;
+  }
+
+  &--toggle {
     color: govuk-colour("blue");
     margin-top: 2em;
     position: relative;
@@ -47,10 +52,7 @@
     cursor: pointer;
     display: block;
     margin-top: 4px;
-  }
-
-  .comment-container-js {
-    max-height: 25rem;
-    overflow: hidden;
+    background: none;
+    border: 0;
   }
 }
