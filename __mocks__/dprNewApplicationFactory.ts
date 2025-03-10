@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication, DprDecisionSummary, DprStatusSummary } from "@/types";
+import { DprApplication } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
 import dayjs, { Dayjs } from "dayjs";
 import { generateReference } from "./dprApplicationFactory";
@@ -466,7 +466,7 @@ export const generateDprApplication = ({
         decision: faker.helpers.arrayElement([
           "allowed",
           "dismissed",
-          "split_decision",
+          "splitDecision",
           "withdrawn",
         ]),
       },
@@ -613,10 +613,12 @@ export const generateDprApplication = ({
   if (customStatus === "appealWithdrawn") {
     data.data.appeal = {
       lodgedDate: dates.appeal.lodgedAt.format("YYYY-MM-DD"),
+      validatedDate: dates.appeal.validatedAt.format("YYYY-MM-DD"),
+      startedDate: dates.appeal.startedAt.format("YYYY-MM-DD"),
       reason:
         "We don't believe the council took into consideration the environmental impact alleviation approach during their assessment.",
-      withdrawnAt: dates.appeal.withdrawnAt.toISOString(),
-      withdrawnReason: "Applicant has decided to withdraw the application.",
+      decisionDate: dates.appeal.decidedAt.format("YYYY-MM-DD"),
+      decision: "withdrawn",
     };
   }
 

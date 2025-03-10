@@ -21,6 +21,7 @@ import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
 import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
+import { convertDocumentBopsFile } from "./documents";
 
 export const convertBopsToDpr = (
   application: BopsPlanningApplication,
@@ -28,7 +29,7 @@ export const convertBopsToDpr = (
 ): DprPlanningApplication => {
   return {
     applicationType: application.application.type.value,
-    data: createData(application.application, council),
+    data: createData(application, council),
     application: convertBopsApplicationToDpr(application.application),
     property: createProperty(application),
     proposal: createProposal(application),
@@ -78,7 +79,6 @@ export const convertBopsApplicationToDpr = (
       ? convertDateTimeToUtc(application.determinedAt)
       : null,
     decision: application.decision ?? null,
-    appeal: application.appeal ?? null,
   };
 };
 
@@ -91,11 +91,11 @@ export const convertBopsApplicationToDpr = (
  * @returns DprPlanningApplication["data"]
  */
 const createData = (
-  application: BopsApplicationOverview,
+  application: BopsPlanningApplication,
   council: string,
 ): DprPlanningApplication["data"] => {
   const primaryApplicationType = getPrimaryApplicationTypeKey(
-    application.type.value,
+    application.application.type.value,
   );
 
   if (council === "camden" && primaryApplicationType === "ldc") {
@@ -106,10 +106,22 @@ const createData = (
     };
   }
 
+  let appeal = application.data?.appeal ?? undefined;
+  if (application.data?.appeal?.files) {
+    const appealFiles = application.data.appeal.files.map(
+      convertDocumentBopsFile,
+    );
+    appeal = {
+      ...application.data.appeal,
+      files: appealFiles,
+    };
+  }
+
   return {
     localPlanningAuthority: {
       commentsAcceptedUntilDecision: false,
     },
+    appeal,
   };
 };
 

@@ -148,7 +148,7 @@ export const generateDprApplication = ({
   applicationType?: ApplicationType;
   applicationStatus?: DprPlanningApplication["application"]["status"];
   decision?: string | null;
-  appeal?: DprPlanningApplication["application"]["appeal"] | null;
+  appeal?: DprPlanningApplication["data"]["appeal"];
 } = {}): DprPlanningApplication => {
   const applicationTypes = Object.values(validApplicationTypes).flat();
   applicationType =
@@ -213,7 +213,7 @@ export const generateDprApplication = ({
         faker.helpers.arrayElement([
           "allowed",
           "dismissed",
-          "split_decision",
+          "splitDecision",
           "withdrawn",
         ]);
       appeal.decisionDate =
@@ -230,7 +230,7 @@ export const generateDprApplication = ({
     }
 
     appeal.reason = appeal.reason ?? faker.lorem.paragraph();
-    appeal.documents = appeal.documents ?? [
+    appeal.files = appeal.files ?? [
       ...generateNResults<DprDocument>(2, generateDocument),
     ];
   }
@@ -242,6 +242,7 @@ export const generateDprApplication = ({
         commentsAcceptedUntilDecision:
           primaryApplicationType === "ldc" ? true : false,
       },
+      appeal,
     },
     application: {
       reference: generateReference(),
@@ -259,7 +260,6 @@ export const generateDprApplication = ({
       publishedDate: formatDateToYmd(faker.date.anytime()),
       determinedAt: determinedAt,
       decision: decision,
-      appeal: appeal,
     },
     property: {
       address: {

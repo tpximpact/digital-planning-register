@@ -27,7 +27,7 @@ import { Council } from "@/config/types";
 import Link from "next/link";
 import {
   PostSubmissionAssessment,
-  PriorApprovalAssessmentBase,
+  PriorApprovalAssessment,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
@@ -127,7 +127,7 @@ export const getApplicationDprDecisionSummary = (
   }
   const assessment = application.data.assessment as
     | PostSubmissionAssessment
-    | PriorApprovalAssessmentBase;
+    | PriorApprovalAssessment;
 
   const decision =
     assessment?.planningOfficerDecision || assessment?.committeeDecision;
@@ -136,7 +136,7 @@ export const getApplicationDprDecisionSummary = (
     return undefined;
   }
 
-  const priorApprovalRequired = (assessment as PriorApprovalAssessmentBase)
+  const priorApprovalRequired = (assessment as PriorApprovalAssessment)
     ?.priorApprovalRequired;
 
   if (priorApprovalRequired === undefined) {

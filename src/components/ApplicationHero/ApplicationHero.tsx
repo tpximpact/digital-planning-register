@@ -73,7 +73,7 @@ export const ApplicationHero = ({
 
   const applicationAppealDecisionSummary = findItemByKey<DprContentPage>(
     contentDecisions(),
-    application?.application?.appeal?.decision?.replaceAll("_", "-") ?? "",
+    application?.data?.appeal?.decision?.replaceAll("_", "-") ?? "",
   )?.title;
 
   return (
@@ -173,15 +173,13 @@ export const ApplicationHero = ({
                       />
                     ) : undefined
                   }
-                  isFull={
-                    application?.application?.appeal?.decision ? false : true
-                  }
+                  isFull={application?.data?.appeal?.decision ? false : true}
                 />
               </>
             )}
 
             {/* Appeal decision */}
-            {application?.application?.appeal?.decision && (
+            {application?.data?.appeal?.decision && (
               <ApplicationDataField
                 title="Appeal decision"
                 value={
