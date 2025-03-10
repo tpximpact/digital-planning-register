@@ -162,7 +162,7 @@ export const checkCommentsEnabled = (
       application.application.consultation.endDate ?? undefined,
     );
 
-  let commentsAllowedInStatus = ["Consultation in progress"];
+  const commentsAllowedInStatus = ["Consultation in progress"];
   if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
     commentsAllowedInStatus.push("Assessment in progress");
   }
