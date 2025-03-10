@@ -105,7 +105,7 @@ function mapApplicationSection(
 function mapLocalPlanningAuthoritySection(app: DprPlanningApplication) {
   return {
     commentsAcceptedUntilDecision:
-      app.application.consultation?.allowComments || false,
+      app.data.localPlanningAuthority.commentsAcceptedUntilDecision || false,
   };
 }
 
