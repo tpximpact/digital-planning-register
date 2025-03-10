@@ -104,14 +104,14 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
           <div className="read-more-ellipsis">...</div>
         )}
         {isOverflowing && (
-          <div
-            className="govuk-body govuk-link govuk-link--no-visited-state comment-expander"
+          <button
+            className="govuk-body govuk-link govuk-link--no-visited-state dpr-comment-card--toggle"
             onClick={toggleExpand}
           >
             {isExpanded
               ? "Minimise this comment"
               : "Read the rest of this comment"}
-          </div>
+          </button>
         )}
       </div>
     </div>
