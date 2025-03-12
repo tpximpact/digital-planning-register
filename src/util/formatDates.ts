@@ -76,32 +76,6 @@ export const isDateTime = (date: string): boolean => {
 };
 
 /**
- * 2024-07-05T00:00:00.000+00:00 > 2024-07-05
- *
- * Converts a date string with no time a timezone offset to a UTC date string.
- * Mostly used in the BOPS handlers to convert dates passed in as datetimes to UTC - without the date changing when we format it!
- *
- * We're opinionated on what constitutes a valid date string.
- * In this function if we received a datetime with no time set, we're making an assumption that its meant to be a date only
- * 2024-06-12 will be returned as 2024-06-11T23:00:00.000Z
- * 2024-07-02T00:00:00.000+01:00 will be returned as 2024-07-01
- * 2024-07-05T12:05:14.224+01:00 will be returned as 2024-07-05
- * 2024-07-05T12:05:14.224Z will be returned as 2024-07-05
- *
- * Our components expect UTC dates and we want to avoid timezone issues.
- *
- * @param dateString
- * @returns
- */
-export const convertDateNoTimeToDprDate = (dateString: string): string => {
-  const date: Dayjs = dayjs(dateString);
-  if (!date.isValid()) {
-    return "Invalid Date";
-  }
-  return date.format("YYYY-MM-DD");
-};
-
-/**
  * 2024-07-05T12:05:14.224+01:00 > 2024-07-05T11:05:14.224Z
  *
  * Converts a date string with a time and timezone offset to a UTC date string.
@@ -183,6 +157,7 @@ export const formatDateTimeToDprDateTime = (dateString: string): string => {
  *
  * 2024-07-02T11:37:35.069Z > 02-07-2024
  * Formats UTC ISO8601 datetime strings into the Dpr "DD-MM-YYYY" format.
+ * Only used for documents (currently)
  *
  * @param {string} dateString - The date string to be formatted.
  * @returns {string} - The formatted date string.

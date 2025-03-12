@@ -66,9 +66,9 @@ describe("Render ApplicationCard", () => {
     application: {
       reference: "DPR/1234/2021",
       status: "Appeal allowed",
-      receivedDate: "2023-05-08",
-      validDate: "2023-11-14",
-      publishedDate: "2023-05-18",
+      receivedAt: "2023-11-14T13:40:51.567Z",
+      validAt: "2023-11-14T13:40:51.567Z",
+      publishedAt: "2023-11-14T13:40:51.567Z",
       consultation: {
         endDate: "2023-12-05",
       },
@@ -117,17 +117,38 @@ describe("Render ApplicationCard", () => {
     // application status
     expect(screen.queryByText("Status - Appeal decided")).toBeInTheDocument();
     //Received date
-    expect(
-      screen.queryByText("Received date - 8 May 2023"),
-    ).toBeInTheDocument();
+    const receivedDate = screen.queryByTestId(
+      "application-data-field-received-date",
+    );
+    expect(receivedDate?.querySelector("time")).toHaveAttribute(
+      "datetime",
+      "2023-11-14T13:40:51.567Z",
+    );
+    expect(receivedDate?.querySelector("time")).toHaveTextContent(
+      "14 Nov 2023",
+    );
     // Valid from date
-    expect(
-      screen.queryByText("Valid from date - 14 Nov 2023"),
-    ).toBeInTheDocument();
+    const validFromDate = screen.queryByTestId(
+      "application-data-field-valid-from-date",
+    );
+    expect(validFromDate?.querySelector("time")).toHaveAttribute(
+      "datetime",
+      "2023-11-14T13:40:51.567Z",
+    );
+    expect(validFromDate?.querySelector("time")).toHaveTextContent(
+      "14 Nov 2023",
+    );
     // Published date
-    expect(
-      screen.queryByText("Published date - 18 May 2023"),
-    ).toBeInTheDocument();
+    const publishedDate = screen.queryByTestId(
+      "application-data-field-published-date",
+    );
+    expect(publishedDate?.querySelector("time")).toHaveAttribute(
+      "datetime",
+      "2023-11-14T13:40:51.567Z",
+    );
+    expect(publishedDate?.querySelector("time")).toHaveTextContent(
+      "14 Nov 2023",
+    );
     //Consultation end date
     expect(
       screen.queryByText("Consultation end date - 5 Dec 2023"),
@@ -144,7 +165,9 @@ describe("Render ApplicationCard", () => {
       "14 Nov 2023",
     );
     // Decision
-    expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
+    expect(
+      screen.queryByText("Council decision - Granted"),
+    ).toBeInTheDocument();
 
     // Appeal
     expect(screen.queryByText("Appeal decision - Allowed")).toBeInTheDocument();

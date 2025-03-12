@@ -23,7 +23,6 @@ import {
   formatDateTimeToDmyDate,
   formatDateTimeToDprDateTime,
   convertDateTimeToUtc,
-  convertDateNoTimeToDprDate,
   formatDateToYmd,
 } from "@/util";
 
@@ -156,56 +155,6 @@ describe("isDateTime", () => {
     const dateString = "2023-05-18T00:00:00.000+01:00";
     const result = isDateTime(dateString);
     expect(result).toBe(false);
-  });
-});
-
-describe("convertDateNoTimeToDprDate", () => {
-  it("should convert a date string without a time and a timezone offset to YYYY-MM-DD", () => {
-    const dateString = "2024-07-05T00:00:00.000+01:00";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it("should convert a date string without a time and a timezone offset to YYYY-MM-DD", () => {
-    const dateString = "2024-07-05T00:00:00.000+00:00";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it("should convert a date string with a timezone offset to a UTC date string", () => {
-    const dateString = "2024-07-05T12:05:14.224+00:00";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it("should convert a date string with a timezone offset to a UTC date string", () => {
-    const dateString = "2024-07-05T12:05:14.224+01:00";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it("should handle different timezone offsets correctly", () => {
-    const dateString = "2024-07-05T12:05:14.224-04:00";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it("should handle dates already in UTC correctly", () => {
-    const dateString = "2024-07-05T12:05:14.224Z";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("2024-07-05");
-  });
-
-  it('should return "Invalid Date" for an invalid date string', () => {
-    const dateString = "invalid-date";
-    const utcDateString = convertDateNoTimeToDprDate(dateString);
-    expect(utcDateString).toBe("Invalid Date");
-  });
-
-  it("should convert a YYYY-MM-DD to YYYY-MM-DD", () => {
-    const dateString = "2023-05-18";
-    const formattedDate = convertDateNoTimeToDprDate(dateString);
-    expect(formattedDate).toBe("2023-05-18");
   });
 });
 

@@ -111,20 +111,20 @@ export interface DprPlanningApplication {
       consulteeComments: DprComment[] | null;
     };
     /**
-     * YYYY-MM-DD
-     * NB coverting from receivedAt to receivedDate in the BOPs handlers
+     * 2024-05-30T14:23:21.936Z
+     * NB coverting to UTC in the converters
      */
-    receivedDate: string;
+    receivedAt: string;
     /**
-     * YYYY-MM-DD
-     * NB coverting from publishedAt to publishedDate in the BOPs handlers
+     * 2024-05-30T14:23:21.936Z
+     * NB coverting to UTC in the converters
      */
-    publishedDate?: string | null;
+    publishedAt?: string | null;
     /**
-     * YYYY-MM-DD
-     * NB coverting from validAt to validDate in the BOPs handlers
+     * 2024-05-30T14:23:21.936Z
+     * NB coverting to UTC in the converters
      */
-    validDate: string | null;
+    validAt: string | null;
     /**
      * 2024-05-30T14:23:21.936Z
      * NB coverting to UTC in the converters
