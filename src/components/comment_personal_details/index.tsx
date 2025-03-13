@@ -349,6 +349,8 @@ const CommentPersonalDetails = ({
               value={personalDetails?.telephoneNumber ?? ""}
               onChange={(e) => handleInputChange("telephoneNumber", e.target)}
               autoComplete="tel"
+              minLength={9}
+              maxLength={20}
               aria-invalid={!!validationErrors?.telephoneNumber}
               aria-describedby={
                 validationErrors?.telephoneNumber
