@@ -15,10 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprDocument } from "@/types";
-import { DocumentCard } from "@/components/DocumentCard";
-import "./DocumentsList.scss";
 import { Button } from "@/components/button";
+import { FileList } from "@/components/FileList";
+
+import "./DocumentsList.scss";
+
+import type { DprDocument } from "@/types";
 
 export interface DocumentsListProps {
   councilSlug: string;
@@ -52,11 +54,7 @@ export const DocumentsList = ({
 
       {documents && documents.length > 0 ? (
         <>
-          <div className="dpr-documents-list__cards">
-            {documents.map((document, i) => (
-              <DocumentCard key={i} document={document} />
-            ))}
-          </div>
+          <FileList documents={documents} />
           {showMoreButton &&
             documents.length > 0 &&
             documents.length < totalDocuments && (

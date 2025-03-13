@@ -15,10 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "src/styles/component-base";
-
-.dpr-documents-list {
-  > * + * {
-    margin-block-start: govuk-spacing(6);
-  }
-}
+export * from "./FileList";
