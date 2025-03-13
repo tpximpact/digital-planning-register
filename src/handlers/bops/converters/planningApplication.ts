@@ -19,7 +19,7 @@ import { DprPlanningApplication } from "@/types";
 import { BopsApplicationOverview, BopsPlanningApplication } from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
-import { convertDateNoTimeToDprDate, convertDateTimeToUtc } from "@/util";
+import { convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 import { convertDocumentBopsFile } from "./documents";
 
@@ -66,14 +66,14 @@ export const convertBopsApplicationToDpr = (
       consulteeComments: consultee_comments,
       publishedComments: published_comments,
     },
-    receivedDate: application.receivedAt
-      ? convertDateNoTimeToDprDate(application.receivedAt)
+    receivedAt: application.receivedAt
+      ? convertDateTimeToUtc(application.receivedAt)
       : null,
-    validDate: application.validAt
-      ? convertDateNoTimeToDprDate(application.validAt)
+    validAt: application.validAt
+      ? convertDateTimeToUtc(application.validAt)
       : null,
-    publishedDate: application.publishedAt
-      ? convertDateNoTimeToDprDate(application.publishedAt)
+    publishedAt: application.publishedAt
+      ? convertDateTimeToUtc(application.publishedAt)
       : null,
     determinedAt: application.determinedAt
       ? convertDateTimeToUtc(application.determinedAt)

@@ -50,10 +50,14 @@ export const buildApplicationProgress = (
   const progressData: ProgressSectionBase[] = [];
 
   // 01 received
-  if (application.application?.receivedDate) {
+  if (application.application?.receivedAt) {
     progressData.push({
       title: "Received",
-      date: formatDateToDprDate(application.application.receivedDate),
+      date: (
+        <time dateTime={application.application.receivedAt}>
+          {formatDateTimeToDprDate(application.application.receivedAt)}
+        </time>
+      ),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Received date"),
@@ -63,10 +67,14 @@ export const buildApplicationProgress = (
 
   // 02 validFrom
 
-  if (application.application?.validDate) {
+  if (application.application?.validAt) {
     progressData.push({
       title: "Valid from",
-      date: formatDateToDprDate(application.application.validDate),
+      date: (
+        <time dateTime={application.application.validAt}>
+          {formatDateTimeToDprDate(application.application.validAt)}
+        </time>
+      ),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Valid from date"),
@@ -76,10 +84,14 @@ export const buildApplicationProgress = (
 
   // 03 published
 
-  if (application.application?.publishedDate) {
+  if (application.application?.publishedAt) {
     progressData.push({
       title: "Published",
-      date: formatDateToDprDate(application.application.publishedDate),
+      date: (
+        <time dateTime={application.application.publishedAt}>
+          {formatDateTimeToDprDate(application.application.publishedAt)}
+        </time>
+      ),
       content: findItemByKey<DprContentPage>(
         contentImportantDates(),
         slugify("Published date"),

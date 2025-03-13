@@ -156,26 +156,38 @@ export const ApplicationCard = ({
               />
             )}
 
-            {application.application?.receivedDate && (
+            {application.application?.receivedAt && (
               <ApplicationDataField
                 title="Received date"
-                value={formatDateToDprDate(
-                  application.application.receivedDate,
-                )}
+                value={
+                  <time dateTime={application.application.receivedAt}>
+                    {formatDateTimeToDprDate(
+                      application.application.receivedAt,
+                    )}
+                  </time>
+                }
               />
             )}
-            {application.application?.validDate && (
+            {application.application?.validAt && (
               <ApplicationDataField
                 title="Valid from date"
-                value={formatDateToDprDate(application.application.validDate)}
+                value={
+                  <time dateTime={application.application.validAt}>
+                    {formatDateTimeToDprDate(application.application.validAt)}
+                  </time>
+                }
               />
             )}
-            {application.application?.publishedDate && (
+            {application.application?.publishedAt && (
               <ApplicationDataField
                 title="Published date"
-                value={formatDateToDprDate(
-                  application.application.publishedDate,
-                )}
+                value={
+                  <time dateTime={application.application.publishedAt}>
+                    {formatDateTimeToDprDate(
+                      application.application.publishedAt,
+                    )}
+                  </time>
+                }
               />
             )}
             {application.application?.consultation?.endDate && (

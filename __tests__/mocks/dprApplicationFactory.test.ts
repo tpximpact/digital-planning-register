@@ -169,9 +169,9 @@ describe("generateDprApplication", () => {
   it("should generate dates in the formats we expect", () => {
     const application = generateDprApplication({ decision: "granted" });
     expect(application.application.consultation.endDate).toMatch(dateRegex);
-    expect(application.application.receivedDate).toMatch(dateRegex);
-    expect(application.application.validDate).toMatch(dateRegex);
-    expect(application.application.publishedDate).toMatch(dateRegex);
+    expect(application.application.receivedAt).toMatch(utcDateRegex);
+    expect(application.application.validAt).toMatch(utcDateRegex);
+    expect(application.application.publishedAt).toMatch(utcDateRegex);
     expect(application.application.determinedAt).toMatch(utcDateRegex);
   });
 });

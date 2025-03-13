@@ -30,7 +30,7 @@ jest.mock("@/components/InfoIcon", () => ({
 }));
 
 jest.mock("@/components/Tag", () => ({
-  Tag: ({ label, sentiment, id, isInline }: TagProps) => <>{label}</>,
+  Tag: ({ label }: TagProps) => <>{label}</>,
 }));
 
 jest.mock("@/components/ApplicationMap", () => ({
@@ -40,11 +40,7 @@ jest.mock("@/components/ApplicationMap", () => ({
 }));
 
 jest.mock("@/components/ApplicationDataField", () => ({
-  ApplicationDataField: ({
-    title,
-    value,
-    infoIcon,
-  }: ApplicationDataFieldProps) => (
+  ApplicationDataField: ({ title, value }: ApplicationDataFieldProps) => (
     <div data-testid={`application-data-field-${slugify(title)}`}>
       {title} - {value}
     </div>
@@ -99,7 +95,9 @@ describe("Render ApplicationHero", () => {
       screen.queryByText("Status - Assessment in progress"),
     ).toBeInTheDocument();
     // Decision
-    expect(screen.queryByText("Decision - Granted")).toBeInTheDocument;
+    expect(
+      screen.queryByText("Council decision - Granted"),
+    ).toBeInTheDocument();
   });
 
   // This should never happen but good way to make sure theres no errors
