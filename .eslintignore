@@ -1,4 +1,0 @@
-/build/**
-/coverage/**
-/src/types/odp-types/**
-!.eslintrc.json
