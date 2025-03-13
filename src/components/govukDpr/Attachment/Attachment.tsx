@@ -112,31 +112,31 @@ export const Attachment = ({
           <p className="dpr-attachment__metadata">{metadataLine}</p>
         )}
         <p className="dpr-attachment__metadata">
-          This file may not be suitable for users of assistive technology.{" "}
-          {alternativeFormatContactEmail && (
-            <Details
-              summaryText="Request an accessible format."
-              text={
-                <>
-                  <p className="govuk-body">
-                    If you use assistive technology (such as a screen reader)
-                    and need a version of this document in a more accessible
-                    format, please email{" "}
-                    <a
-                      href={`mailto:${alternativeFormatContactEmail}`}
-                      className="govuk-link"
-                      aria-label={`Request an accessible format for ${title || fileName || "this file"}`}
-                    >
-                      {alternativeFormatContactEmail}
-                    </a>
-                    . Please tell us what format you need. It will help us if
-                    you say what assistive technology you use.
-                  </p>
-                </>
-              }
-            />
-          )}
+          This file may not be suitable for users of assistive technology.
         </p>
+        {alternativeFormatContactEmail && (
+          <Details
+            summaryText="Request an accessible format."
+            text={
+              <>
+                <p className="govuk-body">
+                  If you use assistive technology (such as a screen reader) and
+                  need a version of this document in a more accessible format,
+                  please email{" "}
+                  <a
+                    href={`mailto:${alternativeFormatContactEmail}`}
+                    className="govuk-link"
+                    aria-label={`Request an accessible format for ${title || fileName || "this file"}`}
+                  >
+                    {alternativeFormatContactEmail}
+                  </a>
+                  . Please tell us what format you need. It will help us if you
+                  say what assistive technology you use.
+                </p>
+              </>
+            }
+          />
+        )}
       </div>
     </section>
   );
