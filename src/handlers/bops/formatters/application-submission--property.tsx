@@ -51,10 +51,9 @@ export const BopsProperty = (
           rowData = formatAddress(data["address"]);
           break;
         case "parking":
-          const parking = parseParking(data["parking"]);
           ({ description, value: rowData } = formatParking(
             description,
-            parking,
+            parseParking(data["parking"]),
           ));
           break;
         case "boundary":

@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AppConfig, Council } from "@/config/types";
+import type { AppConfig, Council } from "@/config/types";
 import { slugify } from "@/util";
 
 /**

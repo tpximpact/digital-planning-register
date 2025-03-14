@@ -19,6 +19,9 @@
 const nextConfig = {
   output: "standalone",
   transpilePackages: ["@opensystemslab/map"],
+  eslint: {
+    dirs: ["src", "__e2e__", "__mocks__", "__tests__", ".storybook"],
+  },
 };
 
 export default nextConfig;

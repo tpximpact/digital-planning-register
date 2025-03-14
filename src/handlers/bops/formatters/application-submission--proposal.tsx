@@ -62,10 +62,9 @@ export const BopsProposal = (
           rowData = formatBoundary(data["boundary"], true);
           break;
         case "parking":
-          const parking = parseParking(data["parking"], "", "+", "difference");
           ({ description, value: rowData } = formatParking(
             "Additional parking",
-            parking,
+            parseParking(data["parking"], "", "+", "difference"),
           ));
           break;
         case "projectType":

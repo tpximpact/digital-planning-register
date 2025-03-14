@@ -15,7 +15,8 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { test, expect, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 // const baseUrl = "http://localhost:3000";
 /**
@@ -378,10 +379,7 @@ test.describe("/cookie-policy", () => {
       await testCookiePolicy(page);
     });
 
-    test.fixme(
-      "disable functionality if cookies disabled?",
-      async ({ page }) => {},
-    );
+    test.fixme("disable functionality if cookies disabled?", async () => {});
   });
   test.describe("javascript enabled", () => {
     test("should not show no-js message", async ({ page }) => {
@@ -396,7 +394,7 @@ test.describe("/cookie-policy", () => {
       await testCookiePolicy(page);
     });
 
-    test.fixme("test cookie functionality", async ({ page }) => {});
+    test.fixme("test cookie functionality", async () => {});
   });
 });
 
