@@ -19,14 +19,14 @@ import {
   validApplicationTypes,
   getPrimaryApplicationTypeKey,
 } from "@/lib/planningApplication";
-import {
+import type {
   DprPlanningApplication,
   DprComment,
   DprDocument,
   DprBoundaryGeojson,
   DprPagination,
 } from "@/types";
-import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
 import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
@@ -126,7 +126,7 @@ export const generatePagination = (
  * @param {boolean} [noZero=false] - Whether to ensure at least one result is generated.
  * @returns {T[]} An array of generated results.
  */
-export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
+export const generateNResults = <T>(n: number, callback: { (): T }): T[] => {
   const results: T[] = [];
   for (let i = 0; i < n; i++) {
     results.push(callback());

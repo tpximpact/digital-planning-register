@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplicationSubmissionData } from "@/types";
+import type { DprApplicationSubmissionData } from "@/types";
 
 export const generateApplicationSubmission: DprApplicationSubmissionData = {
   data: [

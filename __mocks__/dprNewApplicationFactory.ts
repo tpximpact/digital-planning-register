@@ -15,12 +15,16 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication } from "@/types";
+import type { DprApplication } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { generateReference } from "./dprApplicationFactory";
-import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
-import {
+import type {
+  OSAddress,
+  ProposedAddress,
+} from "@/types/odp-types/shared/Addresses";
+import type {
   AdvertConsentApplicationType,
   AmendmentApplicationType,
   ApplicationType,
@@ -41,8 +45,8 @@ import {
   RightsOfWayOrderApplicationType,
   WTTApplicationType,
 } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
-import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
+import type { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
+import type { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
 import {
   getApplicationDprDecisionSummary,
   getApplicationDprStatusSummary,
@@ -52,10 +56,10 @@ import {
 import { planningPermissionFullHouseholderPrototype } from "./odp-submission-data/planningPermission/fullHouseholder";
 import { priorApprovalLargerExtensionPrototype } from "./odp-submission-data/priorApproval/largerExtension";
 import { lawfulDevelopmentCertificateProposedPrototype } from "./odp-submission-data/lawfulDevelopmentCertificate/proposed";
-import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
-import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
-import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
+import type { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
+import type { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+import type { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
+import type { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 type PossibleDates = {
   application: {
@@ -170,7 +174,7 @@ export const generateAllPossibleDates = (): PossibleDates => {
   return dates;
 };
 
-const proposedAddress: ProposedAddress = {
+export const proposedAddress: ProposedAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 502869.8591151078,
@@ -179,7 +183,7 @@ const proposedAddress: ProposedAddress = {
   source: "Proposed by applicant",
 };
 
-const siteAddress: OSAddress = {
+export const siteAddress: OSAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 493822,
@@ -381,41 +385,58 @@ export const generateDprApplication = ({
   switch (primaryApplicationType) {
     case "advertConsent":
       applicationType = applicationType as AdvertConsentApplicationType;
+    // falls through
     case "amendment":
       applicationType = applicationType as AmendmentApplicationType;
+    // falls through
     case "approval":
       applicationType = applicationType as ApprovalApplicationType;
+    // falls through
     case "complianceConfirmation":
       applicationType =
         applicationType as ComplianceConfirmationApplicationType;
+    // falls through
     case "environmentalImpact":
       applicationType = applicationType as EnvironmentalImpactApplicationType;
+    // falls through
     case "hazardousSubstanceConsent":
       applicationType =
         applicationType as HazardousSubstanceConsentApplicationType;
+    // falls through
     case "hedgerowRemovalNotice":
       applicationType = applicationType as HedgerowRemovalNoticeApplicationType;
+    // falls through
     case "landDrainageConsent":
       applicationType = applicationType as LandDrainageConsentApplicationType;
+    // falls through
     case "ldc":
       applicationType = applicationType as LDCApplicationType;
+    // falls through
     case "listed":
       applicationType = applicationType as ListedApplicationType;
+    // falls through
     case "notifyCompletion":
       applicationType = applicationType as NotifyCompletionApplicationType;
+    // falls through
     case "obligation":
       applicationType = applicationType as ObligationApplicationType;
+    // falls through
     case "onshoreExtractionOilAndGas":
       applicationType =
         applicationType as OnshoreExtractionOilAndGasApplicationType;
+    // falls through
     case "pa":
       applicationType = applicationType as PAApplicationType;
+    // falls through
     case "pp":
       applicationType = applicationType as PPApplicationType;
+    // falls through
     case "rightsOfWayOrder":
       applicationType = applicationType as RightsOfWayOrderApplicationType;
+    // falls through
     case "wtt":
       applicationType = applicationType as WTTApplicationType;
+    // falls through
   }
 
   // create the basics of all stages and manage further below
