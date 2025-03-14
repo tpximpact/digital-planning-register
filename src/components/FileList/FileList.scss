@@ -17,8 +17,18 @@
 
 @import "src/styles/component-base";
 
-.dpr-documents-list {
+.dpr-file-list {
   > * + * {
     margin-block-start: govuk-spacing(6);
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $govuk-gutter-half * 2;
+    @include govuk-media-query($from: desktop) {
+      gap: $govuk-gutter-half * 4;
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
