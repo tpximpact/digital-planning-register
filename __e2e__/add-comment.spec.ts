@@ -15,7 +15,8 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { test, expect, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 /**
  *
@@ -213,7 +214,7 @@ const testCommentFlow = async (page: Page) => {
 test.describe("Adding comments", () => {
   test.describe("javascript disabled", () => {
     test.use({ javaScriptEnabled: false });
-    test.fixme("/public-council-1/TEST-C0MNT-F10W", async ({ page }) => {
+    test.fixme("/public-council-1/TEST-C0MNT-F10W", async () => {
       // non-js comment workflow
     });
   });
