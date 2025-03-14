@@ -48,7 +48,7 @@ const config = {
     "src/**/*.(ts|tsx)",
     "!src/**/index.(ts|tsx)",
     "!src/**/*.stories.(ts|tsx)",
-    "!src/instrumentation.ts",
+    "!src/types/odp-types/**/*",
   ],
 
   // The directory where Jest should output its coverage files
@@ -62,7 +62,7 @@ const config = {
 
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: [
-    // "json",
+    "json",
     "text",
     "html",
     // "lcov",

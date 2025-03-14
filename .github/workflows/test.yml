@@ -84,13 +84,13 @@ jobs:
         run: npm run lint
 
       - name: Unit
-        run: npm run test:unit
+        run: npm run test:coverage
 
-      - name: Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          annotations: none
-          output: comment, report-markdown
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: tpximpact/digital-planning-register
 
   e2e-pa11y:
     name: Build application and run e2e and pa11y tests
