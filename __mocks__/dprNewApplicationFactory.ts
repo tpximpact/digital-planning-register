@@ -56,6 +56,7 @@ import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplica
 import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
+import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
 
 type PossibleDates = {
   application: {
@@ -170,7 +171,7 @@ export const generateAllPossibleDates = (): PossibleDates => {
   return dates;
 };
 
-const proposedAddress: ProposedAddress = {
+export const proposedAddress: ProposedAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 502869.8591151078,
@@ -179,7 +180,7 @@ const proposedAddress: ProposedAddress = {
   source: "Proposed by applicant",
 };
 
-const siteAddress: OSAddress = {
+export const siteAddress: OSAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 493822,
@@ -272,7 +273,11 @@ export const generateDprApplication = ({
     | "appealValidated"
     | "appealStarted"
     | "appealDetermined"
-    | "appealWithdrawn";
+    | "appealDeterminedWithdrawn"
+    | "appealDeterminedAllowed"
+    | "appealDeterminedDismissed"
+    | "appealDeterminedSplitDecision"
+    | "withdrawn";
 } = {}): DprApplication => {
   switch (customStatus) {
     case "consultationInProgress":
@@ -293,9 +298,37 @@ export const generateDprApplication = ({
     case "appealValidated":
     case "appealStarted":
     case "appealDetermined":
-    case "appealWithdrawn":
+    case "appealDeterminedWithdrawn":
+    case "appealDeterminedAllowed":
+    case "appealDeterminedDismissed":
+    case "appealDeterminedSplitDecision":
       applicationStage = "appeal";
       applicationStatus = "determined";
+      break;
+    case "withdrawn":
+      applicationStage = "assessment";
+      applicationStatus = "withdrawn";
+      break;
+  }
+
+  let appealDecision = faker.helpers.arrayElement<AppealDecision>([
+    "allowed",
+    "dismissed",
+    "splitDecision",
+    "withdrawn",
+  ]);
+  switch (customStatus) {
+    case "appealDeterminedWithdrawn":
+      appealDecision = "withdrawn";
+      break;
+    case "appealDeterminedAllowed":
+      appealDecision = "allowed";
+      break;
+    case "appealDeterminedDismissed":
+      appealDecision = "dismissed";
+      break;
+    case "appealDeterminedSplitDecision":
+      appealDecision = "splitDecision";
       break;
   }
 
@@ -463,12 +496,7 @@ export const generateDprApplication = ({
         validatedDate: dates.appeal.validatedAt.format("YYYY-MM-DD"),
         startedDate: dates.appeal.startedAt.format("YYYY-MM-DD"),
         decisionDate: dates.appeal.decidedAt.format("YYYY-MM-DD"),
-        decision: faker.helpers.arrayElement([
-          "allowed",
-          "dismissed",
-          "splitDecision",
-          "withdrawn",
-        ]),
+        decision: appealDecision,
       },
       caseOfficer: {
         name: "Casey Officer",
@@ -517,7 +545,10 @@ export const generateDprApplication = ({
     const { appeal, ...rest } = data.data;
     data.data = rest;
 
-    if (applicationStatus === "undetermined") {
+    if (
+      applicationStatus === "undetermined" ||
+      applicationStatus === "withdrawn"
+    ) {
       const { assessment, ...rest } = data.data;
       data.data = {
         ...rest,
@@ -610,7 +641,16 @@ export const generateDprApplication = ({
 
   // only get appealWithdrawn if we request it using customStatus
 
-  if (customStatus === "appealWithdrawn") {
+  if (
+    customStatus &&
+    [
+      "appealDetermined",
+      "appealDeterminedWithdrawn",
+      "appealDeterminedAllowed",
+      "appealDeterminedDismissed",
+      "appealDeterminedSplitDecision",
+    ].includes(customStatus)
+  ) {
     data.data.appeal = {
       lodgedDate: dates.appeal.lodgedAt.format("YYYY-MM-DD"),
       validatedDate: dates.appeal.validatedAt.format("YYYY-MM-DD"),
@@ -618,7 +658,7 @@ export const generateDprApplication = ({
       reason:
         "We don't believe the council took into consideration the environmental impact alleviation approach during their assessment.",
       decisionDate: dates.appeal.decidedAt.format("YYYY-MM-DD"),
-      decision: "withdrawn",
+      decision: appealDecision,
     };
   }
 
@@ -631,4 +671,121 @@ export const generateDprApplication = ({
   };
 
   return application;
+};
+
+/**
+ * Set of examples of standard applications using the  generateDprApplication method
+ * @returns
+ */
+export const generateExampleApplications = (
+  applicationType: ApplicationType = "pp.full.householder",
+): Record<string, DprApplication> => {
+  // 01-submission
+  const submission = generateDprApplication({
+    applicationType: applicationType,
+    applicationStage: "submission",
+  });
+
+  // 02-validation-01-invalid
+  const returned = generateDprApplication({
+    applicationType: applicationType,
+    applicationStage: "validation",
+    applicationStatus: "returned",
+  });
+
+  // 03-consultation
+  const consultation = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "consultationInProgress",
+  });
+
+  // 04-assessment-00-assessment-in-progress
+  const assessmentInProgress = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "assessmentInProgress",
+  });
+
+  // 04-assessment-01-council-determined
+  const planningOfficerDetermined = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "assessmentCouncilDetermined",
+  });
+
+  // 04-assessment-02-assessment-in-committee
+  const assessmentInCommittee = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "assessmentInCommittee",
+  });
+
+  // 04-assessment-03-committee-determined
+  const committeeDetermined = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "assessmentCommitteeDetermined",
+  });
+
+  // 05-appeal-00-appeal-lodged
+  const appealLodged = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealLodged",
+  });
+
+  // 05-appeal-01-appeal-validated
+  const appealValid = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealValidated",
+  });
+
+  // 05-appeal-02-appeal-started
+  const appealStarted = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealStarted",
+  });
+
+  // 05-appeal-03-appeal-determined
+  const appealDetermined = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealDetermined",
+  });
+  const appealDeterminedWithdrawn = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealDeterminedWithdrawn",
+  });
+  const appealDeterminedAllowed = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealDeterminedAllowed",
+  });
+  const appealDeterminedDismissed = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealDeterminedDismissed",
+  });
+  const appealDeterminedSplitDecision = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "appealDeterminedSplitDecision",
+  });
+
+  // 06-assessment-withdrawn
+  const withdrawn = generateDprApplication({
+    applicationType: applicationType,
+    customStatus: "withdrawn",
+  });
+
+  return {
+    submission,
+    returned,
+    consultation,
+    assessmentInProgress,
+    planningOfficerDetermined,
+    assessmentInCommittee,
+    committeeDetermined,
+    appealLodged,
+    appealValid,
+    appealStarted,
+    appealDetermined,
+    appealDeterminedWithdrawn,
+    appealDeterminedAllowed,
+    appealDeterminedDismissed,
+    appealDeterminedSplitDecision,
+    withdrawn,
+    // closed,
+  };
 };
