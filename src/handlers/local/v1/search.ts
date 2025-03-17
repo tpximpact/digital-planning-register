@@ -18,15 +18,9 @@
 "use server";
 
 import { getAppConfig } from "@/config";
+import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import {
-  ApiResponse,
-  DprPlanningApplication,
-  DprSearchApiResponse,
-  SearchParams,
-} from "@/types";
-import {
-  generateDprApplication,
-  generateNResults,
+  generateExampleApplications,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 
@@ -36,15 +30,38 @@ const responseQuery = (
   const appConfig = getAppConfig();
   const resultsPerPage = appConfig.defaults.resultsPerPage;
 
-  const applications = generateNResults<DprPlanningApplication>(
-    resultsPerPage,
-    generateDprApplication,
-  );
-  const pagination = generatePagination(searchParams?.page);
+  const {
+    consultation,
+    assessmentInProgress,
+    planningOfficerDetermined,
+    assessmentInCommittee,
+    committeeDetermined,
+    appealLodged,
+    appealValid,
+    appealStarted,
+    appealDetermined,
+    withdrawn,
+  } = generateExampleApplications();
+
+  let applications = [
+    consultation,
+    assessmentInProgress,
+    planningOfficerDetermined,
+    assessmentInCommittee,
+    committeeDetermined,
+    appealLodged,
+    appealValid,
+    appealStarted,
+    appealDetermined,
+    withdrawn,
+  ];
+  let pagination = generatePagination(searchParams?.page, resultsPerPage * 5);
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
+    applications = [consultation];
     applications[0].application.reference = searchParams.query;
+    pagination = generatePagination(searchParams?.page, 1);
   }
 
   let data: DprSearchApiResponse | null = applications;

@@ -18,15 +18,28 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageShow } from "./PageShow";
 import {
-  generateComment,
   generateDocument,
-  generateDprApplication,
+  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
-import { formatDateToYmd } from "@/util";
 
-const baseApplication = generateDprApplication();
+const {
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+  appealLodged,
+  appealValid,
+  appealStarted,
+  appealDetermined,
+  appealDeterminedWithdrawn,
+  appealDeterminedAllowed,
+  appealDeterminedDismissed,
+  appealDeterminedSplitDecision,
+  withdrawn,
+} = generateExampleApplications();
 
 const meta = {
   title: "Council pages/Show",
@@ -52,7 +65,7 @@ const meta = {
   },
   args: {
     appConfig: createAppConfig("public-council-1"),
-    application: generateDprApplication(),
+    application: committeeDetermined,
     documents: generateNResults(10, generateDocument),
     params: {
       council: "public-council-1",
@@ -71,387 +84,107 @@ export const NoResult: Story = {
   },
 };
 
-export const CommentingEnabled: Story = {
+// 01-submission
+// 02-validation-01-invalid
+// 03-consultation
+export const Consultation: Story = {
+  name: "03-consultation",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: consultation,
   },
 };
 
-export const CommentingDisabled: Story = {
+// 04-assessment-00-assessment-in-progress
+export const AssessmentInProgress: Story = {
+  name: "04-assessment-00-assessment-in-progress",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "granted",
-        consultation: {
-          startDate: new Date(Date.now() - 172800000).toISOString(),
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: assessmentInProgress,
   },
 };
 
-export const StatusConsultationInProgress: Story = {
+// 04-assessment-01-council-determined
+export const PlanningOfficerDetermined: Story = {
+  name: "04-assessment-01-council-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "assessment_in_progress",
-        decision: null,
-        consultation: {
-          startDate: formatDateToYmd(new Date(Date.now() - 86400000)),
-          endDate: formatDateToYmd(new Date(Date.now() + 86400000)),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: planningOfficerDetermined,
   },
 };
 
-export const StatusAssessmentInProgress: Story = {
+// 04-assessment-02-assessment-in-committee
+export const AssessmentInCommittee: Story = {
+  name: "04-assessment-02-assessment-in-committee",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 172800000).toISOString(),
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: assessmentInCommittee,
   },
 };
 
-export const StatusDetermined: Story = {
+// 04-assessment-03-committee-determined
+export const CommitteeDetermined: Story = {
+  name: "04-assessment-03-committee-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 172800000).toISOString(),
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: committeeDetermined,
   },
 };
 
-export const StatusAwaitingDetermination: Story = {
+// 05-appeal-00-appeal-lodged
+export const AppealLodged: Story = {
+  name: "05-appeal-00-appeal-lodged",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "awaiting_determination",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 172800000).toISOString(),
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: appealLodged,
   },
 };
 
-export const StatusWithdrawn: Story = {
+// 05-appeal-01-appeal-validated
+export const AppealValid: Story = {
+  name: "05-appeal-01-appeal-validated",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "withdrawn",
-        decision: null,
-      },
-    },
+    application: appealValid,
   },
 };
 
-export const StatusNotStarted: Story = {
+// 05-appeal-02-appeal-started
+export const AppealStarted: Story = {
+  name: "05-appeal-02-appeal-started",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "not_started",
-        decision: null,
-      },
-    },
+    application: appealStarted,
   },
 };
 
-export const DecisionGranted: Story = {
+// 05-appeal-03-appeal-determined
+export const AppealDetermined: Story = {
+  name: "05-appeal-03-appeal-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "granted",
-      },
-    },
+    application: appealDetermined,
   },
 };
-
-export const DecisionRefused: Story = {
+export const AppealDeterminedWithdrawn: Story = {
+  name: "05-appeal-03-appeal-determined--withdrawn",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "refused",
-      },
-    },
+    application: appealDeterminedWithdrawn,
   },
 };
-
-export const DecisionPriorApprovalRequiredAndApproved: Story = {
+export const AppealDeterminedAllowed: Story = {
+  name: "05-appeal-03-appeal-determined--allowed",
   args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-
-        status: "determined",
-        decision: "granted",
-      },
-    },
+    application: appealDeterminedAllowed,
   },
 };
-
-export const DecisionPriorApprovalNotRequired: Story = {
+export const AppealDeterminedDismissed: Story = {
+  name: "05-appeal-03-appeal-determined--dismissed",
   args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "not_required",
-      },
-    },
+    application: appealDeterminedDismissed,
   },
 };
-
-export const DecisionPriorApprovalRequiredAndRefused: Story = {
+export const AppealDeterminedSplitDecision: Story = {
+  name: "05-appeal-03-appeal-determined--split-decision",
   args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "refused",
-      },
-    },
+    application: appealDeterminedSplitDecision,
   },
 };
-
-export const NoMapData: Story = {
+// 06-assessment-withdrawn
+export const Withdrawn: Story = {
+  name: "06-assessment-withdrawn",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-      },
-      property: {
-        address: {
-          singleLine: baseApplication.property.address.singleLine,
-        },
-        boundary: {
-          site: undefined,
-        },
-      },
-    },
-  },
-};
-
-export const FewerDocumentsWithoutViewAllButton: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-      },
-    },
-    documents: generateNResults(3, generateDocument),
-  },
-};
-
-export const NoDocuments: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-      },
-    },
-    documents: [],
-  },
-};
-
-// base council config for the following stories that require it
-const baseCouncilConfig = {
-  name: "Public Council 2",
-  slug: "public-council-2",
-  logo: "public-council-2-logo.svg",
-  visibility: "public" as const,
-  dataSource: "local",
-  pageContent: {
-    privacy_policy: {
-      privacy_policy_link: "public-council-2-privacy-policy-link",
-    },
-  },
-};
-
-export const AllCommentsDisabled: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-    appConfig: {
-      ...createAppConfig("Public Council 2"),
-      council: {
-        ...baseCouncilConfig,
-        publicComments: false,
-        specialistComments: false,
-      },
-    },
-  },
-};
-
-export const OnlyPublicCommentsDisabled: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-    appConfig: {
-      ...createAppConfig("Public Council 2"),
-      council: {
-        ...baseCouncilConfig,
-        publicComments: false,
-        specialistComments: true,
-      },
-    },
-  },
-};
-
-export const OnlySpecialistCommentsDisabled: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
-    appConfig: {
-      ...createAppConfig("Public Council 2"),
-      council: {
-        ...baseCouncilConfig,
-        publicComments: true,
-        specialistComments: false,
-      },
-    },
-  },
-};
-
-export const NoViewAllPublicCommentsButton: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: generateNResults(1, generateComment),
-          consulteeComments: null,
-        },
-      },
-    },
-  },
-};
-
-export const NoViewAllSpecialistCommentsButton: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 86400000).toISOString(),
-          endDate: new Date(Date.now() + 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: generateNResults(1, generateComment),
-        },
-      },
-    },
+    application: withdrawn,
   },
 };
