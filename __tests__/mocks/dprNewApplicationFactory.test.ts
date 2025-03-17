@@ -15,11 +15,15 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DprApplication } from "@/types";
 import {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
-import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
+import {
+  generateDprApplication,
+  generateExampleApplications,
+} from "@mocks/dprNewApplicationFactory";
 import fs from "fs";
 import path from "path";
 
@@ -29,12 +33,10 @@ function saveApplicationToJson(application: object, filePath: string): void {
 }
 
 describe("generateDprApplication", () => {
-  // 01 the application is submitted via planX into BOPS
+  // 01-submission the application is submitted via planX into BOPS
   it("Generates the correct structure for a post-submission application just after submission", () => {
-    const planningPermissionFullHouseholderSubmission = generateDprApplication({
-      applicationType: "pp.full.householder",
-      applicationStage: "submission",
-    });
+    const { submission } = generateExampleApplications();
+    const planningPermissionFullHouseholderSubmission = submission;
 
     // basic checks
     expect(planningPermissionFullHouseholderSubmission.applicationType).toEqual(
@@ -98,14 +100,10 @@ describe("generateDprApplication", () => {
     );
   });
 
-  // 02.01 The application is validated in BOPS - uhoh it fails so its now returned
+  // 02-validation-01-invalid The application is validated in BOPS - uhoh it fails so its now returned
   it("Generates the correct structure for a post-submission application that has failed validation", () => {
-    const planningPermissionFullHouseholderValidationFail =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        applicationStage: "validation",
-        applicationStatus: "returned",
-      });
+    const { returned } = generateExampleApplications();
+    const planningPermissionFullHouseholderValidationFail = returned;
 
     // basic checks
     expect(
@@ -166,7 +164,7 @@ describe("generateDprApplication", () => {
     ).toBeUndefined();
   });
 
-  // 03 Applications move immediately into consultation from validation except for those that don't have consultation stage (ldc) which go to assessment
+  // 03-consultation Applications move immediately into consultation from validation except for those that don't have consultation stage (ldc) which go to assessment
   it("Generates the correct structure for a valid post-submission that is in consultation", () => {
     // throws an error for the wrong application type
     expect(() => {
@@ -178,11 +176,8 @@ describe("generateDprApplication", () => {
       "Invalid application stage (consultation) for application type ldc - this application type does not have a consultation stage",
     );
 
-    const planningPermissionFullHouseholderConsultation =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "consultationInProgress",
-      });
+    const { consultation } = generateExampleApplications();
+    const planningPermissionFullHouseholderConsultation = consultation;
 
     // basic checks
     expect(
@@ -244,13 +239,11 @@ describe("generateDprApplication", () => {
     ).toBeUndefined();
   });
 
-  // 04 Applications now moves to assessment and comments are no longer allowed unless the council allows it until a decision is made (ldc)
+  // 04-assessment-00-assessment-in-progress Applications now moves to assessment and comments are no longer allowed unless the council allows it until a decision is made (ldc)
   it("Generates the correct structure for a valid post-submission that is in assessment", () => {
+    const { assessmentInProgress } = generateExampleApplications();
     const planningPermissionFullHouseholderAssessmentInProgress =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentInProgress",
-      });
+      assessmentInProgress;
 
     // basic checks
     expect(
@@ -327,11 +320,10 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentInProgress.data.appeal,
     ).toBeUndefined();
 
-    const PriorApprovalLargerExtensionAssessmentAssessmentInProgress =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentInProgress",
-      });
+    const {
+      assessmentInProgress:
+        PriorApprovalLargerExtensionAssessmentAssessmentInProgress,
+    } = generateExampleApplications("pa.part1.classA");
     const paAssessment =
       PriorApprovalLargerExtensionAssessmentAssessmentInProgress.data
         .assessment as PriorApprovalAssessment;
@@ -340,13 +332,11 @@ describe("generateDprApplication", () => {
     expect(Object.values(paAssessment)).toHaveLength(1);
   });
 
-  // 04 01 council makes a decision on the application (comments are no longer allowed for those exempted per council)
+  // 04-assessment-01-council-determined council makes a decision on the application (comments are no longer allowed for those exempted per council)
   it("Generates the correct structure for a valid post-submission that is council determined", () => {
+    const { planningOfficerDetermined } = generateExampleApplications();
     const planningPermissionFullHouseholderAssessmentCouncilDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentCouncilDetermined",
-      });
+      planningOfficerDetermined;
 
     // basic checks
     expect(
@@ -439,9 +429,10 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
         .assessment?.committeeDecisionDate,
     ).not.toBeDefined();
+    // pretend its PA type to get tests to not error
     const ppAssessment =
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .assessment as any;
+        .assessment as unknown as PriorApprovalAssessment;
     expect(ppAssessment.priorApprovalRequired).not.toBeDefined();
 
     // appeal data checks
@@ -449,24 +440,21 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data.appeal,
     ).toBeUndefined();
 
-    const PriorApprovalLargerExtensionAssessmentCouncilDetermined =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentCouncilDetermined",
-      });
+    const {
+      planningOfficerDetermined:
+        PriorApprovalLargerExtensionAssessmentCouncilDetermined,
+    } = generateExampleApplications("pa.part1.classA");
     const paAssessment = PriorApprovalLargerExtensionAssessmentCouncilDetermined
       .data.assessment as PriorApprovalAssessment;
     expect(paAssessment.priorApprovalRequired).toBeDefined();
     expect(paAssessment.expiryDate).toBeDefined();
   });
 
-  // 04 02 Alternatively application goes to committee for a decision
+  // 04-assessment-02-assessment-in-committee Alternatively application goes to committee for a decision
   it("Generates the correct structure for a valid post-submission that is being assessed by committee", () => {
+    const { assessmentInCommittee } = generateExampleApplications();
     const planningPermissionFullHouseholderAssessmentInCommittee =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentInCommittee",
-      });
+      assessmentInCommittee;
 
     // basic checks
     expect(
@@ -566,13 +554,11 @@ describe("generateDprApplication", () => {
     ).toBeUndefined();
   });
 
-  // 04 03 The committee then makes a decision
+  // 04-assessment-03-committee-determined The committee then makes a decision
   it("Generates the correct structure for a valid post-submission that is commitee determined", () => {
+    const { committeeDetermined } = generateExampleApplications();
     const planningPermissionFullHouseholderAssessmentCommitteeDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentCommitteeDetermined",
-      });
+      committeeDetermined;
 
     // basic checks
     expect(
@@ -673,13 +659,10 @@ describe("generateDprApplication", () => {
     ).toBeUndefined();
   });
 
-  // 05 Things can end before this but within 6 months of the decision a decision can be appealed
+  // 05-appeal-00-appeal-lodged Things can end before this but within 6 months of the decision a decision can be appealed
   it("Generates the correct structure for a valid post-submission that has an appeal lodged", () => {
-    const planningPermissionFullHouseholderAppealLodged =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealLodged",
-      });
+    const { appealLodged } = generateExampleApplications();
+    const planningPermissionFullHouseholderAppealLodged = appealLodged;
     // basic checks
     expect(
       planningPermissionFullHouseholderAppealLodged.applicationType,
@@ -783,13 +766,10 @@ describe("generateDprApplication", () => {
     ).not.toBeDefined();
   });
 
-  // 05 01 After the appeal starts its validated
+  // 05-appeal-01-appeal-validated After the appeal starts its validated
   it("Generates the correct structure for a valid post-submission that has a validated appeal lodged", () => {
-    const planningPermissionFullHouseholderAppealValidated =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealValidated",
-      });
+    const { appealValid } = generateExampleApplications();
+    const planningPermissionFullHouseholderAppealValidated = appealValid;
     // basic checks
     expect(
       planningPermissionFullHouseholderAppealValidated.applicationType,
@@ -900,13 +880,10 @@ describe("generateDprApplication", () => {
     ).not.toBeDefined();
   });
 
-  // 05 02 Then it starts
+  // 05-appeal-02-appeal-started Then it starts
   it("Generates the correct structure for a valid post-submission that has a validated appeal in progress", () => {
-    const planningPermissionFullHouseholderAppealStarted =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealStarted",
-      });
+    const { appealStarted } = generateExampleApplications();
+    const planningPermissionFullHouseholderAppealStarted = appealStarted;
     // basic checks
     expect(
       planningPermissionFullHouseholderAppealStarted.applicationType,
@@ -1013,13 +990,16 @@ describe("generateDprApplication", () => {
     ).not.toBeDefined();
   });
 
-  // 05 03 and a decision is made by the appeal
+  // 05-appeal-03-appeal-determined and a decision is made by the appeal
   it("Generates the correct structure for a valid post-submission that has a validated appeal decision", () => {
-    const planningPermissionFullHouseholderAppealDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealDetermined",
-      });
+    const {
+      appealDetermined,
+      appealDeterminedWithdrawn,
+      appealDeterminedAllowed,
+      appealDeterminedDismissed,
+      appealDeterminedSplitDecision,
+    } = generateExampleApplications();
+    const planningPermissionFullHouseholderAppealDetermined = appealDetermined;
     // basic checks
     expect(
       planningPermissionFullHouseholderAppealDetermined.applicationType,
@@ -1131,112 +1111,136 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderAppealDetermined.data.appeal?.decision,
     ).toBeDefined();
+
+    // 05-appeal-03-appeal-determined--withdrawn
+    const planningPermissionFullHouseholderAppealDeterminedWithdrawn =
+      appealDeterminedWithdrawn;
+    expect(
+      planningPermissionFullHouseholderAppealDeterminedWithdrawn.data.appeal
+        ?.decision,
+    ).toBe("withdrawn");
+
+    // 05-appeal-03-appeal-determined--allowed
+    const planningPermissionFullHouseholderAppealDeterminedAllowed =
+      appealDeterminedAllowed;
+    expect(
+      planningPermissionFullHouseholderAppealDeterminedAllowed.data.appeal
+        ?.decision,
+    ).toBe("allowed");
+
+    // 05-appeal-03-appeal-determined--dismissed
+    const planningPermissionFullHouseholderAppealDeterminedDismissed =
+      appealDeterminedDismissed;
+    expect(
+      planningPermissionFullHouseholderAppealDeterminedDismissed.data.appeal
+        ?.decision,
+    ).toBe("dismissed");
+
+    // 05-appeal-03-appeal-determined--split-decision
+    const planningPermissionFullHouseholderAppealDeterminedSplitDecision =
+      appealDeterminedSplitDecision;
+    expect(
+      planningPermissionFullHouseholderAppealDeterminedSplitDecision.data.appeal
+        ?.decision,
+    ).toBe("splitDecision");
   });
 
-  // 05 04 appeal is withdrawn
-  it("Generates the correct structure for a valid post-submission that has a withdrawn appeal decision", () => {
-    const planningPermissionFullHouseholderAppealWithdrawn =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealWithdrawn",
-      });
+  // 06-assessment-withdrawn
+  it("Generates the correct structure for a valid post-submission that has been withdrawn ", () => {
+    const { withdrawn } = generateExampleApplications();
+    const planningPermissionFullHouseholderWithdrawn = withdrawn;
+
     // basic checks
+    expect(planningPermissionFullHouseholderWithdrawn.applicationType).toEqual(
+      "pp.full.householder",
+    );
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.applicationType,
-    ).toEqual("pp.full.householder");
-    expect(
-      planningPermissionFullHouseholderAppealWithdrawn.metadata.publishedAt,
+      planningPermissionFullHouseholderWithdrawn.metadata.publishedAt,
     ).toBeDefined();
     expect(
-      Object.values(planningPermissionFullHouseholderAppealWithdrawn.submission)
+      Object.values(planningPermissionFullHouseholderWithdrawn.submission)
         .length,
     ).toBeGreaterThan(0);
 
     // application section checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.application
-        .reference,
+      planningPermissionFullHouseholderWithdrawn.data.application.reference,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.application.stage,
-    ).toEqual("appeal");
+      planningPermissionFullHouseholderWithdrawn.data.application.stage,
+    ).toEqual("assessment");
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.application.status,
-    ).toEqual("determined");
+      planningPermissionFullHouseholderWithdrawn.data.application.status,
+    ).toEqual("withdrawn");
+    expect(
+      planningPermissionFullHouseholderWithdrawn.data.application.withdrawnAt,
+    ).toBeDefined();
+    expect(
+      planningPermissionFullHouseholderWithdrawn.data.application
+        .withdrawnReason,
+    ).toBeDefined();
 
     // submission data checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.submission
-        .submittedAt,
+      planningPermissionFullHouseholderWithdrawn.data.submission.submittedAt,
     ).toBeDefined();
 
     // validation data checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.validation
-        ?.receivedAt,
+      planningPermissionFullHouseholderWithdrawn.data.validation?.receivedAt,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.validation
-        ?.validatedAt,
+      planningPermissionFullHouseholderWithdrawn.data.validation?.validatedAt,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.validation?.isValid,
+      planningPermissionFullHouseholderWithdrawn.data.validation?.isValid,
     ).toBe(true);
 
     // consultation data checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.consultation
-        ?.startDate,
+      planningPermissionFullHouseholderWithdrawn.data.consultation?.startDate,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.consultation
-        ?.endDate,
+      planningPermissionFullHouseholderWithdrawn.data.consultation?.endDate,
     ).toBeDefined();
 
     // assessment data checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
-        ?.expiryDate,
+      planningPermissionFullHouseholderWithdrawn.data.assessment?.expiryDate,
     ).toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.planningOfficerDecision,
-    ).toBeDefined();
+    ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.planningOfficerDecisionDate,
-    ).toBeDefined();
+    ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
-        ?.decisionNotice?.url,
-    ).toBeDefined();
+      planningPermissionFullHouseholderWithdrawn.data.assessment?.decisionNotice
+        ?.url,
+    ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.planningOfficerRecommendation,
     ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.committeeSentDate,
     ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.committeeDecision,
     ).not.toBeDefined();
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.assessment
+      planningPermissionFullHouseholderWithdrawn.data.assessment
         ?.committeeDecisionDate,
     ).not.toBeDefined();
 
     // appeal data checks
     expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.lodgedDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.reason,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealWithdrawn.data.appeal?.decision,
-    ).toEqual("withdrawn");
+      planningPermissionFullHouseholderWithdrawn.data.appeal,
+    ).toBeUndefined();
   });
 
   it("Certain application types don't have consultation phases", () => {
@@ -1275,36 +1279,32 @@ describe("generateDprApplication", () => {
   });
 
   it.skip("Generates valid JSON files", () => {
-    // 01 the application is submitted via planX into BOPS
+    const planningPermissionFullHouseholder = generateExampleApplications(
+      "pp.full.householder",
+    );
 
-    const planningPermissionFullHouseholderSubmission = generateDprApplication({
-      applicationType: "pp.full.householder",
-      applicationStage: "submission",
-    });
+    const priorApprovalLargerExtension =
+      generateExampleApplications("pa.part1.classA");
+
+    const lawfulDevelopmentCertificateProposed =
+      generateExampleApplications("ldc.proposed");
+
+    // 01-submission
+    // 01 the application is submitted via planX into BOPS
     saveApplicationToJson(
-      planningPermissionFullHouseholderSubmission,
+      planningPermissionFullHouseholder.submission,
       path.join(__dirname, "fullHouseholder-01-submission.json"),
     );
-
-    const PriorApprovalLargerExtensionSubmission = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      applicationStage: "submission",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionSubmission,
+      priorApprovalLargerExtension.submission,
       path.join(__dirname, "largerExtension-01-submission.json"),
     );
-
-    const lawfulDevelopmentCertificateProposedSubmission =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        applicationStage: "submission",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedSubmission,
+      lawfulDevelopmentCertificateProposed.submission,
       path.join(__dirname, "proposed-01-submission.json"),
     );
 
+    // 02-validation-01-invalid
     // 02 The application is validated in BOPS - it passes - so it goes straight to consultation/assessment depending on application type
     // 02.01 The application is validated in BOPS - uhoh it fails so its now returned
 
@@ -1319,13 +1319,13 @@ describe("generateDprApplication", () => {
       path.join(__dirname, "fullHouseholder-02-validation-01-invalid.json"),
     );
 
-    const PriorApprovalLargerExtensionValidationFail = generateDprApplication({
+    const priorApprovalLargerExtensionValidationFail = generateDprApplication({
       applicationType: "pa.part1.classA",
       applicationStage: "validation",
       applicationStatus: "returned",
     });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionValidationFail,
+      priorApprovalLargerExtensionValidationFail,
       path.join(__dirname, "largerExtension-02-validation-01-invalid.json"),
     );
 
@@ -1340,360 +1340,203 @@ describe("generateDprApplication", () => {
       path.join(__dirname, "proposed-02-validation-01-invalid.json"),
     );
 
+    // 03-consultation
     // 03 Applications move immediately into consultation from validation except for those that don't have consultation stage (ldc) which go to assessment
-
-    const planningPermissionFullHouseholderConsultation =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "consultationInProgress",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderConsultation,
+      planningPermissionFullHouseholder.consultation,
       path.join(__dirname, "fullHouseholder-03-consultation.json"),
     );
-
-    const PriorApprovalLargerExtensionConsultation = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      customStatus: "consultationInProgress",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionConsultation,
+      priorApprovalLargerExtension.consultation,
       path.join(__dirname, "largerExtension-03-consultation.json"),
     );
 
+    // 04-assessment-00-assessment-in-progress
     // 04 Applications now moves to assessment and comments are no longer allowed unless the council allows it until a decision is made (ldc)
 
-    const planningPermissionFullHouseholderAssessmentInProgress =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentInProgress",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAssessmentInProgress,
+      planningPermissionFullHouseholder.assessmentInProgress,
       path.join(
         __dirname,
         "fullHouseholder-04-assessment-00-assessment-in-progress.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAssessmentInProgress =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentInProgress",
-      });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAssessmentInProgress,
+      priorApprovalLargerExtension.assessmentInProgress,
       path.join(
         __dirname,
         "largerExtension-04-assessment-00-assessment-in-progress.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAssessmentInProgress =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "assessmentInProgress",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAssessmentInProgress,
+      lawfulDevelopmentCertificateProposed.assessmentInProgress,
       path.join(
         __dirname,
         "proposed-04-assessment-00-assessment-in-progress.json",
       ),
     );
 
+    // 04-assessment-01-council-determined
     // 04 01 council makes a decision on the application (comments are no longer allowed for those exempted per council)
-
-    const planningPermissionFullHouseholderAssessmentCouncilDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentCouncilDetermined",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAssessmentCouncilDetermined,
+      planningPermissionFullHouseholder.planningOfficerDetermined,
       path.join(
         __dirname,
         "fullHouseholder-04-assessment-01-council-determined.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAssessmentCouncilDetermined =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentCouncilDetermined",
-      });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAssessmentCouncilDetermined,
+      priorApprovalLargerExtension.planningOfficerDetermined,
       path.join(
         __dirname,
         "largerExtension-04-assessment-01-council-determined.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAssessmentCouncilDetermined =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "assessmentCouncilDetermined",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAssessmentCouncilDetermined,
+      lawfulDevelopmentCertificateProposed.planningOfficerDetermined,
       path.join(__dirname, "proposed-04-assessment-01-council-determined.json"),
     );
 
+    // 04-assessment-02-assessment-in-committee
     // 04 02 Alternatively application goes to committee for a decision
 
-    const planningPermissionFullHouseholderAssessmentInCommittee =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentInCommittee",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAssessmentInCommittee,
+      planningPermissionFullHouseholder.assessmentInCommittee,
       path.join(
         __dirname,
         "fullHouseholder-04-assessment-02-assessment-in-committee.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAssessmentInCommittee =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentInCommittee",
-      });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAssessmentInCommittee,
+      priorApprovalLargerExtension.assessmentInCommittee,
       path.join(
         __dirname,
         "largerExtension-04-assessment-02-assessment-in-committee.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAssessmentInCommittee =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "assessmentInCommittee",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAssessmentInCommittee,
+      lawfulDevelopmentCertificateProposed.assessmentInCommittee,
       path.join(
         __dirname,
         "proposed-04-assessment-02-assessment-in-committee.json",
       ),
     );
 
+    // 04-assessment-03-committee-determined
     // 04 03 The committee then makes a decision
-    const planningPermissionFullHouseholderAssessmentCommitteeDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "assessmentCommitteeDetermined",
-      });
+
     saveApplicationToJson(
-      planningPermissionFullHouseholderAssessmentCommitteeDetermined,
+      planningPermissionFullHouseholder.committeeDetermined,
       path.join(
         __dirname,
         "fullHouseholder-04-assessment-03-committee-determined.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAssessmentCommitteeDetermined =
-      generateDprApplication({
-        applicationType: "pa.part1.classA",
-        customStatus: "assessmentCommitteeDetermined",
-      });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAssessmentCommitteeDetermined,
+      priorApprovalLargerExtension.committeeDetermined,
       path.join(
         __dirname,
         "largerExtension-04-assessment-03-committee-determined.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAssessmentCommitteeDetermined =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "assessmentCommitteeDetermined",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAssessmentCommitteeDetermined,
+      lawfulDevelopmentCertificateProposed.committeeDetermined,
       path.join(
         __dirname,
         "proposed-04-assessment-03-committee-determined.json",
       ),
     );
 
+    // 05-appeal-00-appeal-lodged
     // 05 Things can end before this but within 6 months of the decision a decision can be appealed
-
-    const planningPermissionFullHouseholderAppealLodged =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealLodged",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAppealLodged,
+      planningPermissionFullHouseholder.appealLodged,
       path.join(__dirname, "fullHouseholder-05-appeal-00-appeal-lodged.json"),
     );
-
-    const PriorApprovalLargerExtensionAppealLodged = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      customStatus: "appealLodged",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAppealLodged,
+      priorApprovalLargerExtension.appealLodged,
       path.join(__dirname, "largerExtension-05-appeal-00-appeal-lodged.json"),
     );
-
-    const lawfulDevelopmentCertificateProposedAppealLodged =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "appealLodged",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAppealLodged,
+      lawfulDevelopmentCertificateProposed.appealLodged,
       path.join(__dirname, "proposed-05-appeal-00-appeal-lodged.json"),
     );
 
+    // 05-appeal-01-appeal-validated
     // 05 01 After the appeal starts its validated
 
-    const planningPermissionFullHouseholderAppealValidated =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealValidated",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAppealValidated,
+      planningPermissionFullHouseholder.appealValid,
       path.join(
         __dirname,
         "fullHouseholder-05-appeal-01-appeal-validated.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAppealValidated = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      customStatus: "appealValidated",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAppealValidated,
+      priorApprovalLargerExtension.appealValid,
       path.join(
         __dirname,
         "largerExtension-05-appeal-01-appeal-validated.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAppealValidated =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "appealValidated",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAppealValidated,
+      lawfulDevelopmentCertificateProposed.appealValid,
       path.join(__dirname, "proposed-05-appeal-01-appeal-validated.json"),
     );
 
+    // 05-appeal-02-appeal-started
     // 05 02 Then it starts
 
-    const planningPermissionFullHouseholderAppealStarted =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealStarted",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAppealStarted,
+      planningPermissionFullHouseholder.appealStarted,
       path.join(__dirname, "fullHouseholder-05-appeal-02-appeal-started.json"),
     );
-
-    const PriorApprovalLargerExtensionAppealStarted = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      customStatus: "appealStarted",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAppealStarted,
+      priorApprovalLargerExtension.appealStarted,
       path.join(__dirname, "largerExtension-05-appeal-02-appeal-started.json"),
     );
-
-    const lawfulDevelopmentCertificateProposedAppealStarted =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "appealStarted",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAppealStarted,
+      lawfulDevelopmentCertificateProposed.appealStarted,
       path.join(__dirname, "proposed-05-appeal-02-appeal-started.json"),
     );
 
+    // 05-appeal-03-appeal-determined
     // 05 03 and a decision is made by the appeal
 
-    const planningPermissionFullHouseholderAppealDetermined =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealDetermined",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAppealDetermined,
+      planningPermissionFullHouseholder.appealDetermined,
       path.join(
         __dirname,
         "fullHouseholder-05-appeal-03-appeal-determined.json",
       ),
     );
-
-    const PriorApprovalLargerExtensionAppealDetermined = generateDprApplication(
-      {
-        applicationType: "pa.part1.classA",
-        customStatus: "appealDetermined",
-      },
-    );
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAppealDetermined,
+      priorApprovalLargerExtension.appealDetermined,
       path.join(
         __dirname,
         "largerExtension-05-appeal-03-appeal-determined.json",
       ),
     );
-
-    const lawfulDevelopmentCertificateProposedAppealDetermined =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "appealDetermined",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAppealDetermined,
+      lawfulDevelopmentCertificateProposed.appealDetermined,
       path.join(__dirname, "proposed-05-appeal-03-appeal-determined.json"),
     );
 
-    // 05 04 appeal is withdrawn
+    // 06-assessment-withdrawn
 
-    const planningPermissionFullHouseholderAppealWithdrawn =
-      generateDprApplication({
-        applicationType: "pp.full.householder",
-        customStatus: "appealWithdrawn",
-      });
     saveApplicationToJson(
-      planningPermissionFullHouseholderAppealWithdrawn,
-      path.join(
-        __dirname,
-        "fullHouseholder-05-appeal-04-appeal-withdrawn.json",
-      ),
+      planningPermissionFullHouseholder.withdrawn,
+      path.join(__dirname, "fullHouseholder-06-assessment-withdrawn.json"),
     );
 
-    const PriorApprovalLargerExtensionAppealWithdrawn = generateDprApplication({
-      applicationType: "pa.part1.classA",
-      customStatus: "appealWithdrawn",
-    });
     saveApplicationToJson(
-      PriorApprovalLargerExtensionAppealWithdrawn,
-      path.join(
-        __dirname,
-        "largerExtension-05-appeal-04-appeal-withdrawn.json",
-      ),
+      priorApprovalLargerExtension.withdrawn,
+      path.join(__dirname, "largerExtension-06-assessment-withdrawn.json"),
     );
 
-    const lawfulDevelopmentCertificateProposedAppealWithdrawn =
-      generateDprApplication({
-        applicationType: "ldc.proposed",
-        customStatus: "appealWithdrawn",
-      });
     saveApplicationToJson(
-      lawfulDevelopmentCertificateProposedAppealWithdrawn,
-      path.join(__dirname, "proposed-05-appeal-04-appeal-withdrawn.json"),
+      lawfulDevelopmentCertificateProposed.withdrawn,
+      path.join(__dirname, "proposed-06-assessment-withdrawn.json"),
     );
   });
 });
