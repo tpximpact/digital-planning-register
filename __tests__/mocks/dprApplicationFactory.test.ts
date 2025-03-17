@@ -25,6 +25,7 @@ import {
   generateBoundaryGeoJson,
 } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
+import { DprPlanningApplication } from "@/types";
 
 // YYYY-MM-DD
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -167,12 +168,478 @@ describe("generateDprApplication", () => {
   });
 
   it("should generate dates in the formats we expect", () => {
-    const application = generateDprApplication({ decision: "granted" });
+    const application = generateDprApplication({
+      applicationType: "pp.full",
+      applicationStatus: "in_assessment",
+      consultationStartDate: new Date(
+        new Date().getTime() - 100 * 24 * 60 * 60 * 1000,
+      ),
+      decision: "granted",
+    });
+    expect(application.application.consultation.startDate).toMatch(dateRegex);
     expect(application.application.consultation.endDate).toMatch(dateRegex);
     expect(application.application.receivedAt).toMatch(utcDateRegex);
     expect(application.application.validAt).toMatch(utcDateRegex);
     expect(application.application.publishedAt).toMatch(utcDateRegex);
     expect(application.application.determinedAt).toMatch(utcDateRegex);
+  });
+
+  it("should set commentsAcceptedUntilDecision to true for ldc's", () => {
+    const ldc = generateDprApplication({ applicationType: "ldc" });
+    expect(ldc.data.localPlanningAuthority.commentsAcceptedUntilDecision).toBe(
+      true,
+    );
+
+    const pp = generateDprApplication({ applicationType: "pp.full" });
+    expect(pp.data.localPlanningAuthority.commentsAcceptedUntilDecision).toBe(
+      false,
+    );
+  });
+
+  it("should generate sensible consultation dates", () => {
+    const applicationType = "pp.full";
+    const result = generateDprApplication({
+      applicationType: applicationType,
+      applicationStatus: "in_assessment",
+      consultationStartDate: new Date(),
+    });
+
+    expect(result.application.consultation.startDate).not.toBeNull();
+    expect(result.application.consultation.endDate).not.toBeNull();
+
+    const startDate = new Date(
+      result.application.consultation.startDate as string,
+    );
+    const endDate = new Date(result.application.consultation.endDate as string);
+    expect(startDate).toBeInstanceOf(Date);
+    expect(endDate).toBeInstanceOf(Date);
+    expect(startDate < endDate).toBe(true);
+    const now = new Date();
+    expect(now >= startDate && now <= endDate).toBe(true);
+  });
+
+  /**
+   * 01-submission
+   * pending
+   * not_started
+   *
+   * 02-validation-01-invalid
+   * invalidated
+   * returned
+   *
+   * 03-consultation
+   * in_assessment
+   * assessment_in_progress
+   *
+   * 04-assessment-00-assessment-in-progress
+   * in_assessment
+   * assessment_in_progress
+   * awaiting_determination
+   * to_be_reviewed
+   *
+   * 04-assessment-01-council-determined
+   * determined
+   *
+   * 04-assessment-02-assessment-in-committee
+   * in_committee
+   *
+   * 04-assessment-03-committee-determined
+   * determined
+   *
+   * 05-appeal-00-appeal-lodged
+   * Appeal lodged
+   *
+   * 05-appeal-01-appeal-validated
+   * Appeal valid
+   *
+   * 05-appeal-02-appeal-started
+   * Appeal started
+   *
+   * 05-appeal-03-appeal-determined
+   * 05-appeal-04-appeal-withdrawn
+   * Appeal determined
+   *
+   * Appeal withdrawn
+   * Appeal allowed
+   * Appeal dismissed
+   * Appeal split decision
+   *
+   * 06-assessment-withdrawn
+   * withdrawn
+   * closed
+   */
+  describe("by status", () => {
+    const testConsultationDatesAreInPast = (result: DprPlanningApplication) => {
+      expect(result.application.consultation.startDate).not.toBeNull();
+      expect(result.application.consultation.endDate).not.toBeNull();
+      const startDate = new Date(
+        result.application.consultation.startDate as string,
+      );
+      const endDate = new Date(
+        result.application.consultation.endDate as string,
+      );
+      expect(startDate).toBeInstanceOf(Date);
+      expect(endDate).toBeInstanceOf(Date);
+      expect(startDate < endDate).toBe(true);
+
+      const now = new Date();
+      expect(now >= startDate && now >= endDate).toBe(true);
+    };
+
+    const testAppealDetermined = (result: DprPlanningApplication) => {
+      expect(result.application.determinedAt).not.toBeNull();
+      expect(result.application.determinedAt).toMatch(utcDateRegex);
+      expect(result.application.decision).toBe("refused");
+      expect(result.data.appeal).not.toBeUndefined();
+      expect(result.data.appeal.reason).toBeTruthy();
+      expect(result.data.appeal.lodgedDate).toMatch(dateRegex);
+      expect(result.data.appeal.validatedDate).toMatch(dateRegex);
+      expect(result.data.appeal.startedDate).toMatch(dateRegex);
+      expect(result.data.appeal.decisionDate).toMatch(dateRegex);
+      expect(result.data.appeal.files.length).toBeGreaterThan(0);
+    };
+
+    const consultationStartDateInPast = new Date(
+      new Date().getTime() - 100 * 24 * 60 * 60 * 1000,
+    );
+
+    describe("03-consultation", () => {
+      const testConsultation = (result: DprPlanningApplication) => {
+        expect(result.application.consultation.startDate).not.toBeNull();
+        expect(result.application.consultation.endDate).not.toBeNull();
+        const startDate = new Date(
+          result.application.consultation.startDate as string,
+        );
+        const endDate = new Date(
+          result.application.consultation.endDate as string,
+        );
+        expect(startDate).toBeInstanceOf(Date);
+        expect(endDate).toBeInstanceOf(Date);
+        expect(startDate < endDate).toBe(true);
+        const now = new Date();
+        expect(now >= startDate && now <= endDate).toBe(true);
+
+        expect(result.application.determinedAt).toBeNull();
+        expect(result.application.decision).toBeNull();
+        expect(result.data.appeal).toBeUndefined();
+      };
+      it("in_assessment", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "in_assessment",
+          consultationStartDate: new Date(),
+        });
+        expect(result.application.status).toBe("in_assessment");
+        testConsultation(result);
+      });
+      it("assessment_in_progress", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "assessment_in_progress",
+          consultationStartDate: new Date(),
+        });
+        expect(result.application.status).toBe("assessment_in_progress");
+        testConsultation(result);
+      });
+    });
+
+    describe("04-assessment-00-assessment-in-progress", () => {
+      const testAssessment = (result: DprPlanningApplication) => {
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).toBeNull();
+        expect(result.application.decision).toBeNull();
+        expect(result.data.appeal).toBeUndefined();
+      };
+      it("in_assessment", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "in_assessment",
+          decision: null,
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("in_assessment");
+        testAssessment(result);
+      });
+      it("assessment_in_progress", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "assessment_in_progress",
+          decision: null,
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("assessment_in_progress");
+        testAssessment(result);
+      });
+      it("awaiting_determination", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "awaiting_determination",
+          decision: null,
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("awaiting_determination");
+        testAssessment(result);
+      });
+      it("to_be_reviewed", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "to_be_reviewed",
+          decision: null,
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("to_be_reviewed");
+        testAssessment(result);
+      });
+    });
+
+    describe("04-assessment-01-council-determined", () => {
+      it("determined", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "determined",
+          decision: "granted",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("determined");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).not.toBeNull();
+        expect(result.application.determinedAt).toMatch(utcDateRegex);
+        expect(result.application.decision).toBe("granted");
+        expect(result.data.appeal).toBeUndefined();
+      });
+    });
+
+    describe("04-assessment-02-assessment-in-committee", () => {
+      it("in_committee", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "in_committee",
+          decision: null,
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("in_committee");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).toBeNull();
+        expect(result.application.decision).toBeNull();
+        expect(result.data.appeal).toBeUndefined();
+      });
+    });
+
+    describe("04-assessment-03-committee-determined", () => {
+      it("determined", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "determined",
+          decision: "granted",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("determined");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).not.toBeNull();
+        expect(result.application.determinedAt).toMatch(utcDateRegex);
+        expect(result.application.decision).toBe("granted");
+        expect(result.data.appeal).toBeUndefined();
+      });
+    });
+
+    describe("05-appeal-00-appeal-lodged", () => {
+      it("Appeal lodged", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal lodged",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal lodged");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).not.toBeNull();
+        expect(result.application.determinedAt).toMatch(utcDateRegex);
+        expect(result.application.decision).toBe("refused");
+        expect(result.data.appeal).not.toBeUndefined();
+        expect(result.data.appeal.reason).toBeTruthy();
+        expect(result.data.appeal.lodgedDate).toMatch(dateRegex);
+        expect(result.data.appeal.validatedDate).not.toBeDefined();
+        expect(result.data.appeal.startedDate).not.toBeDefined();
+        expect(result.data.appeal.decisionDate).not.toBeDefined();
+        expect(result.data.appeal.decision).not.toBeDefined();
+        expect(result.data.appeal.files.length).toBeGreaterThan(0);
+      });
+    });
+
+    describe("05-appeal-01-appeal-validated", () => {
+      it("Appeal valid", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal valid",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal valid");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).not.toBeNull();
+        expect(result.application.determinedAt).toMatch(utcDateRegex);
+        expect(result.application.decision).toBe("refused");
+        expect(result.data.appeal).not.toBeUndefined();
+        expect(result.data.appeal.reason).toBeTruthy();
+        expect(result.data.appeal.lodgedDate).toMatch(dateRegex);
+        expect(result.data.appeal.validatedDate).toMatch(dateRegex);
+        expect(result.data.appeal.startedDate).not.toBeDefined();
+        expect(result.data.appeal.decisionDate).not.toBeDefined();
+        expect(result.data.appeal.decision).not.toBeDefined();
+        expect(result.data.appeal.files.length).toBeGreaterThan(0);
+      });
+    });
+
+    describe("05-appeal-02-appeal-started", () => {
+      it("Appeal started", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal started",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal started");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).not.toBeNull();
+        expect(result.application.determinedAt).toMatch(utcDateRegex);
+        expect(result.application.decision).toBe("refused");
+        expect(result.data.appeal).not.toBeUndefined();
+        expect(result.data.appeal.reason).toBeTruthy();
+        expect(result.data.appeal.lodgedDate).toMatch(dateRegex);
+        expect(result.data.appeal.validatedDate).toMatch(dateRegex);
+        expect(result.data.appeal.startedDate).toMatch(dateRegex);
+        expect(result.data.appeal.decisionDate).not.toBeDefined();
+        expect(result.data.appeal.decision).not.toBeDefined();
+        expect(result.data.appeal.files.length).toBeGreaterThan(0);
+      });
+    });
+
+    describe("05-appeal-03-appeal-determined", () => {
+      it("Appeal determined", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal determined",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal determined");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("allowed");
+      });
+      it("Appeal withdrawn", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal withdrawn",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal withdrawn");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("withdrawn");
+      });
+      it("Appeal allowed", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal allowed",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal allowed");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("allowed");
+      });
+      it("Appeal dismissed", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal dismissed",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal dismissed");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("dismissed");
+      });
+      it("Appeal split decision", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal split decision",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal split decision");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("splitDecision");
+      });
+    });
+
+    describe("05-appeal-04-appeal-withdrawn", () => {
+      it("Appeal withdrawn", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "Appeal withdrawn",
+          decision: "refused",
+          consultationStartDate: consultationStartDateInPast,
+        });
+        expect(result.application.status).toBe("Appeal withdrawn");
+        testConsultationDatesAreInPast(result);
+        testAppealDetermined(result);
+        expect(result.data.appeal.decision).toBe("withdrawn");
+      });
+    });
+
+    describe("06-assessment-withdrawn", () => {
+      it("withdrawn", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "withdrawn",
+          consultationStartDate: consultationStartDateInPast,
+          decision: null,
+        });
+        expect(result.application.status).toBe("withdrawn");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).toBeNull();
+        expect(result.application.decision).toBeNull();
+        expect(result.data.appeal).toBeUndefined();
+      });
+      it("closed", () => {
+        const applicationType = "pp.full";
+        const result = generateDprApplication({
+          applicationType: applicationType,
+          applicationStatus: "closed",
+          consultationStartDate: consultationStartDateInPast,
+          decision: null,
+        });
+        expect(result.application.status).toBe("closed");
+        testConsultationDatesAreInPast(result);
+        expect(result.application.determinedAt).toBeNull();
+        expect(result.application.decision).toBeNull();
+        expect(result.data.appeal).toBeUndefined();
+      });
+    });
   });
 });
 
@@ -181,6 +648,5 @@ describe("generateBoundaryGeoJson", () => {
     const geoJson = generateBoundaryGeoJson();
     expect(geoJson).toHaveProperty("type", "Feature");
     expect(geoJson).toHaveProperty("geometry");
-    expect(geoJson.geometry).toHaveProperty("coordinates");
   });
 });

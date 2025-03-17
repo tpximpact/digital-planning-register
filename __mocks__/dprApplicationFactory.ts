@@ -26,6 +26,7 @@ import {
   DprBoundaryGeojson,
   DprPagination,
 } from "@/types";
+import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
 import { formatDateToYmd } from "@/util";
 
@@ -126,7 +127,7 @@ export const generatePagination = (
  * @param {boolean} [noZero=false] - Whether to ensure at least one result is generated.
  * @returns {T[]} An array of generated results.
  */
-export const generateNResults = <T>(n: number, callback: { (): any }): T[] => {
+export const generateNResults = <T>(n: number, callback: { (): T }): T[] => {
   const results: T[] = [];
   for (let i = 0; i < n; i++) {
     results.push(callback());
@@ -144,11 +145,15 @@ export const generateDprApplication = ({
   applicationStatus,
   decision,
   appeal,
+  consultationStartDate,
+  consultationEndDate,
 }: {
   applicationType?: ApplicationType;
   applicationStatus?: DprPlanningApplication["application"]["status"];
   decision?: string | null;
   appeal?: DprPlanningApplication["data"]["appeal"];
+  consultationStartDate?: Date;
+  consultationEndDate?: Date;
 } = {}): DprPlanningApplication => {
   const applicationTypes = Object.values(validApplicationTypes).flat();
   applicationType =
@@ -182,57 +187,86 @@ export const generateDprApplication = ({
     ]);
 
   decision =
-    decision ?? faker.helpers.arrayElement(["refused", "granted", null]);
+    decision === null || (decision && decision?.length > 0)
+      ? decision
+      : faker.helpers.arrayElement(["refused", "granted"]);
+
+  const startDate = consultationStartDate
+    ? consultationStartDate
+    : faker.date.anytime();
+  const endDate = consultationEndDate
+    ? consultationEndDate
+    : new Date(startDate.getTime() + 21 * 24 * 60 * 60 * 1000); // Add 21 days
+  const now = new Date();
+  if (now >= startDate && now <= endDate) {
+    decision = null;
+  }
 
   const determinedAt =
     decision !== null ? faker.date.anytime().toISOString() : null;
-  const startDate = faker.date.anytime();
 
-  const decisionStatuses = [
-    "Appeal allowed",
-    "Appeal dismissed",
-    "Appeal split decision",
-    "Appeal withdrawn",
-    "Appeal determined",
-  ];
+  const appealObject = {
+    reason:
+      "We don't believe the council took into consideration the environmental impact alleviation approach during their assessment.",
+    lodgedDate: formatDateToYmd(faker.date.anytime()),
+    validatedDate: formatDateToYmd(faker.date.anytime()),
+    startedDate: formatDateToYmd(faker.date.anytime()),
+    decisionDate: formatDateToYmd(faker.date.anytime()),
+    decision: "allowed",
+    files: generateNResults<DprDocument>(2, generateDocument),
+  };
 
-  const dateStatuses = [
-    ...decisionStatuses,
-    "Appeal lodged",
-    "Appeal valid",
-    "Appeal started",
-  ];
+  if (
+    [
+      "Appeal lodged",
+      "Appeal valid",
+      "Appeal started",
+      "Appeal determined",
+      "Appeal allowed",
+      "Appeal dismissed",
+      "Appeal split decision",
+      "Appeal withdrawn",
+    ].includes(applicationStatus)
+  ) {
+    appeal = appealObject;
 
-  const hasAppealDecisionStatus = decisionStatuses.includes(applicationStatus);
-  const hasAppealDateStatus = dateStatuses.includes(applicationStatus);
-
-  if (appeal) {
-    if (hasAppealDecisionStatus) {
-      appeal.decision =
-        appeal.decision ??
-        faker.helpers.arrayElement([
-          "allowed",
-          "dismissed",
-          "splitDecision",
-          "withdrawn",
-        ]);
-      appeal.decisionDate =
-        appeal.decisionDate ?? formatDateToYmd(faker.date.anytime());
+    if (applicationStatus === "Appeal lodged") {
+      const {
+        validatedDate,
+        startedDate,
+        decisionDate,
+        decision,
+        ...appealLodged
+      } = appealObject;
+      appeal = appealLodged;
+    }
+    if (applicationStatus === "Appeal valid") {
+      const { startedDate, decisionDate, decision, ...appealValid } =
+        appealObject;
+      appeal = appealValid;
+    }
+    if (applicationStatus === "Appeal started") {
+      const { decisionDate, decision, ...appealStarted } = appealObject;
+      appeal = appealStarted;
     }
 
-    if (hasAppealDateStatus) {
-      appeal.lodgedDate =
-        appeal.lodgedDate ?? formatDateToYmd(faker.date.anytime());
-      appeal.startedDate =
-        appeal.startedDate ?? formatDateToYmd(faker.date.anytime());
-      appeal.validatedDate =
-        appeal.validatedDate ?? formatDateToYmd(faker.date.anytime());
+    if (
+      [
+        "Appeal determined",
+        "Appeal allowed",
+        "Appeal dismissed",
+        "Appeal split decision",
+        "Appeal withdrawn",
+      ].includes(applicationStatus)
+    ) {
+      const statusMap: Record<string, AppealDecision> = {
+        "Appeal allowed": "allowed",
+        "Appeal dismissed": "dismissed",
+        "Appeal split decision": "splitDecision",
+        "Appeal withdrawn": "withdrawn",
+      };
+      appeal.decision = statusMap[applicationStatus] ?? "allowed";
     }
-
-    appeal.reason = appeal.reason ?? faker.lorem.paragraph();
-    appeal.files = appeal.files ?? [
-      ...generateNResults<DprDocument>(2, generateDocument),
-    ];
   }
 
   return {
@@ -249,9 +283,7 @@ export const generateDprApplication = ({
       status: applicationStatus,
       consultation: {
         startDate: formatDateToYmd(startDate),
-        endDate: formatDateToYmd(
-          new Date(startDate.setDate(startDate.getDate() + 21)),
-        ),
+        endDate: formatDateToYmd(endDate),
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
       },
@@ -810,4 +842,150 @@ export const generateBoundaryGeoJson = (): DprBoundaryGeojson => {
 
   const randomIndex = faker.number.int({ min: 0, max: options.length - 1 });
   return options[randomIndex];
+};
+
+/**
+ * Set of examples of standard applications using the  generateDprApplication method
+ * @returns
+ */
+export const generateExampleApplications = (): Record<
+  string,
+  DprPlanningApplication
+> => {
+  const applicationType = "pp.full";
+  const consultationStartDateInPast = new Date(
+    new Date().getTime() - 100 * 24 * 60 * 60 * 1000,
+  );
+
+  // 01-submission
+  // 02-validation-01-invalid
+
+  // 03-consultation
+  const consultation = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "in_assessment",
+    consultationStartDate: new Date(),
+  });
+
+  // 04-assessment-00-assessment-in-progress
+  const assessmentInProgress = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "in_assessment",
+    decision: null,
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 04-assessment-01-council-determined
+  const planningOfficerDetermined = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "determined",
+    decision: "granted",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 04-assessment-02-assessment-in-committee
+  const assessmentInCommittee = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "in_committee",
+    decision: null,
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 04-assessment-03-committee-determined
+  const committeeDetermined = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "determined",
+    decision: "granted",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 05-appeal-00-appeal-lodged
+  const appealLodged = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal lodged",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 05-appeal-01-appeal-validated
+  const appealValid = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal valid",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 05-appeal-02-appeal-started
+  const appealStarted = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal started",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 05-appeal-03-appeal-determined
+  const appealDetermined = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal determined",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+  const appealDeterminedWithdrawn = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal withdrawn",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+  const appealDeterminedAllowed = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal allowed",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+  const appealDeterminedDismissed = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal dismissed",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+  const appealDeterminedSplitDecision = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "Appeal split decision",
+    decision: "refused",
+    consultationStartDate: consultationStartDateInPast,
+  });
+
+  // 06-assessment-withdrawn
+  const withdrawn = generateDprApplication({
+    applicationType: applicationType,
+    applicationStatus: "withdrawn",
+    consultationStartDate: consultationStartDateInPast,
+    decision: null,
+  });
+
+  // This wont exist in the new ODP schema
+  // const closed = generateDprApplication({
+  //   applicationType: applicationType,
+  //   applicationStatus: "closed",
+  //   consultationStartDate: consultationStartDateInPast,
+  //   decision: null,
+  // });
+
+  return {
+    consultation,
+    assessmentInProgress,
+    planningOfficerDetermined,
+    assessmentInCommittee,
+    committeeDetermined,
+    appealLodged,
+    appealValid,
+    appealStarted,
+    appealDetermined,
+    appealDeterminedWithdrawn,
+    appealDeterminedAllowed,
+    appealDeterminedDismissed,
+    appealDeterminedSplitDecision,
+    withdrawn,
+    // closed,
+  };
 };
