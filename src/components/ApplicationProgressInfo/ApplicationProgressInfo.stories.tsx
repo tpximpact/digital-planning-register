@@ -17,7 +17,25 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationProgressInfo } from "./ApplicationProgressInfo";
-import { formatDateTimeToDprDate } from "@/util";
+import { generateExampleApplications } from "@mocks/dprApplicationFactory";
+import { buildApplicationProgress } from "@/lib/planningApplication/progress";
+
+const {
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+  appealLodged,
+  appealValid,
+  // appealStarted,
+  // appealDetermined,
+  // appealDeterminedWithdrawn,
+  // appealDeterminedAllowed,
+  // appealDeterminedDismissed,
+  // appealDeterminedSplitDecision,
+  withdrawn,
+} = generateExampleApplications();
 
 const meta = {
   title: "DPR Components/ApplicationProgressInfo",
@@ -27,113 +45,12 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
+    nextjs: {
+      appDirectory: true,
+    },
   },
   args: {
-    sections: [
-      {
-        title: "Received",
-        date: "2 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Valid from",
-        date: "3 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Published",
-        date: "4 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Consultation ended",
-        date: "5 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Council decision made",
-        date: (
-          <time dateTime={"2025-07-05T06:37:03.217Z"}>
-            {formatDateTimeToDprDate("2025-07-05T06:37:03.217Z")}
-          </time>
-        ),
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Appeal lodged",
-        date: "6 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Appeal valid from",
-        date: "7 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Appeal started",
-        date: "8 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-      {
-        title: "Appeal decided",
-        date: "9 Jan 2021",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-    ],
+    sections: buildApplicationProgress(committeeDetermined),
   },
 } satisfies Meta<typeof ApplicationProgressInfo>;
 
@@ -141,20 +58,110 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const One: Story = {
+
+// 01-submission
+// 02-validation-01-invalid
+// 03-consultation
+export const Consultation: Story = {
+  name: "03-consultation",
   args: {
-    sections: [
-      {
-        title: "Received",
-        date: "2025-01-02",
-        content: (
-          <p>
-            Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus
-            mollis interdum. Nulla vitae elit libero, a pharetra augue.
-          </p>
-        ),
-      },
-    ],
+    sections: buildApplicationProgress(consultation),
+  },
+};
+
+// 04-assessment-00-assessment-in-progress
+export const AssessmentInProgress: Story = {
+  name: "04-assessment-00-assessment-in-progress",
+  args: {
+    sections: buildApplicationProgress(assessmentInProgress),
+  },
+};
+
+// 04-assessment-01-council-determined
+export const PlanningOfficerDetermined: Story = {
+  name: "04-assessment-01-council-determined",
+  args: {
+    sections: buildApplicationProgress(planningOfficerDetermined),
+  },
+};
+
+// 04-assessment-02-assessment-in-committee
+export const AssessmentInCommittee: Story = {
+  name: "04-assessment-02-assessment-in-committee",
+  args: {
+    sections: buildApplicationProgress(assessmentInCommittee),
+  },
+};
+
+// 04-assessment-03-committee-determined
+export const CommitteeDetermined: Story = {
+  name: "04-assessment-03-committee-determined",
+  args: {
+    sections: buildApplicationProgress(committeeDetermined),
+  },
+};
+
+// 05-appeal-00-appeal-lodged
+export const AppealLodged: Story = {
+  name: "05-appeal-00-appeal-lodged",
+  args: {
+    sections: buildApplicationProgress(appealLodged),
+  },
+};
+
+// 05-appeal-01-appeal-validated
+export const AppealValid: Story = {
+  name: "05-appeal-01-appeal-validated",
+  args: {
+    sections: buildApplicationProgress(appealValid),
+  },
+};
+
+// @TODO error in storybook with circular json here - which is fixed if we remove the <Link> from the started content
+// // 05-appeal-02-appeal-started
+// export const AppealStarted: Story = {
+//   name: "05-appeal-02-appeal-started",
+//   args: {
+//     sections: buildApplicationProgress(appealStarted),
+//   },
+// };
+
+// // 05-appeal-03-appeal-determined
+// export const AppealDetermined: Story = {
+//   name: "05-appeal-03-appeal-determined",
+//   args: {
+//     sections: buildApplicationProgress(appealDetermined),
+//   },
+// };
+// export const AppealDeterminedWithdrawn: Story = {
+//   name: "05-appeal-03-appeal-determined--withdrawn",
+//   args: {
+//     sections: buildApplicationProgress(appealDeterminedWithdrawn),
+//   },
+// };
+// export const AppealDeterminedAllowed: Story = {
+//   name: "05-appeal-03-appeal-determined--allowed",
+//   args: {
+//     sections: buildApplicationProgress(appealDeterminedAllowed),
+//   },
+// };
+// export const AppealDeterminedDismissed: Story = {
+//   name: "05-appeal-03-appeal-determined--dismissed",
+//   args: {
+//     sections: buildApplicationProgress(appealDeterminedDismissed),
+//   },
+// };
+// export const AppealDeterminedSplitDecision: Story = {
+//   name: "05-appeal-03-appeal-determined--split-decision",
+//   args: {
+//     sections: buildApplicationProgress(appealDeterminedSplitDecision),
+//   },
+// };
+
+// 06-assessment-withdrawn
+export const Withdrawn: Story = {
+  name: "06-assessment-withdrawn",
+  args: {
+    sections: buildApplicationProgress(withdrawn),
   },
 };

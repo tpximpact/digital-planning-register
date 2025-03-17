@@ -18,13 +18,25 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageSearch } from "./PageSearch";
 import {
-  generateDprApplication,
-  generateNResults,
+  generateExampleApplications,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 const defaultAppConfig = createAppConfig("public-council-1");
+
+const {
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+  appealLodged,
+  appealValid,
+  appealStarted,
+  appealDetermined,
+  withdrawn,
+} = generateExampleApplications();
 
 const meta = {
   title: "Council pages/Search",
@@ -50,8 +62,19 @@ const meta = {
   },
   args: {
     appConfig: defaultAppConfig,
-    applications: generateNResults(10, generateDprApplication),
-    pagination: generatePagination(),
+    applications: [
+      consultation,
+      assessmentInProgress,
+      planningOfficerDetermined,
+      assessmentInCommittee,
+      committeeDetermined,
+      appealLodged,
+      appealValid,
+      appealStarted,
+      appealDetermined,
+      withdrawn,
+    ],
+    pagination: generatePagination(1, 100),
   },
 } satisfies Meta<typeof PageSearch>;
 

@@ -18,35 +18,22 @@
 "use server";
 
 import { ApiResponse, DprShowApiResponse } from "@/types";
-import { formatDateToYmd } from "@/util";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
+
+import { generateExampleApplications } from "@mocks/dprApplicationFactory";
 
 const response = (reference: string): ApiResponse<DprShowApiResponse> => {
   let application = null;
 
+  const exampleApplications = generateExampleApplications();
+
   // it can never be ldc or determined because comments are disabled there!
   if (reference === "TEST-C0MNT-F10W") {
-    const today = new Date();
-    const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
-    const endDate = formatDateToYmd(new Date(today));
-    const applicationInAssessment = generateDprApplication({
-      applicationType: "pp.full",
-      applicationStatus: "assessment_in_progress",
-    });
-    const applicationInConsultation = {
-      ...applicationInAssessment,
-      application: {
-        ...applicationInAssessment.application,
-        consultation: {
-          ...applicationInAssessment.application.consultation,
-          startDate,
-          endDate,
-        },
-      },
-    };
-    application = applicationInConsultation;
+    application = exampleApplications.consultation;
   } else {
-    application = generateDprApplication();
+    const keys = Object.keys(exampleApplications);
+    const randomIndex = Math.floor(Math.random() * keys.length);
+    const randomKey = keys[randomIndex];
+    application = exampleApplications[randomKey];
   }
 
   application.application.reference = reference;

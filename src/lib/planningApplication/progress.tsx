@@ -48,9 +48,14 @@ export const buildApplicationProgress = (
   application: DprPlanningApplication,
 ): ProgressSectionBase[] => {
   const progressData: ProgressSectionBase[] = [];
+  const importantDates = contentImportantDates();
 
   // 01 received
   if (application.application?.receivedAt) {
+    const receivedAtContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Received date"),
+    )?.content;
     progressData.push({
       title: "Received",
       date: (
@@ -58,16 +63,17 @@ export const buildApplicationProgress = (
           {formatDateTimeToDprDate(application.application.receivedAt)}
         </time>
       ),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Received date"),
-      )?.content ?? <></>,
+      content: receivedAtContent ?? <></>,
     });
   }
 
   // 02 validFrom
 
   if (application.application?.validAt) {
+    const validAtContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Valid from date"),
+    )?.content;
     progressData.push({
       title: "Valid from",
       date: (
@@ -75,16 +81,17 @@ export const buildApplicationProgress = (
           {formatDateTimeToDprDate(application.application.validAt)}
         </time>
       ),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Valid from date"),
-      )?.content ?? <></>,
+      content: validAtContent ?? <></>,
     });
   }
 
   // 03 published
 
   if (application.application?.publishedAt) {
+    const publishedAtContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Published date"),
+    )?.content;
     progressData.push({
       title: "Published",
       date: (
@@ -92,10 +99,7 @@ export const buildApplicationProgress = (
           {formatDateTimeToDprDate(application.application.publishedAt)}
         </time>
       ),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Published date"),
-      )?.content ?? <></>,
+      content: publishedAtContent ?? <></>,
     });
   }
 
@@ -110,13 +114,14 @@ export const buildApplicationProgress = (
       ? "Consultation ended"
       : "Consultation ends";
 
+    const consultationEndDateContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Consultation end date"),
+    )?.content;
     progressData.push({
       title,
       date: formatDateToDprDate(application.application.consultation.endDate),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Consultation end date"),
-      )?.content ?? <></>,
+      content: consultationEndDateContent ?? <></>,
     });
   }
 
@@ -126,6 +131,10 @@ export const buildApplicationProgress = (
     application.application?.decision &&
     application.application.determinedAt
   ) {
+    const councilDecisionMadeContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Decision date"),
+    )?.content;
     progressData.push({
       title: "Council decision made",
       date: (
@@ -133,62 +142,65 @@ export const buildApplicationProgress = (
           {formatDateTimeToDprDate(application.application.determinedAt)}
         </time>
       ),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Decision date"),
-      )?.content ?? <></>,
+      content: councilDecisionMadeContent ?? <></>,
     });
   }
 
   // 06 appealLodged
 
   if (application?.data?.appeal?.lodgedDate) {
+    const appealLodgedDateContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Appeal lodged date"),
+    )?.content;
     progressData.push({
       title: "Appeal lodged",
       date: formatDateToDprDate(application.data.appeal.lodgedDate),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Appeal lodged date"),
-      )?.content ?? <></>,
+      content: appealLodgedDateContent ?? <></>,
     });
   }
 
   // 07 appealValidFrom
 
   if (application?.data?.appeal?.validatedDate) {
+    const appealValidatedDateContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Appeal valid from date"),
+    )?.content;
     progressData.push({
       title: "Appeal valid from",
       date: formatDateToDprDate(application.data.appeal.validatedDate),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Appeal valid from date"),
-      )?.content ?? <></>,
+      content: appealValidatedDateContent ?? <></>,
     });
   }
 
   // 08 appealStarted
 
   if (application?.data?.appeal?.startedDate) {
+    const appealStartedDateContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Appeal started date"),
+    )?.content;
+
+    // const appealStartedDateContent = <>hello</>;
     progressData.push({
       title: "Appeal started",
       date: formatDateToDprDate(application.data.appeal.startedDate),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Appeal started date"),
-      )?.content ?? <></>,
+      content: appealStartedDateContent ?? <></>,
     });
   }
 
   // 09 appealDecided
 
   if (application?.data?.appeal?.decisionDate) {
+    const decisionDateContent = findItemByKey<DprContentPage>(
+      importantDates,
+      slugify("Appeal decided date"),
+    )?.content;
     progressData.push({
       title: "Appeal decided",
       date: formatDateToDprDate(application.data.appeal.decisionDate),
-      content: findItemByKey<DprContentPage>(
-        contentImportantDates(),
-        slugify("Appeal decided date"),
-      )?.content ?? <></>,
+      content: decisionDateContent ?? <></>,
     });
   }
 

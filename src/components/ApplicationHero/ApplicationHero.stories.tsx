@@ -17,10 +17,24 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationHero } from "./ApplicationHero";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
-import { formatDateToYmd } from "@/util";
+import { generateExampleApplications } from "@mocks/dprApplicationFactory";
 
-const baseApplication = generateDprApplication();
+const {
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+  appealLodged,
+  appealValid,
+  appealStarted,
+  appealDetermined,
+  appealDeterminedWithdrawn,
+  appealDeterminedAllowed,
+  appealDeterminedDismissed,
+  appealDeterminedSplitDecision,
+  withdrawn,
+} = generateExampleApplications();
 
 const meta = {
   title: "DPR Components/ApplicationHero",
@@ -33,7 +47,7 @@ const meta = {
   },
   args: {
     councilSlug: "public-council-1",
-    application: baseApplication,
+    application: committeeDetermined,
   },
 } satisfies Meta<typeof ApplicationHero>;
 
@@ -41,443 +55,108 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const StatusConsultationInProgress: Story = {
+
+// 01-submission
+// 02-validation-01-invalid
+// 03-consultation
+export const Consultation: Story = {
+  name: "03-consultation",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "assessment_in_progress",
-        decision: null,
-        consultation: {
-          startDate: formatDateToYmd(new Date(Date.now() - 5 * 86400000)),
-          endDate: formatDateToYmd(new Date(Date.now() + 86400000)),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: consultation,
   },
 };
 
-export const StatusAssessmentInProgress: Story = {
+// 04-assessment-00-assessment-in-progress
+export const AssessmentInProgress: Story = {
+  name: "04-assessment-00-assessment-in-progress",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "in_assessment",
-        decision: null,
-        consultation: {
-          startDate: formatDateToYmd(new Date(Date.now() - 5 * 86400000)),
-          endDate: formatDateToYmd(new Date(Date.now() - 86400000)),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: assessmentInProgress,
   },
 };
 
-export const StatusDetermined: Story = {
+// 04-assessment-01-council-determined
+export const PlanningOfficerDetermined: Story = {
+  name: "04-assessment-01-council-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: null,
-        consultation: {
-          startDate: new Date(Date.now() - 5 * 86400000).toISOString(),
-          endDate: new Date(Date.now() - 86400000).toISOString(),
-          publishedComments: null,
-          consulteeComments: null,
-        },
-      },
-    },
+    application: planningOfficerDetermined,
   },
 };
 
-export const StatusWithdrawn: Story = {
+// 04-assessment-02-assessment-in-committee
+export const AssessmentInCommittee: Story = {
+  name: "04-assessment-02-assessment-in-committee",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "withdrawn",
-        decision: null,
-      },
-    },
+    application: assessmentInCommittee,
   },
 };
 
-export const StatusClosed: Story = {
+// 04-assessment-03-committee-determined
+export const CommitteeDetermined: Story = {
+  name: "04-assessment-03-committee-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "closed",
-        decision: null,
-      },
-    },
-  },
-};
-export const StatusReturned: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "returned",
-        decision: null,
-      },
-    },
+    application: committeeDetermined,
   },
 };
 
-export const StatusNotStarted: Story = {
+// 05-appeal-00-appeal-lodged
+export const AppealLodged: Story = {
+  name: "05-appeal-00-appeal-lodged",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "not_started",
-        decision: null,
-      },
-    },
+    application: appealLodged,
   },
 };
 
-export const StatusPending: Story = {
+// 05-appeal-01-appeal-validated
+export const AppealValid: Story = {
+  name: "05-appeal-01-appeal-validated",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "pending",
-        decision: null,
-      },
-    },
+    application: appealValid,
   },
 };
 
-export const StatusInvalid: Story = {
+// 05-appeal-02-appeal-started
+export const AppealStarted: Story = {
+  name: "05-appeal-02-appeal-started",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "invalid",
-        decision: null,
-      },
-    },
+    application: appealStarted,
   },
 };
 
-export const StatusAppealLodged: Story = {
+// 05-appeal-03-appeal-determined
+export const AppealDetermined: Story = {
+  name: "05-appeal-03-appeal-determined",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal lodged",
-        decision: "refused",
-      },
-    },
+    application: appealDetermined,
   },
 };
-
-export const StatusAppealValid: Story = {
+export const AppealDeterminedWithdrawn: Story = {
+  name: "05-appeal-03-appeal-determined--withdrawn",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal valid",
-        decision: "granted",
-      },
-    },
+    application: appealDeterminedWithdrawn,
   },
 };
-
-export const StatusAppealStarted: Story = {
+export const AppealDeterminedAllowed: Story = {
+  name: "05-appeal-03-appeal-determined--allowed",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal started",
-        decision: "granted",
-      },
-    },
+    application: appealDeterminedAllowed,
   },
 };
-
-export const StatusAppealDetermined: Story = {
+export const AppealDeterminedDismissed: Story = {
+  name: "05-appeal-03-appeal-determined--dismissed",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal determined",
-        decision: "granted",
-      },
-      data: {
-        ...baseApplication.data,
-        appeal: {
-          decision: "allowed",
-          decisionDate: new Date().toISOString(),
-          lodgedDate: new Date().toISOString(),
-          startedDate: new Date().toISOString(),
-          validatedDate: new Date().toISOString(),
-        },
-      },
-    },
+    application: appealDeterminedDismissed,
   },
 };
-
-export const StatusAppealAllowed: Story = {
+export const AppealDeterminedSplitDecision: Story = {
+  name: "05-appeal-03-appeal-determined--split-decision",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal allowed",
-        decision: "granted",
-      },
-      data: {
-        ...baseApplication.data,
-        appeal: {
-          decision: "allowed",
-          decisionDate: new Date().toISOString(),
-          lodgedDate: new Date().toISOString(),
-          startedDate: new Date().toISOString(),
-          validatedDate: new Date().toISOString(),
-        },
-      },
-    },
+    application: appealDeterminedSplitDecision,
   },
 };
-
-export const StatusAppealDismissed: Story = {
+// 06-assessment-withdrawn
+export const Withdrawn: Story = {
+  name: "06-assessment-withdrawn",
   args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal dismissed",
-        decision: "refused",
-      },
-      data: {
-        ...baseApplication.data,
-        appeal: {
-          decision: "dismissed",
-          decisionDate: new Date().toISOString(),
-          lodgedDate: new Date().toISOString(),
-          startedDate: new Date().toISOString(),
-          validatedDate: new Date().toISOString(),
-        },
-      },
-    },
-  },
-};
-
-export const StatusAppealSplitDecision: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal split decision",
-        decision: "granted",
-      },
-      data: {
-        ...baseApplication.data,
-        appeal: {
-          decision: "split_decision",
-          decisionDate: new Date().toISOString(),
-          lodgedDate: new Date().toISOString(),
-          startedDate: new Date().toISOString(),
-          validatedDate: new Date().toISOString(),
-        },
-      },
-    },
-  },
-};
-
-export const StatusAppealWithdrawn: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "Appeal withdrawn",
-        decision: "granted",
-      },
-      data: {
-        ...baseApplication.data,
-        appeal: {
-          decision: "withdrawn",
-          decisionDate: new Date().toISOString(),
-          lodgedDate: new Date().toISOString(),
-          startedDate: new Date().toISOString(),
-          validatedDate: new Date().toISOString(),
-        },
-      },
-    },
-  },
-};
-
-export const DecisionGranted: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "granted",
-      },
-    },
-  },
-};
-
-export const DecisionRefused: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "refused",
-      },
-    },
-  },
-};
-
-export const DecisionPriorApprovalRequiredAndApproved: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "granted",
-      },
-    },
-  },
-};
-
-export const DecisionPriorApprovalNotRequired: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-
-        status: "determined",
-        decision: "not_required",
-      },
-    },
-  },
-};
-
-export const DecisionPriorApprovalRequiredAndRefused: Story = {
-  args: {
-    application: {
-      ...baseApplication,
-      applicationType: "pa",
-      application: {
-        ...baseApplication.application,
-        status: "determined",
-        decision: "refused",
-      },
-    },
-  },
-};
-
-export const AppealDecisionAllowed: Story = {
-  args: {
-    application: generateDprApplication({
-      decision: "refused",
-      applicationStatus: "Appeal allowed",
-      appeal: {
-        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
-        decision: "allowed",
-        decisionDate: new Date().toISOString(),
-        lodgedDate: new Date().toISOString(),
-        startedDate: new Date().toISOString(),
-        validatedDate: new Date().toISOString(),
-      },
-    }),
-  },
-};
-
-export const AppealDecisionDismissed: Story = {
-  args: {
-    application: generateDprApplication({
-      decision: "refused",
-      applicationStatus: "Appeal allowed",
-      appeal: {
-        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
-        decision: "dismissed",
-        decisionDate: new Date().toISOString(),
-        lodgedDate: new Date().toISOString(),
-        startedDate: new Date().toISOString(),
-        validatedDate: new Date().toISOString(),
-      },
-    }),
-  },
-};
-
-export const AppealDecisionSplitDecision: Story = {
-  args: {
-    application: generateDprApplication({
-      decision: "refused",
-      applicationStatus: "Appeal allowed",
-      appeal: {
-        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
-        decision: "splitDecision",
-        decisionDate: new Date().toISOString(),
-        lodgedDate: new Date().toISOString(),
-        startedDate: new Date().toISOString(),
-        validatedDate: new Date().toISOString(),
-      },
-    }),
-  },
-};
-
-export const AppealDecisionWithdrawn: Story = {
-  args: {
-    application: generateDprApplication({
-      decision: "refused",
-      applicationStatus: "Appeal allowed",
-      appeal: {
-        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
-        decision: "withdrawn",
-        decisionDate: new Date().toISOString(),
-        lodgedDate: new Date().toISOString(),
-        startedDate: new Date().toISOString(),
-        validatedDate: new Date().toISOString(),
-      },
-    }),
-  },
-};
-
-export const AppealDecisionNotDecidedYet: Story = {
-  args: {
-    application: generateDprApplication({
-      decision: "refused",
-      applicationStatus: "Appeal lodged",
-      appeal: {
-        reason: "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
-        decision: undefined, // explicitly setting it to null
-        lodgedDate: new Date().toISOString(),
-        startedDate: new Date().toISOString(),
-        validatedDate: new Date().toISOString(),
-      },
-    }),
+    application: withdrawn,
   },
 };

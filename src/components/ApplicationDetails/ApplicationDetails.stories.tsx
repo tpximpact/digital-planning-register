@@ -20,19 +20,13 @@ import { ApplicationDetails } from "./ApplicationDetails";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
   generateDocument,
-  generateDprApplication,
+  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
-import { formatDateToYmd } from "@/util";
 
-const baseApplication = generateDprApplication();
 const baseAppConfig = createAppConfig("public-council-1");
-if (baseAppConfig?.council) {
-  baseAppConfig.council.pageContent.email_alerts = {
-    sign_up_for_alerts_link: "/signup",
-  };
-}
+const { committeeDetermined } = generateExampleApplications();
 
 const meta = {
   title: "DPR Components/ApplicationDetails",
@@ -46,7 +40,7 @@ const meta = {
   args: {
     reference: "12345",
     appConfig: baseAppConfig,
-    application: baseApplication,
+    application: committeeDetermined,
     documents: generateNResults<DprDocument>(3, generateDocument),
   },
 } satisfies Meta<typeof ApplicationDetails>;
@@ -55,56 +49,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const NoDocuments: Story = {
-  args: {
-    documents: undefined,
-  },
-};
-export const FewDocuments: Story = {
-  args: {
-    documents: generateNResults<DprDocument>(3, generateDocument),
-  },
-};
-export const ManyDocuments: Story = {
-  args: {
-    documents: generateNResults<DprDocument>(30, generateDocument),
-  },
-};
-
-const today = new Date();
-const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
-const endDate = formatDateToYmd(new Date(today));
-const applicationInAssessment = generateDprApplication({
-  applicationType: "pp.full",
-  applicationStatus: "assessment_in_progress",
-});
-const applicationInConsultation = {
-  ...applicationInAssessment,
-  application: {
-    ...applicationInAssessment.application,
-    consultation: {
-      ...applicationInAssessment.application.consultation,
-      startDate,
-      endDate,
-    },
-  },
-};
-
-export const CommentsEnabled: Story = {
-  args: {
-    application: applicationInConsultation,
-  },
-};
-
-export const CommentsEnabledBecauseFlag: Story = {
-  args: {
-    application: {
-      ...applicationInAssessment,
-      data: {
-        localPlanningAuthority: {
-          commentsAcceptedUntilDecision: true,
-        },
-      },
-    },
-  },
-};
