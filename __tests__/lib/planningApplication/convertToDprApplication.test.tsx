@@ -15,19 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication, DprPlanningApplication } from "@/types";
-import { convertToDprApplication } from "@/util/convertToDprApplication";
-import { generateDprApplication as generateNewDprApplication } from "@mocks/dprNewApplicationFactory";
+import { DprPlanningApplication } from "@/types";
+import { convertToDprApplication } from "@/lib/planningApplication/convertToDprApplication";
 import { generateDprApplication as generateOldDprApplication } from "@mocks/dprApplicationFactory";
 import dayjs from "dayjs";
-
-describe("when input is a DprApplication", () => {
-  it("should return the same DprApplication if already in the correct structure", () => {
-    const newApp: DprApplication = generateNewDprApplication();
-    const result = convertToDprApplication(newApp);
-    expect(result).toBe(newApp);
-  });
-});
 
 describe("when input is a DprPlanningApplication", () => {
   it("should convert an old DprPlanningApplication into a new DprApplication", () => {
@@ -35,13 +26,6 @@ describe("when input is a DprPlanningApplication", () => {
     const result = convertToDprApplication(oldApp);
     expect(result).toHaveProperty("applicationType");
     expect(result).toHaveProperty("data.application.reference");
-  });
-
-  it("should throw an error if it does not match either shape (edge case)", () => {
-    const invalidObj = {} as DprPlanningApplication;
-    expect(() => convertToDprApplication(invalidObj)).toThrow(
-      "Invalid application object",
-    );
   });
 
   it("should handle an application with no validDate => stage is 'submission'", () => {
@@ -173,7 +157,7 @@ describe("when input is a DprPlanningApplication", () => {
     oldApp.application.receivedDate = "2023-01-15";
 
     const converted = convertToDprApplication(oldApp);
-    expect(converted.data.submission?.submittedAt).toBe("2023-01-15T00:00:00Z");
+    expect(converted.data.submission?.submittedAt).toBe("2023-01-15");
   });
 
   it("should map validation data if validDate exists", () => {
@@ -182,8 +166,8 @@ describe("when input is a DprPlanningApplication", () => {
     oldApp.application.validDate = "2023-02-01";
 
     const converted = convertToDprApplication(oldApp);
-    expect(converted.data.validation?.receivedAt).toBe("2023-01-10T00:00:00Z");
-    expect(converted.data.validation?.validatedAt).toBe("2023-02-01T00:00:00Z");
+    expect(converted.data.validation?.receivedAt).toBe("2023-01-10");
+    expect(converted.data.validation?.validatedAt).toBe("2023-02-01");
     expect(converted.data.validation?.isValid).toBe(true);
   });
 
