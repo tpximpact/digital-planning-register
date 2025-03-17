@@ -24,7 +24,6 @@ dayjs.extend(isSameOrAfter);
 
 import { DprApplication, DprPlanningApplication } from "@/types";
 import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
-import { convertDateTimeToUtc } from "./formatDates";
 import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
 import {
   getApplicationDprDecisionSummary,
@@ -35,7 +34,7 @@ import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionAppl
 /**
  * Checks if the given object is a DprApplication.
  */
-function isDprApplication(
+export function isDprApplication(
   app: DprApplication | DprPlanningApplication,
 ): boolean {
   if (
@@ -149,7 +148,7 @@ function mapLocalPlanningAuthoritySection(app: DprPlanningApplication) {
  */
 function mapSubmissionSection(app: DprPlanningApplication) {
   return {
-    submittedAt: convertDateTimeToUtc(app.application.receivedDate),
+    submittedAt: app.application.receivedDate,
   };
 }
 
@@ -158,10 +157,8 @@ function mapSubmissionSection(app: DprPlanningApplication) {
  */
 function mapValidationSection(app: DprPlanningApplication) {
   return {
-    receivedAt: convertDateTimeToUtc(app.application.receivedDate),
-    validatedAt: app.application.validDate
-      ? convertDateTimeToUtc(app.application.validDate)
-      : undefined,
+    receivedAt: app.application.receivedDate,
+    validatedAt: app.application.validDate ?? undefined,
     isValid: true,
   };
 }
@@ -234,12 +231,8 @@ function mapAppealSection(app: DprPlanningApplication) {
  * Main conversion function.
  */
 export function convertToDprApplication(
-  app: DprPlanningApplication | DprApplication,
+  app: DprPlanningApplication,
 ): DprApplication {
-  if (isDprApplication(app)) {
-    return app as DprApplication;
-  }
-
   const planningApp = app as DprPlanningApplication;
   const stage = determineStage(planningApp);
 
@@ -294,12 +287,10 @@ export function convertToDprApplication(
     metadata: {
       organisation: "BOPS",
       id: planningApp.application.reference,
-      publishedAt: planningApp.application.publishedDate
-        ? convertDateTimeToUtc(planningApp.application.publishedDate)
-        : "",
-      submittedAt: convertDateTimeToUtc(planningApp.application.receivedDate),
+      publishedAt: planningApp?.application?.publishedDate,
+      submittedAt: planningApp.application.receivedDate,
       schema:
-        "https://https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
+        "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
     },
   };
 
