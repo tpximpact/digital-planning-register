@@ -17,7 +17,11 @@
 
 "use server";
 
-import { ApiResponse, DprCommentSubmission } from "@/types";
+import {
+  ApiResponse,
+  DprApplicationPostCommentApiResponse,
+  DprCommentSubmission,
+} from "@/types";
 import {
   BopsV1PlanningApplicationsNeighbourResponse,
   BopsV2PlanningApplicationDetail,
@@ -38,7 +42,7 @@ export async function postComment(
   council: string,
   reference: string,
   apiData: DprCommentSubmission,
-): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
+): Promise<ApiResponse<DprApplicationPostCommentApiResponse | null>> {
   const appConfig = getAppConfig(council);
   let applicationId = undefined;
 
@@ -65,6 +69,12 @@ export async function postComment(
   const postRequest = await handleBopsPostRequest<
     ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>
   >(council, url, apiData, true);
+
+  if (postRequest.status.code !== 200) {
+    return apiReturnError(
+      postRequest.status.detail || "Failed to post comment",
+    );
+  }
 
   return postRequest;
 }
