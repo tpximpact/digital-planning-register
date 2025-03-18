@@ -17,8 +17,11 @@
 
 "use server";
 
-import { ApiResponse, DprCommentSubmission } from "@/types";
-import { BopsV1PlanningApplicationsNeighbourResponse } from "@/handlers/bops/types";
+import {
+  ApiResponse,
+  DprApplicationPostCommentApiResponse,
+  // DprCommentSubmission,
+} from "@/types";
 
 /**
  * @todo this needs to be made more Dpr specific
@@ -30,7 +33,7 @@ const responseQuery = (
   council: string,
   applicationId: number,
   error: boolean,
-): ApiResponse<BopsV1PlanningApplicationsNeighbourResponse> => {
+): ApiResponse<DprApplicationPostCommentApiResponse> => {
   if (error) {
     return {
       data: null,
@@ -58,9 +61,9 @@ const responseQuery = (
 export const postComment = (
   council: string,
   applicationId: number,
-  apiData: DprCommentSubmission,
-): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> => {
-  console.log("apiData", apiData);
+  // apiData: DprCommentSubmission,
+): Promise<ApiResponse<DprApplicationPostCommentApiResponse | null>> => {
+  // console.log("apiData", apiData);
   const error = false;
   // uncomment for testing
   // error = true;
