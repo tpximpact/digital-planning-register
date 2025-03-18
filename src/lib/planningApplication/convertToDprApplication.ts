@@ -56,7 +56,7 @@ function determineStage(app: DprPlanningApplication): ProcessStage {
   if (app.data.appeal) {
     return "appeal";
   }
-  if (!app.application.validDate) {
+  if (!app.application.validAt) {
     return "submission";
   }
   if (
@@ -148,7 +148,7 @@ function mapLocalPlanningAuthoritySection(app: DprPlanningApplication) {
  */
 function mapSubmissionSection(app: DprPlanningApplication) {
   return {
-    submittedAt: app.application.receivedDate,
+    submittedAt: app.application.receivedAt,
   };
 }
 
@@ -157,8 +157,8 @@ function mapSubmissionSection(app: DprPlanningApplication) {
  */
 function mapValidationSection(app: DprPlanningApplication) {
   return {
-    receivedAt: app.application.receivedDate,
-    validatedAt: app.application.validDate ?? undefined,
+    receivedAt: app.application.receivedAt,
+    validatedAt: app.application.validAt ?? undefined,
     isValid: true,
   };
 }
@@ -287,8 +287,8 @@ export function convertToDprApplication(
     metadata: {
       organisation: "BOPS",
       id: planningApp.application.reference,
-      publishedAt: planningApp?.application?.publishedDate,
-      submittedAt: planningApp.application.receivedDate,
+      publishedAt: planningApp?.application?.publishedAt,
+      submittedAt: planningApp.application.receivedAt,
       schema:
         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
     },
