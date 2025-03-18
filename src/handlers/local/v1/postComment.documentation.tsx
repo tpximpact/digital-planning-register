@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, DprCommentSubmission } from "@/types";
 import { postComment } from "./postComment";
 
 export const documentation: Documentation = {
@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/local/v1/postComment.ts`,
   description: "postComment",
   arguments: ["council", "applicationId"],
-  run: async (args: [string, number]) => {
+  run: async (args: [string, number, DprCommentSubmission]) => {
     return await postComment(...args);
   },
 };

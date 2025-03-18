@@ -17,7 +17,7 @@
 
 "use server";
 
-import { ApiResponse } from "@/types";
+import { ApiResponse, DprCommentSubmission } from "@/types";
 import { BopsV1PlanningApplicationsNeighbourResponse } from "@/handlers/bops/types";
 
 /**
@@ -58,9 +58,9 @@ const responseQuery = (
 export const postComment = (
   council: string,
   applicationId: number,
-  // apiData: object,
+  apiData: DprCommentSubmission,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> => {
-  // console.log("apiData", apiData);
+  console.log("apiData", apiData);
   const error = false;
   // uncomment for testing
   // error = true;

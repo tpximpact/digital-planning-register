@@ -26,6 +26,9 @@ import { Details } from "../govukDpr/Details";
 import { TextButton } from "../TextButton";
 import { sentiment_options } from "@/lib/comments";
 import { PersonalDetails } from "../comment_personal_details";
+import { DprCommentSubmission } from "@/types";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
 
 const topics_selection = [
   {
@@ -151,7 +154,7 @@ const CommentCheckAnswer = ({
       return false;
     }
 
-    const apiData = {
+    const apiData: DprCommentSubmission = {
       name: personalDetails.name,
       email: personalDetails.emailAddress,
       address: `${personalDetails.address}, ${personalDetails.postcode}`,
@@ -163,8 +166,8 @@ const CommentCheckAnswer = ({
           return `* ${topicLabel}: ${comment} `;
         })
         .join(" "),
-      summary_tag: sentiment,
-      tags: selectedTopics,
+      summary_tag: sentiment as CommentSentiment,
+      tags: selectedTopics as CommentTopic[],
     };
 
     try {
