@@ -17,7 +17,7 @@
 
 "use server";
 
-import { ApiResponse } from "@/types";
+import { ApiResponse, DprCommentSubmission } from "@/types";
 import {
   BopsV1PlanningApplicationsNeighbourResponse,
   BopsV2PlanningApplicationDetail,
@@ -37,7 +37,7 @@ import { getAppConfig } from "@/config";
 export async function postComment(
   council: string,
   reference: string,
-  apiData: object,
+  apiData: DprCommentSubmission,
 ): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
   const appConfig = getAppConfig(council);
   let applicationId = undefined;
