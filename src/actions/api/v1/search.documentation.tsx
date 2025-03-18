@@ -27,7 +27,6 @@ export const documentation: Documentation = {
       page: args[2],
       resultsPerPage: args[3],
       query: args[4],
-      type: "dsn",
     };
     return await search(args[0], args[1], searchObj);
   },

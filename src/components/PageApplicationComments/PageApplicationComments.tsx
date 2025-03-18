@@ -20,7 +20,7 @@ import {
   DprCommentTypes,
   DprPagination,
   DprPlanningApplication,
-  SearchParams,
+  SearchParamsComments,
 } from "@/types";
 import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
@@ -42,7 +42,7 @@ export interface PageApplicationCommentsProps {
   };
   type: DprCommentTypes;
   pagination?: DprPagination;
-  searchParams?: SearchParams;
+  searchParams?: SearchParamsComments;
 }
 
 export const PageApplicationComments = ({
