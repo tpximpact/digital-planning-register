@@ -141,7 +141,6 @@ export type DprStatusSummary =
   | "Appeal validated"
   | "Appeal in progress"
   | "Appeal decided"
-  | "Appeal withdrawn"
   | "Unknown";
 
 /**

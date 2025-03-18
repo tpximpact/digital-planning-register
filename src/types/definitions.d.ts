@@ -25,12 +25,12 @@
  * DprBoundaryGeojson - the messy data bit that describes the boundary of a planning application
  */
 
-import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appeal";
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
-// import { DprStatusSummary, DprDecisionSummary } from "@/types";
+import { DprStatusSummary, DprDecisionSummary } from "@/types";
+import { PrototypeApplication } from "./odp-types/schemas/prototypeApplication";
 
 /**
  *
@@ -40,7 +40,8 @@ import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmiss
  * the most important object, contains all the information about a planning application
  *
  * NB this will need to be changes to PublishedApplication when the redacted version is made
- * NB this doesn't exclude email address etc yet that will be done through the redacted application submission schema
+ * NB this currently excludes a lot of the submission data as DPR isn't using it and BOPS isn't
+ * currently providing it all in a valid format
  *
  *
  */
@@ -48,6 +49,16 @@ export type DprApplication = Omit<
   PostSubmissionApplication,
   "submission" | "comments"
 > & {
+  submission: {
+    data: {
+      applicant: PrototypeApplication["data"]["applicant"];
+      property: Pick<
+        PrototypeApplication["data"]["property"],
+        "address" | "boundary"
+      >;
+      proposal: PrototypeApplication["data"]["proposal"];
+    };
+  };
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;
 };
@@ -114,6 +125,10 @@ export interface DprPlanningApplication {
       consulteeComments: DprComment[] | null;
     };
     /**
+     * YYYY-MM-DD
+     */
+    expiryDate?: string | null;
+    /**
      * 2024-05-30T14:23:21.936Z
      * NB coverting to UTC in the converters
      */
@@ -135,23 +150,13 @@ export interface DprPlanningApplication {
     determinedAt?: string | null;
     decision?: string | null;
   };
-  property: {
-    address: {
-      singleLine: string;
-    };
-    boundary: {
-      site?: DprBoundaryGeojson;
-    };
-  };
-  proposal: {
-    description: string;
-  };
-  // allowing any here because this type will be replaced soon
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  applicant: Applicant<any>;
-  officer: {
-    name: string;
-  } | null;
+  property: Pick<
+    PostSubmissionApplication["data"]["property"],
+    "address" | "boundary"
+  >;
+  proposal: PostSubmissionApplication["data"]["proposal"];
+  applicant: PostSubmissionApplication["data"]["applicant"];
+  officer: PostSubmissionApplication["data"]["caseOfficer"];
 }
 
 /**
