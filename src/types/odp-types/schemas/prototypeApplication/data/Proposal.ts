@@ -1,17 +1,17 @@
-import { GeoBoundary } from "../../../shared/Boundaries";
-import { Materials } from "../../../shared/Materials";
-import { ProposedLondonParking } from "../../../shared/Parking";
-import { Area, Date, Integer } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../enums/ApplicationType";
-import { BuildingRegulation } from "../enums/BuildingRegulation";
-import { DevelopmentType } from "../enums/DevelopmentType";
-import { GLAHousingProvider } from "../enums/HousingProvider";
-import { OpenSpaceDesignation, OpenSpaceType } from "../enums/OpenSpace";
-import { ProjectType } from "../enums/ProjectType";
-import { ProtectedSpaceDesignation } from "../enums/ProtectedSpaceDesignation";
-import { GLAResidentialUnitType } from "../enums/ResidentialUnitType";
-import { GLATenureType } from "../enums/TenureType";
-import { ResidentialUnits } from "./shared";
+import {GeoBoundary} from '../../../shared/Boundaries';
+import {Materials} from '../../../shared/Materials';
+import {ProposedLondonParking} from '../../../shared/Parking';
+import {Area, Date, Integer} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../enums/ApplicationType';
+import {BuildingRegulation} from '../enums/BuildingRegulation';
+import {DevelopmentType} from '../enums/DevelopmentType';
+import {GLAHousingProvider} from '../enums/HousingProvider';
+import {OpenSpaceDesignation, OpenSpaceType} from '../enums/OpenSpace';
+import {ProjectType} from '../enums/ProjectType';
+import {ProtectedSpaceDesignation} from '../enums/ProtectedSpaceDesignation';
+import {GLAResidentialUnitType} from '../enums/ResidentialUnitType';
+import {GLATenureType} from '../enums/TenureType';
+import {ResidentialUnits} from './shared';
 
 export interface ProposalBase {
   description: string;
@@ -38,22 +38,22 @@ export interface EnglandProposal extends ProposalBase {
    */
   access?: {
     affected?:
-      | "vehicle"
-      | "pedestrian"
-      | "newRoad"
-      | "rightsOfWay.newPublic"
-      | "rightsOfWay.changes";
+      | 'vehicle'
+      | 'pedestrian'
+      | 'newRoad'
+      | 'rightsOfWay.newPublic'
+      | 'rightsOfWay.changes';
   };
   /**
    * @description Proposed utilities, if applicable to application.type
    */
   utilities?: {
     /** @description Type of proposed foul sewage disposal */
-    foulSewageDisposal?: "sewer" | "tank" | "plant" | "pit" | "other";
+    foulSewageDisposal?: 'sewer' | 'tank' | 'plant' | 'pit' | 'other';
     /** @description Count of new full fibre Internet connections */
     internet?: {
-      commercialUnits: { count: Integer };
-      residentialUnits: { count: Integer };
+      commercialUnits: {count: Integer};
+      residentialUnits: {count: Integer};
     };
     /** @description Whether the proposal introduces a fire suppression system */
     fire?: {
@@ -61,11 +61,11 @@ export interface EnglandProposal extends ProposalBase {
     };
     /** @description Count of new gas connections */
     gas?: {
-      connections: { count: Integer };
+      connections: {count: Integer};
     };
     /** @description Count of new water connections */
     water?: {
-      connections: { count: Integer };
+      connections: {count: Integer};
     };
   };
   /**
@@ -73,27 +73,27 @@ export interface EnglandProposal extends ProposalBase {
    */
   flood?: {
     surfaceWaterDisposal?:
-      | "drainageSystem"
-      | "soakaway"
-      | "sewer"
-      | "watercourse"
-      | "pondOrLake"
-      | "other";
+      | 'drainageSystem'
+      | 'soakaway'
+      | 'sewer'
+      | 'watercourse'
+      | 'pondOrLake'
+      | 'other';
   };
   /**
    * @description Details of biodiversity and geological conservation, if applicable to application.type
    */
   ecology?: {
-    speciesAffected?: "site" | "adjacent" | "none";
-    featuresAffected?: "site" | "adjacent" | "none";
-    conservationAffected?: "site" | "adjacent" | "none";
+    speciesAffected?: 'site' | 'adjacent' | 'none';
+    featuresAffected?: 'site' | 'adjacent' | 'none';
+    conservationAffected?: 'site' | 'adjacent' | 'none';
   };
   /**
    * @description Proposed land use, including storage of hazardous materials, if applicable to application.type
    */
   use?: {
     description?: string;
-    contamination?: "known" | "suspected" | "vulnerable";
+    contamination?: 'known' | 'suspected' | 'vulnerable';
     storage?: string[];
   };
   extend?: {
@@ -108,24 +108,24 @@ export interface EnglandProposal extends ProposalBase {
     };
   };
   newDwellings?: {
-    newBuild?: { count: Integer };
+    newBuild?: {count: Integer};
   };
   units?: ResidentialUnits;
   watercourse?: {
     name: string;
-    type: "ditch" | "millStream" | "pond" | "river" | "streamOrBrook" | "other";
+    type: 'ditch' | 'millStream' | 'pond' | 'river' | 'streamOrBrook' | 'other';
   };
   structures?: {
     type:
-      | "bridge"
-      | "catchpit"
-      | "culvert"
-      | "pipe"
-      | "gully"
-      | "headwall"
-      | "manhole"
-      | "weir"
-      | "other";
+      | 'bridge'
+      | 'catchpit'
+      | 'culvert'
+      | 'pipe'
+      | 'gully'
+      | 'headwall'
+      | 'manhole'
+      | 'weir'
+      | 'other';
     total: Integer;
     permanent?: {
       count: Integer;
@@ -140,7 +140,7 @@ export interface EnglandProposal extends ProposalBase {
 /**
  * @description Proposal details for project sites within the Greater London Authority (GLA) area
  */
-export interface LondonProposal extends Omit<EnglandProposal, "units"> {
+export interface LondonProposal extends Omit<EnglandProposal, 'units'> {
   schemeName?: string;
   parking?: ProposedLondonParking;
   /**
@@ -155,37 +155,37 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
    * @description Project cost in GBP
    */
   cost?: {
-    projected: "2m" | "2mTo100m" | "100m";
+    projected: '2m' | '2mTo100m' | '100m';
   };
   /**
    * @description Electric vehicle charing points
    */
   charging?: {
-    active?: { count: Integer };
-    passive?: { count: Integer };
+    active?: {count: Integer};
+    passive?: {count: Integer};
   };
   /**
    * @description Changes that result in the loss, gain, or change of use of natural spaces
    */
   nature?: {
     openSpaces?: {
-      impact: "loss" | "gain" | "change";
+      impact: 'loss' | 'gain' | 'change';
       description: string;
       type: OpenSpaceType;
       designation: OpenSpaceDesignation;
-      access: "restricted" | "unrestricted";
-      area: { hectares: number };
+      access: 'restricted' | 'unrestricted';
+      area: {hectares: number};
       /**
        * @description Whether the open space change involves a land swap
        */
       swap: boolean;
     }[];
     protectedSpaces?: {
-      impact: "loss" | "gain" | "change";
+      impact: 'loss' | 'gain' | 'change';
       description: string;
       designation: ProtectedSpaceDesignation;
-      access: "restricted" | "unrestricted";
-      area: { hectares: number };
+      access: 'restricted' | 'unrestricted';
+      area: {hectares: number};
     }[];
   };
   /**
@@ -195,7 +195,7 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
     /**
      * @description Internal residential water usage
      */
-    usage: { litresPerPersonPerDay: number };
+    usage: {litresPerPersonPerDay: number};
     /**
      * @description Whether the proposal includes rain water harvesting
      */
@@ -212,18 +212,18 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
     /**
      * @uniqueItems true
      */
-    type: Array<"communityOwned" | "heatPump" | "solar">;
+    type: Array<'communityOwned' | 'heatPump' | 'solar'>;
     communityOwned?: {
       /** @description Proposed total capacity of any on-site community-owned energy generation in megawatts (mW) */
-      capacity: { megawatts: number };
+      capacity: {megawatts: number};
     };
     heatPumps?: {
       /** @description Proposed total capacity of any heat pumps in megawatts (mV) */
-      capacity: { megawatts: number };
+      capacity: {megawatts: number};
     };
     solar?: {
       /** @description Proposed total capacity of any solar energy generation in megawatts (mV) */
-      capacity: { megawatts: number };
+      capacity: {megawatts: number};
     };
   };
   /**
@@ -242,7 +242,7 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
    * @description Waste management of demolition and construction materials
    */
   waste?: {
-    reuseRecycle: { percent: number };
+    reuseRecycle: {percent: number};
   };
   units?: {
     residential: {
@@ -260,7 +260,7 @@ export interface LondonProposal extends Omit<EnglandProposal, "units"> {
 export interface NewBuildingsOrStoreys {
   count: Integer;
   buildings?: {
-    height: { metres: number };
+    height: {metres: number};
     storeys: Integer;
   }[];
 }
@@ -294,10 +294,26 @@ interface GLAGainedUnit extends GLALostUnit {
   garden: boolean;
 }
 
-export type HedgerowRemovalNoticeProposal = Pick<ProposalBase, "boundary"> & {
+export type HedgerowRemovalNoticeProposal = Pick<ProposalBase, 'boundary'> & {
   reason: string;
-  hedgerowLength: { metres: number };
+  hedgerowLength: {metres: number};
   hedgerowAgeLessThanThirty: boolean;
+};
+
+export type AdvertConsentProposal = Pick<ProposalBase, 'boundary'> & {
+  date: ProposalDates;
+  advertType: string;
+  communityConsultation: boolean;
+  advertisementDetails: {
+    other: Integer;
+    fascia: Integer;
+    hoarding: Integer;
+    projecting: Integer;
+  };
+  otherAdvertisements: boolean;
+  existingAdvertRemovedOrReplaced: boolean;
+  highwayProjection: boolean;
+  visibility: {public: boolean};
 };
 
 /**
@@ -310,6 +326,7 @@ type ProposalVariants = {
   listed: GeographyBasedProposal;
   landDrainageConsent: GeographyBasedProposal;
   hedgerowRemovalNotice: HedgerowRemovalNoticeProposal;
+  advertConsent: AdvertConsentProposal;
 };
 
 /**

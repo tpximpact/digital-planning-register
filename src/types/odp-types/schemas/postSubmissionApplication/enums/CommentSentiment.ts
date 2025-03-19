@@ -1,17 +1,17 @@
 /**
  * @description Objection comment
  */
-type Objection = "objection";
+type Objection = 'objection';
 
 /**
  * @description Neutral comment
  */
-type Neutral = "neutral";
+type Neutral = 'neutral';
 
 /**
  * @description Supportive comment
  */
-type Supportive = "supportive";
+type Supportive = 'supportive';
 
 /**
  * @id #CommentSentiment
@@ -22,12 +22,12 @@ export type CommentSentiment = Objection | Neutral | Supportive;
 /**
  * @description Accepted, subject to conditions
  */
-type AcceptedConditions = "Accepted, subject to conditions";
+type AcceptedConditions = 'Accepted, subject to conditions';
 
 /**
  * @description Accepted
  */
-type Accepted = "Accepted";
+type Accepted = 'Accepted';
 
 /**
  * @id #SpecialistCommentSentiment

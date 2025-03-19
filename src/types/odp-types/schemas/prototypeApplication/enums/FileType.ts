@@ -1,509 +1,514 @@
 /**
  * @description Details of impact on access, roads, and rights of way
  */
-type AccessRoadsRightsOfWayDetails = "accessRoadsRightsOfWayDetails";
+type AccessRoadsRightsOfWayDetails = 'accessRoadsRightsOfWayDetails';
+
+/**
+ * @description Drawings for advertisement consent
+ */
+type AdvertsDrawings = 'advertsDrawings';
 
 /**
  * @description Affordable housing statement
  */
-type AffordableHousingStatement = "affordableHousingStatement";
+type AffordableHousingStatement = 'affordableHousingStatement';
 
 /**
  * @description Arboriculturist report
  */
-type ArboriculturistReport = "arboriculturistReport";
+type ArboriculturistReport = 'arboriculturistReport';
 
 /**
  * @description Bank statement
  */
-type BankStatement = "bankStatement";
+type BankStatement = 'bankStatement';
 
 /**
  * @description Basement impact statement
  */
-type BasementImpactStatement = "basementImpactStatement";
+type BasementImpactStatement = 'basementImpactStatement';
 
 /**
  * @description Bio-aerosol assessment
  */
-type BioaerosolAssessment = "bioaerosolAssessment";
+type BioaerosolAssessment = 'bioaerosolAssessment';
 
 /**
  * @description Birdstrike risk management plan
  */
-type BirdstrikeRiskManagementPlan = "birdstrikeRiskManagementPlan";
+type BirdstrikeRiskManagementPlan = 'birdstrikeRiskManagementPlan';
 
 /**
  * @description Borehole or trial pit analysis
  */
-type BoreholeOrTrialPitAnalysis = "boreholeOrTrialPitAnalysis";
+type BoreholeOrTrialPitAnalysis = 'boreholeOrTrialPitAnalysis';
 
 /**
  * @description Building control certificate
  */
-type BuildingControlCertificate = "buildingControlCertificate";
+type BuildingControlCertificate = 'buildingControlCertificate';
 
 /**
  * @description Structural or building condition survey
  */
-type ConditionSurvey = "conditionSurvey";
+type ConditionSurvey = 'conditionSurvey';
 
 /**
  * @description Construction invoice
  */
-type ConstructionInvoice = "constructionInvoice";
+type ConstructionInvoice = 'constructionInvoice';
 
 /**
  * @description Contamination report
  */
-type ContaminationReport = "contaminationReport";
+type ContaminationReport = 'contaminationReport';
 
 /**
  * @description Council tax bill
  */
-type CouncilTaxBill = "councilTaxBill";
+type CouncilTaxBill = 'councilTaxBill';
 
 /**
  * @description Crime prevention strategy
  */
-type CrimePreventionStrategy = "crimePreventionStrategy";
+type CrimePreventionStrategy = 'crimePreventionStrategy';
 
 /**
  * @description Design and Access Statement
  */
-type DesignAndAccessStatement = "designAndAccessStatement";
+type DesignAndAccessStatement = 'designAndAccessStatement';
 
 /**
  * @description Evidence for application fee exemption - disability
  */
-type DisabilityExemptionEvidence = "disabilityExemptionEvidence";
+type DisabilityExemptionEvidence = 'disabilityExemptionEvidence';
 
 /**
  * @description Ecology report
  */
-type EcologyReport = "ecologyReport";
+type EcologyReport = 'ecologyReport';
 
 /**
  * @description Elevations - existing
  */
-type ElevationsExisting = "elevations.existing";
+type ElevationsExisting = 'elevations.existing';
 
 /**
  * @description Elevations - proposed
  */
-type ElevationsProposed = "elevations.proposed";
+type ElevationsProposed = 'elevations.proposed';
 
 /**
  * @description Scheme for mitigation and monitoring of emissions (dust, odour and vibrations)
  */
 type EmissionsMitigationAndMonitoringScheme =
-  "emissionsMitigationAndMonitoringScheme";
+  'emissionsMitigationAndMonitoringScheme';
 
 /**
  * @description Energy statement
  */
-type EnergyStatement = "energyStatement";
+type EnergyStatement = 'energyStatement';
 
 /**
  * @description Environmental Impact Assessment (EIA)
  */
-type EnvironmentalImpactAssessment = "environmentalImpactAssessment";
+type EnvironmentalImpactAssessment = 'environmentalImpactAssessment';
 
 /**
  * @description External materials details
  */
-type ExternalMaterialsDetails = "externalMaterialsDetails";
+type ExternalMaterialsDetails = 'externalMaterialsDetails';
 
 /**
  * @description Fire safety report
  */
-type FireSafetyReport = "fireSafetyReport";
+type FireSafetyReport = 'fireSafetyReport';
 
 /**
  * @description Flood risk assessment (FRA)
  */
-type FloodRiskAssessment = "floodRiskAssessment";
+type FloodRiskAssessment = 'floodRiskAssessment';
 
 /**
  * @description Floor plan - existing
  */
-type FloorPlanExisting = "floorPlan.existing";
+type FloorPlanExisting = 'floorPlan.existing';
 
 /**
  * @description Floor plan - proposed
  */
-type FloorPlanProposed = "floorPlan.proposed";
+type FloorPlanProposed = 'floorPlan.proposed';
 
 /**
  * @description Foul drainage assessment
  */
-type FoulDrainageAssessment = "foulDrainageAssessment";
+type FoulDrainageAssessment = 'foulDrainageAssessment';
 
 /**
  * @description Geodiversity assessment
  */
-type GeodiversityAssessment = "geodiversityAssessment";
+type GeodiversityAssessment = 'geodiversityAssessment';
 
 /**
  * @description Plans showing the stretches of hedgerows to be removed
  */
-type HedgerowsInformation = "hedgerowsInformation";
+type HedgerowsInformation = 'hedgerowsInformation';
 
 /**
  * @description Evidence of the date of planting of the removed hedgerows
  */
-type HedgerowsInformationPlantingDate = "hedgerowsInformation.plantingDate";
+type HedgerowsInformationPlantingDate = 'hedgerowsInformation.plantingDate';
 
 /**
  * @description Heritage Statement
  */
-type HeritageStatement = "heritageStatement";
+type HeritageStatement = 'heritageStatement';
 
 /**
  * @description Hydrological and hydrogeological assessment
  */
-type HydrologicalAssessment = "hydrologicalAssessment";
+type HydrologicalAssessment = 'hydrologicalAssessment';
 
 /**
  * @description Hydrology report
  */
-type HydrologyReport = "hydrologyReport";
+type HydrologyReport = 'hydrologyReport';
 
 /**
  * @description Internal elevations
  */
-type InternalElevations = "internalElevations";
+type InternalElevations = 'internalElevations';
 
 /**
  * @description Internal sections
  */
-type InternalSections = "internalSections";
+type InternalSections = 'internalSections';
 
 /**
  * @description Joiner's report
  */
-type JoinersReport = "joinersReport";
+type JoinersReport = 'joinersReport';
 
 /**
  * @description Joinery section report
  */
-type JoinerySections = "joinerySections";
+type JoinerySections = 'joinerySections';
 
 /**
  * @description Land contamination assessment
  */
-type LandContaminationAssessment = "landContaminationAssessment";
+type LandContaminationAssessment = 'landContaminationAssessment';
 
 /**
  * @description Landscape and visual impact assessment (LVIA)
  */
-type LandscapeAndVisualImpactAssessment = "landscapeAndVisualImpactAssessment";
+type LandscapeAndVisualImpactAssessment = 'landscapeAndVisualImpactAssessment';
 
 /**
  * @description Landscape strategy or landscape plan
  */
-type LandscapeStrategy = "landscapeStrategy";
+type LandscapeStrategy = 'landscapeStrategy';
 
 /**
  * @description Lighting assessment
  */
-type LightingAssessment = "lightingAssessment";
+type LightingAssessment = 'lightingAssessment';
 
 /**
  * @description Details of litter, vermin and bird control
  */
-type LitterVerminAndBirdControlDetails = "litterVerminAndBirdControlDetails";
+type LitterVerminAndBirdControlDetails = 'litterVerminAndBirdControlDetails';
 
 /**
  * @description Location plan
  */
-type LocationPlan = "locationPlan";
+type LocationPlan = 'locationPlan';
 
 /**
  * @description Method statement
  */
-type MethodStatement = "methodStatement";
+type MethodStatement = 'methodStatement';
 
 /**
  * @description Minerals and waste assessment
  */
-type MineralsAndWasteAssessment = "mineralsAndWasteAssessment";
+type MineralsAndWasteAssessment = 'mineralsAndWasteAssessment';
 
 /**
  * @description Information the authority considers necessary for the application
  */
-type NecessaryInformation = "necessaryInformation";
+type NecessaryInformation = 'necessaryInformation';
 
 /**
  * @description New dwellings schedule
  */
-type NewDwellingsSchedule = "newDwellingsSchedule";
+type NewDwellingsSchedule = 'newDwellingsSchedule';
 
 /**
  * @description Noise assessment
  */
-type NoiseAssessment = "noiseAssessment";
+type NoiseAssessment = 'noiseAssessment';
 
 /**
  * @description Open space assessment
  */
-type OpenSpaceAssessment = "openSpaceAssessment";
+type OpenSpaceAssessment = 'openSpaceAssessment';
 
 /**
  * @description Other - document
  */
-type OtherDocument = "otherDocument";
+type OtherDocument = 'otherDocument';
 
 /**
  * @description Other - drawing
  */
-type OtherDrawing = "otherDrawing";
+type OtherDrawing = 'otherDrawing';
 
 /**
  * @description Other - evidence or correspondence
  */
-type OtherEvidence = "otherEvidence";
+type OtherEvidence = 'otherEvidence';
 
 /**
  * @description Other - supporting document
  */
-type OtherSupporting = "otherSupporting";
+type OtherSupporting = 'otherSupporting';
 
 /**
  * @description Parking plan
  */
-type ParkingPlan = "parkingPlan";
+type ParkingPlan = 'parkingPlan';
 
 /**
  * @description Photographs - existing
  */
-type PhotographsExisting = "photographs.existing";
+type PhotographsExisting = 'photographs.existing';
 
 /**
  * @description Photographs - proposed
  */
-type PhotographsProposed = "photographs.proposed";
+type PhotographsProposed = 'photographs.proposed';
 
 /**
  * @description Planning statement
  */
-type PlanningStatement = "planningStatement";
+type PlanningStatement = 'planningStatement';
 
 /**
  * @description Recyclable waste storage details
  */
-type RecycleWasteStorageDetails = "recycleWasteStorageDetails";
+type RecycleWasteStorageDetails = 'recycleWasteStorageDetails';
 
 /**
  * @description Information the applicant considers relevant to the application
  */
-type RelevantInformation = "relevantInformation";
+type RelevantInformation = 'relevantInformation';
 
 /**
  * @description Residential units details
  */
-type ResidentialUnitsDetails = "residentialUnitsDetails";
+type ResidentialUnitsDetails = 'residentialUnitsDetails';
 
 /**
  * @description Roof plan - existing
  */
-type RoofPlanExisting = "roofPlan.existing";
+type RoofPlanExisting = 'roofPlan.existing';
 
 /**
  * @description Roof plan - proposed
  */
-type RoofPlanProposed = "roofPlan.proposed";
+type RoofPlanProposed = 'roofPlan.proposed';
 
 /**
  * @description Sections - existing
  */
-type SectionsExisting = "sections.existing";
+type SectionsExisting = 'sections.existing';
 
 /**
  * @description Sections - proposed
  */
-type SectionsProposed = "sections.proposed";
+type SectionsProposed = 'sections.proposed';
 
 /**
  * @description Site plan - existing
  */
-type SitePlanExisting = "sitePlan.existing";
+type SitePlanExisting = 'sitePlan.existing';
 
 /**
  * @description Site plan - proposed
  */
-type SitePlanProposed = "sitePlan.proposed";
+type SitePlanProposed = 'sitePlan.proposed';
 
 /**
  * @description Sketch plan
  */
-type SketchPlan = "sketchPlan";
+type SketchPlan = 'sketchPlan';
 
 /**
  * @description Statement of community involvement
  */
-type StatementOfCommunityInvolvement = "statementOfCommunityInvolvement";
+type StatementOfCommunityInvolvement = 'statementOfCommunityInvolvement';
 
 /**
  * @description Statutory declaration
  */
-type StatutoryDeclaration = "statutoryDeclaration";
+type StatutoryDeclaration = 'statutoryDeclaration';
 
 /**
  * @description Details of storage treatment or disposal of waste
  */
 type StorageTreatmentAndWasteDisposalDetails =
-  "storageTreatmentAndWasteDisposalDetails";
+  'storageTreatmentAndWasteDisposalDetails';
 
 /**
  * @description Street scene drawing
  */
-type StreetScene = "streetScene";
+type StreetScene = 'streetScene';
 
 /**
  * @description Subsidence report
  */
-type SubsidenceReport = "subsidenceReport";
+type SubsidenceReport = 'subsidenceReport';
 
 /**
  * @description Sunlight and daylight report
  */
-type SunlightAndDaylightReport = "sunlightAndDaylightReport";
+type SunlightAndDaylightReport = 'sunlightAndDaylightReport';
 
 /**
  * @description Sustainability statement
  */
-type SustainabilityStatement = "sustainabilityStatement";
+type SustainabilityStatement = 'sustainabilityStatement';
 
 /**
  * @description Technical evidence
  */
-type TechnicalEvidence = "technicalEvidence";
+type TechnicalEvidence = 'technicalEvidence';
 
 /**
  * @description Technical specification
  */
-type TechnicalSpecification = "technicalSpecification";
+type TechnicalSpecification = 'technicalSpecification';
 
 /**
  * @description Tenancy agreement
  */
-type TenancyAgreement = "tenancyAgreement";
+type TenancyAgreement = 'tenancyAgreement';
 
 /**
  * @description Tenancy invoice
  */
-type TenancyInvoice = "tenancyInvoice";
+type TenancyInvoice = 'tenancyInvoice';
 
 /**
  * @description Town centre uses - Impact assessment
  */
-type TownCentreImpactAssessment = "townCentreImpactAssessment";
+type TownCentreImpactAssessment = 'townCentreImpactAssessment';
 
 /**
  * @description Town centre uses - Sequential assessment
  */
-type TownCentreSequentialAssessment = "townCentreSequentialAssessment";
+type TownCentreSequentialAssessment = 'townCentreSequentialAssessment';
 
 /**
  * @description Transport assessment
  */
-type TransportAssessment = "transportAssessment";
+type TransportAssessment = 'transportAssessment';
 
 /**
  * @description Travel plan
  */
-type TravelPlan = "travelPlan";
+type TravelPlan = 'travelPlan';
 
 /**
  * @description Location of trees and hedges
  */
-type TreeAndHedgeLocation = "treeAndHedgeLocation";
+type TreeAndHedgeLocation = 'treeAndHedgeLocation';
 
 /**
  * @description Removed or pruned trees and hedges
  */
-type TreeAndHedgeRemovedOrPruned = "treeAndHedgeRemovedOrPruned";
+type TreeAndHedgeRemovedOrPruned = 'treeAndHedgeRemovedOrPruned';
 
 /**
  * @description Tree canopy calculator
  */
-type TreeCanopyCalculator = "treeCanopyCalculator";
+type TreeCanopyCalculator = 'treeCanopyCalculator';
 
 /**
  * @description Tree condition report
  */
-type TreeConditionReport = "treeConditionReport";
+type TreeConditionReport = 'treeConditionReport';
 
 /**
  * @description Trees report
  */
-type TreesReport = "treesReport";
+type TreesReport = 'treesReport';
 
 /**
  * @description Tree survey
  */
-type TreeSurvey = "treeSurvey";
+type TreeSurvey = 'treeSurvey';
 
 /**
  * @description Unit plan - existing
  */
-type UnitPlanExisting = "unitPlan.existing";
+type UnitPlanExisting = 'unitPlan.existing';
 
 /**
  * @description Unit plan - proposed
  */
-type UnitPlanProposed = "unitPlan.proposed";
+type UnitPlanProposed = 'unitPlan.proposed';
 
 /**
  * @description Use plan - existing
  */
-type UsePlanExisting = "usePlan.existing";
+type UsePlanExisting = 'usePlan.existing';
 
 /**
  * @description Use plan - proposed
  */
-type UsePlanProposed = "usePlan.proposed";
+type UsePlanProposed = 'usePlan.proposed';
 
 /**
  * @description Utility bill
  */
-type UtilityBill = "utilityBill";
+type UtilityBill = 'utilityBill';
 
 /**
  * @description Utilities statement
  */
-type UtilitiesStatement = "utilitiesStatement";
+type UtilitiesStatement = 'utilitiesStatement';
 
 /**
  * @description Ventilation or extraction statement
  */
-type VentilationStatement = "ventilationStatement";
+type VentilationStatement = 'ventilationStatement';
 
 /**
  * @description Viability Appraisal
  */
-type ViabilityAppraisal = "viabilityAppraisal";
+type ViabilityAppraisal = 'viabilityAppraisal';
 
 /**
  * @description Visualisations
  */
-type Visualisations = "visualisations";
+type Visualisations = 'visualisations';
 
 /**
  * @description Waste and recycling strategy
  */
-type WasteAndRecyclingStrategy = "wasteAndRecyclingStrategy";
+type WasteAndRecyclingStrategy = 'wasteAndRecyclingStrategy';
 
 /**
  * @description Waste storage details
  */
-type WasteStorageDetails = "wasteStorageDetails";
+type WasteStorageDetails = 'wasteStorageDetails';
 
 /**
  * @description Water environment assessment
  */
-type WaterEnvironmentAssessment = "waterEnvironmentAssessment";
+type WaterEnvironmentAssessment = 'waterEnvironmentAssessment';
 
 // @todo rename exported type when PrototypeApplication replaces Application
 /**
@@ -512,6 +517,7 @@ type WaterEnvironmentAssessment = "waterEnvironmentAssessment";
  */
 export type PrototypeFileType =
   | AccessRoadsRightsOfWayDetails
+  | AdvertsDrawings
   | AffordableHousingStatement
   | ArboriculturistReport
   | BankStatement

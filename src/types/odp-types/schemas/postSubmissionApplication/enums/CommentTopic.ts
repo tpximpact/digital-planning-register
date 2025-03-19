@@ -1,42 +1,42 @@
 /**
  * @description Comment on the design, size or height of new buildings or extensions
  */
-type Design = "design";
+type Design = 'design';
 
 /**
  * @description Comment on the use and function of the proposed development
  */
-type Use = "use";
+type Use = 'use';
 
 /**
  * @description Comment on impacts on natural light
  */
-type Light = "light";
+type Light = 'light';
 
 /**
  * @description Comment on impacts to the privacy of neighbours
  */
-type Privacy = "privacy";
+type Privacy = 'privacy';
 
 /**
  * @description Comment on impacts on disabled persons' access
  */
-type Access = "access";
+type Access = 'access';
 
 /**
  * @description Comment on any noise from new uses
  */
-type Noise = "noise";
+type Noise = 'noise';
 
 /**
  * @description Comment on impacts to traffic, parking or road safety
  */
-type Traffic = "traffic";
+type Traffic = 'traffic';
 
 /**
  * @description Comment on other things
  */
-type Other = "other";
+type Other = 'other';
 
 /**
  * @id #CommentTopic

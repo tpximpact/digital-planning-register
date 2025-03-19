@@ -1,5 +1,5 @@
-import { DateTime } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
+import {DateTime} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
 
 type ValidationBase = {
   /**

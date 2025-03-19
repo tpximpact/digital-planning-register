@@ -1,62 +1,62 @@
 /**
  * @description B2 - General industry
  */
-type BTwo = "bTwo";
+type BTwo = 'bTwo';
 
 /**
  * @description B8 - Storage and distribution
  */
-type BEight = "bEight";
+type BEight = 'bEight';
 
 /**
  * @description C1 - Hotels
  */
-type COne = "cOne";
+type COne = 'cOne';
 
 /**
  * @description C2 - Residential institutions
  */
-type CTwo = "cTwo";
+type CTwo = 'cTwo';
 
 /**
  * @description C2a - Secure residential institutions
  */
-type CTwoA = "cTwoA";
+type CTwoA = 'cTwoA';
 
 /**
  * @description C3 - Dwellinghouses
  */
-type CThree = "cThree";
+type CThree = 'cThree';
 
 /**
  * @description C4 - Houses in multiple occupation (HMOs)
  */
-type CFour = "cFour";
+type CFour = 'cFour';
 
 /**
  * @description E - Commercial, business and service
  */
-type E = "e";
+type E = 'e';
 
 /**
  * @description F1 - Learning and non-residential institutions
  */
-type FOne = "fOne";
+type FOne = 'fOne';
 
 /**
  * @description F2 - Local community uses
  */
-type FTwo = "fTwo";
+type FTwo = 'fTwo';
 
 /**
  * @description Sui generis
  */
-type SG = "SG";
+type SG = 'SG';
 
 /**
  * @description Not known
  */
-type Unknown = "unknown";
+type Unknown = 'unknown';
 
 /**
  * @id #GLAUseClass

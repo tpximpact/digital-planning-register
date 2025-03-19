@@ -1,5 +1,5 @@
-import { Date } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
+import {Date} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
 
 type ConsultationBase = {
   /**

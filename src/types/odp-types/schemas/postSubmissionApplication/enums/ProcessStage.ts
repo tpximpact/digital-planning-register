@@ -1,33 +1,33 @@
 /**
  * @description Submission
  */
-type submission = "submission";
+type submission = 'submission';
 
 /**
  * @description Validation
  */
-type validation = "validation";
+type validation = 'validation';
 
 /**
  * @description Consultation
  */
-type consultation = "consultation";
+type consultation = 'consultation';
 
 /**
  * @description Assessment
  * An application is in the assessment stage regardless of a decision being made
  */
-type assessment = "assessment";
+type assessment = 'assessment';
 
 /**
  * @description Appeal
  */
-type appeal = "appeal";
+type appeal = 'appeal';
 
 /**
  * @description High court appeal
  */
-type highCourtAppeal = "highCourtAppeal";
+type highCourtAppeal = 'highCourtAppeal';
 
 /**
  * @id #ProcessStage

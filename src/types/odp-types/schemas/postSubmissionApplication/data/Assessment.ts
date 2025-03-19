@@ -1,6 +1,6 @@
-import { Date } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
-import { AssessmentDecision } from "../enums/AssessmentDecision";
+import {Date} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
+import {AssessmentDecision} from '../enums/AssessmentDecision';
 
 /**
  * Council decision is planningOfficerDecision || committeeDecision

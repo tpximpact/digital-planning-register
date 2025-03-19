@@ -29,7 +29,7 @@ export interface SiteAddress {
  * @description Address information for sites without a known Unique Property Reference Number (UPRN)
  */
 export interface ProposedAddress extends SiteAddress {
-  source: "Proposed by applicant";
+  source: 'Proposed by applicant';
 }
 
 /**
@@ -72,7 +72,7 @@ export interface OSAddress extends SiteAddress {
   postcode: string;
   organisation?: string;
   singleLine: string;
-  source: "Ordnance Survey";
+  source: 'Ordnance Survey';
 }
 
 /**
@@ -92,7 +92,7 @@ export interface Address {
  * @title User address
  * @description Address information for the applicant
  */
-export type UserAddress = { sameAsSiteAddress: true } | UserAddressNotSameSite;
+export type UserAddress = {sameAsSiteAddress: true} | UserAddressNotSameSite;
 
 /**
  * @description Address information for an applicant with contact information that differs from the site address

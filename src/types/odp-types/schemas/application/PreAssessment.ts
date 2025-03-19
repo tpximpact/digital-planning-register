@@ -1,4 +1,4 @@
-import { ResultFlag } from "./enums/Flags";
+import {ResultFlag} from './enums/Flags';
 
 /**
  * @id #PreAssessment

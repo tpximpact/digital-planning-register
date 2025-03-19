@@ -1,4 +1,4 @@
-import { FileType } from "./enums/FileTypes";
+import {FileType} from './enums/FileTypes';
 
 /**
  * @id #File

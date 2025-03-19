@@ -1,37 +1,37 @@
 /**
  * @description Change of use
  */
-type ChangeOfUse = "changeOfUse";
+type ChangeOfUse = 'changeOfUse';
 
 /**
  * @description Change of use of an existing single home
  */
-type ChangeOfUseFrom = "changeOfUseFrom";
+type ChangeOfUseFrom = 'changeOfUseFrom';
 
 /**
  * @description Change of use to a home
  */
-type ChangeOfUseTo = "changeOfUseTo";
+type ChangeOfUseTo = 'changeOfUseTo';
 
 /**
  * @description Conversion
  */
-type Conversion = "conversion";
+type Conversion = 'conversion';
 
 /**
  * @description Extension
  */
-type Extension = "extension";
+type Extension = 'extension';
 
 /**
  * @description New build
  */
-type NewBuild = "newBuild";
+type NewBuild = 'newBuild';
 
 /**
  * @description Not known
  */
-type NotKnown = "notKnown";
+type NotKnown = 'notKnown';
 
 /**
  * @id #DevelopmentType

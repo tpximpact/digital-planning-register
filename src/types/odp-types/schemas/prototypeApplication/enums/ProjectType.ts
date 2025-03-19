@@ -1,1502 +1,1502 @@
 /**
  * @description Alter a building
  */
-type Alter = "alter";
+type Alter = 'alter';
 
 /**
  * @description Add or alter a balcony
  */
-type AlterBalcony = "alter.balcony";
+type AlterBalcony = 'alter.balcony';
 
 /**
  * @description Add or remove a bay window
  */
-type AlterBayWindow = "alter.bayWindow";
+type AlterBayWindow = 'alter.bayWindow';
 
 /**
  * @description Add a bay window
  */
-type AlterBayWindowAdd = "alter.bayWindow.add";
+type AlterBayWindowAdd = 'alter.bayWindow.add';
 
 /**
  * @description Add a bay window to the rear of the building
  */
-type AlterBayWindowRear = "alter.bayWindow.rear";
+type AlterBayWindowRear = 'alter.bayWindow.rear';
 
 /**
  * @description Remove a bay window
  */
-type AlterBayWindowRemove = "alter.bayWindow.remove";
+type AlterBayWindowRemove = 'alter.bayWindow.remove';
 
 /**
  * @description Changes to a fence, wall or gate
  */
-type AlterBoundary = "alter.boundary";
+type AlterBoundary = 'alter.boundary';
 
 /**
  * @description Add a new fence, wall or gate
  */
-type AlterBoundaryAdd = "alter.boundary.add";
+type AlterBoundaryAdd = 'alter.boundary.add';
 
 /**
  * @description Add a new fence
  */
-type AlterBoundaryAddFence = "alter.boundary.add.fence";
+type AlterBoundaryAddFence = 'alter.boundary.add.fence';
 
 /**
  * @description Add a new gate
  */
-type AlterBoundaryAddGate = "alter.boundary.add.gate";
+type AlterBoundaryAddGate = 'alter.boundary.add.gate';
 
 /**
  * @description Add a new boundary wall
  */
-type AlterBoundaryAddWall = "alter.boundary.add.wall";
+type AlterBoundaryAddWall = 'alter.boundary.add.wall';
 
 /**
  * @description Change a fence, wall or gate
  */
-type AlterBoundaryAlter = "alter.boundary.alter";
+type AlterBoundaryAlter = 'alter.boundary.alter';
 
 /**
  * @description Remove a fence, wall, or gate
  */
-type AlterBoundaryRemove = "alter.boundary.remove";
+type AlterBoundaryRemove = 'alter.boundary.remove';
 
 /**
  * @description Repair a fence, wall or gate
  */
-type AlterBoundaryRepair = "alter.boundary.repair";
+type AlterBoundaryRepair = 'alter.boundary.repair';
 
 /**
  * @description Repair a fence
  */
-type AlterBoundaryRepairFence = "alter.boundary.repair.fence";
+type AlterBoundaryRepairFence = 'alter.boundary.repair.fence';
 
 /**
  * @description Repair a gate
  */
-type AlterBoundaryRepairGate = "alter.boundary.repair.gate";
+type AlterBoundaryRepairGate = 'alter.boundary.repair.gate';
 
 /**
  * @description Repair a wall
  */
-type AlterBoundaryRepairWall = "alter.boundary.repair.wall";
+type AlterBoundaryRepairWall = 'alter.boundary.repair.wall';
 
 /**
  * @description Replace a fence, wall or gate
  */
-type AlterBoundaryReplace = "alter.boundary.replace";
+type AlterBoundaryReplace = 'alter.boundary.replace';
 
 /**
  * @description Replace a fence
  */
-type AlterBoundaryReplaceFence = "alter.boundary.replace.fence";
+type AlterBoundaryReplaceFence = 'alter.boundary.replace.fence';
 
 /**
  * @description Replace a gate
  */
-type AlterBoundaryReplaceGate = "alter.boundary.replace.gate";
+type AlterBoundaryReplaceGate = 'alter.boundary.replace.gate';
 
 /**
  * @description Replace a wall
  */
-type AlterBoundaryReplaceWall = "alter.boundary.replace.wall";
+type AlterBoundaryReplaceWall = 'alter.boundary.replace.wall';
 
 /**
  * @description Install underground cables
  */
-type AlterCables = "alter.cables";
+type AlterCables = 'alter.cables';
 
 /**
  * @description Change the material of a fence, wall or gate
  */
-type AlterChangeOfMaterialsBoundary = "alter.changeOfMaterials.boundary";
+type AlterChangeOfMaterialsBoundary = 'alter.changeOfMaterials.boundary';
 
 /**
  * @description Change the material of chimneys
  */
-type AlterChangeOfMaterialsChimney = "alter.changeOfMaterials.chimney";
+type AlterChangeOfMaterialsChimney = 'alter.changeOfMaterials.chimney';
 
 /**
  * @description Change the material of external doors
  */
 type AlterChangeOfMaterialsExternalDoors =
-  "alter.changeOfMaterials.externalDoors";
+  'alter.changeOfMaterials.externalDoors';
 
 /**
  * @description Change the material of external walls
  */
 type AlterChangeOfMaterialsExternalWalls =
-  "alter.changeOfMaterials.externalWalls";
+  'alter.changeOfMaterials.externalWalls';
 
 /**
  * @description Change the material of floors
  */
-type AlterChangeOfMaterialsFloors = "alter.changeOfMaterials.floors";
+type AlterChangeOfMaterialsFloors = 'alter.changeOfMaterials.floors';
 
 /**
  * @description Change the material of vehicle access or hardstanding
  */
 type AlterChangeOfMaterialsHardstanding =
-  "alter.changeOfMaterials.hardstanding";
+  'alter.changeOfMaterials.hardstanding';
 
 /**
  * @description Change the material of internal doors
  */
 type AlterChangeOfMaterialsInternalDoors =
-  "alter.changeOfMaterials.internalDoors";
+  'alter.changeOfMaterials.internalDoors';
 
 /**
  * @description Change the material of internal walls
  */
 type AlterChangeOfMaterialsInternalWalls =
-  "alter.changeOfMaterials.internalWalls";
+  'alter.changeOfMaterials.internalWalls';
 
 /**
  * @description Change the material of something else
  */
-type AlterChangeOfMaterialsOther = "alter.changeOfMaterials.other";
+type AlterChangeOfMaterialsOther = 'alter.changeOfMaterials.other';
 
 /**
  * @description Change the material of rainwater goods
  */
 type AlterChangeOfMaterialsRainwaterGoods =
-  "alter.changeOfMaterials.rainwaterGoods";
+  'alter.changeOfMaterials.rainwaterGoods';
 
 /**
  * @description Change the material of roof coverings
  */
 type AlterChangeOfMaterialsRoofCovering =
-  "alter.changeOfMaterials.roofCovering";
+  'alter.changeOfMaterials.roofCovering';
 
 /**
  * @description Change the material of windows
  */
-type AlterChangeOfMaterialsWindows = "alter.changeOfMaterials.windows";
+type AlterChangeOfMaterialsWindows = 'alter.changeOfMaterials.windows';
 
 /**
  * @description Change chimneys
  */
-type AlterChimneys = "alter.chimneys";
+type AlterChimneys = 'alter.chimneys';
 
 /**
  * @description Add a chimney
  */
-type AlterChimneysAdd = "alter.chimneys.add";
+type AlterChimneysAdd = 'alter.chimneys.add';
 
 /**
  * @description Replace a chimney
  */
-type AlterChimneysReplace = "alter.chimneys.replace";
+type AlterChimneysReplace = 'alter.chimneys.replace';
 
 /**
  * @description Add a verandah or deck
  */
-type AlterDecks = "alter.decks";
+type AlterDecks = 'alter.decks';
 
 /**
  * @description Add a high verandah or deck
  */
-type AlterDecksHigh = "alter.decksHigh";
+type AlterDecksHigh = 'alter.decksHigh';
 
 /**
  * @description Work on drains
  */
-type AlterDrains = "alter.drains";
+type AlterDrains = 'alter.drains';
 
 /**
  * @description Install equipment
  */
-type AlterEquipment = "alter.equipment";
+type AlterEquipment = 'alter.equipment';
 
 /**
  * @description Install an air conditioning unit
  */
-type AlterEquipmentAirConditioning = "alter.equipment.airConditioning";
+type AlterEquipmentAirConditioning = 'alter.equipment.airConditioning';
 
 /**
  * @description Install a security alarm
  */
-type AlterEquipmentAlarm = "alter.equipment.alarm";
+type AlterEquipmentAlarm = 'alter.equipment.alarm';
 
 /**
  * @description Install a satellite dish or aerial
  */
-type AlterEquipmentAntennae = "alter.equipment.antennae";
+type AlterEquipmentAntennae = 'alter.equipment.antennae';
 
 /**
  * @description Install an aerial antennae
  */
-type AlterEquipmentAntennaeAerial = "alter.equipment.antennae.aerial";
+type AlterEquipmentAntennaeAerial = 'alter.equipment.antennae.aerial';
 
 /**
  * @description Install a satellite dish
  */
-type AlterEquipmentAntennaeDish = "alter.equipment.antennae.dish";
+type AlterEquipmentAntennaeDish = 'alter.equipment.antennae.dish';
 
 /**
  * @description Install a barbecue
  */
-type AlterEquipmentBbq = "alter.equipment.bbq";
+type AlterEquipmentBbq = 'alter.equipment.bbq';
 
 /**
  * @description Install a flue with a biomass burner
  */
-type AlterEquipmentBiomass = "alter.equipment.biomass";
+type AlterEquipmentBiomass = 'alter.equipment.biomass';
 
 /**
  * @description Install CCTV cameras
  */
-type AlterEquipmentCctv = "alter.equipment.cctv";
+type AlterEquipmentCctv = 'alter.equipment.cctv';
 
 /**
  * @description Install a car charging point
  */
-type AlterEquipmentCharging = "alter.equipment.charging";
+type AlterEquipmentCharging = 'alter.equipment.charging';
 
 /**
  * @description Install a heat pump
  */
-type AlterEquipmentHeatPump = "alter.equipment.heatPump";
+type AlterEquipmentHeatPump = 'alter.equipment.heatPump';
 
 /**
  * @description Install an air heat pump
  */
-type AlterEquipmentHeatPumpAir = "alter.equipment.heatPump.air";
+type AlterEquipmentHeatPumpAir = 'alter.equipment.heatPump.air';
 
 /**
  * @description Install a ground heat pump
  */
-type AlterEquipmentHeatPumpGround = "alter.equipment.heatPump.ground";
+type AlterEquipmentHeatPumpGround = 'alter.equipment.heatPump.ground';
 
 /**
  * @description Install a water heat pump
  */
-type AlterEquipmentHeatPumpWater = "alter.equipment.heatPump.water";
+type AlterEquipmentHeatPumpWater = 'alter.equipment.heatPump.water';
 
 /**
  * @description Install industrial equipment
  */
-type AlterEquipmentIndustrial = "alter.equipment.industrial";
+type AlterEquipmentIndustrial = 'alter.equipment.industrial';
 
 /**
  * @description Install outdoor lights
  */
-type AlterEquipmentLighting = "alter.equipment.lighting";
+type AlterEquipmentLighting = 'alter.equipment.lighting';
 
 /**
  * @description Install machinery
  */
-type AlterEquipmentMachinery = "alter.equipment.machinery";
+type AlterEquipmentMachinery = 'alter.equipment.machinery';
 
 /**
  * @description Install solar panels
  */
-type AlterEquipmentSolar = "alter.equipment.solar";
+type AlterEquipmentSolar = 'alter.equipment.solar';
 
 /**
  * @description Install solar photovoltaics (PV)
  */
-type AlterEquipmentSolarPV = "alter.equipment.solar.pv";
+type AlterEquipmentSolarPV = 'alter.equipment.solar.pv';
 
 /**
  * @description Install solar thermal equipment
  */
-type AlterEquipmentSolarThermal = "alter.equipment.solar.thermal";
+type AlterEquipmentSolarThermal = 'alter.equipment.solar.thermal';
 
 /**
  * @description Install an outdoor tank (for example a water tank)
  */
-type AlterEquipmentTank = "alter.equipment.tank";
+type AlterEquipmentTank = 'alter.equipment.tank';
 
 /**
  * @description Install ventilation
  */
-type AlterEquipmentVentilation = "alter.equipment.ventilation";
+type AlterEquipmentVentilation = 'alter.equipment.ventilation';
 
 /**
  * @description Install internet equipment
  */
-type AlterEquipmentWifi = "alter.equipment.wifi";
+type AlterEquipmentWifi = 'alter.equipment.wifi';
 
 /**
  * @description Install a wind turbine
  */
-type AlterEquipmentWind = "alter.equipment.wind";
+type AlterEquipmentWind = 'alter.equipment.wind';
 
 /**
  * @description Change the material or colour of the external walls
  */
-type AlterFacades = "alter.facades";
+type AlterFacades = 'alter.facades';
 
 /**
  * @description Change the insulation of the facade
  */
-type AlterFacadesInsulation = "alter.facades.insulation";
+type AlterFacadesInsulation = 'alter.facades.insulation';
 
 /**
  * @description Paint the facade
  */
-type AlterFacadesPaint = "alter.facades.paint";
+type AlterFacadesPaint = 'alter.facades.paint';
 
 /**
  * @description Change the material or colour of the external walls to the rear of the building
  */
-type AlterFacadesRear = "alter.facades.rear";
+type AlterFacadesRear = 'alter.facades.rear';
 
 /**
  * @description Change the cladding of the facade
  */
-type AlterFacadesReclad = "alter.facades.reclad";
+type AlterFacadesReclad = 'alter.facades.reclad';
 
 /**
  * @description Repair the facade
  */
-type AlterFacadesRepair = "alter.facades.repair";
+type AlterFacadesRepair = 'alter.facades.repair';
 
 /**
  * @description Changes to a public road, pavement or path (including drop kerb)
  */
-type AlterHighways = "alter.highways";
+type AlterHighways = 'alter.highways';
 
 /**
  * @description Create a point of access to a highway
  */
-type AlterHighwaysAccess = "alter.highways.access";
+type AlterHighwaysAccess = 'alter.highways.access';
 
 /**
  * @description Create a point of access to an unclassified road
  */
-type AlterHighwaysAccessUnclassified = "alter.highways.access.unclassified";
+type AlterHighwaysAccessUnclassified = 'alter.highways.access.unclassified';
 
 /**
  * @description Changes to a dropped kerb
  */
-type AlterHighwaysDropKerb = "alter.highways.dropKerb";
+type AlterHighwaysDropKerb = 'alter.highways.dropKerb';
 
 /**
  * @description Changes to a dropped kerb
  */
-type AlterHighwaysDroppedKerb = "alter.highways.droppedKerb";
+type AlterHighwaysDroppedKerb = 'alter.highways.droppedKerb';
 
 /**
  * @description Add a dropped kerb
  */
-type AlterHighwaysDroppedKerbAdd = "alter.highways.droppedKerb.add";
+type AlterHighwaysDroppedKerbAdd = 'alter.highways.droppedKerb.add';
 
 /**
  * @description Remove a dropped kerb
  */
-type AlterHighwaysDroppedKerbRemove = "alter.highways.droppedKerb.remove";
+type AlterHighwaysDroppedKerbRemove = 'alter.highways.droppedKerb.remove';
 
 /**
  * @description Changes to a road
  */
-type AlterHighwaysRoad = "alter.highways.road";
+type AlterHighwaysRoad = 'alter.highways.road';
 
 /**
  * @description Add a road
  */
-type AlterHighwaysRoadAdd = "alter.highways.road.add";
+type AlterHighwaysRoadAdd = 'alter.highways.road.add';
 
 /**
  * @description Remove a road
  */
-type AlterHighwaysRoadRemove = "alter.highways.road.remove";
+type AlterHighwaysRoadRemove = 'alter.highways.road.remove';
 
 /**
  * @description Install plant equipment or machinery
  */
-type AlterIndustrialPlant = "alter.industrial.plant";
+type AlterIndustrialPlant = 'alter.industrial.plant';
 
 /**
  * @description Changes to internal walls or layout
  */
-type AlterInternal = "alter.internal";
+type AlterInternal = 'alter.internal';
 
 /**
  * @description Landscaping works
  */
-type AlterLandscape = "alter.landscape";
+type AlterLandscape = 'alter.landscape';
 
 /**
  * @description Add or remove a residential lawn or garden
  */
-type AlterLandscapeGardens = "alter.landscape.gardens";
+type AlterLandscapeGardens = 'alter.landscape.gardens';
 
 /**
  * @description Add or remove a pond
  */
-type AlterLandscapePonds = "alter.landscape.ponds";
+type AlterLandscapePonds = 'alter.landscape.ponds';
 
 /**
  * @description Change a door or window opening
  */
-type AlterOpenings = "alter.openings";
+type AlterOpenings = 'alter.openings';
 
 /**
  * @description Add a door or window opening
  */
-type AlterOpeningsAdd = "alter.openings.add";
+type AlterOpeningsAdd = 'alter.openings.add';
 
 /**
  * @description Add one or more new doorways
  */
-type AlterOpeningsAddDoor = "alter.openings.add.door";
+type AlterOpeningsAddDoor = 'alter.openings.add.door';
 
 /**
  * @description Add new doorways to the front of the building
  */
-type AlterOpeningsAddDoorFront = "alter.openings.add.door.front";
+type AlterOpeningsAddDoorFront = 'alter.openings.add.door.front';
 
 /**
  * @description Add new doorways to the rear of the building
  */
-type AlterOpeningsAddDoorRear = "alter.openings.add.door.rear";
+type AlterOpeningsAddDoorRear = 'alter.openings.add.door.rear';
 
 /**
  * @description Add new doorways to the side of the building
  */
-type AlterOpeningsAddDoorSide = "alter.openings.add.door.side";
+type AlterOpeningsAddDoorSide = 'alter.openings.add.door.side';
 
 /**
  * @description Add one or more new windows
  */
-type AlterOpeningsAddWindow = "alter.openings.add.window";
+type AlterOpeningsAddWindow = 'alter.openings.add.window';
 
 /**
  * @description Add one or more new windows
  */
-type AlterOpeningsAddWindows = "alter.openings.add.windows";
+type AlterOpeningsAddWindows = 'alter.openings.add.windows';
 
 /**
  * @description Add new windows to the front of the building
  */
-type AlterOpeningsAddWindowsFront = "alter.openings.add.windows.front";
+type AlterOpeningsAddWindowsFront = 'alter.openings.add.windows.front';
 
 /**
  * @description Add new windows 1.7m up or higher
  */
-type AlterOpeningsAddWindowsHigh = "alter.openings.add.windows.high";
+type AlterOpeningsAddWindowsHigh = 'alter.openings.add.windows.high';
 
 /**
  * @description Add new windows to the rear of the building
  */
-type AlterOpeningsAddWindowsRear = "alter.openings.add.windows.rear";
+type AlterOpeningsAddWindowsRear = 'alter.openings.add.windows.rear';
 
 /**
  * @description Add new shutters to windows
  */
-type AlterOpeningsAddWindowsShutters = "alter.openings.add.windows.shutters";
+type AlterOpeningsAddWindowsShutters = 'alter.openings.add.windows.shutters';
 
 /**
  * @description Add new windows to the side of the building
  */
-type AlterOpeningsAddWindowsSide = "alter.openings.add.windows.side";
+type AlterOpeningsAddWindowsSide = 'alter.openings.add.windows.side';
 
 /**
  * @description Change the size of doorways or windows
  */
-type AlterOpeningsAlter = "alter.openings.alter";
+type AlterOpeningsAlter = 'alter.openings.alter';
 
 /**
  * @description Convert a doorway into a window
  */
 type AlterOpeningsAlterConvertDoorToWindow =
-  "alter.openings.alter.convert.doorToWindow";
+  'alter.openings.alter.convert.doorToWindow';
 
 /**
  * @description Convert a window into a doorway
  */
 type AlterOpeningsAlterConvertWindowToDoor =
-  "alter.openings.alter.convert.windowToDoor";
+  'alter.openings.alter.convert.windowToDoor';
 
 /**
  * @description Enlarge a door opening
  */
-type AlterOpeningsAlterEnlargeDoor = "alter.openings.alter.enlarge.door";
+type AlterOpeningsAlterEnlargeDoor = 'alter.openings.alter.enlarge.door';
 
 /**
  * @description Enlarge a window opening
  */
-type AlterOpeningsAlterEnlargeWindow = "alter.openings.alter.enlarge.window";
+type AlterOpeningsAlterEnlargeWindow = 'alter.openings.alter.enlarge.window';
 
 /**
  * @description Enlarge a window opening on the front of a building
  */
 type AlterOpeningsAlterEnlargeWindowFront =
-  "alter.openings.alter.enlarge.window.front";
+  'alter.openings.alter.enlarge.window.front';
 
 /**
  * @description Enlarge a window opening on the rear of a building
  */
 type AlterOpeningsAlterEnlargeWindowRear =
-  "alter.openings.alter.enlarge.window.rear";
+  'alter.openings.alter.enlarge.window.rear';
 
 /**
  * @description Enlarge a window opening on the side of a building
  */
 type AlterOpeningsAlterEnlargeWindowSide =
-  "alter.openings.alter.enlarge.window.side";
+  'alter.openings.alter.enlarge.window.side';
 
 /**
  * @description Reduce the size of a door opening
  */
-type AlterOpeningsAlterReduceDoor = "alter.openings.alter.reduce.door";
+type AlterOpeningsAlterReduceDoor = 'alter.openings.alter.reduce.door';
 
 /**
  * @description Reduce the size of a window opening
  */
-type AlterOpeningsAlterReduceWindow = "alter.openings.alter.reduce.window";
+type AlterOpeningsAlterReduceWindow = 'alter.openings.alter.reduce.window';
 
 /**
  * @description Reduce the size of a window opening on the front of a building
  */
 type AlterOpeningsAlterReduceWindowFront =
-  "alter.openings.alter.reduce.window.front";
+  'alter.openings.alter.reduce.window.front';
 
 /**
  * @description Reduce the size of a window opening on the rear of a building
  */
 type AlterOpeningsAlterReduceWindowRear =
-  "alter.openings.alter.reduce.window.rear";
+  'alter.openings.alter.reduce.window.rear';
 
 /**
  * @description Reduce the size of a window opening on the side of a building
  */
 type AlterOpeningsAlterReduceWindowSide =
-  "alter.openings.alter.reduce.window.side";
+  'alter.openings.alter.reduce.window.side';
 
 /**
  * @description Block up doorways or windows
  */
-type AlterOpeningsRemove = "alter.openings.remove";
+type AlterOpeningsRemove = 'alter.openings.remove';
 
 /**
  * @description Block up doorways
  */
-type AlterOpeningsRemoveDoor = "alter.openings.remove.door";
+type AlterOpeningsRemoveDoor = 'alter.openings.remove.door';
 
 /**
  * @description Block up windows
  */
-type AlterOpeningsRemoveWindow = "alter.openings.remove.window";
+type AlterOpeningsRemoveWindow = 'alter.openings.remove.window';
 
 /**
  * @description Install pipes
  */
-type AlterPipes = "alter.pipes";
+type AlterPipes = 'alter.pipes';
 
 /**
  * @description Remove part of a building (such as a decorative feature)
  */
-type AlterRemove = "alter.remove";
+type AlterRemove = 'alter.remove';
 
 /**
  * @description Remove a chimney
  */
-type AlterRemoveChimney = "alter.remove.chimney";
+type AlterRemoveChimney = 'alter.remove.chimney';
 
 /**
  * @description Remove a deck
  */
-type AlterRemoveDeck = "alter.remove.deck";
+type AlterRemoveDeck = 'alter.remove.deck';
 
 /**
  * @description Remove a drain
  */
-type AlterRemoveDrain = "alter.remove.drain";
+type AlterRemoveDrain = 'alter.remove.drain';
 
 /**
  * @description Remove energy equipment
  */
-type AlterRemoveEquipment = "alter.remove.equipment";
+type AlterRemoveEquipment = 'alter.remove.equipment';
 
 /**
  * @description Remove part of a facade
  */
-type AlterRemoveFacade = "alter.remove.facade";
+type AlterRemoveFacade = 'alter.remove.facade';
 
 /**
  * @description Remove a soil pipe
  */
-type AlterRemoveSoilPipe = "alter.remove.soilPipe";
+type AlterRemoveSoilPipe = 'alter.remove.soilPipe';
 
 /**
  * @description Remove a hard surface
  */
-type AlterRemoveSurface = "alter.remove.surface";
+type AlterRemoveSurface = 'alter.remove.surface';
 
 /**
  * @description Repair windows or doors
  */
-type AlterRepair = "alter.repair";
+type AlterRepair = 'alter.repair';
 
 /**
  * @description Repair doors
  */
-type AlterRepairDoors = "alter.repair.doors";
+type AlterRepairDoors = 'alter.repair.doors';
 
 /**
  * @description Repair windows
  */
-type AlterRepairWindows = "alter.repair.windows";
+type AlterRepairWindows = 'alter.repair.windows';
 
 /**
  * @description Replace windows or doors
  */
-type AlterReplace = "alter.replace";
+type AlterReplace = 'alter.replace';
 
 /**
  * @description Replace door with door
  */
-type AlterReplaceDoorsToDoors = "alter.replace.doorsToDoors";
+type AlterReplaceDoorsToDoors = 'alter.replace.doorsToDoors';
 
 /**
  * @description Replace door with door on the front of a building
  */
-type AlterReplaceDoorsToDoorsFront = "alter.replace.doorsToDoors.front";
+type AlterReplaceDoorsToDoorsFront = 'alter.replace.doorsToDoors.front';
 
 /**
  * @description Replace door with door on the rear of a building
  */
-type AlterReplaceDoorsToDoorsRear = "alter.replace.doorsToDoors.rear";
+type AlterReplaceDoorsToDoorsRear = 'alter.replace.doorsToDoors.rear';
 
 /**
  * @description Replace door with door on the side of a building
  */
-type AlterReplaceDoorsToDoorsSide = "alter.replace.doorsToDoors.side";
+type AlterReplaceDoorsToDoorsSide = 'alter.replace.doorsToDoors.side';
 
 /**
  * @description Replace door with window
  */
-type AlterReplaceDoorsToWindows = "alter.replace.doorsToWindows";
+type AlterReplaceDoorsToWindows = 'alter.replace.doorsToWindows';
 
 /**
  * @description Replace door with window on the front of a building
  */
-type AlterReplaceDoorsToWindowsFront = "alter.replace.doorsToWindows.front";
+type AlterReplaceDoorsToWindowsFront = 'alter.replace.doorsToWindows.front';
 
 /**
  * @description Replace door with window on the rear of a building
  */
-type AlterReplaceDoorsToWindowsRear = "alter.replace.doorsToWindows.rear";
+type AlterReplaceDoorsToWindowsRear = 'alter.replace.doorsToWindows.rear';
 
 /**
  * @description Replace door with window on the side of a building
  */
-type AlterReplaceDoorsToWindowsSide = "alter.replace.doorsToWindows.side";
+type AlterReplaceDoorsToWindowsSide = 'alter.replace.doorsToWindows.side';
 
 /**
  * @description Replace window with door
  */
-type AlterReplaceWindowsToDoors = "alter.replace.windowsToDoors";
+type AlterReplaceWindowsToDoors = 'alter.replace.windowsToDoors';
 
 /**
  * @description Replace window with door on the front of a building
  */
-type AlterReplaceWindowsToDoorsFront = "alter.replace.windowsToDoors.front";
+type AlterReplaceWindowsToDoorsFront = 'alter.replace.windowsToDoors.front';
 
 /**
  * @description Replace window with door on the rear of a building
  */
-type AlterReplaceWindowsToDoorsRear = "alter.replace.windowsToDoors.rear";
+type AlterReplaceWindowsToDoorsRear = 'alter.replace.windowsToDoors.rear';
 
 /**
  * @description Replace window with door on the side of a building
  */
-type AlterReplaceWindowsToDoorsSide = "alter.replace.windowsToDoors.side";
+type AlterReplaceWindowsToDoorsSide = 'alter.replace.windowsToDoors.side';
 
 /**
  * @description Replace window with window
  */
-type AlterReplaceWindowsToWindows = "alter.replace.windowsToWindows";
+type AlterReplaceWindowsToWindows = 'alter.replace.windowsToWindows';
 
 /**
  * @description Replace window with window on the front ofa building
  */
-type AlterReplaceWindowsToWindowsFront = "alter.replace.windowsToWindows.front";
+type AlterReplaceWindowsToWindowsFront = 'alter.replace.windowsToWindows.front';
 
 /**
  * @description Replace window with window on the rear of a building
  */
-type AlterReplaceWindowsToWindowsRear = "alter.replace.windowsToWindows.rear";
+type AlterReplaceWindowsToWindowsRear = 'alter.replace.windowsToWindows.rear';
 
 /**
  * @description Replace window with window on the side of a building
  */
-type AlterReplaceWindowsToWindowsSide = "alter.replace.windowsToWindows.side";
+type AlterReplaceWindowsToWindowsSide = 'alter.replace.windowsToWindows.side';
 
 /**
  * @description Change the roof
  */
-type AlterRoof = "alter.roof";
+type AlterRoof = 'alter.roof';
 
 /**
  * @description Replace or change the roof materials
  */
-type AlterRoofMaterials = "alter.roof.materials";
+type AlterRoofMaterials = 'alter.roof.materials';
 
 /**
  * @description Add or change a roof parapet
  */
-type AlterRoofParapet = "alter.roof.parapet";
+type AlterRoofParapet = 'alter.roof.parapet';
 
 /**
  * @description Add a roof terrace
  */
-type AlterRoofRoofTerrace = "alter.roof.roofTerrace";
+type AlterRoofRoofTerrace = 'alter.roof.roofTerrace';
 
 /**
  * @description Change the shape of a roof
  */
-type AlterRoofShape = "alter.roof.shape";
+type AlterRoofShape = 'alter.roof.shape';
 
 /**
  * @description Add skylights to an existing roof
  */
-type AlterRooflight = "alter.rooflight";
+type AlterRooflight = 'alter.rooflight';
 
 /**
  * @description Add secondary glazing to a window
  */
-type AlterSecondaryGlazing = "alter.secondaryGlazing";
+type AlterSecondaryGlazing = 'alter.secondaryGlazing';
 
 /**
  * @description Add or alter shop fronts
  */
-type AlterShopfronts = "alter.shopfronts";
+type AlterShopfronts = 'alter.shopfronts';
 
 /**
  * @description Add or alter shutters
  */
-type AlterShutters = "alter.shutters";
+type AlterShutters = 'alter.shutters';
 
 /**
  * @description Add an advert or sign
  */
-type AlterSign = "alter.sign";
+type AlterSign = 'alter.sign';
 
 /**
  * @description Add or replace a soil pipe
  */
-type AlterSoilPipes = "alter.soilPipes";
+type AlterSoilPipes = 'alter.soilPipes';
 
 /**
  * @description Add or change an external staircase
  */
-type AlterStaircase = "alter.staircase";
+type AlterStaircase = 'alter.staircase';
 
 /**
  * @description Add a low surface
  */
-type AlterSurfaceLow = "alter.surfaceLow";
+type AlterSurfaceLow = 'alter.surfaceLow';
 
 /**
  * @description Add a decked area or patio
  */
-type AlterSurfaces = "alter.surfaces";
+type AlterSurfaces = 'alter.surfaces';
 
 /**
  * @description Add a decked area
  */
-type AlterSurfacesDeck = "alter.surfaces.deck";
+type AlterSurfacesDeck = 'alter.surfaces.deck';
 
 /**
  * @description Add a driveway or parking area
  */
-type AlterSurfacesParking = "alter.surfaces.parking";
+type AlterSurfacesParking = 'alter.surfaces.parking';
 
 /**
  * @description Extend a driveway or parking area
  */
-type AlterSurfacesParkingExtend = "alter.surfaces.parking.extend";
+type AlterSurfacesParkingExtend = 'alter.surfaces.parking.extend';
 
 /**
  * @description Add a new driveway or parking area
  */
-type AlterSurfacesParkingNew = "alter.surfaces.parking.new";
+type AlterSurfacesParkingNew = 'alter.surfaces.parking.new';
 
 /**
  * @description Replace a driveway or parking area
  */
-type AlterSurfacesParkingReplace = "alter.surfaces.parking.replace";
+type AlterSurfacesParkingReplace = 'alter.surfaces.parking.replace';
 
 /**
  * @description Add a patio
  */
-type AlterSurfacesPatio = "alter.surfaces.patio";
+type AlterSurfacesPatio = 'alter.surfaces.patio';
 
 /**
  * @description Extend a patio
  */
-type AlterSurfacesPatioExtend = "alter.surfaces.patio.extend";
+type AlterSurfacesPatioExtend = 'alter.surfaces.patio.extend';
 
 /**
  * @description Add a new patio
  */
-type AlterSurfacesPatioNew = "alter.surfaces.patio.new";
+type AlterSurfacesPatioNew = 'alter.surfaces.patio.new';
 
 /**
  * @description Replace a patio
  */
-type AlterSurfacesPatioReplace = "alter.surfaces.patio.replace";
+type AlterSurfacesPatioReplace = 'alter.surfaces.patio.replace';
 
 /**
  * @description Install a swimming pool
  */
-type AlterSwimmingPool = "alter.swimmingPool";
+type AlterSwimmingPool = 'alter.swimmingPool';
 
 /**
  * @description Install an indoor swimming pool
  */
-type AlterSwimmingPoolIndoor = "alter.swimmingPool.indoor";
+type AlterSwimmingPoolIndoor = 'alter.swimmingPool.indoor';
 
 /**
  * @description Install an outdoor swimming pool
  */
-type AlterSwimmingPoolOutdoor = "alter.swimmingPool.outdoor";
+type AlterSwimmingPoolOutdoor = 'alter.swimmingPool.outdoor';
 
 /**
  * @description Changes to trees or hedges
  */
-type AlterTrees = "alter.trees";
+type AlterTrees = 'alter.trees';
 
 /**
  * @description Changes to hedges
  */
-type AlterTreesHedge = "alter.trees.hedge";
+type AlterTreesHedge = 'alter.trees.hedge';
 
 /**
  * @description Let hedges grow
  */
-type AlterTreesHedgeLetGrow = "alter.trees.hedge.letGrow";
+type AlterTreesHedgeLetGrow = 'alter.trees.hedge.letGrow';
 
 /**
  * @description New hedges
  */
-type AlterTreesHedgeNew = "alter.trees.hedge.new";
+type AlterTreesHedgeNew = 'alter.trees.hedge.new';
 
 /**
  * @description Prune hedges
  */
-type AlterTreesHedgePrune = "alter.trees.hedge.prune";
+type AlterTreesHedgePrune = 'alter.trees.hedge.prune';
 
 /**
  * @description Remove hedges
  */
-type AlterTreesHedgeRemove = "alter.trees.hedge.remove";
+type AlterTreesHedgeRemove = 'alter.trees.hedge.remove';
 
 /**
  * @description Changes to trees
  */
-type AlterTreesTree = "alter.trees.tree";
+type AlterTreesTree = 'alter.trees.tree';
 
 /**
  * @description New trees
  */
-type AlterTreesTreeNew = "alter.trees.tree.new";
+type AlterTreesTreeNew = 'alter.trees.tree.new';
 
 /**
  * @description Prune trees
  */
-type AlterTreesTreePrune = "alter.trees.tree.prune";
+type AlterTreesTreePrune = 'alter.trees.tree.prune';
 
 /**
  * @description Remove trees
  */
-type AlterTreesTreeRemove = "alter.trees.tree.remove";
+type AlterTreesTreeRemove = 'alter.trees.tree.remove';
 
 /**
  * @description Change the use of a building
  */
-type ChangeOfUse = "changeOfUse";
+type ChangeOfUse = 'changeOfUse';
 
 /**
  * @description Convert part of the property into a  granny flat (residential annexe)
  */
-type ChangeOfUseAnnexe = "changeOfUse.annexe";
+type ChangeOfUseAnnexe = 'changeOfUse.annexe';
 
 /**
  * @description Use a caravan or mobile home on the property
  */
-type ChangeOfUseCaravans = "changeOfUse.caravans";
+type ChangeOfUseCaravans = 'changeOfUse.caravans';
 
 /**
  * @description Convert an extension
  */
-type ChangeOfUseExtension = "changeOfUse.extension";
+type ChangeOfUseExtension = 'changeOfUse.extension';
 
 /**
  * @description Convert a garage
  */
-type ChangeOfUseGarage = "changeOfUse.garage";
+type ChangeOfUseGarage = 'changeOfUse.garage';
 
 /**
  * @description Change the use of land
  */
-type ChangeOfUseLand = "changeOfUse.land";
+type ChangeOfUseLand = 'changeOfUse.land';
 
 /**
  * @description Let a part of the property
  */
-type ChangeOfUseLetPart = "changeOfUse.let.part";
+type ChangeOfUseLetPart = 'changeOfUse.let.part';
 
 /**
  * @description Let the property
  */
-type ChangeOfUseLetWhole = "changeOfUse.let.whole";
+type ChangeOfUseLetWhole = 'changeOfUse.let.whole';
 
 /**
  * @description Convert or change the use of an outbuilding (such as a shed, garage or barn)
  */
-type ChangeOfUseOutbuilding = "changeOfUse.outbuilding";
+type ChangeOfUseOutbuilding = 'changeOfUse.outbuilding';
 
 /**
  * @description Convert or change the use of part of a building
  */
-type ChangeOfUsePart = "changeOfUse.part";
+type ChangeOfUsePart = 'changeOfUse.part';
 
 /**
  * @description Change the use of a property
  */
-type ChangeOfUseProperty = "changeOfUse.property";
+type ChangeOfUseProperty = 'changeOfUse.property';
 
 /**
  * @description Convert or change the use of a whole building
  */
-type ChangeOfUseWhole = "changeOfUse.whole";
+type ChangeOfUseWhole = 'changeOfUse.whole';
 
 /**
  * @description Convert a home to bedsits or a shared home
  */
-type ChangeOfUseWholeHomeToHMO = "changeOfUse.whole.homeToHMO";
+type ChangeOfUseWholeHomeToHMO = 'changeOfUse.whole.homeToHMO';
 
 /**
  * @description Work from home
  */
-type ChangeOfUseWorkFromHome = "changeOfUse.workFromHome";
+type ChangeOfUseWorkFromHome = 'changeOfUse.workFromHome';
 
 /**
  * @description Demolish a building
  */
-type Demolish = "demolish";
+type Demolish = 'demolish';
 
 /**
  * @description Demolish a fence, gate or boundary wall
  */
-type DemolishBoundary = "demolish.boundary";
+type DemolishBoundary = 'demolish.boundary';
 
 /**
  * @description Total demolition of a building
  */
-type DemolishFull = "demolish.full";
+type DemolishFull = 'demolish.full';
 
 /**
  * @description Demolish internal walls
  */
-type DemolishInternal = "demolish.internal";
+type DemolishInternal = 'demolish.internal';
 
 /**
  * @description Demolish a listed building
  */
-type DemolishListed = "demolish.listed";
+type DemolishListed = 'demolish.listed';
 
 /**
  * @description Total demolition of a listed building
  */
-type DemolishListedFull = "demolish.listed.full";
+type DemolishListedFull = 'demolish.listed.full';
 
 /**
  * @description Demolish part of a listed building
  */
-type DemolishListedPart = "demolish.listed.part";
+type DemolishListedPart = 'demolish.listed.part';
 
 /**
  * @description Demolish an outbuilding (such as a garage or barn)
  */
-type DemolishOutbuilding = "demolish.outbuilding";
+type DemolishOutbuilding = 'demolish.outbuilding';
 
 /**
  * @description Total demolition of an outbuilding (such as a garage or barn)
  */
-type DemolishOutbuildingFull = "demolish.outbuilding.full";
+type DemolishOutbuildingFull = 'demolish.outbuilding.full';
 
 /**
  * @description Demolish part of an outbuilding (such as a garage or barn)
  */
-type DemolishOutbuildingPart = "demolish.outbuilding.part";
+type DemolishOutbuildingPart = 'demolish.outbuilding.part';
 
 /**
  * @description Demolish part of a building (such as an extension)
  */
-type DemolishPart = "demolish.part";
+type DemolishPart = 'demolish.part';
 
 /**
  * @description Demolish part of a conservatory
  */
-type DemolishPartConservatory = "demolish.part.conservatory";
+type DemolishPartConservatory = 'demolish.part.conservatory';
 
 /**
  * @description Demolish a building and build homes in its place
  */
-type DemolishReplace = "demolish.replace";
+type DemolishReplace = 'demolish.replace';
 
 /**
  * @description Extend a building or add an outbuilding
  */
-type Extend = "extend";
+type Extend = 'extend';
 
 /**
  * @description Enlarge a balcony
  */
-type ExtendBalcony = "extend.balcony";
+type ExtendBalcony = 'extend.balcony';
 
 /**
  * @description Add a basement extension
  */
-type ExtendBasement = "extend.basement";
+type ExtendBasement = 'extend.basement';
 
 /**
  * @description Enlarge a basement
  */
-type ExtendBasementExtend = "extend.basement.extend";
+type ExtendBasementExtend = 'extend.basement.extend';
 
 /**
  * @description Add a lightwell
  */
-type ExtendBasementLightwell = "extend.basement.lightwell";
+type ExtendBasementLightwell = 'extend.basement.lightwell';
 
 /**
  * @description Add a new basement extension
  */
-type ExtendBasementNew = "extend.basement.new";
+type ExtendBasementNew = 'extend.basement.new';
 
 /**
  * @description Add a front extension
  */
-type ExtendFront = "extend.front";
+type ExtendFront = 'extend.front';
 
 /**
  * @description Add an outbuilding (such as a shed, garage or garden office)
  */
-type ExtendOutbuilding = "extend.outbuilding";
+type ExtendOutbuilding = 'extend.outbuilding';
 
 /**
  * @description Add an outbuilding - animal enclosure, aviary or beehive
  */
-type ExtendOutbuildingAnimals = "extend.outbuilding.animals";
+type ExtendOutbuildingAnimals = 'extend.outbuilding.animals';
 
 /**
  * @description Add an outbuilding - residential (or "granny") annexe
  */
-type ExtendOutbuildingAnnexe = "extend.outbuilding.annexe";
+type ExtendOutbuildingAnnexe = 'extend.outbuilding.annexe';
 
 /**
  * @description Add an outbuilding - bedroom or guest room
  */
-type ExtendOutbuildingBedroom = "extend.outbuilding.bedroom";
+type ExtendOutbuildingBedroom = 'extend.outbuilding.bedroom';
 
 /**
  * @description Add an outbuilding - games room
  */
-type ExtendOutbuildingGames = "extend.outbuilding.games";
+type ExtendOutbuildingGames = 'extend.outbuilding.games';
 
 /**
  * @description Add an outbuilding - garage
  */
-type ExtendOutbuildingGarage = "extend.outbuilding.garage";
+type ExtendOutbuildingGarage = 'extend.outbuilding.garage';
 
 /**
  * @description Add an outbuilding - greenhouse
  */
-type ExtendOutbuildingGreenhouse = "extend.outbuilding.greenhouse";
+type ExtendOutbuildingGreenhouse = 'extend.outbuilding.greenhouse';
 
 /**
  * @description Add an outbuilding - gym
  */
-type ExtendOutbuildingGym = "extend.outbuilding.gym";
+type ExtendOutbuildingGym = 'extend.outbuilding.gym';
 
 /**
  * @description Add an outbuilding - office
  */
-type ExtendOutbuildingOffice = "extend.outbuilding.office";
+type ExtendOutbuildingOffice = 'extend.outbuilding.office';
 
 /**
  * @description Add an outbuilding - something else
  */
-type ExtendOutbuildingOther = "extend.outbuilding.other";
+type ExtendOutbuildingOther = 'extend.outbuilding.other';
 
 /**
  * @description Add an outbuilding - play house
  */
-type ExtendOutbuildingPlay = "extend.outbuilding.play";
+type ExtendOutbuildingPlay = 'extend.outbuilding.play';
 
 /**
  * @description Add an outbuilding - sauna
  */
-type ExtendOutbuildingSauna = "extend.outbuilding.sauna";
+type ExtendOutbuildingSauna = 'extend.outbuilding.sauna';
 
 /**
  * @description Add an outbuilding - shed
  */
-type ExtendOutbuildingShed = "extend.outbuilding.shed";
+type ExtendOutbuildingShed = 'extend.outbuilding.shed';
 
 /**
  * @description Add an outbuilding - car parking or smoking shelter
  */
-type ExtendOutbuildingShelter = "extend.outbuilding.shelter";
+type ExtendOutbuildingShelter = 'extend.outbuilding.shelter';
 
 /**
  * @description Add an outbuilding - storage
  */
-type ExtendOutbuildingStore = "extend.outbuilding.store";
+type ExtendOutbuildingStore = 'extend.outbuilding.store';
 
 /**
  * @description Add an outbuilding - studio
  */
-type ExtendOutbuildingStudio = "extend.outbuilding.studio";
+type ExtendOutbuildingStudio = 'extend.outbuilding.studio';
 
 /**
  * @description Add an outbuilding - summer house
  */
-type ExtendOutbuildingSummerHouse = "extend.outbuilding.summerHouse";
+type ExtendOutbuildingSummerHouse = 'extend.outbuilding.summerHouse';
 
 /**
  * @description Add an outbuilding - swimming pool
  */
-type ExtendOutbuildingSwimmingPool = "extend.outbuilding.swimmingPool";
+type ExtendOutbuildingSwimmingPool = 'extend.outbuilding.swimmingPool';
 
 /**
  * @description Add an outbuilding - tank
  */
-type ExtendOutbuildingTank = "extend.outbuilding.tank";
+type ExtendOutbuildingTank = 'extend.outbuilding.tank';
 
 /**
  * @description Add an outbuilding - workshop
  */
-type ExtendOutbuildingWorkshop = "extend.outbuilding.workshop";
+type ExtendOutbuildingWorkshop = 'extend.outbuilding.workshop';
 
 /**
  * @description Add a porch
  */
-type ExtendPorch = "extend.porch";
+type ExtendPorch = 'extend.porch';
 
 /**
  * @description Add a porch to the front of the building
  */
-type ExtendPorchFront = "extend.porch.front";
+type ExtendPorchFront = 'extend.porch.front';
 
 /**
  * @description Add a porch to the rear of the building
  */
-type ExtendPorchRear = "extend.porch.rear";
+type ExtendPorchRear = 'extend.porch.rear';
 
 /**
  * @description Add a porch to the side of the building
  */
-type ExtendPorchSide = "extend.porch.side";
+type ExtendPorchSide = 'extend.porch.side';
 
 /**
  * @description Add a rear or side extension (or conservatory)
  */
-type ExtendRear = "extend.rear";
+type ExtendRear = 'extend.rear';
 
 /**
  * @description Add a rear extension
  */
-type ExtendRearRear = "extend.rear.rear";
+type ExtendRearRear = 'extend.rear.rear';
 
 /**
  * @description Add a side extension
  */
-type ExtendRearSide = "extend.rear.side";
+type ExtendRearSide = 'extend.rear.side';
 
 /**
  * @description Add a roof extension
  */
-type ExtendRoof = "extend.roof";
+type ExtendRoof = 'extend.roof';
 
 /**
  * @description Join two roofs
  */
-type ExtendRoofConnect = "extend.roof.connect";
+type ExtendRoofConnect = 'extend.roof.connect';
 
 /**
  * @description Add a roof dormer
  */
-type ExtendRoofDormer = "extend.roof.dormer";
+type ExtendRoofDormer = 'extend.roof.dormer';
 
 /**
  * @description Add a roof dormer to the front of the building
  */
-type ExtendRoofDormerFront = "extend.roof.dormer.front";
+type ExtendRoofDormerFront = 'extend.roof.dormer.front';
 
 /**
  * @description Add a roof dormer to the front and rear of the building
  */
-type ExtendRoofDormerFrontAndRear = "extend.roof.dormer.frontAndRear";
+type ExtendRoofDormerFrontAndRear = 'extend.roof.dormer.frontAndRear';
 
 /**
  * @description Add a mansard roof
  */
-type ExtendRoofDormerMansard = "extend.roof.dormer.mansard";
+type ExtendRoofDormerMansard = 'extend.roof.dormer.mansard';
 
 /**
  * @description Add a roof dormer to the rear of the building
  */
-type ExtendRoofDormerRear = "extend.roof.dormer.rear";
+type ExtendRoofDormerRear = 'extend.roof.dormer.rear';
 
 /**
  * @description Add a roof dormer to the side of the building
  */
-type ExtendRoofDormerSide = "extend.roof.dormer.side";
+type ExtendRoofDormerSide = 'extend.roof.dormer.side';
 
 /**
  * @description Convert a hip roof to a gable
  */
-type ExtendRoofHiptogable = "extend.roof.hiptogable";
+type ExtendRoofHiptogable = 'extend.roof.hiptogable';
 
 /**
  * @description Convert a hip roof to a gable
  */
-type ExtendRoofHipToGable = "extend.roof.hipToGable";
+type ExtendRoofHipToGable = 'extend.roof.hipToGable';
 
 /**
  * @description Convert to a mansard roof
  */
-type ExtendRoofMansard = "extend.roof.mansard";
+type ExtendRoofMansard = 'extend.roof.mansard';
 
 /**
  * @description Add one or more new storeys
  */
-type ExtendRoofNewstorey = "extend.roof.newstorey";
+type ExtendRoofNewstorey = 'extend.roof.newstorey';
 
 /**
  * @description Add one or more new storeys
  */
-type ExtendRoofNewStorey = "extend.roof.newStorey";
+type ExtendRoofNewStorey = 'extend.roof.newStorey';
 
 /**
  * @description Convert to a sloping roof
  */
-type ExtendRoofSlope = "extend.roof.slope";
+type ExtendRoofSlope = 'extend.roof.slope';
 
 /**
  * @description Add a side extension
  */
-type ExtendSide = "extend.side";
+type ExtendSide = 'extend.side';
 
 /**
  * @description Add an upper storey extension
  */
-type ExtendUpperStorey = "extend.upperStorey";
+type ExtendUpperStorey = 'extend.upperStorey';
 
 /**
  * @description Internal building works, such as change the internal layout
  */
-type Internal = "internal";
+type Internal = 'internal';
 
 /**
  * @description Alter internal doors
  */
-type InternalDoorways = "internal.doorways";
+type InternalDoorways = 'internal.doorways';
 
 /**
  * @description Alter internal finishes
  */
-type InternalFinishes = "internal.finishes";
+type InternalFinishes = 'internal.finishes';
 
 /**
  * @description Alter internal floors
  */
-type InternalFloors = "internal.floors";
+type InternalFloors = 'internal.floors';
 
 /**
  * @description Convert a loft
  */
-type InternalLoft = "internal.loft";
+type InternalLoft = 'internal.loft';
 
 /**
  * @description Add a mezzanine floor
  */
-type InternalMezzanine = "internal.mezzanine";
+type InternalMezzanine = 'internal.mezzanine';
 
 /**
  * @description Alter internal staircases
  */
-type InternalStaircases = "internal.staircases";
+type InternalStaircases = 'internal.staircases';
 
 /**
  * @description Alter internal walls
  */
-type InternalWalls = "internal.walls";
+type InternalWalls = 'internal.walls';
 
 /**
  * @description Alter internal window openings
  */
-type InternalWindowsOpenings = "internal.windows.openings";
+type InternalWindowsOpenings = 'internal.windows.openings';
 
 /**
  * @description Maintenance of an existing structure
  */
-type Maintain = "maintain";
+type Maintain = 'maintain';
 
 /**
  * @description Add a new separate building or self-contained units
  */
-type New = "new";
+type New = 'new';
 
 /**
  * @description New agricultural buildings
  */
-type NewAgriculture = "new.agriculture";
+type NewAgriculture = 'new.agriculture';
 
 /**
  * @description New agricultural buildings - glasshouse
  */
-type NewAgricultureGlasshouse = "new.agriculture.glasshouse";
+type NewAgricultureGlasshouse = 'new.agriculture.glasshouse';
 
 /**
  * @description New agricultural buildings - mining
  */
-type NewAgricultureMining = "new.agriculture.mining";
+type NewAgricultureMining = 'new.agriculture.mining';
 
 /**
  * @description New agricultural buildings - pigs
  */
-type NewAgriculturePigs = "new.agriculture.pigs";
+type NewAgriculturePigs = 'new.agriculture.pigs';
 
 /**
  * @description New agricultural buildings - poultry
  */
-type NewAgriculturePoultry = "new.agriculture.poultry";
+type NewAgriculturePoultry = 'new.agriculture.poultry';
 
 /**
  * @description Install click and collect facilities
  */
-type NewClickCollect = "new.clickCollect";
+type NewClickCollect = 'new.clickCollect';
 
 /**
  * @description New, self-contained dwelling
  */
-type NewDwelling = "new.dwelling";
+type NewDwelling = 'new.dwelling';
 
 /**
  * @description New flats
  */
-type NewDwellingFlat = "new.dwelling.flat";
+type NewDwellingFlat = 'new.dwelling.flat';
 
 /**
  * @description New houses
  */
-type NewDwellingHouse = "new.dwelling.house";
+type NewDwellingHouse = 'new.dwelling.house';
 
 /**
  * @description Build new forestry buildings
  */
-type NewForestry = "new.forestry";
+type NewForestry = 'new.forestry';
 
 /**
  * @description New industrial premises
  */
-type NewIndustrial = "new.industrial";
+type NewIndustrial = 'new.industrial';
 
 /**
  * @description New waste disposal facilities
  */
-type NewIndustrialWaste = "new.industrial.waste";
+type NewIndustrialWaste = 'new.industrial.waste';
 
 /**
  * @description New leisure premises
  */
-type NewLeisure = "new.leisure";
+type NewLeisure = 'new.leisure';
 
 /**
  * @description New offices
  */
-type NewOffice = "new.office";
+type NewOffice = 'new.office';
 
 /**
  * @description Add another type of building - something else
  */
-type NewOther = "new.other";
+type NewOther = 'new.other';
 
 /**
  * @description Build new homes
  */
-type NewResidentialDwelling = "new.residential.dwelling";
+type NewResidentialDwelling = 'new.residential.dwelling';
 
 /**
  * @description New retail premises
  */
-type NewRetail = "new.retail";
+type NewRetail = 'new.retail';
 
 /**
  * @description Install telecommunications equipment
  */
-type NewTelecoms = "new.telecoms";
+type NewTelecoms = 'new.telecoms';
 
 /**
  * @description Build a temporary structure
  */
-type NewTemporaryStructure = "new.temporaryStructure";
+type NewTemporaryStructure = 'new.temporaryStructure';
 
 /**
  * @description New storage or distribution premises
  */
-type NewWarehouse = "new.warehouse";
+type NewWarehouse = 'new.warehouse';
 
 /**
  * @description Negate a project type
  */
-type Not = "not";
+type Not = 'not';
 
 /**
  * @description Do not add or change windows or doors
  */
-type NotAlterReplace = "not.alter.replace";
+type NotAlterReplace = 'not.alter.replace';
 
 /**
  * @description Do not add or change a rooflight
  */
-type NotAlterRooflight = "not.alter.rooflight";
+type NotAlterRooflight = 'not.alter.rooflight';
 
 /**
  * @description Do not add or change a dropped kerb
  */
-type NotDropKerb = "not.dropKerb";
+type NotDropKerb = 'not.dropKerb';
 
 /**
  * @description Repairs
  */
-type Repair = "repair";
+type Repair = 'repair';
 
 /**
  * @description Repair the historic fabric
  */
-type RepairHistoricFabric = "repair.historicFabric";
+type RepairHistoricFabric = 'repair.historicFabric';
 
 /**
  * @description Other project type
  */
-type Other = "other";
+type Other = 'other';
 
 /**
  * @description Change of units
  */
-type Unit = "unit";
+type Unit = 'unit';
 
 /**
  * @description Convert two or more properties into one
  */
-type UnitMerge = "unit.merge";
+type UnitMerge = 'unit.merge';
 
 /**
  * @description Convert a home or part of a home into flats
  */
-type UnitSubdivide = "unit.subdivide";
+type UnitSubdivide = 'unit.subdivide';
 
 /**
  * @id #ProjectType

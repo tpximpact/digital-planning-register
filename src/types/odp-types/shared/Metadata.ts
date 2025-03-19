@@ -1,6 +1,6 @@
-import { FileType } from "../schemas/application/enums/FileTypes";
-import { QuestionMetaData } from "./Responses";
-import { DateTime, URL, UUID } from "./utils";
+import {FileType} from '../schemas/application/enums/FileTypes';
+import {QuestionMetaData} from './Responses';
+import {DateTime, URL, UUID} from './utils';
 
 /**
  * @id #DigitalPlanningMetadata
@@ -31,7 +31,7 @@ export interface BaseMetadata {
  * @description Base metadata associated with applications submitted via any provider
  */
 export interface AnyProviderMetadata extends BaseMetadata {
-  source: "Any";
+  source: 'Any';
 }
 
 /**
@@ -50,7 +50,7 @@ export interface RequestedFiles {
  */
 export interface CalculateMetadata {
   description?: string;
-  policyRefs?: QuestionMetaData["policyRefs"];
+  policyRefs?: QuestionMetaData['policyRefs'];
 }
 
 /**
@@ -98,7 +98,7 @@ export interface FeeExplanation {
  * @description Additional metadata associated with applications submitted via PlanX
  */
 export interface PlanXMetadata extends BaseMetadata {
-  source: "PlanX";
+  source: 'PlanX';
   service: {
     flowId: UUID;
     url: URL;

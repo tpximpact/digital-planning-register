@@ -1,8 +1,8 @@
-import { DateTime } from "../../../shared/utils";
-import { PrototypeFileType as FileType } from "../../prototypeApplication/enums/FileType";
+import {DateTime} from '../../../shared/utils';
+import {PrototypeFileType as FileType} from '../../prototypeApplication/enums/FileType';
 
 /**
- * @id #File
+ * @id #PostSubmissionFile
  * @description File uploaded and labeled by the user to support the application
  */
 export interface PostSubmissionFile {

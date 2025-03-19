@@ -1,15 +1,15 @@
-import { OSAddress, ProposedAddress } from "../../../shared/Addresses";
+import {OSAddress, ProposedAddress} from '../../../shared/Addresses';
 import {
   PlanningConstraint,
   PlanningDesignation,
-} from "../../../shared/Constraints";
-import { Materials } from "../../../shared/Materials";
-import { ExistingLondonParking } from "../../../shared/Parking";
-import { Region } from "../../../shared/Regions";
-import { Date, URL } from "../../../shared/utils";
-import { PropertyType } from "../enums/PropertyTypes";
-import { GeoBoundary } from "./../../../shared/Boundaries";
-import { ResidentialUnits } from "./shared";
+} from '../../../shared/Constraints';
+import {Materials} from '../../../shared/Materials';
+import {ExistingLondonParking} from '../../../shared/Parking';
+import {Region} from '../../../shared/Regions';
+import {Date, URL} from '../../../shared/utils';
+import {PropertyType} from '../enums/PropertyTypes';
+import {GeoBoundary} from './../../../shared/Boundaries';
+import {ResidentialUnits} from './shared';
 
 /**
  * @id #Property
@@ -66,7 +66,7 @@ export interface UKProperty {
    * @description Existing flood risk, if applicable to application.type
    */
   flood?: {
-    "20mFromWatercourse"?: boolean;
+    '20mFromWatercourse'?: boolean;
     increasedRiskElsewhere?: boolean;
   };
   /**
@@ -84,9 +84,9 @@ export interface UKProperty {
  * @description Property details for sites within the Greater London Authority (GLA) area
  */
 export interface LondonProperty extends UKProperty {
-  region: Extract<Region, "London">;
+  region: Extract<Region, 'London'>;
   titleNumber?: {
-    known: "Yes" | "No";
+    known: 'Yes' | 'No';
     number?: string;
   };
   /**
@@ -94,27 +94,27 @@ export interface LondonProperty extends UKProperty {
    */
   EPC?: {
     known:
-      | "Yes"
-      | "Yes, but only some of the properties have one"
-      | "The property does not have one"
-      | "No";
+      | 'Yes'
+      | 'Yes, but only some of the properties have one'
+      | 'The property does not have one'
+      | 'No';
     number?: string;
   };
   /**
    * @title Lead Registered Social Landlord
    */
-  socialLandlord?: { status: true; description: string } | { status: false };
+  socialLandlord?: {status: true; description: string} | {status: false};
   /**
    * @description Current ownership status of the land
    */
   ownership?: {
-    status: "public" | "private" | "mixed";
+    status: 'public' | 'private' | 'mixed';
   };
   /**
    * @description Current occupation status of the property
    */
   occupation?: {
-    status: "occupied" | "partVacant" | "vacant";
+    status: 'occupied' | 'partVacant' | 'vacant';
   };
   parking?: ExistingLondonParking;
 }

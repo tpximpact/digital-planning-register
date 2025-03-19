@@ -3,7 +3,7 @@ type ProposedCount = {
   difference: number;
 };
 
-type ExistingCount = { count: number };
+type ExistingCount = {count: number};
 
 /**
  * @description Proposed parking spaces and total change or difference in parking spaces per the Greater London Authority specification
@@ -16,7 +16,7 @@ export type ProposedLondonParking = {
   buses?: ProposedCount;
   disabled?: ProposedCount;
   carClub?: ProposedCount;
-  offStreet?: { residential: ProposedCount };
+  offStreet?: {residential: ProposedCount};
   other?: ProposedCount;
 };
 
@@ -31,6 +31,6 @@ export type ExistingLondonParking = {
   buses?: ExistingCount;
   disabled?: ExistingCount;
   carClub?: ExistingCount;
-  offStreet?: { residential: ExistingCount };
+  offStreet?: {residential: ExistingCount};
   other?: ExistingCount;
 };

@@ -1,2427 +1,2427 @@
 /**
  * @description Commercial
  */
-type Commercial = "commercial";
+type Commercial = 'commercial';
 
 /**
  * @description Agricultural
  */
-type CommercialAgriculture = "commercial.agriculture";
+type CommercialAgriculture = 'commercial.agriculture';
 
 /**
  * @description Farm / Non-Residential Associated Building
  */
-type CommercialAgricultureFarm = "commercial.agriculture.farm";
+type CommercialAgricultureFarm = 'commercial.agriculture.farm';
 
 /**
  * @description Fishery
  */
-type CommercialFish = "commercial.fish";
+type CommercialFish = 'commercial.fish';
 
 /**
  * @description Fish Farming
  */
-type CommercialFishFarm = "commercial.fish.farm";
+type CommercialFishFarm = 'commercial.fish.farm';
 
 /**
  * @description Fish Hatchery
  */
-type CommercialFishHatchery = "commercial.fish.hatchery";
+type CommercialFishHatchery = 'commercial.fish.hatchery';
 
 /**
  * @description Fish Processing
  */
-type CommercialFishProcessing = "commercial.fish.processing";
+type CommercialFishProcessing = 'commercial.fish.processing';
 
 /**
  * @description Oyster / Mussel Bed
  */
-type CommercialFishOysters = "commercial.fish.oysters";
+type CommercialFishOysters = 'commercial.fish.oysters';
 
 /**
  * @description Horticulture
  */
-type CommercialHorticulture = "commercial.horticulture";
+type CommercialHorticulture = 'commercial.horticulture';
 
 /**
  * @description Smallholding
  */
 type CommercialHorticultureSmallholding =
-  "commercial.horticulture.smallholding";
+  'commercial.horticulture.smallholding';
 
 /**
  * @description Vineyard
  */
-type CommercialHorticultureVineyard = "commercial.horticulture.vineyard";
+type CommercialHorticultureVineyard = 'commercial.horticulture.vineyard';
 
 /**
  * @description Watercress Bed
  */
-type CommercialHorticultureWatercress = "commercial.horticulture.watercress";
+type CommercialHorticultureWatercress = 'commercial.horticulture.watercress';
 
 /**
  * @description Slaughter House / Abattoir
  */
-type CommercialAbattoir = "commercial.abattoir";
+type CommercialAbattoir = 'commercial.abattoir';
 
 /**
  * @description Ancillary Building
  */
-type CommercialAncillary = "commercial.ancillary";
+type CommercialAncillary = 'commercial.ancillary';
 
 /**
  * @description Community Services
  */
-type CommercialCommunity = "commercial.community";
+type CommercialCommunity = 'commercial.community';
 
 /**
  * @description Law Court
  */
-type CommercialCommunityCourt = "commercial.community.court";
+type CommercialCommunityCourt = 'commercial.community.court';
 
 /**
  * @description Prison
  */
-type CommercialCommunityPrison = "commercial.community.prison";
+type CommercialCommunityPrison = 'commercial.community.prison';
 
 /**
  * @description HM Detention Centre
  */
 type CommercialCommunityPrisonDetention =
-  "commercial.community.prison.detention";
+  'commercial.community.prison.detention';
 
 /**
  * @description HM Prison Service
  */
-type CommercialCommunityPrisonService = "commercial.community.prison.service";
+type CommercialCommunityPrisonService = 'commercial.community.prison.service';
 
 /**
  * @description Secure Residential Accommodation
  */
 type CommercialCommunityPrisonSecureResidential =
-  "commercial.community.prison.secureResidential";
+  'commercial.community.prison.secureResidential';
 
 /**
  * @description Public / Village Hall / Other Community Facility
  */
-type CommercialCommunityHall = "commercial.community.hall";
+type CommercialCommunityHall = 'commercial.community.hall';
 
 /**
  * @description Youth Recreational / Social Club
  */
-type CommercialCommunityHallClub = "commercial.community.hall.club";
+type CommercialCommunityHallClub = 'commercial.community.hall.club';
 
 /**
  * @description Public Convenience
  */
-type CommercialCommunityWC = "commercial.community.wc";
+type CommercialCommunityWC = 'commercial.community.wc';
 
 /**
  * @description Cemetery / Crematorium / Graveyard. In Current Use.
  */
-type CommercialCommunityCemetery = "commercial.community.cemetery";
+type CommercialCommunityCemetery = 'commercial.community.cemetery';
 
 /**
  * @description Columbarium
  */
 type CommercialCommunityCemeteryColumbarium =
-  "commercial.community.Cemetery.columbarium";
+  'commercial.community.Cemetery.columbarium';
 
 /**
  * @description Crematorium
  */
 type CommercialCommunityCemeteryCrematorium =
-  "commercial.community.Cemetery.crematorium";
+  'commercial.community.Cemetery.crematorium';
 
 /**
  * @description Chapel Of Rest
  */
 type CommercialCommunityCemeteryChapelOfRest =
-  "commercial.community.Cemetery.chapelOfRest";
+  'commercial.community.Cemetery.chapelOfRest';
 
 /**
  * @description Cemetery
  */
 type CommercialCommunityCemeteryCemetery =
-  "commercial.community.Cemetery.Cemetery";
+  'commercial.community.Cemetery.Cemetery';
 
 /**
  * @description Military Cemetery
  */
 type CommercialCommunityCemeteryMilitary =
-  "commercial.community.Cemetery.military";
+  'commercial.community.Cemetery.military';
 
 /**
  * @description Mortuary
  */
 type CommercialCommunityCemeteryMortuary =
-  "commercial.community.Cemetery.mortuary";
+  'commercial.community.Cemetery.mortuary';
 
 /**
  * @description Church Hall / Religious Meeting Place / Hall
  */
-type CommercialCommunityReligious = "commercial.community.religious";
+type CommercialCommunityReligious = 'commercial.community.religious';
 
 /**
  * @description Community Service Centre / Office
  */
-type CommercialCommunityServices = "commercial.community.services";
+type CommercialCommunityServices = 'commercial.community.services';
 
 /**
  * @description Public Household Waste Recycling Centre (HWRC)
  */
-type CommercialCommunityHWRC = "commercial.community.HWRC";
+type CommercialCommunityHWRC = 'commercial.community.HWRC';
 
 /**
  * @description Recycling Site
  */
-type CommercialCommunityRecycling = "commercial.community.recycling";
+type CommercialCommunityRecycling = 'commercial.community.recycling';
 
 /**
  * @description CCTV
  */
-type CommercialCommunityCCTV = "commercial.community.CCTV";
+type CommercialCommunityCCTV = 'commercial.community.CCTV';
 
 /**
  * @description Job Centre
  */
-type CommercialCommunityEmployment = "commercial.community.employment";
+type CommercialCommunityEmployment = 'commercial.community.employment';
 
 /**
  * @description Education
  */
-type CommercialEducation = "commercial.education";
+type CommercialEducation = 'commercial.education';
 
 /**
  * @description College
  */
-type CommercialEducationCollege = "commercial.education.college";
+type CommercialEducationCollege = 'commercial.education.college';
 
 /**
  * @description Further Education
  */
-type CommercialEducationCollegeFurther = "commercial.education.college.further";
+type CommercialEducationCollegeFurther = 'commercial.education.college.further';
 
 /**
  * @description Higher Education
  */
-type CommercialEducationCollegeHigher = "commercial.education.college.higher";
+type CommercialEducationCollegeHigher = 'commercial.education.college.higher';
 
 /**
  * @description Children's Nursery / Crèche
  */
-type CommercialEducationNursery = "commercial.education.nursery";
+type CommercialEducationNursery = 'commercial.education.nursery';
 
 /**
  * @description Preparatory / First / Primary / Infant / Junior / Middle School
  */
-type CommercialEducationSchool = "commercial.education.school";
+type CommercialEducationSchool = 'commercial.education.school';
 
 /**
  * @description First School
  */
-type CommercialEducationSchoolFirst = "commercial.education.school.first";
+type CommercialEducationSchoolFirst = 'commercial.education.school.first';
 
 /**
  * @description Infant School
  */
-type CommercialEducationSchoolInfant = "commercial.education.school.infant";
+type CommercialEducationSchoolInfant = 'commercial.education.school.infant';
 
 /**
  * @description Junior School
  */
-type CommercialEducationSchoolJunior = "commercial.education.school.junior";
+type CommercialEducationSchoolJunior = 'commercial.education.school.junior';
 
 /**
  * @description Middle School
  */
-type CommercialEducationSchoolMiddle = "commercial.education.school.middle";
+type CommercialEducationSchoolMiddle = 'commercial.education.school.middle';
 
 /**
  * @description Non State Primary / Preparatory School
  */
 type CommercialEducationSchoolPrimaryPrivate =
-  "commercial.education.school.primary.private";
+  'commercial.education.school.primary.private';
 
 /**
  * @description Primary School
  */
 type CommercialEducationSchoolPrimaryState =
-  "commercial.education.school.primary.state";
+  'commercial.education.school.primary.state';
 
 /**
  * @description Secondary / High School
  */
 type CommercialEducationSecondarySchool =
-  "commercial.education.secondarySchool";
+  'commercial.education.secondarySchool';
 
 /**
  * @description Non State Secondary School
  */
 type CommercialEducationSecondarySchoolPrivate =
-  "commercial.education.secondarySchool.private";
+  'commercial.education.secondarySchool.private';
 
 /**
  * @description Secondary School
  */
 type CommercialEducationSecondarySchoolState =
-  "commercial.education.secondarySchool.state";
+  'commercial.education.secondarySchool.state';
 
 /**
  * @description University
  */
-type CommercialEducationUniversity = "commercial.education.university";
+type CommercialEducationUniversity = 'commercial.education.university';
 
 /**
  * @description Special Needs Establishment.
  */
-type CommercialEducationSpecialNeeds = "commercial.education.specialNeeds";
+type CommercialEducationSpecialNeeds = 'commercial.education.specialNeeds';
 
 /**
  * @description Other Educational Establishment
  */
-type CommercialEducationOther = "commercial.education.other";
+type CommercialEducationOther = 'commercial.education.other';
 
 /**
  * @description Hotel / Motel / Boarding / Guest House
  */
-type CommercialGuest = "commercial.guest";
+type CommercialGuest = 'commercial.guest';
 
 /**
  * @description Boarding / Guest House / Bed And Breakfast / Youth Hostel
  */
-type CommercialGuestHostel = "commercial.guest.hostel";
+type CommercialGuestHostel = 'commercial.guest.hostel';
 
 /**
  * @description Youth Hostel
  */
-type CommercialGuestHostelYouth = "commercial.guest.hostel.youth";
+type CommercialGuestHostelYouth = 'commercial.guest.hostel.youth';
 
 /**
  * @description Holiday Let/Accommodation/Short-Term Let Other Than CH01
  */
-type CommercialGuestShortLet = "commercial.guest.shortLet";
+type CommercialGuestShortLet = 'commercial.guest.shortLet';
 
 /**
  * @description Hotel/Motel
  */
-type CommercialGuestHotel = "commercial.guest.hotel";
+type CommercialGuestHotel = 'commercial.guest.hotel';
 
 /**
  * @description Industrial Applicable to manufacturing, engineering, maintenance, storage / wholesale distribution and extraction sites
  */
-type CommercialIndustrial = "commercial.industrial";
+type CommercialIndustrial = 'commercial.industrial';
 
 /**
  * @description Factory/Manufacturing
  */
-type CommercialIndustrialManufacturing = "commercial.industrial.manufacturing";
+type CommercialIndustrialManufacturing = 'commercial.industrial.manufacturing';
 
 /**
  * @description Aircraft Works
  */
 type CommercialIndustrialManufacturingAircraft =
-  "commercial.industrial.manufacturing.aircraft";
+  'commercial.industrial.manufacturing.aircraft';
 
 /**
  * @description Boat Building
  */
 type CommercialIndustrialManufacturingBoats =
-  "commercial.industrial.manufacturing.boats";
+  'commercial.industrial.manufacturing.boats';
 
 /**
  * @description Brick Works
  */
 type CommercialIndustrialManufacturingBricks =
-  "commercial.industrial.manufacturing.bricks";
+  'commercial.industrial.manufacturing.bricks';
 
 /**
  * @description Brewery
  */
 type CommercialIndustrialManufacturingBeer =
-  "commercial.industrial.manufacturing.beer";
+  'commercial.industrial.manufacturing.beer';
 
 /**
  * @description Cider Manufacture
  */
 type CommercialIndustrialManufacturingCider =
-  "commercial.industrial.manufacturing.cider";
+  'commercial.industrial.manufacturing.cider';
 
 /**
  * @description Chemical Works
  */
 type CommercialIndustrialManufacturingChemicals =
-  "commercial.industrial.manufacturing.chemicals";
+  'commercial.industrial.manufacturing.chemicals';
 
 /**
  * @description Cement Works
  */
 type CommercialIndustrialManufacturingCement =
-  "commercial.industrial.manufacturing.cement";
+  'commercial.industrial.manufacturing.cement';
 
 /**
  * @description Dairy Processing
  */
 type CommercialIndustrialManufacturingDairy =
-  "commercial.industrial.manufacturing.dairy";
+  'commercial.industrial.manufacturing.dairy';
 
 /**
  * @description Distillery
  */
 type CommercialIndustrialManufacturingDistillery =
-  "commercial.industrial.manufacturing.distillery";
+  'commercial.industrial.manufacturing.distillery';
 
 /**
  * @description Flour Mill
  */
 type CommercialIndustrialManufacturingFlour =
-  "commercial.industrial.manufacturing.flour";
+  'commercial.industrial.manufacturing.flour';
 
 /**
  * @description Food Processing
  */
 type CommercialIndustrialManufacturingFood =
-  "commercial.industrial.manufacturing.food";
+  'commercial.industrial.manufacturing.food';
 
 /**
  * @description Glassworks
  */
 type CommercialIndustrialManufacturingGlass =
-  "commercial.industrial.manufacturing.glass";
+  'commercial.industrial.manufacturing.glass';
 
 /**
  * @description Manufacturing
  */
 type CommercialIndustrialManufacturingOther =
-  "commercial.industrial.manufacturing.other";
+  'commercial.industrial.manufacturing.other';
 
 /**
  * @description Oast House
  */
 type CommercialIndustrialManufacturingHops =
-  "commercial.industrial.manufacturing.hops";
+  'commercial.industrial.manufacturing.hops';
 
 /**
  * @description Oil Refining
  */
 type CommercialIndustrialManufacturingOil =
-  "commercial.industrial.manufacturing.oil";
+  'commercial.industrial.manufacturing.oil';
 
 /**
  * @description Pottery Manufacturing
  */
 type CommercialIndustrialManufacturingPottery =
-  "commercial.industrial.manufacturing.pottery";
+  'commercial.industrial.manufacturing.pottery';
 
 /**
  * @description Paper Mill
  */
 type CommercialIndustrialManufacturingPaper =
-  "commercial.industrial.manufacturing.paper";
+  'commercial.industrial.manufacturing.paper';
 
 /**
  * @description Printing Works
  */
 type CommercialIndustrialManufacturingPrinting =
-  "commercial.industrial.manufacturing.printing";
+  'commercial.industrial.manufacturing.printing';
 
 /**
  * @description Sugar Refinery
  */
 type CommercialIndustrialManufacturingSugar =
-  "commercial.industrial.manufacturing.sugar";
+  'commercial.industrial.manufacturing.sugar';
 
 /**
  * @description Steel Works
  */
 type CommercialIndustrialManufacturingSteel =
-  "commercial.industrial.manufacturing.steel";
+  'commercial.industrial.manufacturing.steel';
 
 /**
  * @description Timber Mill
  */
 type CommercialIndustrialManufacturingTimber =
-  "commercial.industrial.manufacturing.timber";
+  'commercial.industrial.manufacturing.timber';
 
 /**
  * @description Winery
  */
 type CommercialIndustrialManufacturingWine =
-  "commercial.industrial.manufacturing.wine";
+  'commercial.industrial.manufacturing.wine';
 
 /**
  * @description Shipyard
  */
 type CommercialIndustrialManufacturingShips =
-  "commercial.industrial.manufacturing.ships";
+  'commercial.industrial.manufacturing.ships';
 
 /**
  * @description Mineral / Ore Working / Quarry / Mine
  */
-type CommercialIndustrialExtraction = "commercial.industrial.extraction";
+type CommercialIndustrialExtraction = 'commercial.industrial.extraction';
 
 /**
  * @description Mineral Mining / Active
  */
 type CommercialIndustrialExtractionMining =
-  "commercial.industrial.extraction.mining";
+  'commercial.industrial.extraction.mining';
 
 /**
  * @description Mineral Distribution / Storage
  */
 type CommercialIndustrialExtractionDistribution =
-  "commercial.industrial.extraction.distribution";
+  'commercial.industrial.extraction.distribution';
 
 /**
  * @description Mineral Processing
  */
 type CommercialIndustrialExtractionProcessing =
-  "commercial.industrial.extraction.processing";
+  'commercial.industrial.extraction.processing';
 
 /**
  * @description Oil / Gas Extraction / Active
  */
 type CommercialIndustrialExtractionOilGas =
-  "commercial.industrial.extraction.oilGas";
+  'commercial.industrial.extraction.oilGas';
 
 /**
  * @description Mineral Quarrying / Open Extraction / Active
  */
 type CommercialIndustrialExtractionQuarrying =
-  "commercial.industrial.extraction.quarrying";
+  'commercial.industrial.extraction.quarrying';
 
 /**
  * @description Workshop / Light Industrial
  */
-type CommercialIndustrialLight = "commercial.industrial.light";
+type CommercialIndustrialLight = 'commercial.industrial.light';
 
 /**
  * @description Servicing Garage
  */
-type CommercialIndustrialLightGarage = "commercial.industrial.light.garage";
+type CommercialIndustrialLightGarage = 'commercial.industrial.light.garage';
 
 /**
  * @description Warehouse / Store / Storage Depot
  */
-type CommercialIndustrialLightStorage = "commercial.industrial.light.storage";
+type CommercialIndustrialLightStorage = 'commercial.industrial.light.storage';
 
 /**
  * @description Crop Handling / Storage
  */
 type CommercialIndustrialLightStorageCrops =
-  "commercial.industrial.light.storage.crops";
+  'commercial.industrial.light.storage.crops';
 
 /**
  * @description Postal Sorting / Distribution
  */
 type CommercialIndustrialLightStoragePost =
-  "commercial.industrial.light.storage.post";
+  'commercial.industrial.light.storage.post';
 
 /**
  * @description Solid Fuel Storage
  */
 type CommercialIndustrialLightStorageSolidFuel =
-  "commercial.industrial.light.storage.solidFuel";
+  'commercial.industrial.light.storage.solidFuel';
 
 /**
  * @description Timber Storage
  */
 type CommercialIndustrialLightStorageTimber =
-  "commercial.industrial.light.storage.timber";
+  'commercial.industrial.light.storage.timber';
 
 /**
  * @description Wholesale Distribution
  */
-type CommercialIndustrialDistribution = "commercial.industrial.distribution";
+type CommercialIndustrialDistribution = 'commercial.industrial.distribution';
 
 /**
  * @description Solid Fuel Distribution
  */
 type CommercialIndustrialDistributionSolidFuel =
-  "commercial.industrial.distribution.solidFuel";
+  'commercial.industrial.distribution.solidFuel';
 
 /**
  * @description Timber Distribution
  */
 type CommercialIndustrialDistributionTimber =
-  "commercial.industrial.distribution.timber";
+  'commercial.industrial.distribution.timber';
 
 /**
  * @description Recycling Plant
  */
-type CommercialIndustrialRecycling = "commercial.industrial.recycling";
+type CommercialIndustrialRecycling = 'commercial.industrial.recycling';
 
 /**
  * @description Incinerator / Waste Transfer Station
  */
-type CommercialIndustrialIncineration = "commercial.industrial.incineration";
+type CommercialIndustrialIncineration = 'commercial.industrial.incineration';
 
 /**
  * @description Maintenance Depot
  */
 type CommercialIndustrialMaintenanceDepot =
-  "commercial.industrial.maintenanceDepot";
+  'commercial.industrial.maintenanceDepot';
 
 /**
  * @description Leisure - Applicable to recreational sites and enterprises
  */
-type CommercialLeisure = "commercial.leisure";
+type CommercialLeisure = 'commercial.leisure';
 
 /**
  * @description Amusements
  */
-type CommercialLeisureAmusements = "commercial.leisure.amusements";
+type CommercialLeisureAmusements = 'commercial.leisure.amusements';
 
 /**
  * @description Leisure Pier
  */
-type CommercialLeisureAmusementsPier = "commercial.leisure.amusements.pier";
+type CommercialLeisureAmusementsPier = 'commercial.leisure.amusements.pier';
 
 /**
  * @description Holiday / Campsite
  */
-type CommercialLeisureHoliday = "commercial.leisure.holiday";
+type CommercialLeisureHoliday = 'commercial.leisure.holiday';
 
 /**
  * @description Camping
  */
-type CommercialLeisureHolidayCamping = "commercial.leisure.holiday.camping";
+type CommercialLeisureHolidayCamping = 'commercial.leisure.holiday.camping';
 
 /**
  * @description Caravanning
  */
 type CommercialLeisureHolidayCaravanning =
-  "commercial.leisure.holiday.caravanning";
+  'commercial.leisure.holiday.caravanning';
 
 /**
  * @description Holiday Accommodation
  */
 type CommercialLeisureHolidayAccommodation =
-  "commercial.leisure.holiday.accommodation";
+  'commercial.leisure.holiday.accommodation';
 
 /**
  * @description Holiday Centre
  */
-type CommercialLeisureHolidayCentre = "commercial.leisure.holiday.centre";
+type CommercialLeisureHolidayCentre = 'commercial.leisure.holiday.centre';
 
 /**
  * @description Youth Organisation Camp
  */
-type CommercialLeisureHolidayYouth = "commercial.leisure.holiday.youth";
+type CommercialLeisureHolidayYouth = 'commercial.leisure.holiday.youth';
 
 /**
  * @description Library
  */
-type CommercialLeisureLibrary = "commercial.leisure.library";
+type CommercialLeisureLibrary = 'commercial.leisure.library';
 
 /**
  * @description Reading Room
  */
 type CommercialLeisureLibraryReadingRoom =
-  "commercial.leisure.library.readingRoom";
+  'commercial.leisure.library.readingRoom';
 
 /**
  * @description Museum / Gallery
  */
-type CommercialLeisureMuseum = "commercial.leisure.museum";
+type CommercialLeisureMuseum = 'commercial.leisure.museum';
 
 /**
  * @description Art Centre / Gallery
  */
-type CommercialLeisureMuseumArt = "commercial.leisure.museum.art";
+type CommercialLeisureMuseumArt = 'commercial.leisure.museum.art';
 
 /**
  * @description Aviation Museum
  */
-type CommercialLeisureMuseumAviation = "commercial.leisure.museum.aviation";
+type CommercialLeisureMuseumAviation = 'commercial.leisure.museum.aviation';
 
 /**
  * @description Heritage Centre
  */
-type CommercialLeisureMuseumHeritage = "commercial.leisure.museum.heritage";
+type CommercialLeisureMuseumHeritage = 'commercial.leisure.museum.heritage';
 
 /**
  * @description Industrial Museum
  */
-type CommercialLeisureMuseumIndustrial = "commercial.leisure.museum.industrial";
+type CommercialLeisureMuseumIndustrial = 'commercial.leisure.museum.industrial';
 
 /**
  * @description Military Museum
  */
-type CommercialLeisureMuseumMilitary = "commercial.leisure.museum.military";
+type CommercialLeisureMuseumMilitary = 'commercial.leisure.museum.military';
 
 /**
  * @description Maritime Museum
  */
-type CommercialLeisureMuseumMaritime = "commercial.leisure.museum.maritime";
+type CommercialLeisureMuseumMaritime = 'commercial.leisure.museum.maritime';
 
 /**
  * @description Science Museum
  */
-type CommercialLeisureMuseumScience = "commercial.leisure.museum.science";
+type CommercialLeisureMuseumScience = 'commercial.leisure.museum.science';
 
 /**
  * @description Transport Museum
  */
-type CommercialLeisureMuseumTransport = "commercial.leisure.museum.transport";
+type CommercialLeisureMuseumTransport = 'commercial.leisure.museum.transport';
 
 /**
  * @description Indoor / Outdoor Leisure / Sporting Activity / Centre
  */
-type CommercialLeisureSport = "commercial.leisure.sport";
+type CommercialLeisureSport = 'commercial.leisure.sport';
 
 /**
  * @description Athletics Facility
  */
-type CommercialLeisureSportAthletics = "commercial.leisure.sport.athletics";
+type CommercialLeisureSportAthletics = 'commercial.leisure.sport.athletics';
 
 /**
  * @description Bowls Facility
  */
-type CommercialLeisureSportBowls = "commercial.leisure.sport.bowls";
+type CommercialLeisureSportBowls = 'commercial.leisure.sport.bowls';
 
 /**
  * @description Cricket Facility
  */
-type CommercialLeisureSportCricket = "commercial.leisure.sport.cricket";
+type CommercialLeisureSportCricket = 'commercial.leisure.sport.cricket';
 
 /**
  * @description Curling Facility
  */
-type CommercialLeisureSportCurling = "commercial.leisure.sport.curling";
+type CommercialLeisureSportCurling = 'commercial.leisure.sport.curling';
 
 /**
  * @description Diving / Swimming Facility
  */
-type CommercialLeisureSportSwimming = "commercial.leisure.sport.swimming";
+type CommercialLeisureSportSwimming = 'commercial.leisure.sport.swimming';
 
 /**
  * @description Equestrian Sports Facility
  */
-type CommercialLeisureSportEquestrian = "commercial.leisure.sport.equestrian";
+type CommercialLeisureSportEquestrian = 'commercial.leisure.sport.equestrian';
 
 /**
  * @description Football Facility
  */
-type CommercialLeisureSportFootball = "commercial.leisure.sport.football";
+type CommercialLeisureSportFootball = 'commercial.leisure.sport.football';
 
 /**
  * @description Fishing / Angling Facility
  */
-type CommercialLeisureSportFishing = "commercial.leisure.sport.fishing";
+type CommercialLeisureSportFishing = 'commercial.leisure.sport.fishing';
 
 /**
  * @description Golf Facility
  */
-type CommercialLeisureSportGolf = "commercial.leisure.sport.golf";
+type CommercialLeisureSportGolf = 'commercial.leisure.sport.golf';
 
 /**
  * @description Gliding Facility
  */
-type CommercialLeisureSportGliding = "commercial.leisure.sport.gliding";
+type CommercialLeisureSportGliding = 'commercial.leisure.sport.gliding';
 
 /**
  * @description Greyhound Racing Facility
  */
-type CommercialLeisureSportDogracing = "commercial.leisure.sport.dogracing";
+type CommercialLeisureSportDogracing = 'commercial.leisure.sport.dogracing';
 
 /**
  * @description Hockey Facility
  */
-type CommercialLeisureSportHockey = "commercial.leisure.sport.hockey";
+type CommercialLeisureSportHockey = 'commercial.leisure.sport.hockey';
 
 /**
  * @description Horse Racing Facility
  */
-type CommercialLeisureSportHorseracing = "commercial.leisure.sport.horseracing";
+type CommercialLeisureSportHorseracing = 'commercial.leisure.sport.horseracing';
 
 /**
  * @description Historic Vessel / Aircraft / Vehicle
  */
 type CommercialLeisureSportHistoricVehicles =
-  "commercial.leisure.sport.historicVehicles";
+  'commercial.leisure.sport.historicVehicles';
 
 /**
  * @description Activity / Leisure / Sports Centre
  */
-type CommercialLeisureSportCentre = "commercial.leisure.sport.centre";
+type CommercialLeisureSportCentre = 'commercial.leisure.sport.centre';
 
 /**
  * @description Model Sports Facility
  */
-type CommercialLeisureSportModel = "commercial.leisure.sport.model";
+type CommercialLeisureSportModel = 'commercial.leisure.sport.model';
 
 /**
  * @description Motor Sports Facility
  */
-type CommercialLeisureSportMotor = "commercial.leisure.sport.motor";
+type CommercialLeisureSportMotor = 'commercial.leisure.sport.motor';
 
 /**
  * @description Playing Field
  */
 type CommercialLeisureSportPlayingField =
-  "commercial.leisure.sport.playingField";
+  'commercial.leisure.sport.playingField';
 
 /**
  * @description Racquet Sports Facility
  */
-type CommercialLeisureSportRacquet = "commercial.leisure.sport.racquet";
+type CommercialLeisureSportRacquet = 'commercial.leisure.sport.racquet';
 
 /**
  * @description Rugby Facility
  */
-type CommercialLeisureSportRugby = "commercial.leisure.sport.rugby";
+type CommercialLeisureSportRugby = 'commercial.leisure.sport.rugby';
 
 /**
  * @description Recreation Ground
  */
 type CommercialLeisureSportRecreationGround =
-  "commercial.leisure.sport.recreationGround";
+  'commercial.leisure.sport.recreationGround';
 
 /**
  * @description Shinty Facility
  */
-type CommercialLeisureSportShinty = "commercial.leisure.sport.shinty";
+type CommercialLeisureSportShinty = 'commercial.leisure.sport.shinty';
 
 /**
  * @description Skateboarding Facility
  */
 type CommercialLeisureSportSkateboarding =
-  "commercial.leisure.sport.skateboarding";
+  'commercial.leisure.sport.skateboarding';
 
 /**
  * @description Civilian Firing Facility
  */
-type CommercialLeisureSportFiring = "commercial.leisure.sport.firing";
+type CommercialLeisureSportFiring = 'commercial.leisure.sport.firing';
 
 /**
  * @description Tenpin Bowling Facility
  */
-type CommercialLeisureSportTenpin = "commercial.leisure.sport.tenpin";
+type CommercialLeisureSportTenpin = 'commercial.leisure.sport.tenpin';
 
 /**
  * @description Public Tennis Court
  */
-type CommercialLeisureSportTennis = "commercial.leisure.sport.tennis";
+type CommercialLeisureSportTennis = 'commercial.leisure.sport.tennis';
 
 /**
  * @description Water Sports Facility
  */
-type CommercialLeisureSportWater = "commercial.leisure.sport.water";
+type CommercialLeisureSportWater = 'commercial.leisure.sport.water';
 
 /**
  * @description Winter Sports Facility
  */
-type CommercialLeisureSportWinter = "commercial.leisure.sport.winter";
+type CommercialLeisureSportWinter = 'commercial.leisure.sport.winter';
 
 /**
  * @description Wildlife Sports Facility
  */
-type CommercialLeisureSportWildlife = "commercial.leisure.sport.wildlife";
+type CommercialLeisureSportWildlife = 'commercial.leisure.sport.wildlife';
 
 /**
  * @description Cycling Sports Facility
  */
-type CommercialLeisureSportCycling = "commercial.leisure.sport.cycling";
+type CommercialLeisureSportCycling = 'commercial.leisure.sport.cycling';
 
 /**
  * @description Bingo Hall / Cinema / Conference / Exhibition Centre / Theatre / Concert Hall
  */
-type CommercialLeisureEntertainment = "commercial.leisure.entertainment";
+type CommercialLeisureEntertainment = 'commercial.leisure.entertainment';
 
 /**
  * @description Cinema
  */
 type CommercialLeisureEntertainmentCinema =
-  "commercial.leisure.entertainment.cinema";
+  'commercial.leisure.entertainment.cinema';
 
 /**
  * @description Entertainment Complex
  */
 type CommercialLeisureEntertainmentMixed =
-  "commercial.leisure.entertainment.mixed";
+  'commercial.leisure.entertainment.mixed';
 
 /**
  * @description Conference / Exhibition Centre
  */
 type CommercialLeisureEntertainmentExhibition =
-  "commercial.leisure.entertainment.exhibition";
+  'commercial.leisure.entertainment.exhibition';
 
 /**
  * @description Theatre
  */
 type CommercialLeisureEntertainmentTheatre =
-  "commercial.leisure.entertainment.theatre";
+  'commercial.leisure.entertainment.theatre';
 
 /**
  * @description Zoo / Theme Park
  */
-type CommercialLeisureParkZoo = "commercial.leisure.park.zoo";
+type CommercialLeisureParkZoo = 'commercial.leisure.park.zoo';
 
 /**
  * @description Amusement Park
  */
-type CommercialLeisureParkAmusement = "commercial.leisure.park.amusement";
+type CommercialLeisureParkAmusement = 'commercial.leisure.park.amusement';
 
 /**
  * @description Aquatic Attraction
  */
-type CommercialLeisureParkAquatic = "commercial.leisure.park.aquatic";
+type CommercialLeisureParkAquatic = 'commercial.leisure.park.aquatic';
 
 /**
  * @description Model Village Site
  */
-type CommercialLeisureParkModel = "commercial.leisure.park.model";
+type CommercialLeisureParkModel = 'commercial.leisure.park.model';
 
 /**
  * @description Wildlife / Zoological Park
  */
-type CommercialLeisureParkWildlife = "commercial.leisure.park.wildlife";
+type CommercialLeisureParkWildlife = 'commercial.leisure.park.wildlife';
 
 /**
  * @description Beach Hut (Recreational, Non-Residential Use Only)
  */
-type CommercialLeisureBeachHut = "commercial.leisure.beachHut";
+type CommercialLeisureBeachHut = 'commercial.leisure.beachHut';
 
 /**
  * @description Licensed Private Members' Club
  */
-type CommercialLeisureClubPrivate = "commercial.leisure.club.private";
+type CommercialLeisureClubPrivate = 'commercial.leisure.club.private';
 
 /**
  * @description Recreational / Social Club
  */
-type CommercialLeisureClubSocial = "commercial.leisure.club.social";
+type CommercialLeisureClubSocial = 'commercial.leisure.club.social';
 
 /**
  * @description Arena / Stadium
  */
-type CommercialLeisureArena = "commercial.leisure.arena";
+type CommercialLeisureArena = 'commercial.leisure.arena';
 
 /**
  * @description Stadium
  */
-type CommercialLeisureArenaStadium = "commercial.leisure.arena.stadium";
+type CommercialLeisureArenaStadium = 'commercial.leisure.arena.stadium';
 
 /**
  * @description Showground
  */
-type CommercialLeisureArenaShowground = "commercial.leisure.arena.showground";
+type CommercialLeisureArenaShowground = 'commercial.leisure.arena.showground';
 
 /**
  * @description Medical
  */
-type CommercialMedical = "commercial.medical";
+type CommercialMedical = 'commercial.medical';
 
 /**
  * @description Dentist
  */
-type CommercialMedicalDentist = "commercial.medical.dentist";
+type CommercialMedicalDentist = 'commercial.medical.dentist';
 
 /**
  * @description General Practice Surgery / Clinic
  */
-type CommercialMedicalGP = "commercial.medical.GP";
+type CommercialMedicalGP = 'commercial.medical.GP';
 
 /**
  * @description Health Centre
  */
-type CommercialMedicalHealthCentre = "commercial.medical.healthCentre";
+type CommercialMedicalHealthCentre = 'commercial.medical.healthCentre';
 
 /**
  * @description Health Care Services
  */
-type CommercialMedicalHealthServices = "commercial.medical.healthServices";
+type CommercialMedicalHealthServices = 'commercial.medical.healthServices';
 
 /**
  * @description Hospital / Hospice
  */
-type CommercialMedicalCare = "commercial.medical.care";
+type CommercialMedicalCare = 'commercial.medical.care';
 
 /**
  * @description Care home/Hospice
  */
-type CommercialMedicalCareHome = "commercial.medical.care.home";
+type CommercialMedicalCareHome = 'commercial.medical.care.home';
 
 /**
  * @description Hospital
  */
-type CommercialMedicalCareHospital = "commercial.medical.care.hospital";
+type CommercialMedicalCareHospital = 'commercial.medical.care.hospital';
 
 /**
  * @description Medical / Testing / Research Laboratory
  */
-type CommercialMedicalLab = "commercial.medical.lab";
+type CommercialMedicalLab = 'commercial.medical.lab';
 
 /**
  * @description Professional Medical Service
  */
-type CommercialMedicalProfessional = "commercial.medical.professional";
+type CommercialMedicalProfessional = 'commercial.medical.professional';
 
 /**
  * @description Assessment / Development Services
  */
-type CommercialMedicalAssessment = "commercial.medical.assessment";
+type CommercialMedicalAssessment = 'commercial.medical.assessment';
 
 /**
  * @description Animal Centre
  */
-type CommercialAnimals = "commercial.animals";
+type CommercialAnimals = 'commercial.animals';
 
 /**
  * @description Cattery / Kennel
  */
-type CommercialAnimalsKennelsCattery = "commercial.animals.kennelsCattery";
+type CommercialAnimalsKennelsCattery = 'commercial.animals.kennelsCattery';
 
 /**
  * @description Animal Services
  */
-type CommercialAnimalsServices = "commercial.animals.services";
+type CommercialAnimalsServices = 'commercial.animals.services';
 
 /**
  * @description Animal Quarantining
  */
 type CommercialAnimalsServicesQuarantine =
-  "commercial.animals.services.quarantine";
+  'commercial.animals.services.quarantine';
 
 /**
  * @description Equestrian
  */
-type CommercialAnimalsEquestrian = "commercial.animals.equestrian";
+type CommercialAnimalsEquestrian = 'commercial.animals.equestrian';
 
 /**
  * @description Horse Racing / Breeding Stable
  */
-type CommercialAnimalsEquestrianRacing = "commercial.animals.equestrian.racing";
+type CommercialAnimalsEquestrianRacing = 'commercial.animals.equestrian.racing';
 
 /**
  * @description Commercial Stabling / Riding
  */
-type CommercialAnimalsEquestrianRiding = "commercial.animals.equestrian.riding";
+type CommercialAnimalsEquestrianRiding = 'commercial.animals.equestrian.riding';
 
 /**
  * @description Vet / Animal Medical Treatment
  */
-type CommercialAnimalsVet = "commercial.animals.vet";
+type CommercialAnimalsVet = 'commercial.animals.vet';
 
 /**
  * @description Animal / Bird / Marine Sanctuary
  */
-type CommercialAnimalsSanctuary = "commercial.animals.sanctuary";
+type CommercialAnimalsSanctuary = 'commercial.animals.sanctuary';
 
 /**
  * @description Animal Sanctuary
  */
-type CommercialAnimalsSanctuaryAnimals = "commercial.animals.sanctuary.animals";
+type CommercialAnimalsSanctuaryAnimals = 'commercial.animals.sanctuary.animals';
 
 /**
  * @description Marine Sanctuary
  */
-type CommercialAnimalsSanctuaryMarine = "commercial.animals.sanctuary.marine";
+type CommercialAnimalsSanctuaryMarine = 'commercial.animals.sanctuary.marine';
 
 /**
  * @description Office
  */
-type CommercialOffice = "commercial.office";
+type CommercialOffice = 'commercial.office';
 
 /**
  * @description Office / Work Studio
  */
-type CommercialOfficeWorkspace = "commercial.office.workspace";
+type CommercialOfficeWorkspace = 'commercial.office.workspace';
 
 /**
  * @description Embassy /, High Commission / Consulate
  */
-type CommercialOfficeWorkspaceEmbassy = "commercial.office.workspace.embassy";
+type CommercialOfficeWorkspaceEmbassy = 'commercial.office.workspace.embassy';
 
 /**
  * @description Film Studio
  */
-type CommercialOfficeWorkspaceFilm = "commercial.office.workspace.film";
+type CommercialOfficeWorkspaceFilm = 'commercial.office.workspace.film';
 
 /**
  * @description Central Government Service
  */
 type CommercialOfficeWorkspaceGovNational =
-  "commercial.office.workspace.gov.national";
+  'commercial.office.workspace.gov.national';
 
 /**
  * @description Local Government Service
  */
 type CommercialOfficeWorkspaceGovLocal =
-  "commercial.office.workspace.gov.local";
+  'commercial.office.workspace.gov.local';
 
 /**
  * @description Broadcasting (TV / Radio)
  */
-type CommercialOfficeBroadcasting = "commercial.office.broadcasting";
+type CommercialOfficeBroadcasting = 'commercial.office.broadcasting';
 
 /**
  * @description Retail
  */
-type CommercialRetail = "commercial.retail";
+type CommercialRetail = 'commercial.retail';
 
 /**
  * @description Bank / Financial Service
  */
-type CommercialRetailFinancial = "commercial.retail.financial";
+type CommercialRetailFinancial = 'commercial.retail.financial';
 
 /**
  * @description Retail Service Agent
  */
-type CommercialRetailServices = "commercial.retail.services";
+type CommercialRetailServices = 'commercial.retail.services';
 
 /**
  * @description Post Office
  */
-type CommercialRetailPost = "commercial.retail.post";
+type CommercialRetailPost = 'commercial.retail.post';
 
 /**
  * @description Market (Indoor / Outdoor)
  */
-type CommercialRetailMarket = "commercial.retail.market";
+type CommercialRetailMarket = 'commercial.retail.market';
 
 /**
  * @description Fish Market
  */
-type CommercialRetailMarketFish = "commercial.retail.market.fish";
+type CommercialRetailMarketFish = 'commercial.retail.market.fish';
 
 /**
  * @description Fruit / Vegetable Market
  */
-type CommercialRetailMarketFruit = "commercial.retail.market.fruit";
+type CommercialRetailMarketFruit = 'commercial.retail.market.fruit';
 
 /**
  * @description Livestock Market
  */
-type CommercialRetailMarketLivestock = "commercial.retail.market.livestock";
+type CommercialRetailMarketLivestock = 'commercial.retail.market.livestock';
 
 /**
  * @description Petrol Filling Station
  */
-type CommercialRetailFuel = "commercial.retail.fuel";
+type CommercialRetailFuel = 'commercial.retail.fuel';
 
 /**
  * @description Public House / Bar / Nightclub
  */
-type CommercialRetailDrinking = "commercial.retail.drinking";
+type CommercialRetailDrinking = 'commercial.retail.drinking';
 
 /**
  * @description Restaurant / Cafeteria
  */
-type CommercialRetailRestaurant = "commercial.retail.restaurant";
+type CommercialRetailRestaurant = 'commercial.retail.restaurant';
 
 /**
  * @description Shop / Showroom
  */
-type CommercialRetailShowroom = "commercial.retail.showroom";
+type CommercialRetailShowroom = 'commercial.retail.showroom';
 
 /**
  * @description Shop
  */
-type CommercialRetailShop = "commercial.retail.shop";
+type CommercialRetailShop = 'commercial.retail.shop';
 
 /**
  * @description Garden Centre
  */
-type CommercialRetailShopGardenCentre = "commercial.retail.shop.gardenCentre";
+type CommercialRetailShopGardenCentre = 'commercial.retail.shop.gardenCentre';
 
 /**
  * @description Other Licensed Premise / Vendor
  */
-type CommercialRetailLicensedPremises = "commercial.retail.licensedPremises";
+type CommercialRetailLicensedPremises = 'commercial.retail.licensedPremises';
 
 /**
  * @description Fast Food Outlet / Takeaway (Hot / Cold)
  */
-type CommercialRetailTakeaway = "commercial.retail.takeaway";
+type CommercialRetailTakeaway = 'commercial.retail.takeaway';
 
 /**
  * @description Automated Teller Machine (ATM)
  */
-type CommercialRetailAtm = "commercial.retail.atm";
+type CommercialRetailAtm = 'commercial.retail.atm';
 
 /**
  * @description Storage Land
  */
-type CommercialStorageLand = "commercial.storageLand";
+type CommercialStorageLand = 'commercial.storageLand';
 
 /**
  * @description General Storage Land
  */
-type CommercialStorageLandGeneral = "commercial.storageLand.general";
+type CommercialStorageLandGeneral = 'commercial.storageLand.general';
 
 /**
  * @description Builders' Yard
  */
-type CommercialStorageLandBuilding = "commercial.storageLand.building";
+type CommercialStorageLandBuilding = 'commercial.storageLand.building';
 
 /**
  * @description Transport
  */
-type CommercialTransport = "commercial.transport";
+type CommercialTransport = 'commercial.transport';
 
 /**
  * @description Airfield / Airstrip / Airport / Air Transport Infrastructure Facility
  */
-type CommercialTransportAir = "commercial.transport.air";
+type CommercialTransportAir = 'commercial.transport.air';
 
 /**
  * @description Airfield
  */
-type CommercialTransportAirAirfield = "commercial.transport.air.airfield";
+type CommercialTransportAirAirfield = 'commercial.transport.air.airfield';
 
 /**
  * @description Air Transport Infrastructure Services
  */
 type CommercialTransportAirInfrastructure =
-  "commercial.transport.air.infrastructure";
+  'commercial.transport.air.infrastructure';
 
 /**
  * @description Airport
  */
-type CommercialTransportAirAirport = "commercial.transport.air.airport";
+type CommercialTransportAirAirport = 'commercial.transport.air.airport';
 
 /**
  * @description Air Passenger Terminal
  */
 type CommercialTransportAirPassengerTerminal =
-  "commercial.transport.air.passengerTerminal";
+  'commercial.transport.air.passengerTerminal';
 
 /**
  * @description Helicopter Station
  */
 type CommercialTransportAirHelicopterStation =
-  "commercial.transport.air.helicopterStation";
+  'commercial.transport.air.helicopterStation';
 
 /**
  * @description Heliport / Helipad
  */
-type CommercialTransportAirHeliport = "commercial.transport.air.heliport";
+type CommercialTransportAirHeliport = 'commercial.transport.air.heliport';
 
 /**
  * @description Bus Shelter
  */
-type CommercialTransportBus = "commercial.transport.bus";
+type CommercialTransportBus = 'commercial.transport.bus';
 
 /**
  * @description Car / Coach / Commercial Vehicle / Taxi Parking / Park And Ride Site
  */
-type CommercialTransportParking = "commercial.transport.parking";
+type CommercialTransportParking = 'commercial.transport.parking';
 
 /**
  * @description Public Park And Ride
  */
 type CommercialTransportParkingParkAndRide =
-  "commercial.transport.parking.parkAndRide";
+  'commercial.transport.parking.parkAndRide';
 
 /**
  * @description Public Car Parking
  */
-type CommercialTransportParkingCar = "commercial.transport.parking.car";
+type CommercialTransportParkingCar = 'commercial.transport.parking.car';
 
 /**
  * @description Public Coach Parking
  */
-type CommercialTransportParkingCoach = "commercial.transport.parking.coach";
+type CommercialTransportParkingCoach = 'commercial.transport.parking.coach';
 
 /**
  * @description Public Commercial Vehicle Parking
  */
 type CommercialTransportParkingCommercialVehicle =
-  "commercial.transport.parking.commercialVehicle";
+  'commercial.transport.parking.commercialVehicle';
 
 /**
  * @description Goods Freight Handling / Terminal
  */
-type CommercialTransportFreight = "commercial.transport.freight";
+type CommercialTransportFreight = 'commercial.transport.freight';
 
 /**
  * @description Air Freight Terminal
  */
-type CommercialTransportFreightAir = "commercial.transport.freight.air";
+type CommercialTransportFreightAir = 'commercial.transport.freight.air';
 
 /**
  * @description Container Freight
  */
 type CommercialTransportFreightContainer =
-  "commercial.transport.freight.container";
+  'commercial.transport.freight.container';
 
 /**
  * @description Road Freight Transport
  */
-type CommercialTransportFreightRoad = "commercial.transport.freight.road";
+type CommercialTransportFreightRoad = 'commercial.transport.freight.road';
 
 /**
  * @description Rail Freight Transport
  */
-type CommercialTransportFreightRail = "commercial.transport.freight.rail";
+type CommercialTransportFreightRail = 'commercial.transport.freight.rail';
 
 /**
  * @description Marina
  */
-type CommercialTransportMarina = "commercial.transport.marina";
+type CommercialTransportMarina = 'commercial.transport.marina';
 
 /**
  * @description Mooring
  */
-type CommercialTransportMooring = "commercial.transport.mooring";
+type CommercialTransportMooring = 'commercial.transport.mooring';
 
 /**
  * @description Railway Asset
  */
-type CommercialTransportRailAsset = "commercial.transport.railAsset";
+type CommercialTransportRailAsset = 'commercial.transport.railAsset';
 
 /**
  * @description Station / Interchange / Terminal / Halt
  */
-type CommercialTransportTerminal = "commercial.transport.terminal";
+type CommercialTransportTerminal = 'commercial.transport.terminal';
 
 /**
  * @description Bus station
  */
-type CommercialTransportTerminalBus = "commercial.transport.terminal.bus";
+type CommercialTransportTerminalBus = 'commercial.transport.terminal.bus';
 
 /**
  * @description Train station
  */
-type CommercialTransportTerminalBrain = "commercial.transport.terminal.train";
+type CommercialTransportTerminalBrain = 'commercial.transport.terminal.train';
 
 /**
  * @description Vehicular Rail Terminal
  */
 type CommercialTransportTerminalVehicularRail =
-  "commercial.transport.terminal.vehicularRail";
+  'commercial.transport.terminal.vehicularRail';
 
 /**
  * @description Transport Track / Way
  */
-type CommercialTransportTrack = "commercial.transport.track";
+type CommercialTransportTrack = 'commercial.transport.track';
 
 /**
  * @description Cliff Railway
  */
-type CommercialTransportTrackCliff = "commercial.transport.track.cliff";
+type CommercialTransportTrackCliff = 'commercial.transport.track.cliff';
 
 /**
  * @description Chair Lift / Cable Car / Ski Tow
  */
-type CommercialTransportTrackCable = "commercial.transport.track.cable";
+type CommercialTransportTrackCable = 'commercial.transport.track.cable';
 
 /**
  * @description Monorail
  */
-type CommercialTransportTrackMonorail = "commercial.transport.track.monorail";
+type CommercialTransportTrackMonorail = 'commercial.transport.track.monorail';
 
 /**
  * @description Vehicle Storage
  */
-type CommercialTransportStorage = "commercial.transport.storage";
+type CommercialTransportStorage = 'commercial.transport.storage';
 
 /**
  * @description Boat Storage
  */
-type CommercialTransportStorageBoat = "commercial.transport.storage.boat";
+type CommercialTransportStorageBoat = 'commercial.transport.storage.boat';
 
 /**
  * @description Bus / Coach Depot
  */
-type CommercialTransportStorageBus = "commercial.transport.storage.bus";
+type CommercialTransportStorageBus = 'commercial.transport.storage.bus';
 
 /**
  * @description Transport Related Infrastructure
  */
-type CommercialTransportInfrastructure = "commercial.transport.infrastructure";
+type CommercialTransportInfrastructure = 'commercial.transport.infrastructure';
 
 /**
  * @description Aqueduct
  */
 type CommercialTransportInfrastructureAqueduct =
-  "commercial.transport.infrastructure.aqueduct";
+  'commercial.transport.infrastructure.aqueduct';
 
 /**
  * @description Lock
  */
 type CommercialTransportInfrastructureLock =
-  "commercial.transport.infrastructure.lock";
+  'commercial.transport.infrastructure.lock';
 
 /**
  * @description Weir
  */
 type CommercialTransportInfrastructureWeir =
-  "commercial.transport.infrastructure.weir";
+  'commercial.transport.infrastructure.weir';
 
 /**
  * @description Weighbridge / Load Gauge
  */
 type CommercialTransportInfrastructureWeighing =
-  "commercial.transport.infrastructure.weighing";
+  'commercial.transport.infrastructure.weighing';
 
 /**
  * @description Overnight Lorry Park
  */
 type CommercialTransportOvernightLorryPark =
-  "commercial.transport.overnightLorryPark";
+  'commercial.transport.overnightLorryPark';
 
 /**
  * @description Harbour / Port / Dock / Dockyard / Slipway / Landing Stage / Pier / Jetty / Pontoon / Terminal / Berthing / Quay
  */
-type CommercialTransportDock = "commercial.transport.dock";
+type CommercialTransportDock = 'commercial.transport.dock';
 
 /**
  * @description Passenger Ferry Terminal
  */
 type CommercialTransportDockFerryPassengers =
-  "commercial.transport.dock.ferry.passengers";
+  'commercial.transport.dock.ferry.passengers';
 
 /**
  * @description Non-Tanker Nautical Berthing
  */
 type CommercialTransportDockGeneralBerth =
-  "commercial.transport.dock.generalBerth";
+  'commercial.transport.dock.generalBerth';
 
 /**
  * @description Nautical Refuelling Facility
  */
-type CommercialTransportDockRefuelling = "commercial.transport.dock.refuelling";
+type CommercialTransportDockRefuelling = 'commercial.transport.dock.refuelling';
 
 /**
  * @description Slipway
  */
-type CommercialTransportDockSlipway = "commercial.transport.dock.slipway";
+type CommercialTransportDockSlipway = 'commercial.transport.dock.slipway';
 
 /**
  * @description Ship Passenger Terminal
  */
-type CommercialTransportDockPassenger = "commercial.transport.dock.passenger";
+type CommercialTransportDockPassenger = 'commercial.transport.dock.passenger';
 
 /**
  * @description Tanker Berthing
  */
 type CommercialTransportDockTankerBerth =
-  "commercial.transport.dock.tankerBerth";
+  'commercial.transport.dock.tankerBerth';
 
 /**
  * @description Vehicular Ferry Terminal
  */
 type CommercialTransportDockFerryVehicles =
-  "commercial.transport.dock.ferry.vehicles";
+  'commercial.transport.dock.ferry.vehicles';
 
 /**
  * @description Utility
  */
-type CommercialUtility = "commercial.utility";
+type CommercialUtility = 'commercial.utility';
 
 /**
  * @description Electricity Sub-Station
  */
-type CommercialUtilitySubStation = "commercial.utility.SubStation";
+type CommercialUtilitySubStation = 'commercial.utility.SubStation';
 
 /**
  * @description Landfill
  */
-type CommercialUtilityLandfill = "commercial.utility.landfill";
+type CommercialUtilityLandfill = 'commercial.utility.landfill';
 
 /**
  * @description Power Station / Energy Production
  */
-type CommercialUtilityElectricity = "commercial.utility.electricity";
+type CommercialUtilityElectricity = 'commercial.utility.electricity';
 
 /**
  * @description Electricity Distribution Facility
  */
 type CommercialUtilityElectricityDistribution =
-  "commercial.utility.electricity.distribution";
+  'commercial.utility.electricity.distribution';
 
 /**
  * @description Electricity Production Facility
  */
 type CommercialUtilityElectricityProduction =
-  "commercial.utility.electricity.production";
+  'commercial.utility.electricity.production';
 
 /**
  * @description Wind Farm
  */
 type CommercialUtilityElectricityWindFarm =
-  "commercial.utility.electricity.windFarm";
+  'commercial.utility.electricity.windFarm';
 
 /**
  * @description Wind Turbine
  */
 type CommercialUtilityElectricityWindTurbine =
-  "commercial.utility.electricity.windTurbine";
+  'commercial.utility.electricity.windTurbine';
 
 /**
  * @description Pump House / Pumping Station / Water Tower
  */
-type CommercialUtilityWater = "commercial.utility.water";
+type CommercialUtilityWater = 'commercial.utility.water';
 
 /**
  * @description Water Controlling / Pumping
  */
 type CommercialUtilityWaterPumpControl =
-  "commercial.utility.water.pump.control";
+  'commercial.utility.water.pump.control';
 
 /**
  * @description Water Distribution / Pumping
  */
 type CommercialUtilityWaterPumpDistribution =
-  "commercial.utility.water.pump.distribution";
+  'commercial.utility.water.pump.distribution';
 
 /**
  * @description Water Quality Monitoring
  */
 type CommercialUtilityWaterQualityMonitoring =
-  "commercial.utility.water.qualityMonitoring";
+  'commercial.utility.water.qualityMonitoring';
 
 /**
  * @description Water Storage
  */
-type CommercialUtilityWaterStorage = "commercial.utility.water.storage";
+type CommercialUtilityWaterStorage = 'commercial.utility.water.storage';
 
 /**
  * @description Waste Water Distribution / Pumping
  */
-type CommercialUtilityWaterWaste = "commercial.utility.water.waste";
+type CommercialUtilityWaterWaste = 'commercial.utility.water.waste';
 
 /**
  * @description Telecommunication
  */
-type CommercialUtilityTelecoms = "commercial.utility.telecoms";
+type CommercialUtilityTelecoms = 'commercial.utility.telecoms';
 
 /**
  * @description Telecommunications Mast
  */
-type CommercialUtilityTelecomsMast = "commercial.utility.telecoms.mast";
+type CommercialUtilityTelecomsMast = 'commercial.utility.telecoms.mast';
 
 /**
  * @description Telephone Exchange
  */
-type CommercialUtilityTelecomsExchange = "commercial.utility.telecoms.exchange";
+type CommercialUtilityTelecomsExchange = 'commercial.utility.telecoms.exchange';
 
 /**
  * @description Water / Waste Water / Sewage Treatment Works
  */
-type CommercialUtilityWaterTreatment = "commercial.utility.waterTreatment";
+type CommercialUtilityWaterTreatment = 'commercial.utility.waterTreatment';
 
 /**
  * @description Waste Water Treatment
  */
 type CommercialUtilityWaterTreatmentWaste =
-  "commercial.utility.waterTreatment.waste";
+  'commercial.utility.waterTreatment.waste';
 
 /**
  * @description Water Treatment
  */
 type CommercialUtilityWaterTreatmentWater =
-  "commercial.utility.waterTreatment.water";
+  'commercial.utility.waterTreatment.water';
 
 /**
  * @description Gas / Oil Storage / Distribution
  */
-type CommercialUtilityOilGas = "commercial.utility.oilGas";
+type CommercialUtilityOilGas = 'commercial.utility.oilGas';
 
 /**
  * @description Gas Governor
  */
 type CommercialUtilityOilGasGasGovernor =
-  "commercial.utility.oilGas.gasGovernor";
+  'commercial.utility.oilGas.gasGovernor';
 
 /**
  * @description Gas Holder
  */
-type CommercialUtilityOilGasGasHolder = "commercial.utility.oilGas.gasHolder";
+type CommercialUtilityOilGasGasHolder = 'commercial.utility.oilGas.gasHolder';
 
 /**
  * @description Oil Terminal
  */
 type CommercialUtilityOilGasOilTerminal =
-  "commercial.utility.oilGas.oilTerminal";
+  'commercial.utility.oilGas.oilTerminal';
 
 /**
  * @description Other Utility Use
  */
-type CommercialUtilityOther = "commercial.utility.other";
+type CommercialUtilityOther = 'commercial.utility.other';
 
 /**
  * @description Cable Terminal Station
  */
 type CommercialUtilityOtherCableTerminal =
-  "commercial.utility.other.cableTerminal";
+  'commercial.utility.other.cableTerminal';
 
 /**
  * @description Observatory
  */
-type CommercialUtilityOtherObservatory = "commercial.utility.other.observatory";
+type CommercialUtilityOtherObservatory = 'commercial.utility.other.observatory';
 
 /**
  * @description Radar Station
  */
-type CommercialUtilityOtherRadar = "commercial.utility.other.radar";
+type CommercialUtilityOtherRadar = 'commercial.utility.other.radar';
 
 /**
  * @description Satellite Earth Station
  */
 type CommercialUtilityOtherSatelliteEarth =
-  "commercial.utility.other.satelliteEarth";
+  'commercial.utility.other.satelliteEarth';
 
 /**
  * @description Waste Management
  */
-type CommercialUtilityWasteManagement = "commercial.utility.wasteManagement";
+type CommercialUtilityWasteManagement = 'commercial.utility.wasteManagement';
 
 /**
  * @description Telephone Box
  */
-type CommercialUtilityPublicPhoneBox = "commercial.utility.publicPhone.box";
+type CommercialUtilityPublicPhoneBox = 'commercial.utility.publicPhone.box';
 
 /**
  * @description Other Public Telephones
  */
-type CommercialUtilityPublicPhoneOther = "commercial.utility.publicPhone.other";
+type CommercialUtilityPublicPhoneOther = 'commercial.utility.publicPhone.other';
 
 /**
  * @description Dam
  */
-type CommercialUtilityDam = "commercial.utility.dam";
+type CommercialUtilityDam = 'commercial.utility.dam';
 
 /**
  * @description Emergency / Rescue Service
  */
-type CommercialEmergency = "commercial.emergency";
+type CommercialEmergency = 'commercial.emergency';
 
 /**
  * @description Nautical Navigation Beacon / Light
  */
-type OtherNavigationNauticalBeacon = "other.navigation.nautical.beacon";
+type OtherNavigationNauticalBeacon = 'other.navigation.nautical.beacon';
 
 /**
  * @description Aid To Road Navigation
  */
-type OtherNavigationRoad = "other.navigation.road";
+type OtherNavigationRoad = 'other.navigation.road';
 
 /**
  * @description Guide Post
  */
-type OtherNavigationGuidePost = "other.navigation.guidePost";
+type OtherNavigationGuidePost = 'other.navigation.guidePost';
 
 /**
  * @description Coastal Protection / Flood Prevention
  */
-type OtherCoastal = "other.coastal";
+type OtherCoastal = 'other.coastal';
 
 /**
  * @description Boulder Wall / Sea Wall
  */
-type OtherCoastalWall = "other.coastal.wall";
+type OtherCoastalWall = 'other.coastal.wall';
 
 /**
  * @description Flood Gate / Flood Sluice Gate / Flood Valve
  */
-type OtherCoastalFloodGate = "other.coastal.floodGate";
+type OtherCoastalFloodGate = 'other.coastal.floodGate';
 
 /**
  * @description Groyne
  */
-type OtherCoastalGroyne = "other.coastal.groyne";
+type OtherCoastalGroyne = 'other.coastal.groyne';
 
 /**
  * @description Rip-Rap
  */
-type OtherCoastalRipRap = "other.coastal.ripRap";
+type OtherCoastalRipRap = 'other.coastal.ripRap';
 
 /**
  * @description Emergency Support
  */
-type OtherEmergency = "other.emergency";
+type OtherEmergency = 'other.emergency';
 
 /**
  * @description Beach Office / First Aid Facility
  */
-type OtherEmergencyFirstAid = "other.emergency.firstAid";
+type OtherEmergencyFirstAid = 'other.emergency.firstAid';
 
 /**
  * @description Emergency Telephone (Non Motorway)
  */
-type OtherEmergencyTelephone = "other.emergency.telephone";
+type OtherEmergencyTelephone = 'other.emergency.telephone';
 
 /**
  * @description Fire Alarm Structure / Fire Observation Tower / Fire Beater Facility
  */
-type OtherEmergencyFire = "other.emergency.fire";
+type OtherEmergencyFire = 'other.emergency.fire';
 
 /**
  * @description Emergency Equipment Point / Emergency Siren / Warning Flag
  */
-type OtherEmergencyWarning = "other.emergency.warning";
+type OtherEmergencyWarning = 'other.emergency.warning';
 
 /**
  * @description Lifeguard Facility
  */
-type OtherEmergencyLifeguard = "other.emergency.lifeguard";
+type OtherEmergencyLifeguard = 'other.emergency.lifeguard';
 
 /**
  * @description LIfe / Belt / Buoy / Float / Jacket / Safety Rope
  */
-type OtherEmergencyFloatAids = "other.emergency.floatAids";
+type OtherEmergencyFloatAids = 'other.emergency.floatAids';
 
 /**
  * @description Street Furniture
  */
-type OtherStreetFurniture = "other.streetFurniture";
+type OtherStreetFurniture = 'other.streetFurniture';
 
 /**
  * @description Agricultural Support Objects
  */
-type OtherAgriculture = "other.agriculture";
+type OtherAgriculture = 'other.agriculture';
 
 /**
  * @description Fish Ladder / Lock / Pen / Trap
  */
-type OtherAgricultureFishPen = "other.agriculture.fishPen";
+type OtherAgricultureFishPen = 'other.agriculture.fishPen';
 
 /**
  * @description Livestock Pen / Dip
  */
-type OtherAgricultureLivestockPen = "other.agriculture.livestockPen";
+type OtherAgricultureLivestockPen = 'other.agriculture.livestockPen';
 
 /**
  * @description Currick
  */
-type OtherAgricultureCurrick = "other.agriculture.currick";
+type OtherAgricultureCurrick = 'other.agriculture.currick';
 
 /**
  * @description Slurry Bed / Pit
  */
-type OtherAgricultureSlurry = "other.agriculture.slurry";
+type OtherAgricultureSlurry = 'other.agriculture.slurry';
 
 /**
  * @description Historical Site / Object
  */
-type OtherHistoric = "other.historic";
+type OtherHistoric = 'other.historic';
 
 /**
  * @description Historic Structure / Object
  */
-type OtherHistoricStructure = "other.historic.structure";
+type OtherHistoricStructure = 'other.historic.structure';
 
 /**
  * @description Industrial Support
  */
-type OtherIndustrial = "other.industrial";
+type OtherIndustrial = 'other.industrial';
 
 /**
  * @description Adit / Incline / Level
  */
-type OtherIndustrialAditIncline = "other.industrial.aditIncline";
+type OtherIndustrialAditIncline = 'other.industrial.aditIncline';
 
 /**
  * @description Caisson / Dry Dock / Grid
  */
-type OtherIndustrialCaissonDock = "other.industrial.caissonDock";
+type OtherIndustrialCaissonDock = 'other.industrial.caissonDock';
 
 /**
  * @description Channel / Conveyor / Conduit / Pipe
  */
-type OtherIndustrialChannel = "other.industrial.channel";
+type OtherIndustrialChannel = 'other.industrial.channel';
 
 /**
  * @description Chimney / Flue
  */
-type OtherIndustrialChimney = "other.industrial.chimney";
+type OtherIndustrialChimney = 'other.industrial.chimney';
 
 /**
  * @description Crane / Hoist / Winch / Material Elevator
  */
-type OtherIndustrialCrane = "other.industrial.crane";
+type OtherIndustrialCrane = 'other.industrial.crane';
 
 /**
  * @description Flare Stack
  */
-type OtherIndustrialFlareStack = "other.industrial.flareStack";
+type OtherIndustrialFlareStack = 'other.industrial.flareStack';
 
 /**
  * @description Hopper / Silo / Cistern / Tank
  */
-type OtherIndustrialSiloTank = "other.industrial.siloTank";
+type OtherIndustrialSiloTank = 'other.industrial.siloTank';
 
 /**
  * @description Grab / Skip / Other Industrial Waste Machinery / Discharging
  */
-type OtherIndustrialDischarge = "other.industrial.discharge";
+type OtherIndustrialDischarge = 'other.industrial.discharge';
 
 /**
  * @description Kiln / Oven / Smelter
  */
-type OtherIndustrialKiln = "other.industrial.kiln";
+type OtherIndustrialKiln = 'other.industrial.kiln';
 
 /**
  * @description Manhole / Shaft
  */
-type OtherIndustrialManholeShaft = "other.industrial.manholeShaft";
+type OtherIndustrialManholeShaft = 'other.industrial.manholeShaft';
 
 /**
  * @description Industrial Overflow / Sluice / Valve / Valve Housing
  */
 type OtherIndustrialOverflowSluiceValve =
-  "other.industrial.overflowSluiceValve";
+  'other.industrial.overflowSluiceValve';
 
 /**
  * @description Cooling Tower
  */
-type OtherIndustrialCoolingTower = "other.industrial.coolingTower";
+type OtherIndustrialCoolingTower = 'other.industrial.coolingTower';
 
 /**
  * @description Solar Panel / Waterwheel
  */
-type OtherIndustrialSolarPanel = "other.industrial.solarPanel";
+type OtherIndustrialSolarPanel = 'other.industrial.solarPanel';
 
 /**
  * @description Telephone Pole / Post
  */
-type OtherIndustrialPylonTelecom = "other.industrial.pylon.telecom";
+type OtherIndustrialPylonTelecom = 'other.industrial.pylon.telecom';
 
 /**
  * @description Electricity Distribution Pole / Pylon
  */
-type OtherIndustrialPylonElectricity = "other.industrial.pylon.electricity";
+type OtherIndustrialPylonElectricity = 'other.industrial.pylon.electricity';
 
 /**
  * @description Significant Natural Object
  */
-type OtherNatural = "other.natural";
+type OtherNatural = 'other.natural';
 
 /**
  * @description Boundary / Significant / Historic Tree / Pollard
  */
-type OtherNaturalTree = "other.natural.tree";
+type OtherNaturalTree = 'other.natural.tree';
 
 /**
  * @description Boundary / Significant Rock / Boulder
  */
-type OtherNaturalRock = "other.natural.rock";
+type OtherNaturalRock = 'other.natural.rock';
 
 /**
  * @description Natural Hole (Blow / Shake / Swallow)
  */
-type OtherNaturalHole = "other.natural.hole";
+type OtherNaturalHole = 'other.natural.hole';
 
 /**
  * @description Ornamental / Cultural Object
  */
-type OtherOrnamental = "other.ornamental";
+type OtherOrnamental = 'other.ornamental';
 
 /**
  * @description Mausoleum / Tomb / Grave
  */
-type OtherOrnamentalTomb = "other.ornamental.tomb";
+type OtherOrnamentalTomb = 'other.ornamental.tomb';
 
 /**
  * @description Simple Ornamental Object
  */
-type OtherOrnamentalObject = "other.ornamental.object";
+type OtherOrnamentalObject = 'other.ornamental.object';
 
 /**
  * @description Maze
  */
-type OtherOrnamentalMaze = "other.ornamental.maze";
+type OtherOrnamentalMaze = 'other.ornamental.maze';
 
 /**
  * @description Sport / Leisure Support
  */
-type OtherLeisure = "other.leisure";
+type OtherLeisure = 'other.leisure';
 
 /**
  * @description Butt / Hide
  */
-type OtherLeisureHide = "other.leisure.hide";
+type OtherLeisureHide = 'other.leisure.hide';
 
 /**
  * @description Gallop / Ride
  */
-type OtherLeisureGallop = "other.leisure.gallop";
+type OtherLeisureGallop = 'other.leisure.gallop';
 
 /**
  * @description Miniature Railway
  */
-type OtherLeisureModelRailway = "other.leisure.modelRailway";
+type OtherLeisureModelRailway = 'other.leisure.modelRailway';
 
 /**
  * @description Royal Mail Infrastructure
  */
-type OtherMail = "other.mail";
+type OtherMail = 'other.mail';
 
 /**
  * @description Postal Box
  */
-type OtherMailPostBox = "other.mail.postBox";
+type OtherMailPostBox = 'other.mail.postBox';
 
 /**
  * @description Postal Delivery Box / Pouch
  */
-type OtherMailDeliveryBox = "other.mail.deliveryBox";
+type OtherMailDeliveryBox = 'other.mail.deliveryBox';
 
 /**
  * @description PO Box
  */
-type OtherMailPOBox = "other.mail.POBox";
+type OtherMailPOBox = 'other.mail.POBox';
 
 /**
  * @description Additional Mail / Packet Addressee
  */
-type OtherMailAdditionalAddressee = "other.mail.additionalAddressee";
+type OtherMailAdditionalAddressee = 'other.mail.additionalAddressee';
 
 /**
  * @description Scientific / Observation Support
  */
-type OtherScientific = "other.scientific";
+type OtherScientific = 'other.scientific';
 
 /**
  * @description Meteorological Station / Equipment
  */
-type OtherScientificMeteo = "other.scientific.meteo";
+type OtherScientificMeteo = 'other.scientific.meteo';
 
 /**
  * @description Radar / Satellite Infrastructure
  */
-type OtherScientificRadarSatellite = "other.scientific.radarSatellite";
+type OtherScientificRadarSatellite = 'other.scientific.radarSatellite';
 
 /**
  * @description Telescope / Observation Infrastructure / Astronomy
  */
-type OtherScientificAstronomy = "other.scientific.astronomy";
+type OtherScientificAstronomy = 'other.scientific.astronomy';
 
 /**
  * @description Transport Support
  */
-type OtherTransport = "other.transport";
+type OtherTransport = 'other.transport';
 
 /**
  * @description Cattle Grid / Ford
  */
-type OtherTransportCattleGridFord = "other.transport.cattleGridFord";
+type OtherTransportCattleGridFord = 'other.transport.cattleGridFord';
 
 /**
  * @description Elevator / Escalator / Steps
  */
-type OtherTransportStepsLiftEscalator = "other.transport.stepsLiftEscalator";
+type OtherTransportStepsLiftEscalator = 'other.transport.stepsLiftEscalator';
 
 /**
  * @description Footbridge / Walkway
  */
-type OtherTransportBridge = "other.transport.bridge";
+type OtherTransportBridge = 'other.transport.bridge';
 
 /**
  * @description Pole / Post / Bollard (Restricting Vehicular Access)
  */
-type OtherTransportPost = "other.transport.post";
+type OtherTransportPost = 'other.transport.post';
 
 /**
  * @description Subway / Underpass
  */
-type OtherTransportSubway = "other.transport.subway";
+type OtherTransportSubway = 'other.transport.subway';
 
 /**
  * @description Customs Inspection Facility
  */
-type OtherTransportCustoms = "other.transport.customs";
+type OtherTransportCustoms = 'other.transport.customs';
 
 /**
  * @description Lay-By
  */
-type OtherTransportLayby = "other.transport.layby";
+type OtherTransportLayby = 'other.transport.layby';
 
 /**
  * @description Level Crossing
  */
 type OtherTransportRailCrossingVehicles =
-  "other.transport.rail.crossing.vehicles";
+  'other.transport.rail.crossing.vehicles';
 
 /**
  * @description Mail Pick Up
  */
-type OtherTransportMailPickUp = "other.transport.mailPickUp";
+type OtherTransportMailPickUp = 'other.transport.mailPickUp';
 
 /**
  * @description Railway Pedestrian Crossing
  */
 type OtherTransportRailCrossingPedestrian =
-  "other.transport.rail.crossing.pedestrian";
+  'other.transport.rail.crossing.pedestrian';
 
 /**
  * @description Railway Buffer
  */
-type OtherTransportRailBuffer = "other.transport.rail.buffer";
+type OtherTransportRailBuffer = 'other.transport.rail.buffer';
 
 /**
  * @description Rail Drag
  */
-type OtherTransportRailDrag = "other.transport.rail.drag";
+type OtherTransportRailDrag = 'other.transport.rail.drag';
 
 /**
  * @description Rail Infrastructure Services
  */
-type OtherTransportRailInfrastructure = "other.transport.rail.infrastructure";
+type OtherTransportRailInfrastructure = 'other.transport.rail.infrastructure';
 
 /**
  * @description Rail Kilometre Distance Marker
  */
-type OtherTransportRailMarkerKM = "other.transport.rail.marker.km";
+type OtherTransportRailMarkerKM = 'other.transport.rail.marker.km';
 
 /**
  * @description Railway Lighting
  */
-type OtherTransportRailLighting = "other.transport.rail.lighting";
+type OtherTransportRailLighting = 'other.transport.rail.lighting';
 
 /**
  * @description Rail Mile Distance Marker
  */
-type OtherTransportRailMarketMile = "other.transport.rail.market.mile";
+type OtherTransportRailMarketMile = 'other.transport.rail.market.mile';
 
 /**
  * @description Railway Turntable
  */
-type OtherTransportRailTurntable = "other.transport.rail.turntable";
+type OtherTransportRailTurntable = 'other.transport.rail.turntable';
 
 /**
  * @description Rail Weighbridge
  */
-type OtherTransportRailWeighbridge = "other.transport.rail.weighbridge";
+type OtherTransportRailWeighbridge = 'other.transport.rail.weighbridge';
 
 /**
  * @description Rail Signalling
  */
-type OtherTransportRailSignals = "other.transport.rail.signals";
+type OtherTransportRailSignals = 'other.transport.rail.signals';
 
 /**
  * @description Railway Traverse
  */
-type OtherTransportRailTraverse = "other.transport.rail.traverse";
+type OtherTransportRailTraverse = 'other.transport.rail.traverse';
 
 /**
  * @description Goods Tramway
  */
-type OtherTransportGoodsTramway = "other.transport.goodsTramway";
+type OtherTransportGoodsTramway = 'other.transport.goodsTramway';
 
 /**
  * @description Road Drag
  */
-type OtherTransportRoadDrag = "other.transport.road.drag";
+type OtherTransportRoadDrag = 'other.transport.road.drag';
 
 /**
  * @description Vehicle Dip
  */
-type OtherTransportRoadVehicleDip = "other.transport.road.vehicleDip";
+type OtherTransportRoadVehicleDip = 'other.transport.road.vehicleDip';
 
 /**
  * @description Road Turntable
  */
-type OtherTransportRoadTurntable = "other.transport.road.turntable";
+type OtherTransportRoadTurntable = 'other.transport.road.turntable';
 
 /**
  * @description Road Mile Distance Marker
  */
-type OtherTransportRoadMarkerMile = "other.transport.road.marker.mile";
+type OtherTransportRoadMarkerMile = 'other.transport.road.marker.mile';
 
 /**
  * @description Road Kilometre Distance Marker
  */
-type OtherTransportRoadMarketKM = "other.transport.road.market.km";
+type OtherTransportRoadMarketKM = 'other.transport.road.market.km';
 
 /**
  * @description Road Infrastructure Services
  */
-type OtherTransportRoadInfrastructure = "other.transport.road.infrastructure";
+type OtherTransportRoadInfrastructure = 'other.transport.road.infrastructure';
 
 /**
  * @description Unsupported Site
  */
-type OtherUnsupported = "other.unsupported";
+type OtherUnsupported = 'other.unsupported';
 
 /**
  * @description Cycle Parking Facility
  */
-type OtherUnsupportedCycleParking = "other.unsupported.cycleParking";
+type OtherUnsupportedCycleParking = 'other.unsupported.cycleParking';
 
 /**
  * @description Picnic / Barbecue Site
  */
-type OtherUnsupportedPicnic = "other.unsupported.picnic";
+type OtherUnsupportedPicnic = 'other.unsupported.picnic';
 
 /**
  * @description Travelling Persons Site
  */
-type OtherUnsupportedTravellingPersons = "other.unsupported.travellingPersons";
+type OtherUnsupportedTravellingPersons = 'other.unsupported.travellingPersons';
 
 /**
  * @description Shelter (Not Including Bus Shelter)
  */
-type OtherUnsupportedShelter = "other.unsupported.shelter";
+type OtherUnsupportedShelter = 'other.unsupported.shelter';
 
 /**
  * @description Street Record
  */
-type ParentStreet = "parent.street";
+type ParentStreet = 'parent.street';
 
 /**
  * @description Residential
  */
-type Residential = "residential";
+type Residential = 'residential';
 
 /**
  * @description Ancillary Building
  */
-type ResidentialBuilding = "residential.building";
+type ResidentialBuilding = 'residential.building';
 
 /**
  * @description Car Park Space
  */
-type ResidentialCarParkingSpace = "residential.carParkingSpace";
+type ResidentialCarParkingSpace = 'residential.carParkingSpace';
 
 /**
  * @description Allocated Parking
  */
 type ResidentialCarParkingSpaceAllocated =
-  "residential.carParkingSpace.allocated";
+  'residential.carParkingSpace.allocated';
 
 /**
  * @description Residential dwelling
  */
-type ResidentialDwelling = "residential.dwelling";
+type ResidentialDwelling = 'residential.dwelling';
 
 /**
  * @description Caravan
  */
-type ResidentialDwellingCaravan = "residential.dwelling.caravan";
+type ResidentialDwellingCaravan = 'residential.dwelling.caravan';
 
 /**
  * @description Detached
  */
-type ResidentialDwellingHouseDetached = "residential.dwelling.house.detached";
+type ResidentialDwellingHouseDetached = 'residential.dwelling.house.detached';
 
 /**
  * @description Semi-detached
  */
 type ResidentialDwellingHouseSemiDetached =
-  "residential.dwelling.house.semiDetached";
+  'residential.dwelling.house.semiDetached';
 
 /**
  * @description Terrace
  */
-type ResidentialDwellingHouseTerrace = "residential.dwelling.house.terrace";
+type ResidentialDwellingHouseTerrace = 'residential.dwelling.house.terrace';
 
 /**
  * @description Flat
  */
-type ResidentialDwellingFlat = "residential.dwelling.flat";
+type ResidentialDwellingFlat = 'residential.dwelling.flat';
 
 /**
  * @description House Boat
  */
-type ResidentialDwellingBoat = "residential.dwelling.boat";
+type ResidentialDwellingBoat = 'residential.dwelling.boat';
 
 /**
  * @description Sheltered Accommodation
  */
 type ResidentialDwellingShelteredAccommodation =
-  "residential.dwelling.shelteredAccommodation";
+  'residential.dwelling.shelteredAccommodation';
 
 /**
  * @description Privately Owned Holiday Caravan / Chalet
  */
-type ResidentialDwellingHoliday = "residential.dwelling.holiday";
+type ResidentialDwellingHoliday = 'residential.dwelling.holiday';
 
 /**
  * @description Garage
  */
-type ResidentialGarage = "residential.garage";
+type ResidentialGarage = 'residential.garage';
 
 /**
  * @description Lock-Up Garage / Garage Court
  */
-type ResidentialGarageCourt = "residential.garage.court";
+type ResidentialGarageCourt = 'residential.garage.court';
 
 /**
  * @description House In Multiple Occupation
  */
-type ResidentialHMO = "residential.HMO";
+type ResidentialHMO = 'residential.HMO';
 
 /**
  * @description HMO Parent
  */
-type ResidentialHMOParent = "residential.HMO.parent";
+type ResidentialHMOParent = 'residential.HMO.parent';
 
 /**
  * @description HMO Bedsit / Other Non Self Contained Accommodation
  */
-type ResidentialHMOBedsit = "residential.HMO.bedsit";
+type ResidentialHMOBedsit = 'residential.HMO.bedsit';
 
 /**
  * @description HMO Not Further Divided
  */
-type ResidentialHMOUndivided = "residential.HMO.undivided";
+type ResidentialHMOUndivided = 'residential.HMO.undivided';
 
 /**
  * @description Residential Institution
  */
-type ResidentialInstitution = "residential.institution";
+type ResidentialInstitution = 'residential.institution';
 
 /**
  * @description Care / Nursing Home
  */
-type ResidentialInstitutionCare = "residential.institution.care";
+type ResidentialInstitutionCare = 'residential.institution.care';
 
 /**
  * @description Communal Residence
  */
-type ResidentialInstitutionCommunal = "residential.institution.communal";
+type ResidentialInstitutionCommunal = 'residential.institution.communal';
 
 /**
  * @description Non-Commercial Lodgings
  */
 type ResidentialInstitutionNoncommercial =
-  "residential.institution.noncommercial";
+  'residential.institution.noncommercial';
 
 /**
  * @description Religious Community
  */
-type ResidentialInstitutionReligious = "residential.institution.religious";
+type ResidentialInstitutionReligious = 'residential.institution.religious';
 
 /**
  * @description Residential Education
  */
-type ResidentialInstitutionEducation = "residential.institution.education";
+type ResidentialInstitutionEducation = 'residential.institution.education';
 
 /**
  * @description Unclassified
  */
-type Unclassified = "unclassified";
+type Unclassified = 'unclassified';
 
 /**
  * @description Awaiting Classification
  */
-type UnclassifiedAwaitingclassification = "unclassified.awaitingclassification";
+type UnclassifiedAwaitingclassification = 'unclassified.awaitingclassification';
 
 /**
  * @description Pending Internal Investigation
  */
-type UnclassifiedPendingInvestigation = "unclassified.pendingInvestigation";
+type UnclassifiedPendingInvestigation = 'unclassified.pendingInvestigation';
 
 /**
  * @description Dual Use
  */
-type DualUse = "dualUse";
+type DualUse = 'dualUse';
 
 /**
  * @description Object of Interest
  */
-type Object = "object";
+type Object = 'object';
 
 /**
  * @description Archaeological Dig Site
  */
-type ObjectArchaeological = "object.archaeological";
+type ObjectArchaeological = 'object.archaeological';
 
 /**
  * @description Monument
  */
-type ObjectMonument = "object.monument";
+type ObjectMonument = 'object.monument';
 
 /**
  * @description Obelisk / Milestone / Standing Stone
  */
-type ObjectMonumentVertical = "object.monument.vertical";
+type ObjectMonumentVertical = 'object.monument.vertical';
 
 /**
  * @description Obelisk
  */
-type ObjectMonumentVerticalObelisk = "object.monument.vertical.obelisk";
+type ObjectMonumentVerticalObelisk = 'object.monument.vertical.obelisk';
 
 /**
  * @description Standing Stone
  */
 type ObjectMonumentVerticalStandingStone =
-  "object.monument.vertical.standingStone";
+  'object.monument.vertical.standingStone';
 
 /**
  * @description Memorial / Market Cross
  */
-type ObjectMonumentMemorial = "object.monument.memorial";
+type ObjectMonumentMemorial = 'object.monument.memorial';
 
 /**
  * @description Statue
  */
-type ObjectMonumentStatue = "object.monument.statue";
+type ObjectMonumentStatue = 'object.monument.statue';
 
 /**
  * @description Castle / Historic Ruin
  */
-type ObjectMonumentRuin = "object.monument.ruin";
+type ObjectMonumentRuin = 'object.monument.ruin';
 
 /**
  * @description Other Structure
  */
-type ObjectMonumentOther = "object.monument.other";
+type ObjectMonumentOther = 'object.monument.other';
 
 /**
  * @description Boundary Stone
  */
-type ObjectMonumentOtherBoundaryStone = "object.monument.other.boundaryStone";
+type ObjectMonumentOtherBoundaryStone = 'object.monument.other.boundaryStone';
 
 /**
  * @description Cascade / Fountain
  */
-type ObjectMonumentOtherWaterFeature = "object.monument.other.waterFeature";
+type ObjectMonumentOtherWaterFeature = 'object.monument.other.waterFeature';
 
 /**
  * @description Permanent Art Display / Sculpture
  */
-type ObjectMonumentOtherArt = "object.monument.other.art";
+type ObjectMonumentOtherArt = 'object.monument.other.art';
 
 /**
  * @description Windmill (Inactive)
  */
-type ObjectMonumentOtherWindmill = "object.monument.other.windmill";
+type ObjectMonumentOtherWindmill = 'object.monument.other.windmill';
 
 /**
  * @description Stately Home
  */
-type ObjectStatelyHome = "object.statelyHome";
+type ObjectStatelyHome = 'object.statelyHome';
 
 /**
  * @description Underground Feature
  */
-type ObjectUnderground = "object.underground";
+type ObjectUnderground = 'object.underground';
 
 /**
  * @description Cave
  */
-type ObjectUndergroundCave = "object.underground.cave";
+type ObjectUndergroundCave = 'object.underground.cave';
 
 /**
  * @description Pothole / Natural Hole
  */
-type ObjectUndergroundHole = "object.underground.hole";
+type ObjectUndergroundHole = 'object.underground.hole';
 
 /**
  * @description Other Underground Feature
  */
-type ObjectUndergroundOther = "object.underground.other";
+type ObjectUndergroundOther = 'object.underground.other';
 
 /**
  * @description Cellar
  */
-type ObjectUndergroundOtherCellar = "object.underground.other.cellar";
+type ObjectUndergroundOtherCellar = 'object.underground.other.cellar';
 
 /**
  * @description Disused Mine
  */
-type ObjectUndergroundOtherExtraction = "object.underground.other.extraction";
+type ObjectUndergroundOtherExtraction = 'object.underground.other.extraction';
 
 /**
  * @description Mineral Mining / Inactive
  */
 type ObjectUndergroundOtherExtractionMine =
-  "object.underground.other.extraction.mine";
+  'object.underground.other.extraction.mine';
 
 /**
  * @description Oil And / Gas Extraction/ Inactive
  */
 type ObjectUndergroundOtherExtractionOilGas =
-  "object.underground.other.extraction.oilGas";
+  'object.underground.other.extraction.oilGas';
 
 /**
  * @description Mineral Quarrying And / Open Extraction / Inactive
  */
 type ObjectUndergroundOtherExtractionQuarry =
-  "object.underground.other.extraction.quarry";
+  'object.underground.other.extraction.quarry';
 
 /**
  * @description Well / Spring
  */
-type ObjectUndergroundOtherWater = "object.underground.other.water";
+type ObjectUndergroundOtherWater = 'object.underground.other.water';
 
 /**
  * @description Spring
  */
 type ObjectUndergroundOtherWaterSpring =
-  "object.underground.other.water.spring";
+  'object.underground.other.water.spring';
 
 /**
  * @description Well
  */
-type ObjectUndergroundOtherWaterWell = "object.underground.other.water.well";
+type ObjectUndergroundOtherWaterWell = 'object.underground.other.water.well';
 
 /**
  * @description Place Of Worship
  */
-type ObjectReligious = "object.religious";
+type ObjectReligious = 'object.religious';
 
 /**
  * @description Religious building
  */
-type ObjectReligiousBuilding = "object.religious.building";
+type ObjectReligiousBuilding = 'object.religious.building';
 
 /**
  * @description Abbey
  */
-type ObjectReligiousBuildingAbbey = "object.religious.building.abbey";
+type ObjectReligiousBuildingAbbey = 'object.religious.building.abbey';
 
 /**
  * @description Cathedral
  */
-type ObjectReligiousBuildingCathedral = "object.religious.building.cathedral";
+type ObjectReligiousBuildingCathedral = 'object.religious.building.cathedral';
 
 /**
  * @description Church
  */
-type ObjectReligiousBuildingChurch = "object.religious.building.church";
+type ObjectReligiousBuildingChurch = 'object.religious.building.church';
 
 /**
  * @description Chapel
  */
-type ObjectReligiousBuildingChapel = "object.religious.building.chapel";
+type ObjectReligiousBuildingChapel = 'object.religious.building.chapel';
 
 /**
  * @description Gurdwara
  */
-type ObjectReligiousBuildingGurdwara = "object.religious.building.gurdwara";
+type ObjectReligiousBuildingGurdwara = 'object.religious.building.gurdwara';
 
 /**
  * @description Kingdom Hall
  */
 type ObjectReligiousBuildingKingdomHall =
-  "object.religious.building.kingdomHall";
+  'object.religious.building.kingdomHall';
 
 /**
  * @description Lych Gate
  */
-type ObjectReligiousBuildingLychGate = "object.religious.building.lychGate";
+type ObjectReligiousBuildingLychGate = 'object.religious.building.lychGate';
 
 /**
  * @description Mosque
  */
-type ObjectReligiousBuildingMosque = "object.religious.building.mosque";
+type ObjectReligiousBuildingMosque = 'object.religious.building.mosque';
 
 /**
  * @description Minster
  */
-type ObjectReligiousBuildingMinster = "object.religious.building.minster";
+type ObjectReligiousBuildingMinster = 'object.religious.building.minster';
 
 /**
  * @description Stupa
  */
-type ObjectReligiousBuildingStupa = "object.religious.building.stupa";
+type ObjectReligiousBuildingStupa = 'object.religious.building.stupa';
 
 /**
  * @description Synagogue
  */
-type ObjectReligiousBuildingSynagogue = "object.religious.building.synagogue";
+type ObjectReligiousBuildingSynagogue = 'object.religious.building.synagogue';
 
 /**
  * @description Temple
  */
-type ObjectReligiousBuildingTemple = "object.religious.building.temple";
+type ObjectReligiousBuildingTemple = 'object.religious.building.temple';
 
 /**
  * @id #PropertyType

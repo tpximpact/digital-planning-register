@@ -1,47 +1,47 @@
 /**
  * @description Other affordable housing provider
  */
-type AffordableHousing = "affordableHousing";
+type AffordableHousing = 'affordableHousing';
 
 /**
  * @description Council delivered build to rent
  */
-type CouncilBuildToRent = "councilBuildToRent";
+type CouncilBuildToRent = 'councilBuildToRent';
 
 /**
  * @description Council delivery company
  */
-type CouncilDelivery = "councilDelivery";
+type CouncilDelivery = 'councilDelivery';
 
 /**
  * @description Housing association
  */
-type HA = "HA";
+type HA = 'HA';
 
 /**
  * @description Local Authority
  */
-type LA = "LA";
+type LA = 'LA';
 
 /**
  * @description Private
  */
-type Private = "private";
+type Private = 'private';
 
 /**
  * @description Private rented sector
  */
-type PrivateRented = "privateRented";
+type PrivateRented = 'privateRented';
 
 /**
  * @description Other public authority
  */
-type PublicAuthority = "publicAuthority";
+type PublicAuthority = 'publicAuthority';
 
 /**
  * @description Self-build
  */
-type SelfBuild = "selfBuild";
+type SelfBuild = 'selfBuild';
 
 /**
  * @id #GLAHousingProvider

@@ -1,5 +1,5 @@
-import { UKResidentialUnitType } from "../enums/ResidentialUnitType";
-import { UKTenureType } from "../enums/TenureType";
+import {UKResidentialUnitType} from '../enums/ResidentialUnitType';
+import {UKTenureType} from '../enums/TenureType';
 
 export type ResidentialUnits = {
   total: number;

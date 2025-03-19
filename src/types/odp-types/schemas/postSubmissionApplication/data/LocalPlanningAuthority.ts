@@ -1,4 +1,4 @@
-import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
+import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
 
 type LocalPlanningAuthorityBase = {
   /**

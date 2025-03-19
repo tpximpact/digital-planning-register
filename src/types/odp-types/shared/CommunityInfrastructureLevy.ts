@@ -1,4 +1,4 @@
-import { Area, Date } from "./utils";
+import {Area, Date} from './utils';
 
 /**
  * @title Community Infrastructure Levy (CIL) Form 1
@@ -32,12 +32,12 @@ interface BaseCIL {
 interface LiableForCIL extends BaseCIL {
   // Result checks in PlanX are heirarchical (first check if project qualifies for full exemption from CIL, then CIL relief, else plain "liable")
   result:
-    | "exempt.annexe"
-    | "exempt.extension"
-    | "exempt.selfBuild"
-    | "relief.charity"
-    | "relief.socialHousing"
-    | "liable";
+    | 'exempt.annexe'
+    | 'exempt.extension'
+    | 'exempt.selfBuild'
+    | 'relief.charity'
+    | 'relief.socialHousing'
+    | 'liable';
   claim: {
     /**
      * @description Do you wish to claim an exemption for a residential annex or extension?
@@ -169,7 +169,7 @@ interface LiableForCIL extends BaseCIL {
 }
 
 interface NotLiableForCIL extends BaseCIL {
-  result: "notLiable";
+  result: 'notLiable';
   /**
    * @description Has the user confirmed that the CIL information they have provided is correct? Specifically, that this project does not create either new buildings with 100m² new floor space or new dwellings, and therefore does not need to pay the Community Infrastructure Levy (CIL)?
    */
