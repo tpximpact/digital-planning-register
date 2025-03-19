@@ -21,13 +21,18 @@
  * @param fields - The array of field names in the order to concatenate.
  * @returns A concatenated string of field values.
  */
-export const concatenateFieldsInOrder = <T>(
-  obj: Record<string, T>,
+export const concatenateFieldsInOrder = (
+  obj: object,
   fields: string[],
   separator: string = ", ",
 ): string => {
-  return fields
-    .filter((field) => obj[field]) // Filter out fields that are not present or have falsy values
-    .map((field) => obj[field]) // Map the remaining fields to their values
-    .join(separator); // Join the values with a comma
+  const data = fields
+    .map((key) => {
+      if (obj && obj.hasOwnProperty(key)) {
+        const value = obj[key as keyof object];
+        return value ?? "";
+      }
+    })
+    .filter(Boolean);
+  return data.join(separator).trim();
 };
