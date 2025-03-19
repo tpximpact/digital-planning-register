@@ -151,7 +151,6 @@ export const getApplicationStatusSummary = (
  * "Appeal validated"
  * "Appeal in progress"
  * "Appeal decided"
- * "Appeal withdrawn"
  * "Unknown"
  * @param application
  * @returns
@@ -219,9 +218,8 @@ export const getApplicationDprStatusSummary = (
         case "allowed":
         case "dismissed":
         case "splitDecision":
-          return "Appeal decided";
         case "withdrawn":
-          return "Appeal withdrawn";
+          return "Appeal decided";
       }
     }
 
