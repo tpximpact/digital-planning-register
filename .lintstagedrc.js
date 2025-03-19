@@ -15,13 +15,14 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "standalone",
-  transpilePackages: ["@opensystemslab/map"],
-  eslint: {
-    dirs: ["src", "__e2e__", "__mocks__", "__tests__", ".storybook"],
-  },
-};
+// .lintstagedrc.js
+// See https://nextjs.org/docs/basic-features/eslint#lint-staged for details
 
-export default nextConfig;
+const path = require("path");
+
+const buildEslintCommand = (filenames) =>
+  `next lint --file ${filenames.map((f) => path.relative(process.cwd(), f)).join(" --file ")}`;
+
+module.exports = {
+  "*.{js,jsx,ts,tsx}": [buildEslintCommand],
+};
