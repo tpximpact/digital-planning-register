@@ -1,22 +1,22 @@
 /**
  * @description allowed
  */
-type allowed = "allowed";
+type allowed = 'allowed';
 
 /**
  * @description dismissed
  */
-type dismissed = "dismissed";
+type dismissed = 'dismissed';
 
 /**
  * @description splitDecision
  */
-type splitDecision = "splitDecision";
+type splitDecision = 'splitDecision';
 
 /**
  * @description withdrawn
  */
-type withdrawn = "withdrawn";
+type withdrawn = 'withdrawn';
 
 /**
  * @id #AppealDecision

@@ -1,6 +1,6 @@
-import { BaseMetadata } from "../../shared/Metadata";
-import { DateTime } from "../../shared/utils";
-import { PrototypePlanXMetadata } from "../prototypeApplication/Metadata";
+import {BaseMetadata} from '../../shared/Metadata';
+import {DateTime} from '../../shared/utils';
+import {PrototypePlanXMetadata} from '../prototypeApplication/Metadata';
 
 type PostSubmissionMetadataBase = {
   /**

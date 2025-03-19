@@ -1,4 +1,4 @@
-import { Date } from "./utils";
+import {Date} from './utils';
 
 /**
  * @title Pre-application

@@ -6,11 +6,11 @@ export interface Declaration {
   accurate: boolean;
   connection: {
     value:
-      | "employee"
-      | "relation.employee"
-      | "electedMember"
-      | "relation.electedMember"
-      | "none";
+      | 'employee'
+      | 'relation.employee'
+      | 'electedMember'
+      | 'relation.electedMember'
+      | 'none';
     description?: string;
   };
 }

@@ -1,87 +1,87 @@
 /**
  * @description Affordable home ownership
  */
-type AHO = "AHO";
+type AHO = 'AHO';
 
 /**
  * @description Market housing
  */
-type MH = "MH";
+type MH = 'MH';
 
 /**
  * @description Other
  */
-type Other = "other";
+type Other = 'other';
 
 /**
  * @description Social, affordable or interim rent
  */
-type SAIR = "SAIR";
+type SAIR = 'SAIR';
 
 /**
  * @description Self-build and custom build
  */
-type SelfCustomBuild = "selfCustomBuild";
+type SelfCustomBuild = 'selfCustomBuild';
 
 /**
  * @description Starter homes
  */
-type SH = "SH";
+type SH = 'SH';
 
 /**
  * @description Affordable rent (not at LAR benchmark rents)
  */
-type AR = "AR";
+type AR = 'AR';
 
 /**
  * @description Discount market rate
  */
-type DMR = "DMR";
+type DMR = 'DMR';
 
 /**
  * @description Discount market rate (charged at London Living Rents)
  */
-type DMRLLR = "DMRLLR";
+type DMRLLR = 'DMRLLR';
 
 /**
  * @description Discount market sale
  */
-type DMS = "DMS";
+type DMS = 'DMS';
 
 /**
  * @description London Affordable Rent
  */
-type LAR = "LAR";
+type LAR = 'LAR';
 
 /**
  * @description London Living Rent
  */
-type LRR = "LRR";
+type LRR = 'LRR';
 
 /**
  * @description London Shared Ownership
  */
-type LSO = "LSO";
+type LSO = 'LSO';
 
 /**
  * @description Market for rent
  */
-type MarketForRent = "marketForRent";
+type MarketForRent = 'marketForRent';
 
 /**
  * @description Market for sale
  */
-type MarketForSale = "marketForSale";
+type MarketForSale = 'marketForSale';
 
 /**
  * @description Shared equity
  */
-type SharedEquity = "sharedEquity";
+type SharedEquity = 'sharedEquity';
 
 /**
  * @description Social rent
  */
-type SR = "SR";
+type SR = 'SR';
 
 /**
  * @id #GLATenureType

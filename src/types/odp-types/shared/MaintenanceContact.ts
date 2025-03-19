@@ -1,5 +1,5 @@
-import { Address } from "./Addresses";
-import { ContactDetails } from "./Contacts";
+import {Address} from './Addresses';
+import {ContactDetails} from './Contacts';
 
 /**
  * @title Maintenance contacts
@@ -7,9 +7,9 @@ import { ContactDetails } from "./Contacts";
  */
 export type MaintenanceContacts = {
   when:
-    | "duringConstruction"
-    | "afterConstruction"
-    | "duringAndAfterConstruction";
+    | 'duringConstruction'
+    | 'afterConstruction'
+    | 'duringAndAfterConstruction';
   address: Address;
   contact: ContactDetails;
 }[];

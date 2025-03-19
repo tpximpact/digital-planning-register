@@ -1,5 +1,5 @@
-import { Declaration } from "../../../shared/Declarations";
-import { Fee } from "../../../shared/Fees";
+import {Declaration} from '../../../shared/Declarations';
+import {Fee} from '../../../shared/Fees';
 
 /**
  * @id #PreApplicationData
@@ -7,10 +7,10 @@ import { Fee } from "../../../shared/Fees";
  */
 export interface PreApplicationData {
   type: {
-    value: "preApp";
-    description: "Pre-application";
+    value: 'preApp';
+    description: 'Pre-application';
   };
-  fee: Pick<Fee, "payable" | "reference">;
+  fee: Pick<Fee, 'payable' | 'reference'>;
   declaration: Declaration;
   information: {
     harmful: {

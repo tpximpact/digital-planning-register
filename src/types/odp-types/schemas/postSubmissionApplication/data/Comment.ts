@@ -2,15 +2,12 @@
  *
  */
 
-import { PlanningConstraint } from "../../../shared/Constraints";
-import { DateTime } from "../../../shared/utils";
-import { CommentSentiment } from "../enums/CommentSentiment";
-import { CommentTopic } from "../enums/CommentTopic";
-import {
-  PublicCommentSummary,
-  SpecialistCommentSummary,
-} from "./CommentSummary";
-import { PostSubmissionFile } from "./File";
+import {PlanningConstraint} from '../../../shared/Constraints';
+import {DateTime} from '../../../shared/utils';
+import {CommentSentiment} from '../enums/CommentSentiment';
+import {CommentTopic} from '../enums/CommentTopic';
+import {PublicCommentSummary, SpecialistCommentSummary} from './CommentSummary';
+import {PostSubmissionFile} from './File';
 
 /**
  * @id #PublicComments

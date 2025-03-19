@@ -1,12 +1,12 @@
 /**
  * @description Specialist comment (consultee)
  */
-type Specialist = "specialist";
+type Specialist = 'specialist';
 
 /**
  * @description Public comment (published)
  */
-type Public = "public";
+type Public = 'public';
 
 /**
  * @id #CommentType

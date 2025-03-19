@@ -1,4 +1,4 @@
-import { GeoBoundary } from "./../../../shared/Boundaries";
+import {GeoBoundary} from './../../../shared/Boundaries';
 
 /**
  * @id #FilesAsData
@@ -26,8 +26,8 @@ export type HeritageStatementBase = {
 };
 
 export interface HeritageStatement {
-  "designated.conservationArea"?: HeritageStatementBase;
+  'designated.conservationArea'?: HeritageStatementBase;
   listed?: HeritageStatementBase;
   monument?: HeritageStatementBase;
-  "designated.WHS"?: HeritageStatementBase;
+  'designated.WHS'?: HeritageStatementBase;
 }

@@ -1,11 +1,11 @@
-import { CommunityInfrastructureLevy } from "../../../shared/CommunityInfrastructureLevy";
-import { Declaration } from "../../../shared/Declarations";
-import { Fee, FeeNotApplicable } from "../../../shared/Fees";
+import {CommunityInfrastructureLevy} from '../../../shared/CommunityInfrastructureLevy';
+import {Declaration} from '../../../shared/Declarations';
+import {Fee, FeeNotApplicable} from '../../../shared/Fees';
 import {
   PlanningApplication,
   PreApplication,
-} from "../../../shared/LinkedApplications";
-import { ApplicationType } from "../enums/ApplicationTypes";
+} from '../../../shared/LinkedApplications';
+import {ApplicationType} from '../enums/ApplicationTypes';
 
 /**
  * @id #ApplicationData
@@ -32,7 +32,7 @@ export interface LondonApplicationData extends BaseApplicationData {
 }
 
 export interface LeadDeveloper {
-  type: "ukCompany" | "overseasCompany" | "none";
+  type: 'ukCompany' | 'overseasCompany' | 'none';
   company?: {
     name: string;
     registrationNumber: string;

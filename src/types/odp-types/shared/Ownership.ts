@@ -1,16 +1,16 @@
-import { Address } from "./Addresses";
-import { Date } from "./utils";
+import {Address} from './Addresses';
+import {Date} from './utils';
 
-export type OwnersInterest = "owner" | "lessee" | "occupier" | "other";
+export type OwnersInterest = 'owner' | 'lessee' | 'occupier' | 'other';
 
 /**
  * @title #Ownership
  * @description Information about the ownership certificate and property owners, if different than the applicant
  */
 export interface Ownership {
-  interest?: OwnersInterest | "owner.sole" | "owner.co";
+  interest?: OwnersInterest | 'owner.sole' | 'owner.co';
   interestDescription?: string;
-  certificate?: "a" | "b" | "c" | "d";
+  certificate?: 'a' | 'b' | 'c' | 'd';
   /**
    * @description Does the land have any agricultural tenants?
    */
@@ -30,7 +30,7 @@ export interface Ownership {
   /**
    * @description Do you know the names and addresses of all owners and agricultural tenants?
    */
-  ownersKnown?: "all" | "some" | "none";
+  ownersKnown?: 'all' | 'some' | 'none';
   owners?: Owners[];
   /**
    * @description Declaration of the accuracy of the ownership certificate, including reasonable steps taken to find all owners and publish notice

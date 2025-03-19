@@ -1,7 +1,7 @@
-import { DateTime } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
-import { ApplicationStatus } from "../enums/ApplicationStatus";
-import { ProcessStage } from "../enums/ProcessStage";
+import {DateTime} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
+import {ApplicationStatus} from '../enums/ApplicationStatus';
+import {ProcessStage} from '../enums/ProcessStage';
 
 type ApplicationBase = {
   /**

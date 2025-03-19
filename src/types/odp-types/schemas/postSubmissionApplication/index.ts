@@ -18,18 +18,18 @@ import {
   PrimaryApplicationType,
   RightsOfWayOrderApplicationType,
   WTTApplicationType,
-} from "../prototypeApplication/enums/ApplicationType";
-import { PrototypeApplication } from "../prototypeApplication";
-import { PostSubmissionMetadata } from "./Metadata";
-import { CaseOfficer } from "./data/CaseOfficer";
-import { PublicComments, SpecialistComments } from "./data/Comment";
-import { Submission } from "./data/Submission";
-import { Validation } from "./data/Validation";
-import { Consultation } from "./data/Consultation";
-import { Assessment } from "./data/Assessment";
-import { Appeal } from "./data/Appeal";
-import { Application } from "./data/Application";
-import { LocalPlanningAuthority } from "./data/LocalPlanningAuthority";
+} from '../prototypeApplication/enums/ApplicationType';
+import {PrototypeApplication} from '../prototypeApplication';
+import {PostSubmissionMetadata} from './Metadata';
+import {CaseOfficer} from './data/CaseOfficer';
+import {PublicComments, SpecialistComments} from './data/Comment';
+import {Submission} from './data/Submission';
+import {Validation} from './data/Validation';
+import {Consultation} from './data/Consultation';
+import {Assessment} from './data/Assessment';
+import {Appeal} from './data/Appeal';
+import {Application} from './data/Application';
+import {LocalPlanningAuthority} from './data/LocalPlanningAuthority';
 /**
  * @internal
  * The generic base type for all applications
@@ -62,71 +62,71 @@ interface ApplicationSpecification<
 }
 
 export type PostSubmissionAdvertConsent = ApplicationSpecification<
-  "advertConsent",
+  'advertConsent',
   AdvertConsentApplicationType
 >;
 export type PostSubmissionAmendment = ApplicationSpecification<
-  "amendment",
+  'amendment',
   AmendmentApplicationType
 >;
 export type PostSubmissionApproval = ApplicationSpecification<
-  "approval",
+  'approval',
   ApprovalApplicationType
 >;
 export type PostSubmissionComplianceConfirmation = ApplicationSpecification<
-  "complianceConfirmation",
+  'complianceConfirmation',
   ComplianceConfirmationApplicationType
 >;
 export type PostSubmissionEnvironmentalImpact = ApplicationSpecification<
-  "environmentalImpact",
+  'environmentalImpact',
   EnvironmentalImpactApplicationType
 >;
 export type PostSubmissionHazardousSubstanceConsent = ApplicationSpecification<
-  "hazardousSubstanceConsent",
+  'hazardousSubstanceConsent',
   HazardousSubstanceConsentApplicationType
 >;
 export type PostSubmissionHedgerowRemovalNotice = ApplicationSpecification<
-  "hedgerowRemovalNotice",
+  'hedgerowRemovalNotice',
   HedgerowRemovalNoticeApplicationType
 >;
 export type PostSubmissionLandDrainageConsent = ApplicationSpecification<
-  "landDrainageConsent",
+  'landDrainageConsent',
   LandDrainageConsentApplicationType
 >;
 export type PostSubmissionLDC = ApplicationSpecification<
-  "ldc",
+  'ldc',
   LDCApplicationType
 >;
 export type PostSubmissionListed = ApplicationSpecification<
-  "listed",
+  'listed',
   ListedApplicationType
 >;
 export type PostSubmissionNotifyCompletion = ApplicationSpecification<
-  "notifyCompletion",
+  'notifyCompletion',
   NotifyCompletionApplicationType
 >;
 export type PostSubmissionObligation = ApplicationSpecification<
-  "obligation",
+  'obligation',
   ObligationApplicationType
 >;
 export type PostSubmissionOnshoreExtractionOilAndGas = ApplicationSpecification<
-  "onshoreExtractionOilAndGas",
+  'onshoreExtractionOilAndGas',
   OnshoreExtractionOilAndGasApplicationType
 >;
 export type PostSubmissionPA = ApplicationSpecification<
-  "pa",
+  'pa',
   PAApplicationType
 >;
 export type PostSubmissionPP = ApplicationSpecification<
-  "pp",
+  'pp',
   PPApplicationType
 >;
 export type PostSubmissionRightsOfWayOrder = ApplicationSpecification<
-  "rightsOfWayOrder",
+  'rightsOfWayOrder',
   RightsOfWayOrderApplicationType
 >;
 export type PostSubmissionWTT = ApplicationSpecification<
-  "wtt",
+  'wtt',
   WTTApplicationType
 >;
 

@@ -1,12 +1,12 @@
 /**
  * @description Granted
  */
-type granted = "granted";
+type granted = 'granted';
 
 /**
  * @description Refused
  */
-type refused = "refused";
+type refused = 'refused';
 
 /**
  * @id #AssessmentDecision

@@ -2,25 +2,25 @@
  * @description returned
  * An application is only returned if it is invalid
  */
-type returned = "returned";
+type returned = 'returned';
 
 /**
  * @description withdrawn
  * An application can be withdrawn after submitssion and until a decision is made
  */
-type withdrawn = "withdrawn";
+type withdrawn = 'withdrawn';
 
 /**
  * @description determined
  * An application is determined if it has a decision, even if appeal is pending
  */
-type determined = "determined";
+type determined = 'determined';
 
 /**
  * @description undetermined
  * An application is undetermined if it has no decision yet, it can be in consultation or validation and be undetermined
  */
-type undetermined = "undetermined";
+type undetermined = 'undetermined';
 
 /**
  * @id #ApplicationStatus

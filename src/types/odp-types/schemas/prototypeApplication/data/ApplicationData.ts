@@ -1,11 +1,11 @@
-import { PrimaryApplicationType } from "../enums/ApplicationType";
-import { Declaration } from "../../../shared/Declarations";
-import { Fee, FeeNotApplicable } from "../../../shared/Fees";
-import { CommunityInfrastructureLevy } from "../../../shared/CommunityInfrastructureLevy";
+import {PrimaryApplicationType} from '../enums/ApplicationType';
+import {Declaration} from '../../../shared/Declarations';
+import {Fee, FeeNotApplicable} from '../../../shared/Fees';
+import {CommunityInfrastructureLevy} from '../../../shared/CommunityInfrastructureLevy';
 import {
   PlanningApplication,
   PreApplication,
-} from "../../../shared/LinkedApplications";
+} from '../../../shared/LinkedApplications';
 
 export type ApplicationDataBase =
   | EnglandApplicationData
@@ -21,7 +21,7 @@ export interface EnglandApplicationData {
 }
 
 export interface LeadDeveloper {
-  type: "ukCompany" | "overseasCompany" | "none";
+  type: 'ukCompany' | 'overseasCompany' | 'none';
   company?: {
     name: string;
     registrationNumber: string;
@@ -68,6 +68,7 @@ export interface ApplicationDataVariants {
   landDrainageConsent: FeeCarryingApplicationData;
   wtt: NonFeeCarryingApplicationData;
   hedgerowRemovalNotice: NonFeeCarryingApplicationData;
+  advertConsent: FeeCarryingApplicationData;
 }
 
 /**

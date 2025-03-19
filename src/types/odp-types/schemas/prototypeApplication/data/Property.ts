@@ -1,15 +1,15 @@
-import { OSAddress, ProposedAddress } from "../../../shared/Addresses";
-import { GeoBoundary } from "./../../../shared/Boundaries";
-import { Materials } from "../../../shared/Materials";
-import { Region } from "../../../shared/Regions";
-import { URL } from "../../../shared/utils";
-import { PrimaryApplicationType } from "../enums/ApplicationType";
+import {OSAddress, ProposedAddress} from '../../../shared/Addresses';
+import {GeoBoundary} from './../../../shared/Boundaries';
+import {Materials} from '../../../shared/Materials';
+import {Region} from '../../../shared/Regions';
+import {URL} from '../../../shared/utils';
+import {PrimaryApplicationType} from '../enums/ApplicationType';
 import {
   PlanningConstraint,
   PlanningDesignation,
-} from "../../../shared/Constraints";
-import { PropertyType } from "../enums/PropertyTypes";
-import { ExistingLondonParking } from "../../../shared/Parking";
+} from '../../../shared/Constraints';
+import {PropertyType} from '../enums/PropertyTypes';
+import {ExistingLondonParking} from '../../../shared/Parking';
 
 export type PropertyBase = EnglandProperty | LondonProperty;
 
@@ -50,9 +50,9 @@ export interface EnglandProperty {
  * @description Property details for sites within the Greater London Authority (GLA) area
  */
 export interface LondonProperty extends EnglandProperty {
-  region: Extract<Region, "London">;
+  region: Extract<Region, 'London'>;
   titleNumber?: {
-    known: "Yes" | "No";
+    known: 'Yes' | 'No';
     number?: string;
   };
   /**
@@ -60,10 +60,10 @@ export interface LondonProperty extends EnglandProperty {
    */
   EPC?: {
     known:
-      | "Yes"
-      | "Yes, but only some of the properties have one"
-      | "The property does not have one"
-      | "No";
+      | 'Yes'
+      | 'Yes, but only some of the properties have one'
+      | 'The property does not have one'
+      | 'No';
     number?: string;
   };
   parking?: ExistingLondonParking;
@@ -83,6 +83,7 @@ interface PropertyVariants {
   pp: PPProperty;
   wtt: EnglandProperty;
   hedgerowRemovalNotice: EnglandProperty;
+  advertConsent: EnglandProperty;
 }
 
 /**

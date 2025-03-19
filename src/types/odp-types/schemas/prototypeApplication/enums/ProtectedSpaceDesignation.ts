@@ -1,37 +1,37 @@
 /**
  * @description Site of Borough Grade 1 Importance
  */
-type BoroughGradeOne = "boroughGradeOne";
+type BoroughGradeOne = 'boroughGradeOne';
 
 /**
  * @description Site of Borough Grade 2 Importance
  */
-type BoroughGradeTwo = "boroughGradeTwo";
+type BoroughGradeTwo = 'boroughGradeTwo';
 
 /**
  * @description Site of Local Importance
  */
-type Local = "local";
+type Local = 'local';
 
 /**
  * @description Local Nature Reserve
  */
-type LocalReserve = "localReserve";
+type LocalReserve = 'localReserve';
 
 /**
  * @description Site of Metropolitan Importance
  */
-type Metropolitan = "metropolitan";
+type Metropolitan = 'metropolitan';
 
 /**
  * @description Not designated
  */
-type None = "none";
+type None = 'none';
 
 /**
  * @description Sites of Special Scientific Interest
  */
-type SSSI = "SSSI";
+type SSSI = 'SSSI';
 
 /**
  * @id #ProtectedSpaceDesignation

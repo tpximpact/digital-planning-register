@@ -5,4 +5,4 @@ export interface UserBase {
   role: UserRoles;
 }
 
-export type UserRoles = "applicant" | "agent" | "proxy";
+export type UserRoles = 'applicant' | 'agent' | 'proxy';

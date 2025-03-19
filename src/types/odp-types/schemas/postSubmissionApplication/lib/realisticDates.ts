@@ -33,7 +33,7 @@ type RealisticDates = {
  * Helper to generate sensible dates for events to happen in the application process
  */
 export const generateRealisticDates = (
-  dateString = "2024-02-18T15:54:30.821Z",
+  dateString = '2024-02-18T15:54:30.821Z',
 ): RealisticDates => {
   // Helper functions to add time to a date
   const addMilliseconds = (date: Date, milliseconds: number): Date => {

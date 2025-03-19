@@ -1,9 +1,9 @@
-import { Responses } from "../../shared/Responses";
-import { Applicant } from "./data/Applicant";
-import { ApplicationData } from "./data/ApplicationData";
-import { Property } from "./data/Property";
-import { Proposal } from "./data/Proposal";
-import { UserBase } from "./data/User";
+import {Responses} from '../../shared/Responses';
+import {Applicant} from './data/Applicant';
+import {ApplicationData} from './data/ApplicationData';
+import {Property} from './data/Property';
+import {Proposal} from './data/Proposal';
+import {UserBase} from './data/User';
 import {
   ApplicationType,
   LandDrainageConsentApplicationType,
@@ -14,10 +14,11 @@ import {
   PrimaryApplicationType,
   WTTApplicationType,
   HedgerowRemovalNoticeApplicationType,
-} from "./enums/ApplicationType";
-import { File } from "./File";
-import { PrototypePlanXMetadata } from "./Metadata";
-import { PreAssessment } from "./PreAssessment";
+  AdvertConsentApplicationType,
+} from './enums/ApplicationType';
+import {File} from './File';
+import {PrototypePlanXMetadata} from './Metadata';
+import {PreAssessment} from './PreAssessment';
 
 /**
  * @internal
@@ -43,18 +44,22 @@ interface ApplicationSpecification<
   metadata: PrototypePlanXMetadata;
 }
 
-export type LDC = ApplicationSpecification<"ldc", LDCApplicationType>;
-export type PA = ApplicationSpecification<"pa", PAApplicationType>;
-export type PP = ApplicationSpecification<"pp", PPApplicationType>;
-export type Listed = ApplicationSpecification<"listed", ListedApplicationType>;
+export type LDC = ApplicationSpecification<'ldc', LDCApplicationType>;
+export type PA = ApplicationSpecification<'pa', PAApplicationType>;
+export type PP = ApplicationSpecification<'pp', PPApplicationType>;
+export type Listed = ApplicationSpecification<'listed', ListedApplicationType>;
 export type LandDrainageConsent = ApplicationSpecification<
-  "landDrainageConsent",
+  'landDrainageConsent',
   LandDrainageConsentApplicationType
 >;
-export type WTT = ApplicationSpecification<"wtt", WTTApplicationType>;
+export type WTT = ApplicationSpecification<'wtt', WTTApplicationType>;
 export type HedgerowRemovalNotice = ApplicationSpecification<
-  "hedgerowRemovalNotice",
+  'hedgerowRemovalNotice',
   HedgerowRemovalNoticeApplicationType
+>;
+export type AdvertConsent = ApplicationSpecification<
+  'advertConsent',
+  AdvertConsentApplicationType
 >;
 // TODO: All the rest!
 
@@ -69,4 +74,5 @@ export type PrototypeApplication =
   | Listed
   | LandDrainageConsent
   | WTT
-  | HedgerowRemovalNotice;
+  | HedgerowRemovalNotice
+  | AdvertConsent;

@@ -1,4 +1,4 @@
-import { Email } from "./utils";
+import {Email} from './utils';
 
 /**
  * @title Contact details

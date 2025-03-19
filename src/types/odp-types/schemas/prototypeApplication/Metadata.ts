@@ -2,10 +2,10 @@ import {
   BaseMetadata,
   FeeExplanation,
   FeeExplanationNotApplicable,
-} from "../../shared/Metadata";
-import { URL, UUID } from "../../shared/utils";
-import { PrototypeFileType } from "./enums/FileType";
-import { BasePlanningDesignation, Entity } from "../../shared/Constraints";
+} from '../../shared/Metadata';
+import {URL, UUID} from '../../shared/utils';
+import {PrototypeFileType} from './enums/FileType';
+import {BasePlanningDesignation, Entity} from '../../shared/Constraints';
 
 /**
  * @description File types requested by this service. Schema["files"] will be a subset of this list based on the user's journey through the service
@@ -30,14 +30,14 @@ export interface UserOverrides {
         value: BasePlanningDesignation;
         sourceIntersects: true;
         userIntersects: false;
-        entities: Array<Entity & { userReason: string }>;
+        entities: Array<Entity & {userReason: string}>;
       }[];
     };
   };
 }
 
 export interface PrototypePlanXMetadata extends BaseMetadata {
-  source: "PlanX";
+  source: 'PlanX';
   service: {
     flowId: UUID;
     url: URL;

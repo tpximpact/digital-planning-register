@@ -1,11 +1,11 @@
-import { PlanXMetadata } from "../../shared/Metadata";
-import { Responses } from "../../shared/Responses";
-import { User } from "../../shared/User";
-import { File } from "../application/File";
-import { PreApplicant } from "./data/Applicant";
-import { PreApplicationData } from "./data/ApplicationData";
-import { Property } from "./data/Property";
-import { Proposal } from "./data/Proposal";
+import {PlanXMetadata} from '../../shared/Metadata';
+import {Responses} from '../../shared/Responses';
+import {User} from '../../shared/User';
+import {File} from '../application/File';
+import {PreApplicant} from './data/Applicant';
+import {PreApplicationData} from './data/ApplicationData';
+import {Property} from './data/Property';
+import {Proposal} from './data/Proposal';
 
 /**
  * @title PreApplication
