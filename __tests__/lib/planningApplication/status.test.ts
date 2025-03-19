@@ -530,6 +530,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -573,6 +574,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerDecision: "granted",
             planningOfficerDecisionDate: formatDateToYmd(
               dates.assessment.planningOfficerDecisionAt.toDate(),
@@ -619,6 +621,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -669,6 +672,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerDecisionDate: formatDateToYmd(
               dates.assessment.planningOfficerDecisionAt.toDate(),
             ),
@@ -714,6 +718,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -765,6 +770,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -818,6 +824,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -872,6 +879,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -927,6 +935,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -984,6 +993,7 @@ describe("getApplicationDprStatusSummary", () => {
             siteNotice: true,
           },
           assessment: {
+            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
             planningOfficerRecommendation: "refused",
             committeeSentDate: formatDateToYmd(
               dates.assessment.committeeSentAt.toDate(),
@@ -1010,7 +1020,7 @@ describe("getApplicationDprStatusSummary", () => {
         metadata: generateMetadata(dates),
       };
       const statusSummary = getApplicationDprStatusSummary(application);
-      expect(statusSummary).toBe("Appeal withdrawn");
+      expect(statusSummary).toBe("Appeal decided");
     });
   });
 });

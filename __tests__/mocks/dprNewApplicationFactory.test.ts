@@ -15,7 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication } from "@/types";
 import {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
@@ -227,6 +226,19 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderConsultation.data.consultation?.endDate,
     ).toBeDefined();
+    const startDate = new Date(
+      planningPermissionFullHouseholderConsultation?.data?.consultation
+        ?.startDate as string,
+    );
+    const endDate = new Date(
+      planningPermissionFullHouseholderConsultation?.data?.consultation
+        ?.endDate as string,
+    );
+    expect(startDate).toBeInstanceOf(Date);
+    expect(endDate).toBeInstanceOf(Date);
+    expect(startDate < endDate).toBe(true);
+    const now = new Date();
+    expect(now >= startDate && now <= endDate).toBe(true);
 
     // assessment data checks
     expect(

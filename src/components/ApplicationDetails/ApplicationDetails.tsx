@@ -31,6 +31,7 @@ import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
+import { getDescription } from "@/lib/planningApplication/application";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -51,7 +52,7 @@ export const ApplicationDetails = ({
 
   const commentsEnabled = checkCommentsEnabled(application);
   const councilSlug = appConfig.council.slug;
-  const description = application.proposal.description;
+  const description = getDescription(application.proposal);
   const people = application.officer || application.applicant;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.data.appeal;
