@@ -26,9 +26,6 @@ export interface DocumentCardProps {
   document: DprDocument;
 }
 
-/**
- * Replaces the old custom layout with the <Attachment> component.
- */
 export const DocumentCard = ({ document }: DocumentCardProps) => {
   const contentType = document.metadata?.contentType;
   const fileSize = document.metadata?.byteSize;

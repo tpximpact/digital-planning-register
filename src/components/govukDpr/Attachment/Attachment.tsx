@@ -109,7 +109,7 @@ export const Attachment = ({
       <div className="dpr-attachment__thumbnail">{thumbnailOrIcon}</div>
       <div className="dpr-attachment__details">
         <div className="dpr-attachment__title">
-          <a className="govuk-link" href={url}>
+          <a className="govuk-link govuk-link--no-visited-state" href={url}>
             {title || fileName || "Untitled Document"}
           </a>
         </div>
