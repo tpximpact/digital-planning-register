@@ -102,8 +102,8 @@ export const contentImportantDates = (): DprContentPage[] => {
           ),
         },
         {
-          key: slugify("Decision date"),
-          title: "Decision date",
+          key: slugify("Council decision date"),
+          title: "Council decision date",
           content: (
             <>
               <p className="govuk-body">
