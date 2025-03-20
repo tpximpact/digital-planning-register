@@ -133,7 +133,7 @@ export const buildApplicationProgress = (
   ) {
     const councilDecisionMadeContent = findItemByKey<DprContentPage>(
       importantDates,
-      slugify("Decision date"),
+      slugify("Council decision date"),
     )?.content;
     progressData.push({
       title: "Council decision made",
