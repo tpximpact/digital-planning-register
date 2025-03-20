@@ -20,9 +20,14 @@ import { render, screen, act } from "@testing-library/react";
 import { ApplicationCard } from "../../src/components/ApplicationCard";
 import "@testing-library/jest-dom";
 import { ApplicationDataFieldProps } from "@/components/ApplicationDataField";
-import { DprPlanningApplication } from "@/types";
-import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
+import { DprApplication } from "@/types";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { slugify } from "@/util";
+import { formatDateTimeToDprDate, formatDateToDprDate } from "@/util";
+import {
+  getDescription,
+  getPropertyAddress,
+} from "@/lib/planningApplication/application";
 
 jest.mock("@/components/InfoIcon", () => ({
   InfoIcon: () => <div data-testid="info-icon">Info Icon</div>,
@@ -48,142 +53,132 @@ jest.mock("@/components/ApplicationDataField", () => ({
     </div>
   ),
 }));
-
 describe("Render ApplicationCard", () => {
-  // the minimum required data for the application card
-  const applicationCardApplication = {
-    applicationType: "pp.full",
-    data: {
-      appeal: {
-        reason: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        decision: "allowed",
-        decisionDate: "2023-11-14",
-        lodgedDate: "2023-11-14",
-        startedDate: "2023-11-14",
-        validatedDate: "2023-11-14",
-      },
-    },
-    application: {
-      reference: "DPR/1234/2021",
-      status: "Appeal allowed",
-      receivedAt: "2023-11-14T13:40:51.567Z",
-      validAt: "2023-11-14T13:40:51.567Z",
-      publishedAt: "2023-11-14T13:40:51.567Z",
-      consultation: {
-        endDate: "2023-12-05",
-      },
-      decision: "granted",
-      determinedAt: "2023-11-14T13:40:51.567Z",
-    },
-    property: {
-      address: {
-        singleLine: "123 Fake Street",
-      },
-      boundary: {
-        site: generateBoundaryGeoJson(),
-      },
-    },
-    proposal: {
-      description: "Test description",
-    },
-  };
+  const { planningOfficerDetermined } = generateExampleApplications();
 
   it("should show all available data it can", async () => {
     await act(async () => {
       render(
         <ApplicationCard
           councilSlug="public-council-1"
-          application={
-            applicationCardApplication as unknown as DprPlanningApplication
-          }
+          application={planningOfficerDetermined as DprApplication}
         />,
       );
     });
 
-    // Application reference
-    expect(screen.queryByText("DPR/1234/2021")).toBeInTheDocument();
-    // Address
-    expect(screen.queryByText("123 Fake Street")).toBeInTheDocument();
-    // map
-    expect(
-      screen.queryByTestId("mock-application-map-loader"),
-    ).toBeInTheDocument();
-    // Description
-    expect(screen.queryByText("Test description")).toBeInTheDocument();
-    // applicationType
-    expect(
-      screen.queryByText("Application type - Planning permission"),
-    ).toBeInTheDocument();
-    // application status
-    expect(screen.queryByText("Status - Appeal decided")).toBeInTheDocument();
-    //Received date
-    const receivedDate = screen.queryByTestId(
-      "application-data-field-received-date",
-    );
-    expect(receivedDate?.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(receivedDate?.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023",
-    );
-    // Valid from date
-    const validFromDate = screen.queryByTestId(
-      "application-data-field-valid-from-date",
-    );
-    expect(validFromDate?.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(validFromDate?.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023",
-    );
-    // Published date
-    const publishedDate = screen.queryByTestId(
-      "application-data-field-published-date",
-    );
-    expect(publishedDate?.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(publishedDate?.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023",
-    );
-    //Consultation end date
-    expect(
-      screen.queryByText("Consultation end date - 5 Dec 2023"),
-    ).toBeInTheDocument();
-    //Decision Date
-    const decisionDate = screen.queryByTestId(
-      "application-data-field-council-decision-date",
-    );
-    expect(decisionDate?.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(decisionDate?.querySelector("time")).toHaveTextContent(
-      "14 Nov 2023",
-    );
-    // Decision
-    expect(
-      screen.queryByText("Council decision - Granted"),
-    ).toBeInTheDocument();
-
-    // Appeal
-    expect(screen.queryByText("Appeal decision - Allowed")).toBeInTheDocument();
-    expect(screen.queryByText(/Appeal decision date/)).toBeInTheDocument();
-
     expect(screen.getByTestId("info-icon")).toBeInTheDocument();
+
+    const reference = planningOfficerDetermined.data?.application?.reference;
+    if (reference) {
+      expect(screen.getByText("Application reference")).toBeInTheDocument();
+      expect(screen.getByText(reference)).toBeInTheDocument();
+    }
+
+    const address = getPropertyAddress(
+      planningOfficerDetermined.submission?.data?.property?.address,
+    );
+    if (address) {
+      expect(screen.getByText("Address")).toBeInTheDocument();
+      expect(screen.getByText(address)).toBeInTheDocument();
+    }
+
+    const boundaryGeojson =
+      planningOfficerDetermined.submission?.data?.property?.boundary?.site;
+    if (boundaryGeojson) {
+      expect(
+        screen.getByTestId("mock-application-map-loader"),
+      ).toBeInTheDocument();
+    }
+
+    const description = getDescription(
+      planningOfficerDetermined.submission?.data?.proposal,
+    );
+    if (description) {
+      expect(screen.getByText("Description")).toBeInTheDocument();
+      expect(screen.getByText(description)).toBeInTheDocument();
+    }
+
+    const appTypeEl = screen.getByTestId(
+      "application-data-field-application-type",
+    );
+    expect(appTypeEl).toHaveTextContent(
+      "Application type - Planning permission",
+    );
+
+    const statusSummary = planningOfficerDetermined.applicationStatusSummary;
+    if (statusSummary) {
+      const statusEl = screen.getByTestId("application-data-field-status");
+      expect(statusEl).toHaveTextContent(`Status - ${statusSummary}`);
+    }
+
+    const receivedAt = planningOfficerDetermined.data?.validation?.receivedAt;
+    if (receivedAt) {
+      const formatted = formatDateTimeToDprDate(receivedAt);
+      const receivedEl = screen.getByTestId(
+        "application-data-field-received-date",
+      );
+      expect(receivedEl).toHaveTextContent(`Received date - ${formatted}`);
+    }
+
+    const validatedAt = planningOfficerDetermined.data?.validation?.validatedAt;
+    if (validatedAt) {
+      const formatted = formatDateTimeToDprDate(validatedAt);
+      const validFromEl = screen.getByTestId(
+        "application-data-field-valid-from-date",
+      );
+      expect(validFromEl).toHaveTextContent(`Valid from date - ${formatted}`);
+    }
+
+    const publishedAt = planningOfficerDetermined.metadata?.publishedAt;
+    if (publishedAt) {
+      const formatted = formatDateTimeToDprDate(publishedAt);
+      const publishedEl = screen.getByTestId(
+        "application-data-field-published-date",
+      );
+      expect(publishedEl).toHaveTextContent(`Published date - ${formatted}`);
+    }
+
+    const consultationEnd =
+      planningOfficerDetermined.data?.consultation?.endDate;
+    if (consultationEnd) {
+      const formatted = formatDateToDprDate(consultationEnd);
+      const consultEl = screen.getByTestId(
+        "application-data-field-consultation-end-date",
+      );
+      expect(consultEl).toHaveTextContent(
+        `Consultation end date - ${formatted}`,
+      );
+    }
+
+    const councilDecisionDate =
+      planningOfficerDetermined.data?.assessment?.planningOfficerDecisionDate;
+    if (councilDecisionDate) {
+      const formatted = formatDateTimeToDprDate(councilDecisionDate);
+      const decisionDateEl = screen.getByTestId(
+        "application-data-field-council-decision-date",
+      );
+      expect(decisionDateEl).toHaveTextContent(
+        `Council decision date - ${formatted}`,
+      );
+    }
+    const applicationDecisionSummary =
+      planningOfficerDetermined.applicationDecisionSummary;
+    if (applicationDecisionSummary) {
+      const decisionEl = screen.getByTestId(
+        "application-data-field-council-decision",
+      );
+      expect(decisionEl).toHaveTextContent(
+        `Council decision - ${applicationDecisionSummary}`,
+      );
+    }
   });
 
-  // This should never happen but good way to make sure theres no errors
-  // if data is missing from the API in the future
   it("should not error when data isn't available", async () => {
     await act(async () => {
       render(
         <ApplicationCard
           councilSlug="public-council-1"
-          application={{} as DprPlanningApplication}
+          application={{} as DprApplication}
         />,
       );
     });
@@ -195,6 +190,6 @@ describe("Render ApplicationCard", () => {
     expect(screen.queryByText(/Application type/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Status/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Received date/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Council ecision/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Council decision/i)).not.toBeInTheDocument();
   });
 });

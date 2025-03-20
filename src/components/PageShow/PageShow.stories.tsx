@@ -19,27 +19,50 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { PageShow } from "./PageShow";
 import {
   generateDocument,
-  generateExampleApplications,
   generateNResults,
+  generateExampleApplications as generateOldPlanningApps,
 } from "@mocks/dprApplicationFactory";
+
+import { generateExampleApplications as generateNewDprApps } from "@mocks/dprNewApplicationFactory";
+
 import { createAppConfig } from "@mocks/appConfigFactory";
 
+const oldApps = generateOldPlanningApps();
+const newApps = generateNewDprApps();
+
 const {
-  consultation,
-  assessmentInProgress,
-  planningOfficerDetermined,
-  assessmentInCommittee,
-  committeeDetermined,
-  appealLodged,
-  appealValid,
-  appealStarted,
-  appealDetermined,
-  appealDeterminedWithdrawn,
-  appealDeterminedAllowed,
-  appealDeterminedDismissed,
-  appealDeterminedSplitDecision,
-  withdrawn,
-} = generateExampleApplications();
+  consultation: oldConsultation,
+  assessmentInProgress: oldAssessmentInProgress,
+  planningOfficerDetermined: oldPlanningOfficerDetermined,
+  assessmentInCommittee: oldAssessmentInCommittee,
+  committeeDetermined: oldCommitteeDetermined,
+  appealLodged: oldAppealLodged,
+  appealValid: oldAppealValid,
+  appealStarted: oldAppealStarted,
+  appealDetermined: oldAppealDetermined,
+  appealDeterminedWithdrawn: oldAppealDeterminedWithdrawn,
+  appealDeterminedAllowed: oldAppealDeterminedAllowed,
+  appealDeterminedDismissed: oldAppealDeterminedDismissed,
+  appealDeterminedSplitDecision: oldAppealDeterminedSplitDecision,
+  withdrawn: oldWithdrawn,
+} = oldApps;
+
+const {
+  consultation: newConsultation,
+  assessmentInProgress: newAssessmentInProgress,
+  planningOfficerDetermined: newPlanningOfficerDetermined,
+  assessmentInCommittee: newAssessmentInCommittee,
+  committeeDetermined: newCommitteeDetermined,
+  appealLodged: newAppealLodged,
+  appealValid: newAppealValid,
+  appealStarted: newAppealStarted,
+  appealDetermined: newAppealDetermined,
+  appealDeterminedWithdrawn: newAppealDeterminedWithdrawn,
+  appealDeterminedAllowed: newAppealDeterminedAllowed,
+  appealDeterminedDismissed: newAppealDeterminedDismissed,
+  appealDeterminedSplitDecision: newAppealDeterminedSplitDecision,
+  withdrawn: newWithdrawn,
+} = newApps;
 
 const meta = {
   title: "Council pages/Show",
@@ -65,7 +88,6 @@ const meta = {
   },
   args: {
     appConfig: createAppConfig("public-council-1"),
-    application: committeeDetermined,
     documents: generateNResults(10, generateDocument),
     params: {
       council: "public-council-1",
@@ -77,20 +99,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const NoResult: Story = {
+export const Default: Story = {
   args: {
-    application: null,
+    application: oldCommitteeDetermined,
+    convertedApplication: newCommitteeDetermined,
   },
 };
 
-// 01-submission
-// 02-validation-01-invalid
+export const NoResult: Story = {
+  args: {
+    application: null,
+    convertedApplication: newCommitteeDetermined,
+  },
+};
+
 // 03-consultation
 export const Consultation: Story = {
   name: "03-consultation",
   args: {
-    application: consultation,
+    application: oldConsultation,
+    convertedApplication: newConsultation,
   },
 };
 
@@ -98,7 +126,8 @@ export const Consultation: Story = {
 export const AssessmentInProgress: Story = {
   name: "04-assessment-00-assessment-in-progress",
   args: {
-    application: assessmentInProgress,
+    application: oldAssessmentInProgress,
+    convertedApplication: newAssessmentInProgress,
   },
 };
 
@@ -106,7 +135,8 @@ export const AssessmentInProgress: Story = {
 export const PlanningOfficerDetermined: Story = {
   name: "04-assessment-01-council-determined",
   args: {
-    application: planningOfficerDetermined,
+    application: oldPlanningOfficerDetermined,
+    convertedApplication: newPlanningOfficerDetermined,
   },
 };
 
@@ -114,7 +144,8 @@ export const PlanningOfficerDetermined: Story = {
 export const AssessmentInCommittee: Story = {
   name: "04-assessment-02-assessment-in-committee",
   args: {
-    application: assessmentInCommittee,
+    application: oldAssessmentInCommittee,
+    convertedApplication: newAssessmentInCommittee,
   },
 };
 
@@ -122,7 +153,8 @@ export const AssessmentInCommittee: Story = {
 export const CommitteeDetermined: Story = {
   name: "04-assessment-03-committee-determined",
   args: {
-    application: committeeDetermined,
+    application: oldCommitteeDetermined,
+    convertedApplication: newCommitteeDetermined,
   },
 };
 
@@ -130,7 +162,8 @@ export const CommitteeDetermined: Story = {
 export const AppealLodged: Story = {
   name: "05-appeal-00-appeal-lodged",
   args: {
-    application: appealLodged,
+    application: oldAppealLodged,
+    convertedApplication: newAppealLodged,
   },
 };
 
@@ -138,7 +171,8 @@ export const AppealLodged: Story = {
 export const AppealValid: Story = {
   name: "05-appeal-01-appeal-validated",
   args: {
-    application: appealValid,
+    application: oldAppealValid,
+    convertedApplication: newAppealValid,
   },
 };
 
@@ -146,7 +180,8 @@ export const AppealValid: Story = {
 export const AppealStarted: Story = {
   name: "05-appeal-02-appeal-started",
   args: {
-    application: appealStarted,
+    application: oldAppealStarted,
+    convertedApplication: newAppealStarted,
   },
 };
 
@@ -154,37 +189,48 @@ export const AppealStarted: Story = {
 export const AppealDetermined: Story = {
   name: "05-appeal-03-appeal-determined",
   args: {
-    application: appealDetermined,
+    application: oldAppealDetermined,
+    convertedApplication: newAppealDetermined,
   },
 };
+
 export const AppealDeterminedWithdrawn: Story = {
   name: "05-appeal-03-appeal-determined--withdrawn",
   args: {
-    application: appealDeterminedWithdrawn,
+    application: oldAppealDeterminedWithdrawn,
+    convertedApplication: newAppealDeterminedWithdrawn,
   },
 };
+
 export const AppealDeterminedAllowed: Story = {
   name: "05-appeal-03-appeal-determined--allowed",
   args: {
-    application: appealDeterminedAllowed,
+    application: oldAppealDeterminedAllowed,
+    convertedApplication: newAppealDeterminedAllowed,
   },
 };
+
 export const AppealDeterminedDismissed: Story = {
   name: "05-appeal-03-appeal-determined--dismissed",
   args: {
-    application: appealDeterminedDismissed,
+    application: oldAppealDeterminedDismissed,
+    convertedApplication: newAppealDeterminedDismissed,
   },
 };
+
 export const AppealDeterminedSplitDecision: Story = {
   name: "05-appeal-03-appeal-determined--split-decision",
   args: {
-    application: appealDeterminedSplitDecision,
+    application: oldAppealDeterminedSplitDecision,
+    convertedApplication: newAppealDeterminedSplitDecision,
   },
 };
+
 // 06-assessment-withdrawn
 export const Withdrawn: Story = {
   name: "06-assessment-withdrawn",
   args: {
-    application: withdrawn,
+    application: oldWithdrawn,
+    convertedApplication: newWithdrawn,
   },
 };

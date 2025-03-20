@@ -16,101 +16,49 @@
  */
 
 import { checkCommentsEnabled } from "@/lib/comments";
-import { DprPlanningApplication } from "@/types";
-import { formatDateToYmd } from "@/util";
+import { DprApplication } from "@/types";
+import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
 describe("checkCommentsEnabled", () => {
   it("Application not in consultation should now allow comments", () => {
-    const today = new Date();
-    const startDate = formatDateToYmd(new Date(today.getTime() - 86400000 * 2));
-    const endDate = formatDateToYmd(new Date(today.getTime() - 86400000));
-    const application = {
-      applicationType: "pp.full",
-      data: {
-        localPlanningAuthority: {
-          commentsAcceptedUntilDecision: false,
-        },
-      },
-      application: {
-        status: "determined",
-        consultation: {
-          startDate,
-          endDate,
-        },
-      },
-    };
-    const commentsEnabled = checkCommentsEnabled(
-      application as unknown as DprPlanningApplication,
-    );
+    const application = generateDprApplication({
+      customStatus: "assessmentInProgress",
+    });
+    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+      false;
+
+    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
     expect(commentsEnabled).toBe(false);
   });
 
   it("Application in consultation should allow comments", () => {
-    const today = new Date();
-    const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
-    const endDate = formatDateToYmd(new Date(today));
-    const application = {
-      applicationType: "pp.full",
-      data: {
-        localPlanningAuthority: {
-          commentsAcceptedUntilDecision: false,
-        },
-      },
-      application: {
-        status: "in_assessment",
-        consultation: {
-          startDate,
-          endDate,
-        },
-      },
-    };
-    const commentsEnabled = checkCommentsEnabled(
-      application as unknown as DprPlanningApplication,
-    );
+    const application = generateDprApplication({
+      customStatus: "consultationInProgress",
+    });
+
+    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
     expect(commentsEnabled).toBe(true);
   });
 
   it("Application not in consultation and not yet determined but which the LPA allows comments until determination should allow comments", () => {
-    const application = {
-      applicationType: "pp.full",
-      data: {
-        localPlanningAuthority: {
-          commentsAcceptedUntilDecision: true,
-        },
-      },
-      application: {
-        status: "in_assessment",
-        consultation: {
-          startDate: undefined,
-          endDate: undefined,
-        },
-      },
-    };
-    const commentsEnabled = checkCommentsEnabled(
-      application as unknown as DprPlanningApplication,
-    );
+    const application = generateDprApplication({
+      customStatus: "assessmentInProgress",
+    });
+    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+      true;
+
+    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
     expect(commentsEnabled).toBe(true);
   });
 
   it("Application determined but which the LPA allows comments until determination should not allow comments", () => {
-    const application = {
-      applicationType: "pp.full",
-      data: {
-        localPlanningAuthority: {
-          commentsAcceptedUntilDecision: true,
-        },
-      },
-      application: {
-        status: "determined",
-        consultation: {
-          startDate: undefined,
-          endDate: undefined,
-        },
-      },
-    };
-    const commentsEnabled = checkCommentsEnabled(
-      application as unknown as DprPlanningApplication,
-    );
+    const application = generateDprApplication({
+      customStatus: "assessmentCouncilDetermined",
+    });
+    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+      true;
+
+    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
     expect(commentsEnabled).toBe(false);
   });
 });
