@@ -33,21 +33,19 @@ import { getDescription } from "./application";
  * Checks if the given object is a DprApplication.
  * Run this before convertToDprApplication()
  */
-export const isDprApplication = (
-  app: DprApplication | DprPlanningApplication,
-): boolean => {
-  if (
+export function isDprApplication(
+  app: DprPlanningApplication | DprApplication,
+): app is DprApplication {
+  // Return `true` only if all required DprApplication fields exist
+  return (
+    !!app &&
     "data" in app &&
+    !!app.data &&
     "application" in app.data &&
+    !!app.data.application &&
     "reference" in app.data.application
-  ) {
-    return true;
-  } else if ("application" in app && "reference" in app.application) {
-    return false;
-  }
-
-  throw new Error("Invalid application object");
-};
+  );
+}
 
 /**
  * Checks to see if we're in the consultation period
@@ -263,6 +261,9 @@ export const convertToDprApplication = (
           description: getDescription(app.proposal),
         },
       },
+    },
+    comments: {
+      public: app.application.consultation.publishedComments ?? undefined,
     },
     metadata: {
       organisation: "BOPS",

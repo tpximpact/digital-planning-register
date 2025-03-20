@@ -24,6 +24,7 @@ import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { buildCommentResult, getCommentTypeToShow } from "@/lib/comments";
+import { convertToDprApplication } from "@/lib/planningApplication/converter";
 
 interface PlanningApplicationDetailsCommentsProps {
   params: {
@@ -100,6 +101,7 @@ export default async function PlanningApplicationDetailsComments({
       </PageMain>
     );
   }
+  const convertedApplication = convertToDprApplication(application);
 
   const type = getCommentTypeToShow(appConfig.council, searchParams);
   const commentData = buildCommentResult(
@@ -112,7 +114,7 @@ export default async function PlanningApplicationDetailsComments({
   return (
     <PageApplicationComments
       reference={reference}
-      application={application}
+      application={convertedApplication}
       type={type}
       comments={commentData.data}
       pagination={commentData.pagination}

@@ -49,8 +49,14 @@ import { PrototypeApplication } from "./odp-types/schemas/prototypeApplication";
  */
 export type DprApplication = Omit<
   PostSubmissionApplication,
-  "submission" | "comments"
+  "data" | "submission" | "comments"
 > & {
+  data: Omit<PostSubmissionApplication["data"], "appeal"> & {
+    appeal?: Omit<AppealBase, "files"> & {
+      files?: DprDocument[];
+    };
+  };
+
   submission: {
     data: {
       applicant: PrototypeApplication["data"]["applicant"];
@@ -60,6 +66,9 @@ export type DprApplication = Omit<
       >;
       proposal: PrototypeApplication["data"]["proposal"];
     };
+  };
+  comments?: {
+    public?: DprComment[];
   };
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;
