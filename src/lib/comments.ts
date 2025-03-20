@@ -20,6 +20,7 @@
  */
 
 import {
+  DprApplication,
   DprComment,
   DprCommentTypes,
   DprPagination,
@@ -28,7 +29,6 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
-import { getApplicationStatusSummary } from "./planningApplication";
 
 /**
  * Sort comments by newest first
@@ -151,17 +151,10 @@ export const pageTitles: Record<number, string> = {
  * @param applicationType
  * @returns
  */
-export const checkCommentsEnabled = (
-  application: DprPlanningApplication,
-): boolean => {
+export const checkCommentsEnabled = (application: DprApplication): boolean => {
   const applicationStatusSummary =
-    application.application?.status &&
-    getApplicationStatusSummary(
-      application.application.status,
-      application.application.consultation.startDate ?? undefined,
-      application.application.consultation.endDate ?? undefined,
-    );
-
+    application.data?.application?.status &&
+    application.applicationStatusSummary;
   const commentsAllowedInStatus = ["Consultation in progress"];
   if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
     commentsAllowedInStatus.push("Assessment in progress");

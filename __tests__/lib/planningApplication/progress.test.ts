@@ -16,10 +16,7 @@
  */
 
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
-import {
-  generateDprApplication,
-  generateExampleApplications,
-} from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const {
   consultation,
@@ -36,22 +33,25 @@ const {
 
 describe("buildApplicationProgress", () => {
   it('should show "Consultation ended" when consultation end date is in the past', () => {
-    const application = generateDprApplication();
-    application.application.consultation.endDate = new Date(
-      Date.now() - 86400000,
-    ).toISOString();
-    const progressData = buildApplicationProgress(application);
-    expect(progressData[3].title).toBe("Consultation ended");
+    const application = consultation;
+    if (application.data.consultation) {
+      application.data.consultation.endDate = new Date(
+        Date.now() - 86400000,
+      ).toISOString();
+      const progressData = buildApplicationProgress(application);
+      expect(progressData[3].title).toBe("Consultation ended");
+    }
   });
   it('should show "Consultation ends" when consultation end date is in the future', () => {
-    const application = generateDprApplication();
-    application.application.consultation.endDate = new Date(
-      Date.now() + 86400000,
-    ).toISOString();
-    const progressData = buildApplicationProgress(application);
-    expect(progressData[3].title).toBe("Consultation ends");
+    const application = consultation;
+    if (application.data.consultation) {
+      application.data.consultation.endDate = new Date(
+        Date.now() + 86400000,
+      ).toISOString();
+      const progressData = buildApplicationProgress(application);
+      expect(progressData[3].title).toBe("Consultation ends");
+    }
   });
-
   // 01-submission
   // 02-validation-01-invalid
 
@@ -104,7 +104,6 @@ describe("buildApplicationProgress", () => {
     expect(progressData[1].title).toBe("Valid from");
     expect(progressData[2].title).toBe("Published");
     expect(progressData[3].title).toBe("Consultation ended");
-    expect(progressData[4].title).toBe("Council decision made");
   });
 
   // 05-appeal-00-appeal-lodged

@@ -20,13 +20,13 @@ import { ApplicationDetails } from "./ApplicationDetails";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
   generateDocument,
-  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
-
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 const baseAppConfig = createAppConfig("public-council-1");
-const { committeeDetermined } = generateExampleApplications();
+
+const { committeeDeterminedConverted } = generateExampleApplications();
 
 const meta = {
   title: "DPR Components/ApplicationDetails",
@@ -40,7 +40,7 @@ const meta = {
   args: {
     reference: "12345",
     appConfig: baseAppConfig,
-    application: committeeDetermined,
+    application: committeeDeterminedConverted,
     documents: generateNResults<DprDocument>(3, generateDocument),
   },
 } satisfies Meta<typeof ApplicationDetails>;

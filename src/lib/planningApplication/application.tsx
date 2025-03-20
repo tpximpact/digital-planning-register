@@ -9,12 +9,19 @@ import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
 export const getPropertyAddress = (
   address: DprApplication["submission"]["data"]["property"]["address"],
 ) => {
+  if (!address) {
+    return undefined;
+  }
+
   if ("singleLine" in address && address.singleLine) {
     return address.singleLine;
   }
+
   if ("title" in address && address.title) {
     return address.title;
   }
+
+  return undefined;
 };
 
 /**
@@ -37,13 +44,18 @@ export const getPropertyAddressLatitudeLongitude = (
 
 export const getDescription = (
   proposal: DprApplication["submission"]["data"]["proposal"],
-) => {
+): string => {
+  if (!proposal) {
+    return "No description";
+  }
+
   if ("description" in proposal && proposal.description) {
     return proposal.description;
   }
   if ("reason" in proposal && proposal.reason) {
     return proposal.reason;
   }
+
   return "No description";
 };
 

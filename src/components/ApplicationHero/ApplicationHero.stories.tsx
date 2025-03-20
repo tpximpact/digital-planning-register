@@ -17,7 +17,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationHero } from "./ApplicationHero";
-import { generateExampleApplications } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const {
   consultation,

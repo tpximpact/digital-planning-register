@@ -32,7 +32,7 @@
  */
 
 import { ProgressSectionBase } from "@/components/ApplicationProgressInfo/ApplicationProgressInfoSection";
-import { DprContentPage, DprPlanningApplication } from "@/types";
+import { DprApplication, DprContentPage } from "@/types";
 import {
   findItemByKey,
   formatDateTimeToDprDate,
@@ -45,13 +45,13 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 export const buildApplicationProgress = (
-  application: DprPlanningApplication,
+  application: DprApplication,
 ): ProgressSectionBase[] => {
   const progressData: ProgressSectionBase[] = [];
   const importantDates = contentImportantDates();
 
   // 01 received
-  if (application.application?.receivedAt) {
+  if (application?.data?.validation?.receivedAt) {
     const receivedAtContent = findItemByKey<DprContentPage>(
       importantDates,
       slugify("Received date"),
@@ -59,8 +59,8 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Received",
       date: (
-        <time dateTime={application.application.receivedAt}>
-          {formatDateTimeToDprDate(application.application.receivedAt)}
+        <time dateTime={application?.data?.validation?.receivedAt}>
+          {formatDateTimeToDprDate(application?.data?.validation?.receivedAt)}
         </time>
       ),
       content: receivedAtContent ?? <></>,
@@ -69,7 +69,7 @@ export const buildApplicationProgress = (
 
   // 02 validFrom
 
-  if (application.application?.validAt) {
+  if (application?.data?.validation?.validatedAt) {
     const validAtContent = findItemByKey<DprContentPage>(
       importantDates,
       slugify("Valid from date"),
@@ -77,8 +77,8 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Valid from",
       date: (
-        <time dateTime={application.application.validAt}>
-          {formatDateTimeToDprDate(application.application.validAt)}
+        <time dateTime={application?.data?.validation?.validatedAt}>
+          {formatDateTimeToDprDate(application?.data?.validation?.validatedAt)}
         </time>
       ),
       content: validAtContent ?? <></>,
@@ -87,7 +87,7 @@ export const buildApplicationProgress = (
 
   // 03 published
 
-  if (application.application?.publishedAt) {
+  if (application.metadata?.publishedAt) {
     const publishedAtContent = findItemByKey<DprContentPage>(
       importantDates,
       slugify("Published date"),
@@ -95,8 +95,8 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Published",
       date: (
-        <time dateTime={application.application.publishedAt}>
-          {formatDateTimeToDprDate(application.application.publishedAt)}
+        <time dateTime={application.metadata.publishedAt}>
+          {formatDateTimeToDprDate(application.metadata.publishedAt)}
         </time>
       ),
       content: publishedAtContent ?? <></>,
@@ -105,9 +105,9 @@ export const buildApplicationProgress = (
 
   // 04 consultationEnded
 
-  if (application.application?.consultation?.endDate) {
+  if (application.data?.consultation?.endDate) {
     const consultationEndDate = dayjs.utc(
-      application.application.consultation.endDate,
+      application.data.consultation.endDate,
     );
     const now = dayjs.utc();
     const title = consultationEndDate.isBefore(now, "day")
@@ -120,7 +120,7 @@ export const buildApplicationProgress = (
     )?.content;
     progressData.push({
       title,
-      date: formatDateToDprDate(application.application.consultation.endDate),
+      date: formatDateToDprDate(application.data.consultation.endDate),
       content: consultationEndDateContent ?? <></>,
     });
   }
@@ -128,8 +128,8 @@ export const buildApplicationProgress = (
   // 05 councilDecisionMade
 
   if (
-    application.application?.decision &&
-    application.application.determinedAt
+    application?.data?.assessment?.planningOfficerDecision &&
+    application?.data?.assessment?.planningOfficerDecisionDate
   ) {
     const councilDecisionMadeContent = findItemByKey<DprContentPage>(
       importantDates,
@@ -138,8 +138,12 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Council decision made",
       date: (
-        <time dateTime={application.application.determinedAt}>
-          {formatDateTimeToDprDate(application.application.determinedAt)}
+        <time
+          dateTime={application?.data?.assessment?.planningOfficerDecisionDate}
+        >
+          {formatDateToDprDate(
+            application?.data?.assessment?.planningOfficerDecisionDate,
+          )}
         </time>
       ),
       content: councilDecisionMadeContent ?? <></>,

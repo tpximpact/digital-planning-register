@@ -26,7 +26,7 @@ import CommentTextEntry from "@/components/comment_text_entry";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import CommentConfirmation from "@/components/comment_confirmation";
-import { DprShowApiResponse, SearchParams } from "@/types";
+import { DprApplication, SearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
@@ -34,6 +34,8 @@ import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
 import { topicLabels, pageTitles, checkCommentsEnabled } from "@/lib/comments";
+import { convertToDprApplication } from "@/lib/planningApplication/converter";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 type Props = {
   params: { reference: string; council: string };
@@ -49,8 +51,9 @@ const Comment = ({ params }: Props) => {
 
   const [appConfig, setAppConfig] = useState<AppConfig | undefined>(undefined);
   const [page, setPage] = useState(0);
-  const [applicationData, setApplicationData] =
-    useState<DprShowApiResponse | null>(null);
+  const [applicationData, setApplicationData] = useState<DprApplication | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [newTopics, setNewTopics] = useState<string[]>([]);
@@ -141,8 +144,9 @@ const Comment = ({ params }: Props) => {
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
-          setApplicationData(response.data);
-          const commentsEnabled = checkCommentsEnabled(response.data);
+          const convertedApplication = convertToDprApplication(response.data);
+          setApplicationData(convertedApplication);
+          const commentsEnabled = checkCommentsEnabled(convertedApplication);
           if (!commentsEnabled) {
             router.push(`/${council}/${reference}`);
           }
@@ -332,8 +336,14 @@ const Comment = ({ params }: Props) => {
       return null;
     }
 
-    const boundary_geojson = applicationData?.property.boundary.site;
-    const address = applicationData?.property.address.singleLine;
+    const boundary_geojson =
+      applicationData?.submission?.data?.property?.boundary?.site;
+
+    const propertyAddress =
+      applicationData?.submission?.data?.property?.address;
+    const address = propertyAddress
+      ? getPropertyAddress(propertyAddress)
+      : undefined;
 
     const commonProps = {
       reference,
@@ -433,8 +443,12 @@ const Comment = ({ params }: Props) => {
     return null;
   }
 
-  const boundary_geojson = applicationData?.property.boundary.site;
-  const address = applicationData?.property.address.singleLine;
+  const boundary_geojson =
+    applicationData?.submission?.data?.property?.boundary?.site;
+  const propertyAddress = applicationData?.submission?.data?.property?.address;
+  const address = propertyAddress
+    ? getPropertyAddress(propertyAddress)
+    : undefined;
 
   // Render the main component
   return (

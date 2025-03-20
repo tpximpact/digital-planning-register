@@ -16,7 +16,7 @@
  */
 
 import { AppConfig } from "@/config/types";
-import { DprDocument, DprPlanningApplication } from "@/types";
+import { DprApplication, DprDocument } from "@/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
@@ -36,7 +36,7 @@ import { getDescription } from "@/lib/planningApplication/application";
 export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
-  application: DprPlanningApplication;
+  application: DprApplication;
   documents: DprDocument[] | null;
 }
 
@@ -52,8 +52,9 @@ export const ApplicationDetails = ({
 
   const commentsEnabled = checkCommentsEnabled(application);
   const councilSlug = appConfig.council.slug;
-  const description = getDescription(application.proposal);
-  const people = application.officer || application.applicant;
+  const description = getDescription(application.submission.data.proposal);
+  const people =
+    application.data.caseOfficer.name || application.submission.data.applicant;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.data.appeal;
   const { url: decisionNoticeUrl } =
@@ -175,11 +176,11 @@ export const ApplicationDetails = ({
             totalDocuments={documents?.length ?? 0}
           />
           <ApplicationPeople
-            applicant={application.applicant}
-            caseOfficer={application.officer}
+            applicant={application.submission.data.applicant}
+            caseOfficer={application.data.caseOfficer}
           />
           {/* <ApplicationConstraints /> */}
-          {appConfig.council?.specialistComments && (
+          {/* {appConfig.council?.specialistComments && (
             <CommentsList
               councilSlug={appConfig?.council?.slug}
               reference={reference}
@@ -189,9 +190,11 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.consulteeComments}
+              comments={
+                application.application.consultation.consulteeComments
+              }
             />
-          )}
+          )} */}
           {appConfig.council?.publicComments && (
             <CommentsList
               councilSlug={appConfig?.council?.slug}
@@ -202,7 +205,7 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.publishedComments}
+              comments={application?.comments?.public}
             />
           )}
         </div>

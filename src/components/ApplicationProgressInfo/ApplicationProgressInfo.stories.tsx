@@ -17,7 +17,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationProgressInfo } from "./ApplicationProgressInfo";
-import { generateExampleApplications } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 
 const {

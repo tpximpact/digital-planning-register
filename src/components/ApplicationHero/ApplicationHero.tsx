@@ -16,14 +16,12 @@
  */
 
 import "./ApplicationHero.scss";
-import { DprContentPage, DprPlanningApplication } from "@/types";
+import { DprApplication, DprContentPage } from "@/types";
 import { InfoIcon } from "../InfoIcon";
 import {
-  getApplicationStatusSummary,
   getDocumentedApplicationType,
   getPrimaryApplicationType,
   getApplicationStatusSummarySentiment,
-  getApplicationDecisionSummary,
   getApplicationDecisionSummarySentiment,
   contentDecisions,
   contentApplicationStatuses,
@@ -33,10 +31,11 @@ import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
 import { appealDecisionSentiment } from "@/lib/planningApplication/appeal";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 interface ApplicationHeroProps {
   councilSlug: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
 }
 
 export const ApplicationHero = ({
@@ -44,26 +43,19 @@ export const ApplicationHero = ({
   application,
 }: ApplicationHeroProps) => {
   // row 1
-  const reference = application.application?.reference;
-  const address = application.property?.address?.singleLine;
-  const boundary_geojson = application.property?.boundary?.site;
+  const reference = application?.data?.application?.reference;
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
+  const boundary_geojson =
+    application?.submission?.data?.property?.boundary?.site;
 
-  // the rest of the fields
-  const applicationStatusSummary =
-    application.application?.status &&
-    getApplicationStatusSummary(
-      application.application.status,
-      application.application.consultation.startDate ?? undefined,
-      application.application.consultation.endDate ?? undefined,
-    );
+  const applicationStatusSummary = application?.applicationStatusSummary;
+  const applicationDecisionSummary = application?.applicationDecisionSummary;
+
   const documentedApplicationStatuses = flattenObject(
     contentApplicationStatuses(),
     "title",
-  );
-
-  const applicationDecisionSummary = getApplicationDecisionSummary(
-    application.applicationType,
-    application.application?.decision ?? undefined,
   );
 
   const documentedApplicationDecisions = flattenObject(
@@ -146,7 +138,7 @@ export const ApplicationHero = ({
             )}
 
             {/* decision */}
-            {application.application?.decision && (
+            {application?.data?.assessment?.planningOfficerDecision && (
               <>
                 <ApplicationDataField
                   title="Council decision"
@@ -173,7 +165,11 @@ export const ApplicationHero = ({
                       />
                     ) : undefined
                   }
-                  isFull={application?.data?.appeal?.decision ? false : true}
+                  isFull={
+                    application?.data?.assessment?.planningOfficerDecision
+                      ? false
+                      : true
+                  }
                 />
               </>
             )}

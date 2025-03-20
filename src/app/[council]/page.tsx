@@ -16,12 +16,21 @@
  */
 
 import React from "react";
-import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  DprApplication,
+  DprSearchApiResponse,
+  SearchParams,
+} from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
 import { PageMain } from "@/components/PageMain";
 import { PageSearch } from "@/components/PageSearch";
+import {
+  convertToDprApplication,
+  isDprApplication,
+} from "@/lib/planningApplication/converter";
 
 interface HomeProps {
   params: {
@@ -80,11 +89,27 @@ export default async function PlanningApplicationSearch({
       </PageMain>
     );
   }
+  if (!response.data) {
+    return (
+      <PageMain>
+        <ContentError />
+      </PageMain>
+    );
+  }
+  const applications = response.data;
+
+  const convertedApplications: DprApplication[] = applications.map((app) => {
+    if (isDprApplication(app)) {
+      return app;
+    } else {
+      return convertToDprApplication(app);
+    }
+  });
 
   return (
     <PageSearch
       appConfig={appConfig}
-      applications={response.data}
+      applications={convertedApplications}
       pagination={response.pagination}
       params={params}
       searchParams={searchParams}

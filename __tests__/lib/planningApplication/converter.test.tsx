@@ -43,10 +43,10 @@ describe("isDprApplication", () => {
     expect(isDprApplication(app)).toBe(false);
   });
 
-  it("should throw an error if the given object is invalid", () => {
-    const app = { invalid: "object" };
-    expect(() => isDprApplication(app as unknown as DprApplication)).toThrow(
-      new Error("Invalid application object"),
+  it("should return false if the given object is invalid", () => {
+    const invalidObj = {};
+    expect(isDprApplication(invalidObj as unknown as DprApplication)).toBe(
+      false,
     );
   });
 });
