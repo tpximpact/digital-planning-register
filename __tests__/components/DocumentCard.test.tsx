@@ -15,14 +15,13 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
-import { render, screen, act } from "@testing-library/react";
-import { DocumentCard } from "../../src/components/DocumentCard";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { DprDocument } from "@/types";
+import { DocumentCard } from "@/components/DocumentCard";
 
 describe("Render DocumentCard", () => {
-  it("should render a document card", () => {
+  it("should render basic Attachment fields from DprDocument", () => {
     const document: DprDocument = {
       url: "#",
       title: "Document title",
@@ -32,24 +31,50 @@ describe("Render DocumentCard", () => {
         contentType: "text/html",
       },
     };
-    const { container } = render(<DocumentCard document={document} />);
+
+    render(<DocumentCard document={document} />);
 
     expect(
-      screen.getByRole("link", {
-        name: "Document title",
-      }),
+      screen.getByRole("link", { name: /document title/i }),
     ).toBeInTheDocument();
 
-    expect(container.querySelector("time")).toHaveAttribute(
-      "datetime",
-      "2023-11-14T13:40:51.567Z",
-    );
-    expect(container.querySelector("time")).toHaveTextContent("14-11-2023");
-
-    expect(screen.getByText("TEXT/HTML")).toBeInTheDocument();
-    expect(screen.getByText("1.00 KB")).toBeInTheDocument();
+    expect(
+      screen.getByText("TEXT/HTML, 1.00 KB, uploaded 14 Nov 2023"),
+    ).toBeInTheDocument();
   });
 
+  it("should not error if metadata is missing", () => {
+    const document: DprDocument = {
+      url: "#",
+      title: "Another doc",
+      createdDate: "2023-11-14T13:40:51.567Z",
+    };
+
+    render(<DocumentCard document={document} />);
+
+    expect(
+      screen.getByRole("link", { name: /another doc/i }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("KB")).not.toBeInTheDocument();
+  });
+
+  it("should show fallback text if there's no title", () => {
+    const document: DprDocument = {
+      url: "#",
+      title: "",
+      createdDate: "2023-11-14T13:40:51.567Z",
+      metadata: {
+        byteSize: 25600,
+        contentType: "application/pdf",
+      },
+    };
+
+    render(<DocumentCard document={document} />);
+
+    expect(
+      screen.getByRole("link", { name: /untitled document/i }),
+    ).toBeInTheDocument();
+  });
   it.todo(
     "should show the default file thumbnail when no matching file type is found",
   );

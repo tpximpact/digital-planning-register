@@ -24,7 +24,7 @@ import {
   ThumbnailExternal,
   ThumbnailGeneric,
 } from "./Thumbnails";
-import { formatFileSize } from "@/util";
+import { formatDateTimeToDprDate, formatFileSize } from "@/util";
 import { Details } from "../Details";
 
 export interface AttachmentProps {
@@ -36,6 +36,7 @@ export interface AttachmentProps {
   fileSize?: number;
   numberOfPages?: number;
   alternativeFormatContactEmail?: string;
+  createdDate?: string;
 }
 
 export const Attachment = ({
@@ -47,6 +48,7 @@ export const Attachment = ({
   fileSize,
   numberOfPages,
   alternativeFormatContactEmail,
+  createdDate,
 }: AttachmentProps) => {
   function pickGOVUKIcon(type?: string): JSX.Element {
     switch (type?.toLowerCase()) {
@@ -79,6 +81,10 @@ export const Attachment = ({
   if (formattedFileSize) {
     metadataSegments.push(formattedFileSize);
   }
+  if (createdDate) {
+    const formattedCreatedDate = formatDateTimeToDprDate(createdDate);
+    metadataSegments.push(`uploaded ${formattedCreatedDate}`);
+  }
   if (numberOfPages && numberOfPages > 0) {
     metadataSegments.push(
       `${numberOfPages} ${numberOfPages === 1 ? "page" : "pages"}`,
@@ -100,12 +106,12 @@ export const Attachment = ({
 
   return (
     <section className="dpr-attachment">
-      <div className="dpr-attachment__thumbnail">
-        <a href={url}>{thumbnailOrIcon}</a>
-      </div>
+      <div className="dpr-attachment__thumbnail">{thumbnailOrIcon}</div>
       <div className="dpr-attachment__details">
         <div className="dpr-attachment__title">
-          <a href={url}>{title || fileName || "Untitled Attachment"}</a>
+          <a className="govuk-link" href={url}>
+            {title || fileName || "Untitled Document"}
+          </a>
         </div>
 
         {metadataLine && (
