@@ -51,3 +51,12 @@ export interface DprApplicationSubmissionApiResponse {
   application: DprPlanningApplication["application"];
   submission: DprApplicationSubmissionData | null;
 }
+
+/**
+ * /api/postComment
+ * Comment posting
+ */
+export type DprApplicationPostCommentApiResponse = {
+  id?: string;
+  message: string;
+};

@@ -22,7 +22,7 @@ import {
   ApiResponse,
   DprDocument,
   DprDocumentsApiResponse,
-  SearchParams,
+  SearchParamsDocuments,
 } from "@/types";
 import {
   generateDocument,
@@ -33,21 +33,31 @@ import {
 const responseQuery = (
   council: string,
   reference: string,
-  searchParams?: SearchParams,
+  searchParams?: SearchParamsDocuments,
 ): ApiResponse<DprDocumentsApiResponse> => {
   const appConfig = getAppConfig();
-  const resultsPerPage = appConfig.defaults.resultsPerPage;
+  const resultsPerPage = searchParams?.resultsPerPage
+    ? searchParams.resultsPerPage
+    : appConfig.defaults.resultsPerPage;
 
-  const documents = [
-    {
-      url: `/${council}/${reference}/application-form`,
-      title: "Application form",
-      metadata: {
-        contentType: "text/html",
-      },
-    },
-    ...generateNResults<DprDocument>(resultsPerPage, generateDocument),
+  let documents = [
+    ...generateNResults<DprDocument>(resultsPerPage * 10, generateDocument),
   ];
+  if (searchParams?.page === 1) {
+    documents = [
+      {
+        url: `/${council}/${reference}/application-form`,
+        title: "Application form",
+        metadata: {
+          contentType: "text/html",
+        },
+      },
+      ...generateNResults<DprDocument>(
+        resultsPerPage * 10 - 1,
+        generateDocument,
+      ),
+    ];
+  }
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
@@ -67,7 +77,7 @@ const responseQuery = (
 export const documents = (
   council: string,
   reference: string,
-  searchParams?: SearchParams,
+  searchParams?: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> => {
   return Promise.resolve(responseQuery(council, reference, searchParams));
 };

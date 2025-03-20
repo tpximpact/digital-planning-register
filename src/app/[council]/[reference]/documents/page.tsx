@@ -20,7 +20,7 @@ import {
   ApiResponse,
   DprShowApiResponse,
   DprDocumentsApiResponse,
-  SearchParams,
+  SearchParamsDocuments,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
@@ -35,11 +35,12 @@ interface PlanningApplicationDetailsDocumentsProps {
     council: string;
     reference: string;
   };
-  searchParams?: SearchParams;
+  searchParams?: SearchParamsDocuments;
 }
 
 async function fetchData({
   params,
+  searchParams,
 }: PlanningApplicationDetailsDocumentsProps): Promise<{
   applicationResponse: ApiResponse<DprShowApiResponse | null>;
   documentResponse: ApiResponse<DprDocumentsApiResponse | null>;
@@ -52,6 +53,13 @@ async function fetchData({
       appConfig.council?.dataSource ?? "none",
       council,
       reference,
+      {
+        ...searchParams,
+        page: searchParams?.page ? Number(searchParams.page) : 1,
+        resultsPerPage: searchParams?.resultsPerPage
+          ? Number(searchParams.resultsPerPage)
+          : appConfig.defaults.resultsPerPage,
+      },
     ),
   ]);
   return { applicationResponse, documentResponse };
@@ -59,8 +67,9 @@ async function fetchData({
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PlanningApplicationDetailsDocumentsProps): Promise<Metadata | undefined> {
-  const { applicationResponse } = await fetchData({ params });
+  const { applicationResponse } = await fetchData({ params, searchParams });
   const { reference, council } = params;
   const councilName = getAppConfig(council)?.council?.name ?? "";
 

@@ -41,7 +41,7 @@ import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionAppl
 export interface ApiResponse<T> {
   data: T | null;
   pagination?: DprPagination;
-  status?: {
+  status: {
     code: number;
     message: string;
     detail?: string;
@@ -62,13 +62,11 @@ export interface SearchParams {
   query?: string;
   page: number;
   resultsPerPage: number;
-  /**
-   * beginning of advanced search P05
-   * also used for comments filtering
-   */
+}
+export type SearchParamsDocuments = SearchParams;
+export interface SearchParamsComments extends SearchParams {
   type?: string;
 }
-
 /**
  *
  *

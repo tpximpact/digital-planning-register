@@ -31,6 +31,8 @@ import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/
 import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
 import { DprStatusSummary, DprDecisionSummary } from "@/types";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
 
 /**
  *
@@ -203,6 +205,26 @@ export interface DprComment {
    */
   sentiment?: string;
 }
+
+/**
+ *
+ *
+ *
+ * DprCommentSubmission
+ * What comments look like when they are submitted
+ *
+ *
+ *
+ */
+export type DprCommentSubmission = {
+  name: string;
+  address: string;
+  email?: string;
+  // telephone?: string;
+  response: string;
+  summary_tag: CommentSentiment;
+  tags: CommentTopic[];
+};
 
 /**
  *

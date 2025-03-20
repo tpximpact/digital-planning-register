@@ -24,7 +24,7 @@ import {
   DprCommentTypes,
   DprPagination,
   DprPlanningApplication,
-  SearchParams,
+  SearchParamsComments,
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
@@ -51,7 +51,7 @@ export const sortComments = (comments: DprComment[]) => {
  */
 export const getCommentTypeToShow = (
   council: AppConfig["council"],
-  searchParams?: SearchParams,
+  searchParams?: SearchParamsComments,
 ): DprCommentTypes => {
   let type: DprCommentTypes =
     (searchParams?.type as DprCommentTypes) ??
@@ -72,7 +72,7 @@ export const buildCommentResult = (
   appConfig: AppConfig,
   type: DprCommentTypes,
   application: DprPlanningApplication,
-  searchParams?: SearchParams,
+  searchParams?: SearchParamsComments,
 ) => {
   const comments =
     type === "specialist"
