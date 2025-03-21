@@ -62,7 +62,7 @@ export const ApplicationDetails = ({
     convertedApplication.data.caseOfficer.name ||
     convertedApplication.submission.data.applicant;
   const applicationProgress = buildApplicationProgress(convertedApplication);
-  const appeal = originalApplication.data.appeal;
+  const appeal = convertedApplication.data.appeal;
   const { url: decisionNoticeUrl } =
     documents?.find((d) => d.title === "Decision notice") ?? {};
 
