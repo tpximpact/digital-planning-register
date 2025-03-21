@@ -29,13 +29,13 @@ import { DprApplicationSubmissionData } from "./applicationSubmission";
  * /api/search
  * Listing of applications and search results
  */
-export type DprSearchApiResponse = DprPlanningApplication[];
+export type DprSearchApiResponse = DprPlanningApplication[] | DprApplication[];
 
 /**
  * /api/show
  * Details view of a single application
  */
-export type DprShowApiResponse = DprPlanningApplication;
+export type DprShowApiResponse = DprPlanningApplication | DprApplication;
 
 /**
  * /api/documents

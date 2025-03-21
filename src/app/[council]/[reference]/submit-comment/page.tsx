@@ -34,6 +34,8 @@ import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
 import { topicLabels, pageTitles, checkCommentsEnabled } from "@/lib/comments";
+import { convertToDprApplication } from "@/lib/planningApplication/converter";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 type Props = {
   params: { reference: string; council: string };
@@ -141,8 +143,9 @@ const Comment = ({ params }: Props) => {
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
-          setApplicationData(response.data);
-          const commentsEnabled = checkCommentsEnabled(response.data);
+          const convertedApplication = convertToDprApplication(response.data);
+          setApplicationData(convertedApplication);
+          const commentsEnabled = checkCommentsEnabled(convertedApplication);
           if (!commentsEnabled) {
             router.push(`/${council}/${reference}`);
           }
@@ -332,8 +335,11 @@ const Comment = ({ params }: Props) => {
       return null;
     }
 
-    const boundary_geojson = applicationData?.property.boundary.site;
-    const address = applicationData?.property.address.singleLine;
+    const boundary_geojson =
+      applicationData?.submission?.data?.property?.boundary?.site;
+    const address = getPropertyAddress(
+      applicationData?.submission?.data?.property?.address,
+    );
 
     const commonProps = {
       reference,
@@ -433,9 +439,11 @@ const Comment = ({ params }: Props) => {
     return null;
   }
 
-  const boundary_geojson = applicationData?.property.boundary.site;
-  const address = applicationData?.property.address.singleLine;
-
+  const boundary_geojson =
+    applicationData?.submission?.data?.property?.boundary?.site;
+  const address = getPropertyAddress(
+    applicationData?.submission?.data?.property?.address,
+  );
   // Render the main component
   return (
     <>

@@ -17,16 +17,13 @@
 
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { PageSearch, PageSearchProps } from "@/components/PageSearch";
-import { AppConfig } from "@/config/types";
-import { DprPlanningApplication, DprPagination } from "@/types";
+import { PageSearch } from "@/components/PageSearch";
 import { getAppConfig } from "@/config";
 import {
-  generateDprApplication,
   generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { ApplicationCard } from "@/components/ApplicationCard";
+import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
 jest.mock("@/components/FormSearch", () => ({
   FormSearch: () => <div data-testid="form-search"></div>,
@@ -49,7 +46,11 @@ describe("PageSearch Component", () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
-        applications={generateNResults(5, generateDprApplication)}
+        applications={generateNResults(5, () =>
+          generateDprApplication({
+            customStatus: "assessmentInProgress",
+          }),
+        )}
         pagination={generatePagination(0, 100)}
         searchParams={undefined}
       />,
@@ -68,7 +69,11 @@ describe("PageSearch Component", () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
-        applications={generateNResults(5, generateDprApplication)}
+        applications={generateNResults(5, () =>
+          generateDprApplication({
+            customStatus: "assessmentInProgress",
+          }),
+        )}
         pagination={generatePagination(0, 100)}
         searchParams={{ page: 1, resultsPerPage: 10, query: "search" }}
       />,
@@ -87,7 +92,7 @@ describe("PageSearch Component", () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
-        applications={undefined}
+        applications={[]}
         pagination={generatePagination(0, 0)}
         searchParams={{ page: 1, resultsPerPage: 10, query: "noresultsplease" }}
       />,

@@ -16,7 +16,7 @@
  */
 
 import { AppConfig } from "@/config/types";
-import { DprDocument, DprPlanningApplication } from "@/types";
+import { DprApplication, DprDocument, DprPlanningApplication } from "@/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
@@ -38,6 +38,7 @@ export interface ApplicationDetailsProps {
   appConfig: AppConfig;
   application: DprPlanningApplication;
   documents: DprDocument[] | null;
+  convertedApplication: DprApplication;
 }
 
 export const ApplicationDetails = ({
@@ -45,17 +46,23 @@ export const ApplicationDetails = ({
   appConfig,
   application,
   documents,
+  convertedApplication,
 }: ApplicationDetailsProps) => {
   if (!appConfig.council) {
     return <ContentError />;
   }
+  const originalApplication = application;
 
-  const commentsEnabled = checkCommentsEnabled(application);
+  const commentsEnabled = checkCommentsEnabled(convertedApplication);
   const councilSlug = appConfig.council.slug;
-  const description = getDescription(application.proposal);
-  const people = application.officer || application.applicant;
-  const applicationProgress = buildApplicationProgress(application);
-  const appeal = application.data.appeal;
+  const description = getDescription(
+    convertedApplication.submission.data.proposal,
+  );
+  const people =
+    convertedApplication.data.caseOfficer.name ||
+    convertedApplication.submission.data.applicant;
+  const applicationProgress = buildApplicationProgress(convertedApplication);
+  const appeal = convertedApplication.data.appeal;
   const { url: decisionNoticeUrl } =
     documents?.find((d) => d.title === "Decision notice") ?? {};
 
@@ -121,7 +128,7 @@ export const ApplicationDetails = ({
       </h1>
       <ApplicationHero
         councilSlug={appConfig.council.slug}
-        application={application}
+        application={convertedApplication}
       />
       <div className="govuk-grid-row dpr-application-details__content">
         <div className="govuk-grid-column-one-third-from-desktop dpr-application-details__sidebar">
@@ -175,8 +182,8 @@ export const ApplicationDetails = ({
             totalDocuments={documents?.length ?? 0}
           />
           <ApplicationPeople
-            applicant={application.applicant}
-            caseOfficer={application.officer}
+            applicant={convertedApplication.submission.data.applicant}
+            caseOfficer={convertedApplication.data.caseOfficer}
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
@@ -189,7 +196,9 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.consulteeComments}
+              comments={
+                originalApplication.application.consultation.consulteeComments
+              }
             />
           )}
           {appConfig.council?.publicComments && (
@@ -202,7 +211,9 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.publishedComments}
+              comments={
+                originalApplication.application.consultation.publishedComments
+              }
             />
           )}
         </div>
