@@ -47,8 +47,12 @@ import { PrototypeApplication } from "./odp-types/schemas/prototypeApplication";
  */
 export type DprApplication = Omit<
   PostSubmissionApplication,
-  "submission" | "comments"
+  "data" | "submission" | "comments"
 > & {
+  data: Omit<PostSubmissionApplication["data"], "appeal"> & {
+    appeal?: DprAppeal;
+  };
+
   submission: {
     data: {
       applicant: PrototypeApplication["data"]["applicant"];
@@ -246,3 +250,11 @@ export interface DprContentPage {
   linked?: boolean;
   children?: DprPageContent[];
 }
+
+/**
+ * DprAppeal
+ * Appeal object for DPR applications - sets files to be DprDocuments instead of PostSubmissionFile
+ */
+type DprAppeal = Omit<AppealBase, "files"> & {
+  files?: DprDocument[];
+};

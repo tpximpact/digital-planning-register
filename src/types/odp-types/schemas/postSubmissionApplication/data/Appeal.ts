@@ -1,7 +1,7 @@
-import {Date} from '../../../shared/utils';
-import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
-import {AppealDecision} from '../enums/AppealDecision';
-import {PostSubmissionFile} from './File';
+import { Date } from "../../../shared/utils";
+import { PrimaryApplicationType } from "../../prototypeApplication/enums/ApplicationType";
+import { AppealDecision } from "../enums/AppealDecision";
+import { PostSubmissionFile } from "./File";
 
 /**
  * This schema represents the appeal process for a planning application currently based on the implentation in BOPS and DPR
