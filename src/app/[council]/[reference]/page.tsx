@@ -20,12 +20,17 @@ import {
   ApiResponse,
   DprShowApiResponse,
   DprDocumentsApiResponse,
+  DprApplication,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageShow } from "@/components/PageShow";
+import {
+  convertToDprApplication,
+  isDprApplication,
+} from "@/lib/planningApplication/converter";
 
 interface PlanningApplicationDetailsProps {
   params: {
@@ -87,13 +92,28 @@ const PlanningApplicationDetails = async ({
       </PageMain>
     );
   }
+
   const application = applicationResponse.data;
+  if (!application) {
+    return (
+      <PageMain>
+        <ContentError />
+      </PageMain>
+    );
+  }
+  let convertedApplication: DprApplication;
+
+  if (isDprApplication(application)) {
+    convertedApplication = application;
+  } else {
+    convertedApplication = convertToDprApplication(application);
+  }
   const documents = documentResponse?.data ?? null;
 
   return (
     <PageShow
       appConfig={appConfig}
-      application={application}
+      application={convertedApplication}
       documents={documents}
       params={params}
     />

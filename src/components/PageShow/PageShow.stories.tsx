@@ -19,9 +19,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { PageShow } from "./PageShow";
 import {
   generateDocument,
-  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
+
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
+
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 const {
@@ -65,7 +67,6 @@ const meta = {
   },
   args: {
     appConfig: createAppConfig("public-council-1"),
-    application: committeeDetermined,
     documents: generateNResults(10, generateDocument),
     params: {
       council: "public-council-1",
@@ -77,15 +78,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const NoResult: Story = {
+export const Default: Story = {
   args: {
-    application: null,
+    application: committeeDetermined,
   },
 };
 
-// 01-submission
-// 02-validation-01-invalid
+export const NoResult: Story = {
+  args: {
+    application: committeeDetermined,
+  },
+};
+
 // 03-consultation
 export const Consultation: Story = {
   name: "03-consultation",
@@ -157,30 +161,35 @@ export const AppealDetermined: Story = {
     application: appealDetermined,
   },
 };
+
 export const AppealDeterminedWithdrawn: Story = {
   name: "05-appeal-03-appeal-determined--withdrawn",
   args: {
     application: appealDeterminedWithdrawn,
   },
 };
+
 export const AppealDeterminedAllowed: Story = {
   name: "05-appeal-03-appeal-determined--allowed",
   args: {
     application: appealDeterminedAllowed,
   },
 };
+
 export const AppealDeterminedDismissed: Story = {
   name: "05-appeal-03-appeal-determined--dismissed",
   args: {
     application: appealDeterminedDismissed,
   },
 };
+
 export const AppealDeterminedSplitDecision: Story = {
   name: "05-appeal-03-appeal-determined--split-decision",
   args: {
     application: appealDeterminedSplitDecision,
   },
 };
+
 // 06-assessment-withdrawn
 export const Withdrawn: Story = {
   name: "06-assessment-withdrawn",

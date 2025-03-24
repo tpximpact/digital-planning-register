@@ -15,12 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprContentPage, DprPlanningApplication } from "@/types";
+import { DprApplication, DprContentPage } from "@/types";
 import "./ApplicationCard.scss";
 import {
   contentDecisions,
-  getApplicationDecisionSummary,
-  getApplicationStatusSummary,
   getPrimaryApplicationType,
 } from "@/lib/planningApplication";
 import { ApplicationDataField } from "../ApplicationDataField";
@@ -33,10 +31,14 @@ import {
   findItemByKey,
   splitStringOnOrBeforeMaxChars,
 } from "@/util";
+import {
+  getDescription,
+  getPropertyAddress,
+} from "@/lib/planningApplication/application";
 
 export interface ApplicationCardProps {
   councilSlug: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
 }
 
 export const ApplicationCard = ({
@@ -44,25 +46,18 @@ export const ApplicationCard = ({
   application,
 }: ApplicationCardProps) => {
   // row 1
-  const reference = application.application?.reference;
-  const address = application.property?.address.singleLine;
-  const boundary_geojson = application.property?.boundary?.site;
+  const reference = application?.data?.application?.reference;
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
+  const boundary_geojson =
+    application?.submission?.data?.property?.boundary?.site;
 
-  const description = application.proposal?.description;
+  const description = getDescription(application?.submission?.data?.proposal);
 
   // the rest of the fields
-  const applicationStatusSummary =
-    application.application?.status &&
-    getApplicationStatusSummary(
-      application.application.status,
-      application.application.consultation?.startDate ?? undefined,
-      application.application.consultation?.endDate ?? undefined,
-    );
-
-  const applicationDecisionSummary = getApplicationDecisionSummary(
-    application.applicationType,
-    application.application?.decision ?? undefined,
-  );
+  const applicationStatusSummary = application?.applicationStatusSummary;
+  const applicationDecisionSummary = application?.applicationDecisionSummary;
 
   const applicationAppealDecisionSummary = findItemByKey<DprContentPage>(
     contentDecisions(),
@@ -156,58 +151,66 @@ export const ApplicationCard = ({
               />
             )}
 
-            {application.application?.receivedAt && (
+            {application?.data?.validation?.receivedAt && (
               <ApplicationDataField
                 title="Received date"
                 value={
-                  <time dateTime={application.application.receivedAt}>
+                  <time dateTime={application?.data?.validation?.receivedAt}>
                     {formatDateTimeToDprDate(
-                      application.application.receivedAt,
+                      application?.data?.validation?.receivedAt,
                     )}
                   </time>
                 }
               />
             )}
-            {application.application?.validAt && (
+            {application?.data?.validation?.validatedAt && (
               <ApplicationDataField
                 title="Valid from date"
                 value={
-                  <time dateTime={application.application.validAt}>
-                    {formatDateTimeToDprDate(application.application.validAt)}
-                  </time>
-                }
-              />
-            )}
-            {application.application?.publishedAt && (
-              <ApplicationDataField
-                title="Published date"
-                value={
-                  <time dateTime={application.application.publishedAt}>
+                  <time dateTime={application?.data?.validation?.validatedAt}>
                     {formatDateTimeToDprDate(
-                      application.application.publishedAt,
+                      application?.data?.validation?.validatedAt,
                     )}
                   </time>
                 }
               />
             )}
-            {application.application?.consultation?.endDate && (
+            {application?.metadata?.publishedAt && (
+              <ApplicationDataField
+                title="Published date"
+                value={
+                  <time dateTime={application?.metadata?.publishedAt}>
+                    {formatDateTimeToDprDate(
+                      application?.metadata?.publishedAt,
+                    )}
+                  </time>
+                }
+              />
+            )}
+            {application?.data?.consultation?.endDate && (
               <ApplicationDataField
                 title="Consultation end date"
                 value={formatDateToDprDate(
-                  application.application.consultation.endDate,
+                  application?.data?.consultation?.endDate,
                 )}
               />
             )}
 
-            {application.application?.decision && (
+            {application?.data?.assessment?.planningOfficerDecision && (
               <>
-                {application.application?.determinedAt && (
+                {application?.data?.assessment?.planningOfficerDecisionDate && (
                   <ApplicationDataField
                     title="Council decision date"
                     value={
-                      <time dateTime={application.application.determinedAt}>
+                      <time
+                        dateTime={
+                          application?.data?.assessment
+                            ?.planningOfficerDecisionDate
+                        }
+                      >
                         {formatDateTimeToDprDate(
-                          application.application.determinedAt,
+                          application?.data?.assessment
+                            ?.planningOfficerDecisionDate,
                         )}
                       </time>
                     }
