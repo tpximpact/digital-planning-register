@@ -70,8 +70,8 @@ export const getCommentTypeToShow = (
 export const buildCommentResult = (
   appConfig: AppConfig,
   type: DprCommentTypes,
-  searchParams?: SearchParamsComments,
   application: DprApplication,
+  searchParams?: SearchParamsComments,
 ) => {
   const comments = type === "public" ? application.comments?.public : null;
 
