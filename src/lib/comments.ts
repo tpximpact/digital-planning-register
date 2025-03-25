@@ -24,7 +24,6 @@ import {
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
   SearchParamsComments,
 } from "@/types";
 import { AppConfig } from "@/config/types";
@@ -71,15 +70,10 @@ export const getCommentTypeToShow = (
 export const buildCommentResult = (
   appConfig: AppConfig,
   type: DprCommentTypes,
-  application: DprPlanningApplication,
   searchParams?: SearchParamsComments,
+  application: DprApplication,
 ) => {
-  const comments =
-    type === "specialist"
-      ? application.application?.consultation.consulteeComments
-      : type === "public"
-        ? application.application?.consultation.publishedComments
-        : null;
+  const comments = type === "public" ? application.comments?.public : null;
 
   const totalComments = comments ? comments.length : 0;
   const currentPage = Number(searchParams?.page ?? 1);

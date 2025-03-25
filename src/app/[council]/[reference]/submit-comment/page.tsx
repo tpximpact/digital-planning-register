@@ -34,7 +34,6 @@ import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
 import { topicLabels, pageTitles, checkCommentsEnabled } from "@/lib/comments";
-import { convertToDprApplication } from "@/lib/planningApplication/converter";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 type Props = {
@@ -144,9 +143,9 @@ const Comment = ({ params }: Props) => {
         if (response?.status?.code !== 200) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
-          const convertedApplication = convertToDprApplication(response.data);
-          setApplicationData(convertedApplication);
-          const commentsEnabled = checkCommentsEnabled(convertedApplication);
+          const application = response.data;
+          setApplicationData(application);
+          const commentsEnabled = checkCommentsEnabled(application);
           if (!commentsEnabled) {
             router.push(`/${council}/${reference}`);
           }

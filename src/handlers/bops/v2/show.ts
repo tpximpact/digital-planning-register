@@ -17,10 +17,14 @@
 
 "use server";
 
-import { ApiResponse, DprShowApiResponse } from "@/types";
+import { ApiResponse, DprApplication, DprShowApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDetail } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
 import { convertBopsToDpr } from "../converters/planningApplication";
+import {
+  convertToDprApplication,
+  isDprApplication,
+} from "@/lib/planningApplication/converter";
 
 /**
  * Get the details for an application
@@ -40,6 +44,16 @@ export async function show(
   const convertedData = request?.data
     ? convertBopsToDpr(request.data, council)
     : null;
+
+  let convertedApplication: DprApplication;
+  if (convertedData !== null) {
+    if (isDprApplication(convertedData)) {
+      convertedApplication = convertedData;
+    } else {
+      convertedApplication = convertToDprApplication(convertedData);
+    }
+    return { ...request, data: convertedApplication };
+  }
 
   return { ...request, data: convertedData };
 }

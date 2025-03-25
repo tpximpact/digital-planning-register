@@ -24,7 +24,7 @@ import { ContentNotFound } from "../ContentNotFound";
 
 export interface PageShowProps {
   appConfig: AppConfig;
-  application: DprApplication;
+  application: DprApplication | null;
   documents: DprDocument[] | null;
   params: {
     council: string;

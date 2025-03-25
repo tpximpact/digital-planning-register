@@ -67,6 +67,7 @@ const meta = {
   },
   args: {
     appConfig: createAppConfig("public-council-1"),
+    application: committeeDetermined,
     documents: generateNResults(10, generateDocument),
     params: {
       council: "public-council-1",
@@ -86,7 +87,7 @@ export const Default: Story = {
 
 export const NoResult: Story = {
   args: {
-    application: committeeDetermined,
+    application: null,
   },
 };
 
@@ -161,35 +162,30 @@ export const AppealDetermined: Story = {
     application: appealDetermined,
   },
 };
-
 export const AppealDeterminedWithdrawn: Story = {
   name: "05-appeal-03-appeal-determined--withdrawn",
   args: {
     application: appealDeterminedWithdrawn,
   },
 };
-
 export const AppealDeterminedAllowed: Story = {
   name: "05-appeal-03-appeal-determined--allowed",
   args: {
     application: appealDeterminedAllowed,
   },
 };
-
 export const AppealDeterminedDismissed: Story = {
   name: "05-appeal-03-appeal-determined--dismissed",
   args: {
     application: appealDeterminedDismissed,
   },
 };
-
 export const AppealDeterminedSplitDecision: Story = {
   name: "05-appeal-03-appeal-determined--split-decision",
   args: {
     application: appealDeterminedSplitDecision,
   },
 };
-
 // 06-assessment-withdrawn
 export const Withdrawn: Story = {
   name: "06-assessment-withdrawn",
