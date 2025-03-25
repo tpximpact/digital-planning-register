@@ -58,7 +58,7 @@ export const getAppConfig = (council?: string): AppConfig => {
     },
     defaults: {
       resultsPerPage: 10,
-      revalidate: 3600, // 1 hour
+      revalidate: 30, // 3600 default (1 hour)
     },
     navigation: [
       {
