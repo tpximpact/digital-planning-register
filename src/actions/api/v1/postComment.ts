@@ -18,8 +18,11 @@
 "use server";
 
 // Types
-import { ApiResponse } from "@/types";
-import { BopsV1PlanningApplicationsNeighbourResponse } from "@/handlers/bops/types";
+import {
+  ApiResponse,
+  DprApplicationPostCommentApiResponse,
+  DprCommentSubmission,
+} from "@/types";
 
 // handlers
 import { BopsV2 } from "@/handlers/bops";
@@ -33,8 +36,8 @@ export async function postComment(
   source: string,
   council: string,
   reference: string,
-  apiData: object,
-): Promise<ApiResponse<BopsV1PlanningApplicationsNeighbourResponse | null>> {
+  apiData: DprCommentSubmission,
+): Promise<ApiResponse<DprApplicationPostCommentApiResponse | null>> {
   if (!council || !reference || !apiData) {
     return apiReturnError("Council and reference are required");
   }

@@ -16,7 +16,7 @@
  */
 
 import { Metadata } from "next";
-import { ApiResponse, DprShowApiResponse, SearchParams } from "@/types";
+import { ApiResponse, DprShowApiResponse, SearchParamsComments } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
@@ -30,7 +30,7 @@ interface PlanningApplicationDetailsCommentsProps {
     council: string;
     reference: string;
   };
-  searchParams?: SearchParams;
+  searchParams?: SearchParamsComments;
 }
 
 async function fetchData({

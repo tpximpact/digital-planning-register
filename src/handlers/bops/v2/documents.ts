@@ -19,15 +19,26 @@
 
 import { applicationFormObject } from "@/lib/planningApplication";
 import decisionNoticeObject from "@/lib/planningApplication/decisionNotice";
-import { ApiResponse, DprDocumentsApiResponse } from "@/types";
+import {
+  ApiResponse,
+  DprDocumentsApiResponse,
+  SearchParamsDocuments,
+} from "@/types";
 import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
 import { convertDocumentBopsFile } from "../converters/documents";
 import { handleBopsGetRequest } from "../requests";
+import { getAppConfig } from "@/config";
 
 export async function documents(
   council: string,
   reference: string,
+  searchParams?: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
+  const appConfig = getAppConfig(council);
+  const resultsPerPage = searchParams?.resultsPerPage
+    ? searchParams.resultsPerPage
+    : appConfig.defaults.resultsPerPage;
+
   const url = `public/planning_applications/${reference}/documents`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationDocuments | null>
@@ -51,10 +62,27 @@ export async function documents(
       ? decisionNoticeObject(decisionNoticeUrl)
       : null;
 
+  const currentPage = searchParams?.page || 1; // Default to page 1 if not provided
+  const from = (currentPage - 1) * resultsPerPage;
+  const to = from + resultsPerPage;
+
+  // Add extra documents only on the first page
+  const extraDocuments =
+    currentPage === 1
+      ? [
+          applicationFormDocument,
+          ...(decisionNoticeDocument ? [decisionNoticeDocument] : []),
+        ]
+      : [];
+
+  // Adjust the slice range to account for extra documents on the first page
+  const adjustedTo = currentPage === 1 ? to - extraDocuments.length : to;
+
+  // Slice the documents and convert them
+  const documentsOnPage = files.slice(from, adjustedTo);
   const convertedData = [
-    applicationFormDocument,
-    ...(decisionNoticeDocument ? [decisionNoticeDocument] : []),
-    ...files.map(convertDocumentBopsFile),
+    ...extraDocuments,
+    ...documentsOnPage.map(convertDocumentBopsFile),
   ];
 
   return { ...request, data: convertedData };
