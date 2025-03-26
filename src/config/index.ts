@@ -306,7 +306,7 @@ const councils: Council[] = [
     slug: "lambeth",
     visibility: "public",
     dataSource: "bops",
-    publicComments: false,
+    publicComments: true,
     specialistComments: false,
     pageContent: {
       privacy_policy: {
