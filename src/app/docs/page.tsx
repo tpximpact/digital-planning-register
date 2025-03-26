@@ -131,12 +131,12 @@ export default async function PlanningApplicationSearch({
                   >
                     Public comments
                   </th>
-                  <th
+                  {/* <th
                     scope="col"
                     className="govuk-table__header govuk-table__header--numeric"
                   >
                     Specialist comments
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               <tbody className="govuk-table__body">
