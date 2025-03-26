@@ -21,16 +21,15 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { FileList } from "@/components/FileList";
 import { DprDocument } from "@/types";
-import { DocumentCardProps } from "@/components/DocumentCard";
 import {
   generateDocument,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 
-jest.mock("@/components/DocumentCard", () => ({
-  DocumentCard: ({ document }: DocumentCardProps) => (
-    <div data-testid="document-card">
-      <p>document title: {document.title}</p>
+jest.mock("@/components/govukDpr/Attachment", () => ({
+  Attachment: ({ title }: { title?: string }) => (
+    <div data-testid="dpr-attachment__thumbnail">
+      <p>document title: {title}</p>
     </div>
   ),
 }));
@@ -42,6 +41,6 @@ describe("FileList", () => {
         documents={generateNResults<DprDocument>(9, generateDocument)}
       />,
     );
-    expect(screen.getAllByTestId("document-card")).toHaveLength(9);
+    expect(screen.getAllByTestId("dpr-attachment__thumbnail")).toHaveLength(9);
   });
 });

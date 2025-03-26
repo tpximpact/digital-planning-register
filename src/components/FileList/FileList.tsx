@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DocumentCard } from "@/components/DocumentCard";
+import { Attachment } from "@/components/govukDpr/Attachment";
 
 import type { DprDocument } from "@/types";
 
@@ -40,7 +40,15 @@ export const FileList = ({ documents }: FileListProps) => {
         <>
           <div className="dpr-file-list__cards">
             {documents.map((document, i) => (
-              <DocumentCard key={i} document={document} />
+              <Attachment
+                key={i}
+                title={document.title}
+                url={document.url}
+                fileName={document.title}
+                contentType={document.metadata?.contentType}
+                fileSize={document.metadata?.byteSize}
+                createdDate={document.createdDate}
+              />
             ))}
           </div>
         </>
