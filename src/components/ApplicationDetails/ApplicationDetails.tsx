@@ -100,12 +100,12 @@ export const ApplicationDetails = ({
     });
   }
 
-  if (appConfig.council?.specialistComments) {
-    sidebar.push({
-      key: slugify("Specialist comments"),
-      title: "Specialist comments",
-    });
-  }
+  // if (appConfig.council?.specialistComments) {
+  //   sidebar.push({
+  //     key: slugify("Specialist comments"),
+  //     title: "Specialist comments",
+  //   });
+  // }
 
   if (appConfig.council?.publicComments) {
     sidebar.push({
