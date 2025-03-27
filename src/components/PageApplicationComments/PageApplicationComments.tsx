@@ -63,6 +63,7 @@ export const PageApplicationComments = ({
     );
   }
   const councilSlug = appConfig.council.slug;
+
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
@@ -78,12 +79,13 @@ export const PageApplicationComments = ({
           comments={comments}
           pagination={
             pagination ?? {
-              results: appConfig.defaults.resultsPerPage,
-              page: 1,
+              resultsPerPage: appConfig.defaults.resultsPerPage,
+              currentPage: 1,
             }
           }
         />
-        {pagination && pagination.total_pages > 1 && (
+
+        {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "comments")}
             searchParams={searchParams}

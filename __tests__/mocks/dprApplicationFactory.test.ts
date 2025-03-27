@@ -97,22 +97,15 @@ describe("generateDocument", () => {
 describe("generatePagination", () => {
   it("should generate pagination data with the correct structure", () => {
     const pagination = generatePagination();
-    // expect(pagination).toHaveProperty("currentPage");
-    // expect(pagination).toHaveProperty("totalPages");
-    // expect(pagination).toHaveProperty("itemsPerPage");
-    // expect(pagination).toHaveProperty("totalItems");
-    expect(pagination).toHaveProperty("page");
-    expect(pagination).toHaveProperty("results");
-    expect(pagination).toHaveProperty("from");
-    expect(pagination).toHaveProperty("to");
-    expect(pagination).toHaveProperty("total_pages");
-    expect(pagination).toHaveProperty("total_results");
+    expect(pagination).toHaveProperty("resultsPerPage");
+    expect(pagination).toHaveProperty("currentPage");
+    expect(pagination).toHaveProperty("totalPages");
+    expect(pagination).toHaveProperty("totalItems");
   });
 
   it("should generate pagination data with the correct values when current page provided", () => {
     const pagination = generatePagination(5);
-    // expect(pagination.currentPage).toBe(5);
-    expect(pagination.page).toBe(5);
+    expect(pagination.currentPage).toBe(5);
   });
 
   it("should generate different pagination data on subsequent calls", () => {

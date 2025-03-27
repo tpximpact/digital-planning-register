@@ -21,20 +21,15 @@ import { Pagination } from "./Pagination";
 const meta = {
   title: "GOV UK Components/Pagination",
   component: Pagination,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  // tags: ["autodocs"],
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
   },
   args: {
     pagination: {
-      page: 50,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 50,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
     baseUrl: "search",
     searchParams: {
@@ -69,12 +64,10 @@ export const Default: Story = {};
 export const FirstPage: Story = {
   args: {
     pagination: {
-      page: 1,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 1,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -82,12 +75,10 @@ export const FirstPage: Story = {
 export const SecondPage: Story = {
   args: {
     pagination: {
-      page: 2,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 2,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -95,12 +86,10 @@ export const SecondPage: Story = {
 export const ThirdPage: Story = {
   args: {
     pagination: {
-      page: 3,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 3,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -108,12 +97,10 @@ export const ThirdPage: Story = {
 export const FourthPage: Story = {
   args: {
     pagination: {
-      page: 4,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 4,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -121,12 +108,10 @@ export const FourthPage: Story = {
 export const FifthPage: Story = {
   args: {
     pagination: {
-      page: 5,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 5,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -134,12 +119,10 @@ export const FifthPage: Story = {
 export const NinetyEighthPage: Story = {
   args: {
     pagination: {
-      page: 98,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 98,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -147,12 +130,10 @@ export const NinetyEighthPage: Story = {
 export const NinetyNinthPage: Story = {
   args: {
     pagination: {
-      page: 99,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 99,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -160,12 +141,10 @@ export const NinetyNinthPage: Story = {
 export const LastPage: Story = {
   args: {
     pagination: {
-      page: 100,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 100,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -173,12 +152,10 @@ export const LastPage: Story = {
 export const HigherThanPossiblePage: Story = {
   args: {
     pagination: {
-      page: 101,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 101,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -186,12 +163,10 @@ export const HigherThanPossiblePage: Story = {
 export const LowerThanPossiblePage: Story = {
   args: {
     pagination: {
-      page: 0,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 0,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -199,12 +174,10 @@ export const LowerThanPossiblePage: Story = {
 export const EvenLowerThanPossiblePage: Story = {
   args: {
     pagination: {
-      page: -1,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: -1,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
@@ -212,12 +185,10 @@ export const EvenLowerThanPossiblePage: Story = {
 export const MoreItemsThanPages: Story = {
   args: {
     pagination: {
-      page: 101,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 101,
+      totalPages: 100,
+      resultsPerPage: 10,
+      totalItems: 1000,
     },
   },
 };
