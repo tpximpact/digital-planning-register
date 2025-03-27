@@ -14,15 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
 import { Pagination } from "@/components/govuk/Pagination";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { ArrowLink } from "@/components/govuk/Pagination/ArrowLink";
-import {
-  PageItem,
-  PageItemProps,
-} from "@/components/govuk/Pagination/PageItem";
+import { PageItem } from "@/components/govuk/Pagination/PageItem";
 
 jest.mock("@/components/govuk/Pagination/ArrowLink", () => ({
   ArrowLink: jest.fn(() => <div>Mocked ArrowLink</div>),
@@ -39,12 +35,10 @@ describe("Pagination", () => {
 
   it("first page", () => {
     const pagination = {
-      page: 1,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 1,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -110,14 +104,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("second page", () => {
     const pagination = {
-      page: 2,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 2,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -201,14 +194,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("third page", () => {
     const pagination = {
-      page: 3,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 3,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -300,14 +292,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("fourth page", () => {
     const pagination = {
-      page: 4,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 4,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -407,14 +398,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("fifth page", () => {
     const pagination = {
-      page: 5,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 5,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -514,14 +504,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("ninety eighth page", () => {
     const pagination = {
-      page: 98,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 98,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -613,14 +602,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("ninety ninth page", () => {
     const pagination = {
-      page: 99,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 99,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -704,14 +692,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("last page", () => {
     const pagination = {
-      page: 100,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 100,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -775,14 +762,13 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("improbable page", () => {
     const pagination = {
-      page: 0,
-      from: 0,
-      to: 0,
-      total_pages: 100,
-      results: 10,
-      total_results: 1000,
+      currentPage: 0,
+      resultsPerPage: 10,
+      totalPages: 100,
+      totalItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -850,6 +836,7 @@ describe("Pagination", () => {
       expect.anything(),
     );
   });
+
   it("block page", () => {
     const prev = {
       href: "prev-page",
@@ -880,6 +867,7 @@ describe("Pagination", () => {
 
     expect(PageItem).not.toHaveBeenCalled();
   });
+
   it("block page with description", () => {
     const prev = {
       labelText: "Applying for a provisional lorry or bus licence",

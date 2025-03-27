@@ -55,11 +55,18 @@ export const PageApplicationDocuments = ({
     return null;
   }
   const councilSlug = appConfig.council.slug;
-  const from = (pagination?.from ?? 1) - 1;
-  const displayedDocuments = documents?.slice(
-    from,
-    from + (searchParams?.resultsPerPage ?? 9),
-  );
+
+  const documentsPagination = pagination ?? {
+    currentPage: 1,
+    resultsPerPage: searchParams?.resultsPerPage ?? 9,
+    totalPages: 1,
+    totalItems: documents?.length ?? 0,
+  };
+
+  const { currentPage, resultsPerPage } = documentsPagination;
+  const from = (currentPage - 1) * resultsPerPage;
+  const displayedDocuments = documents?.slice(from, from + resultsPerPage);
+
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
@@ -69,13 +76,13 @@ export const PageApplicationDocuments = ({
           address={application.property.address.singleLine}
         />
         <DocumentsList
-          councilSlug={appConfig.council?.slug}
+          councilSlug={appConfig.council.slug}
           reference={reference}
           documents={displayedDocuments ?? null}
           totalDocuments={documents?.length ?? displayedDocuments?.length ?? 0}
           showMoreButton={false}
         />
-        {pagination && pagination.total_pages > 1 && (
+        {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "documents")}
             searchParams={searchParams}

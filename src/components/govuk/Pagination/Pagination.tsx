@@ -78,7 +78,7 @@ export const Pagination = ({
   let firstPage = false;
   let lastPage = false;
   if (pagination) {
-    const { page: currentPage, total_pages: totalPages } = pagination;
+    const { currentPage, totalPages } = pagination;
     firstPage = currentPage === 1;
     lastPage = currentPage === totalPages;
     prev = {

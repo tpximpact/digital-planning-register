@@ -15,27 +15,9 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprDocument, DprPaginationBase } from "@/types";
-import {
-  BopsDocumentsMetadata,
-  BopsFile,
-  BopsNonStandardDocument,
-} from "@/handlers/bops/types";
+import { DprDocument } from "@/types";
+import { BopsFile, BopsNonStandardDocument } from "@/handlers/bops/types";
 import { convertDateTimeToUtc, formatTag } from "@/util";
-
-/**
- * Converts Bops documents metadata into our standard format
- * @param metadata
- * @returns
- */
-export const convertBopsDocumentPagination = (
-  metadata: BopsDocumentsMetadata,
-): DprPaginationBase => {
-  return {
-    results: metadata.results,
-    total_results: metadata.totalResults,
-  };
-};
 
 /**
  * Converts BOPS files into our standard format

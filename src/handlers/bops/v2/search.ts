@@ -17,11 +17,19 @@
 
 "use server";
 
-import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  DprPagination,
+  DprSearchApiResponse,
+  SearchParams,
+} from "@/types";
 import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
 import { defaultPagination } from "@/handlers/lib";
-import { convertBopsToDpr } from "../converters/planningApplication";
+import {
+  convertBopsToDpr,
+  convertBopsToDprPagination,
+} from "../converters/planningApplication";
 
 /**
  * Get list of public applications, also used for search
@@ -60,9 +68,15 @@ export async function search(
     convertBopsToDpr(application, council),
   );
 
+  const metadata = request.data?.metadata;
+  const pagination: DprPagination =
+    metadata && "results" in metadata
+      ? convertBopsToDprPagination(metadata)
+      : defaultPagination;
+
   return {
     ...request,
     data: convertedApplications,
-    pagination: request.data?.metadata ?? defaultPagination,
+    pagination,
   };
 }

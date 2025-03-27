@@ -184,8 +184,8 @@ export const ApplicationDetails = ({
               reference={reference}
               type="specialist"
               pagination={{
-                page: 1,
-                results: 3,
+                currentPage: 1,
+                resultsPerPage: 3,
               }}
               showMoreButton={true}
               comments={application.application.consultation.consulteeComments}
@@ -197,8 +197,8 @@ export const ApplicationDetails = ({
               reference={reference}
               type="public"
               pagination={{
-                page: 1,
-                results: 3,
+                currentPage: 1,
+                resultsPerPage: 3,
               }}
               showMoreButton={true}
               comments={application.application.consultation.publishedComments}
