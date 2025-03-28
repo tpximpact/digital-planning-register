@@ -19,12 +19,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationDocuments } from "./PageApplicationDocuments";
 import {
   generateDocument,
-  generateDprApplication,
   generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
 const meta = {
   title: "Council pages/Application documents",

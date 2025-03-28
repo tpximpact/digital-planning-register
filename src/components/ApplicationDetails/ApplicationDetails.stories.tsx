@@ -20,12 +20,12 @@ import { ApplicationDetails } from "./ApplicationDetails";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
   generateDocument,
-  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
 import { DprDocument } from "@/types";
-
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 const baseAppConfig = createAppConfig("public-council-1");
+
 const { committeeDetermined } = generateExampleApplications();
 
 const meta = {

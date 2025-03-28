@@ -19,10 +19,8 @@
 
 import { getAppConfig } from "@/config";
 import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
-import {
-  generateExampleApplications,
-  generatePagination,
-} from "@mocks/dprApplicationFactory";
+import { generatePagination } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const responseQuery = (
   searchParams?: SearchParams,
@@ -60,7 +58,7 @@ const responseQuery = (
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
     applications = [consultation];
-    applications[0].application.reference = searchParams.query;
+    applications[0].data.application.reference = searchParams.query;
     pagination = generatePagination(searchParams?.page, 1);
   }
 

@@ -57,6 +57,11 @@ import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissio
 import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
+import {
+  Agent,
+  BaseApplicant,
+} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import { CaseOfficerBase } from "@/types/odp-types/schemas/postSubmissionApplication/data/CaseOfficer";
 
 type PossibleDates = {
   application: {
@@ -89,9 +94,19 @@ type PossibleDates = {
   };
 };
 
-export const generateAllPossibleDates = (): PossibleDates => {
+export const generateAllPossibleDates = (
+  consultationInProgress: boolean = false,
+): PossibleDates => {
+  let startDate = faker.date.past({ years: 10 });
+  if (consultationInProgress) {
+    startDate = dayjs()
+      .subtract(1, "day")
+      .subtract(200, "millisecond")
+      .toDate();
+  }
+
   // an application is submitted and some point in the last 10 years
-  const submittedAt = dayjs(faker.date.past({ years: 10 }));
+  const submittedAt = dayjs(startDate);
 
   // application received by back office system a few ms later because maybe theres latency
   const receivedAt = dayjs(submittedAt).add(200, "millisecond");
@@ -168,10 +183,11 @@ export const generateAllPossibleDates = (): PossibleDates => {
       withdrawnAt: appealWithdrawnAt,
     },
   };
+
   return dates;
 };
 
-export const proposedAddress: ProposedAddress = {
+export const generateProposedAddress: ProposedAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 502869.8591151078,
@@ -180,7 +196,7 @@ export const proposedAddress: ProposedAddress = {
   source: "Proposed by applicant",
 };
 
-export const siteAddress: OSAddress = {
+export const generateSiteAddress: OSAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   x: 493822,
@@ -194,6 +210,70 @@ export const siteAddress: OSAddress = {
   town: fakerEN_GB.location.city(),
   postcode: fakerEN_GB.location.zipCode(),
   singleLine: fakerEN_GB.location.streetAddress(true),
+};
+
+export const generateBaseApplicant: BaseApplicant = {
+  name: {
+    title: faker.person.prefix(),
+    first: faker.person.firstName(),
+    last: faker.person.lastName(),
+  },
+  email: "REDACTED",
+  phone: {
+    primary: "REDACTED",
+  },
+  company: {
+    name: faker.company.name(),
+  },
+  type: faker.helpers.arrayElement([
+    "individual",
+    "company",
+    "charity",
+    "public",
+    "parishCouncil",
+  ]),
+
+  address: {
+    line1: fakerEN_GB.location.street(),
+    town: fakerEN_GB.location.city(),
+    postcode: fakerEN_GB.location.zipCode(),
+    country: fakerEN_GB.location.country(),
+    sameAsSiteAddress: false,
+  },
+  siteContact: {
+    role: "other",
+    name: `${faker.person.firstName()} ${faker.person.lastName()}`,
+    email: faker.internet.email(),
+    phone: fakerEN_GB.phone.number(),
+  },
+};
+
+export const generateAgent: Agent = {
+  ...generateBaseApplicant,
+  agent: {
+    name: {
+      title: faker.person.prefix(),
+      first: faker.person.firstName(),
+      last: faker.person.lastName(),
+    },
+    email: "REDACTED",
+    phone: {
+      primary: "REDACTED",
+    },
+    company: {
+      name: faker.company.name(),
+    },
+    address: {
+      line1: fakerEN_GB.location.street(),
+      town: fakerEN_GB.location.city(),
+      postcode: fakerEN_GB.location.zipCode(),
+      country: fakerEN_GB.location.country(),
+    },
+  },
+};
+
+export const generateCaseOfficer: CaseOfficerBase = {
+  name: `${faker.person.firstName()} ${faker.person.lastName()}`,
 };
 
 export const generateMetadata = (
@@ -332,7 +412,9 @@ export const generateDprApplication = ({
       break;
   }
 
-  const dates = generateAllPossibleDates();
+  const dates = generateAllPossibleDates(
+    applicationStage === "consultation" && applicationStatus === "undetermined",
+  );
 
   if (!applicationType) {
     const applicationTypes = Object.values(validApplicationTypes).flat();

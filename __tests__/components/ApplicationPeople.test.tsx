@@ -18,13 +18,16 @@
 import "@testing-library/jest-dom";
 import { ApplicationPeople } from "@/components/ApplicationPeople";
 import { screen, render } from "@testing-library/react";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
+import {
+  generateAgent,
+  generateCaseOfficer,
+} from "@mocks/dprNewApplicationFactory";
 
 describe("Render ApplicationPeople", () => {
-  const applicant = generateDprApplication().applicant;
-  const caseOfficer = generateDprApplication().officer;
+  const applicant = generateAgent;
+  const caseOfficer = generateCaseOfficer;
 
-  it("should render correct if it has all the data", async () => {
+  it("should render correctly if it has all the data", async () => {
     render(
       <ApplicationPeople applicant={applicant} caseOfficer={caseOfficer} />,
     );
@@ -58,8 +61,8 @@ describe("Render ApplicationPeople", () => {
     ).toBeInTheDocument();
   });
 
-  it("shouldn't show anything if no applicant", async () => {
-    render(<ApplicationPeople applicant={{}} />);
+  it("shouldn't show anything if no data", async () => {
+    render(<ApplicationPeople />);
 
     // it should be showing
     expect(
@@ -69,15 +72,14 @@ describe("Render ApplicationPeople", () => {
 
   it("shouldn't show agent column if the fields we need are empty", async () => {
     // Remove agent.name and agent.address
-    const {
-      agent: { name, address, ...restAgent },
-      ...restApplicant
-    } = applicant;
-    const updatedApplicant = {
+    const { agent, ...restApplicant } = generateAgent;
+    const { name, address, ...restAgent } = agent;
+    const updatedAgent = {
       ...restApplicant,
       agent: restAgent,
     };
-    render(<ApplicationPeople applicant={updatedApplicant} />);
+
+    render(<ApplicationPeople applicant={updatedAgent} />);
 
     // it should be showing
     expect(screen.getByRole("heading", { name: "People" })).toBeInTheDocument();
