@@ -43,25 +43,12 @@ export const createItemPagination = (
   maxDisplayItems: number = 10,
 ): DprPagination => {
   const currentPage = Number(paramsPage);
-  const from = (currentPage - 1) * maxDisplayItems + 1;
-  const to = Math.min(currentPage * maxDisplayItems, totalItems);
   const totalPages = Math.ceil(totalItems / maxDisplayItems);
 
   return {
-    page: currentPage,
-    results: maxDisplayItems,
-    from: from,
-    to: to,
-    total_pages: totalPages,
-    total_results: totalItems,
+    resultsPerPage: maxDisplayItems,
+    currentPage: currentPage,
+    totalPages: totalPages,
+    totalItems: totalItems,
   };
-
-  // return {
-  //   totalItems,
-  //   currentPage,
-  //   maxDisplayItems,
-  //   from,
-  //   to,
-  //   totalPages,
-  // };
 };
