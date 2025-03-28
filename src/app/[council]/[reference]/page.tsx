@@ -87,9 +87,7 @@ const PlanningApplicationDetails = async ({
       </PageMain>
     );
   }
-
   const application = applicationResponse.data;
-
   const documents = documentResponse?.data ?? null;
 
   return (

@@ -52,29 +52,23 @@ export const CommentsList = ({
   const displayedComments = comments?.slice(startIndex, endIndex);
   const totalComments = comments ? comments.length : 0;
   return (
-    // Temporarily commenting out the specialist comments section as we don't configure it in our conversion function yet
-    // <section
-    //   aria-labelledby={
-    //     type === "specialist"
-    //       ? "specialist-comments-section"
-    //       : "public-comments-section"
-    //   }
-    //   id={type === "specialist" ? "specialist-comments" : "public-comments"}
-    // >
-    //   <h2
-    //     className="govuk-heading-l"
-    //     id={
-    //       type === "specialist"
-    //         ? "specialist-comments-section"
-    //         : "public-comments-section"
-    //     }
-    //   >
-    //     {type === "specialist" ? "Specialist Comments" : "Public Comments"}
-    //   </h2>
-
-    <section aria-labelledby={"public-comments-section"} id={"public-comments"}>
-      <h2 className="govuk-heading-l" id={"public-comments-section"}>
-        {"Public Comments"}
+    <section
+      aria-labelledby={
+        type === "specialist"
+          ? "specialist-comments-section"
+          : "public-comments-section"
+      }
+      id={type === "specialist" ? "specialist-comments" : "public-comments"}
+    >
+      <h2
+        className="govuk-heading-l"
+        id={
+          type === "specialist"
+            ? "specialist-comments-section"
+            : "public-comments-section"
+        }
+      >
+        {type === "specialist" ? "Specialist Comments" : "Public Comments"}
       </h2>
 
       {displayedComments && displayedComments.length > 0 ? (

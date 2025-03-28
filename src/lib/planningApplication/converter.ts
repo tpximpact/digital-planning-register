@@ -263,7 +263,12 @@ export const convertToDprApplication = (
       },
     },
     comments: {
-      public: app.application.consultation.publishedComments ?? undefined,
+      public: {
+        comments: app.application.consultation.publishedComments ?? undefined,
+      },
+      specialist: {
+        comments: app.application.consultation.consulteeComments ?? undefined,
+      },
     },
     metadata: {
       organisation: "BOPS",

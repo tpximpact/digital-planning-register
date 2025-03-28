@@ -68,7 +68,12 @@ export type DprApplication = Omit<
     };
   };
   comments?: {
-    public?: DprComment[];
+    public?: {
+      comments?: DprComment[];
+    };
+    specialist?: {
+      comments?: DprComment[];
+    };
   };
   applicationStatusSummary: DprStatusSummary;
   applicationDecisionSummary?: DprDecisionSummary;

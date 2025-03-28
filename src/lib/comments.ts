@@ -73,8 +73,12 @@ export const buildCommentResult = (
   application: DprApplication,
   searchParams?: SearchParamsComments,
 ) => {
-  const comments = type === "public" ? application.comments?.public : null;
-
+  const comments =
+    type === "specialist"
+      ? application.comments?.public?.comments
+      : type === "public"
+        ? application.comments?.specialist?.comments
+        : null;
   const totalComments = comments ? comments.length : 0;
   const currentPage = Number(searchParams?.page ?? 1);
 

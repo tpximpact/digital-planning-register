@@ -59,29 +59,28 @@ describe("CommentsList", () => {
     ).toBeInTheDocument();
   });
 
-  // temporarily commenting out this test as we don't configure specialist comments in our conversion function yet
-  // it("shows correct results", () => {
-  //   render(
-  //     <CommentsList
-  //       type={"specialist"}
-  //       councilSlug={"public-council-1"}
-  //       reference={"12345"}
-  //       comments={generateNResults<DprComment>(8, generateComment)}
-  //       pagination={generatePagination(0, 8)}
-  //       showMoreButton={true}
-  //     />,
-  //   );
-  //   expect(screen.getByRole("heading")).toHaveTextContent(
-  //     "Specialist Comments",
-  //   );
-  //   expect(screen.getAllByTestId("comment-card")).toHaveLength(8);
-  //   expect(screen.getByText("comment number: 1")).toBeInTheDocument();
-  //   expect(screen.getByText("comment number: 8")).toBeInTheDocument();
-  //   expect(screen.getByText("Showing 8 of 8 comments")).toBeInTheDocument();
-  //   expect(
-  //     screen.getByText("Show all 8 professional consultee comments"),
-  //   ).toBeInTheDocument();
-  // });
+  it("shows correct results", () => {
+    render(
+      <CommentsList
+        type={"specialist"}
+        councilSlug={"public-council-1"}
+        reference={"12345"}
+        comments={generateNResults<DprComment>(8, generateComment)}
+        pagination={generatePagination(0, 8)}
+        showMoreButton={true}
+      />,
+    );
+    expect(screen.getByRole("heading")).toHaveTextContent(
+      "Specialist Comments",
+    );
+    expect(screen.getAllByTestId("comment-card")).toHaveLength(8);
+    expect(screen.getByText("comment number: 1")).toBeInTheDocument();
+    expect(screen.getByText("comment number: 8")).toBeInTheDocument();
+    expect(screen.getByText("Showing 8 of 8 comments")).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 8 professional consultee comments"),
+    ).toBeInTheDocument();
+  });
 
   it("shows message when there are no public comments", () => {
     render(
@@ -101,23 +100,23 @@ describe("CommentsList", () => {
     ).toBeInTheDocument();
   });
 
-  // it("shows message when there are no specialist comments", () => {
-  //   render(
-  //     <CommentsList
-  //       type={"specialist"}
-  //       councilSlug={"public-council-1"}
-  //       reference={"12345"}
-  //       comments={[]}
-  //       pagination={generatePagination(0, 0)}
-  //     />,
-  //   );
-  //   expect(screen.getByRole("heading")).toHaveTextContent(
-  //     "Specialist Comments",
-  //   );
-  //   expect(
-  //     screen.getByText(
-  //       "No comments from specialists have been published at this time.",
-  //     ),
-  //   ).toBeInTheDocument();
-  // });
+  it("shows message when there are no specialist comments", () => {
+    render(
+      <CommentsList
+        type={"specialist"}
+        councilSlug={"public-council-1"}
+        reference={"12345"}
+        comments={[]}
+        pagination={generatePagination(0, 0)}
+      />,
+    );
+    expect(screen.getByRole("heading")).toHaveTextContent(
+      "Specialist Comments",
+    );
+    expect(
+      screen.getByText(
+        "No comments from specialists have been published at this time.",
+      ),
+    ).toBeInTheDocument();
+  });
 });

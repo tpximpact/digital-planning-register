@@ -131,12 +131,12 @@ export default async function PlanningApplicationSearch({
                   >
                     Public comments
                   </th>
-                  {/* <th
+                  <th
                     scope="col"
                     className="govuk-table__header govuk-table__header--numeric"
                   >
                     Specialist comments
-                  </th> */}
+                  </th>
                 </tr>
               </thead>
               <tbody className="govuk-table__body">
@@ -169,14 +169,11 @@ export default async function PlanningApplicationSearch({
                       {application.applicationDecisionSummary}
                     </td>
                     <td className="govuk-table__cell govuk-table__cell--numeric">
-                      {application.comments?.public?.length}
+                      {application.comments?.public?.comments?.length}
                     </td>
-                    {/* <td className="govuk-table__cell govuk-table__cell--numeric">
-                      {
-                        application.application?.consultation?.consulteeComments
-                          ?.length
-                      }
-                    </td> */}
+                    <td className="govuk-table__cell govuk-table__cell--numeric">
+                      {application.comments?.specialist?.comments?.length}
+                    </td>
                   </tr>
                 ))}
               </tbody>

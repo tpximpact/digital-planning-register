@@ -100,12 +100,12 @@ export const ApplicationDetails = ({
     });
   }
 
-  // if (appConfig.council?.specialistComments) {
-  //   sidebar.push({
-  //     key: slugify("Specialist comments"),
-  //     title: "Specialist comments",
-  //   });
-  // }
+  if (appConfig.council?.specialistComments) {
+    sidebar.push({
+      key: slugify("Specialist comments"),
+      title: "Specialist comments",
+    });
+  }
 
   if (appConfig.council?.publicComments) {
     sidebar.push({
@@ -180,7 +180,7 @@ export const ApplicationDetails = ({
             caseOfficer={application.data.caseOfficer}
           />
           {/* <ApplicationConstraints /> */}
-          {/* {appConfig.council?.specialistComments && (
+          {appConfig.council?.specialistComments && (
             <CommentsList
               councilSlug={appConfig?.council?.slug}
               reference={reference}
@@ -190,11 +190,9 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={
-                application.application.consultation.consulteeComments
-              }
+              comments={application.comments?.specialist?.comments}
             />
-          )} */}
+          )}
           {appConfig.council?.publicComments && (
             <CommentsList
               councilSlug={appConfig?.council?.slug}
@@ -205,7 +203,7 @@ export const ApplicationDetails = ({
                 results: 3,
               }}
               showMoreButton={true}
-              comments={application?.comments?.public}
+              comments={application?.comments?.public?.comments}
             />
           )}
         </div>
