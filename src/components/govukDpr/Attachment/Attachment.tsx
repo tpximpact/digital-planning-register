@@ -106,7 +106,11 @@ export const Attachment = ({
 
   return (
     <section className="dpr-attachment">
-      <div className="dpr-attachment__thumbnail">{thumbnailOrIcon}</div>
+      <div className="dpr-attachment__thumbnail">
+        <a href={url} aria-hidden={true} tabIndex={-1}>
+          {thumbnailOrIcon}
+        </a>
+      </div>
       <div className="dpr-attachment__details">
         <div className="dpr-attachment__title">
           <a className="govuk-link govuk-link--no-visited-state" href={url}>
