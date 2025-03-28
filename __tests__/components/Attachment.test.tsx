@@ -54,7 +54,6 @@ describe("Attachment Component", () => {
     );
 
     const thumbImg = container.querySelector(".dpr-attachment__thumbnail img");
-    console.log(container);
     expect(thumbImg?.getAttribute("src")).toMatch(/custom-thumb\.png/);
     expect(thumbImg).toHaveAttribute("alt", "Custom Thumbnail Doc thumbnail");
   });
