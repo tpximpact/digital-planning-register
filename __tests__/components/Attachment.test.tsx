@@ -46,16 +46,16 @@ describe("Attachment Component", () => {
   });
 
   it("shows a custom thumbnail if thumbnailUrl is provided", () => {
-    render(
+    const { container } = render(
       <Attachment
         thumbnailUrl="/images/custom-thumb.png"
         title="Custom Thumbnail Doc"
       />,
     );
-    const thumbImg = screen.getByRole("img", {
-      name: "Custom Thumbnail Doc thumbnail",
-    });
-    expect(thumbImg).toBeInTheDocument();
+
+    const thumbImg = container.querySelector(".dpr-attachment__thumbnail img");
+    expect(thumbImg?.getAttribute("src")).toMatch(/custom-thumb\.png/);
+    expect(thumbImg).toHaveAttribute("alt", "Custom Thumbnail Doc thumbnail");
   });
 
   it("shows the correct inline icon if recognized contentType is 'application/pdf'", () => {
