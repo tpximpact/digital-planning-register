@@ -99,6 +99,24 @@ export interface DprPagination {
    */
   totalItems: number;
 }
+export interface OdpPagination {
+  /**
+   * Number of results per page (e.g., 10)
+   */
+  resultsPerPage: number;
+  /**
+   * Current page number (e.g., 1)
+   */
+  currentPage: number;
+  /**
+   * Total number of pages (e.g., 10)
+   */
+  totalPages: number;
+  /**
+   * Total number of items (e.g., 100)
+   */
+  totalItems: number;
+}
 
 /**
  *

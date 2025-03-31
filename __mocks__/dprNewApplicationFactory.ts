@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication } from "@/types";
+import { DprApplication, DprComment } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
 import dayjs, { Dayjs } from "dayjs";
 import { generateReference } from "./dprApplicationFactory";
@@ -57,6 +57,17 @@ import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissio
 import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
+import {
+  PublicComment,
+  PublicComments,
+  SpecialistComment,
+  SpecialistComments,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 import {
   Agent,
