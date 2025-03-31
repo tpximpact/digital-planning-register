@@ -104,7 +104,6 @@ export interface BopsV1PlanningApplicationsNeighbourResponse {
  * GET /api/v2/public/planning_applications/{reference}/comments/public
  */
 export type BopsV2PublicPlanningApplicationPublicComments = {
-  pagination: DprPagination;
   comments: BopsComment[];
   summary: PublicCommentSummary;
 };
@@ -113,7 +112,6 @@ export type BopsV2PublicPlanningApplicationPublicComments = {
  * GET /api/v2/public/planning_applications/{reference}/comments/specialist
  */
 export type BopsV2PublicPlanningApplicationSpecialistComments = {
-  pagination: DprPagination;
   comments: BopsComment[];
   summary: SpecialistCommentSummary;
 };

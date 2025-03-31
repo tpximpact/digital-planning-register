@@ -17,7 +17,6 @@
 
 import { AppConfig } from "@/config/types";
 import { DprApplication, DprDocument } from "@/types";
-import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
 import { DocumentsList } from "@/components/DocumentsList";
@@ -32,6 +31,7 @@ import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
+import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -181,29 +181,19 @@ export const ApplicationDetails = ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <CommentsList
+            <CommentsListWithSuspense
               councilSlug={appConfig?.council?.slug}
               reference={reference}
               type="specialist"
-              pagination={{
-                currentPage: 1,
-                resultsPerPage: 3,
-              }}
-              showMoreButton={true}
-              comments={application.comments?.specialist?.comments}
+              resultsPerPage={3}
             />
           )}
           {appConfig.council?.publicComments && (
-            <CommentsList
+            <CommentsListWithSuspense
               councilSlug={appConfig?.council?.slug}
               reference={reference}
               type="public"
-              pagination={{
-                currentPage: 1,
-                resultsPerPage: 3,
-              }}
-              showMoreButton={true}
-              comments={application?.comments?.public?.comments}
+              resultsPerPage={3}
             />
           )}
         </div>

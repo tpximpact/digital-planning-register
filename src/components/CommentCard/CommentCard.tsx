@@ -23,7 +23,7 @@ import "./CommentCard.scss";
 import { splitCommentText } from "./CommentCard.utils";
 
 export interface CommentCardProps {
-  comment: DprComment;
+  comment?: DprComment;
   commentNumber?: number;
 }
 
