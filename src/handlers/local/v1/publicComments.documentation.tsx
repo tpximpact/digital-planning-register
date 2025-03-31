@@ -14,20 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
+import { Documentation, SearchParamsComments } from "@/types";
+import { publicComments } from "./publicComments";
 
-export interface BopsComment {
-  id?: number;
-  comment: string;
-  receivedAt: string;
-  sentiment?: string;
-}
+export const documentation: Documentation = {
+  url: `/docs/json?handler=LocalV1&method=publicComments`,
+  file: `src/handlers/local/v1/publicComments.ts`,
+  description: "publicComments",
+  arguments: [
+    "source",
+    "council",
+    "reference",
+    "page",
+    "resultsPerPage",
+    "searchQuery",
+  ],
+  run: async (args: [string, string, SearchParamsComments]) => {
+    return await publicComments(...args);
+  },
 
-/**
- * Another one that goes along with the soon to be deprecated endpoint
- * @deprecated
- */
-interface BopsNonStandardComment {
-  comment: string;
-  received_at: string;
-  summary_tag?: string;
-}
+  examples: [
+    {
+      url: `/docs/json?handler=LocalV1&method=publicComments`,
+      description: "publicComments",
+    },
+  ],
+};
