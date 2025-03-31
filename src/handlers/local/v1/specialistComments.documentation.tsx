@@ -15,19 +15,21 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface BopsComment {
-  id?: number;
-  comment: string;
-  receivedAt: string;
-  sentiment?: string;
-}
+import { Documentation } from "@/types";
+import { specialistComments } from "./specialistComments";
 
-/**
- * Another one that goes along with the soon to be deprecated endpoint
- * @deprecated
- */
-interface BopsNonStandardComment {
-  comment: string;
-  received_at: string;
-  summary_tag?: string;
-}
+export const documentation: Documentation = {
+  url: `/docs/json?handler=LocalV1&method=specialistComments`,
+  file: `src/handlers/local/v1/specialistComments.ts`,
+  description: "specialistComments",
+  arguments: [],
+  run: async () => {
+    return await specialistComments();
+  },
+  examples: [
+    {
+      url: `/docs/json?handler=LocalV1&method=specialistComments`,
+      description: "specialistComments",
+    },
+  ],
+};

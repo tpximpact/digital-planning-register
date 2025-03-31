@@ -62,6 +62,8 @@ export interface SearchParams {
   query?: string;
   page: number;
   resultsPerPage: number;
+  sortBy?: string;
+  orderBy?: string;
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {
@@ -88,6 +90,24 @@ export interface DprPagination extends DprPaginationBase {
   from: number;
   to: number;
   total_pages: number;
+}
+export interface OdpPagination {
+  /**
+   * Number of results per page (e.g., 10)
+   */
+  resultsPerPage: number;
+  /**
+   * Current page number (e.g., 1)
+   */
+  currentPage: number;
+  /**
+   * Total number of pages (e.g., 10)
+   */
+  totalPages: number;
+  /**
+   * Total number of items (e.g., 100)
+   */
+  totalItems: number;
 }
 
 /**
