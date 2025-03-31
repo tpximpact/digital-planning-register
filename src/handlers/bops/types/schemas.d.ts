@@ -22,7 +22,12 @@ import {
   BopsSearchLinks,
   BopsSearchMetadata,
 } from "./definitions/application";
+import { BopsComment } from "./definitions/comment";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 /**
  * GET /api/v2/public/planning_applications/search
@@ -98,7 +103,6 @@ export interface BopsV1PlanningApplicationsNeighbourResponse {
  * GET /api/v2/public/planning_applications/{reference}/comments/public
  */
 export type BopsV2PublicPlanningApplicationPublicComments = {
-  pagination: DprPagination;
   comments: BopsComment[];
   summary: PublicCommentSummary;
 };
@@ -107,7 +111,6 @@ export type BopsV2PublicPlanningApplicationPublicComments = {
  * GET /api/v2/public/planning_applications/{reference}/comments/specialist
  */
 export type BopsV2PublicPlanningApplicationSpecialistComments = {
-  pagination: DprPagination;
   comments: BopsComment[];
   summary: SpecialistCommentSummary;
 };

@@ -18,9 +18,8 @@ import { CommentsList } from "./CommentsList";
 import {
   generateComment,
   generateNResults,
-  generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { DprComment, DprPagination } from "@/types";
+import { DprComment } from "@/types";
 
 const meta = {
   title: "DPR Components/CommentsList",
@@ -33,10 +32,6 @@ const meta = {
     councilSlug: "public-council-1",
     reference: "12345",
     comments: generateNResults<DprComment>(30, generateComment),
-    pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
-      resultsPerPage,
-      currentPage,
-    }))(generatePagination(1, 30)),
   },
 } satisfies Meta<typeof CommentsList>;
 
@@ -53,46 +48,18 @@ export const NoComments: Story = {
 
 export const ApplicationCommentCta: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, () => generateComment()),
-    pagination: { resultsPerPage: 3, currentPage: 1 },
-    showMoreButton: true,
+    comments: generateNResults<DprComment>(30, generateComment),
   },
 };
 
 export const ApplicationCommentCtaLessThan3Comments: Story = {
   args: {
-    comments: generateNResults<DprComment>(2, () => generateComment()),
-    pagination: { resultsPerPage: 3, currentPage: 1 },
-    showMoreButton: true,
+    comments: generateNResults<DprComment>(2, generateComment),
   },
 };
 
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, () => generateComment()),
-    pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
-      resultsPerPage,
-      currentPage,
-    }))(generatePagination(1, 30)),
-  },
-};
-
-export const SecondPage: Story = {
-  args: {
-    comments: generateNResults<DprComment>(30, () => generateComment()),
-    pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
-      resultsPerPage,
-      currentPage,
-    }))(generatePagination(2, 30)),
-  },
-};
-
-export const ThirdPage: Story = {
-  args: {
-    comments: generateNResults<DprComment>(30, () => generateComment()),
-    pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
-      resultsPerPage,
-      currentPage,
-    }))(generatePagination(3, 30)),
+    comments: generateNResults<DprComment>(30, generateComment),
   },
 };
