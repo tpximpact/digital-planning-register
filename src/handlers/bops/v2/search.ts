@@ -59,26 +59,45 @@ export async function search(
 
     url = `${url}?${params.toString()}`;
   }
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
-  >(council, url);
 
-  const { data: planningApplications = [] } = request.data || {};
+  try {
+    const request = await handleBopsGetRequest<
+      ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
+    >(council, url);
 
-  const convertedApplications = planningApplications.map((application) =>
-    convertBopsToDpr(application, council),
-  );
+    const { data: planningApplications = [] } = request.data || {};
 
-  const DprApplications: DprApplication[] = convertedApplications.map((app) => {
-    if (isDprApplication(app)) {
-      return app;
-    } else {
-      return convertToDprApplication(app);
+    const convertedApplications = planningApplications.map((application) =>
+      convertBopsToDpr(application, council),
+    );
+
+    const DprApplications: DprApplication[] = convertedApplications.map(
+      (app) => {
+        if (isDprApplication(app)) {
+          return app;
+        } else {
+          return convertToDprApplication(app);
+        }
+      },
+    );
+    return {
+      ...request,
+      data: DprApplications,
+      pagination: request.data?.metadata ?? defaultPagination,
+    };
+  } catch (error) {
+    console.error("Error fetching or converting application data:", error);
+    let detail = "Unknown error";
+    if (error instanceof Error) {
+      detail = error.message;
     }
-  });
-  return {
-    ...request,
-    data: DprApplications,
-    pagination: request.data?.metadata ?? defaultPagination,
-  };
+    return {
+      data: null,
+      status: {
+        code: 500,
+        message: "Internal server error",
+        detail,
+      },
+    };
+  }
 }

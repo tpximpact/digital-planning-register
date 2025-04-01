@@ -42,6 +42,7 @@ import {
 import { contentImportantDates } from "./date";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { getCouncilDecision, getCouncilDecisionDate } from "./application";
 dayjs.extend(utc);
 
 export const buildApplicationProgress = (
@@ -127,10 +128,8 @@ export const buildApplicationProgress = (
 
   // 05 councilDecisionMade
 
-  if (
-    application?.data?.assessment?.planningOfficerDecision &&
-    application?.data?.assessment?.planningOfficerDecisionDate
-  ) {
+  const councilDecisionDate = getCouncilDecisionDate(application);
+  if (getCouncilDecision(application) && councilDecisionDate) {
     const councilDecisionMadeContent = findItemByKey<DprContentPage>(
       importantDates,
       slugify("Council decision date"),
@@ -138,12 +137,8 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Council decision made",
       date: (
-        <time
-          dateTime={application?.data?.assessment?.planningOfficerDecisionDate}
-        >
-          {formatDateToDprDate(
-            application?.data?.assessment?.planningOfficerDecisionDate,
-          )}
+        <time dateTime={councilDecisionDate}>
+          {formatDateTimeToDprDate(councilDecisionDate)}
         </time>
       ),
       content: councilDecisionMadeContent ?? <></>,

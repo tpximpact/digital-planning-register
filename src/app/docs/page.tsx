@@ -25,6 +25,7 @@ import { notFound } from "next/navigation";
 import { PageTemplate } from "@/components/PageTemplate";
 import Link from "next/link";
 import { Pagination } from "@/components/govuk/Pagination";
+import { getCouncilDecision } from "@/lib/planningApplication/application";
 
 interface HomeProps {
   searchParams?: SearchParams & {
@@ -163,7 +164,7 @@ export default async function PlanningApplicationSearch({
                       {application.applicationStatusSummary}
                     </td>
                     <td className="govuk-table__cell">
-                      {application.data.assessment?.planningOfficerDecision}
+                      {getCouncilDecision(application)}
                     </td>
                     <td className="govuk-table__cell">
                       {application.applicationDecisionSummary}

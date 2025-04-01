@@ -32,6 +32,8 @@ import {
   splitStringOnOrBeforeMaxChars,
 } from "@/util";
 import {
+  getCouncilDecision,
+  getCouncilDecisionDate,
   getDescription,
   getPropertyAddress,
 } from "@/lib/planningApplication/application";
@@ -196,24 +198,12 @@ export const ApplicationCard = ({
               />
             )}
 
-            {application?.data?.assessment?.planningOfficerDecision && (
+            {getCouncilDecision(application) && (
               <>
-                {application?.data?.assessment?.planningOfficerDecisionDate && (
+                {getCouncilDecisionDate(application) && (
                   <ApplicationDataField
                     title="Council decision date"
-                    value={
-                      <time
-                        dateTime={
-                          application?.data?.assessment
-                            ?.planningOfficerDecisionDate
-                        }
-                      >
-                        {formatDateTimeToDprDate(
-                          application?.data?.assessment
-                            ?.planningOfficerDecisionDate,
-                        )}
-                      </time>
-                    }
+                    value={getCouncilDecisionDate(application)}
                   />
                 )}
 

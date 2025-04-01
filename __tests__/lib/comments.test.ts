@@ -27,16 +27,17 @@ describe("checkCommentsEnabled", () => {
     application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
       false;
 
-    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
+    const commentsEnabled = checkCommentsEnabled(application);
     expect(commentsEnabled).toBe(false);
   });
 
   it("Application in consultation should allow comments", () => {
     const application = generateDprApplication({
+      applicationType: "pp.full.householder", // explicitly choose a type that allows consultation
       customStatus: "consultationInProgress",
     });
 
-    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
+    const commentsEnabled = checkCommentsEnabled(application);
     expect(commentsEnabled).toBe(true);
   });
 
@@ -47,7 +48,7 @@ describe("checkCommentsEnabled", () => {
     application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
       true;
 
-    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
+    const commentsEnabled = checkCommentsEnabled(application);
     expect(commentsEnabled).toBe(true);
   });
 
@@ -58,7 +59,7 @@ describe("checkCommentsEnabled", () => {
     application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
       true;
 
-    const commentsEnabled = checkCommentsEnabled(application as DprApplication);
+    const commentsEnabled = checkCommentsEnabled(application);
     expect(commentsEnabled).toBe(false);
   });
 });

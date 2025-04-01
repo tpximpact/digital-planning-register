@@ -58,7 +58,7 @@ describe("Render ApplicationHero", () => {
       render(
         <ApplicationHero
           councilSlug="public-council-1"
-          application={applicationHeroApplication as DprApplication}
+          application={applicationHeroApplication}
         />,
       );
     });

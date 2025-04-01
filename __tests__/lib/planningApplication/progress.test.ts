@@ -104,6 +104,7 @@ describe("buildApplicationProgress", () => {
     expect(progressData[1].title).toBe("Valid from");
     expect(progressData[2].title).toBe("Published");
     expect(progressData[3].title).toBe("Consultation ended");
+    expect(progressData[4].title).toBe("Council decision made");
   });
 
   // 05-appeal-00-appeal-lodged

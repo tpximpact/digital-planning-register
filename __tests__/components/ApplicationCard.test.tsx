@@ -53,6 +53,18 @@ jest.mock("@/components/ApplicationDataField", () => ({
     </div>
   ),
 }));
+
+jest.mock("@/lib/planningApplication/application", () => {
+  const originalModule = jest.requireActual(
+    "@/lib/planningApplication/application",
+  );
+  return {
+    __esModule: true,
+    ...originalModule,
+    getPropertyAddress: jest.fn(() => "123 Test Street"),
+  };
+});
+
 describe("Render ApplicationCard", () => {
   const { planningOfficerDetermined } = generateExampleApplications();
 
@@ -61,27 +73,29 @@ describe("Render ApplicationCard", () => {
       render(
         <ApplicationCard
           councilSlug="public-council-1"
-          application={planningOfficerDetermined as DprApplication}
+          application={planningOfficerDetermined}
         />,
       );
     });
 
+    // info icon
     expect(screen.getByTestId("info-icon")).toBeInTheDocument();
 
+    // Application reference
     const reference = planningOfficerDetermined.data?.application?.reference;
     if (reference) {
       expect(screen.getByText("Application reference")).toBeInTheDocument();
       expect(screen.getByText(reference)).toBeInTheDocument();
     }
 
-    const address = getPropertyAddress(
-      planningOfficerDetermined.submission?.data?.property?.address,
-    );
+    // Address
+    const address =
+      planningOfficerDetermined.submission?.data?.property?.address;
     if (address) {
       expect(screen.getByText("Address")).toBeInTheDocument();
-      expect(screen.getByText(address)).toBeInTheDocument();
+      expect(screen.getByText("123 Test Street")).toBeInTheDocument();
     }
-
+    // map
     const boundaryGeojson =
       planningOfficerDetermined.submission?.data?.property?.boundary?.site;
     if (boundaryGeojson) {
@@ -89,7 +103,7 @@ describe("Render ApplicationCard", () => {
         screen.getByTestId("mock-application-map-loader"),
       ).toBeInTheDocument();
     }
-
+    // Description
     const description = getDescription(
       planningOfficerDetermined.submission?.data?.proposal,
     );
@@ -97,20 +111,20 @@ describe("Render ApplicationCard", () => {
       expect(screen.getByText("Description")).toBeInTheDocument();
       expect(screen.getByText(description)).toBeInTheDocument();
     }
-
+    // Application type
     const appTypeEl = screen.getByTestId(
       "application-data-field-application-type",
     );
     expect(appTypeEl).toHaveTextContent(
       "Application type - Planning permission",
     );
-
+    // Application status
     const statusSummary = planningOfficerDetermined.applicationStatusSummary;
     if (statusSummary) {
       const statusEl = screen.getByTestId("application-data-field-status");
       expect(statusEl).toHaveTextContent(`Status - ${statusSummary}`);
     }
-
+    // Received date
     const receivedAt = planningOfficerDetermined.data?.validation?.receivedAt;
     if (receivedAt) {
       const formatted = formatDateTimeToDprDate(receivedAt);
@@ -119,7 +133,7 @@ describe("Render ApplicationCard", () => {
       );
       expect(receivedEl).toHaveTextContent(`Received date - ${formatted}`);
     }
-
+    // Valid from date
     const validatedAt = planningOfficerDetermined.data?.validation?.validatedAt;
     if (validatedAt) {
       const formatted = formatDateTimeToDprDate(validatedAt);
@@ -128,7 +142,7 @@ describe("Render ApplicationCard", () => {
       );
       expect(validFromEl).toHaveTextContent(`Valid from date - ${formatted}`);
     }
-
+    // Published date
     const publishedAt = planningOfficerDetermined.metadata?.publishedAt;
     if (publishedAt) {
       const formatted = formatDateTimeToDprDate(publishedAt);
@@ -137,7 +151,7 @@ describe("Render ApplicationCard", () => {
       );
       expect(publishedEl).toHaveTextContent(`Published date - ${formatted}`);
     }
-
+    // Consultation end date
     const consultationEnd =
       planningOfficerDetermined.data?.consultation?.endDate;
     if (consultationEnd) {
@@ -149,18 +163,18 @@ describe("Render ApplicationCard", () => {
         `Consultation end date - ${formatted}`,
       );
     }
-
+    // Council decision date
     const councilDecisionDate =
       planningOfficerDetermined.data?.assessment?.planningOfficerDecisionDate;
     if (councilDecisionDate) {
-      const formatted = formatDateTimeToDprDate(councilDecisionDate);
       const decisionDateEl = screen.getByTestId(
         "application-data-field-council-decision-date",
       );
       expect(decisionDateEl).toHaveTextContent(
-        `Council decision date - ${formatted}`,
+        `Council decision date - ${councilDecisionDate}`,
       );
     }
+    // Council decision
     const applicationDecisionSummary =
       planningOfficerDetermined.applicationDecisionSummary;
     if (applicationDecisionSummary) {

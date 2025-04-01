@@ -31,7 +31,10 @@ import { Tag } from "../Tag";
 import { ApplicationDataField } from "../ApplicationDataField";
 import { ApplicationMapLoader } from "../ApplicationMap";
 import { appealDecisionSentiment } from "@/lib/planningApplication/appeal";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
+import {
+  getCouncilDecision,
+  getPropertyAddress,
+} from "@/lib/planningApplication/application";
 
 interface ApplicationHeroProps {
   councilSlug: string;
@@ -138,7 +141,7 @@ export const ApplicationHero = ({
             )}
 
             {/* decision */}
-            {application?.data?.assessment?.planningOfficerDecision && (
+            {getCouncilDecision(application) && (
               <>
                 <ApplicationDataField
                   title="Council decision"
@@ -165,11 +168,7 @@ export const ApplicationHero = ({
                       />
                     ) : undefined
                   }
-                  isFull={
-                    application?.data?.assessment?.planningOfficerDecision
-                      ? false
-                      : true
-                  }
+                  isFull={application?.data?.appeal?.decision ? false : true}
                 />
               </>
             )}
