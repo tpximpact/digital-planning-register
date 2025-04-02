@@ -219,26 +219,23 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderConsultation.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderConsultation.data.consultation?.endDate,
-    ).toBeDefined();
-    const startDate = new Date(
-      planningPermissionFullHouseholderConsultation?.data?.consultation
-        ?.startDate as string,
-    );
-    const endDate = new Date(
-      planningPermissionFullHouseholderConsultation?.data?.consultation
-        ?.endDate as string,
-    );
-    expect(startDate).toBeInstanceOf(Date);
-    expect(endDate).toBeInstanceOf(Date);
-    expect(startDate < endDate).toBe(true);
-    const now = new Date();
-    expect(now >= startDate && now <= endDate).toBe(true);
+    if (planningPermissionFullHouseholderConsultation.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderConsultation.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+
+      const now = new Date();
+      expect(now >= start && now <= end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -306,14 +303,21 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
+    if (
       planningPermissionFullHouseholderAssessmentInProgress.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAssessmentInProgress.data.consultation
-        ?.endDate,
-    ).toBeDefined();
+    ) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAssessmentInProgress.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -399,14 +403,23 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
+    if (
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .consultation?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAssessmentCouncilDetermined.data
-        .consultation?.endDate,
-    ).toBeDefined();
+        .consultation
+    ) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAssessmentCouncilDetermined.data
+          .consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -517,14 +530,22 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
+    if (
       planningPermissionFullHouseholderAssessmentInCommittee.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAssessmentInCommittee.data.consultation
-        ?.endDate,
-    ).toBeDefined();
+    ) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAssessmentInCommittee.data
+          .consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -716,13 +737,19 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderAppealLodged.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealLodged.data.consultation?.endDate,
-    ).toBeDefined();
+    if (planningPermissionFullHouseholderAppealLodged.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAppealLodged.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -826,14 +853,19 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderAppealValidated.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealValidated.data.consultation
-        ?.endDate,
-    ).toBeDefined();
+    if (planningPermissionFullHouseholderAppealValidated.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAppealValidated.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -939,13 +971,19 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderAppealStarted.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealStarted.data.consultation?.endDate,
-    ).toBeDefined();
+    if (planningPermissionFullHouseholderAppealStarted.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAppealStarted.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -1058,14 +1096,19 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderAppealDetermined.data.consultation
-        ?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderAppealDetermined.data.consultation
-        ?.endDate,
-    ).toBeDefined();
+    if (planningPermissionFullHouseholderAppealDetermined.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderAppealDetermined.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(
@@ -1209,12 +1252,19 @@ describe("generateDprApplication", () => {
     ).toBe(true);
 
     // consultation data checks
-    expect(
-      planningPermissionFullHouseholderWithdrawn.data.consultation?.startDate,
-    ).toBeDefined();
-    expect(
-      planningPermissionFullHouseholderWithdrawn.data.consultation?.endDate,
-    ).toBeDefined();
+    if (planningPermissionFullHouseholderWithdrawn.data.consultation) {
+      const { startDate, endDate } =
+        planningPermissionFullHouseholderWithdrawn.data.consultation;
+      expect(startDate).toBeDefined();
+      expect(endDate).toBeDefined();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      expect(start).toBeInstanceOf(Date);
+      expect(end).toBeInstanceOf(Date);
+      expect(start < end).toBe(true);
+    } else {
+      throw new Error("Expected consultation data, but it was not found.");
+    }
 
     // assessment data checks
     expect(

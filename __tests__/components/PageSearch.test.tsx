@@ -14,16 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { PageSearch } from "@/components/PageSearch";
 import { getAppConfig } from "@/config";
-import {
-  generateNResults,
-  generatePagination,
-} from "@mocks/dprApplicationFactory";
-import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
+import { generatePagination } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
+
+const {
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+} = generateExampleApplications();
+
+const exampleApplications = [
+  consultation,
+  assessmentInProgress,
+  planningOfficerDetermined,
+  assessmentInCommittee,
+  committeeDetermined,
+];
 
 jest.mock("@/components/FormSearch", () => ({
   FormSearch: () => <div data-testid="form-search"></div>,
@@ -46,18 +58,16 @@ describe("PageSearch Component", () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
-        applications={generateNResults(5, () =>
-          generateDprApplication({
-            customStatus: "assessmentInProgress",
-          }),
-        )}
+        applications={exampleApplications}
         pagination={generatePagination(0, 100)}
         searchParams={undefined}
       />,
     );
 
     expect(
-      screen.getByRole("heading", { name: "Recently published applications" }),
+      screen.getByRole("heading", {
+        name: "Recently published applications",
+      }),
     ).toBeInTheDocument();
     expect(screen.queryByTestId("back-link")).not.toBeInTheDocument();
     expect(screen.getByTestId("form-search")).toBeInTheDocument();
@@ -69,11 +79,7 @@ describe("PageSearch Component", () => {
     render(
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
-        applications={generateNResults(5, () =>
-          generateDprApplication({
-            customStatus: "assessmentInProgress",
-          }),
-        )}
+        applications={exampleApplications}
         pagination={generatePagination(0, 100)}
         searchParams={{ page: 1, resultsPerPage: 10, query: "search" }}
       />,
