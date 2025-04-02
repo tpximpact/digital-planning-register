@@ -51,6 +51,19 @@ export const generateReference = (): string => {
  */
 export const generateComment = (): DprComment => {
   return {
+    id: faker.number.int({ min: 1, max: 1000 }),
+    comment: faker.lorem.paragraphs(),
+    receivedDate: faker.date.anytime().toISOString(),
+    sentiment: faker.helpers.arrayElement([
+      "objection",
+      "neutral",
+      "supportive",
+    ]),
+  };
+};
+
+export const generateCommentWithoutId = (): DprComment => {
+  return {
     comment: faker.lorem.paragraphs(),
     receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([

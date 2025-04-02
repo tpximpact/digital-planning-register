@@ -17,10 +17,14 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { CommentCard } from "./CommentCard";
-import { generateComment } from "@mocks/dprApplicationFactory";
+import {
+  generateComment,
+  generateCommentWithoutId,
+} from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
 
 const comment = generateComment();
+const commentWithoutId = generateCommentWithoutId();
 const meta = {
   title: "DPR Components/CommentCard",
   component: CommentCard,
@@ -54,5 +58,20 @@ export const ShortComment: Story = {
       ...comment,
       comment: faker.lorem.paragraphs(1),
     },
+  },
+};
+
+export const WithoutId: Story = {
+  args: {
+    comment: {
+      ...commentWithoutId,
+      comment: faker.lorem.paragraphs(1),
+    },
+  },
+};
+
+export const NoComment: Story = {
+  args: {
+    comment: undefined,
   },
 };
