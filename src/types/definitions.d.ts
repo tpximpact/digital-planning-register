@@ -52,19 +52,8 @@ export type DprApplication = Omit<
   "data" | "submission" | "comments"
 > & {
   data: Omit<PostSubmissionApplication["data"], "appeal"> & {
-    appeal?: Omit<AppealBase, "files"> & {
+    appeal?: PostSubmissionApplication["data"]["appeal"] & {
       files?: DprDocument[];
-    };
-  };
-
-  submission: {
-    data: {
-      applicant: PrototypeApplication["data"]["applicant"];
-      property: Pick<
-        PrototypeApplication["data"]["property"],
-        "address" | "boundary"
-      >;
-      proposal: PrototypeApplication["data"]["proposal"];
     };
   };
   comments?: {
@@ -73,6 +62,16 @@ export type DprApplication = Omit<
     };
     specialist?: {
       comments?: DprComment[];
+    };
+  };
+  submission: {
+    data: {
+      applicant: PrototypeApplication["data"]["applicant"];
+      property: Pick<
+        PrototypeApplication["data"]["property"],
+        "address" | "boundary"
+      >;
+      proposal: PrototypeApplication["data"]["proposal"];
     };
   };
   applicationStatusSummary: DprStatusSummary;

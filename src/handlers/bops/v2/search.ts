@@ -20,6 +20,7 @@
 import {
   ApiResponse,
   DprApplication,
+  DprPlanningApplication,
   DprSearchApiResponse,
   SearchParams,
 } from "@/types";
@@ -60,44 +61,46 @@ export async function search(
     url = `${url}?${params.toString()}`;
   }
 
-  try {
-    const request = await handleBopsGetRequest<
-      ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
-    >(council, url);
+  const request = await handleBopsGetRequest<
+    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
+  >(council, url);
 
-    const { data: planningApplications = [] } = request.data || {};
+  const { data: planningApplications = [] } = request.data || {};
 
-    const convertedApplications = planningApplications.map((application) =>
-      convertBopsToDpr(application, council),
-    );
+  const convertedApplications = planningApplications.map((application) =>
+    convertBopsToDpr(application, council),
+  );
 
-    const DprApplications: DprApplication[] = convertedApplications.map(
-      (app) => {
-        if (isDprApplication(app)) {
-          return app;
-        } else {
-          return convertToDprApplication(app);
-        }
-      },
-    );
-    return {
-      ...request,
-      data: DprApplications,
-      pagination: request.data?.metadata ?? defaultPagination,
-    };
-  } catch (error) {
-    console.error("Error fetching or converting application data:", error);
-    let detail = "Unknown error";
-    if (error instanceof Error) {
-      detail = error.message;
-    }
-    return {
-      data: null,
-      status: {
-        code: 500,
-        message: "Internal server error",
-        detail,
-      },
-    };
+  const errors: {
+    app: DprPlanningApplication;
+    reference: string;
+    error: unknown;
+  }[] = [];
+
+  const dprApplications: DprApplication[] = convertedApplications
+    .map((application) => {
+      try {
+        return isDprApplication(application)
+          ? application
+          : convertToDprApplication(application);
+      } catch (error) {
+        console.error("Error converting application:", error);
+        errors.push({
+          app: application,
+          reference: application.application.reference,
+          error,
+        });
+        return null;
+      }
+    })
+    .filter((app): app is DprApplication => app !== null);
+
+  if (errors.length > 0) {
+    console.warn("Some applications failed to convert:", errors);
   }
+  return {
+    ...request,
+    data: dprApplications,
+    pagination: request.data?.metadata ?? defaultPagination,
+  };
 }

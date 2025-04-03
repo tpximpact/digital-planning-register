@@ -746,13 +746,45 @@ export const generateDprApplication = ({
 
   const applicationDecisionSummary = getApplicationDprDecisionSummary(data);
   const applicationStatusSummary = getApplicationDprStatusSummary(data);
+  // ensure application is DprApplication
   const application: DprApplication = {
     applicationStatusSummary,
     applicationDecisionSummary,
     ...data,
-  };
+  } as DprApplication;
+  // the above assures TypeScript to trust that the object matches the DprApplication type - so it doesn't double check for us!
+  // @todo remove this when we're no longer using DprComment, DprDocument etc
 
   return application;
+};
+
+/**
+ * Check the consultation dates are valid Dates
+ * Check the consultation start date is before the end date
+ * @param startDate string
+ * @param endDate string
+ */
+export const checkConsultationDates = (startDate: string, endDate: string) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  expect(start).toBeInstanceOf(Date);
+  expect(end).toBeInstanceOf(Date);
+  expect(start < end).toBe(true);
+};
+
+/**
+ * Check the consultation is in progress
+ * @param startDate string
+ * @param endDate string
+ */
+export const checkConsultationInProgress = (
+  startDate: string,
+  endDate: string,
+) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const now = new Date();
+  expect(now >= start && now <= end).toBe(true);
 };
 
 /**
