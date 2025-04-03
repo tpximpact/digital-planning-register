@@ -17,11 +17,9 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageSearch } from "./PageSearch";
-import {
-  generateExampleApplications,
-  generatePagination,
-} from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
+import { generatePagination } from "@mocks/dprApplicationFactory";
 
 const defaultAppConfig = createAppConfig("public-council-1");
 

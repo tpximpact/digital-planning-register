@@ -15,12 +15,13 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication } from "@/types";
 import {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
 import {
+  checkConsultationDates,
+  checkConsultationInProgress,
   generateDprApplication,
   generateExampleApplications,
 } from "@mocks/dprNewApplicationFactory";
@@ -227,6 +228,14 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderConsultation.data.consultation?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderConsultation.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderConsultation.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
+    checkConsultationInProgress(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -302,6 +311,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentInProgress.data.consultation
         ?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAssessmentInProgress.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAssessmentInProgress.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -395,7 +411,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
         .consultation?.endDate,
     ).toBeDefined();
-
+    const startDate =
+      planningPermissionFullHouseholderAssessmentCouncilDetermined.data
+        .consultation?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAssessmentCouncilDetermined.data
+        .consultation?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAssessmentCouncilDetermined.data
@@ -513,7 +535,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentInCommittee.data.consultation
         ?.endDate,
     ).toBeDefined();
-
+    const startDate =
+      planningPermissionFullHouseholderAssessmentInCommittee.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAssessmentInCommittee.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
     // assessment data checks
     expect(
       planningPermissionFullHouseholderAssessmentInCommittee.data.assessment
@@ -617,6 +645,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
         .consultation?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
+        .consultation?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
+        .consultation?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -711,6 +746,13 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderAppealLodged.data.consultation?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAppealLodged.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAppealLodged.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -822,6 +864,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealValidated.data.consultation
         ?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAppealValidated.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAppealValidated.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -934,6 +983,13 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderAppealStarted.data.consultation?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAppealStarted.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAppealStarted.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -1054,6 +1110,13 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealDetermined.data.consultation
         ?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderAppealDetermined.data.consultation
+        ?.startDate ?? "";
+    const endDate =
+      planningPermissionFullHouseholderAppealDetermined.data.consultation
+        ?.endDate ?? "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(
@@ -1203,6 +1266,13 @@ describe("generateDprApplication", () => {
     expect(
       planningPermissionFullHouseholderWithdrawn.data.consultation?.endDate,
     ).toBeDefined();
+    const startDate =
+      planningPermissionFullHouseholderWithdrawn.data.consultation?.startDate ??
+      "";
+    const endDate =
+      planningPermissionFullHouseholderWithdrawn.data.consultation?.endDate ??
+      "";
+    checkConsultationDates(startDate, endDate);
 
     // assessment data checks
     expect(

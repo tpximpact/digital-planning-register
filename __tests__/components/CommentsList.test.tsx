@@ -16,9 +16,9 @@
  */
 
 import React from "react";
-import { queryAllByTestId, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { CommentsList, CommentsListProps } from "@/components/CommentsList";
+import { CommentsList } from "@/components/CommentsList";
 import { DprComment } from "@/types";
 import { CommentCardProps } from "@/components/CommentCard";
 import {
