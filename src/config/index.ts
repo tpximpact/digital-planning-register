@@ -199,10 +199,19 @@ const councils: Council[] = [
     name: "Barnet",
     slug: "barnet",
     visibility: "public",
+    contact: "https://www.barnet.gov.uk/your-council/contact-council",
     dataSource: "bops",
-    publicComments: false,
+    publicComments: true,
     specialistComments: false,
     pageContent: {
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://www.barnet.gov.uk/your-council/contact-council",
+        corporate_privacy_statement_link:
+          "https://www.barnet.gov.uk/your-council/contact-council",
+        planning_service_privacy_statement_link:
+          "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices",
+      },
       privacy_policy: {
         privacy_policy_link:
           "https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices",
@@ -213,10 +222,19 @@ const councils: Council[] = [
     name: "Buckinghamshire",
     slug: "buckinghamshire",
     visibility: "public",
+    contact: "https://www.buckinghamshire.gov.uk/your-council/contact-us/",
     dataSource: "bops",
-    publicComments: false,
-    specialistComments: false,
+    publicComments: true,
+    specialistComments: true,
     pageContent: {
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://www.buckinghamshire.gov.uk/planning-and-building-control/contact-planning/",
+        corporate_privacy_statement_link:
+          "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-information-for-specific-services%20/",
+        planning_service_privacy_statement_link:
+          "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-information-for--specific-services/privacy--and-planning-policy-and-compliance/",
+      },
       privacy_policy: {
         privacy_policy_link:
           "https://www.buckinghamshire.gov.uk/your-council/privacy/privacy-policy/",
@@ -305,13 +323,48 @@ const councils: Council[] = [
     name: "Lambeth",
     slug: "lambeth",
     visibility: "public",
+    contact:
+      "https://www.lambeth.gov.uk/about-council/contact-us/contact-details",
     dataSource: "bops",
     publicComments: true,
     specialistComments: false,
     pageContent: {
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://www.lambeth.gov.uk/planning-building-control/contact-planning-building-control-teams",
+        corporate_privacy_statement_link:
+          "https://www.lambeth.gov.uk/about-council/privacy-data-protection/privacy-notice",
+        planning_service_privacy_statement_link:
+          "https://www.lambeth.gov.uk/about-council/privacy-data-protection/climate-planning-transport-service-privacy-notice",
+      },
       privacy_policy: {
         privacy_policy_link:
           "https://www.lambeth.gov.uk/about-council/privacy-data-protection?utm_source=footer&utm_campaign=privacy",
+      },
+      help: {
+        planning_process: {
+          council_local_plan_link:
+            "https://www.lambeth.gov.uk/planning-building-control/planning-policy-guidance/lambeth-local-plan-2021",
+        },
+        concerns: {
+          parking_link: "https://www.lambeth.gov.uk/parking",
+          building_control_link:
+            "https://www.lambeth.gov.uk/planning-building-control/building-control-regulations/report-dangerous-structure",
+          housing_repair_link:
+            "https://www.lambeth.gov.uk/housing/housing-repairs/tenants-repairs/request-housing-repair",
+          street_issues_link:
+            "https://www.lambeth.gov.uk/streets-roads-transport/streets-roads/report-highway-issue",
+          abandoned_vehicles_link:
+            "https://www.lambeth.gov.uk/parking/abandoned-vehicles/reporting-abandoned-vehicle",
+          fly_tipping_link:
+            "https://www.lambeth.gov.uk/rubbish-recycling/report-fly-tipping",
+          noise_link:
+            "https://www.lambeth.gov.uk/community-safety-anti-social-behaviour/noise-complaints",
+          licensing_link:
+            "https://www.lambeth.gov.uk/Business-rates-services-and-licensing/Licensing-and-permits/licensing-comments-and-complaints",
+          apply_for_building_control_regularisation_link:
+            "https://www.lambeth.gov.uk/planning-building-control/building-control-regulations/building-regulations/unauthorised-work",
+        },
       },
     },
   },
@@ -319,6 +372,7 @@ const councils: Council[] = [
     name: "Medway",
     slug: "medway",
     visibility: "public",
+    contact: "https://www.medway.gov.uk/contact",
     dataSource: "bops",
     publicComments: false,
     specialistComments: false,
@@ -326,9 +380,46 @@ const councils: Council[] = [
       logoInHeader: false,
     },
     pageContent: {
+      council_reference_submit_comment_pre_submission: {
+        what_happens_to_your_comments_link:
+          "https://www.medway.gov.uk/info/200147/applying_for_planning_permission/124/comment_on_a_planning_application",
+      },
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://www.medway.gov.uk/info/200133/planning/714/planning_service_privacy_statement/5",
+        corporate_privacy_statement_link:
+          "https://www.medway.gov.uk/info/200217/freedom_of_information/347/data_protection/1",
+        planning_service_privacy_statement_link:
+          "https://www.medway.gov.uk/info/200133/planning/714/planning_service_privacy_statement",
+      },
       privacy_policy: {
         privacy_policy_link:
           "https://www.medway.gov.uk/info/200217/freedom_of_information/347/data_protection/1",
+      },
+      help: {
+        planning_process: {
+          council_local_plan_link:
+            "https://www.medway.gov.uk/info/200149/planning_policy/146/current_planning_policies/3",
+        },
+        concerns: {
+          parking_link:
+            "https://www.medway.gov.uk/info/200136/parking_roads_travel",
+          building_control_link:
+            "https://www.medway.gov.uk/info/200148/reporting_planning_issues/132/building_control",
+          housing_repair_link:
+            "https://www.medway.gov.uk/info/200152/council_tenants/107/repairs_to_your_home#:~:text=You%20can%20request%20a%20repair,or%20freephone%200800%20073%200073",
+          street_issues_link:
+            "https://www.medway.gov.uk/info/200160/roads_and_pavements",
+          abandoned_vehicles_link: "https://www.medway.gov.uk/NuisanceVehicle",
+          fly_tipping_link:
+            "https://www.medway.gov.uk/info/200176/report_a_problem/394/report_fly-tipping",
+          noise_link:
+            "https://www.medway.gov.uk/info/200176/report_a_problem/392/report_a_problem_with_noise",
+          licensing_link:
+            "https://www.medway.gov.uk/info/200193/licensed_premises/201/licensing_complaints",
+          apply_for_building_control_regularisation_link:
+            "https://www.stgbc.org.uk/services/building-control/#:~:text=of%20a%20sewer.-,Regularisation,-If%20works%20were",
+        },
       },
     },
   },
