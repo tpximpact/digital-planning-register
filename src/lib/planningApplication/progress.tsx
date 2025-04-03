@@ -134,7 +134,6 @@ export const buildApplicationProgress = (
       importantDates,
       slugify("Council decision date"),
     )?.content;
-    console.log(councilDecisionDate);
     progressData.push({
       title: "Council decision made",
       date: formatDateTimeToDprDate(councilDecisionDate),
