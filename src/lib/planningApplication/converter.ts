@@ -80,6 +80,10 @@ export const convertToDprApplication = (
         )
       : false;
 
+  if (app.application.status === "closed") {
+    status = "in_assessment";
+  }
+
   switch (app.application.status) {
     /**
      * 01-submission
