@@ -22,13 +22,18 @@ export const documentation: Documentation = {
   url: `/docs/json?handler=BopsV2&method=specialistComments`,
   file: `src/handlers/bops/v2/specialistComments.ts`,
   description: "specialistComments",
-  arguments: ["council", "reference"],
+  arguments: [
+    "source",
+    "council",
+    "reference",
+    "page",
+    "resultsPerPage",
+    "searchQuery",
+  ],
   run: async (args: [string, string]) => {
     return await specialistComments(...args);
   },
   examples: [
-    // this is using the southwark council bops data from the comments endpoint - will need to be updated when bops branch is merged
-    // uncomment below when bops branch is merged and remove the southwark examples
     {
       url: `/docs/json?handler=BopsV2&method=specialistComments&council=southwark&reference=25-00292-HAPP`,
       description: "specialistComments has specialistComments",

@@ -21,7 +21,14 @@ export const documentation: Documentation = {
   url: `/docs/json?handler=LocalV1&method=publicComments`,
   file: `src/handlers/local/v1/publicComments.ts`,
   description: "publicComments",
-  arguments: [],
+  arguments: [
+    "source",
+    "council",
+    "reference",
+    "page",
+    "resultsPerPage",
+    "searchQuery",
+  ],
   run: async () => {
     return await publicComments();
   },

@@ -34,8 +34,6 @@ export const documentation: Documentation = {
     return await publicComments(...args);
   },
   examples: [
-    // this is using the southwark council bops data from the comments endpoint - will need to be updated when bops branch is merged
-    // uncomment below when bops branch is merged and remove the southwark examples
     {
       url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=25-00292-HAPP`,
       description: "publicComments exists",
