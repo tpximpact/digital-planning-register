@@ -15,7 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defaultPagination } from "@/lib/pagination";
 import {
   SearchParams,
   ApiResponse,
@@ -24,6 +23,7 @@ import {
 import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
 import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
+import { defaultPagination } from "@/handlers/lib";
 
 /**
  * Get the details for an application

@@ -22,7 +22,14 @@ export const documentation: Documentation = {
   url: `/docs/json?handler=LocalV1&method=specialistComments`,
   file: `src/handlers/local/v1/specialistComments.ts`,
   description: "specialistComments",
-  arguments: [],
+  arguments: [
+    "source",
+    "council",
+    "reference",
+    "page",
+    "resultsPerPage",
+    "searchQuery",
+  ],
   run: async () => {
     return await specialistComments();
   },

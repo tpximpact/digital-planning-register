@@ -23,7 +23,7 @@ import {
 import { handleBopsGetRequest } from "../requests";
 import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
 import { convertCommentBops } from "../converters/comments";
-import { defaultPagination } from "@/lib/pagination";
+import { defaultPagination } from "@/handlers/lib";
 
 /**
  * Get the details for an application
