@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprComment, OdpPagination } from "@/types";
+import { DprComment, DprPagination } from "@/types";
 import { BopsComment, BopsSearchMetadata } from "../types";
 import { convertDateTimeToUtc } from "@/util";
 
@@ -36,7 +36,7 @@ export const convertCommentBops = (comment: BopsComment): DprComment => {
 
 export const convertBopsToDprPagination = (
   bopsPagination: BopsSearchMetadata,
-): OdpPagination => {
+): DprPagination => {
   return {
     resultsPerPage: bopsPagination.results,
     currentPage: bopsPagination.page,

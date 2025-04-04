@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { OdpPagination } from "@/types";
+import { DprPagination } from "@/types";
 import {
   BopsApplicationOverview,
   BopsNonStandardApplication,
@@ -104,7 +104,7 @@ export interface BopsV1PlanningApplicationsNeighbourResponse {
  * GET /api/v2/public/planning_applications/{reference}/comments/public
  */
 export type BopsV2PublicPlanningApplicationPublicComments = {
-  pagination: OdpPagination;
+  pagination: DprPagination;
   comments: BopsComment[];
   summary: PublicCommentSummary;
 };
@@ -113,7 +113,7 @@ export type BopsV2PublicPlanningApplicationPublicComments = {
  * GET /api/v2/public/planning_applications/{reference}/comments/specialist
  */
 export type BopsV2PublicPlanningApplicationSpecialistComments = {
-  pagination: OdpPagination;
+  pagination: DprPagination;
   comments: BopsComment[];
   summary: SpecialistCommentSummary;
 };
