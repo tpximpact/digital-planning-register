@@ -21,7 +21,14 @@ export const documentation: Documentation = {
   url: `/docs/json?handler=BopsV2&method=publicComments`,
   file: `src/handlers/bops/v2/publicComments.ts`,
   description: "publicComments",
-  arguments: ["council", "reference"],
+  arguments: [
+    "source",
+    "council",
+    "reference",
+    "page",
+    "resultsPerPage",
+    "searchQuery",
+  ],
   run: async (args: [string, string]) => {
     return await publicComments(...args);
   },
