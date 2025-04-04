@@ -44,7 +44,7 @@ describe("CommentsList", () => {
         type={"public"}
         councilSlug={"public-council-1"}
         reference={"12345"}
-        comments={generateNResults<DprComment>(20, generateComment)}
+        comments={generateNResults<DprComment>(20, () => generateComment(true))}
         pagination={generatePagination(2, 20)}
         showMoreButton={true}
       />,
@@ -58,14 +58,13 @@ describe("CommentsList", () => {
       screen.getByText("Show all 20 neighbour comments"),
     ).toBeInTheDocument();
   });
-
   it("shows correct results", () => {
     render(
       <CommentsList
         type={"specialist"}
         councilSlug={"public-council-1"}
         reference={"12345"}
-        comments={generateNResults<DprComment>(8, generateComment)}
+        comments={generateNResults<DprComment>(8, () => generateComment(true))}
         pagination={generatePagination(0, 8)}
         showMoreButton={true}
       />,

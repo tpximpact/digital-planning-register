@@ -51,7 +51,7 @@ const meta = {
   args: {
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
+    comments: generateNResults<DprComment>(50, () => generateComment(true)),
     pagination: generatePagination(1),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
@@ -80,19 +80,19 @@ export const NoComments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(1),
   },
 };
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(2),
   },
 };
 export const ThirdPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(3),
   },
 };

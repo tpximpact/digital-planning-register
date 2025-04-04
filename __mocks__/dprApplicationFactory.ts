@@ -49,8 +49,8 @@ export const generateReference = (): string => {
  *
  * @returns {object} A random comment object.
  */
-export const generateComment = (): DprComment => {
-  return {
+export const generateComment = (includeId: boolean = true): DprComment => {
+  const baseComment = {
     comment: faker.lorem.paragraphs(),
     receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([
@@ -59,6 +59,15 @@ export const generateComment = (): DprComment => {
       "supportive",
     ]),
   };
+
+  if (includeId) {
+    return {
+      ...baseComment,
+      id: faker.number.int({ min: 1, max: 1000 }),
+    };
+  }
+
+  return baseComment;
 };
 
 /**

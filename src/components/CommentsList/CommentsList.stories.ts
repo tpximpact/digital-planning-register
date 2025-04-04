@@ -36,7 +36,7 @@ const meta = {
   args: {
     councilSlug: "public-council-1",
     reference: "12345",
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(1),
   },
 } satisfies Meta<typeof CommentsList>;
@@ -52,7 +52,7 @@ export const NoComments: Story = {
 };
 export const ApplicationCommentCta: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: {
       results: 3,
       page: 1,
@@ -62,7 +62,7 @@ export const ApplicationCommentCta: Story = {
 };
 export const ApplicationCommentCtaLessThan3Comments: Story = {
   args: {
-    comments: generateNResults<DprComment>(2, generateComment),
+    comments: generateNResults<DprComment>(2, () => generateComment(true)),
     pagination: {
       results: 3,
       page: 1,
@@ -72,19 +72,19 @@ export const ApplicationCommentCtaLessThan3Comments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(1),
   },
 };
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(2),
   },
 };
 export const ThirdPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(3),
   },
 };
