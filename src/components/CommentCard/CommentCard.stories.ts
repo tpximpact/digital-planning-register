@@ -17,14 +17,11 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { CommentCard } from "./CommentCard";
-import {
-  generateComment,
-  generateCommentWithoutId,
-} from "@mocks/dprApplicationFactory";
+import { generateComment } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
 
-const comment = generateComment();
-const commentWithoutId = generateCommentWithoutId();
+const comment = generateComment(true);
+const commentWithoutId = generateComment(false);
 const meta = {
   title: "DPR Components/CommentCard",
   component: CommentCard,

@@ -18,6 +18,7 @@
 import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { CommentCard } from "../../src/components/CommentCard";
+import { splitCommentText } from "../../src/components/CommentCard/CommentCard.utils";
 import "@testing-library/jest-dom";
 import { DprComment } from "@/types";
 
@@ -47,5 +48,41 @@ describe("Render CommentCard", () => {
 
     expect(screen.getByText("Neutral")).toBeInTheDocument();
     expect(screen.getByText("insightful comment here")).toBeInTheDocument();
+  });
+});
+
+describe("splitCommentText", () => {
+  it("should return the full text if it is under the character limit", () => {
+    const text = "This is a short comment.";
+    expect(splitCommentText(text)).toEqual(["This is a short comment."]);
+  });
+
+  it("should split a long comment into multiple parts", () => {
+    const text = "This is a sentence. ".repeat(40);
+
+    const result = splitCommentText(text);
+
+    expect(result.length).toBeGreaterThan(1);
+    expect(result[0].length).toBeLessThanOrEqual(500);
+    expect(result.join(" ")).toContain("This is a sentence.");
+  });
+
+  it("should handle text without punctuation correctly", () => {
+    const text =
+      "This is a very long comment without punctuation it should still be split properly otherwise it might exceed the limit and break".repeat(
+        20,
+      );
+
+    const result = splitCommentText(text);
+    expect(result.length).toBeGreaterThan(1);
+  });
+
+  it("should trim whitespace from split parts", () => {
+    const text =
+      "   This is a long comment with extra spaces.    It should be split properly.   ";
+    const result = splitCommentText(text);
+
+    expect(result[0].startsWith("This")).toBe(true);
+    expect(result[0].endsWith(".")).toBe(true);
   });
 });

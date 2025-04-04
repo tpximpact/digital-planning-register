@@ -20,7 +20,6 @@
 .dpr-comment-card {
   > div {
     border-left: 5px solid govuk-colour("mid-grey");
-    margin-left: 15px;
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
@@ -34,10 +33,23 @@
     border-bottom: none;
   }
 
-  .read-more-ellipsis {
+  .__read-more {
     margin-top: 8px;
     font-size: 19px;
   }
+
+  &__header {
+    padding: 0 15px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  @media (min-width: 40.0625em) {
+   &__header {
+        width: 100%;
+        float: left;
+    }
+}
 
   &--toggle {
     color: govuk-colour("blue");
@@ -50,26 +62,34 @@
     background: none;
     border: 0;
   }
-}
 
-.comment-card {
-  &__skeleton-item {
-    height: 1.5em;
-    width: 50%;
-    background: rgba(225, 223, 210, 0.6);
+  &__skeleton {
+    background: rgba(145, 144, 141, 0.6);
     margin-bottom: 15px;
-    border-radius: 4px;
     animation: pulse 3s infinite;
+    height: 25px;
+
+    &.item {
+      width: 25%;
+    }
+    &.title {
+      width: 50%;
+    }
+    &.body {
+      height: 200px;
+      width: 75%;
+    }
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+    }
   }
-  @keyframes pulse {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
+
 }

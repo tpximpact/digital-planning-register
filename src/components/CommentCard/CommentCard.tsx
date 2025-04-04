@@ -20,7 +20,7 @@ import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
 import React, { useState } from "react";
 import { DprComment } from "@/types";
 import "./CommentCard.scss";
-import { splitCommentText } from "./utils";
+import { splitCommentText } from "./CommentCard.utils";
 
 export interface CommentCardProps {
   comment: DprComment;
@@ -40,9 +40,9 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
     const commentId = comment?.id || commentNumber;
 
     return (
-      <div className="dpr-comment-card govuk-grid-row">
-        <div className="govuk-grid-column-full">
-          <div className="comment-container">
+      <div className="dpr-comment-card">
+        <div className="dpr-comment-card__header">
+          <div>
             <h3 className="govuk-heading-m">
               {`Comment #${commentId}`}
               {comment?.receivedDate && (
@@ -72,12 +72,12 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
               </div>
             )}
             <div className="govuk-heading-s">Comment</div>
-            <div className="comment-text">
+            <div>
               <div className="govuk-body">
                 {summary}
 
                 {!isExpanded && continued && (
-                  <span className="read-more-ellipsis">...</span>
+                  <span className="dpr-comment-card__read-more">...</span>
                 )}
                 {isExpanded && continued && <span>{continued}</span>}
               </div>
@@ -101,10 +101,14 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
     );
   } else {
     return (
-      <div className="comment-card">
-        <div className="comment-card__skeleton-item"></div>
-        <div className="comment-card__skeleton-item"></div>
-        <div className="comment-card__skeleton-item"></div>
+      <div className="dpr-comment-card">
+        <div className="dpr-comment-card__header">
+          <div>
+            <div className="dpr-comment-card__skeleton item "></div>
+            <div className="dpr-comment-card__skeleton title"></div>
+            <div className="dpr-comment-card__skeleton body"></div>
+          </div>
+        </div>
       </div>
     );
   }
