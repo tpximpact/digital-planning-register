@@ -15,36 +15,34 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use server";
-
 import {
-  ApiResponse,
-  DprPagination,
-  DprSearchApiResponse,
   SearchParams,
+  ApiResponse,
+  DprSpecialistCommentsApiResponse,
 } from "@/types";
-import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
+import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
+import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
 import { defaultPagination } from "@/handlers/lib";
-import {
-  convertBopsToDpr,
-  convertBopsToDprPagination,
-} from "../converters/planningApplication";
 
 /**
- * Get list of public applications, also used for search
- * https://camden.bops-staging.services/api/v2/public/planning_applications/search?page=3&maxresults=8
+ * Get the details for an application
+ * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP/comments/specialist
  * @param page
  * @param resultsPerPage
+ * @param query
+ * @param sortBy
+ * @param orderBy
  * @param council
- * @param search
+ * @param reference
  * @returns
  */
-export async function search(
+export async function specialistComments(
   council: string,
+  reference: string,
   search?: SearchParams,
-): Promise<ApiResponse<DprSearchApiResponse | null>> {
-  let url = `public/planning_applications/search`;
+): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
+  let url = `public/planning_applications/${reference}/comments/specialist`;
 
   if (search) {
     const params = new URLSearchParams({
@@ -52,31 +50,40 @@ export async function search(
       maxresults: search?.resultsPerPage?.toString() ?? "10",
     });
 
-    if (search?.query) {
-      params.append("q", search?.query);
+    if (search.query) {
+      params.append("q", search.query);
     }
-
+    if (search.sortBy) {
+      params.append("sortBy", search.sortBy);
+    }
+    if (search.orderBy) {
+      params.append("orderBy", search.orderBy);
+    }
     url = `${url}?${params.toString()}`;
   }
+
   const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
+    ApiResponse<BopsV2PublicPlanningApplicationSpecialistComments | null>
   >(council, url);
 
-  const { data: planningApplications = [] } = request.data || {};
+  if (!request.data) {
+    return {
+      ...request,
+      data: null,
+      pagination: defaultPagination,
+    };
+  }
 
-  const convertedApplications = planningApplications.map((application) =>
-    convertBopsToDpr(application, council),
-  );
+  const { comments: bopsComments, summary, pagination } = request.data;
 
-  const metadata = request.data?.metadata;
-  const pagination: DprPagination =
-    metadata && "results" in metadata
-      ? convertBopsToDprPagination(metadata)
-      : defaultPagination;
+  const transformedComments = bopsComments.map(convertCommentBops);
 
   return {
     ...request,
-    data: convertedApplications,
-    pagination,
+    data: {
+      comments: transformedComments,
+      summary,
+    },
+    pagination: pagination,
   };
 }

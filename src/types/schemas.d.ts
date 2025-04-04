@@ -22,8 +22,12 @@
  * documents
  * applicationSubmission
  */
-import { DprPlanningApplication, DprDocument } from "./definitions";
+import { DprPlanningApplication, DprDocument, DprComment } from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "./odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 /**
  * /api/search
@@ -59,4 +63,23 @@ export interface DprApplicationSubmissionApiResponse {
 export type DprApplicationPostCommentApiResponse = {
   id?: string;
   message: string;
+};
+
+/**
+ * /api/comments/public
+ * Public comments for a single application
+ */
+
+export type DprPublicCommentsApiResponse = {
+  comments: DprComment[];
+  summary: PublicCommentSummary;
+};
+
+/**
+ * /api/comments/specialist
+ * Specialist comments for a single application
+ */
+export type DprSpecialistCommentsApiResponse = {
+  comments: DprComment[];
+  summary: SpecialistCommentSummary;
 };
