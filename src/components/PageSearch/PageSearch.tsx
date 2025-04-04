@@ -111,7 +111,7 @@ export const PageSearch = ({
                 application={application}
               />
             ))}
-            {pagination && pagination.total_pages > 1 && (
+            {pagination && pagination.totalPages > 1 && (
               <Pagination
                 baseUrl={createPathFromParams(params)}
                 searchParams={searchParams}
