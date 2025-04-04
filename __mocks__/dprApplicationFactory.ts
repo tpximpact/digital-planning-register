@@ -94,28 +94,19 @@ export const generatePagination = (
   const resultsPerPage = 10;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
-  currentPage =
-    currentPage && (currentPage >= totalPages || currentPage <= totalPages)
-      ? currentPage
-      : faker.number.int({ min: 1, max: totalPages || 1 });
-
-  const from = (currentPage - 1) * resultsPerPage + 1;
-  const to = Math.min(currentPage * resultsPerPage, totalResults);
-  const results = to - from + 1;
+  if (
+    currentPage === undefined ||
+    currentPage < 1 ||
+    currentPage > totalPages
+  ) {
+    currentPage = faker.number.int({ min: 1, max: totalPages || 1 });
+  }
 
   return {
-    // @todo something simpler
-    // currentPage: Number(currentPage),
-    // totalPages: totalPages,
-    // itemsPerPage: resultsPerPage,
-    // totalItems: totalResults,
-
-    page: Number(currentPage),
-    results: results,
-    from: from,
-    to: to,
-    total_pages: totalPages,
-    total_results: totalResults,
+    resultsPerPage,
+    currentPage: Number(currentPage),
+    totalPages,
+    totalItems: totalResults,
   };
 };
 
