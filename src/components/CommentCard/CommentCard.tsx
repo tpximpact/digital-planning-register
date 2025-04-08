@@ -23,7 +23,7 @@ import "./CommentCard.scss";
 
 export interface CommentCardProps {
   comment: DprComment;
-  commentNumber: number;
+  commentNumber?: number;
 }
 
 /**
