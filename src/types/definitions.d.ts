@@ -32,7 +32,8 @@ import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmiss
 import { DprStatusSummary, DprDecisionSummary } from "@/types";
 import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
-import { PrototypeApplication } from "./odp-types/schemas/prototypeApplication";
+import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 /**
  *
@@ -211,7 +212,7 @@ export interface DprDocument {
  *
  *
  */
-export type DprCommentTypes = "specialist" | "public";
+export type DprCommentTypes = CommentType;
 export interface DprComment {
   comment: string;
   /**
