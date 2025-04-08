@@ -34,6 +34,7 @@ import { createPathFromParams } from "@/lib/navigation";
 import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
+import { CommentFilter } from "@/components/CommentFilter";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -135,6 +136,7 @@ export const PageApplicationComments = async ({
           reference={reference}
           address={application?.property.address.singleLine}
         />
+        <CommentFilter />
         {response.data?.comments && response.data.comments.length > 0 ? (
           <>
             {response.data.comments.map((comment, index) => (
