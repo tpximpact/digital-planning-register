@@ -15,8 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprPlanningApplication } from "@/types";
-import { BopsApplicationOverview, BopsPlanningApplication } from "../types";
+import { DprPagination, DprPlanningApplication } from "@/types";
+import {
+  BopsApplicationOverview,
+  BopsPlanningApplication,
+  BopsSearchMetadata,
+} from "../types";
 import { sortComments } from "@/lib/comments";
 import { convertCommentBops } from "./comments";
 import { convertDateTimeToUtc } from "@/util";
@@ -79,6 +83,17 @@ export const convertBopsApplicationToDpr = (
       ? convertDateTimeToUtc(application.determinedAt)
       : null,
     decision: application.decision ?? null,
+  };
+};
+
+export const convertBopsToDprPagination = (
+  bopsPagination: BopsSearchMetadata,
+): DprPagination => {
+  return {
+    resultsPerPage: bopsPagination.results,
+    currentPage: bopsPagination.page,
+    totalPages: bopsPagination.total_pages,
+    totalItems: bopsPagination.total_results,
   };
 };
 
