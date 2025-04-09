@@ -15,4 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./set-cookies";
+export * from "./cookies";

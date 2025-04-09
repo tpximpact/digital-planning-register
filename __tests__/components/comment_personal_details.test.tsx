@@ -19,11 +19,11 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { createAppConfig } from "@mocks/appConfigFactory";
+import { trackClient } from "@/lib/dprAnalytics";
 
-jest.mock("@next/third-parties/google", () => ({
-  sendGTMEvent: jest.fn(),
+jest.mock("@/lib/dprAnalytics", () => ({
+  trackClient: jest.fn(),
 }));
 
 describe("CommentPersonalDetails", () => {
@@ -69,8 +69,7 @@ describe("CommentPersonalDetails", () => {
     ).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
-    expect(sendGTMEvent).toHaveBeenCalledWith({
-      event: "comment_validation_error",
+    expect(trackClient).toHaveBeenCalledWith("comment_validation_error", {
       message: "error in personal details",
     });
   });
@@ -128,6 +127,6 @@ describe("CommentPersonalDetails", () => {
     expect(screen.getByLabelText("Telephone number")).toHaveValue(
       "09876543210",
     );
-    expect(sendGTMEvent).not.toHaveBeenCalled();
+    expect(trackClient).not.toHaveBeenCalled();
   });
 });
