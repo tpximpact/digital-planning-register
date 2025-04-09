@@ -17,10 +17,14 @@
 
 "use server";
 
-import { ApiResponse, DprShowApiResponse } from "@/types";
+import { ApiResponse, DprApplication, DprShowApiResponse } from "@/types";
 import { BopsV2PublicPlanningApplicationDetail } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "../requests";
 import { convertBopsToDpr } from "../converters/planningApplication";
+import {
+  convertToDprApplication,
+  isDprApplication,
+} from "@/lib/planningApplication/converter";
 
 /**
  * Get the details for an application
@@ -33,13 +37,34 @@ export async function show(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
-  >(council, `public/planning_applications/${reference}`);
+  try {
+    const request = await handleBopsGetRequest<
+      ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
+    >(council, `public/planning_applications/${reference}`);
 
-  const convertedData = request?.data
-    ? convertBopsToDpr(request.data, council)
-    : null;
+    if (!request?.data) {
+      return { ...request, data: null };
+    }
+    const convertedData = convertBopsToDpr(request.data, council);
 
-  return { ...request, data: convertedData };
+    const convertedApplication: DprApplication = isDprApplication(convertedData)
+      ? convertedData
+      : convertToDprApplication(convertedData);
+
+    return { ...request, data: convertedApplication };
+  } catch (error) {
+    console.error("Error fetching or converting application data:", error);
+    let detail = "Unknown error";
+    if (error instanceof Error) {
+      detail = error.message;
+    }
+    return {
+      data: null,
+      status: {
+        code: 500,
+        message: "Internal server error",
+        detail,
+      },
+    };
+  }
 }

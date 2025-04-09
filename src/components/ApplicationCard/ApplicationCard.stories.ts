@@ -17,7 +17,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationCard } from "./ApplicationCard";
-import { generateExampleApplications } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const {
   consultation,
@@ -69,56 +69,32 @@ export const LongDescriptionWithMap: Story = {
   args: {
     application: {
       ...application,
-      proposal: {
-        ...application.proposal,
-        description: longDescription,
-      },
-    },
-  },
-};
-
-export const LongDescriptionWithoutMap: Story = {
-  args: {
-    application: {
-      ...application,
-      proposal: {
-        ...application.proposal,
-        description: longDescription,
-      },
-      property: {
-        ...application.property,
-        boundary: {
-          ...application.property.boundary,
-          site: undefined,
+      submission: {
+        ...application.submission,
+        data: {
+          ...application.submission.data,
+          proposal: {
+            ...application.submission.data.proposal,
+            description: longDescription,
+          },
         },
       },
     },
   },
 };
+
 export const ShortDescriptionWithMap: Story = {
   args: {
     application: {
       ...application,
-      proposal: {
-        ...application.proposal,
-        description: shortDescription,
-      },
-    },
-  },
-};
-export const ShortDescriptionWithoutMap: Story = {
-  args: {
-    application: {
-      ...application,
-      proposal: {
-        ...application.proposal,
-        description: shortDescription,
-      },
-      property: {
-        ...application.property,
-        boundary: {
-          ...application.property.boundary,
-          site: undefined,
+      submission: {
+        ...application.submission,
+        data: {
+          ...application.submission.data,
+          proposal: {
+            ...application.submission.data.proposal,
+            description: shortDescription,
+          },
         },
       },
     },

@@ -20,15 +20,14 @@
  */
 
 import {
+  DprApplication,
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
   SearchParamsComments,
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
-import { getApplicationStatusSummary } from "./planningApplication";
 
 /**
  * Sort comments by newest first
@@ -71,16 +70,15 @@ export const getCommentTypeToShow = (
 export const buildCommentResult = (
   appConfig: AppConfig,
   type: DprCommentTypes,
-  application: DprPlanningApplication,
+  application: DprApplication,
   searchParams?: SearchParamsComments,
 ) => {
   const comments =
     type === "specialist"
-      ? application.application?.consultation.consulteeComments
+      ? application.comments?.specialist?.comments
       : type === "public"
-        ? application.application?.consultation.publishedComments
+        ? application.comments?.public?.comments
         : null;
-
   const totalComments = comments ? comments.length : 0;
   const currentPage = Number(searchParams?.page ?? 1);
 
@@ -151,20 +149,10 @@ export const pageTitles: Record<number, string> = {
  * @param applicationType
  * @returns
  */
-export const checkCommentsEnabled = (
-  application: DprPlanningApplication,
-): boolean => {
-  const applicationStatusSummary =
-    application.application?.status &&
-    getApplicationStatusSummary(
-      application.application.status,
-      application.application.consultation.startDate ?? undefined,
-      application.application.consultation.endDate ?? undefined,
-    );
-
+export const checkCommentsEnabled = (application: DprApplication): boolean => {
   const commentsAllowedInStatus = ["Consultation in progress"];
   if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
     commentsAllowedInStatus.push("Assessment in progress");
   }
-  return commentsAllowedInStatus.includes(applicationStatusSummary);
+  return commentsAllowedInStatus.includes(application.applicationStatusSummary);
 };

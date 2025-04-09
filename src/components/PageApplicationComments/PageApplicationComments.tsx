@@ -16,10 +16,10 @@
  */
 
 import {
+  DprApplication,
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
   SearchParamsComments,
 } from "@/types";
 import { BackButton } from "@/components/BackButton";
@@ -30,10 +30,11 @@ import { CommentsList } from "@/components/CommentsList";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
   reference: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
   params?: {
@@ -63,15 +64,14 @@ export const PageApplicationComments = ({
     );
   }
   const councilSlug = appConfig.council.slug;
-
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
-        <ApplicationHeader
-          reference={reference}
-          address={application?.property.address.singleLine}
-        />
+        <ApplicationHeader reference={reference} address={address} />
         <CommentsList
           councilSlug={appConfig.council.slug}
           reference={reference}

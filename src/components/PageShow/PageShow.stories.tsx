@@ -19,9 +19,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { PageShow } from "./PageShow";
 import {
   generateDocument,
-  generateExampleApplications,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
+
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
+
 import { createAppConfig } from "@mocks/appConfigFactory";
 
 const {
@@ -77,15 +79,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    application: committeeDetermined,
+  },
+};
+
 export const NoResult: Story = {
   args: {
     application: null,
   },
 };
 
-// 01-submission
-// 02-validation-01-invalid
 // 03-consultation
 export const Consultation: Story = {
   name: "03-consultation",
