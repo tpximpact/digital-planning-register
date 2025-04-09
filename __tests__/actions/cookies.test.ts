@@ -18,7 +18,9 @@ import "@testing-library/jest-dom";
 import {
   setConsentCookie,
   clearAnalyticsCookies,
-} from "./../../src/actions/set-cookies";
+  getClientIdFromCookies,
+  checkCookieConsent,
+} from "../../src/actions/cookies";
 import { cookies } from "next/headers";
 
 jest.mock("next/headers", () => ({
@@ -110,5 +112,65 @@ describe("clearAnalyticsCookies", () => {
     await clearAnalyticsCookies();
 
     expect(cookieStore.delete).not.toHaveBeenCalled();
+  });
+});
+
+describe("checkCookieConsent", () => {
+  it("returns true if the consentCookie is set to 'true'", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue({ value: "true" }),
+    });
+
+    const result = await checkCookieConsent();
+    expect(result).toBe(true);
+  });
+
+  it("returns false if the consentCookie is not set", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue(undefined),
+    });
+
+    const result = await checkCookieConsent();
+    expect(result).toBe(false);
+  });
+
+  it("returns false if the consentCookie is set to a value other than 'true'", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue({ value: "false" }),
+    });
+
+    const result = await checkCookieConsent();
+    expect(result).toBe(false);
+  });
+});
+
+describe("getClientIdFromCookies", () => {
+  it("returns the client ID if the _ga cookie is valid", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue({ value: "GA1.2.1234567890.1234567890" }),
+    });
+
+    const result = await getClientIdFromCookies();
+    expect(result).toBe("1234567890.1234567890");
+  });
+
+  it("throws an error if the _ga cookie is missing", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue(undefined),
+    });
+
+    await expect(getClientIdFromCookies()).rejects.toThrow(
+      "Google Analytics (_ga) cookie is missing.",
+    );
+  });
+
+  it("throws an error if the _ga cookie format is invalid", async () => {
+    (cookies as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue({ value: "INVALID_COOKIE_FORMAT" }),
+    });
+
+    await expect(getClientIdFromCookies()).rejects.toThrow(
+      "Invalid _ga cookie format.",
+    );
   });
 });

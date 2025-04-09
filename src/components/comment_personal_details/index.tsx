@@ -18,10 +18,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { emailValidation, phoneValidation, postcodeValidation } from "@/util";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
+import { trackClient } from "@/lib/dprAnalytics";
 
 type PersonalDetailKeys = keyof PersonalDetails;
 export interface PersonalDetails {
@@ -168,8 +168,7 @@ const CommentPersonalDetails = ({
       return true;
     } else {
       setValidationErrors(errors);
-      sendGTMEvent({
-        event: "comment_validation_error",
+      trackClient("comment_validation_error", {
         message: "error in personal details",
       });
       scrollToError(errors);

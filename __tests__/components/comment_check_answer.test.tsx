@@ -20,9 +20,9 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ApiV1 } from "@/actions/api";
 import CommentCheckAnswer from "@/components/comment_check_answer";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { getAppConfig } from "@/config";
+import { trackClient } from "@/lib/dprAnalytics";
 
 jest.mock("@/actions/api", () => ({
   ApiV1: {
@@ -30,12 +30,12 @@ jest.mock("@/actions/api", () => ({
   },
 }));
 
-jest.mock("@next/third-parties/google", () => ({
-  sendGTMEvent: jest.fn(),
-}));
-
 jest.mock("@/config", () => ({
   getAppConfig: jest.fn(),
+}));
+
+jest.mock("@/lib/dprAnalytics", () => ({
+  trackClient: jest.fn(),
 }));
 
 beforeAll(() => {
@@ -164,7 +164,7 @@ describe("CommentCheckAnswer", () => {
         "REF-001",
         expect.any(Object),
       );
-      expect(sendGTMEvent).toHaveBeenCalledWith({ event: "comment_submit" });
+      expect(trackClient).toHaveBeenCalledWith("comment_submit");
       expect(defaultProps.updateProgress).toHaveBeenCalledWith(5);
       expect(defaultProps.navigateToPage).toHaveBeenCalledWith(6);
       expect(sessionStorage.getItem("sentiment_REF-001")).toBeNull();
@@ -185,7 +185,7 @@ describe("CommentCheckAnswer", () => {
       expect(
         screen.getByText("There was a problem submitting your comment"),
       ).toBeInTheDocument();
-      expect(sendGTMEvent).toHaveBeenCalledWith({ event: "error_submission" });
+      expect(trackClient).toHaveBeenCalledWith("error_submission");
       expect(defaultProps.updateProgress).not.toHaveBeenCalled();
       expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     });

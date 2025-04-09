@@ -19,11 +19,10 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentTextEntry from "@/components/comment_text_entry";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { trackClient } from "@/lib/dprAnalytics";
 
-// Mock sendGTMEvent to track its calls
-jest.mock("@next/third-parties/google", () => ({
-  sendGTMEvent: jest.fn(),
+jest.mock("@/lib/dprAnalytics", () => ({
+  trackClient: jest.fn(),
 }));
 
 describe("CommentTextEntry", () => {
@@ -63,8 +62,7 @@ describe("CommentTextEntry", () => {
     expect(screen.getByText("Your comment is required")).toBeInTheDocument();
     expect(defaultProps.onContinue).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
-    expect(sendGTMEvent).toHaveBeenCalledWith({
-      event: "comment_validation_error",
+    expect(trackClient).toHaveBeenCalledWith("comment_validation_error", {
       message: "error in comment text entry",
     });
   });

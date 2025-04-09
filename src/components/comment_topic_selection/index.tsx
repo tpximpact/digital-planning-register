@@ -17,9 +17,9 @@
 
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
+import { trackClient } from "@/lib/dprAnalytics";
 
 export const topics_selection = [
   {
@@ -117,8 +117,7 @@ const CommentTopicSelection = ({
       onTopicSelection(selectedTopics);
     } else {
       setValidationError(true);
-      sendGTMEvent({
-        event: "comment_validation_error",
+      trackClient("comment_validation_error", {
         message: "error in topic selection",
       });
       scrollAndFocusError();
