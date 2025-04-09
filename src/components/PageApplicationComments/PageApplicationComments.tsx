@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
+"use client";
 import {
   DprComment,
   DprCommentTypes,
@@ -31,10 +31,9 @@ import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 
-import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
 import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
 import { CommentFilter } from "@/components/CommentFilter";
+import { useEffect, useState } from "react";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -48,77 +47,41 @@ export interface PageApplicationCommentsProps {
   type: DprCommentTypes;
   pagination?: DprPagination;
   searchParams?: SearchParamsComments;
+  orderBy?: string;
 }
 
-async function fetchData({
-  params,
-  searchParams,
-  type,
-}: PageApplicationCommentsProps): Promise<
-  ApiResponse<DprPublicCommentsApiResponse | null>
-> {
-  const { council, reference } = params;
-  const appConfig = getAppConfig(council);
-
-  const apiComments =
-    type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-
-  return await apiComments(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-    },
-  );
-}
-export async function generateMetadata({
-  params,
+export const PageApplicationComments = ({
   reference,
   application,
-  comments,
-  appConfig,
-  type,
-  searchParams,
-}: PageApplicationCommentsProps) {
-  const response = await fetchData({
-    params,
-    reference,
-    application,
-    comments,
-    appConfig,
-    type,
-    searchParams,
-  });
-
-  if (!response.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
-}
-export const PageApplicationComments = async ({
-  reference,
-  application,
-  comments,
   appConfig,
   params,
   type,
   pagination,
   searchParams,
 }: PageApplicationCommentsProps) => {
-  const response = await fetchData({
-    params,
-    reference,
-    application,
-    comments,
-    appConfig,
-    type,
-    searchParams,
-  });
+  const [orderBy, setOrderBy] = useState<string>("desc");
+  const [comments, setComments] = useState<DprComment[]>([]);
+
+  useEffect(() => {
+    const refetch = async () => {
+      const { council, reference } = params;
+      const apiComments =
+        type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
+      const response = await apiComments(
+        appConfig.council?.dataSource ?? "none",
+        council,
+        reference,
+        {
+          ...searchParams,
+          page: searchParams?.page ?? 1,
+          resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+          orderBy,
+        },
+      );
+      setComments(response?.data.comments ?? []);
+    };
+    refetch();
+  }, [orderBy]);
 
   if (!appConfig || !appConfig.council) {
     return (
@@ -136,10 +99,10 @@ export const PageApplicationComments = async ({
           reference={reference}
           address={application?.property.address.singleLine}
         />
-        <CommentFilter />
-        {response.data?.comments && response.data.comments.length > 0 ? (
+        <CommentFilter setOrderBy={setOrderBy} />
+        {comments && comments.length > 0 ? (
           <>
-            {response.data.comments.map((comment, index) => (
+            {comments.map((comment, index) => (
               <CommentCard
                 key={comment.receivedDate}
                 comment={comment}
