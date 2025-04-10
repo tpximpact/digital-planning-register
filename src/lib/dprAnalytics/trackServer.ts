@@ -1,6 +1,7 @@
 "use server";
 import { checkCookieConsent, getClientIdFromCookies } from "@/actions";
 import { AllowedPropertyValues, isProduction, parseProperties } from ".";
+import { siteNoticeTracking } from "./handlers/siteNoticeTracking";
 
 export async function trackServer(
   eventName: string,
@@ -16,17 +17,26 @@ export async function trackServer(
     return;
   }
 
+  const props = parseProperties(properties, {
+    strip: isProduction(),
+  });
+
+  if (props instanceof Error || props === undefined) {
+    console.error("Failed to parse properties:", props);
+    return;
+  }
+
+  if (eventName === "siteNoticeTracking") {
+    siteNoticeTracking(props);
+    return;
+  }
+
   const acceptAnalytics = await checkCookieConsent();
   if (!acceptAnalytics) {
     return;
   }
 
-  const props = parseProperties(properties, {
-    strip: isProduction(),
-  });
-
   // push the event to the analytics endpoint through GA4 server
-
   if (!isProduction()) {
     console.log("trackServerEvent", eventName, props);
   }
