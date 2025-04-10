@@ -32,6 +32,7 @@ import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
+import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -181,7 +182,7 @@ export const ApplicationDetails = ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <CommentsList
+            <CommentsListWithSuspense
               councilSlug={appConfig?.council?.slug}
               reference={reference}
               type="specialist"
@@ -194,7 +195,7 @@ export const ApplicationDetails = ({
             />
           )}
           {appConfig.council?.publicComments && (
-            <CommentsList
+            <CommentsListWithSuspense
               councilSlug={appConfig?.council?.slug}
               reference={reference}
               type="public"

@@ -15,19 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface BopsComment {
-  id?: number;
-  comment: string;
-  receivedAt: string;
-  sentiment?: string;
-}
-
-/**
- * Another one that goes along with the soon to be deprecated endpoint
- * @deprecated
- */
-interface BopsNonStandardComment {
-  comment: string;
-  received_at: string;
-  summary_tag?: string;
-}
+export * from "./CommentsListWithSuspense";

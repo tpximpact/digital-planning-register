@@ -122,3 +122,13 @@ export const CommentsList = ({
     </section>
   );
 };
+
+export function CommentsListSkeleton() {
+  return (
+    <div>
+      {Array.from({ length: 3 }).map((_, index) => (
+        <CommentCard key={index} />
+      ))}
+    </div>
+  );
+}
