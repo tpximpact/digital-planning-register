@@ -61,6 +61,7 @@ export const generateReference = (): string => {
  */
 export const generateComment = (): DprComment => {
   return {
+    id: faker.number.int({ min: 1000000000, max: 9999999999 }),
     comment: faker.lorem.paragraphs(),
     receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([

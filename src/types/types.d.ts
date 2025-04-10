@@ -62,6 +62,8 @@ export interface SearchParams {
   query?: string;
   page: number;
   resultsPerPage: number;
+  sortBy?: string;
+  orderBy?: string;
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {

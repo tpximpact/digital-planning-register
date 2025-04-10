@@ -213,6 +213,7 @@ export interface DprDocument {
  */
 export type DprCommentTypes = "specialist" | "public";
 export interface DprComment {
+  id?: number;
   comment: string;
   /**
    * 2024-05-30T14:23:21.936Z

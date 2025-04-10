@@ -428,7 +428,7 @@ const councils: Council[] = [
     slug: "southwark",
     visibility: "public",
     dataSource: "bops",
-    publicComments: false,
+    publicComments: true,
     specialistComments: false,
     features: {
       logoInHeader: false,

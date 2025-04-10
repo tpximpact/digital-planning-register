@@ -20,12 +20,16 @@ import { applicationSubmission } from "./applicationSubmission";
 import { documents } from "./documents";
 import { postComment } from "./postComment";
 import { show } from "./show";
+import { specialistComments } from "./specialistComments";
+import { publicComments } from "./publicComments";
 
 import { documentation as searchDocumentation } from "./search.documentation";
 import { documentation as applicationSubmissionDocumentation } from "./applicationSubmission.documentation";
 import { documentation as documentsDocumentation } from "./documents.documentation";
 import { documentation as postCommentDocumentation } from "./postComment.documentation";
 import { documentation as showDocumentation } from "./show.documentation";
+import { documentation as publicCommentsDocumentation } from "./publicComments.documentation";
+import { documentation as specialistCommentsDocumentation } from "./specialistComments.documentation";
 
 import { Documentation } from "@/types";
 
@@ -40,6 +44,8 @@ const handlers: Record<string, HandlerFunction> = {
   documents,
   postComment,
   show,
+  publicComments,
+  specialistComments,
 };
 
 const documentations: Record<string, Documentation> = {
@@ -48,6 +54,8 @@ const documentations: Record<string, Documentation> = {
   documents: documentsDocumentation,
   postComment: postCommentDocumentation,
   show: showDocumentation,
+  publicComments: publicCommentsDocumentation,
+  specialistComments: specialistCommentsDocumentation,
 };
 
 export const ApiV1 = handlers;
