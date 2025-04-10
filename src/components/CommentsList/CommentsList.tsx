@@ -93,7 +93,7 @@ export const CommentsList = ({
                   <Button
                     variant="information"
                     element="link"
-                    href={`/${councilSlug}/${reference}/comments`}
+                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
                   >
                     {`Show all ${totalComments} ${
                       type === "specialist"
