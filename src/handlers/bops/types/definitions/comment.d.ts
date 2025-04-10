@@ -16,10 +16,9 @@
  */
 
 export interface BopsComment {
-  id?: number;
   comment: string;
   receivedAt: string;
-  sentiment?: string;
+  summaryTag?: string;
 }
 
 /**

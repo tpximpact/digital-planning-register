@@ -18,7 +18,7 @@
 import {
   ApiResponse,
   DprPublicCommentsApiResponse,
-  SearchParams,
+  SearchParamsComments,
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
 import { defaultPagination } from "@/handlers/lib";
@@ -37,7 +37,7 @@ import { defaultPagination } from "@/handlers/lib";
 export async function publicComments(
   council: string,
   reference: string,
-  searchParams?: SearchParams,
+  searchParams?: SearchParamsComments,
 ): Promise<ApiResponse<DprPublicCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/public`;
 
