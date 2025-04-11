@@ -15,13 +15,13 @@
 
 
 # Use the official Node.js 20 Alpine image as the base image
-FROM node:20-alpine as base
+FROM node:20-alpine AS base
 
 # ////////////////////////////// dependencies
-FROM base as deps
+FROM base AS deps
 ENV HUSKY=0
 # we dont want it to install chrome as it will fail in alpine - also we're not running tests in this container but we need dev dependencies to build the app 🤷‍♀️
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -33,7 +33,7 @@ COPY .husky/install.mjs ./.husky/install.mjs
 RUN npm ci
 
 # ////////////////////////////// build
-FROM base as builder
+FROM base AS builder
 ENV HUSKY=0
 ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
@@ -64,4 +64,4 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 
-CMD node server.js
+CMD ["node", "server.js"]
