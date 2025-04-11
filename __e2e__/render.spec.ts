@@ -98,11 +98,12 @@ const testLandingPage = async (page: Page) => {
     "public-no-bops-env-vars",
     "public-overwritten",
   ];
-  hidden.forEach(async (slug) => {
+  // for of ensure that each await call completes
+  for (const slug of hidden) {
     await expect(
       logoContainer.locator(`[data-council-slug='${slug}']`),
     ).not.toBeVisible();
-  });
+  }
 };
 
 /**
