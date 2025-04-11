@@ -26,6 +26,7 @@ import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
+const comments = generateNResults<DprComment>(50, generateComment);
 const meta = {
   title: "Council pages/Application comments",
   component: PageApplicationComments,
@@ -51,8 +52,8 @@ const meta = {
   args: {
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
-    pagination: generatePagination(1),
+    comments: comments,
+    pagination: generatePagination(1, comments.length),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
   },
@@ -80,19 +81,16 @@ export const NoComments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
-    pagination: generatePagination(1),
+    pagination: generatePagination(1, comments.length),
   },
 };
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
-    pagination: generatePagination(2),
+    pagination: generatePagination(2, comments.length),
   },
 };
 export const ThirdPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
-    pagination: generatePagination(3),
+    pagination: generatePagination(3, comments.length),
   },
 };

@@ -26,6 +26,8 @@ import { DprDocument } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
+const documents = generateNResults<DprDocument>(50, generateDocument);
+
 const meta = {
   title: "Council pages/Application documents",
   component: PageApplicationDocuments,
@@ -51,8 +53,8 @@ const meta = {
   args: {
     reference: "12345",
     application: generateDprApplication(),
-    documents: generateNResults<DprDocument>(50, generateDocument),
-    pagination: generatePagination(1),
+    documents: documents,
+    pagination: generatePagination(1, documents.length),
     appConfig: createAppConfig("public-council-1"),
   },
 } satisfies Meta<typeof PageApplicationDocuments>;
@@ -69,19 +71,16 @@ export const NoDocuments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    documents: generateNResults<DprDocument>(50, generateDocument),
-    pagination: generatePagination(1),
+    pagination: generatePagination(1, documents.length),
   },
 };
 export const SecondPage: Story = {
   args: {
-    documents: generateNResults<DprDocument>(50, generateDocument),
-    pagination: generatePagination(2),
+    pagination: generatePagination(2, documents.length),
   },
 };
 export const ThirdPage: Story = {
   args: {
-    documents: generateNResults<DprDocument>(50, generateDocument),
-    pagination: generatePagination(3),
+    pagination: generatePagination(3, documents.length),
   },
 };

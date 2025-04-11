@@ -66,7 +66,7 @@ const responseQuery = (
 
   return {
     data: documents,
-    pagination: generatePagination(searchParams?.page ?? 1),
+    pagination: generatePagination(searchParams?.page ?? 1, documents.length),
     status: {
       code: 200,
       message: "",

@@ -53,7 +53,10 @@ const responseQuery = (
     appealDetermined,
     withdrawn,
   ];
-  let pagination = generatePagination(searchParams?.page, resultsPerPage * 5);
+  let pagination = generatePagination(
+    searchParams?.page ?? 1,
+    resultsPerPage * 5,
+  );
 
   // if we've done a search just rename the first result to match the query
   if (searchParams?.query) {
