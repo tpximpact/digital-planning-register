@@ -96,7 +96,7 @@ describe("generateDocument", () => {
 
 describe("generatePagination", () => {
   it("should generate pagination data with the correct structure", () => {
-    const pagination = generatePagination();
+    const pagination = generatePagination(1, 100);
     expect(pagination).toHaveProperty("resultsPerPage");
     expect(pagination).toHaveProperty("currentPage");
     expect(pagination).toHaveProperty("totalPages");
@@ -104,13 +104,13 @@ describe("generatePagination", () => {
   });
 
   it("should generate pagination data with the correct values when current page provided", () => {
-    const pagination = generatePagination(5);
+    const pagination = generatePagination(5, 100);
     expect(pagination.currentPage).toBe(5);
   });
 
   it("should generate different pagination data on subsequent calls", () => {
-    const pagination1 = generatePagination();
-    const pagination2 = generatePagination();
+    const pagination1 = generatePagination(1, 100);
+    const pagination2 = generatePagination(2, 100);
     expect(pagination1).not.toEqual(pagination2);
   });
 });

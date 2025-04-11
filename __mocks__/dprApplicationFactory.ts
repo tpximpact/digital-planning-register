@@ -30,7 +30,7 @@ import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplicat
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
 import { formatDateToYmd } from "@/util";
 
-import { faker, fakerEN_GB } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import {
   generateAgent,
   generateBaseApplicant,
@@ -98,20 +98,11 @@ export const generateDocument = (): DprDocument => {
  * @returns {object} A random pagination object.
  */
 export const generatePagination = (
-  currentPage?: number,
-  totalResults?: number,
+  currentPage: number,
+  totalResults: number,
+  resultsPerPage: number = 10,
 ): DprPagination => {
-  totalResults = totalResults ?? faker.number.int({ min: 10, max: 500 });
-  const resultsPerPage = 10;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
-
-  if (
-    currentPage === undefined ||
-    currentPage < 1 ||
-    currentPage > totalPages
-  ) {
-    currentPage = faker.number.int({ min: 1, max: totalPages || 1 });
-  }
 
   return {
     resultsPerPage,
