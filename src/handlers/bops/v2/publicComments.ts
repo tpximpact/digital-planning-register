@@ -18,13 +18,16 @@
 import {
   ApiResponse,
   DprPublicCommentsApiResponse,
-  SearchParamsComments,
+  SearchParams,
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
-import { defaultPagination } from "@/handlers/lib";
+import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
+import { convertCommentBops } from "../converters/comments";
+import { defaultPagination } from "@/lib/pagination";
 
 /**
- * Get the public comments for an application
+ * Get the details for an application
+ * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP/comments/public
  * @param page
  * @param resultsPerPage
  * @param query
@@ -37,30 +40,30 @@ import { defaultPagination } from "@/handlers/lib";
 export async function publicComments(
   council: string,
   reference: string,
-  searchParams?: SearchParamsComments,
+  search?: SearchParams,
 ): Promise<ApiResponse<DprPublicCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/public`;
 
-  if (searchParams) {
+  if (search) {
     const params = new URLSearchParams({
-      page: searchParams?.page?.toString(),
-      maxresults: searchParams?.resultsPerPage?.toString() ?? "10",
+      page: search?.page?.toString(),
+      maxresults: search?.resultsPerPage?.toString() ?? "10",
     });
 
-    if (searchParams.query) {
-      params.append("q", searchParams.query);
+    if (search.query) {
+      params.append("q", search.query);
     }
-    if (searchParams.sortBy) {
-      params.append("sortBy", searchParams.sortBy);
+    if (search.sortBy) {
+      params.append("sortBy", search.sortBy);
     }
-    if (searchParams.orderBy) {
-      params.append("orderBy", searchParams.orderBy);
+    if (search.orderBy) {
+      params.append("orderBy", search.orderBy);
     }
     url = `${url}?${params.toString()}`;
   }
 
   const request = await handleBopsGetRequest<
-    ApiResponse<DprPublicCommentsApiResponse | null>
+    ApiResponse<BopsV2PublicPlanningApplicationPublicComments | null>
   >(council, url);
 
   if (!request.data) {
@@ -71,12 +74,13 @@ export async function publicComments(
     };
   }
 
-  const { comments, summary } = request.data;
-  const pagination = request.pagination;
+  const { comments: bopsComments, summary, pagination } = request.data;
+  const transformedComments = bopsComments.map(convertCommentBops);
+
   return {
     ...request,
     data: {
-      comments,
+      comments: transformedComments,
       summary,
     },
     pagination: pagination,

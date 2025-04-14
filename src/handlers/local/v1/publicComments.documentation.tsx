@@ -14,25 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-import { Documentation, SearchParamsComments } from "@/types";
+import { Documentation } from "@/types";
 import { publicComments } from "./publicComments";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=LocalV1&method=publicComments`,
   file: `src/handlers/local/v1/publicComments.ts`,
   description: "publicComments",
-  arguments: [
-    "source",
-    "council",
-    "reference",
-    "page",
-    "resultsPerPage",
-    "searchQuery",
-  ],
-  run: async (args: [string, string, SearchParamsComments]) => {
-    return await publicComments(...args);
+  arguments: [],
+  run: async () => {
+    return await publicComments();
   },
-
   examples: [
     {
       url: `/docs/json?handler=LocalV1&method=publicComments`,
