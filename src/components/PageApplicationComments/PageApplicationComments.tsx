@@ -26,27 +26,81 @@ import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "@/components/govuk/Pagination";
 import { AppConfig } from "@/config/types";
-import { CommentsList } from "@/components/CommentsList";
+import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
+// import { getPropertyAddress } from "@/lib/planningApplication/application";
+
+import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
+import { ApiV1 } from "@/actions/api";
+import { getAppConfig } from "@/config";
 
 export interface PageApplicationCommentsProps {
   reference: string;
   application: DprApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
-  params?: {
+  params: {
     council: string;
-    reference?: string;
+    reference: string;
   };
   type: DprCommentTypes;
   pagination?: DprPagination;
   searchParams?: SearchParamsComments;
 }
 
-export const PageApplicationComments = ({
+async function fetchData({
+  params,
+  searchParams,
+  type,
+}: PageApplicationCommentsProps): Promise<
+  ApiResponse<DprPublicCommentsApiResponse | null>
+> {
+  const { council, reference } = params;
+  const appConfig = getAppConfig(council);
+
+  const apiComments =
+    type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
+
+  return await apiComments(
+    appConfig.council?.dataSource ?? "none",
+    council,
+    reference,
+    {
+      ...searchParams,
+      page: searchParams?.page ?? 1,
+      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    },
+  );
+}
+export async function generateMetadata({
+  params,
+  reference,
+  application,
+  comments,
+  appConfig,
+  type,
+  searchParams,
+}: PageApplicationCommentsProps) {
+  const response = await fetchData({
+    params,
+    reference,
+    application,
+    comments,
+    appConfig,
+    type,
+    searchParams,
+  });
+
+  if (!response.data) {
+    return {
+      title: "Error",
+      description: "An error occurred",
+    };
+  }
+}
+export const PageApplicationComments = async ({
   reference,
   application,
   comments,
@@ -56,6 +110,16 @@ export const PageApplicationComments = ({
   pagination,
   searchParams,
 }: PageApplicationCommentsProps) => {
+  const response = await fetchData({
+    params,
+    reference,
+    application,
+    comments,
+    appConfig,
+    type,
+    searchParams,
+  });
+
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
@@ -64,27 +128,27 @@ export const PageApplicationComments = ({
     );
   }
   const councilSlug = appConfig.council.slug;
-  const address = getPropertyAddress(
-    application?.submission?.data?.property?.address,
-  );
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
-        <ApplicationHeader reference={reference} address={address} />
-        <CommentsList
-          councilSlug={appConfig.council.slug}
+        <ApplicationHeader
           reference={reference}
-          type={type}
-          comments={comments}
-          pagination={
-            pagination ?? {
-              resultsPerPage: appConfig.defaults.resultsPerPage,
-              currentPage: 1,
-            }
-          }
+          address={application?.property.address.singleLine}
         />
-
+        {response.data?.comments && response.data.comments.length > 0 ? (
+          <>
+            {response.data.comments.map((comment, index) => (
+              <CommentCard
+                key={comment.receivedDate}
+                comment={comment}
+                commentNumber={index + 1}
+              />
+            ))}
+          </>
+        ) : (
+          <ContentNotFound />
+        )}
         {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "comments")}
