@@ -17,12 +17,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationComments } from "./PageApplicationComments";
-import {
-  generateComment,
-  generateNResults,
-  generatePagination,
-} from "@mocks/dprApplicationFactory";
-import { DprComment } from "@/types";
+import { generatePagination } from "@mocks/dprApplicationFactory";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
@@ -51,7 +46,6 @@ const meta = {
   args: {
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
     pagination: generatePagination(1),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
@@ -66,7 +60,6 @@ export const Default: Story = {
     type: "public",
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
     pagination: generatePagination(1),
     appConfig: createAppConfig("public-council-1"),
     params: {
@@ -80,7 +73,6 @@ export const Public: Story = {
     type: "public",
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
     pagination: generatePagination(1),
     appConfig: createAppConfig("public-council-1"),
     params: {
@@ -94,7 +86,6 @@ export const Specialist: Story = {
     type: "specialist",
     reference: "12345",
     application: generateDprApplication(),
-    comments: generateNResults<DprComment>(50, generateComment),
     pagination: generatePagination(1),
     appConfig: createAppConfig("public-council-1"),
     params: {
@@ -105,7 +96,6 @@ export const Specialist: Story = {
 };
 export const NoComments: Story = {
   args: {
-    comments: undefined,
     pagination: undefined,
     type: "public",
     reference: "12345",
@@ -119,7 +109,6 @@ export const NoComments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
     pagination: generatePagination(1),
     type: "public",
     reference: "12345",
@@ -133,7 +122,6 @@ export const FirstPage: Story = {
 };
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
     pagination: generatePagination(2),
     type: "public",
     reference: "12345",
@@ -147,7 +135,6 @@ export const SecondPage: Story = {
 };
 export const ThirdPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
     pagination: generatePagination(3),
     type: "public",
     reference: "12345",

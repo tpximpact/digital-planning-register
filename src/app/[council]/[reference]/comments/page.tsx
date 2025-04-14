@@ -114,7 +114,6 @@ export default async function PlanningApplicationDetailsComments({
       reference={reference}
       application={application}
       type={type}
-      comments={commentData.data}
       pagination={commentData.pagination}
       appConfig={appConfig}
       params={params}
