@@ -15,16 +15,19 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { defaultPagination } from "@/lib/pagination";
 import {
+  SearchParams,
   ApiResponse,
   DprSpecialistCommentsApiResponse,
-  SearchParamsComments,
 } from "@/types";
+import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
-import { defaultPagination } from "@/handlers/lib";
+import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
 
 /**
- * Get the specialist comments for an application
+ * Get the details for an application
+ * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP/comments/specialist
  * @param page
  * @param resultsPerPage
  * @param query
@@ -37,34 +40,33 @@ import { defaultPagination } from "@/handlers/lib";
 export async function specialistComments(
   council: string,
   reference: string,
-  searchParams?: SearchParamsComments,
+  search?: SearchParams,
 ): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/specialist`;
 
-  if (searchParams) {
+  if (search) {
     const params = new URLSearchParams({
-      page: searchParams?.page?.toString(),
-      maxresults: searchParams?.resultsPerPage?.toString() ?? "10",
+      page: search?.page?.toString(),
+      maxresults: search?.resultsPerPage?.toString() ?? "10",
     });
 
-    if (searchParams.query) {
-      params.append("q", searchParams.query);
+    if (search.query) {
+      params.append("q", search.query);
     }
-    if (searchParams.sortBy) {
-      params.append("sortBy", searchParams.sortBy);
+    if (search.sortBy) {
+      params.append("sortBy", search.sortBy);
     }
-    if (searchParams.orderBy) {
-      params.append("orderBy", searchParams.orderBy);
+    if (search.orderBy) {
+      params.append("orderBy", search.orderBy);
     }
     url = `${url}?${params.toString()}`;
   }
 
   const request = await handleBopsGetRequest<
-    ApiResponse<DprSpecialistCommentsApiResponse | null>
+    ApiResponse<BopsV2PublicPlanningApplicationSpecialistComments | null>
   >(council, url);
 
   if (!request.data) {
-    console.log("no data");
     return {
       ...request,
       data: null,
@@ -72,13 +74,14 @@ export async function specialistComments(
     };
   }
 
-  const { comments, summary } = request.data;
-  const pagination = request.pagination;
+  const { comments: bopsComments, summary, pagination } = request.data;
+
+  const transformedComments = bopsComments.map(convertCommentBops);
 
   return {
     ...request,
     data: {
-      comments,
+      comments: transformedComments,
       summary,
     },
     pagination: pagination,
