@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Button } from "../button";
 import "./CommentFilter.scss";
-
 import { Dropdown } from "../Dropdown";
 type CommentFilterProps = {
   setOrderBy: (orderBy: string) => void;
 };
 
 export const CommentFilter = ({ setOrderBy }: CommentFilterProps) => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("desc");
   return (
     <div className="govuk-grid-row comment-filter">
       <Dropdown

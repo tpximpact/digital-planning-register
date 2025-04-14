@@ -30,24 +30,16 @@ import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-// import { getPropertyAddress } from "@/lib/planningApplication/application";
-
-import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
 import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
-
-// import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
-import { ApiV1 } from "@/actions/api";
-// import { getAppConfig } from "@/config";
 import { CommentFilter } from "@/components/CommentFilter";
 import { useEffect, useState } from "react";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
   reference: string;
   application: DprApplication;
-  comments: DprComment[] | null;
   appConfig: AppConfig;
-  params: {
+  params?: {
     council: string;
     reference: string;
   };
@@ -57,63 +49,11 @@ export interface PageApplicationCommentsProps {
   orderBy?: string;
 }
 
-// async function fetchData({
-//   params,
-//   searchParams,
-//   type,
-//   orderBy,
-// }: PageApplicationCommentsProps): Promise<
-//   ApiResponse<DprPublicCommentsApiResponse | null>
-// > {
-//   const { council, reference } = params;
-//   const appConfig = getAppConfig(council);
+export type OrderBy = "asc" | "desc";
 
-//   const apiComments =
-//     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-
-//   return await apiComments(
-//     appConfig.council?.dataSource ?? "none",
-//     council,
-//     reference,
-//     {
-//       ...searchParams,
-//       page: searchParams?.page ?? 1,
-//       resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-//       sortBy: "receivedAt",
-//       orderBy,
-//     },
-//   );
-// }
-// export async function generateMetadata({
-//   params,
-//   reference,
-//   application,
-//   comments,
-//   appConfig,
-//   type,
-//   searchParams,
-// }: PageApplicationCommentsProps) {
-//   const response = await fetchData({
-//     params,
-//     reference,
-//     application,
-//     comments,
-//     appConfig,
-//     type,
-//     searchParams,
-//   });
-
-//   if (!response.data) {
-//     return {
-//       title: "Error",
-//       description: "An error occurred",
-//     };
-//   }
-// }
 export const PageApplicationComments = ({
   reference,
   application,
-  // comments,
   appConfig,
   params,
   type,
@@ -125,11 +65,11 @@ export const PageApplicationComments = ({
 
   useEffect(() => {
     const refetch = async () => {
+      if (!params) return;
       const { council, reference } = params;
-      console.log(type, "type");
-      // const apiComments =
-      //   type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-      const response = await ApiV1.specialistComments(
+      const apiComments =
+        type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
+      const response = await apiComments(
         appConfig.council?.dataSource ?? "none",
         council,
         reference,
@@ -143,9 +83,15 @@ export const PageApplicationComments = ({
       setComments(response?.data?.comments ?? []);
     };
     refetch();
-  }, [orderBy]);
+  }, [
+    appConfig.council?.dataSource,
+    appConfig.defaults.resultsPerPage,
+    orderBy,
+    params,
+    searchParams,
+    type,
+  ]);
 
-  console.log(comments, "comments", orderBy);
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
@@ -154,14 +100,15 @@ export const PageApplicationComments = ({
     );
   }
   const councilSlug = appConfig.council.slug;
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
+
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
-        <ApplicationHeader
-          reference={reference}
-          address={application?.property.address.singleLine}
-        />
+        <ApplicationHeader reference={reference} address={address} />
         <CommentFilter setOrderBy={setOrderBy} />
         {comments && comments.length > 0 ? (
           <>
@@ -187,11 +134,3 @@ export const PageApplicationComments = ({
     </>
   );
 };
-
-// TODO
-// check why is returning only one type of comment when change to specialist or public
-// add storyBook to dropdown
-// add test to dropdown and pageApplicant???
-// useState in commentfilter should have a default value and in pageApplicant?? they should have type?? and should be the same?
-// check the prototype there's an option saying Public Comment and search comment
-// I've pushed config file, undo it
