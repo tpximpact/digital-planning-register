@@ -16,6 +16,7 @@
  */
 
 import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
+import { DprCommentTypes } from "@/types/definitions";
 
 /**
  * This file contains the definitions for common objects used accross the application
@@ -67,7 +68,7 @@ export interface SearchParams {
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {
-  type?: string;
+  type?: DprCommentTypes;
 }
 /**
  *
@@ -148,7 +149,6 @@ export type DprStatusSummary =
   | "Appeal validated"
   | "Appeal in progress"
   | "Appeal decided"
-  | "Appeal withdrawn"
   | "Unknown";
 
 /**

@@ -18,8 +18,8 @@
 "use client";
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { determineMapTypeProps } from "./utils";
+import { trackClient } from "@/lib/dprAnalytics";
 
 export interface ApplicationMapProps {
   reference: string;
@@ -60,9 +60,7 @@ export interface ApplicationMapProps {
 
 export const handleScroll = () => {
   // console.log("scrolling");
-  sendGTMEvent({
-    event: "map-scroll",
-  });
+  trackClient("map-scroll");
 };
 
 export const ApplicationMap = ({

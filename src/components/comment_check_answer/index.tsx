@@ -19,7 +19,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/button";
 import { ApiV1 } from "@/actions/api";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govukDpr/Details";
@@ -29,6 +28,7 @@ import { PersonalDetails } from "../comment_personal_details";
 import { DprCommentSubmission } from "@/types";
 import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
+import { trackClient } from "@/lib/dprAnalytics";
 
 const topics_selection = [
   {
@@ -146,9 +146,7 @@ const CommentCheckAnswer = ({
     setSubmissionError(false);
 
     if (!personalDetails) {
-      sendGTMEvent({
-        event: "error_submission",
-      });
+      trackClient("error_submission");
       setSubmissionError(true);
       window.scrollTo(0, 0);
       return false;
@@ -181,7 +179,7 @@ const CommentCheckAnswer = ({
         if (response?.status?.code === 200) {
           sessionStorage.setItem(`submissionComplete_${reference}`, "true");
           // google analytic
-          sendGTMEvent({ event: "comment_submit" });
+          trackClient("comment_submit");
 
           // Clear all other sessionStorage items for this reference
           Object.keys(sessionStorage).forEach((key) => {
@@ -195,16 +193,12 @@ const CommentCheckAnswer = ({
           updateProgress(5); // Update progress to allow access to confirmation page and redirect to it
           navigateToPage(6);
         } else {
-          sendGTMEvent({
-            event: "error_submission",
-          });
+          trackClient("error_submission");
           throw new Error(`Submission failed ${response.status.detail}`);
         }
       }
     } catch (error) {
-      sendGTMEvent({
-        event: "error_submission",
-      });
+      trackClient("error_submission");
       console.error("Error submitting comment:", error);
       setSubmissionError(true);
       window.scrollTo(0, 0);

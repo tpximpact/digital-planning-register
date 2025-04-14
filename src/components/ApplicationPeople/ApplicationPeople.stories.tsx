@@ -17,7 +17,11 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationPeople } from "./ApplicationPeople";
-import { generateDprApplication } from "@mocks/dprApplicationFactory";
+import {
+  generateAgent,
+  generateBaseApplicant,
+  generateCaseOfficer,
+} from "@mocks/dprNewApplicationFactory";
 
 const meta = {
   title: "DPR Components/ApplicationPeople",
@@ -33,87 +37,47 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const fullApplication = generateDprApplication();
+// const fullApplication = generateDprApplication();
 
 export const Default: Story = {
   args: {
-    applicant: fullApplication.applicant,
-    caseOfficer: fullApplication.officer,
+    applicant: generateAgent,
+    caseOfficer: generateCaseOfficer,
   },
 };
 
-export const AllApplicationPeople: Story = {
+export const AgentAndCaseOfficer: Story = {
   args: {
-    applicant: fullApplication.applicant,
-    caseOfficer: fullApplication.officer,
+    applicant: generateAgent,
+    caseOfficer: generateCaseOfficer,
   },
 };
 
-export const ApplicantAndAgent: Story = {
+export const BaseApplicantAndCaseOfficer: Story = {
   args: {
-    applicant: {
-      ...fullApplication.applicant,
-      agent: fullApplication.applicant.agent,
-    },
-  },
-};
-
-export const ApplicantAndCaseOfficer: Story = {
-  args: {
-    applicant: {
-      ...fullApplication.applicant,
-      agent: undefined,
-    },
-    caseOfficer: fullApplication.officer,
-  },
-};
-
-export const CaseOfficerAndAgent: Story = {
-  args: {
-    caseOfficer: fullApplication.officer,
-    applicant: {
-      agent: fullApplication.applicant.agent,
-    },
+    applicant: generateBaseApplicant,
+    caseOfficer: generateCaseOfficer,
   },
 };
 
 export const OnlyApplicant: Story = {
   args: {
-    applicant: {
-      ...fullApplication.applicant,
-      agent: undefined,
-    },
-  },
-};
-
-export const OnlyApplicantMinimalData: Story = {
-  args: {
-    applicant: {
-      name: fullApplication.applicant.name,
-    },
+    applicant: generateBaseApplicant,
   },
 };
 
 export const OnlyAgent: Story = {
   args: {
-    applicant: {
-      agent: fullApplication.applicant.agent,
-    },
-  },
-};
-
-export const OnlyAgentMinimalData: Story = {
-  args: {
-    applicant: {
-      agent: {
-        name: fullApplication.applicant.agent?.name,
-      },
-    },
+    applicant: generateAgent,
   },
 };
 
 export const OnlyCaseOfficer: Story = {
   args: {
-    caseOfficer: fullApplication.officer,
+    caseOfficer: generateCaseOfficer,
   },
+};
+
+export const NoPeople: Story = {
+  args: {},
 };

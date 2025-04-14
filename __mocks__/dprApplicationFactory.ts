@@ -31,6 +31,16 @@ import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/
 import { formatDateToYmd } from "@/util";
 
 import { faker, fakerEN_GB } from "@faker-js/faker";
+import {
+  generateAgent,
+  generateBaseApplicant,
+  generateCaseOfficer,
+  generateSiteAddress,
+} from "./dprNewApplicationFactory";
+import {
+  Agent,
+  BaseApplicant,
+} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 
 /**
  * Generates a random reference string in the format `XX-XXXXX-XXXX`.
@@ -279,6 +289,7 @@ export const generateDprApplication = ({
         consulteeComments: generateNResults<DprComment>(50, generateComment),
         publishedComments: generateNResults<DprComment>(50, generateComment),
       },
+      expiryDate: formatDateToYmd(faker.date.anytime()),
       receivedAt: faker.date.anytime().toISOString(),
       validAt: faker.date.anytime().toISOString(),
       publishedAt: faker.date.anytime().toISOString(),
@@ -286,43 +297,22 @@ export const generateDprApplication = ({
       decision: decision,
     },
     property: {
-      address: {
-        singleLine: fakerEN_GB.location.streetAddress(true),
-      },
+      address: generateSiteAddress,
       boundary: {
         site: generateBoundaryGeoJson(),
+        area: {
+          squareMetres: faker.number.int({ min: 1000, max: 10000 }),
+        },
       },
     },
     proposal: {
       description: faker.lorem.paragraphs({ min: 1, max: 10 }),
     },
-    applicant: {
-      type: "company",
-      name: {
-        first: faker.person.firstName(),
-        last: faker.person.lastName(),
-      },
-      address: {
-        sameAsSiteAddress: true,
-      },
-      agent: {
-        name: {
-          first: faker.person.firstName(),
-          last: faker.person.lastName(),
-        },
-        address: {
-          line1: fakerEN_GB.location.street(),
-          line2: "",
-          town: fakerEN_GB.location.city(),
-          county: "",
-          postcode: fakerEN_GB.location.zipCode(),
-          country: "",
-        },
-      },
-    },
-    officer: {
-      name: faker.person.fullName(),
-    },
+    applicant: faker.helpers.arrayElement<BaseApplicant | Agent>([
+      generateBaseApplicant,
+      generateAgent,
+    ]),
+    officer: generateCaseOfficer,
   };
 };
 

@@ -17,9 +17,9 @@
 
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { Button } from "@/components/button";
 import { topicLabels, topicLabelsHint } from "@/lib/comments";
+import { trackClient } from "@/lib/dprAnalytics";
 
 const MAX_COMMENT_LENGTH = 6000;
 
@@ -111,8 +111,7 @@ const CommentTextEntry = ({
       onContinue();
     } else {
       setValidationError(true);
-      sendGTMEvent({
-        event: "comment_validation_error",
+      trackClient("comment_validation_error", {
         message: "error in comment text entry",
       });
       scrollAndFocusError();

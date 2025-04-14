@@ -42,7 +42,7 @@ export async function specialistComments(
     case "bops":
       return await BopsV2.specialistComments(council, reference, search);
     case "local":
-      return await LocalV1.specialistComments(council, reference);
+      return await LocalV1.specialistComments(council, reference, search);
     default:
       return apiReturnError("Invalid source");
   }

@@ -23,7 +23,7 @@ import { Button } from "@/components/button";
 export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  comments: DprComment[] | null;
+  comments: DprComment[] | null | undefined;
   pagination: Pick<DprPagination, "resultsPerPage" | "currentPage">;
   showMoreButton?: boolean;
   type?: DprCommentTypes;
@@ -93,7 +93,7 @@ export const CommentsList = ({
                   <Button
                     variant="information"
                     element="link"
-                    href={`/${councilSlug}/${reference}/comments`}
+                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
                   >
                     {`Show all ${totalComments} ${
                       type === "specialist"

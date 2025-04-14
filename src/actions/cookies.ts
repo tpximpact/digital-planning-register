@@ -18,6 +18,20 @@
 "use server";
 import { cookies } from "next/headers";
 
+/**
+ * Checks for cookie consent from user
+ * @returns true if the user has accepted cookies, false otherwise
+ */
+export async function checkCookieConsent(): Promise<boolean> {
+  const cookieStore = cookies();
+  const consentCookie = cookieStore.get("consentCookie");
+  const acceptAnalytics = consentCookie?.value === "true";
+  return acceptAnalytics;
+}
+
+/**
+ * Sets the consent cookie
+ */
 export async function setConsentCookie(value: boolean) {
   const cookieStore = cookies();
   cookieStore.set("consentCookie", value.toString(), {
@@ -27,6 +41,9 @@ export async function setConsentCookie(value: boolean) {
   });
 }
 
+/**
+ * Clears the analytics cookies
+ */
 export async function clearAnalyticsCookies() {
   const cookieStore = cookies();
   cookieStore.getAll().forEach((cookie) => {
@@ -39,4 +56,24 @@ export async function clearAnalyticsCookies() {
       cookieStore.delete(cookie.name);
     }
   });
+}
+
+/**
+ * Gets the ClientId from the _ga cookie, used for Server side Google Analytics
+ * @returns the client ID from the _ga cookie
+ */
+export async function getClientIdFromCookies() {
+  const cookieStore = cookies();
+  const gaCookie = cookieStore.get("_ga")?.value;
+  if (!gaCookie) {
+    throw new Error("Google Analytics (_ga) cookie is missing.");
+  }
+
+  const match = gaCookie.match(/^GA\d+\.\d+\.(\d+\.\d+)$/);
+
+  if (!match) {
+    throw new Error("Invalid _ga cookie format.");
+  }
+
+  return match[1];
 }

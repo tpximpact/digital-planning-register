@@ -16,10 +16,10 @@
  */
 "use client";
 import {
+  DprApplication,
   DprComment,
   DprCommentTypes,
   DprPagination,
-  DprPlanningApplication,
   SearchParamsComments,
 } from "@/types";
 import { BackButton } from "@/components/BackButton";
@@ -30,6 +30,11 @@ import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
+// import { getPropertyAddress } from "@/lib/planningApplication/application";
+
+import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
+import { ApiV1 } from "@/actions/api";
+import { getAppConfig } from "@/config";
 
 // import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
 import { ApiV1 } from "@/actions/api";
@@ -39,7 +44,7 @@ import { useEffect, useState } from "react";
 
 export interface PageApplicationCommentsProps {
   reference: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
   params: {

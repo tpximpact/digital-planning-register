@@ -20,6 +20,8 @@
 import {
   ApiResponse,
   DprPagination,
+  DprApplication,
+  DprPlanningApplication,
   DprSearchApiResponse,
   SearchParams,
 } from "@/types";
@@ -30,6 +32,10 @@ import {
   convertBopsToDpr,
   convertBopsToDprPagination,
 } from "../converters/planningApplication";
+import {
+  convertToDprApplication,
+  isDprApplication,
+} from "@/lib/planningApplication/converter";
 
 /**
  * Get list of public applications, also used for search
@@ -58,6 +64,7 @@ export async function search(
 
     url = `${url}?${params.toString()}`;
   }
+
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
   >(council, url);
@@ -68,6 +75,33 @@ export async function search(
     convertBopsToDpr(application, council),
   );
 
+  const errors: {
+    app: DprPlanningApplication;
+    reference: string;
+    error: unknown;
+  }[] = [];
+
+  const dprApplications: DprApplication[] = convertedApplications
+    .map((application) => {
+      try {
+        return isDprApplication(application)
+          ? application
+          : convertToDprApplication(application);
+      } catch (error) {
+        console.error("Error converting application:", error);
+        errors.push({
+          app: application,
+          reference: application.application.reference,
+          error,
+        });
+        return null;
+      }
+    })
+    .filter((app): app is DprApplication => app !== null);
+
+  if (errors.length > 0) {
+    console.warn("Some applications failed to convert:", errors);
+  }
   const metadata = request.data?.metadata;
   const pagination: DprPagination =
     metadata && "results" in metadata
@@ -76,7 +110,7 @@ export async function search(
 
   return {
     ...request,
-    data: convertedApplications,
+    data: dprApplications,
     pagination,
   };
 }
