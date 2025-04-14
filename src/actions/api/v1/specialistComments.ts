@@ -32,7 +32,7 @@ export async function specialistComments(
   source: string,
   council: string,
   reference: string,
-  search: SearchParams,
+  search?: SearchParams,
 ): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
