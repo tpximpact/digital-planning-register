@@ -17,7 +17,7 @@
 
 "use client";
 import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { DprComment } from "@/types";
 import "./CommentCard.scss";
 import { splitCommentText } from "./CommentCard.utils";
@@ -38,10 +38,13 @@ export const CommentCard = ({
   commentNumber = 0,
 }: CommentCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  if (comment) {
-    const [summary, continued] = splitCommentText(comment.comment);
-    const commentId = comment?.id || commentNumber;
+  const [summary, continued] = useMemo(
+    () => (comment ? splitCommentText(comment.comment) : ["", ""]),
+    [comment],
+  );
+  const commentId = comment?.id || commentNumber;
 
+  if (comment) {
     return (
       <div className="dpr-comment-card">
         <div className="dpr-comment-card__header">
