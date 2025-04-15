@@ -29,6 +29,7 @@ import {
 import { handleBopsGetRequest, handleBopsPostRequest } from "../requests";
 import { apiReturnError } from "@/handlers/lib";
 import { getAppConfig } from "@/config";
+import { trackServer } from "@/lib/dprAnalytics";
 
 /**
  * POST planning_applications/${id}/neighbour_responses
@@ -75,6 +76,10 @@ export async function postComment(
       postRequest.status.detail || "Failed to post comment",
     );
   }
+
+  await trackServer("commentSuccessfullySubmitted", {
+    message: `Comment for application ${reference} at ${council} successfully submitted`,
+  });
 
   return postRequest;
 }

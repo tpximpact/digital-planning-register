@@ -14,11 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
 import React from "react";
-import { queryAllByTestId, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { CommentsList, CommentsListProps } from "@/components/CommentsList";
+import { CommentsList } from "@/components/CommentsList";
 import { DprComment } from "@/types";
 import { CommentCardProps } from "@/components/CommentCard";
 import {
@@ -38,13 +37,13 @@ jest.mock("@/components/CommentCard", () => ({
 }));
 
 describe("CommentsList", () => {
-  it("shows correct results", () => {
+  it("shows correct public comments results", () => {
     render(
       <CommentsList
         type={"public"}
         councilSlug={"public-council-1"}
         reference={"12345"}
-        comments={generateNResults<DprComment>(20, () => generateComment(true))}
+        comments={generateNResults<DprComment>(20, () => generateComment())}
         pagination={generatePagination(2, 20)}
         showMoreButton={true}
       />,
@@ -64,31 +63,34 @@ describe("CommentsList", () => {
         type={"specialist"}
         councilSlug={"public-council-1"}
         reference={"12345"}
-        comments={generateNResults<DprComment>(8, () => generateComment(true))}
-        pagination={generatePagination(0, 8)}
+        comments={generateNResults<DprComment>(10, () => generateComment(true))}
+        pagination={generatePagination(0, 10)}
         showMoreButton={true}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent(
       "Specialist Comments",
     );
-    expect(screen.getAllByTestId("comment-card")).toHaveLength(8);
+    expect(screen.getAllByTestId("comment-card")).toHaveLength(10);
     expect(screen.getByText("comment number: 1")).toBeInTheDocument();
-    expect(screen.getByText("comment number: 8")).toBeInTheDocument();
-    expect(screen.getByText("Showing 8 of 8 comments")).toBeInTheDocument();
+    expect(screen.getByText("comment number: 10")).toBeInTheDocument();
     expect(
-      screen.getByText("Show all 8 professional consultee comments"),
+      screen.getByText(/Showing\s*10\s*of\s*10\s*comments/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 10 professional consultee comments"),
     ).toBeInTheDocument();
   });
 
   it("shows message when there are no public comments", () => {
+    const pagination = generatePagination(0, 0);
     render(
       <CommentsList
-        type={"public"}
-        councilSlug={"public-council-1"}
-        reference={"12345"}
+        type="public"
+        councilSlug="public-council-1"
+        reference="12345"
         comments={[]}
-        pagination={generatePagination(0, 0)}
+        pagination={pagination}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent("Public Comments");
@@ -100,13 +102,14 @@ describe("CommentsList", () => {
   });
 
   it("shows message when there are no specialist comments", () => {
+    const pagination = generatePagination(0, 0);
     render(
       <CommentsList
-        type={"specialist"}
-        councilSlug={"public-council-1"}
-        reference={"12345"}
+        type="specialist"
+        councilSlug="public-council-1"
+        reference="12345"
         comments={[]}
-        pagination={generatePagination(0, 0)}
+        pagination={pagination}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent(

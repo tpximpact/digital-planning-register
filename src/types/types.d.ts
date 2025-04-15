@@ -16,6 +16,7 @@
  */
 
 import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
+import { DprCommentTypes } from "@/types/definitions";
 
 /**
  * This file contains the definitions for common objects used accross the application
@@ -62,10 +63,12 @@ export interface SearchParams {
   query?: string;
   page: number;
   resultsPerPage: number;
+  sortBy?: string;
+  orderBy?: string;
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {
-  type?: string;
+  type?: DprCommentTypes;
 }
 /**
  *
@@ -78,16 +81,23 @@ export interface SearchParamsComments extends SearchParams {
  *
  *
  */
-export interface DprPaginationBase {
-  results: number;
-  total_results: number;
-}
-
-export interface DprPagination extends DprPaginationBase {
-  page: number;
-  from: number;
-  to: number;
-  total_pages: number;
+export interface DprPagination {
+  /**
+   * Number of results per page (e.g., 10)
+   */
+  resultsPerPage: number;
+  /**
+   * Current page number (e.g., 1)
+   */
+  currentPage: number;
+  /**
+   * Total number of pages (e.g., 10)
+   */
+  totalPages: number;
+  /**
+   * Total number of items (e.g., 100)
+   */
+  totalItems: number;
 }
 
 /**
@@ -139,7 +149,6 @@ export type DprStatusSummary =
   | "Appeal validated"
   | "Appeal in progress"
   | "Appeal decided"
-  | "Appeal withdrawn"
   | "Unknown";
 
 /**

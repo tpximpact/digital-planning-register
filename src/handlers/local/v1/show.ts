@@ -19,7 +19,7 @@
 
 import { ApiResponse, DprShowApiResponse } from "@/types";
 
-import { generateExampleApplications } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const response = (reference: string): ApiResponse<DprShowApiResponse> => {
   let application = null;
@@ -36,7 +36,7 @@ const response = (reference: string): ApiResponse<DprShowApiResponse> => {
     application = exampleApplications[randomKey];
   }
 
-  application.application.reference = reference;
+  application.data.application.reference = reference;
 
   return {
     data: application,

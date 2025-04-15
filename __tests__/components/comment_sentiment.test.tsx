@@ -19,10 +19,10 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentSentiment from "@/components/comment_sentiment";
 import "@testing-library/jest-dom";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { trackClient } from "@/lib/dprAnalytics";
 
-jest.mock("@next/third-parties/google", () => ({
-  sendGTMEvent: jest.fn(),
+jest.mock("@/lib/dprAnalytics", () => ({
+  trackClient: jest.fn(),
 }));
 
 describe("CommentSentiment", () => {
@@ -61,8 +61,7 @@ describe("CommentSentiment", () => {
     expect(screen.getByText("Please select an option")).toBeInTheDocument();
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
     expect(defaultProps.updateProgress).not.toHaveBeenCalled();
-    expect(sendGTMEvent).toHaveBeenCalledWith({
-      event: "comment_validation_error",
+    expect(trackClient).toHaveBeenCalledWith("comment_validation_error", {
       message: "error in sentiment",
     });
   });

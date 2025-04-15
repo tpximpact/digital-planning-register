@@ -19,19 +19,20 @@ import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "@/components/govuk/Pagination";
 import {
+  DprApplication,
   DprDocument,
   DprPagination,
-  DprPlanningApplication,
   SearchParams,
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { DocumentsList } from "@/components/DocumentsList";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationDocumentsProps {
   reference: string;
-  application: DprPlanningApplication;
+  application: DprApplication;
   documents: DprDocument[] | null;
   pagination: DprPagination;
   appConfig: AppConfig;
@@ -55,27 +56,34 @@ export const PageApplicationDocuments = ({
     return null;
   }
   const councilSlug = appConfig.council.slug;
-  const from = (pagination?.from ?? 1) - 1;
-  const displayedDocuments = documents?.slice(
-    from,
-    from + (searchParams?.resultsPerPage ?? 9),
+
+  const documentsPagination = pagination ?? {
+    currentPage: 1,
+    resultsPerPage: searchParams?.resultsPerPage ?? 9,
+    totalPages: 1,
+    totalItems: documents?.length ?? 0,
+  };
+
+  const { currentPage, resultsPerPage } = documentsPagination;
+  const from = (currentPage - 1) * resultsPerPage;
+  const displayedDocuments = documents?.slice(from, from + resultsPerPage);
+
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
   );
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
-        <ApplicationHeader
-          reference={reference}
-          address={application.property.address.singleLine}
-        />
+        <ApplicationHeader reference={reference} address={address} />
         <DocumentsList
-          councilSlug={appConfig.council?.slug}
+          councilSlug={appConfig.council.slug}
           reference={reference}
           documents={displayedDocuments ?? null}
           totalDocuments={documents?.length ?? displayedDocuments?.length ?? 0}
           showMoreButton={false}
         />
-        {pagination && pagination.total_pages > 1 && (
+        {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "documents")}
             searchParams={searchParams}

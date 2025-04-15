@@ -24,11 +24,8 @@ import { PageMain } from "@/components/PageMain";
 import { notFound } from "next/navigation";
 import { PageTemplate } from "@/components/PageTemplate";
 import Link from "next/link";
-import {
-  getApplicationDecisionSummary,
-  getApplicationStatusSummary,
-} from "@/lib/planningApplication";
 import { Pagination } from "@/components/govuk/Pagination";
+import { getCouncilDecision } from "@/lib/planningApplication/application";
 
 interface HomeProps {
   searchParams?: SearchParams & {
@@ -146,56 +143,43 @@ export default async function PlanningApplicationSearch({
               <tbody className="govuk-table__body">
                 {applications.map((application) => (
                   <tr
-                    key={application.application.reference}
+                    key={application.data.application.reference}
                     className="govuk-table__row"
                   >
                     <td className="govuk-table__cell">
                       <Link
                         className="govuk-link"
-                        href={`/${council}/${application.application.reference}`}
+                        href={`/${council}/${application.data.application.reference}`}
                       >
-                        {application.application.reference}
+                        {application.data.application.reference}
                       </Link>
                     </td>
                     <td className="govuk-table__cell">
                       {application.applicationType}
                     </td>
                     <td className="govuk-table__cell">
-                      {application.application.status}
+                      {application.data.application.status}
                     </td>
                     <td className="govuk-table__cell">
-                      {getApplicationStatusSummary(
-                        application.application.status,
-                        application.application.consultation.startDate,
-                        application.application.consultation.endDate,
-                      )}
+                      {application.applicationStatusSummary}
                     </td>
                     <td className="govuk-table__cell">
-                      {application.application?.decision}
+                      {getCouncilDecision(application)}
                     </td>
                     <td className="govuk-table__cell">
-                      {getApplicationDecisionSummary(
-                        application.applicationType,
-                        application.application?.decision ?? undefined,
-                      )}
+                      {application.applicationDecisionSummary}
                     </td>
                     <td className="govuk-table__cell govuk-table__cell--numeric">
-                      {
-                        application.application?.consultation?.publishedComments
-                          ?.length
-                      }
+                      {application.comments?.public?.comments?.length}
                     </td>
                     <td className="govuk-table__cell govuk-table__cell--numeric">
-                      {
-                        application.application?.consultation?.consulteeComments
-                          ?.length
-                      }
+                      {application.comments?.specialist?.comments?.length}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {pagination && pagination.total_pages > 1 && (
+            {pagination && pagination.totalPages > 1 && (
               <Pagination
                 baseUrl={"/docs"}
                 searchParams={searchParams}

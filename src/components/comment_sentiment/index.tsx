@@ -17,8 +17,8 @@
 
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { sendGTMEvent } from "@next/third-parties/google";
 import { sentiment_options } from "@/lib/comments";
+import { trackClient } from "@/lib/dprAnalytics";
 
 const CommentSentiment = ({
   reference,
@@ -77,8 +77,7 @@ const CommentSentiment = ({
         navigateToPage(nextPage);
       } else {
         setValidationError(true);
-        sendGTMEvent({
-          event: "comment_validation_error",
+        trackClient("comment_validation_error", {
           message: "error in sentiment",
         });
         scrollAndFocusError();

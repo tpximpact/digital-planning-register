@@ -16,7 +16,7 @@
  */
 
 import { AppConfig } from "@/config/types";
-import { DprDocument, DprPlanningApplication } from "@/types";
+import { DprApplication, DprDocument } from "@/types";
 import { CommentsList } from "@/components/CommentsList";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
@@ -31,11 +31,12 @@ import { buildApplicationProgress } from "@/lib/planningApplication/progress";
 import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
+import { getDescription } from "@/lib/planningApplication/application";
 
 export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
-  application: DprPlanningApplication;
+  application: DprApplication;
   documents: DprDocument[] | null;
 }
 
@@ -51,8 +52,9 @@ export const ApplicationDetails = ({
 
   const commentsEnabled = checkCommentsEnabled(application);
   const councilSlug = appConfig.council.slug;
-  const description = application.proposal.description;
-  const people = application.officer || application.applicant;
+  const description = getDescription(application.submission.data.proposal);
+  const people =
+    application.data.caseOfficer.name || application.submission.data.applicant;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.data.appeal;
   const { url: decisionNoticeUrl } =
@@ -174,8 +176,8 @@ export const ApplicationDetails = ({
             totalDocuments={documents?.length ?? 0}
           />
           <ApplicationPeople
-            applicant={application.applicant}
-            caseOfficer={application.officer}
+            applicant={application.submission.data.applicant}
+            caseOfficer={application.data.caseOfficer}
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
@@ -184,11 +186,11 @@ export const ApplicationDetails = ({
               reference={reference}
               type="specialist"
               pagination={{
-                page: 1,
-                results: 3,
+                currentPage: 1,
+                resultsPerPage: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.consulteeComments}
+              comments={application.comments?.specialist?.comments}
             />
           )}
           {appConfig.council?.publicComments && (
@@ -197,11 +199,11 @@ export const ApplicationDetails = ({
               reference={reference}
               type="public"
               pagination={{
-                page: 1,
-                results: 3,
+                currentPage: 1,
+                resultsPerPage: 3,
               }}
               showMoreButton={true}
-              comments={application.application.consultation.publishedComments}
+              comments={application?.comments?.public?.comments}
             />
           )}
         </div>

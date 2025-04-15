@@ -20,18 +20,21 @@ import {
   ApiResponse,
   DprShowApiResponse,
   DprDocumentsApiResponse,
+  SearchParams,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageShow } from "@/components/PageShow";
+import { trackServer } from "@/lib/dprAnalytics";
 
 interface PlanningApplicationDetailsProps {
   params: {
     council: string;
     reference: string;
   };
+  searchParams?: SearchParams;
 }
 
 async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
@@ -72,8 +75,9 @@ export async function generateMetadata({
 
 const PlanningApplicationDetails = async ({
   params,
+  searchParams,
 }: PlanningApplicationDetailsProps) => {
-  const { council } = params;
+  const { council, reference } = params;
   const appConfig = getAppConfig(council);
   const { applicationResponse, documentResponse } = await fetchData({ params });
   if (
@@ -89,6 +93,14 @@ const PlanningApplicationDetails = async ({
   }
   const application = applicationResponse.data;
   const documents = documentResponse?.data ?? null;
+
+  if (application) {
+    trackServer(`siteNoticeTracking`, {
+      council,
+      reference: reference,
+      searchParams: JSON.stringify(searchParams),
+    });
+  }
 
   return (
     <PageShow

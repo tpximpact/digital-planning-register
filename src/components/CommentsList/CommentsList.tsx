@@ -23,8 +23,8 @@ import { Button } from "@/components/button";
 export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  comments: DprComment[] | null;
-  pagination: Pick<DprPagination, "results" | "page">;
+  comments: DprComment[] | null | undefined;
+  pagination: Pick<DprPagination, "resultsPerPage" | "currentPage">;
   showMoreButton?: boolean;
   type?: DprCommentTypes;
 }
@@ -46,11 +46,12 @@ export const CommentsList = ({
   if (!pagination) {
     return null;
   }
-  const { results: resultsPerPage, page } = pagination;
-  const startIndex = (page - 1) * resultsPerPage;
+  const { resultsPerPage, currentPage } = pagination;
+  const startIndex = (currentPage - 1) * resultsPerPage;
   const endIndex = startIndex + resultsPerPage;
   const displayedComments = comments?.slice(startIndex, endIndex);
   const totalComments = comments ? comments.length : 0;
+
   return (
     <section
       aria-labelledby={
@@ -92,7 +93,7 @@ export const CommentsList = ({
                   <Button
                     variant="information"
                     element="link"
-                    href={`/${councilSlug}/${reference}/comments`}
+                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
                   >
                     {`Show all ${totalComments} ${
                       type === "specialist"
