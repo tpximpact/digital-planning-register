@@ -12,7 +12,8 @@ const meta = {
     label: { control: "text" },
     id: { control: "text" },
     options: { control: "object" },
-    setSelectedOption: { action: "selectedOption" },
+    onChange: { action: "onChange" },
+    value: { control: "text" },
   },
 } satisfies Meta<typeof Dropdown>;
 
@@ -28,8 +29,9 @@ export const Default: Story = {
       { title: "Most recent to oldest", value: "desc" },
       { title: "Oldest to most recent", value: "asc" },
     ],
-    setSelectedOption: (value) => {
-      console.log("Selected option:", value);
+    onChange: (e) => {
+      console.log("Selected option:", e.target.value);
     },
+    value: "desc",
   },
 };
