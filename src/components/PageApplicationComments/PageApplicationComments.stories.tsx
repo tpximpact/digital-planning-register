@@ -95,3 +95,9 @@ export const ThirdPage: Story = {
     pagination: generatePagination(3),
   },
 };
+export const FourthPage: Story = {
+  args: {
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    pagination: generatePagination(4),
+  },
+};
