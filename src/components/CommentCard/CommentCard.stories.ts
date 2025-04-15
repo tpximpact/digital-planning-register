@@ -20,7 +20,7 @@ import { CommentCard } from "./CommentCard";
 import { generateComment } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
 
-const comment = generateComment(true);
+const comment = generateComment();
 const commentWithoutId = generateComment(false);
 const meta = {
   title: "DPR Components/CommentCard",

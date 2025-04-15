@@ -20,12 +20,12 @@
 .dpr-comment-card {
   > div {
     border-left: 5px solid govuk-colour("mid-grey");
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: govuk-spacing(7);
+    margin-bottom: govuk-spacing(7);
   }
 
   &:after {
-    margin-top: 2rem;
+    margin-top: govuk-spacing(7);
     border-bottom: 1px solid #b1b4b6;
   }
 
@@ -33,18 +33,13 @@
     border-bottom: none;
   }
 
-  .__read-more {
-    margin-top: 8px;
-    font-size: 19px;
-  }
-
   &__header {
-    padding: 0 15px;
+    padding: govuk-spacing(0) govuk-spacing(3);
     box-sizing: border-box;
     width: 100%;
   }
 
-  @media (min-width: 40.0625em) {
+  @include govuk-media-query($from: desktop) {
    &__header {
         width: 100%;
         float: left;
@@ -52,31 +47,34 @@
 }
 
   &--toggle {
-    color: govuk-colour("blue");
-    margin-top: 2em;
+    color: govuk-colour("blue") !important;
+    margin-top: govuk-spacing(7);
     position: relative;
     font-size: 19px;
     cursor: pointer;
     display: block;
-    margin-top: 4px;
+    margin-top: govuk-spacing(1);
     background: none;
     border: 0;
   }
 
-  &__skeleton {
+   &__skeleton--item,
+   &__skeleton--title,
+   &__skeleton--body {
     background: rgba(145, 144, 141, 0.6);
-    margin-bottom: 15px;
+    margin-bottom: govuk-spacing(3);
     animation: pulse 3s infinite;
-    height: 25px;
-
-    &.item {
+   }
+    &__skeleton--item {
+      height: govuk-spacing(5);
       width: 25%;
     }
-    &.title {
+    &__skeleton--title {
+      height: govuk-spacing(5);
       width: 50%;
     }
-    &.body {
-      height: 200px;
+    &__skeleton--body {
+      height: 10* govuk-spacing(4);
       width: 75%;
     }
       @keyframes pulse {
@@ -91,5 +89,3 @@
         }
     }
   }
-
-}

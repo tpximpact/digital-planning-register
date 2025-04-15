@@ -33,7 +33,10 @@ export interface CommentCardProps {
  * @param param0
  * @returns
  */
-export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
+export const CommentCard = ({
+  comment,
+  commentNumber = 0,
+}: CommentCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   if (comment) {
     const [summary, continued] = splitCommentText(comment.comment);
@@ -77,7 +80,7 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
                 {summary}
 
                 {!isExpanded && continued && (
-                  <span className="dpr-comment-card__read-more">...</span>
+                  <span className="dpr-comment-card">...</span>
                 )}
                 {isExpanded && continued && <span>{continued}</span>}
               </div>
@@ -104,9 +107,9 @@ export const CommentCard = ({ comment, commentNumber }: CommentCardProps) => {
       <div className="dpr-comment-card">
         <div className="dpr-comment-card__header">
           <div>
-            <div className="dpr-comment-card__skeleton item "></div>
-            <div className="dpr-comment-card__skeleton title"></div>
-            <div className="dpr-comment-card__skeleton body"></div>
+            <div className="dpr-comment-card__skeleton--item "></div>
+            <div className="dpr-comment-card__skeleton--title"></div>
+            <div className="dpr-comment-card__skeleton--body"></div>
           </div>
         </div>
       </div>

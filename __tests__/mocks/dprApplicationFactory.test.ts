@@ -65,6 +65,16 @@ describe("generateComment", () => {
     expect(comment).toHaveProperty("sentiment");
   });
 
+  it("should generate a comment with id", () => {
+    const comment = generateComment(true);
+    expect(comment).toHaveProperty("id");
+  });
+
+  it("should generate a comment not have id", () => {
+    const comment = generateComment(false);
+    expect(comment).not.toHaveProperty("id");
+  });
+
   it("should generate a comment with a valid sentiment", () => {
     const comment = generateComment(true);
     const validSentiments = ["supportive", "neutral", "objection"];
