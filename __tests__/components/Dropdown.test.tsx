@@ -14,7 +14,7 @@ describe("Dropdown", () => {
         label="Sort by"
         id="sortOrder"
         options={options}
-        setSelectedOption={jest.fn()}
+        onChange={jest.fn()}
       />,
     );
 
@@ -24,20 +24,21 @@ describe("Dropdown", () => {
   });
 
   it("calls setSelectedOption when an option is selected", () => {
-    const mockSetSelectedOption = jest.fn();
+    const mockOnChange = jest.fn();
 
     render(
       <Dropdown
         label="Sort by"
         id="sortOrder"
         options={options}
-        setSelectedOption={mockSetSelectedOption}
+        onChange={mockOnChange}
       />,
     );
 
     const select = screen.getByRole("combobox");
     fireEvent.change(select, { target: { value: "asc" } });
 
-    expect(mockSetSelectedOption).toHaveBeenCalledWith("asc");
+    expect(mockOnChange).toHaveBeenCalled();
+    expect(mockOnChange.mock.calls[0][0].target.value).toBe("asc");
   });
 });

@@ -1,4 +1,3 @@
-// import { useRef, useState } from "react";
 import "./Dropdown.scss";
 
 interface DropdownProps {
@@ -7,14 +6,16 @@ interface DropdownProps {
   id: string;
   className?: string;
   options: { title: string; value: string }[];
-  setSelectedOption: (value: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
 }
 
 export const Dropdown = ({
   label,
   id,
   options,
-  setSelectedOption,
+  value,
+  onChange,
 }: DropdownProps) => {
   return (
     <div className="govuk-grid-column-one-third dpr-dropdown">
@@ -24,8 +25,9 @@ export const Dropdown = ({
         </label>
         <select
           id={id}
-          onChange={(e) => setSelectedOption(e.target.value)}
+          onChange={onChange}
           className="govuk-select"
+          value={value}
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>

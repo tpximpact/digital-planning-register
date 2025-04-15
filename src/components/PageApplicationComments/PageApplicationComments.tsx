@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-"use client";
 import {
   DprApplication,
   DprComment,
@@ -30,14 +29,13 @@ import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-import { ApiV1 } from "@/actions/api";
 import { CommentFilter } from "@/components/CommentFilter";
-import { useEffect, useState } from "react";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
   reference: string;
   application: DprApplication;
+  comments: DprComment[] | null;
   appConfig: AppConfig;
   params?: {
     council: string;
@@ -59,39 +57,8 @@ export const PageApplicationComments = ({
   type,
   pagination,
   searchParams,
+  comments,
 }: PageApplicationCommentsProps) => {
-  const [orderBy, setOrderBy] = useState<string>("desc");
-  const [comments, setComments] = useState<DprComment[]>([]);
-
-  useEffect(() => {
-    const refetch = async () => {
-      if (!params) return;
-      const { council, reference } = params;
-      const apiComments =
-        type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-      const response = await apiComments(
-        appConfig.council?.dataSource ?? "none",
-        council,
-        reference,
-        {
-          ...searchParams,
-          page: searchParams?.page ?? 1,
-          resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-          orderBy,
-        },
-      );
-      setComments(response?.data?.comments ?? []);
-    };
-    refetch();
-  }, [
-    appConfig.council?.dataSource,
-    appConfig.defaults.resultsPerPage,
-    orderBy,
-    params,
-    searchParams,
-    type,
-  ]);
-
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
@@ -109,7 +76,10 @@ export const PageApplicationComments = ({
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
         <ApplicationHeader reference={reference} address={address} />
-        <CommentFilter setOrderBy={setOrderBy} />
+        <h1 className="govuk-heading-l">
+          {type === "public" ? "Public Comments" : "Specialist Comments"}
+        </h1>
+        <CommentFilter />
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment, index) => (
