@@ -21,6 +21,7 @@ import { generateComment } from "@mocks/dprApplicationFactory";
 import { faker } from "@faker-js/faker";
 
 const comment = generateComment();
+const commentWithoutId = generateComment(false);
 const meta = {
   title: "DPR Components/CommentCard",
   component: CommentCard,
@@ -54,5 +55,20 @@ export const ShortComment: Story = {
       ...comment,
       comment: faker.lorem.paragraphs(1),
     },
+  },
+};
+
+export const WithoutId: Story = {
+  args: {
+    comment: {
+      ...commentWithoutId,
+      comment: faker.lorem.paragraphs(1),
+    },
+  },
+};
+
+export const NoComment: Story = {
+  args: {
+    comment: undefined,
   },
 };

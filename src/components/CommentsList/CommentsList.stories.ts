@@ -53,7 +53,7 @@ export const NoComments: Story = {
 
 export const ApplicationCommentCta: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: { resultsPerPage: 3, currentPage: 1 },
     showMoreButton: true,
   },
@@ -61,7 +61,7 @@ export const ApplicationCommentCta: Story = {
 
 export const ApplicationCommentCtaLessThan3Comments: Story = {
   args: {
-    comments: generateNResults<DprComment>(2, generateComment),
+    comments: generateNResults<DprComment>(2, () => generateComment()),
     pagination: { resultsPerPage: 3, currentPage: 1 },
     showMoreButton: true,
   },
@@ -69,7 +69,7 @@ export const ApplicationCommentCtaLessThan3Comments: Story = {
 
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
       resultsPerPage,
       currentPage,
@@ -79,7 +79,7 @@ export const FirstPage: Story = {
 
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
       resultsPerPage,
       currentPage,
@@ -89,7 +89,7 @@ export const SecondPage: Story = {
 
 export const ThirdPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: (({ resultsPerPage, currentPage }: DprPagination) => ({
       resultsPerPage,
       currentPage,

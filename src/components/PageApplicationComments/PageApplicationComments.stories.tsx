@@ -26,7 +26,6 @@ import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
-const comments = generateNResults<DprComment>(50, generateComment);
 const meta = {
   title: "Council pages/Application comments",
   component: PageApplicationComments,
@@ -41,7 +40,6 @@ const meta = {
     },
   ],
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  // tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
@@ -52,13 +50,12 @@ const meta = {
   args: {
     reference: "12345",
     application: generateDprApplication(),
-    comments: comments,
-    pagination: generatePagination(1, comments.length),
+    comments: generateNResults<DprComment>(50, () => generateComment(true)),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
   },
 } satisfies Meta<typeof PageApplicationComments>;
-
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -81,16 +78,19 @@ export const NoComments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    pagination: generatePagination(1, comments.length),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    pagination: generatePagination(1, 30),
   },
 };
 export const SecondPage: Story = {
   args: {
-    pagination: generatePagination(2, comments.length),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    pagination: generatePagination(2, 30),
   },
 };
 export const ThirdPage: Story = {
   args: {
-    pagination: generatePagination(3, comments.length),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    pagination: generatePagination(3, 30),
   },
 };
