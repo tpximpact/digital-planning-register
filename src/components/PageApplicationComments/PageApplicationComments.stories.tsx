@@ -26,7 +26,6 @@ import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
-const comments = generateNResults<DprComment>(50, generateComment);
 const meta = {
   title: "Council pages/Application comments",
   component: PageApplicationComments,
@@ -52,12 +51,11 @@ const meta = {
     reference: "12345",
     application: generateDprApplication(),
     comments: generateNResults<DprComment>(50, () => generateComment(true)),
-    pagination: generatePagination(1),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
   },
 } satisfies Meta<typeof PageApplicationComments>;
-
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -81,24 +79,18 @@ export const NoComments: Story = {
 export const FirstPage: Story = {
   args: {
     comments: generateNResults<DprComment>(30, () => generateComment(true)),
-    pagination: generatePagination(1),
+    pagination: generatePagination(1, 30),
   },
 };
 export const SecondPage: Story = {
   args: {
     comments: generateNResults<DprComment>(30, () => generateComment(true)),
-    pagination: generatePagination(2),
+    pagination: generatePagination(2, 30),
   },
 };
 export const ThirdPage: Story = {
   args: {
     comments: generateNResults<DprComment>(30, () => generateComment(true)),
-    pagination: generatePagination(3),
-  },
-};
-export const FourthPage: Story = {
-  args: {
-    comments: generateNResults<DprComment>(30, () => generateComment(true)),
-    pagination: generatePagination(4),
+    pagination: generatePagination(3, 30),
   },
 };

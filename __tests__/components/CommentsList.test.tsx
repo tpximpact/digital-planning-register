@@ -63,8 +63,8 @@ describe("CommentsList", () => {
         type={"specialist"}
         councilSlug={"public-council-1"}
         reference={"12345"}
-        comments={generateNResults<DprComment>(10, () => generateComment(true))}
-        pagination={generatePagination(0, 10)}
+        comments={generateNResults<DprComment>(10, () => generateComment())}
+        pagination={generatePagination(1, 10)}
         showMoreButton={true}
       />,
     );
