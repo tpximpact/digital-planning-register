@@ -26,6 +26,7 @@ import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
+const comments = generateNResults<DprComment>(50, generateComment);
 const meta = {
   title: "Council pages/Application comments",
   component: PageApplicationComments,
