@@ -97,7 +97,10 @@ type PossibleDates = {
 export const generateAllPossibleDates = (
   consultationInProgress: boolean = false,
 ): PossibleDates => {
-  let startDate = faker.date.past({ years: 10 });
+  let startDate = faker.date.past({
+    years: 10,
+    refDate: dayjs().subtract(2, "year").toDate(),
+  });
   if (consultationInProgress) {
     startDate = dayjs()
       .subtract(1, "day")

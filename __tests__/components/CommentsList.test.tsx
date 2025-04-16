@@ -38,15 +38,13 @@ jest.mock("@/components/CommentCard", () => ({
 
 describe("CommentsList", () => {
   it("shows correct public comments results", () => {
-    const comments = generateNResults<DprComment>(20, generateComment);
-    const pagination = generatePagination(2, 20);
     render(
       <CommentsList
-        type="public"
-        councilSlug="public-council-1"
-        reference="12345"
-        comments={comments}
-        pagination={pagination}
+        type={"public"}
+        councilSlug={"public-council-1"}
+        reference={"12345"}
+        comments={generateNResults<DprComment>(20, () => generateComment())}
+        pagination={generatePagination(2, 20)}
         showMoreButton={true}
       />,
     );
@@ -59,17 +57,14 @@ describe("CommentsList", () => {
       screen.getByText("Show all 20 neighbour comments"),
     ).toBeInTheDocument();
   });
-
-  it("shows correct specialist comments results", () => {
-    const comments = generateNResults<DprComment>(10, generateComment);
-    const pagination = generatePagination(1, 10);
+  it("shows correct results", () => {
     render(
       <CommentsList
-        type="specialist"
-        councilSlug="public-council-1"
-        reference="12345"
-        comments={comments}
-        pagination={pagination}
+        type={"specialist"}
+        councilSlug={"public-council-1"}
+        reference={"12345"}
+        comments={generateNResults<DprComment>(10, () => generateComment())}
+        pagination={generatePagination(1, 10)}
         showMoreButton={true}
       />,
     );

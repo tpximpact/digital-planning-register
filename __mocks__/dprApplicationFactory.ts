@@ -30,7 +30,7 @@ import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplicat
 import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
 import { formatDateToYmd } from "@/util";
 
-import { faker, fakerEN_GB } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import {
   generateAgent,
   generateBaseApplicant,
@@ -59,9 +59,8 @@ export const generateReference = (): string => {
  *
  * @returns {object} A random comment object.
  */
-export const generateComment = (): DprComment => {
-  return {
-    id: faker.number.int({ min: 1000000000, max: 9999999999 }),
+export const generateComment = (includeId: boolean = true): DprComment => {
+  const baseComment = {
     comment: faker.lorem.paragraphs(),
     receivedDate: faker.date.anytime().toISOString(),
     sentiment: faker.helpers.arrayElement([
@@ -70,6 +69,15 @@ export const generateComment = (): DprComment => {
       "supportive",
     ]),
   };
+
+  if (includeId) {
+    return {
+      ...baseComment,
+      id: faker.number.int({ min: 1, max: 1000 }),
+    };
+  }
+
+  return baseComment;
 };
 
 /**
@@ -98,20 +106,11 @@ export const generateDocument = (): DprDocument => {
  * @returns {object} A random pagination object.
  */
 export const generatePagination = (
-  currentPage?: number,
-  totalResults?: number,
+  currentPage: number,
+  totalResults: number,
+  resultsPerPage: number = 10,
 ): DprPagination => {
-  totalResults = totalResults ?? faker.number.int({ min: 10, max: 500 });
-  const resultsPerPage = 10;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
-
-  if (
-    currentPage === undefined ||
-    currentPage < 1 ||
-    currentPage > totalPages
-  ) {
-    currentPage = faker.number.int({ min: 1, max: totalPages || 1 });
-  }
 
   return {
     resultsPerPage,

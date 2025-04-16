@@ -37,7 +37,7 @@ export interface PageApplicationCommentsProps {
   application: DprApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
-  params?: {
+  params: {
     council: string;
     reference: string;
   };

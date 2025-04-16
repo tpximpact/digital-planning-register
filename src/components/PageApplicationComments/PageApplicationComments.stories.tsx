@@ -40,7 +40,6 @@ const meta = {
     },
   ],
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  // tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
@@ -51,13 +50,13 @@ const meta = {
   args: {
     reference: "12345",
     application: generateApplicationSubmission,
-    pagination: generatePagination(1),
+    comments: generateNResults<DprComment>(50, () => generateComment(true)),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
     comments: generateNResults<DprComment>(50, generateComment),
   },
 } satisfies Meta<typeof PageApplicationComments>;
-
 export default meta;
 type Story = StoryObj<typeof meta>;
 
@@ -66,13 +65,13 @@ export const Default: Story = {
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,
-    pagination: generatePagination(1),
+    comments: generateNResults<DprComment>(50, generateComment),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
       council: "public-council-1",
       reference: "12345",
     },
-    comments: generateNResults<DprComment>(50, generateComment),
   },
 };
 export const Public: Story = {
@@ -80,7 +79,8 @@ export const Public: Story = {
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,
-    pagination: generatePagination(1),
+    comments: generateNResults<DprComment>(50, generateComment),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
       council: "public-council-1",
@@ -94,7 +94,8 @@ export const Specialist: Story = {
     type: "specialist",
     reference: "12345",
     application: generateApplicationSubmission,
-    pagination: generatePagination(1),
+    comments: generateNResults<DprComment>(50, generateComment),
+    pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
       council: "public-council-1",
@@ -118,8 +119,8 @@ export const NoComments: Story = {
 };
 export const FirstPage: Story = {
   args: {
-    pagination: generatePagination(1),
-    comments: generateNResults<DprComment>(1, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
+    pagination: generatePagination(1, 30),
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,
@@ -132,8 +133,8 @@ export const FirstPage: Story = {
 };
 export const SecondPage: Story = {
   args: {
-    pagination: generatePagination(2),
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
+    pagination: generatePagination(2, 30),
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,
@@ -146,8 +147,8 @@ export const SecondPage: Story = {
 };
 export const ThirdPage: Story = {
   args: {
-    pagination: generatePagination(3),
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    pagination: generatePagination(3, 30),
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,

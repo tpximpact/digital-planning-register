@@ -58,22 +58,32 @@ describe("generateReference", () => {
 
 describe("generateComment", () => {
   it("should generate a comment object with the correct structure", () => {
-    const comment = generateComment();
+    const comment = generateComment(true);
     expect(comment).toHaveProperty("comment");
     expect(comment).toHaveProperty("receivedDate");
     expect(comment.receivedDate).toMatch(utcDateRegex);
     expect(comment).toHaveProperty("sentiment");
   });
 
+  it("should generate a comment with id", () => {
+    const comment = generateComment(true);
+    expect(comment).toHaveProperty("id");
+  });
+
+  it("should generate a comment not have id", () => {
+    const comment = generateComment(false);
+    expect(comment).not.toHaveProperty("id");
+  });
+
   it("should generate a comment with a valid sentiment", () => {
-    const comment = generateComment();
+    const comment = generateComment(true);
     const validSentiments = ["supportive", "neutral", "objection"];
     expect(validSentiments).toContain(comment.sentiment);
   });
 
   it("should generate different comments on subsequent calls", () => {
-    const comment1 = generateComment();
-    const comment2 = generateComment();
+    const comment1 = generateComment(true);
+    const comment2 = generateComment(true);
     expect(comment1).not.toEqual(comment2);
   });
 });
@@ -96,7 +106,7 @@ describe("generateDocument", () => {
 
 describe("generatePagination", () => {
   it("should generate pagination data with the correct structure", () => {
-    const pagination = generatePagination();
+    const pagination = generatePagination(1, 100);
     expect(pagination).toHaveProperty("resultsPerPage");
     expect(pagination).toHaveProperty("currentPage");
     expect(pagination).toHaveProperty("totalPages");
@@ -104,13 +114,13 @@ describe("generatePagination", () => {
   });
 
   it("should generate pagination data with the correct values when current page provided", () => {
-    const pagination = generatePagination(5);
+    const pagination = generatePagination(5, 100);
     expect(pagination.currentPage).toBe(5);
   });
 
   it("should generate different pagination data on subsequent calls", () => {
-    const pagination1 = generatePagination();
-    const pagination2 = generatePagination();
+    const pagination1 = generatePagination(1, 100);
+    const pagination2 = generatePagination(2, 100);
     expect(pagination1).not.toEqual(pagination2);
   });
 });
