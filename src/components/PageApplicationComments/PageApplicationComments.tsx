@@ -35,6 +35,7 @@ import { createPathFromParams } from "@/lib/navigation";
 import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
+import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -128,14 +129,14 @@ export const PageApplicationComments = async ({
     );
   }
   const councilSlug = appConfig.council.slug;
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
-        <ApplicationHeader
-          reference={reference}
-          address={application?.property.address.singleLine}
-        />
+        <ApplicationHeader reference={reference} address={address} />
         {response.data?.comments && response.data.comments.length > 0 ? (
           <>
             {response.data.comments.map((comment, index) => (
