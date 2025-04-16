@@ -93,7 +93,7 @@ export const CommentCard = ({
                   aria-expanded={isExpanded}
                   aria-controls={`comment-${commentId}`}
                   onClick={() => setIsExpanded(!isExpanded)}
-                  className="govuk-body govuk-link govuk-link--no-visited-state dpr-comment-card--toggle"
+                  className="govuk-link govuk-link--no-visited-state dpr-comment-card--toggle"
                 >
                   {isExpanded
                     ? "Minimise this comment"
