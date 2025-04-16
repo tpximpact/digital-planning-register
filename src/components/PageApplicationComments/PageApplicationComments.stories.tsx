@@ -54,7 +54,6 @@ const meta = {
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     type: "public",
-    comments: generateNResults<DprComment>(50, generateComment),
   },
 } satisfies Meta<typeof PageApplicationComments>;
 export default meta;
@@ -94,7 +93,6 @@ export const Specialist: Story = {
     type: "specialist",
     reference: "12345",
     application: generateApplicationSubmission,
-    comments: generateNResults<DprComment>(50, generateComment),
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
