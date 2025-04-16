@@ -15,54 +15,59 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use client";
-import { useState } from "react";
-import { Button } from "../button";
 import "./CommentFilter.scss";
-import { Dropdown } from "../Dropdown";
-import { useRouter, useSearchParams } from "next/navigation";
+
+export interface CommentFilterProps {
+  defaultOrderBy?: string;
+  council: string;
+  reference: string;
+  type?: string;
+}
 
 export const CommentFilter = ({
   defaultOrderBy = "desc",
-}: {
-  defaultOrderBy?: string;
-}) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [orderBy, setOrderBy] = useState(
-    searchParams.get("orderBy") ?? defaultOrderBy,
-  );
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setOrderBy(e.target.value);
-  };
-
+  council,
+  reference,
+  type = "public",
+}: CommentFilterProps) => {
   return (
-    <div className="govuk-grid-row comment-filter">
-      <h2 className="govuk-heading-m govuk-!-margin-left-3">Search comments</h2>
-      <Dropdown
-        label="Sort by"
-        id="sortOrder"
-        options={[
-          { title: "Most recent to oldest", value: "desc" },
-          { title: "Oldest to most recent", value: "asc" },
-        ]}
-        onChange={handleChange}
-        value={searchParams.get("orderBy") ?? defaultOrderBy}
-      />
-      <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
-        <Button
-          className="comment-filter__button"
-          variant="secondary"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams.toString());
-            params.set("orderBy", orderBy);
-            router.push(`?${params.toString()}`);
-          }}
-        >
-          Apply sorting
-        </Button>
+    <form
+      className="govuk-form comment-filter"
+      method="get"
+      action={`/${council}/${reference}/comments`}
+    >
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-full">
+          <h2 className="govuk-heading-m">Search comments</h2>
+        </div>
+        <div className="govuk-grid-row govuk-!-margin-left-0">
+          <div className="govuk-grid-column-one-third dpr-dropdown">
+            <div className="govuk-form-group drp-dropdown__group">
+              <label htmlFor="sortOrder" className="govuk-label">
+                Sort by
+              </label>
+              <select
+                id="sortOrder"
+                name="orderBy"
+                defaultValue={defaultOrderBy}
+                className="govuk-select drp-dropdown__select"
+              >
+                <option value="desc">Most recent to oldest</option>
+                <option value="asc">Oldest to most recent</option>
+              </select>
+            </div>
+          </div>
+          <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
+            <input type="hidden" name="type" value={type} />
+            <button
+              type="submit"
+              className="govuk-button govuk-button--secondary comment-filter__button"
+            >
+              Apply sorting
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };

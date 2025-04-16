@@ -79,7 +79,7 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <CommentFilter />
+        <CommentFilter council={councilSlug} reference={reference} />
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment, index) => (
