@@ -93,3 +93,21 @@ export interface BopsV1PlanningApplicationsNeighbourResponse {
   id: string;
   message: string;
 }
+
+/**
+ * GET /api/v2/public/planning_applications/{reference}/comments/public
+ */
+export type BopsV2PublicPlanningApplicationPublicComments = {
+  pagination: DprPagination;
+  comments: BopsComment[];
+  summary: PublicCommentSummary;
+};
+
+/**
+ * GET /api/v2/public/planning_applications/{reference}/comments/specialist
+ */
+export type BopsV2PublicPlanningApplicationSpecialistComments = {
+  pagination: DprPagination;
+  comments: BopsComment[];
+  summary: SpecialistCommentSummary;
+};
