@@ -90,7 +90,6 @@ export const Public: Story = {
 };
 export const Specialist: Story = {
   args: {
-    comments: generateNResults<DprComment>(50, generateComment),
     type: "specialist",
     reference: "12345",
     application: generateApplicationSubmission,
