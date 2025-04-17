@@ -18,7 +18,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CommentsList } from "@/components/CommentsList";
-import { DprComment } from "@/types";
 import { CommentCardProps } from "@/components/CommentCard";
 import {
   generateComment,
@@ -37,7 +36,7 @@ jest.mock("@/components/CommentCard", () => ({
 
 describe("CommentsList", () => {
   it("shows correct public comments results", () => {
-    const comments = generateNResults<DprComment>(10, generateComment);
+    const comments = generateNResults(10, () => generateComment());
     const firstCommentId = comments[0].id;
     const secondCommentId = comments[1].id;
     const summary = {
@@ -75,7 +74,7 @@ describe("CommentsList", () => {
   });
 
   it("shows correct specialist comments results", () => {
-    const comments = generateNResults<DprComment>(10, generateComment);
+    const comments = generateNResults(10, () => generateComment());
     const firstCommentId = comments[0].id;
     const secondCommentId = comments[1].id;
     const summary = {
