@@ -19,7 +19,6 @@ import {
   generateComment,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
-import { DprComment } from "@/types";
 
 const meta = {
   title: "DPR Components/CommentsList",
@@ -31,7 +30,17 @@ const meta = {
   args: {
     councilSlug: "public-council-1",
     reference: "12345",
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults(30, () => generateComment()),
+    resultsPerPage: 10,
+    summary: {
+      totalComments: 30,
+      totalConsulted: 10,
+      sentiment: {
+        supportive: 10,
+        objection: 10,
+        neutral: 10,
+      },
+    },
   },
 } satisfies Meta<typeof CommentsList>;
 
@@ -48,18 +57,19 @@ export const NoComments: Story = {
 
 export const ApplicationCommentCta: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults(30, () => generateComment()),
+    resultsPerPage: 3,
   },
 };
 
 export const ApplicationCommentCtaLessThan3Comments: Story = {
   args: {
-    comments: generateNResults<DprComment>(2, generateComment),
+    comments: generateNResults(2, () => generateComment()),
   },
 };
 
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, generateComment),
+    comments: generateNResults(30, () => generateComment()),
   },
 };
