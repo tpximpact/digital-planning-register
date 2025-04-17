@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, SearchParamsComments } from "@/types";
 import { publicComments } from "./publicComments";
 
 export const documentation: Documentation = {
@@ -30,7 +30,7 @@ export const documentation: Documentation = {
     "resultsPerPage",
     "searchQuery",
   ],
-  run: async (args: [string, string, string]) => {
+  run: async (args: [string, string, string, SearchParamsComments]) => {
     return await publicComments(...args);
   },
   examples: [

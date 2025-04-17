@@ -25,7 +25,12 @@
  * publicComments
  * specialistComments
  */
-import { DprPlanningApplication, DprDocument, DprComment } from "./definitions";
+import {
+  DprPlanningApplication,
+  DprDocument,
+  DprComment,
+  DprApplication,
+} from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
 import {
   PublicCommentSummary,

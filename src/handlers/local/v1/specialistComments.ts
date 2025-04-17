@@ -16,35 +16,54 @@
  */
 "use server";
 
-import { ApiResponse, DprSpecialistCommentsApiResponse } from "@/types";
+import { getAppConfig } from "@/config";
+import {
+  ApiResponse,
+  DprSpecialistCommentsApiResponse,
+  SearchParamsComments,
+} from "@/types";
 import {
   generateNResults,
   generateComment,
 } from "@mocks/dprApplicationFactory";
 
-const response = (): ApiResponse<DprSpecialistCommentsApiResponse> => {
-  const exampleComments = generateNResults(20, generateComment);
-  const supportiveComments = exampleComments.filter(
-    (comment) => comment.sentiment === "supportive",
+const response = (
+  council: string,
+  reference: string,
+  searchParams: SearchParamsComments,
+): ApiResponse<DprSpecialistCommentsApiResponse> => {
+  const exampleComments = generateNResults(20, () => generateComment());
+  const sentimentSummary = exampleComments.reduce(
+    (acc, comment) => {
+      if (comment.sentiment === "supportive") {
+        acc.supportive++;
+      } else if (comment.sentiment === "objection") {
+        acc.objection++;
+      } else if (comment.sentiment === "neutral") {
+        acc.neutral++;
+      }
+      return acc;
+    },
+    { supportive: 0, objection: 0, neutral: 0 },
   );
-  const objectionComments = exampleComments.filter(
-    (comment) => comment.sentiment === "objection",
+
+  const appConfig = getAppConfig(council);
+  const resultsPerPage = appConfig?.defaults?.resultsPerPage || 10;
+  const currentPage = searchParams?.page || 1;
+  const startIndex = (currentPage - 1) * resultsPerPage;
+  const paginatedComments = exampleComments.slice(
+    startIndex,
+    startIndex + resultsPerPage,
   );
-  const neutralComments = exampleComments.filter(
-    (comment) => comment.sentiment === "neutral",
-  );
+  const totalPages = Math.ceil(exampleComments.length / resultsPerPage);
 
   return {
     data: {
-      comments: exampleComments,
+      comments: paginatedComments,
       summary: {
-        totalConsulted: exampleComments.length,
+        totalConsulted: exampleComments.length + 5,
         totalComments: exampleComments.length,
-        sentiment: {
-          supportive: supportiveComments.length,
-          objection: objectionComments.length,
-          neutral: neutralComments.length,
-        },
+        sentiment: sentimentSummary,
       },
     },
     status: {
@@ -52,16 +71,18 @@ const response = (): ApiResponse<DprSpecialistCommentsApiResponse> => {
       message: "Success",
     },
     pagination: {
-      resultsPerPage: 10,
-      currentPage: 1,
-      totalPages: Math.ceil(exampleComments.length / 10),
+      resultsPerPage: resultsPerPage,
+      currentPage: currentPage,
+      totalPages: totalPages,
       totalItems: exampleComments.length,
     },
   };
 };
 
-export const specialistComments = (): Promise<
-  ApiResponse<DprSpecialistCommentsApiResponse | null>
-> => {
-  return Promise.resolve(response());
+export const specialistComments = (
+  council: string,
+  reference: string,
+  searchParams: SearchParamsComments,
+): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> => {
+  return Promise.resolve(response(council, reference, searchParams));
 };

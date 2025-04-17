@@ -16,9 +16,9 @@
  */
 
 import {
-  SearchParams,
   ApiResponse,
   DprSpecialistCommentsApiResponse,
+  SearchParamsComments,
 } from "@/types";
 import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
@@ -40,24 +40,24 @@ import { defaultPagination } from "@/handlers/lib";
 export async function specialistComments(
   council: string,
   reference: string,
-  search?: SearchParams,
+  searchParams?: SearchParamsComments,
 ): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/specialist`;
 
-  if (search) {
+  if (searchParams) {
     const params = new URLSearchParams({
-      page: search?.page?.toString(),
-      maxresults: search?.resultsPerPage?.toString() ?? "10",
+      page: searchParams?.page?.toString(),
+      maxresults: searchParams?.resultsPerPage?.toString() ?? "10",
     });
 
-    if (search.query) {
-      params.append("q", search.query);
+    if (searchParams.query) {
+      params.append("q", searchParams.query);
     }
-    if (search.sortBy) {
-      params.append("sortBy", search.sortBy);
+    if (searchParams.sortBy) {
+      params.append("sortBy", searchParams.sortBy);
     }
-    if (search.orderBy) {
-      params.append("orderBy", search.orderBy);
+    if (searchParams.orderBy) {
+      params.append("orderBy", searchParams.orderBy);
     }
     url = `${url}?${params.toString()}`;
   }

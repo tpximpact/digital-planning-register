@@ -22,7 +22,7 @@ import { apiReturnError } from "@/handlers/lib";
 import {
   ApiResponse,
   DprPublicCommentsApiResponse,
-  SearchParams,
+  SearchParamsComments,
 } from "@/types";
 
 /**
@@ -32,7 +32,7 @@ export async function publicComments(
   source: string,
   council: string,
   reference: string,
-  search?: SearchParams,
+  searchParams: SearchParamsComments,
 ): Promise<ApiResponse<DprPublicCommentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
@@ -40,9 +40,9 @@ export async function publicComments(
 
   switch (source) {
     case "bops":
-      return await BopsV2.publicComments(council, reference, search);
+      return await BopsV2.publicComments(council, reference, searchParams);
     case "local":
-      return await LocalV1.publicComments(council, reference, search);
+      return await LocalV1.publicComments(council, reference, searchParams);
     default:
       return apiReturnError("Invalid source");
   }

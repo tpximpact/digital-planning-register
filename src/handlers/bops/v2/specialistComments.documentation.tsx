@@ -15,22 +15,15 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, SearchParamsComments } from "@/types";
 import { specialistComments } from "./specialistComments";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=BopsV2&method=specialistComments`,
   file: `src/handlers/bops/v2/specialistComments.ts`,
   description: "specialistComments",
-  arguments: [
-    "source",
-    "council",
-    "reference",
-    "page",
-    "resultsPerPage",
-    "searchQuery",
-  ],
-  run: async (args: [string, string]) => {
+  arguments: ["council", "reference", "searchParams"],
+  run: async (args: [string, string, SearchParamsComments]) => {
     return await specialistComments(...args);
   },
   examples: [
