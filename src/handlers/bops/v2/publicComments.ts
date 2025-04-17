@@ -17,6 +17,7 @@
 
 import {
   ApiResponse,
+  DprComment,
   DprPublicCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
