@@ -15,18 +15,22 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprComment, DprCommentTypes, DprPagination } from "@/types";
+import { DprComment, DprCommentTypes } from "@/types";
 import { CommentCard } from "@/components/CommentCard";
 import "./CommentsList.scss";
 import { Button } from "@/components/button";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  comments: DprComment[] | null | undefined;
-  pagination: Pick<DprPagination, "resultsPerPage" | "currentPage">;
-  showMoreButton?: boolean;
+  comments: DprComment[] | null;
   type?: DprCommentTypes;
+  resultsPerPage?: number;
+  summary?: PublicCommentSummary | SpecialistCommentSummary;
 }
 
 /**
@@ -39,19 +43,12 @@ export const CommentsList = ({
   councilSlug,
   reference,
   comments,
-  pagination,
-  showMoreButton = false,
   type,
+  resultsPerPage,
+  summary,
 }: CommentsListProps) => {
-  if (!pagination) {
-    return null;
-  }
-  const { resultsPerPage, currentPage } = pagination;
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const endIndex = startIndex + resultsPerPage;
-  const displayedComments = comments?.slice(startIndex, endIndex);
-  const totalComments = comments ? comments.length : 0;
-
+  const displayedComments = comments?.slice(0, resultsPerPage);
+  const totalComments = summary?.totalComments;
   return (
     <section
       aria-labelledby={
@@ -72,18 +69,18 @@ export const CommentsList = ({
         {type === "specialist" ? "Specialist Comments" : "Public Comments"}
       </h2>
 
-      {displayedComments && displayedComments.length > 0 ? (
+      {comments && displayedComments && displayedComments.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
             {displayedComments.map((comment, i) => (
               <CommentCard
                 key={i}
                 comment={comment}
-                commentNumber={startIndex + i + 1}
+                commentNumber={comment?.id}
               />
             ))}
           </div>
-          {showMoreButton && displayedComments.length >= resultsPerPage && (
+          {comments.length >= 3 && (
             <div className="govuk-grid-row grid-row-extra-bottom-margin">
               <div className="govuk-grid-column-full">
                 <p className="govuk-hint">
@@ -122,3 +119,25 @@ export const CommentsList = ({
     </section>
   );
 };
+
+export function CommentsListSkeleton({ type }: { type?: DprCommentTypes }) {
+  const sectionId =
+    type === "specialist" ? "specialist-comments" : "public-comments";
+  const headingId =
+    type === "specialist"
+      ? "specialist-comments-section"
+      : "public-comments-section";
+
+  return (
+    <section id={sectionId} aria-labelledby={headingId}>
+      <h2 id={headingId} className="govuk-heading-l">
+        {type === "specialist" ? "Specialist Comments" : "Public Comments"}
+      </h2>
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <CommentCard key={index} />
+        ))}
+      </div>
+    </section>
+  );
+}

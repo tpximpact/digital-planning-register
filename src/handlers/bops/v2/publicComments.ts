@@ -17,12 +17,14 @@
 
 import {
   ApiResponse,
+  DprComment,
   DprPublicCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
 import { defaultPagination } from "@/handlers/lib";
 import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
+import { convertCommentBops } from "../converters/comments";
 
 /**
  * Get the public comments for an application
@@ -73,10 +75,12 @@ export async function publicComments(
   }
 
   const { comments, summary, pagination } = request.data;
+  const convertedComments: DprComment[] = comments.map(convertCommentBops);
+
   return {
     ...request,
     data: {
-      comments,
+      comments: convertedComments,
       summary,
     },
     pagination: pagination,

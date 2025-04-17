@@ -77,12 +77,6 @@ export const PageApplicationComments = ({
           reference={reference}
           type={type}
           comments={comments}
-          pagination={
-            pagination ?? {
-              resultsPerPage: appConfig.defaults.resultsPerPage,
-              currentPage: 1,
-            }
-          }
         />
 
         {pagination && pagination.totalPages > 1 && (

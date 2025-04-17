@@ -17,12 +17,14 @@
 
 import {
   ApiResponse,
+  DprComment,
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
 import { defaultPagination } from "@/handlers/lib";
 import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
+import { convertCommentBops } from "../converters/comments";
 
 /**
  * Get the specialist comments for an application
@@ -72,13 +74,13 @@ export async function specialistComments(
       pagination: defaultPagination,
     };
   }
-
   const { comments, summary, pagination } = request.data;
+  const convertedComments: DprComment[] = comments.map(convertCommentBops);
 
   return {
     ...request,
     data: {
-      comments,
+      comments: convertedComments,
       summary,
     },
     pagination: pagination,
