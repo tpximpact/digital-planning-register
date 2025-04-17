@@ -21,12 +21,14 @@ export interface FormCommentsSortProps {
   defaultOrderBy?: string;
   council: string;
   reference: string;
+  type: "public" | "specialist";
 }
 
 export const FormCommentsSort = ({
   defaultOrderBy = "desc",
   council,
   reference,
+  type = "public",
 }: FormCommentsSortProps) => {
   return (
     <form
@@ -56,6 +58,7 @@ export const FormCommentsSort = ({
             </div>
           </div>
           <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
+            <input type="hidden" name="type" value={type} />
             <button
               type="submit"
               className="govuk-button govuk-button--secondary dpr-comment-filter__button"
