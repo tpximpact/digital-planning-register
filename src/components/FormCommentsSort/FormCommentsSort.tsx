@@ -15,19 +15,19 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import "./CommentFilter.scss";
+import "./FormCommentsSort.scss";
 
-export interface CommentFilterProps {
+export interface FormCommentsSortProps {
   defaultOrderBy?: string;
   council: string;
   reference: string;
 }
 
-export const CommentFilter = ({
+export const FormCommentsSort = ({
   defaultOrderBy = "desc",
   council,
   reference,
-}: CommentFilterProps) => {
+}: FormCommentsSortProps) => {
   return (
     <form
       className="govuk-form dpr-comment-filter"

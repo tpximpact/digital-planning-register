@@ -29,7 +29,7 @@ import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-import { CommentFilter } from "@/components/CommentFilter";
+import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
@@ -79,7 +79,7 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <CommentFilter
+        <FormCommentsSort
           council={councilSlug}
           reference={reference}
           defaultOrderBy={searchParams?.orderBy}

@@ -27,22 +27,6 @@ import {
 import { generateApplicationSubmission } from "@mocks/odpApplicationSubmission";
 import { DprComment } from "@/types";
 
-// jest.mock("next/navigation", () => ({
-//   useRouter: () => ({
-//     push: jest.fn(),
-//     replace: jest.fn(),
-//     refresh: jest.fn(),
-//   }),
-//   useSearchParams: () => {
-//     const params = new URLSearchParams();
-//     return {
-//       get: (key: string) => params.get(key),
-//       set: (key: string, value: string) => params.set(key, value),
-//       toString: () => params.toString(),
-//     };
-//   },
-// }));
-
 describe("PageApplicationComments", () => {
   it("renders comments when API returns data", async () => {
     const appConfig = createAppConfig("public-council-1");
