@@ -21,18 +21,16 @@ export interface CommentFilterProps {
   defaultOrderBy?: string;
   council: string;
   reference: string;
-  type?: string;
 }
 
 export const CommentFilter = ({
   defaultOrderBy = "desc",
   council,
   reference,
-  type = "public",
 }: CommentFilterProps) => {
   return (
     <form
-      className="govuk-form comment-filter"
+      className="govuk-form dpr-comment-filter"
       method="get"
       action={`/${council}/${reference}/comments`}
     >
@@ -58,10 +56,9 @@ export const CommentFilter = ({
             </div>
           </div>
           <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
-            <input type="hidden" name="type" value={type} />
             <button
               type="submit"
-              className="govuk-button govuk-button--secondary comment-filter__button"
+              className="govuk-button govuk-button--secondary dpr-comment-filter__button"
             >
               Apply sorting
             </button>

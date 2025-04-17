@@ -15,15 +15,15 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
  
-.comment-filter {
+.dpr-comment-filter {
     &__button {
-         width: max-content
+         width: auto
   }
 }
 
 .drp-dropdown {
     &__group {
-        width: 15rem;
+        width: 100%;
         margin-bottom: 0;
     }
     &__select {
