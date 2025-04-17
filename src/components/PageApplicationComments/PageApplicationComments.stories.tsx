@@ -64,7 +64,7 @@ export const Default: Story = {
     type: "public",
     reference: "12345",
     application: generateApplicationSubmission,
-    comments: generateNResults<DprComment>(50, generateComment),
+    comments: generateNResults<DprComment>(50, () => generateComment()),
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
@@ -77,8 +77,9 @@ export const Public: Story = {
   args: {
     type: "public",
     reference: "12345",
+
     application: generateApplicationSubmission,
-    comments: generateNResults<DprComment>(50, generateComment),
+    comments: generateNResults<DprComment>(50, () => generateComment()),
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
@@ -93,6 +94,7 @@ export const Specialist: Story = {
     type: "specialist",
     reference: "12345",
     application: generateApplicationSubmission,
+    comments: generateNResults<DprComment>(50, () => generateComment()),
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
     params: {
