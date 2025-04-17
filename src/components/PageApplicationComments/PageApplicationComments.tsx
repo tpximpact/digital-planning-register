@@ -87,12 +87,8 @@ export const PageApplicationComments = ({
         />
         {comments && comments.length > 0 ? (
           <>
-            {comments.map((comment, index) => (
-              <CommentCard
-                key={comment.receivedDate}
-                comment={comment}
-                commentNumber={index + 1}
-              />
+            {comments.map((comment) => (
+              <CommentCard key={comment.receivedDate} comment={comment} />
             ))}
           </>
         ) : (

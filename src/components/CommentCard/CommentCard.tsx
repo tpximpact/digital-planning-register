@@ -33,16 +33,12 @@ export interface CommentCardProps {
  * @param param0
  * @returns
  */
-export const CommentCard = ({
-  comment,
-  commentNumber = 0,
-}: CommentCardProps) => {
+export const CommentCard = ({ comment }: CommentCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [summary, continued] = useMemo(
     () => (comment ? splitCommentText(comment.comment) : ["", ""]),
     [comment],
   );
-  const commentId = comment?.id || commentNumber;
 
   if (comment) {
     return (
@@ -50,7 +46,7 @@ export const CommentCard = ({
         <div className="dpr-comment-card__header">
           <div>
             <h3 className="govuk-heading-m">
-              {`Comment #${commentId}`}
+              {`Comment #${comment.id}`}
               {comment?.receivedDate && (
                 <span className="govuk-visually-hidden">
                   published {formatDateTimeToDprDate(comment.receivedDate)}
@@ -91,7 +87,7 @@ export const CommentCard = ({
               {continued && (
                 <button
                   aria-expanded={isExpanded}
-                  aria-controls={`comment-${commentId}`}
+                  aria-controls={`comment-${comment.id}`}
                   onClick={() => setIsExpanded(!isExpanded)}
                   className="govuk-link govuk-link--no-visited-state dpr-comment-card--toggle"
                 >
