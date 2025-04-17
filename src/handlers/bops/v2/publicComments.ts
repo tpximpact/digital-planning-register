@@ -22,6 +22,7 @@ import {
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
 import { defaultPagination } from "@/handlers/lib";
+import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
 
 /**
  * Get the public comments for an application
@@ -60,7 +61,7 @@ export async function publicComments(
   }
 
   const request = await handleBopsGetRequest<
-    ApiResponse<DprPublicCommentsApiResponse | null>
+    ApiResponse<BopsV2PublicPlanningApplicationPublicComments | null>
   >(council, url);
 
   if (!request.data) {
@@ -71,8 +72,7 @@ export async function publicComments(
     };
   }
 
-  const { comments, summary } = request.data;
-  const pagination = request.pagination;
+  const { comments, summary, pagination } = request.data;
   return {
     ...request,
     data: {
