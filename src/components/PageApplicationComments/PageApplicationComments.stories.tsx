@@ -18,13 +18,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationComments } from "./PageApplicationComments";
 import {
+  generatePagination,
   generateComment,
   generateNResults,
-  generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
-import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
+import { generateApplicationSubmission } from "@mocks/odpApplicationSubmission";
+import { DprComment } from "@/types";
 
 const meta = {
   title: "Council pages/Application comments",
@@ -49,7 +49,7 @@ const meta = {
   },
   args: {
     reference: "12345",
-    application: generateDprApplication(),
+    application: generateApplicationSubmission,
     comments: generateNResults<DprComment>(50, () => generateComment(true)),
     pagination: generatePagination(1, 50),
     appConfig: createAppConfig("public-council-1"),
@@ -59,38 +59,102 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    type: "public",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    comments: generateNResults<DprComment>(50, () => generateComment()),
+    pagination: generatePagination(1, 50),
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
+  },
+};
 export const Public: Story = {
   args: {
     type: "public",
+    reference: "12345",
+
+    application: generateApplicationSubmission,
+    comments: generateNResults<DprComment>(50, () => generateComment()),
+    pagination: generatePagination(1, 50),
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };
 export const Specialist: Story = {
   args: {
     type: "specialist",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    comments: generateNResults<DprComment>(50, () => generateComment()),
+    pagination: generatePagination(1, 50),
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };
 export const NoComments: Story = {
   args: {
     comments: undefined,
     pagination: undefined,
+    type: "public",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };
 export const FirstPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: generatePagination(1, 30),
+    type: "public",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };
 export const SecondPage: Story = {
   args: {
-    comments: generateNResults<DprComment>(30, () => generateComment(true)),
+    comments: generateNResults<DprComment>(30, () => generateComment()),
     pagination: generatePagination(2, 30),
+    type: "public",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };
 export const ThirdPage: Story = {
   args: {
     comments: generateNResults<DprComment>(30, () => generateComment(true)),
     pagination: generatePagination(3, 30),
+    type: "public",
+    reference: "12345",
+    application: generateApplicationSubmission,
+    appConfig: createAppConfig("public-council-1"),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
   },
 };

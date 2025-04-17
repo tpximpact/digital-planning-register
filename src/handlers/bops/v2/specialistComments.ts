@@ -20,12 +20,14 @@ import {
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
+import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
-import { defaultPagination } from "@/handlers/lib";
 import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
+import { defaultPagination } from "@/handlers/lib";
 
 /**
- * Get the specialist comments for an application
+ * Get the details for an application
+ * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP/comments/specialist
  * @param page
  * @param resultsPerPage
  * @param query
@@ -65,7 +67,6 @@ export async function specialistComments(
   >(council, url);
 
   if (!request.data) {
-    console.log("no data");
     return {
       ...request,
       data: null,
@@ -73,12 +74,14 @@ export async function specialistComments(
     };
   }
 
-  const { comments, summary, pagination } = request.data;
+  const { comments: bopsComments, summary, pagination } = request.data;
+
+  const transformedComments = bopsComments.map(convertCommentBops);
 
   return {
     ...request,
     data: {
-      comments,
+      comments: transformedComments,
       summary,
     },
     pagination: pagination,

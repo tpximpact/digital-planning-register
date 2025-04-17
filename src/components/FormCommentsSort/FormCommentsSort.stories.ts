@@ -15,21 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprComment } from "@/types";
-import { BopsComment } from "../types";
-import { convertDateTimeToUtc } from "@/util";
+import type { StoryObj } from "@storybook/react";
+const meta = {};
 
-/**
- * Converts BOPS comments into our standard format (which RN is the same as BOPS!)
- * @todo some dates seem to be coming in without times!
- * @param comment
- * @returns
- */
-export const convertCommentBops = (comment: BopsComment): DprComment => {
-  return {
-    id: comment.id,
-    comment: comment.comment,
-    receivedDate: convertDateTimeToUtc(comment.receivedAt),
-    sentiment: comment.sentiment || "",
-  };
-};
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+export default meta;

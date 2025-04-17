@@ -34,7 +34,6 @@ export const documentation: Documentation = {
     return await publicComments(...args);
   },
   examples: [
-    // Southwark
     {
       url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=25-00292-HAPP`,
       description: "publicComments exists",
@@ -43,14 +42,13 @@ export const documentation: Documentation = {
       url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=doesnotexist`,
       description: "publicComments doesn't exist",
     },
-    // Camden
-    {
-      url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=24-00129-HAPP`,
-      description: "publicComments exists",
-    },
-    {
-      url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=doesnotexist`,
-      description: "publicComments doesn't exist",
-    },
+    // {
+    //   url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=24-00129-HAPP`,
+    //   description: "publicComments exists",
+    // },
+    // {
+    //   url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=doesnotexist`,
+    //   description: "publicComments doesn't exist",
+    // },
   ],
 };

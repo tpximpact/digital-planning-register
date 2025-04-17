@@ -26,7 +26,8 @@ export const documentation: Documentation = {
     return await publicComments(...args);
   },
   examples: [
-    // Southwark
+    // this is using the southwark council bops data from the comments endpoint - will need to be updated when bops branch is merged
+    // uncomment below when bops branch is merged and remove the southwark examples
     {
       url: `/docs/json?handler=BopsV2&method=publicComments&council=southwark&reference=25-00292-HAPP`,
       description: "publicComments has publicComments",
@@ -35,14 +36,13 @@ export const documentation: Documentation = {
       url: `/docs/json?handler=BopsV2&method=publicComments&council=southwark&reference=doesnotexist`,
       description: "publicComments doesn't have publicComments",
     },
-    // Camden
-    {
-      url: `/docs/json?handler=BopsV2&method=publicComments&council=camden&reference=24-00129-HAPP`,
-      description: "publicComments has publicComments",
-    },
-    {
-      url: `/docs/json?handler=BopsV2&method=publicComments&council=camden&reference=doesnotexist`,
-      description: "publicComments doesn't have publicComments",
-    },
+    // {
+    //   url: `/docs/json?handler=BopsV2&method=publicComments&council=camden&reference=24-00129-HAPP`,
+    //   description: "publicComments has publicComments",
+    // },
+    // {
+    //   url: `/docs/json?handler=BopsV2&method=publicComments&council=camden&reference=doesnotexist`,
+    //   description: "publicComments doesn't have publicComments",
+    // },
   ],
 };

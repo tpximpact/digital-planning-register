@@ -32,7 +32,6 @@ export const documentation: Documentation = {
   run: async (args: [string, string, SearchParamsComments]) => {
     return await publicComments(...args);
   },
-
   examples: [
     {
       url: `/docs/json?handler=LocalV1&method=publicComments`,

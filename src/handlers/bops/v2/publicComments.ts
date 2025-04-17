@@ -21,11 +21,13 @@ import {
   SearchParamsComments,
 } from "@/types";
 import { handleBopsGetRequest } from "../requests";
-import { defaultPagination } from "@/handlers/lib";
 import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
+import { convertCommentBops } from "../converters/comments";
+import { defaultPagination } from "@/handlers/lib";
 
 /**
- * Get the public comments for an application
+ * Get the details for an application
+ * https://camden.bops-staging.services/api/v2/public/planning_applications/23-00122-HAPP/comments/public
  * @param page
  * @param resultsPerPage
  * @param query
@@ -72,11 +74,13 @@ export async function publicComments(
     };
   }
 
-  const { comments, summary, pagination } = request.data;
+  const { comments: bopsComments, summary, pagination } = request.data;
+  const transformedComments = bopsComments.map(convertCommentBops);
+
   return {
     ...request,
     data: {
-      comments,
+      comments: transformedComments,
       summary,
     },
     pagination: pagination,

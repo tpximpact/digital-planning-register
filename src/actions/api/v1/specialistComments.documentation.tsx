@@ -35,7 +35,8 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      // Southwark
+      // this is using the southwark council bops data from the comments endpoint - will need to be updated when bops branch is merged
+      // uncomment below when bops branch is merged and remove the southwark examples
       url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=southwark&reference=25-00292-HAPP`,
       description: "specialistComments exists",
     },
@@ -43,14 +44,13 @@ export const documentation: Documentation = {
       url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=southwark&reference=doesnotexist`,
       description: "specialistComments doesn't exist",
     },
-    // Camden
-    {
-      url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=camden&reference=24-00129-HAPP`,
-      description: "specialistComments exists",
-    },
-    {
-      url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=camden&reference=doesnotexist`,
-      description: "specialistComments doesn't exist",
-    },
+    // {
+    //   url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=camden&reference=24-00129-HAPP`,
+    //   description: "specialistComments exists",
+    // },
+    // {
+    //   url: `/docs/json?handler=ApiV1&method=specialistComments&source=bops&council=camden&reference=doesnotexist`,
+    //   description: "specialistComments doesn't exist",
+    // },
   ],
 };
