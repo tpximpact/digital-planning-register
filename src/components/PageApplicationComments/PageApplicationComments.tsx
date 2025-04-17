@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
 import {
   DprApplication,
   DprComment,
@@ -30,11 +29,7 @@ import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-// import { getPropertyAddress } from "@/lib/planningApplication/application";
-
-import { ApiResponse, DprPublicCommentsApiResponse } from "@/types";
-import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
+import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
@@ -49,78 +44,21 @@ export interface PageApplicationCommentsProps {
   type: DprCommentTypes;
   pagination?: DprPagination;
   searchParams?: SearchParamsComments;
+  orderBy?: string;
 }
 
-async function fetchData({
-  params,
-  searchParams,
-  type,
-}: PageApplicationCommentsProps): Promise<
-  ApiResponse<DprPublicCommentsApiResponse | null>
-> {
-  const { council, reference } = params;
-  const appConfig = getAppConfig(council);
+export type OrderBy = "asc" | "desc";
 
-  const apiComments =
-    type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-
-  return await apiComments(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-    },
-  );
-}
-export async function generateMetadata({
-  params,
+export const PageApplicationComments = ({
   reference,
   application,
-  comments,
-  appConfig,
-  type,
-  searchParams,
-}: PageApplicationCommentsProps) {
-  const response = await fetchData({
-    params,
-    reference,
-    application,
-    comments,
-    appConfig,
-    type,
-    searchParams,
-  });
-
-  if (!response.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
-}
-export const PageApplicationComments = async ({
-  reference,
-  application,
-  comments,
   appConfig,
   params,
   type,
   pagination,
   searchParams,
+  comments,
 }: PageApplicationCommentsProps) => {
-  const response = await fetchData({
-    params,
-    reference,
-    application,
-    comments,
-    appConfig,
-    type,
-    searchParams,
-  });
-
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
@@ -132,14 +70,24 @@ export const PageApplicationComments = async ({
   const address = getPropertyAddress(
     application?.submission?.data?.property?.address,
   );
+
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
         <ApplicationHeader reference={reference} address={address} />
-        {response.data?.comments && response.data.comments.length > 0 ? (
+        <h1 className="govuk-heading-l">
+          {type === "public" ? "Public Comments" : "Specialist Comments"}
+        </h1>
+        <FormCommentsSort
+          council={councilSlug}
+          reference={reference}
+          defaultOrderBy={searchParams?.orderBy}
+          type={type}
+        />
+        {comments && comments.length > 0 ? (
           <>
-            {response.data.comments.map((comment, index) => (
+            {comments.map((comment, index) => (
               <CommentCard
                 key={comment.receivedDate}
                 comment={comment}
