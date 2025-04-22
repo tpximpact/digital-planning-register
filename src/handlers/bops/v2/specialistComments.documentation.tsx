@@ -27,7 +27,6 @@ export const documentation: Documentation = {
     return await specialistComments(...args);
   },
   examples: [
-    // Southwark
     {
       url: `/docs/json?handler=BopsV2&method=specialistComments&council=southwark&reference=25-00292-HAPP`,
       description: "specialistComments has specialistComments",
@@ -36,14 +35,13 @@ export const documentation: Documentation = {
       url: `/docs/json?handler=BopsV2&method=specialistComments&council=southwark&reference=doesnotexist`,
       description: "specialistComments doesn't have specialistComments",
     },
-    // Camden
-    {
-      url: `/docs/json?handler=BopsV2&method=specialistComments&council=camden&reference=24-00129-HAPP`,
-      description: "specialistComments has specialistComments",
-    },
-    {
-      url: `/docs/json?handler=BopsV2&method=specialistComments&council=camden&reference=doesnotexist`,
-      description: "specialistComments doesn't have specialistComments",
-    },
+    // {
+    //   url: `/docs/json?handler=BopsV2&method=specialistComments&council=camden&reference=24-00129-HAPP`,
+    //   description: "specialistComments has specialistComments",
+    // },
+    // {
+    //   url: `/docs/json?handler=BopsV2&method=specialistComments&council=camden&reference=doesnotexist`,
+    //   description: "specialistComments doesn't have specialistComments",
+    // },
   ],
 };

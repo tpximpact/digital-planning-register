@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
 import {
   DprApplication,
   DprComment,
@@ -26,10 +25,11 @@ import { BackButton } from "@/components/BackButton";
 import ApplicationHeader from "../application_header";
 import { Pagination } from "@/components/govuk/Pagination";
 import { AppConfig } from "@/config/types";
-import { CommentsList } from "@/components/CommentsList";
+import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "../ContentNotFound";
 import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
+import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 export interface PageApplicationCommentsProps {
@@ -37,24 +37,27 @@ export interface PageApplicationCommentsProps {
   application: DprApplication;
   comments: DprComment[] | null;
   appConfig: AppConfig;
-  params?: {
+  params: {
     council: string;
-    reference?: string;
+    reference: string;
   };
   type: DprCommentTypes;
   pagination?: DprPagination;
   searchParams?: SearchParamsComments;
+  orderBy?: string;
 }
+
+export type OrderBy = "asc" | "desc";
 
 export const PageApplicationComments = ({
   reference,
   application,
-  comments,
   appConfig,
   params,
   type,
   pagination,
   searchParams,
+  comments,
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
     return (
@@ -67,24 +70,30 @@ export const PageApplicationComments = ({
   const address = getPropertyAddress(
     application?.submission?.data?.property?.address,
   );
+
   return (
     <>
       <BackButton baseUrl={`/${councilSlug}/${reference}`} />
       <PageMain>
         <ApplicationHeader reference={reference} address={address} />
-        <CommentsList
-          councilSlug={appConfig.council.slug}
+        <h1 className="govuk-heading-l">
+          {type === "public" ? "Public Comments" : "Specialist Comments"}
+        </h1>
+        <FormCommentsSort
+          council={councilSlug}
           reference={reference}
+          defaultOrderBy={searchParams?.orderBy}
           type={type}
-          comments={comments}
-          pagination={
-            pagination ?? {
-              resultsPerPage: appConfig.defaults.resultsPerPage,
-              currentPage: 1,
-            }
-          }
         />
-
+        {comments && comments.length > 0 ? (
+          <>
+            {comments.map((comment) => (
+              <CommentCard key={comment.receivedDate} comment={comment} />
+            ))}
+          </>
+        ) : (
+          <ContentNotFound />
+        )}
         {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "comments")}

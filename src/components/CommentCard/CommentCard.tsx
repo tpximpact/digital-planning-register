@@ -42,6 +42,7 @@ export const CommentCard = ({
     () => (comment ? splitCommentText(comment.comment) : ["", ""]),
     [comment],
   );
+
   const commentId = comment?.id || commentNumber;
 
   if (comment) {

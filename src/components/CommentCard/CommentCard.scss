@@ -39,13 +39,6 @@
     width: 100%;
   }
 
-  @include govuk-media-query($from: desktop) {
-   &__header {
-        width: 100%;
-        float: left;
-    }
-}
-
   &--toggle {
     color: govuk-colour("blue");
     margin-top: govuk-spacing(7);

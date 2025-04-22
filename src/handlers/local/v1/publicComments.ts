@@ -33,7 +33,7 @@ const response = (
   reference: string,
   searchParams: SearchParamsComments,
 ): ApiResponse<DprPublicCommentsApiResponse> => {
-  const exampleComments = generateNResults(20, generateComment);
+  const exampleComments = generateNResults(20, () => generateComment());
   const sentimentSummary = exampleComments.reduce(
     (acc, comment) => {
       if (comment.sentiment === "supportive") {

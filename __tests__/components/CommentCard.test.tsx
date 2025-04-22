@@ -25,6 +25,7 @@ import { DprComment } from "@/types";
 describe("Render CommentCard", () => {
   it("should render a comment card", () => {
     const comment: DprComment = {
+      id: 1,
       comment: "insightful comment here",
       receivedDate: "2023-11-14T13:40:51.567Z",
       sentiment: "neutral",

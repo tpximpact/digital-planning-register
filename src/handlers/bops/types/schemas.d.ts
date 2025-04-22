@@ -15,6 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DprPagination } from "@/types";
 import {
   BopsApplicationOverview,
   BopsNonStandardApplication,
@@ -22,7 +23,12 @@ import {
   BopsSearchLinks,
   BopsSearchMetadata,
 } from "./definitions/application";
+import { BopsComment } from "./definitions/comment";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 /**
  * GET /api/v2/public/planning_applications/search

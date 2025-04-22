@@ -32,7 +32,7 @@ const response = (
   reference: string,
   searchParams: SearchParamsComments,
 ): ApiResponse<DprSpecialistCommentsApiResponse> => {
-  const exampleComments = generateNResults(20, generateComment);
+  const exampleComments = generateNResults(20, () => generateComment());
   const sentimentSummary = exampleComments.reduce(
     (acc, comment) => {
       if (comment.sentiment === "supportive") {
@@ -46,6 +46,7 @@ const response = (
     },
     { supportive: 0, objection: 0, neutral: 0 },
   );
+
   const appConfig = getAppConfig(council);
   const resultsPerPage = appConfig?.defaults?.resultsPerPage || 10;
   const currentPage = searchParams?.page || 1;
@@ -55,6 +56,7 @@ const response = (
     startIndex + resultsPerPage,
   );
   const totalPages = Math.ceil(exampleComments.length / resultsPerPage);
+
   return {
     data: {
       comments: paginatedComments,
