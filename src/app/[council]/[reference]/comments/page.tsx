@@ -16,7 +16,13 @@
  */
 
 import { Metadata } from "next";
-import { ApiResponse, DprShowApiResponse, SearchParamsComments } from "@/types";
+import {
+  ApiResponse,
+  DprPublicCommentsApiResponse,
+  DprShowApiResponse,
+  DprSpecialistCommentsApiResponse,
+  SearchParamsComments,
+} from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
@@ -33,50 +39,55 @@ interface PlanningApplicationDetailsCommentsProps {
   searchParams?: SearchParamsComments;
 }
 
-async function fetchData({
+async function fetchApplicationData({
+  params,
+}: {
+  params: { council: string; reference: string };
+}): Promise<ApiResponse<DprShowApiResponse>> {
+  const { council, reference } = params;
+  const appConfig = getAppConfig(council);
+  const dataSource = appConfig.council?.dataSource ?? "none";
+
+  const response = await ApiV1.show(dataSource, council, reference);
+  return {
+    status: response.status,
+    data: response.data,
+  };
+}
+
+async function fetchCommentData({
   params,
   searchParams,
 }: PlanningApplicationDetailsCommentsProps): Promise<
-  ApiResponse<DprShowApiResponse | null>
+  ApiResponse<DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse>
 > {
-  const { reference, council } = params;
-  const { type, orderBy } = searchParams ?? {};
+  const { council, reference } = params;
+  const { type, orderBy, page } = searchParams ?? {};
   const appConfig = getAppConfig(council);
+  const dataSource = appConfig.council?.dataSource ?? "none";
+
   const apiComments =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-  const response = await apiComments(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-      orderBy: orderBy ?? "desc",
-    },
-  );
-  const application = await ApiV1.show(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-  );
+
+  const response = await apiComments(dataSource, council, reference, {
+    ...searchParams,
+    page: page ?? 1,
+    resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    orderBy: orderBy ?? "desc",
+  });
 
   return {
     status: response.status,
     pagination: response.pagination,
-    data: {
-      response: response.data,
-      application: application.data,
-    },
+    data: response.data,
   };
 }
+
 export async function generateMetadata({
   params,
-  searchParams,
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
-  const response = await fetchData({
+  const response = await fetchApplicationData({
     params,
-    searchParams,
   });
   const { council, reference } = params;
   const councilName = getAppConfig(council)?.council?.name ?? "";
@@ -100,15 +111,22 @@ export default async function PlanningApplicationDetailsComments({
   const { council, reference } = params;
   const appConfig = getAppConfig(council);
   const type = getCommentTypeToShow(appConfig.council, searchParams);
-  const response = await fetchData({
-    params,
-    searchParams,
-  });
+  const applicationResponse = await fetchApplicationData({ params });
   if (
-    !response ||
-    response?.status?.code !== 200 ||
-    appConfig?.council === undefined
+    applicationResponse.status.code !== 200 ||
+    !applicationResponse.data ||
+    !appConfig.council
   ) {
+    return (
+      <PageMain>
+        <ContentError />
+      </PageMain>
+    );
+  }
+  const application = applicationResponse.data;
+
+  const commentResponse = await fetchCommentData({ params, searchParams });
+  if (commentResponse.status.code !== 200 || !commentResponse.data) {
     return (
       <PageMain>
         <ContentError />
@@ -120,9 +138,8 @@ export default async function PlanningApplicationDetailsComments({
     appConfig.council.publicComments && "public",
     appConfig.council.specialistComments && "specialist",
   ].filter(Boolean);
-  const application = response?.data.application;
 
-  if (!application || availableCommentTypes.length === 0) {
+  if (availableCommentTypes.length === 0) {
     return (
       <PageMain>
         <ContentNotFound councilConfig={appConfig.council} />
@@ -132,11 +149,11 @@ export default async function PlanningApplicationDetailsComments({
 
   return (
     <PageApplicationComments
-      comments={response.data.response.comments}
+      comments={commentResponse.data.comments}
       reference={reference}
       application={application}
       type={type}
-      pagination={response.pagination}
+      pagination={commentResponse.pagination}
       appConfig={appConfig}
       params={params}
       searchParams={searchParams}
