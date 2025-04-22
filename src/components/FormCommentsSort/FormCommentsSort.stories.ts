@@ -19,7 +19,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { FormCommentsSort } from "./FormCommentsSort";
 
 const meta: Meta<typeof FormCommentsSort> = {
-  title: "Components/FormCommentsSort",
+  title: "DPR Components/FormCommentsSort",
   component: FormCommentsSort,
   tags: ["autodocs"],
   args: {
