@@ -35,6 +35,7 @@ import { defaultPagination } from "@/handlers/lib";
  * @param orderBy
  * @param council
  * @param reference
+ * @param sentiment
  * @returns
  */
 export async function publicComments(
@@ -55,6 +56,9 @@ export async function publicComments(
     }
     if (searchParams.sortBy) {
       params.append("sortBy", searchParams.sortBy);
+    }
+    if (searchParams.sentiment) {
+      params.append("sentiment", searchParams.sentiment);
     }
     if (searchParams.orderBy) {
       params.append("orderBy", searchParams.orderBy);

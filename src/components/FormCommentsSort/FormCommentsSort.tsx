@@ -22,6 +22,7 @@ export interface FormCommentsSortProps {
   council: string;
   reference: string;
   type: "public" | "specialist";
+  defaultSentiment?: "all" | "objection" | "neutral" | "supportive";
 }
 
 export const FormCommentsSort = ({
@@ -29,6 +30,7 @@ export const FormCommentsSort = ({
   council,
   reference,
   type = "public",
+  defaultSentiment = "all",
 }: FormCommentsSortProps) => {
   return (
     <form
@@ -40,6 +42,32 @@ export const FormCommentsSort = ({
         <div className="govuk-grid-column-full">
           <h2 className="govuk-heading-m">Search comments</h2>
         </div>
+        <div>
+          <label htmlFor="sortOrder" className="govuk-label">
+            Sentiment
+          </label>
+          <select
+            id="sentiment"
+            name="sentiment"
+            defaultValue={defaultSentiment}
+            className="govuk-select drp-dropdown__select"
+          >
+            <option value="all">All</option>
+            <option value="objection">Opposed</option>
+            <option value="supportive">Support</option>
+            <option value="neutral">Neutral</option>
+          </select>
+          <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
+            <input type="hidden" name="type" value={type} />
+            <button
+              type="submit"
+              className="govuk-button govuk-button--secondary dpr-comment-filter__button"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+        {/* start sort by*/}
         <div className="govuk-grid-row govuk-!-margin-left-0">
           <div className="govuk-grid-column-one-third dpr-dropdown">
             <div className="govuk-form-group drp-dropdown__group">
