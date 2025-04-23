@@ -18,62 +18,93 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CommentsList } from "@/components/CommentsList";
-import { DprComment } from "@/types";
 import { CommentCardProps } from "@/components/CommentCard";
 import {
   generateComment,
   generateNResults,
-  generatePagination,
 } from "@mocks/dprApplicationFactory";
 
 jest.mock("@/components/CommentCard", () => ({
   CommentCard: ({ comment, commentNumber }: CommentCardProps) => (
     <div data-testid="comment-card">
       <p>comment number: {commentNumber}</p>
-      <p>comment sentiment: {comment.sentiment}</p>
-      <p>comment: {comment.comment}</p>
+      <p>comment sentiment: {comment?.sentiment}</p>
+      <p>comment: {comment?.comment}</p>
     </div>
   ),
 }));
 
 describe("CommentsList", () => {
   it("shows correct public comments results", () => {
+    const comments = generateNResults(10, () => generateComment());
+    const firstCommentId = comments[0].id;
+    const secondCommentId = comments[1].id;
+    const summary = {
+      totalComments: comments.length,
+      totalConsulted: 6,
+      sentiment: {
+        supportive: 3,
+        objection: 2,
+        neutral: 1,
+      },
+    };
     render(
       <CommentsList
-        type={"public"}
-        councilSlug={"public-council-1"}
-        reference={"12345"}
-        comments={generateNResults<DprComment>(20, () => generateComment())}
-        pagination={generatePagination(2, 20)}
-        showMoreButton={true}
+        type="public"
+        councilSlug="public-council-1"
+        reference="12345"
+        comments={comments}
+        summary={summary}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent("Public Comments");
     expect(screen.getAllByTestId("comment-card")).toHaveLength(10);
-    expect(screen.getByText("comment number: 11")).toBeInTheDocument();
-    expect(screen.getByText("comment number: 20")).toBeInTheDocument();
-    expect(screen.getByText("Showing 10 of 20 comments")).toBeInTheDocument();
     expect(
-      screen.getByText("Show all 20 neighbour comments"),
+      screen.getByText(`comment number: ${firstCommentId}`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`comment number: ${secondCommentId}`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Showing\s*10\s*of\s*10\s*comments/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 10 neighbour comments"),
     ).toBeInTheDocument();
   });
-  it("shows correct results", () => {
+
+  it("shows correct specialist comments results", () => {
+    const comments = generateNResults(10, () => generateComment());
+    const firstCommentId = comments[0].id;
+    const secondCommentId = comments[1].id;
+    const summary = {
+      totalComments: comments.length,
+      totalConsulted: 6,
+      sentiment: {
+        supportive: 3,
+        objection: 2,
+        neutral: 1,
+      },
+    };
     render(
       <CommentsList
-        type={"specialist"}
-        councilSlug={"public-council-1"}
-        reference={"12345"}
-        comments={generateNResults<DprComment>(10, () => generateComment())}
-        pagination={generatePagination(1, 10)}
-        showMoreButton={true}
+        type="specialist"
+        councilSlug="public-council-1"
+        reference="12345"
+        comments={comments}
+        summary={summary}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent(
       "Specialist Comments",
     );
     expect(screen.getAllByTestId("comment-card")).toHaveLength(10);
-    expect(screen.getByText("comment number: 1")).toBeInTheDocument();
-    expect(screen.getByText("comment number: 10")).toBeInTheDocument();
+    expect(
+      screen.getByText(`comment number: ${firstCommentId}`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`comment number: ${secondCommentId}`),
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/Showing\s*10\s*of\s*10\s*comments/),
     ).toBeInTheDocument();
@@ -83,14 +114,12 @@ describe("CommentsList", () => {
   });
 
   it("shows message when there are no public comments", () => {
-    const pagination = generatePagination(0, 0);
     render(
       <CommentsList
         type="public"
         councilSlug="public-council-1"
         reference="12345"
         comments={[]}
-        pagination={pagination}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent("Public Comments");
@@ -102,14 +131,12 @@ describe("CommentsList", () => {
   });
 
   it("shows message when there are no specialist comments", () => {
-    const pagination = generatePagination(0, 0);
     render(
       <CommentsList
         type="specialist"
         councilSlug="public-council-1"
         reference="12345"
         comments={[]}
-        pagination={pagination}
       />,
     );
     expect(screen.getByRole("heading")).toHaveTextContent(
