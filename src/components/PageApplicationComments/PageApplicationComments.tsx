@@ -83,6 +83,9 @@ export const PageApplicationComments = ({
           council={councilSlug}
           reference={reference}
           defaultOrderBy={searchParams?.orderBy}
+          defaultPublishedAtFrom={searchParams?.publishedAtFrom}
+          defaultPublishedAtTo={searchParams?.publishedAtTo}
+          defaultSentiment={searchParams?.sentiment}
           type={type}
         />
         {comments && comments.length > 0 ? (

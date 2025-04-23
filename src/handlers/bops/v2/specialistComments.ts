@@ -35,6 +35,9 @@ import { defaultPagination } from "@/handlers/lib";
  * @param orderBy
  * @param council
  * @param reference
+ * @param sentiment
+ * @param publishedAtFrom
+ * @param publishedAtTo
  * @returns
  */
 export async function specialistComments(
@@ -58,6 +61,15 @@ export async function specialistComments(
     }
     if (searchParams.orderBy) {
       params.append("orderBy", searchParams.orderBy);
+    }
+    if (searchParams.sentiment) {
+      params.append("sentiment", searchParams.sentiment);
+    }
+    if (searchParams.publishedAtFrom) {
+      params.append("publishedAtFrom", searchParams.publishedAtFrom);
+    }
+    if (searchParams.publishedAtTo) {
+      params.append("publishedAtTo", searchParams.publishedAtTo);
     }
     url = `${url}?${params.toString()}`;
   }

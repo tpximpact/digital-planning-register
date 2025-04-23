@@ -22,49 +22,93 @@ export interface FormCommentsSortProps {
   council: string;
   reference: string;
   type: "public" | "specialist";
-  defaultSentiment?: "all" | "objection" | "neutral" | "supportive";
+  defaultSentiment?: string;
+  defaultPublishedAtFrom?: string;
+  defaultPublishedAtTo?: string;
 }
 
 export const FormCommentsSort = ({
   defaultOrderBy = "desc",
   council,
   reference,
-  type = "public",
+  type,
   defaultSentiment = "all",
+  defaultPublishedAtFrom = new Date().toISOString().split("T")[0],
+  defaultPublishedAtTo = new Date().toISOString().split("T")[0],
 }: FormCommentsSortProps) => {
+  console.log({ type }, { defaultPublishedAtFrom });
   return (
     <form
       className="govuk-form dpr-comment-filter"
       method="get"
       action={`/${council}/${reference}/comments`}
     >
-      <div className="govuk-grid-row">
+      <div className="govuk-grid-row govuk-!-margin-left-0">
         <div className="govuk-grid-column-full">
           <h2 className="govuk-heading-m">Search comments</h2>
         </div>
-        <div>
-          <label htmlFor="sortOrder" className="govuk-label">
-            Sentiment
-          </label>
-          <select
-            id="sentiment"
-            name="sentiment"
-            defaultValue={defaultSentiment}
-            className="govuk-select drp-dropdown__select"
-          >
-            <option value="all">All</option>
-            <option value="objection">Opposed</option>
-            <option value="supportive">Support</option>
-            <option value="neutral">Neutral</option>
-          </select>
-          <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
-            <input type="hidden" name="type" value={type} />
-            <button
-              type="submit"
-              className="govuk-button govuk-button--secondary dpr-comment-filter__button"
-            >
-              Search
-            </button>
+        <div className="govuk-grid-row govuk-!-margin-left-0">
+          <div className="govuk-grid-column-one-third">
+            <div className="govuk-form-group">
+              <label htmlFor="sortOrder" className="govuk-label">
+                Sentiment
+              </label>
+              <select
+                id="sentiment"
+                name="sentiment"
+                defaultValue={defaultSentiment}
+                className="govuk-select drp-dropdown__select"
+              >
+                <option value="">All</option>
+                <option value="objection">Opposed</option>
+                <option value="supportive">Support</option>
+                <option value="neutral">Neutral</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="govuk-grid-row govuk-!-margin-left-0">
+          <div className="govuk-grid-column-one-third">
+            <div className="govuk-form-group">
+              <label htmlFor="sortOrder" className="govuk-label">
+                Published date
+              </label>
+              <input
+                type="date"
+                name="publishedAtFrom"
+                className="govuk-input govuk-input--width-5"
+                defaultValue={defaultPublishedAtFrom}
+              />
+              <p
+                style={{ display: "inline-block" }}
+                className="govuk-body govuk-!-margin-left-1 govuk-!-margin-right-1 govuk-!-margin-bottom-4"
+              >
+                to
+              </p>
+              <input
+                type="date"
+                name="pubblishedAtTo"
+                className="govuk-input govuk-input--width-5"
+                defaultValue={defaultPublishedAtTo}
+              />
+            </div>
+          </div>
+          <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
+            <div className="govuk-grid-column-full govuk-button-group">
+              <input type="hidden" name="type" value={type} />
+              <button
+                type="submit"
+                className="govuk-button govuk-button dpr-comment-filter__button"
+              >
+                Search
+              </button>
+              <button
+                type="reset"
+                className="govuk-button govuk-button--secondary"
+              >
+                Clear search
+              </button>
+            </div>
           </div>
         </div>
         {/* start sort by*/}
@@ -96,6 +140,7 @@ export const FormCommentsSort = ({
           </div>
         </div>
       </div>
+      <hr className="govuk-section-break govuk-section-break--visible govuk-section-break--l" />
     </form>
   );
 };

@@ -66,6 +66,8 @@ export interface SearchParams {
   sortBy?: string;
   orderBy?: string;
   sentiment?: string;
+  publishedAtFrom?: string;
+  publishedAtTo?: string;
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {
