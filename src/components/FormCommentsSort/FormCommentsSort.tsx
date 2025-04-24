@@ -69,7 +69,7 @@ export const FormCommentsSort = ({
         <div className="govuk-grid-row govuk-!-margin-left-0">
           <div className="govuk-grid-column-one-third">
             <div className="govuk-form-group">
-              <label htmlFor="sortOrder" className="govuk-label">
+              <label htmlFor="publishedDate" className="govuk-label">
                 Published date
               </label>
               <input
@@ -77,6 +77,8 @@ export const FormCommentsSort = ({
                 name="publishedAtFrom"
                 className="govuk-input govuk-input--width-5"
                 defaultValue={defaultPublishedAtFrom}
+                title="Published at from"
+                aria-label="Published at from"
               />
               <p className="govuk-body dpr-comment-filter__to-label">to</p>
               <input
@@ -84,6 +86,8 @@ export const FormCommentsSort = ({
                 name="publishedAtTo"
                 className="govuk-input govuk-input--width-5"
                 defaultValue={defaultPublishedAtTo}
+                title="Published at to"
+                aria-label="Published at to"
               />
             </div>
           </div>
