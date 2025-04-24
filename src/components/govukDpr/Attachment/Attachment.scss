@@ -69,6 +69,7 @@ $thumbnail-icon-border-colour: govuk-colour("mid-grey");
 
   &__title {
     margin: 0 0 govuk-spacing(3);
+    word-break: break-word;
   }
 
   &__link {
