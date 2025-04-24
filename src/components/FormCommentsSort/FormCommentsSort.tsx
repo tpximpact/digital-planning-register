@@ -33,10 +33,9 @@ export const FormCommentsSort = ({
   reference,
   type,
   defaultSentiment = "all",
-  defaultPublishedAtFrom = new Date().toISOString().split("T")[0],
-  defaultPublishedAtTo = new Date().toISOString().split("T")[0],
+  defaultPublishedAtFrom,
+  defaultPublishedAtTo,
 }: FormCommentsSortProps) => {
-  console.log({ type }, { defaultPublishedAtFrom });
   return (
     <form
       className="govuk-form dpr-comment-filter"
@@ -50,7 +49,7 @@ export const FormCommentsSort = ({
         <div className="govuk-grid-row govuk-!-margin-left-0">
           <div className="govuk-grid-column-one-third">
             <div className="govuk-form-group">
-              <label htmlFor="sortOrder" className="govuk-label">
+              <label htmlFor="sentiment" className="govuk-label">
                 Sentiment
               </label>
               <select
@@ -87,7 +86,7 @@ export const FormCommentsSort = ({
               </p>
               <input
                 type="date"
-                name="pubblishedAtTo"
+                name="publishedAtTo"
                 className="govuk-input govuk-input--width-5"
                 defaultValue={defaultPublishedAtTo}
               />
@@ -95,23 +94,22 @@ export const FormCommentsSort = ({
           </div>
           <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
             <div className="govuk-grid-column-full govuk-button-group">
-              <input type="hidden" name="type" value={type} />
               <button
                 type="submit"
                 className="govuk-button govuk-button dpr-comment-filter__button"
               >
                 Search
               </button>
-              <button
-                type="reset"
+              <a
+                href={`/${council}/${reference}/comments?type=${type}`}
                 className="govuk-button govuk-button--secondary"
+                role="button"
               >
                 Clear search
-              </button>
+              </a>
             </div>
           </div>
         </div>
-        {/* start sort by*/}
         <div className="govuk-grid-row govuk-!-margin-left-0">
           <div className="govuk-grid-column-one-third dpr-dropdown">
             <div className="govuk-form-group drp-dropdown__group">

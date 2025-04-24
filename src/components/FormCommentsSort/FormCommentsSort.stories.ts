@@ -41,3 +41,24 @@ export const OldestFirst: Story = {
     defaultOrderBy: "asc",
   },
 };
+
+export const SupportiveSentiment: Story = {
+  args: {
+    defaultSentiment: "supportive",
+  },
+};
+
+export const ObjectionSentimentWithDateRange: Story = {
+  args: {
+    defaultSentiment: "objection",
+    defaultPublishedAtFrom: "2023-01-01",
+    defaultPublishedAtTo: "2023-12-31",
+  },
+};
+
+export const NeutralSentimentSortedAsc: Story = {
+  args: {
+    defaultSentiment: "neutral",
+    defaultOrderBy: "asc",
+  },
+};

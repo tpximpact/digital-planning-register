@@ -49,4 +49,80 @@ describe("PageApplicationComments", () => {
     const comment = screen.getByText(`Comment #${comments[0].id.toString()}`);
     expect(comment).toBeInTheDocument();
   });
+  it("renders sortBy", async () => {
+    const appConfig = createAppConfig("public-council-1");
+    const comments = generateNResults<DprComment>(10, () => generateComment());
+    const pagination = generatePagination(1, 10);
+    const application = generateApplicationSubmission;
+
+    render(
+      <PageApplicationComments
+        reference="123"
+        comments={comments}
+        application={application}
+        appConfig={appConfig}
+        params={{ council: "public-council-1", reference: "123" }}
+        type="public"
+        pagination={pagination}
+        searchParams={{
+          page: 1,
+          resultsPerPage: 10,
+          orderBy: "asc",
+          publishedAtFrom: "2023-01-01",
+          publishedAtTo: "2023-12-31",
+        }}
+      />,
+    );
+
+    // Comment is rendered
+    expect(
+      screen.getByText(`Comment #${comments[0].id.toString()}`),
+    ).toBeInTheDocument();
+
+    // Date filter inputs
+    expect(screen.getByDisplayValue("2023-01-01")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2023-12-31")).toBeInTheDocument();
+
+    // orderBy (Sort order)
+    expect(screen.getByLabelText("Sort by")).toHaveValue("asc");
+
+    // sortBy dropdown (you'll need to ensure this input exists in your form)
+    const sortBy = screen.getByRole("combobox", {
+      name: /sort by/i,
+    });
+    expect(sortBy).toHaveValue("asc");
+  });
+
+  it("renders comments and shows selected sentiment in filter", async () => {
+    const appConfig = createAppConfig("public-council-1");
+    const comments = generateNResults<DprComment>(10, () => generateComment());
+    const pagination = generatePagination(1, 10);
+    const application = generateApplicationSubmission;
+
+    render(
+      <PageApplicationComments
+        reference="123"
+        comments={comments}
+        application={application}
+        appConfig={appConfig}
+        params={{ council: "public-council-1", reference: "123" }}
+        type="public"
+        pagination={pagination}
+        searchParams={{
+          page: 1,
+          resultsPerPage: 10,
+          sentiment: "neutral",
+        }}
+      />,
+    );
+
+    // Check a comment renders
+    expect(
+      screen.getByText(`Comment #${comments[0].id.toString()}`),
+    ).toBeInTheDocument();
+
+    // Check sentiment filter is set correctly
+    const sentimentSelect = screen.getByLabelText("Sentiment");
+    expect(sentimentSelect).toHaveValue("neutral");
+  });
 });

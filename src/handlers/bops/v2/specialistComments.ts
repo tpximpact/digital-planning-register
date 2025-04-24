@@ -67,9 +67,17 @@ export async function specialistComments(
     }
     if (searchParams.publishedAtFrom) {
       params.append("publishedAtFrom", searchParams.publishedAtFrom);
+      if (searchParams.publishedAtTo === "") {
+        params.append("publishedAtTo", new Date().toISOString().split("T")[0]);
+      }
     }
     if (searchParams.publishedAtTo) {
       params.append("publishedAtTo", searchParams.publishedAtTo);
+      if (searchParams.publishedAtFrom === "") {
+        const date = new Date(searchParams.publishedAtTo);
+        date.setDate(date.getDate() - 1);
+        params.append("publishedAtFrom", date.toISOString().split("T")[0]);
+      }
     }
     url = `${url}?${params.toString()}`;
   }
