@@ -78,12 +78,7 @@ export const FormCommentsSort = ({
                 className="govuk-input govuk-input--width-5"
                 defaultValue={defaultPublishedAtFrom}
               />
-              <p
-                style={{ display: "inline-block" }}
-                className="govuk-body govuk-!-margin-left-1 govuk-!-margin-right-1 govuk-!-margin-bottom-4"
-              >
-                to
-              </p>
+              <p className="govuk-body dpr-comment-filter__to-label">to</p>
               <input
                 type="date"
                 name="publishedAtTo"

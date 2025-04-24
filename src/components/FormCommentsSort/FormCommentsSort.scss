@@ -15,10 +15,16 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
  
+ @import "src/styles/component-base";
+
 .dpr-comment-filter {
     &__button {
          width: auto
   }
+    &__to-label {
+      display: inline-block;
+      margin: govuk-spacing(0) govuk-spacing(1) govuk-spacing(4) govuk-spacing(1);
+    }
 }
 
 .drp-dropdown {
