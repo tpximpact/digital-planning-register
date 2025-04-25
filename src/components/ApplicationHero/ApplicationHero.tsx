@@ -109,16 +109,18 @@ export const ApplicationHero = ({
                   />
                 }
                 infoIcon={
-                  applicationStatusSummary &&
-                  documentedApplicationStatuses.includes(
-                    applicationStatusSummary,
-                  ) ? (
-                    <InfoIcon
-                      href={`/${councilSlug}/help/application-statuses#${slugify(applicationStatusSummary)}`}
-                      title="Understanding application statuses"
-                      ariaLabel="Understanding application statuses"
-                    />
-                  ) : undefined
+                  <InfoIcon
+                    href={
+                      `/${councilSlug}/help/application-statuses` +
+                      (documentedApplicationStatuses.includes(
+                        applicationStatusSummary,
+                      )
+                        ? `#${slugify(applicationStatusSummary)}`
+                        : ``)
+                    }
+                    title="Understanding application statuses"
+                    ariaLabel="Understanding application statuses"
+                  />
                 }
               />
             )}
@@ -129,48 +131,56 @@ export const ApplicationHero = ({
                 title="Application type"
                 value={getPrimaryApplicationType(application.applicationType)}
                 infoIcon={
-                  getDocumentedApplicationType(application.applicationType) ? (
-                    <InfoIcon
-                      href={`/${councilSlug}/help/application-types#${slugify(getDocumentedApplicationType(application.applicationType) ?? "")}`}
-                      title="Understanding application types"
-                      ariaLabel="Understanding application types"
-                    />
-                  ) : undefined
+                  <InfoIcon
+                    href={
+                      `/${councilSlug}/help/application-types` +
+                      (getDocumentedApplicationType(application.applicationType)
+                        ? `#${slugify(
+                            getDocumentedApplicationType(
+                              application.applicationType,
+                            )!,
+                          )}`
+                        : ``)
+                    }
+                    title="Understanding application types"
+                    ariaLabel="Understanding application types"
+                  />
                 }
               />
             )}
 
             {/* decision */}
             {getCouncilDecision(application) && (
-              <>
-                <ApplicationDataField
-                  title="Council decision"
-                  value={
-                    applicationDecisionSummary && (
-                      <Tag
-                        label={applicationDecisionSummary}
-                        sentiment={getApplicationDecisionSummarySentiment(
-                          applicationDecisionSummary,
-                        )}
-                        isInline={true}
-                      />
-                    )
-                  }
-                  infoIcon={
-                    applicationDecisionSummary &&
-                    documentedApplicationDecisions.includes(
-                      applicationDecisionSummary,
-                    ) ? (
-                      <InfoIcon
-                        href={`/${councilSlug}/help/decisions#${slugify(applicationDecisionSummary)}`}
-                        title="Understanding council decisions"
-                        ariaLabel="Understanding council decisions"
-                      />
-                    ) : undefined
-                  }
-                  isFull={application?.data?.appeal?.decision ? false : true}
-                />
-              </>
+              <ApplicationDataField
+                title="Council decision"
+                value={
+                  applicationDecisionSummary && (
+                    <Tag
+                      label={applicationDecisionSummary}
+                      sentiment={getApplicationDecisionSummarySentiment(
+                        applicationDecisionSummary,
+                      )}
+                      isInline
+                    />
+                  )
+                }
+                infoIcon={
+                  <InfoIcon
+                    href={
+                      `/${councilSlug}/help/decisions` +
+                      (applicationDecisionSummary &&
+                      documentedApplicationDecisions.includes(
+                        applicationDecisionSummary,
+                      )
+                        ? `#${slugify(applicationDecisionSummary)}`
+                        : ``)
+                    }
+                    title="Understanding council decisions"
+                    ariaLabel="Understanding council decisions"
+                  />
+                }
+                isFull={application?.data?.appeal?.decision ? false : true}
+              />
             )}
 
             {/* Appeal decision */}
@@ -181,9 +191,10 @@ export const ApplicationHero = ({
                   applicationAppealDecisionSummary && (
                     <Tag
                       label={applicationAppealDecisionSummary}
-                      isInline={true}
-                      {...(applicationAppealDecisionSummary &&
-                      appealDecisionSentiment[applicationAppealDecisionSummary]
+                      isInline
+                      {...(appealDecisionSentiment[
+                        applicationAppealDecisionSummary
+                      ]
                         ? {
                             sentiment:
                               appealDecisionSentiment[
@@ -195,16 +206,19 @@ export const ApplicationHero = ({
                   )
                 }
                 infoIcon={
-                  applicationAppealDecisionSummary &&
-                  documentedApplicationDecisions.includes(
-                    applicationAppealDecisionSummary,
-                  ) ? (
-                    <InfoIcon
-                      href={`/${councilSlug}/help/decisions#${slugify(applicationAppealDecisionSummary)}`}
-                      title="Understanding appeal decisions"
-                      ariaLabel="Understanding appeal decisions"
-                    />
-                  ) : undefined
+                  <InfoIcon
+                    href={
+                      `/${councilSlug}/help/decisions` +
+                      (applicationAppealDecisionSummary &&
+                      documentedApplicationDecisions.includes(
+                        applicationAppealDecisionSummary,
+                      )
+                        ? `#${slugify(applicationAppealDecisionSummary)}`
+                        : ``)
+                    }
+                    title="Understanding appeal decisions"
+                    ariaLabel="Understanding appeal decisions"
+                  />
                 }
               />
             )}
