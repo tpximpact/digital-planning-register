@@ -31,6 +31,8 @@ import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
+import { ContentNoResult } from "../ContentNoResult";
+import { FormCommentsSearch } from "@/components/FormCommentsSearch";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -79,12 +81,21 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <FormCommentsSort
-          council={councilSlug}
-          reference={reference}
-          defaultOrderBy={searchParams?.orderBy}
-          type={type}
-        />
+        <>
+          <FormCommentsSearch
+            council={councilSlug}
+            reference={reference}
+            searchParams={searchParams}
+            type={type}
+          />
+          <FormCommentsSort
+            council={councilSlug}
+            reference={reference}
+            searchParams={searchParams}
+            type={type}
+          />
+          <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
+        </>
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment) => (
@@ -92,7 +103,7 @@ export const PageApplicationComments = ({
             ))}
           </>
         ) : (
-          <ContentNotFound />
+          <ContentNoResult councilConfig={appConfig.council} type="comments" />
         )}
         {pagination && pagination.totalPages > 1 && (
           <Pagination

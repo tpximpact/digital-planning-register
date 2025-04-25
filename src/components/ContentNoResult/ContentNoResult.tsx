@@ -20,13 +20,27 @@ import { AppConfig } from "@/config/types";
 
 interface ContentNoResultProps {
   councilConfig?: AppConfig["council"];
+  type?: "comments" | "applications" | undefined;
 }
 
-export const ContentNoResult = ({ councilConfig }: ContentNoResultProps) => {
+const getNoResultTitle = (type?: "comments" | "applications") => {
+  const titleMap: Record<"comments" | "applications", string> = {
+    comments: "comments",
+    applications: "applications",
+  };
+  return titleMap[type ?? "applications"];
+};
+
+export const ContentNoResult = ({
+  councilConfig,
+  type,
+}: ContentNoResultProps) => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
-        <h2 className="govuk-heading-s">No applications match your search</h2>
+        <h2 className="govuk-heading-s">
+          No {getNoResultTitle(type)} match your search
+        </h2>
         {councilConfig?.slug && (
           <p className="govuk-body">
             You can try searching again, or{" "}

@@ -47,11 +47,11 @@ export async function publicComments(
   if (searchParams) {
     const params = new URLSearchParams({
       page: searchParams?.page?.toString(),
-      maxresults: searchParams?.resultsPerPage?.toString() ?? "10",
+      resultsPerPage: searchParams?.resultsPerPage?.toString() ?? "10",
     });
 
     if (searchParams.query) {
-      params.append("q", searchParams.query);
+      params.append("query", searchParams.query);
     }
     if (searchParams.sortBy) {
       params.append("sortBy", searchParams.sortBy);

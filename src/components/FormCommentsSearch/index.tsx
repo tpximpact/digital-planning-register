@@ -15,37 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from "@storybook/react";
-import { FormCommentsSort } from "./FormCommentsSort";
-
-const meta: Meta<typeof FormCommentsSort> = {
-  title: "Forms/Comments Sort",
-  component: FormCommentsSort,
-  tags: ["autodocs"],
-  args: {
-    council: "example-council",
-    reference: "ABC123",
-    type: "public",
-    searchParams: {
-      orderBy: "desc",
-      resultsPerPage: 10,
-      page: 1,
-    },
-  },
-};
-
-export default meta;
-
-type Story = StoryObj<typeof FormCommentsSort>;
-
-export const Default: Story = {};
-
-export const OldestFirst: Story = {
-  args: {
-    searchParams: {
-      orderBy: "asc",
-      resultsPerPage: 10,
-      page: 1,
-    },
-  },
-};
+export * from "./FormCommentsSearch";

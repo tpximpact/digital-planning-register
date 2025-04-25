@@ -474,7 +474,7 @@ const councils: Council[] = [
     visibility: "public",
     dataSource: "bops",
     publicComments: true,
-    specialistComments: false,
+    specialistComments: true,
     features: {
       logoInHeader: false,
     },

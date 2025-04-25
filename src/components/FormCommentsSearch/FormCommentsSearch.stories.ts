@@ -16,18 +16,20 @@
  */
 
 import { Meta, StoryObj } from "@storybook/react";
-import { FormCommentsSort } from "./FormCommentsSort";
+import { FormCommentsSearch } from "./FormCommentsSearch";
 
-const meta: Meta<typeof FormCommentsSort> = {
-  title: "Forms/Comments Sort",
-  component: FormCommentsSort,
+const meta: Meta<typeof FormCommentsSearch> = {
+  title: "DPR Components/FormCommentsSearch",
+  component: FormCommentsSearch,
   tags: ["autodocs"],
   args: {
     council: "example-council",
     reference: "ABC123",
     type: "public",
+    // defaultOrderBy: "desc",
     searchParams: {
-      orderBy: "desc",
+      query: "example query",
+      //   orderBy: "desc",
       resultsPerPage: 10,
       page: 1,
     },
@@ -36,16 +38,25 @@ const meta: Meta<typeof FormCommentsSort> = {
 
 export default meta;
 
-type Story = StoryObj<typeof FormCommentsSort>;
+type Story = StoryObj<typeof FormCommentsSearch>;
 
 export const Default: Story = {};
 
-export const OldestFirst: Story = {
+export const WithDefaultContent: Story = {
   args: {
     searchParams: {
-      orderBy: "asc",
-      resultsPerPage: 10,
+      query: "This is the default content",
       page: 1,
+      resultsPerPage: 10,
+    },
+  },
+};
+
+export const WithDefaultResultsPerPage: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
     },
   },
 };

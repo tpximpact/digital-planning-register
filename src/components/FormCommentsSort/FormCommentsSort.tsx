@@ -15,28 +15,29 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Button } from "../button/Button";
+import { SearchParams } from "@/types";
+import "./FormCommentsSort.scss";
+import { Button } from "../button";
 
 export interface FormCommentsSortProps {
-  defaultOrderBy?: string;
-  defaultSortBy?: string;
   council: string;
   reference: string;
   type: "public" | "specialist";
+  searchParams?: SearchParams;
 }
 
 export const FormCommentsSort = ({
-  defaultOrderBy = "desc",
-  defaultSortBy = "receivedAt",
   council,
   reference,
   type = "public",
+  searchParams,
 }: FormCommentsSortProps) => {
   return (
     <form
       className="govuk-form"
       method="get"
       action={`/${council}/${reference}/comments`}
+      aria-label="Sort comments"
     >
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
@@ -51,7 +52,7 @@ export const FormCommentsSort = ({
               <select
                 id="sortOrder"
                 name="orderBy"
-                defaultValue={defaultOrderBy}
+                defaultValue={searchParams?.orderBy}
                 className="govuk-select govuk-!-width-full"
               >
                 <option value="desc">Most recent to oldest</option>
@@ -61,7 +62,7 @@ export const FormCommentsSort = ({
           </div>
           <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
             <input type="hidden" name="type" value={type} />
-            <input type="hidden" name="sortBy" value={defaultSortBy} />
+            <input type="hidden" name="sortBy" value={searchParams?.sortBy} />
             <Button variant="secondary" type="submit">
               Apply sorting
             </Button>

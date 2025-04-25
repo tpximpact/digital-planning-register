@@ -62,17 +62,16 @@ async function fetchCommentData({
   ApiResponse<DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse>
 > {
   const { council, reference } = params;
-  const { type, orderBy, sortBy, page } = searchParams ?? {};
+  const { type, sortBy, orderBy, page, resultsPerPage } = searchParams ?? {};
   const appConfig = getAppConfig(council);
   const dataSource = appConfig.council?.dataSource ?? "none";
 
   const apiComments =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-
   const response = await apiComments(dataSource, council, reference, {
     ...searchParams,
     page: page ?? 1,
-    resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+    resultsPerPage: resultsPerPage ?? appConfig.defaults.resultsPerPage,
     orderBy: orderBy ?? "desc",
     sortBy: sortBy ?? "receivedAt",
   });
