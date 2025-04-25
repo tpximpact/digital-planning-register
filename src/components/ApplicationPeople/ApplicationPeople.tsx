@@ -15,25 +15,22 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprPlanningApplication } from "@/types";
+import { DprApplication } from "@/types";
 import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 import "./ApplicationPeople.scss";
-import {
-  Agent,
-  BaseApplicant,
-} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import { Agent } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 
 interface ApplicationPeopleProps {
-  applicant?: DprPlanningApplication["applicant"];
-  caseOfficer?: DprPlanningApplication["officer"];
+  applicant?: DprApplication["submission"]["data"]["applicant"];
+  caseOfficer?: DprApplication["data"]["caseOfficer"];
 }
 
 export const ApplicationPeople = ({
   applicant,
   caseOfficer,
 }: ApplicationPeopleProps) => {
-  const agent = applicant?.agent;
-
+  const agent =
+    applicant && "agent" in applicant ? (applicant as Agent).agent : undefined;
   const hasPeople = caseOfficer || agent || applicant;
   if (!hasPeople) {
     return null;
@@ -73,7 +70,7 @@ export const ApplicationPeople = ({
  * @returns
  */
 export const getCasedOfficerFields = (
-  caseOfficer: DprPlanningApplication["officer"],
+  caseOfficer: DprApplication["data"]["caseOfficer"],
 ) => {
   const caseOfficerName = caseOfficer.name;
   return { caseOfficerName };
@@ -87,7 +84,7 @@ export const getCasedOfficerFields = (
 export const ApplicationPeopleCaseOfficer = ({
   caseOfficer,
 }: {
-  caseOfficer: DprPlanningApplication["officer"];
+  caseOfficer: DprApplication["data"]["caseOfficer"];
 }) => {
   const { caseOfficerName } = getCasedOfficerFields(caseOfficer);
 
@@ -191,7 +188,9 @@ export const ApplicationPeopleAgent = ({
  * @param applicant
  * @returns
  */
-export const getApplicantFields = (applicant: Agent | BaseApplicant) => {
+export const getApplicantFields = (
+  applicant: DprApplication["submission"]["data"]["applicant"],
+) => {
   const applicantName = concatenateFieldsInOrder(
     applicant.name,
     ["first", "last"],
@@ -221,7 +220,7 @@ export const getApplicantFields = (applicant: Agent | BaseApplicant) => {
 export const ApplicationPeopleApplicant = ({
   applicant,
 }: {
-  applicant: Agent | BaseApplicant;
+  applicant: DprApplication["submission"]["data"]["applicant"];
 }) => {
   const { applicantName, applicantType, applicantAddress } =
     getApplicantFields(applicant);
