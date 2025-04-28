@@ -31,6 +31,7 @@ import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
+import { ContentNoResult } from "../ContentNoResult";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -95,7 +96,10 @@ export const PageApplicationComments = ({
             ))}
           </>
         ) : (
-          <ContentNotFound />
+          <ContentNoResult
+            isCommentPage={true}
+            councilConfig={appConfig.council}
+          />
         )}
         {pagination && pagination.totalPages > 1 && (
           <Pagination

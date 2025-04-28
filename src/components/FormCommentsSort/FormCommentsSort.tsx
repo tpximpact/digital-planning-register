@@ -42,7 +42,7 @@ export const FormCommentsSort = ({
       method="get"
       action={`/${council}/${reference}/comments`}
     >
-      <div className="govuk-grid-row govuk-!-margin-left-0">
+      <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
           <h2 className="govuk-heading-m">Search comments</h2>
         </div>

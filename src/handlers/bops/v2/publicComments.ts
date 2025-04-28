@@ -80,7 +80,6 @@ export async function publicComments(
       }
     }
     url = `${url}?${params.toString()}`;
-    console.log("url", url);
   }
 
   const request = await handleBopsGetRequest<
