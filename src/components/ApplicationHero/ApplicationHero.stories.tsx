@@ -160,3 +160,14 @@ export const Withdrawn: Story = {
     application: withdrawn,
   },
 };
+
+// This helps us see that the info icon link just links to the status help page instead of to a specific status within the status page
+export const UnknownStatus: Story = {
+  name: "Unknown status",
+  args: {
+    application: {
+      ...committeeDetermined,
+      applicationStatusSummary: "Unknown",
+    },
+  },
+};
