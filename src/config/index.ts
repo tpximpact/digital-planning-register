@@ -309,13 +309,58 @@ const councils: Council[] = [
     name: "Gateshead",
     slug: "gateshead",
     visibility: "public",
+    contact: "https://www.gateshead.gov.uk/article/18954/Contact-us",
     dataSource: "bops",
     publicComments: false,
-    specialistComments: false,
+    specialistComments: true,
     pageContent: {
+      council_reference_submit_comment_pre_submission: {
+        what_happens_to_your_comments_link:
+          "https://www.gateshead.gov.uk/media/6694/material-planning-considerations/pdf/Material-Planning-Considerations.pdf?m=1521718867907",
+      },
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://www.gateshead.gov.uk/article/19485/Send-an-enquiry-for-planning",
+        corporate_privacy_statement_link:
+          "https://www.gateshead.gov.uk/dataprotection",
+        planning_service_privacy_statement_link:
+          "https://www.gateshead.gov.uk/article/24369/Climate-Compliance-Planning-and-Transport-Privacy-Notice",
+      },
+      council_reference_submit_comment_check_answer: {
+        contact_planning_advice_link:
+          "https://www.gateshead.gov.uk/article/19485/Send-an-enquiry-for-planning",
+        corporate_privacy_statement_link:
+          "https://www.gateshead.gov.uk/dataprotection",
+        planning_service_privacy_statement_link:
+          "https://www.gateshead.gov.uk/article/24369/Climate-Compliance-Planning-and-Transport-Privacy-Notice",
+      },
       privacy_policy: {
         privacy_policy_link:
           "https://www.gateshead.gov.uk/article/3711/Corporate-Privacy-Notice",
+      },
+      help: {
+        planning_process: {
+          council_local_plan_link:
+            "https://www.gateshead.gov.uk/article/3001/Local-Plan",
+        },
+        concerns: {
+          parking_link: "https://www.gateshead.gov.uk/article/4349/Car-parks ",
+          building_control_link:
+            "https://www.gateshead.gov.uk/article/11436/Tell-us-about-a-dangerous-building-or-structure",
+          housing_repair_link: "https://www.gateshead.gov.uk/repairs",
+          street_issues_link:
+            "https://www.gateshead.gov.uk/article/17140/Report-a-problem-on-a-road-or-footpath",
+          abandoned_vehicles_link:
+            "https://www.gateshead.gov.uk/article/4508/Abandoned-vehicles",
+          fly_tipping_link:
+            "https://www.gateshead.gov.uk/article/3505/Fly-tipping",
+          noise_link:
+            "https://www.gateshead.gov.uk/article/8060/Report-a-noise-complaint",
+          licensing_link:
+            "https://www.gateshead.gov.uk/article/19395/Make-a-complaint-about-business-and-licensing",
+          apply_for_building_control_regularisation_link:
+            "https://www.gateshead.gov.uk/article/8474/Apply-for-building-regulations-approval",
+        },
       },
     },
   },
