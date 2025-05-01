@@ -120,7 +120,7 @@ export const CommentsList = ({
   );
 };
 
-export function CommentsListSkeleton({ type }: { type?: DprCommentTypes }) {
+export const CommentsListSkeleton = ({ type }: { type?: DprCommentTypes }) => {
   const sectionId =
     type === "specialist" ? "specialist-comments" : "public-comments";
   const headingId =
@@ -133,11 +133,11 @@ export function CommentsListSkeleton({ type }: { type?: DprCommentTypes }) {
       <h2 id={headingId} className="govuk-heading-l">
         {type === "specialist" ? "Specialist Comments" : "Public Comments"}
       </h2>
-      <div>
+      <div className="govuk-grid-row grid-row-extra-bottom-margin">
         {Array.from({ length: 3 }).map((_, index) => (
           <CommentCard key={index} />
         ))}
       </div>
     </section>
   );
-}
+};
