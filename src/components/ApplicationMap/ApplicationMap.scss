@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "node_modules/govuk-frontend/dist/govuk/base";
+@import "src/styles/component-base";
 
 .dpr-application-map {
   // add margin to account for the focus outline of .25em
