@@ -33,22 +33,22 @@ async function fetchData({
   params,
   type,
 }: {
-  params: { council: string; reference: string };
+  params: { councilSlug: string; reference: string };
   type?: DprCommentTypes;
 }): Promise<{
   response: ApiResponse<
     DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse | null
   >;
 }> {
-  const { reference, council } = params;
-  const appConfig = getAppConfig(council);
+  const { reference, councilSlug } = params;
+  const appConfig = getAppConfig(councilSlug);
 
   const commentsApi =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
 
   const response = await commentsApi(
     appConfig.council?.dataSource ?? "none",
-    council,
+    councilSlug,
     reference,
   );
 
@@ -93,7 +93,7 @@ export function CommentsListWithSuspense({
       <CommentsListLoader
         reference={reference}
         type={type}
-        council={councilSlug}
+        councilSlug={councilSlug}
         resultsPerPage={resultsPerPage}
       />
     </Suspense>
@@ -101,18 +101,18 @@ export function CommentsListWithSuspense({
 }
 
 async function CommentsListLoader({
-  council,
+  councilSlug,
   reference,
   type,
   resultsPerPage,
 }: {
-  council: string;
+  councilSlug: string;
   reference: string;
   type?: DprCommentTypes;
   resultsPerPage?: number;
 }) {
   const { response } = await fetchData({
-    params: { council, reference },
+    params: { councilSlug, reference },
     type,
   });
   const summary = response.data?.summary;
@@ -121,7 +121,7 @@ async function CommentsListLoader({
     <CommentsList
       summary={summary}
       comments={loadedComments}
-      councilSlug={council}
+      councilSlug={councilSlug}
       reference={reference}
       type={type}
       resultsPerPage={resultsPerPage}
