@@ -62,7 +62,7 @@ async function fetchCommentData({
   ApiResponse<DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse>
 > {
   const { council, reference } = params;
-  const { type, orderBy, page } = searchParams ?? {};
+  const { type, orderBy, sortBy, page } = searchParams ?? {};
   const appConfig = getAppConfig(council);
   const dataSource = appConfig.council?.dataSource ?? "none";
 
@@ -74,6 +74,7 @@ async function fetchCommentData({
     page: page ?? 1,
     resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
     orderBy: orderBy ?? "desc",
+    sortBy: sortBy ?? "receivedAt",
   });
 
   return {
