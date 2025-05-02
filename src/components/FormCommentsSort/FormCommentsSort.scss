@@ -14,19 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
- 
-.dpr-comment-filter {
-    &__button {
-         width: auto
+.dpr-form-comments-sort {
+  &__select {
+    width: 100%;
   }
-}
-
-.drp-dropdown {
-    &__group {
-        width: 100%;
-        margin-bottom: 0;
-    }
-    &__select {
-      width: 100%;
-    }
 }

@@ -15,10 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Button } from "../button/Button";
 import "./FormCommentsSort.scss";
 
 export interface FormCommentsSortProps {
   defaultOrderBy?: string;
+  defaultSortBy?: string;
   council: string;
   reference: string;
   type: "public" | "specialist";
@@ -26,13 +28,14 @@ export interface FormCommentsSortProps {
 
 export const FormCommentsSort = ({
   defaultOrderBy = "desc",
+  defaultSortBy = "receivedAt",
   council,
   reference,
   type = "public",
 }: FormCommentsSortProps) => {
   return (
     <form
-      className="govuk-form dpr-comment-filter"
+      className="govuk-form dpr-form-comments-sort"
       method="get"
       action={`/${council}/${reference}/comments`}
     >
@@ -41,8 +44,8 @@ export const FormCommentsSort = ({
           <h2 className="govuk-heading-m">Search comments</h2>
         </div>
         <div className="govuk-grid-row govuk-!-margin-left-0">
-          <div className="govuk-grid-column-one-third dpr-dropdown">
-            <div className="govuk-form-group drp-dropdown__group">
+          <div className="govuk-grid-column-one-third">
+            <div className="govuk-form-group">
               <label htmlFor="sortOrder" className="govuk-label">
                 Sort by
               </label>
@@ -50,7 +53,7 @@ export const FormCommentsSort = ({
                 id="sortOrder"
                 name="orderBy"
                 defaultValue={defaultOrderBy}
-                className="govuk-select drp-dropdown__select"
+                className="govuk-select dpr-form-comments-sort__select"
               >
                 <option value="desc">Most recent to oldest</option>
                 <option value="asc">Oldest to most recent</option>
@@ -59,12 +62,10 @@ export const FormCommentsSort = ({
           </div>
           <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
             <input type="hidden" name="type" value={type} />
-            <button
-              type="submit"
-              className="govuk-button govuk-button--secondary dpr-comment-filter__button"
-            >
+            <input type="hidden" name="sortBy" value={defaultSortBy} />
+            <Button variant="secondary" type="submit">
               Apply sorting
-            </button>
+            </Button>
           </div>
         </div>
       </div>
