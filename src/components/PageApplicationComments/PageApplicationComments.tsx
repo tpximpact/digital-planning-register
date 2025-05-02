@@ -31,12 +31,7 @@ import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
-import {
-  getEnabledFields,
-  COMMENT_SEARCH_FIELDS,
-  disabledCommentSearchFields,
-} from "@/util/featureFlag";
-import { useMemo } from "react";
+import { commentSearchFields } from "@/util/featureFlag";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -65,10 +60,6 @@ export const PageApplicationComments = ({
   searchParams,
   comments,
 }: PageApplicationCommentsProps) => {
-  const commentSearchFields = useMemo(
-    () => getEnabledFields(COMMENT_SEARCH_FIELDS, disabledCommentSearchFields),
-    [],
-  );
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>

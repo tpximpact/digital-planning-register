@@ -1,58 +1,37 @@
-import { getEnabledFields } from "../../src/util/featureFlag";
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-describe("getEnabledFields", () => {
-  it("returns all fields when disabledFields is empty", () => {
-    const allFields = [
-      "sentiment",
-      "query",
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ];
-    const disabledFields: string[] = [];
-    expect(getEnabledFields(allFields, disabledFields)).toEqual([
-      "sentiment",
-      "query",
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ]);
+import { computeEnabledFields } from "@/util/featureFlag";
+
+describe("computeEnabledFields", () => {
+  it("returns all fields when envVar is undefined", () => {
+    const all = ["sentiment", "publishedAtTo", "publishedAtFrom"];
+    expect(computeEnabledFields(all, undefined)).toEqual(all);
   });
 
-  it("filters out disabled fields", () => {
-    const allFields = [
-      "sentiment",
-      "query",
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ];
-    const disabledFields = [
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ];
-    expect(getEnabledFields(allFields, disabledFields)).toEqual([
-      "sentiment",
-      "query",
-    ]);
+  it("filters out fields listed in envVar", () => {
+    const all = ["sentiment", "publishedAtTo", "publishedAtFrom"];
+    const envVar = "publishedAtTo,publishedAtFrom";
+    expect(computeEnabledFields(all, envVar)).toEqual(["sentiment"]);
   });
 
-  it("returns empty array when all fields are disabled", () => {
-    const allFields = [
-      "sentiment",
-      "query",
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ];
-    const disabledFields = [
-      "sentiment",
-      "query",
-      "resultsPerPage",
-      "publishedAtFrom",
-      "publishedAtTo",
-    ];
-    expect(getEnabledFields(allFields, disabledFields)).toEqual([]);
+  it("returns empty array when all fields disabled", () => {
+    const all = ["sentiment", "publishedAtTo", "publishedAtFrom", "query"];
+    const envVar = "sentiment,publishedAtTo,publishedAtFrom,query";
+    expect(computeEnabledFields(all, envVar)).toEqual([]);
   });
 });
