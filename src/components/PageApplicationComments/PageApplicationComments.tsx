@@ -31,6 +31,12 @@ import { PageMain } from "../PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
+import {
+  getEnabledFields,
+  COMMENT_SEARCH_FIELDS,
+  disabledCommentSearchFields,
+} from "@/util/featureFlag";
+import { useMemo } from "react";
 
 export interface PageApplicationCommentsProps {
   reference: string;
@@ -59,6 +65,10 @@ export const PageApplicationComments = ({
   searchParams,
   comments,
 }: PageApplicationCommentsProps) => {
+  const commentSearchFields = useMemo(
+    () => getEnabledFields(COMMENT_SEARCH_FIELDS, disabledCommentSearchFields),
+    [],
+  );
   if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
@@ -79,6 +89,26 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
+        {/* Temporary disabled filters  */}
+        {commentSearchFields.includes("sentiment") && (
+          <p>Pretend I am the sentiment filter</p>
+        )}
+        {commentSearchFields.includes("publishedAtTo") && (
+          <p>Pretend I am the publishedAtTo filter</p>
+        )}
+        {commentSearchFields.includes("publishedAtFrom") && (
+          <p>Pretend I am the publishedAtFrom filter</p>
+        )}
+        {commentSearchFields.includes("query") && (
+          <p>Pretend I am the query filter</p>
+        )}
+        {commentSearchFields.includes("resultsPerPage") && (
+          <p>Pretend I am the resultsPerPage filter</p>
+        )}
+        {commentSearchFields.includes("page") && (
+          <p>Pretend I am the page filter</p>
+        )}
+
         <FormCommentsSort
           council={councilSlug}
           reference={reference}
