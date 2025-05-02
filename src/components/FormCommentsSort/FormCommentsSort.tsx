@@ -16,7 +16,6 @@
  */
 
 import { Button } from "../button/Button";
-import "./FormCommentsSort.scss";
 
 export interface FormCommentsSortProps {
   defaultOrderBy?: string;
@@ -35,7 +34,7 @@ export const FormCommentsSort = ({
 }: FormCommentsSortProps) => {
   return (
     <form
-      className="govuk-form dpr-form-comments-sort"
+      className="govuk-form"
       method="get"
       action={`/${council}/${reference}/comments`}
     >
@@ -53,7 +52,7 @@ export const FormCommentsSort = ({
                 id="sortOrder"
                 name="orderBy"
                 defaultValue={defaultOrderBy}
-                className="govuk-select dpr-form-comments-sort__select"
+                className="govuk-select govuk-!-width-full"
               >
                 <option value="desc">Most recent to oldest</option>
                 <option value="asc">Oldest to most recent</option>
