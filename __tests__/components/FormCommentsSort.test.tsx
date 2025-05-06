@@ -20,11 +20,12 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { SearchParams } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 export interface FormCommentsSortProps {
   council: string;
   reference: string;
-  type: "public" | "specialist";
+  type: CommentType;
   searchParams?: SearchParams;
 }
 

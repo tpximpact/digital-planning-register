@@ -81,21 +81,19 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <>
-          <FormCommentsSearch
-            council={councilSlug}
-            reference={reference}
-            searchParams={searchParams}
-            type={type}
-          />
-          <FormCommentsSort
-            council={councilSlug}
-            reference={reference}
-            searchParams={searchParams}
-            type={type}
-          />
-          <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
-        </>
+        <FormCommentsSearch
+          council={councilSlug}
+          reference={reference}
+          searchParams={searchParams}
+          type={type}
+        />
+        <FormCommentsSort
+          council={councilSlug}
+          reference={reference}
+          searchParams={searchParams}
+          type={type}
+        />
+        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment) => (
@@ -103,7 +101,7 @@ export const PageApplicationComments = ({
             ))}
           </>
         ) : (
-          <ContentNoResult councilConfig={appConfig.council} type="comments" />
+          <ContentNoResult councilConfig={appConfig.council} type="comment" />
         )}
         {pagination && pagination.totalPages > 1 && (
           <Pagination

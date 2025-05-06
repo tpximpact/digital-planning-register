@@ -18,17 +18,19 @@
 import Link from "next/link";
 import { AppConfig } from "@/config/types";
 
+export type ContentNoResultContentTypes = "comment" | "application";
+
 interface ContentNoResultProps {
   councilConfig?: AppConfig["council"];
-  type?: "comments" | "applications" | undefined;
+  type?: ContentNoResultContentTypes;
 }
 
-const getNoResultTitle = (type?: "comments" | "applications") => {
-  const titleMap: Record<"comments" | "applications", string> = {
-    comments: "comments",
-    applications: "applications",
+const getNoResultTitle = (type?: ContentNoResultContentTypes) => {
+  const titleMap: Record<ContentNoResultContentTypes, string> = {
+    comment: "comments",
+    application: "applications",
   };
-  return titleMap[type ?? "applications"];
+  return titleMap[type ?? "application"];
 };
 
 export const ContentNoResult = ({

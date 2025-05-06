@@ -26,13 +26,14 @@ import {
 } from "@mocks/dprApplicationFactory";
 import { generateApplicationSubmission } from "@mocks/odpApplicationSubmission";
 import { DprComment } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 const baseProps = {
   reference: "123",
   application: generateApplicationSubmission,
   appConfig: createAppConfig("public-council-1"),
   params: { council: "public-council-1", reference: "123" },
-  type: "public" as const,
+  type: "public" as CommentType,
   pagination: generatePagination(1, 10),
   searchParams: {
     page: 1,

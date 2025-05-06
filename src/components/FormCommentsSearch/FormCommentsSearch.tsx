@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { SearchParams } from "@/types";
+import { SearchParamsComments } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 export interface FormCommentsSortProps {
   council: string;
   reference: string;
-  type: "public" | "specialist";
-  searchParams?: SearchParams;
+  type: CommentType;
+  searchParams?: SearchParamsComments;
 }
 
 export const FormCommentsSearch = ({
@@ -37,59 +37,57 @@ export const FormCommentsSearch = ({
       aria-label="Search comments"
       action={`/${council}/${reference}/comments`}
     >
-      <div>
-        <h2 className="govuk-heading-m">Search comments</h2>
+      <h2 className="govuk-heading-m">Search comments</h2>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-one-third">
+          <div className="govuk-form-group">
+            <label htmlFor="query" className="govuk-label">
+              Contents
+            </label>
+            <input
+              name="query"
+              className="govuk-input"
+              id="query"
+              type="text"
+              defaultValue={searchParams?.query}
+            />
+          </div>
+        </div>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-third">
             <div className="govuk-form-group">
-              <label htmlFor="query" className="govuk-label">
-                Contents
+              <label htmlFor="resultsPerPage" className="govuk-label">
+                Comments per page
               </label>
-              <input
-                name="query"
-                className="govuk-input"
-                id="query"
-                type="text"
-                defaultValue={searchParams?.query}
-              />
+              <select
+                id="resultsPerPage"
+                name="resultsPerPage"
+                defaultValue={searchParams?.resultsPerPage}
+                className="govuk-select drp-dropdown__select"
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+              </select>
             </div>
           </div>
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-one-third">
-              <div className="govuk-form-group">
-                <label htmlFor="resultsPerPage" className="govuk-label">
-                  Comments per page
-                </label>
-                <select
-                  id="resultsPerPage"
-                  name="resultsPerPage"
-                  defaultValue={searchParams?.resultsPerPage}
-                  className="govuk-select drp-dropdown__select"
-                >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
-            <input type="hidden" name="type" value={type} />
-            <div className="govuk-grid-column-full govuk-button-group">
-              <button
-                type="submit"
-                className="govuk-button dpr-comment-filter__button"
-              >
-                Search
-              </button>
-              <a
-                href={`/${council}/${reference}/comments?type=${type}`}
-                className="govuk-button govuk-button--secondary"
-                role="button"
-              >
-                Clear search
-              </a>
-            </div>
+        </div>
+        <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
+          <input type="hidden" name="type" value={type} />
+          <div className="govuk-grid-column-full govuk-button-group">
+            <button
+              type="submit"
+              className="govuk-button dpr-comment-filter__button"
+            >
+              Search
+            </button>
+            <a
+              href={`/${council}/${reference}/comments?type=${type}`}
+              className="govuk-button govuk-button--secondary"
+              role="button"
+            >
+              Clear search
+            </a>
           </div>
         </div>
       </div>

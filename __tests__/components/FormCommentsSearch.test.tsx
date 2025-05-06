@@ -19,12 +19,13 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormCommentsSearch } from "@/components/FormCommentsSearch";
 import { SearchParams } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 describe("FormCommentsSearch", () => {
   const baseProps = {
     council: "camden",
     reference: "123",
-    type: "public" as const,
+    type: "public" as CommentType,
   };
 
   it("renders with default empty fields when no searchParams are provided", () => {
