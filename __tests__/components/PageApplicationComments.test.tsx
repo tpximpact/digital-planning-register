@@ -17,36 +17,147 @@
 
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { PageApplicationComments } from "@/components/PageApplicationComments";
+import {
+  PageApplicationComments,
+  PageApplicationCommentsProps,
+} from "@/components/PageApplicationComments";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
-  generatePagination,
   generateComment,
   generateNResults,
+  generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { generateApplicationSubmission } from "@mocks/odpApplicationSubmission";
 import { DprComment } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
+
+jest.mock("@/components/ContextSetter", () => ({
+  ContextSetter: jest.fn(() => <div data-testid="ContextSetter" />),
+}));
+
+jest.mock("@/components/FormCommentsSearch", () => ({
+  FormCommentsSearch: jest.fn(() => <div data-testid="FormCommentsSearch" />),
+}));
+
+jest.mock("@/components/FormCommentsSort", () => ({
+  FormCommentsSort: jest.fn(() => <div data-testid="FormCommentsSort" />),
+}));
+
+jest.mock("@/components/CommentCard", () => ({
+  CommentCard: jest.fn(({ comment }) => (
+    <div data-testid="CommentCard">{comment.receivedDate}</div>
+  )),
+}));
+
+jest.mock("@/components/govuk/Pagination", () => ({
+  Pagination: jest.fn(() => <div data-testid="Pagination" />),
+}));
+
+jest.mock("@/components/ContentNotFound", () => ({
+  ContentNotFound: jest.fn(() => <div data-testid="ContentNotFound" />),
+}));
+
+jest.mock("@/components/ContentNoResult", () => ({
+  ContentNoResult: jest.fn(() => <div data-testid="ContentNoResult" />),
+}));
+
+const { consultation } = generateExampleApplications();
+const appConfig = createAppConfig("public-council-1");
+const comments = generateNResults<DprComment>(10, generateComment);
 
 describe("PageApplicationComments", () => {
-  it("renders comments when API returns data", async () => {
-    const appConfig = createAppConfig("public-council-1");
-    const comments = generateNResults<DprComment>(10, () => generateComment());
-    const pagination = generatePagination(1, 10);
-    const application = generateApplicationSubmission;
+  const defaultProps = {
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
+    application: consultation,
+    appConfig: appConfig,
+    type: "public" as CommentType,
+    pagination: generatePagination(1, 50),
+    searchParams: {
+      page: 1,
+      resultsPerPage: 25,
+      type: "public" as CommentType,
+    },
+    comments: comments,
+  };
 
-    render(
-      <PageApplicationComments
-        reference="123"
-        comments={comments}
-        application={application}
-        appConfig={appConfig}
-        params={{ council: "public-council-1", reference: "123" }}
-        type="public"
-        pagination={pagination}
-        searchParams={{ page: 1, resultsPerPage: 10 }}
-      />,
+  it("renders the default component correctly", () => {
+    render(<PageApplicationComments {...defaultProps} />);
+
+    // Check the heading
+    const heading = screen.getByRole("heading", {
+      name: "Public Comments",
+      level: 1,
+    });
+    expect(heading).toBeInTheDocument();
+
+    // check search and sort filters present
+    expect(screen.getByTestId("FormCommentsSearch")).toBeInTheDocument();
+    expect(screen.getByTestId("FormCommentsSort")).toBeInTheDocument();
+
+    // Check if CommentCard is rendered for each comment
+    const commentCards = screen.getAllByTestId("CommentCard");
+    expect(commentCards).toHaveLength(10);
+
+    // Check if Pagination is rendered
+    expect(screen.getByTestId("Pagination")).toBeInTheDocument();
+  });
+
+  it("renders the ContentNotFound component when appConfig is missing", () => {
+    const props = {
+      ...defaultProps,
+      appConfig: null,
+    } as unknown as PageApplicationCommentsProps;
+    render(<PageApplicationComments {...props} />);
+
+    // Check if ContentNotFound is rendered
+    expect(screen.getByTestId("ContentNotFound")).toBeInTheDocument();
+  });
+
+  // remove this when unskipping the below tests
+  it("renders the ContentNoResult component when there are no comments", () => {
+    const props = { ...defaultProps, comments: null };
+    render(<PageApplicationComments {...props} />);
+
+    // Check if ContentNoResult is rendered
+    expect(screen.getByTestId("ContentNoResult")).toBeInTheDocument();
+  });
+
+  it.skip("renders the ContentNoResult component when there are no results from the query", () => {
+    const props = {
+      ...defaultProps,
+      searchParams: { ...defaultProps.searchParams, query: "some results" },
+    };
+    render(<PageApplicationComments {...props} />);
+    // Check if ContentNoResult is rendered
+    expect(screen.getByTestId("ContentNoResult")).toBeInTheDocument();
+  });
+
+  it.skip("renders no comments have been published when there are no comments at all", () => {
+    const props = {
+      ...defaultProps,
+      comments: [],
+      pagination: generatePagination(1, 0),
+    };
+    render(<PageApplicationComments {...props} />);
+
+    // Check if ContentNoResult is rendered
+    const notFound = screen.getByText(
+      /No comments from the public have been published at this time./i,
     );
-    const comment = screen.getByText(`Comment #${comments[0].id.toString()}`);
-    expect(comment).toBeInTheDocument();
+    expect(notFound).toBeInTheDocument();
+  });
+
+  it("does not render Pagination when totalPages is 1", () => {
+    const props = {
+      ...defaultProps,
+      pagination: generatePagination(1, 10),
+    };
+    render(<PageApplicationComments {...props} />);
+
+    // Check that Pagination is not rendered
+    expect(screen.queryByTestId("Pagination")).not.toBeInTheDocument();
   });
 });

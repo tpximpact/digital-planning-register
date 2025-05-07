@@ -22,42 +22,38 @@ import {
   SearchParamsComments,
 } from "@/types";
 import { BackButton } from "@/components/BackButton";
-import ApplicationHeader from "../application_header";
 import { Pagination } from "@/components/govuk/Pagination";
 import { AppConfig } from "@/config/types";
 import { CommentCard } from "@/components/CommentCard";
-import { ContentNotFound } from "../ContentNotFound";
-import { PageMain } from "../PageMain";
+import { ContentNotFound } from "@/components/ContentNotFound";
+import { PageMain } from "@/components/PageMain";
 import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
+import { ContentNoResult } from "@/components/ContentNoResult";
+import { FormCommentsSearch } from "@/components/FormCommentsSearch";
+import { ContextSetter } from "@/components/ContextSetter";
 
 export interface PageApplicationCommentsProps {
-  reference: string;
-  application: DprApplication;
-  comments: DprComment[] | null;
-  appConfig: AppConfig;
   params: {
     council: string;
     reference: string;
   };
+  appConfig: AppConfig;
+  application: DprApplication;
   type: DprCommentTypes;
+  comments: DprComment[] | null;
+  searchParams: SearchParamsComments;
   pagination?: DprPagination;
-  searchParams?: SearchParamsComments;
-  orderBy?: string;
 }
 
-export type OrderBy = "asc" | "desc";
-
 export const PageApplicationComments = ({
-  reference,
-  application,
-  appConfig,
   params,
+  appConfig,
+  application,
   type,
+  comments,
   pagination,
   searchParams,
-  comments,
 }: PageApplicationCommentsProps) => {
   if (!appConfig || !appConfig.council) {
     return (
@@ -66,25 +62,38 @@ export const PageApplicationComments = ({
       </PageMain>
     );
   }
-  const councilSlug = appConfig.council.slug;
-  const address = getPropertyAddress(
-    application?.submission?.data?.property?.address,
-  );
+  const { council: councilSlug, reference } = params;
 
   return (
     <>
-      <BackButton baseUrl={`/${councilSlug}/${reference}`} />
+      <BackButton baseUrl={createPathFromParams(params)} />
       <PageMain>
-        <ApplicationHeader reference={reference} address={address} />
+        <ContextSetter
+          councilSlug={councilSlug}
+          reference={reference}
+          application={application}
+        />
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <FormCommentsSort
-          council={councilSlug}
-          reference={reference}
-          defaultOrderBy={searchParams?.orderBy}
-          type={type}
-        />
+        <form
+          className="govuk-form"
+          method="get"
+          action={createPathFromParams(params, "comments/search")}
+          aria-label="Search & Sort comments"
+        >
+          <input type="hidden" name="type" value={type} />
+          <input type="hidden" name="council" value={councilSlug} />
+          <input type="hidden" name="reference" value={reference} />
+          <FormCommentsSearch
+            council={councilSlug}
+            reference={reference}
+            searchParams={searchParams}
+            // type={type}
+          />
+          <FormCommentsSort searchParams={searchParams} />
+        </form>
+        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment) => (
@@ -92,8 +101,9 @@ export const PageApplicationComments = ({
             ))}
           </>
         ) : (
-          <ContentNotFound />
+          <ContentNoResult councilConfig={appConfig.council} type="comment" />
         )}
+
         {pagination && pagination.totalPages > 1 && (
           <Pagination
             baseUrl={createPathFromParams(params, "comments")}

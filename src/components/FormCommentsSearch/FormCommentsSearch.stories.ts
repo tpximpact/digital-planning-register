@@ -16,35 +16,38 @@
  */
 
 import { Meta, StoryObj } from "@storybook/react";
-import { FormCommentsSort } from "./FormCommentsSort";
+import { FormCommentsSearch } from "./FormCommentsSearch";
 
-const meta: Meta<typeof FormCommentsSort> = {
-  title: "Forms/Comments Sort",
-  component: FormCommentsSort,
+const meta: Meta<typeof FormCommentsSearch> = {
+  title: "Forms/Comments Search",
+  component: FormCommentsSearch,
   tags: ["autodocs"],
-  args: {
-    searchParams: {
-      type: "public",
-      resultsPerPage: 10,
-      page: 1,
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: "fullscreen",
+    nextjs: {
+      appDirectory: true,
     },
+  },
+  args: {
+    council: "example-council",
+    reference: "ABC123",
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof FormCommentsSort>;
+type Story = StoryObj<typeof FormCommentsSearch>;
 
 export const Default: Story = {};
 
-export const OldestFirst: Story = {
+export const WithContent: Story = {
   args: {
     searchParams: {
       type: "public",
-      sortBy: "receivedAt",
-      orderBy: "asc",
-      resultsPerPage: 10,
+      query: "This is the default content",
       page: 1,
+      resultsPerPage: 25,
     },
   },
 };
@@ -54,8 +57,8 @@ export const WithForm: Story = {
     action: "/comments",
     searchParams: {
       type: "public",
-      resultsPerPage: 10,
       page: 1,
+      resultsPerPage: 25,
     },
   },
 };

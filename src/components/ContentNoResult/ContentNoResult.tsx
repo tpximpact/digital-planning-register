@@ -18,15 +18,31 @@
 import Link from "next/link";
 import { AppConfig } from "@/config/types";
 
+export type ContentNoResultContentTypes = "comment" | "application";
+
 interface ContentNoResultProps {
   councilConfig?: AppConfig["council"];
+  type?: ContentNoResultContentTypes;
 }
 
-export const ContentNoResult = ({ councilConfig }: ContentNoResultProps) => {
+const getNoResultTitle = (type?: ContentNoResultContentTypes) => {
+  const titleMap: Record<ContentNoResultContentTypes, string> = {
+    comment: "comments",
+    application: "applications",
+  };
+  return titleMap[type ?? "application"];
+};
+
+export const ContentNoResult = ({
+  councilConfig,
+  type,
+}: ContentNoResultProps) => {
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
-        <h2 className="govuk-heading-s">No applications match your search</h2>
+        <h2 className="govuk-heading-s">
+          No {getNoResultTitle(type)} match your search
+        </h2>
         {councilConfig?.slug && (
           <p className="govuk-body">
             You can try searching again, or{" "}
