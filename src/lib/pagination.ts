@@ -26,17 +26,18 @@ import { DprPagination } from "@/types";
  */
 
 export const createItemPagination = (
-  totalItems: number = 0,
+  totalResults: number = 0,
   paramsPage: number = 1,
   maxDisplayItems: number = 10,
 ): DprPagination => {
   const currentPage = Number(paramsPage);
-  const totalPages = Math.ceil(totalItems / maxDisplayItems);
+  const totalPages = Math.ceil(totalResults / maxDisplayItems);
 
   return {
     resultsPerPage: maxDisplayItems,
     currentPage: currentPage,
     totalPages: totalPages,
-    totalItems: totalItems,
+    totalResults,
+    totalAvailableItems: totalResults,
   };
 };

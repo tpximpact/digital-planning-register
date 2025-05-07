@@ -91,7 +91,8 @@ export const convertBopsToDprPagination = (
     resultsPerPage: bopsPagination.results,
     currentPage: bopsPagination.page,
     totalPages: bopsPagination.total_pages,
-    totalItems: bopsPagination.total_results,
+    totalResults: bopsPagination.total_results,
+    totalAvailableItems: bopsPagination.total_results,
   };
 };
 

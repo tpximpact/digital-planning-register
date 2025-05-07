@@ -80,7 +80,7 @@ describe("PageSearch Component", () => {
       <PageSearch
         appConfig={getAppConfig("public-council-1")}
         applications={exampleApplications}
-        pagination={generatePagination(0, 100)}
+        pagination={generatePagination(0, 100, 200)}
         searchParams={{ page: 1, resultsPerPage: 10, query: "search" }}
       />,
     );

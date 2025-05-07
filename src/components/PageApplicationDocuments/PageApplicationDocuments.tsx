@@ -61,7 +61,8 @@ export const PageApplicationDocuments = ({
     currentPage: 1,
     resultsPerPage: searchParams?.resultsPerPage ?? 9,
     totalPages: 1,
-    totalItems: documents?.length ?? 0,
+    totalResults: documents?.length ?? 0,
+    totalAvailableItems: documents?.length ?? 0,
   };
 
   const { currentPage, resultsPerPage } = documentsPagination;

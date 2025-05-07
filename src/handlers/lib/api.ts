@@ -35,5 +35,6 @@ export const defaultPagination = {
   resultsPerPage: 0,
   currentPage: 1,
   totalPages: 1,
-  totalItems: 0,
+  totalResults: 0,
+  totalAvailableItems: 0,
 };

@@ -108,6 +108,7 @@ export const generateDocument = (): DprDocument => {
 export const generatePagination = (
   currentPage: number,
   totalResults: number,
+  totalAvailableItems: number = totalResults,
   resultsPerPage: number = 10,
 ): DprPagination => {
   const totalPages = Math.ceil(totalResults / resultsPerPage);
@@ -116,7 +117,8 @@ export const generatePagination = (
     resultsPerPage,
     currentPage: Number(currentPage),
     totalPages,
-    totalItems: totalResults,
+    totalResults,
+    totalAvailableItems,
   };
 };
 

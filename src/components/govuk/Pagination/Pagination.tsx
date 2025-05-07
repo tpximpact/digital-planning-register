@@ -62,7 +62,8 @@ export interface Page {
  * @param {number} pagination.currentPage - The current page number.
  * @param {number} pagination.totalPages - The total number of pages.
  * @param {number} pagination.itemsPerPage - The number of items per page.
- * @param {number} pagination.totalItems - The total number of items.
+ * @param {number} pagination.totalResults - The total number of items for this request.
+ * @param {number} pagination.totalAvailableItems - The total number of items available overall.
  * @param {Object} [prev] - Previous page link.
  * @param {Object} [next] - Next page link.
  * @returns {JSX.Element} The Pagination component.

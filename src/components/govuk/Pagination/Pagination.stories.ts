@@ -29,7 +29,8 @@ const meta = {
       currentPage: 50,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
     baseUrl: "search",
     searchParams: {
@@ -67,7 +68,8 @@ export const FirstPage: Story = {
       currentPage: 1,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -78,7 +80,8 @@ export const SecondPage: Story = {
       currentPage: 2,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -89,7 +92,8 @@ export const ThirdPage: Story = {
       currentPage: 3,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -100,7 +104,8 @@ export const FourthPage: Story = {
       currentPage: 4,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -111,7 +116,8 @@ export const FifthPage: Story = {
       currentPage: 5,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -122,7 +128,8 @@ export const NinetyEighthPage: Story = {
       currentPage: 98,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -133,7 +140,8 @@ export const NinetyNinthPage: Story = {
       currentPage: 99,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -144,7 +152,8 @@ export const LastPage: Story = {
       currentPage: 100,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -155,7 +164,8 @@ export const HigherThanPossiblePage: Story = {
       currentPage: 101,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -166,7 +176,8 @@ export const LowerThanPossiblePage: Story = {
       currentPage: 0,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -177,7 +188,8 @@ export const EvenLowerThanPossiblePage: Story = {
       currentPage: -1,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
@@ -188,7 +200,8 @@ export const MoreItemsThanPages: Story = {
       currentPage: 101,
       totalPages: 100,
       resultsPerPage: 10,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     },
   },
 };
