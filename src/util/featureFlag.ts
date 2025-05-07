@@ -77,6 +77,8 @@ export const COMMENT_SEARCH_FIELDS = [
   "publishedAtFrom",
   "publishedAtTo",
   "sentiment",
+  "sentimentSpecialist",
+  "topic",
 ] as const;
 
 export const commentSearchFields = handleFeatureFlags(

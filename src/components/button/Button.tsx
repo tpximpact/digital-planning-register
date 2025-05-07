@@ -47,6 +47,8 @@ interface ButtonProps {
   >;
   ariaLabel?: string;
   variant?: ButtonVariant;
+  value?: string;
+  name?: string;
 }
 
 export const Button = ({
@@ -58,6 +60,8 @@ export const Button = ({
   onClick,
   ariaLabel,
   variant = "default",
+  value,
+  name,
 }: ButtonProps) => {
   const getVariantClass = (variant: ButtonVariant) => {
     switch (variant) {
@@ -82,7 +86,9 @@ export const Button = ({
   } ${getVariantClass(variant)} ${className}`.trim();
 
   const optionalProps = {
-    ...(ariaLabel && { "aria-label": ariaLabel as string }),
+    ...(ariaLabel && { "aria-label": ariaLabel }),
+    ...(value && { value }),
+    ...(name && { name }),
   };
 
   if (element === "link" && href) {

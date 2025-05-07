@@ -21,16 +21,9 @@ import {
   FormCommentsSearchProps,
 } from "@/components/FormCommentsSearch";
 import { COMMENT_RESULTSPERPAGE_DEFAULT } from "@/lib/comments";
-import { useSearchParams } from "next/navigation";
-
-jest.mock("next/navigation", () => ({
-  useSearchParams: jest.fn(),
-}));
 
 describe("FormCommentsSearch", () => {
   const defaultProps: FormCommentsSearchProps = {
-    council: "public-council-1",
-    reference: "12345",
     searchParams: {
       page: 1,
       resultsPerPage: 10,
@@ -65,13 +58,7 @@ describe("FormCommentsSearch", () => {
   });
 
   it("renders without the form tag when action is not provided", () => {
-    render(
-      <FormCommentsSearch
-        council={defaultProps.council}
-        reference={defaultProps.reference}
-        searchParams={defaultProps.searchParams}
-      />,
-    );
+    render(<FormCommentsSearch searchParams={defaultProps.searchParams} />);
 
     // Check that the form is not rendered
     const form = screen.queryByRole("form", { name: /Search comments/i });
@@ -101,56 +88,5 @@ describe("FormCommentsSearch", () => {
     // Check if the form has the updated values for each field
     expect(queryInput).toHaveValue("new-query");
     expect(resultsPerPageSelect).toHaveValue("50");
-  });
-
-  it("resets the query parameters when 'Clear search' is clicked", () => {
-    render(<FormCommentsSearch {...defaultProps} />);
-
-    // Check the "Clear search" link
-    const clearSearchLink = screen.getByRole("button", {
-      name: /Clear search/i,
-    });
-    expect(clearSearchLink).toHaveAttribute(
-      "href",
-      "/public-council-1/12345/comments?",
-    );
-  });
-
-  describe("url has query parameters", () => {
-    const mockSearchParams = new URLSearchParams({
-      type: "public",
-      query: "test",
-      resultsPerPage: "10",
-      sortBy: "receivedAt",
-      orderBy: "desc",
-    });
-
-    beforeEach(() => {
-      (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
-    });
-
-    const defaultProps: FormCommentsSearchProps = {
-      council: "public-council-1",
-      reference: "12345",
-      searchParams: {
-        page: 1,
-        resultsPerPage: 10,
-        type: "public",
-      },
-      action: "/test-action",
-    };
-
-    it("resets the query parameters when 'Clear search' is clicked", () => {
-      render(<FormCommentsSearch {...defaultProps} />);
-
-      // Check the "Clear search" link
-      const clearSearchLink = screen.getByRole("button", {
-        name: /Clear search/i,
-      });
-      expect(clearSearchLink).toHaveAttribute(
-        "href",
-        "/public-council-1/12345/comments?type=public&sortBy=receivedAt&orderBy=desc",
-      );
-    });
   });
 });

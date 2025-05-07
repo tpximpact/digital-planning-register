@@ -30,8 +30,11 @@ const meta: Meta<typeof FormCommentsSearch> = {
     },
   },
   args: {
-    council: "example-council",
-    reference: "ABC123",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+    },
   },
 };
 
