@@ -33,7 +33,11 @@ import { ContentError } from "@/components/ContentError";
 import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
 import { AppConfig } from "@/config/types";
 import { BackLink } from "@/components/BackLink/BackLink";
-import { topicLabels, pageTitles, checkCommentsEnabled } from "@/lib/comments";
+import {
+  pageTitles,
+  checkCommentsEnabled,
+  COMMENT_PUBLIC_TOPIC_OPTIONS,
+} from "@/lib/comments";
 import { getPropertyAddress } from "@/lib/planningApplication/application";
 
 type Props = {
@@ -74,7 +78,9 @@ const Comment = ({ params }: Props) => {
 
     if (page === 3 && selectedTopics[currentTopicIndex]) {
       const topicKey = selectedTopics[currentTopicIndex];
-      const overrideTitle = topicLabels[topicKey as keyof typeof topicLabels];
+      const overrideTitle = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+        (t) => t.value === topicKey,
+      )?.label;
       if (overrideTitle) {
         stepTitle = overrideTitle;
       }

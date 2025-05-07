@@ -17,7 +17,7 @@
 
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { sentiment_options } from "@/lib/comments";
+import { COMMENT_PUBLIC_SENTIMENT_OPTIONS } from "@/lib/comments";
 import { trackClient } from "@/lib/dprAnalytics";
 
 const CommentSentiment = ({
@@ -124,21 +124,21 @@ const CommentSentiment = ({
           </legend>
 
           <div className="govuk-radios">
-            {sentiment_options.map((option) => (
-              <div className="govuk-radios__item" key={option.id}>
+            {COMMENT_PUBLIC_SENTIMENT_OPTIONS.map((option) => (
+              <div className="govuk-radios__item" key={option.value}>
                 <input
                   className="govuk-radios__input"
-                  id={option.id}
+                  id={option.value}
                   name="sentiment"
                   type="radio"
-                  value={option.id}
-                  checked={sentiment === option.id}
+                  value={option.value}
+                  checked={sentiment === option.value}
                   onChange={(e) => handleSentimentChange(e.target.value)}
                 />
                 <label
                   className="govuk-label govuk-radios__label"
-                  htmlFor={option.id}
-                  data-testid={option.id}
+                  htmlFor={option.value}
+                  data-testid={option.value}
                 >
                   <span className="govuk-body">{option.label}</span>
                 </label>
