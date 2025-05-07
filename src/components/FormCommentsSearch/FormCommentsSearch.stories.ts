@@ -19,13 +19,19 @@ import { Meta, StoryObj } from "@storybook/react";
 import { FormCommentsSearch } from "./FormCommentsSearch";
 
 const meta: Meta<typeof FormCommentsSearch> = {
-  title: "Forms/FormCommentsSearch",
+  title: "Forms/Comments Search",
   component: FormCommentsSearch,
   tags: ["autodocs"],
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: "fullscreen",
+    nextjs: {
+      appDirectory: true,
+    },
+  },
   args: {
     council: "example-council",
     reference: "ABC123",
-    type: "public",
   },
 };
 
@@ -38,7 +44,19 @@ export const Default: Story = {};
 export const WithContent: Story = {
   args: {
     searchParams: {
+      type: "public",
       query: "This is the default content",
+      page: 1,
+      resultsPerPage: 25,
+    },
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    action: "/comments",
+    searchParams: {
+      type: "public",
       page: 1,
       resultsPerPage: 25,
     },

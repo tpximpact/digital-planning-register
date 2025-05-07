@@ -15,75 +15,142 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { FormCommentsSearch } from "@/components/FormCommentsSearch";
-import { SearchParams } from "@/types";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  FormCommentsSearch,
+  FormCommentsSearchProps,
+} from "@/components/FormCommentsSearch";
+import { COMMENT_RESULTSPERPAGE_DEFAULT } from "@/lib/comments";
+import { useSearchParams } from "next/navigation";
+
+jest.mock("next/navigation", () => ({
+  useSearchParams: jest.fn(),
+}));
 
 describe("FormCommentsSearch", () => {
-  const baseProps = {
-    council: "camden",
-    reference: "123",
-    type: "public" as CommentType,
+  const defaultProps: FormCommentsSearchProps = {
+    council: "public-council-1",
+    reference: "12345",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+    },
+    action: "/test-action",
   };
 
-  it("renders with default empty fields when no searchParams are provided", () => {
-    render(<FormCommentsSearch {...baseProps} />);
+  it("renders the form with the correct default values", () => {
+    render(<FormCommentsSearch {...defaultProps} />);
 
-    expect(screen.getByLabelText("Contents")).toHaveValue("");
-    expect(screen.getByLabelText("Comments per page")).toHaveValue("10");
+    // Check if the form is rendered
+    const form = screen.getByRole("form", { name: /Search comments/i });
+    expect(form).toBeInTheDocument();
+
+    // Check if the select element has the correct default value
+    expect(form).toHaveAttribute("action", "/test-action");
+
+    // Check if the various inputs have the correct default values
+
+    // query
+    const queryInput = screen.getByLabelText(/Contents/i);
+    expect(queryInput).not.toHaveValue();
+
+    // resultsPerPage
+    const resultsPerPageSelect = screen.getByLabelText(/Comments per page/i);
+    expect(resultsPerPageSelect).toHaveValue(
+      COMMENT_RESULTSPERPAGE_DEFAULT.toString(),
+    );
+
+    // add other fields defaults here
   });
 
-  it("renders with provided searchParams", () => {
-    const searchParams: SearchParams = {
-      query: "climate",
-      resultsPerPage: 25,
-      page: 1,
-    };
+  it("renders without the form tag when action is not provided", () => {
+    render(
+      <FormCommentsSearch
+        council={defaultProps.council}
+        reference={defaultProps.reference}
+        searchParams={defaultProps.searchParams}
+      />,
+    );
 
-    render(<FormCommentsSearch {...baseProps} searchParams={searchParams} />);
+    // Check that the form is not rendered
+    const form = screen.queryByRole("form", { name: /Search comments/i });
+    expect(form).not.toBeInTheDocument();
 
-    expect(screen.getByLabelText("Contents")).toHaveValue("climate");
-    expect(screen.getByLabelText("Comments per page")).toHaveValue("25");
+    // Check that the query input is still rendered
+    const queryInput = screen.getByLabelText(/Contents/i);
+    expect(queryInput).toBeInTheDocument();
   });
 
-  it("sets the correct form action and method", () => {
-    render(<FormCommentsSearch {...baseProps} />);
+  it("submits the correct values for fields", () => {
+    render(<FormCommentsSearch {...defaultProps} />);
 
-    const form = screen.getByRole("form", { name: "Search comments" });
-    expect(form).toHaveAttribute("action", "/camden/123/comments");
-    expect(form).toHaveAttribute("method", "get");
+    // Check the form submission
+    const form = screen.getByRole("form", { name: /Search comments/i });
+
+    // get input fields for each field
+    const queryInput = screen.getByLabelText(/Contents/i);
+    const resultsPerPageSelect = screen.getByLabelText(/Comments per page/i);
+
+    // Simulate form submission for each field
+    fireEvent.change(queryInput, { target: { value: "new-query" } });
+    fireEvent.change(resultsPerPageSelect, { target: { value: "50" } });
+
+    fireEvent.submit(form);
+
+    // Check if the form has the updated values for each field
+    expect(queryInput).toHaveValue("new-query");
+    expect(resultsPerPageSelect).toHaveValue("50");
   });
 
-  it("includes a hidden input for comment type", () => {
-    render(<FormCommentsSearch {...baseProps} />);
-    const hiddenInput = screen.getByDisplayValue("public");
-    expect(hiddenInput).toHaveAttribute("type", "hidden");
-    expect(hiddenInput).toHaveAttribute("name", "type");
-  });
+  it("resets the query parameters when 'Clear search' is clicked", () => {
+    render(<FormCommentsSearch {...defaultProps} />);
 
-  it("has a working clear search link", () => {
-    render(<FormCommentsSearch {...baseProps} />);
-    const clearButton = screen.getByRole("button", { name: /Clear search/i });
-    expect(clearButton).toHaveAttribute(
+    // Check the "Clear search" link
+    const clearSearchLink = screen.getByRole("button", {
+      name: /Clear search/i,
+    });
+    expect(clearSearchLink).toHaveAttribute(
       "href",
-      "/camden/123/comments?type=public",
+      "/public-council-1/12345/comments?",
     );
   });
 
-  it("allows user input and selection changes", async () => {
-    const user = userEvent.setup();
-    render(<FormCommentsSearch {...baseProps} />);
+  describe("url has query parameters", () => {
+    const mockSearchParams = new URLSearchParams({
+      type: "public",
+      query: "test",
+      resultsPerPage: "10",
+      sortBy: "receivedAt",
+      orderBy: "desc",
+    });
 
-    const input = screen.getByLabelText("Contents");
-    await user.type(input, "green space");
+    beforeEach(() => {
+      (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
+    });
 
-    expect(input).toHaveValue("green space");
+    const defaultProps: FormCommentsSearchProps = {
+      council: "public-council-1",
+      reference: "12345",
+      searchParams: {
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      },
+      action: "/test-action",
+    };
 
-    const select = screen.getByLabelText("Comments per page");
-    await user.selectOptions(select, "50");
+    it("resets the query parameters when 'Clear search' is clicked", () => {
+      render(<FormCommentsSearch {...defaultProps} />);
 
-    expect(select).toHaveValue("50");
+      // Check the "Clear search" link
+      const clearSearchLink = screen.getByRole("button", {
+        name: /Clear search/i,
+      });
+      expect(clearSearchLink).toHaveAttribute(
+        "href",
+        "/public-council-1/12345/comments?type=public&sortBy=receivedAt&orderBy=desc",
+      );
+    });
   });
 });

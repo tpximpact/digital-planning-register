@@ -22,9 +22,12 @@
 import {
   DprApplication,
   DprComment,
+  DprCommentOrderBy,
+  DprCommentSortBy,
   DprCommentTypes,
   DprPagination,
   SearchParamsComments,
+  UnknownSearchParams,
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
@@ -50,10 +53,14 @@ export const sortComments = (comments: DprComment[]) => {
  */
 export const getCommentTypeToShow = (
   council: AppConfig["council"],
-  searchParams?: SearchParamsComments,
+  searchParams?: UnknownSearchParams,
 ): DprCommentTypes => {
+  const searchParamsType = Array.isArray(searchParams?.type)
+    ? searchParams?.type[0] // Use the first element if it's an array
+    : searchParams?.type; // Use the value directly if it's a string
+
   let type: DprCommentTypes =
-    (searchParams?.type as DprCommentTypes) ??
+    (searchParamsType as DprCommentTypes) ??
     (council?.publicComments ? "public" : "specialist");
 
   // Ensure type is either "public" or "specialist"
@@ -155,4 +162,90 @@ export const checkCommentsEnabled = (application: DprApplication): boolean => {
     commentsAllowedInStatus.push("Assessment in progress");
   }
   return commentsAllowedInStatus.includes(application.applicationStatusSummary);
+};
+
+/**
+ * Return the default and valid sortBy and orderBy values from the searchParams
+ */
+export const COMMENT_TYPES = ["public", "specialist"];
+export const COMMENT_SORTBY_OPTIONS = ["receivedAt"];
+export const COMMENT_ORDERBY_OPTIONS = ["desc", "asc"];
+export const COMMENT_SORTBY_DEFAULT = COMMENT_SORTBY_OPTIONS[0];
+export const COMMENT_ORDERBY_DEFAULT = COMMENT_ORDERBY_OPTIONS[0];
+
+export const COMMENT_RESULTSPERPAGE_OPTIONS = [10, 25, 50];
+export const COMMENT_RESULTSPERPAGE_DEFAULT = COMMENT_RESULTSPERPAGE_OPTIONS[0];
+
+export const validateSearchParams = (
+  appConfig: AppConfig,
+  searchParams?: { [key: string]: string | string[] | undefined },
+): SearchParamsComments => {
+  // page
+  const page: SearchParamsComments["page"] = searchParams?.page
+    ? Array.isArray(searchParams.page)
+      ? parseInt(searchParams.page[0]) // Use the first element if it's an array
+      : parseInt(searchParams.page) // Use the value directly if it's a string
+    : 1;
+
+  // Ensure page is a valid number
+  const validPage = isNaN(page) || page <= 0 ? 1 : page;
+
+  // resultsPerPage
+  let resultsPerPage = appConfig.defaults.resultsPerPage;
+  if (searchParams?.resultsPerPage) {
+    const workingResultsPerPage = Array.isArray(searchParams.resultsPerPage)
+      ? parseInt(searchParams.resultsPerPage[0]) // Use the first element if it's an array
+      : parseInt(searchParams.resultsPerPage); // Use the value directly if it's a string
+
+    if (COMMENT_RESULTSPERPAGE_OPTIONS.includes(workingResultsPerPage)) {
+      resultsPerPage = workingResultsPerPage;
+    }
+  }
+
+  // type
+  const type = getCommentTypeToShow(appConfig.council, searchParams);
+
+  // sortBy
+  const sortBy = searchParams?.sortBy
+    ? Array.isArray(searchParams.sortBy)
+      ? searchParams.sortBy[0] // Use the first element if it's an array
+      : searchParams.sortBy // Use the value directly if it's a string
+    : undefined;
+
+  // Ensure sortBy is valid
+  const validSortBy: SearchParamsComments["sortBy"] =
+    sortBy && COMMENT_SORTBY_OPTIONS.includes(sortBy as DprCommentSortBy)
+      ? (sortBy as DprCommentSortBy)
+      : undefined;
+
+  // orderBy
+  const orderBy = searchParams?.orderBy
+    ? Array.isArray(searchParams.orderBy)
+      ? searchParams.orderBy[0] // Use the first element if it's an array
+      : searchParams.orderBy // Use the value directly if it's a string
+    : undefined;
+
+  // Ensure sortBy is valid
+  const validOrderBy: SearchParamsComments["orderBy"] =
+    orderBy && COMMENT_ORDERBY_OPTIONS.includes(orderBy as DprCommentOrderBy)
+      ? (orderBy as DprCommentOrderBy)
+      : undefined;
+
+  // Ensure query is a string
+  const query: string | undefined = searchParams?.query
+    ? Array.isArray(searchParams.query)
+      ? searchParams.query[0] // Use the first element if it's an array
+      : searchParams.query // Use the value directly if it's a string
+    : undefined;
+
+  const newSearchParams: SearchParamsComments = {
+    page: validPage,
+    resultsPerPage,
+    type,
+    ...(query && { query }),
+    ...(validSortBy && { sortBy: validSortBy }),
+    ...(validOrderBy && { orderBy: validOrderBy }),
+  };
+
+  return newSearchParams;
 };

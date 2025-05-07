@@ -34,7 +34,10 @@ export const computeEnabledFields = (
  * @param type - The type of search fields (e.g., "Comment", "Document", "Application").
  * @param disabledFields - The list of disabled fields.
  * @param enabledFields - The list of enabled fields.
+ *
+ * disabling @typescript-eslint/no-unused-vars because we're going to need to uncomment this for development sometimes
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logFields = (
   type: string,
   disabledFields: string[],
@@ -59,8 +62,8 @@ export const handleFeatureFlags = (
   envVar: string | undefined,
 ): string[] => {
   const enabledFields = computeEnabledFields(allFields, envVar);
-  const disabledFields = envVar?.split(",").filter(Boolean) ?? [];
-  logFields(type, disabledFields, enabledFields);
+  // const disabledFields = envVar?.split(",").filter(Boolean) ?? [];
+  // logFields(type, disabledFields, enabledFields);
   return enabledFields;
 };
 

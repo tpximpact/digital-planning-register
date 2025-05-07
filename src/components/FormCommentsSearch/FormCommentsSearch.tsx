@@ -14,66 +14,78 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
+"use client";
+import { COMMENT_RESULTSPERPAGE_OPTIONS } from "@/lib/comments";
+import { createPathFromParams } from "@/lib/navigation";
 import { SearchParamsComments } from "@/types";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import { commentSearchFields } from "@/util/featureFlag";
+import { useSearchParams } from "next/navigation";
 
-export interface FormCommentsSortProps {
+export interface FormCommentsSearchProps {
   council: string;
   reference: string;
-  type: CommentType;
-  searchParams?: SearchParamsComments;
+  searchParams: SearchParamsComments;
+  action?: string;
 }
 
 export const FormCommentsSearch = ({
   council,
   reference,
-  type = "public",
   searchParams,
-}: FormCommentsSortProps) => {
-  return (
-    <form
-      className="govuk-form dpr-comment-filter"
-      method="get"
-      aria-label="Search comments"
-      action={`/${council}/${reference}/comments`}
-    >
+  action,
+}: FormCommentsSearchProps) => {
+  const urlSearchParams = useSearchParams() || new URLSearchParams();
+
+  const clearFormQueryParams = new URLSearchParams(
+    Array.from(urlSearchParams.entries()).filter(
+      ([key]) => !commentSearchFields.includes(key),
+    ),
+  );
+
+  const renderFormContent = () => (
+    <>
       <h2 className="govuk-heading-m">Search comments</h2>
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third">
-          <div className="govuk-form-group">
-            <label htmlFor="query" className="govuk-label">
-              Contents
-            </label>
-            <input
-              name="query"
-              className="govuk-input"
-              id="query"
-              type="text"
-              defaultValue={searchParams?.query}
-            />
-          </div>
-        </div>
-        <div className="govuk-grid-row">
+        {commentSearchFields.includes("query") && (
           <div className="govuk-grid-column-one-third">
             <div className="govuk-form-group">
-              <label htmlFor="resultsPerPage" className="govuk-label">
-                Comments per page
+              <label htmlFor="query" className="govuk-label">
+                Contents
               </label>
-              <select
-                id="resultsPerPage"
-                name="resultsPerPage"
-                defaultValue={searchParams?.resultsPerPage}
-                className="govuk-select drp-dropdown__select"
-              >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-              </select>
+              <input
+                name="query"
+                className="govuk-input"
+                id="query"
+                type="text"
+                defaultValue={searchParams?.query ?? ""}
+              />
             </div>
           </div>
+        )}
+        <div className="govuk-grid-row">
+          {commentSearchFields.includes("query") && (
+            <div className="govuk-grid-column-one-third">
+              <div className="govuk-form-group">
+                <label htmlFor="resultsPerPage" className="govuk-label">
+                  Comments per page
+                </label>
+                <select
+                  id="resultsPerPage"
+                  name="resultsPerPage"
+                  defaultValue={searchParams.resultsPerPage}
+                  className="govuk-select drp-dropdown__select"
+                >
+                  {COMMENT_RESULTSPERPAGE_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
         <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
-          <input type="hidden" name="type" value={type} />
           <div className="govuk-grid-column-full govuk-button-group">
             <button
               type="submit"
@@ -82,7 +94,7 @@ export const FormCommentsSearch = ({
               Search
             </button>
             <a
-              href={`/${council}/${reference}/comments?type=${type}`}
+              href={`${createPathFromParams({ council, reference }, "comments")}?${clearFormQueryParams.toString()}`}
               className="govuk-button govuk-button--secondary"
               role="button"
             >
@@ -91,6 +103,19 @@ export const FormCommentsSearch = ({
           </div>
         </div>
       </div>
+    </>
+  );
+
+  return action ? (
+    <form
+      className="govuk-form"
+      method="get"
+      action={action}
+      aria-label="Search comments"
+    >
+      {renderFormContent()}
     </form>
+  ) : (
+    renderFormContent()
   );
 };

@@ -14,61 +14,110 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { SearchParams } from "@/types";
-import "./FormCommentsSort.scss";
+"use client";
+import { SearchParamsComments } from "@/types";
 import { Button } from "../button";
+import {
+  COMMENT_ORDERBY_DEFAULT,
+  COMMENT_ORDERBY_OPTIONS,
+  COMMENT_SORTBY_DEFAULT,
+  COMMENT_SORTBY_OPTIONS,
+} from "@/lib/comments";
+import { useState } from "react";
 
 export interface FormCommentsSortProps {
-  council: string;
-  reference: string;
-  type: "public" | "specialist";
-  searchParams?: SearchParams;
+  searchParams: SearchParamsComments;
+  action?: string;
 }
 
 export const FormCommentsSort = ({
-  council,
-  reference,
-  type = "public",
   searchParams,
+  action,
 }: FormCommentsSortProps) => {
-  return (
+  const [sortBy, setSortBy] = useState(
+    searchParams?.sortBy ?? COMMENT_SORTBY_DEFAULT,
+  );
+  const [orderBy, setOrderBy] = useState(
+    searchParams?.orderBy ?? COMMENT_ORDERBY_DEFAULT,
+  );
+  const [sortByOrderBy, setSortByOrderBy] = useState(`${sortBy}_${orderBy}`);
+
+  const commentSortByOrderByOptions = [
+    {
+      label: "Most recent to oldest",
+      sortBy: "receivedAt",
+      orderBy: "desc",
+    },
+    {
+      label: "Oldest to most recent",
+      sortBy: "receivedAt",
+      orderBy: "asc",
+    },
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const [newSortBy, newOrderBy] = e.target.value.split("_");
+
+    if (
+      COMMENT_SORTBY_OPTIONS.includes(newSortBy) &&
+      COMMENT_ORDERBY_OPTIONS.includes(newOrderBy)
+    ) {
+      setSortBy(newSortBy);
+      setOrderBy(newOrderBy);
+    } else {
+      setSortBy(COMMENT_SORTBY_DEFAULT);
+      setOrderBy(COMMENT_ORDERBY_DEFAULT);
+    }
+
+    setSortByOrderBy(`${newSortBy}_${newOrderBy}`);
+  };
+
+  const renderFormContent = () => (
+    <>
+      <div className="govuk-grid-row dpr-form-comments-sort">
+        <div className="govuk-grid-column-one-third">
+          <div className="govuk-form-group">
+            <label htmlFor="commentSortByorderBy" className="govuk-label">
+              Sort by
+            </label>
+            <select
+              id="commentSortByorderBy"
+              value={sortByOrderBy}
+              onChange={handleChange}
+              className="govuk-select govuk-!-width-full"
+            >
+              {commentSortByOrderByOptions.map((option) => (
+                <option
+                  key={option.label}
+                  value={`${option.sortBy}_${option.orderBy}`}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
+          <input type="hidden" name="sortBy" defaultValue={sortBy} />
+          <input type="hidden" name="orderBy" defaultValue={orderBy} />
+          <Button variant="secondary" type="submit">
+            Apply sorting
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+
+  return action ? (
     <form
       className="govuk-form"
       method="get"
-      action={`/${council}/${reference}/comments`}
+      action={action}
       aria-label="Sort comments"
     >
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-full">
-          <h2 className="govuk-heading-m">Search comments</h2>
-        </div>
-        <div className="govuk-grid-row govuk-!-margin-left-0">
-          <div className="govuk-grid-column-one-third">
-            <div className="govuk-form-group">
-              <label htmlFor="sortOrder" className="govuk-label">
-                Sort by
-              </label>
-              <select
-                id="sortOrder"
-                name="orderBy"
-                defaultValue={searchParams?.orderBy}
-                className="govuk-select govuk-!-width-full"
-              >
-                <option value="desc">Most recent to oldest</option>
-                <option value="asc">Oldest to most recent</option>
-              </select>
-            </div>
-          </div>
-          <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
-            <input type="hidden" name="type" value={type} />
-            <input type="hidden" name="sortBy" value={searchParams?.sortBy} />
-            <Button variant="secondary" type="submit">
-              Apply sorting
-            </Button>
-          </div>
-        </div>
-      </div>
+      {renderFormContent()}
     </form>
+  ) : (
+    renderFormContent()
   );
 };

@@ -16,66 +16,103 @@
  */
 
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { FormCommentsSort } from "@/components/FormCommentsSort";
-import { SearchParams } from "@/types";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
-
-export interface FormCommentsSortProps {
-  council: string;
-  reference: string;
-  type: CommentType;
-  searchParams?: SearchParams;
-}
-
-const baseProps: FormCommentsSortProps = {
-  council: "camden",
-  reference: "123",
-  type: "public",
-  searchParams: {
-    orderBy: "asc",
-    page: 1,
-    resultsPerPage: 10,
-  },
-};
+import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  FormCommentsSort,
+  FormCommentsSortProps,
+} from "@/components/FormCommentsSort";
+import {
+  COMMENT_ORDERBY_DEFAULT,
+  COMMENT_SORTBY_DEFAULT,
+} from "@/lib/comments";
 
 describe("FormCommentsSort", () => {
+  const defaultProps: FormCommentsSortProps = {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+    },
+    action: "/test-action",
+  };
+
   it("renders the form correctly", () => {
-    render(<FormCommentsSort {...baseProps} />);
-    const form = screen.getByRole("form", { name: /sort comments/i });
+    render(<FormCommentsSort {...defaultProps} />);
+
+    // Check if the form is rendered
+    const form = screen.getByRole("form", { name: /Sort comments/i });
     expect(form).toBeInTheDocument();
-    expect(form).toHaveAttribute("action", "/camden/123/comments");
-    expect(form).toHaveAttribute("method", "get");
-  });
 
-  it("shows the correct default sort order", () => {
-    render(<FormCommentsSort {...baseProps} />);
-    const select = screen.getByRole("combobox", { name: /sort by/i });
-    expect(select).toBeInTheDocument();
-    expect(select).toHaveValue("asc");
-  });
+    // Check if the select element has the correct default value
+    expect(form).toHaveAttribute("action", "/test-action");
 
-  it("renders the hidden input for type", () => {
-    render(<FormCommentsSort {...baseProps} />);
-    const hiddenInput = screen.getByDisplayValue("public");
-    expect(hiddenInput).toHaveAttribute("type", "hidden");
-    expect(hiddenInput).toHaveAttribute("name", "type");
-  });
+    // shows the correct default sort order
+    const select = screen.getByLabelText(/Sort by/i);
+    expect(select).toHaveValue(
+      `${COMMENT_SORTBY_DEFAULT}_${COMMENT_ORDERBY_DEFAULT}`,
+    );
 
-  it("renders the Apply sorting button", () => {
-    render(<FormCommentsSort {...baseProps} />);
+    // renders the Apply sorting button
     const button = screen.getByRole("button", { name: /apply sorting/i });
     expect(button).toBeInTheDocument();
+
+    // renders the hidden input for sortBy
+    const hiddenSortBy = screen.getByDisplayValue(COMMENT_SORTBY_DEFAULT);
+    expect(hiddenSortBy).toHaveAttribute("type", "hidden");
+    expect(hiddenSortBy).toHaveAttribute("name", "sortBy");
+
+    // renders the hidden input for orderBy
+    const hiddenOrderBy = screen.getByDisplayValue(COMMENT_ORDERBY_DEFAULT);
+    expect(hiddenOrderBy).toHaveAttribute("type", "hidden");
+    expect(hiddenOrderBy).toHaveAttribute("name", "orderBy");
   });
 
-  it("submits with selected sort order", async () => {
-    const user = userEvent.setup();
-    render(<FormCommentsSort {...baseProps} />);
+  it("renders without the form tag when action is not provided", () => {
+    render(<FormCommentsSort searchParams={defaultProps.searchParams} />);
 
-    const select = screen.getByLabelText(/sort by/i);
-    await user.selectOptions(select, "desc");
+    // Check that the form is not rendered
+    const form = screen.queryByRole("form", { name: /Sort comments/i });
+    expect(form).not.toBeInTheDocument();
 
-    expect((select as HTMLSelectElement).value).toBe("desc");
+    // Check that the select element is still rendered
+    const select = screen.getByLabelText(/Sort by/i);
+    expect(select).toBeInTheDocument();
+  });
+
+  it("updates the state when a new sorting option is selected", () => {
+    render(<FormCommentsSort {...defaultProps} />);
+
+    // Select a new sorting option
+    const select = screen.getByLabelText(/Sort by/i);
+    fireEvent.change(select, { target: { value: "receivedAt_asc" } });
+
+    // Check if the select value is updated
+    expect(select).toHaveValue("receivedAt_asc");
+  });
+
+  it("includes hidden inputs for sortBy and orderBy in the form", () => {
+    render(<FormCommentsSort {...defaultProps} />);
+
+    // Check if the hidden inputs are rendered with the correct values
+    const sortByInput = screen.getByDisplayValue(COMMENT_SORTBY_DEFAULT);
+    const orderByInput = screen.getByDisplayValue(COMMENT_ORDERBY_DEFAULT);
+
+    expect(sortByInput).toHaveAttribute("name", "sortBy");
+    expect(orderByInput).toHaveAttribute("name", "orderBy");
+  });
+
+  it("calls the handleChange function when a new option is selected", () => {
+    render(<FormCommentsSort {...defaultProps} />);
+
+    // Select a new sorting option
+    const select = screen.getByLabelText(/Sort by/i);
+    fireEvent.change(select, { target: { value: "receivedAt_asc" } });
+
+    // Check if the hidden inputs are updated
+    const sortByInput = screen.getByDisplayValue("receivedAt");
+    const orderByInput = screen.getByDisplayValue("asc");
+
+    expect(sortByInput).toHaveAttribute("name", "sortBy");
+    expect(orderByInput).toHaveAttribute("name", "orderBy");
   });
 });

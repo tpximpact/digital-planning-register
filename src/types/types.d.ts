@@ -59,17 +59,23 @@ export interface ApiResponse<T> {
  *
  *
  */
+
+export type UnknownSearchParams = {
+  [key: string]: string | string[] | undefined;
+};
 export interface SearchParams {
-  query?: string;
   page: number;
   resultsPerPage: number;
-  sortBy?: string;
-  orderBy?: string;
+  query?: string;
 }
 export type SearchParamsDocuments = SearchParams;
 export interface SearchParamsComments extends SearchParams {
-  type?: DprCommentTypes;
+  type: DprCommentTypes;
+  sortBy?: DprCommentSortBy;
+  orderBy?: DprCommentOrderBy;
 }
+export type DprCommentSortBy = "receivedAt";
+export type DprCommentOrderBy = "asc" | "desc";
 /**
  *
  *

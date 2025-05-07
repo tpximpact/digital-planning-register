@@ -15,47 +15,29 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from "@storybook/react";
-import { FormCommentsSort } from "./FormCommentsSort";
+import type { Meta, StoryObj } from "@storybook/react";
+import { ContextSetter } from "./ContextSetter";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
-const meta: Meta<typeof FormCommentsSort> = {
-  title: "Forms/Comments Sort",
-  component: FormCommentsSort,
+const { consultation } = generateExampleApplications();
+
+const meta = {
+  title: "DPR Components/ContextSetter",
+  component: ContextSetter,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
-  args: {
-    searchParams: {
-      type: "public",
-      resultsPerPage: 10,
-      page: 1,
-    },
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: "fullscreen",
   },
-};
+  args: {
+    councilSlug: "camden",
+    reference: "123456",
+    application: consultation,
+  },
+} satisfies Meta<typeof ContextSetter>;
 
 export default meta;
-
-type Story = StoryObj<typeof FormCommentsSort>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const OldestFirst: Story = {
-  args: {
-    searchParams: {
-      type: "public",
-      sortBy: "receivedAt",
-      orderBy: "asc",
-      resultsPerPage: 10,
-      page: 1,
-    },
-  },
-};
-
-export const WithForm: Story = {
-  args: {
-    action: "/comments",
-    searchParams: {
-      type: "public",
-      resultsPerPage: 10,
-      page: 1,
-    },
-  },
-};
