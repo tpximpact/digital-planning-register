@@ -73,7 +73,8 @@ const response = (
       resultsPerPage: resultsPerPage,
       currentPage: currentPage,
       totalPages: totalPages,
-      totalItems: exampleComments.length,
+      totalResults: exampleComments.length,
+      totalAvailableItems: exampleComments.length,
     },
   };
 };

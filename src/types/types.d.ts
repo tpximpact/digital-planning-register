@@ -82,28 +82,33 @@ export type DprCommentOrderBy = "asc" | "desc";
  *
  * DprPagination
  * the object that describes the pagination of a list of objects
- * @todo rename these to PascalCase
+ * @todo export type DprPagination = Pagination (from odp-types)
  *
  *
  *
  */
+// export type DprPagination = Pagination;
 export interface DprPagination {
   /**
-   * Number of results per page (e.g., 10)
+   * Number of results per page eg 10
    */
   resultsPerPage: number;
   /**
-   * Current page number (e.g., 1)
+   * Current page number eg 1
    */
   currentPage: number;
   /**
-   * Total number of pages (e.g., 10)
+   * Total number of pages eg 10
    */
   totalPages: number;
   /**
-   * Total number of items (e.g., 100)
+   * Represents the total number of results returned by current query
    */
-  totalItems: number;
+  totalResults: number;
+  /**
+   * Represents the total number of items available in the database (#nofilter)
+   */
+  totalAvailableItems?: number;
 }
 
 /**
