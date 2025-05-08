@@ -15,53 +15,32 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from "@storybook/react";
-import { FormCommentsSearch } from "./FormCommentsSearch";
+import type { Meta, StoryObj } from "@storybook/react";
+import { FormFieldFromTo } from "./FormFieldFromTo";
 
-const meta: Meta<typeof FormCommentsSearch> = {
-  title: "Forms/Comments Search",
-  component: FormCommentsSearch,
+const meta = {
+  title: "Forms/Form field from to date",
+  component: FormFieldFromTo,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
-    nextjs: {
-      appDirectory: true,
-    },
   },
   args: {
-    searchParams: {
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
+    title: "Published date",
+    from: {
+      label: "Published from date",
+      name: "publishedAtFrom",
+    },
+    to: {
+      label: "Published to date",
+      name: "publishedAtTo",
     },
   },
-};
+} satisfies Meta<typeof FormFieldFromTo>;
 
 export default meta;
-
-type Story = StoryObj<typeof FormCommentsSearch>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const WithContent: Story = {
-  args: {
-    searchParams: {
-      type: "public",
-      query: "This is the default content",
-      page: 1,
-      resultsPerPage: 25,
-    },
-  },
-};
-
-export const WithForm: Story = {
-  args: {
-    action: "/comments",
-    searchParams: {
-      type: "public",
-      page: 1,
-      resultsPerPage: 25,
-    },
-  },
-};

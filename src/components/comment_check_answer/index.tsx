@@ -23,57 +23,15 @@ import { AppConfig } from "@/config/types";
 import "./CommentCheckAnswer.scss";
 import { Details } from "../govukDpr/Details";
 import { TextButton } from "../TextButton";
-import { sentiment_options } from "@/lib/comments";
+import {
+  COMMENT_PUBLIC_SENTIMENT_OPTIONS,
+  COMMENT_PUBLIC_TOPIC_OPTIONS,
+} from "@/lib/comments";
 import { PersonalDetails } from "../comment_personal_details";
 import { DprCommentSubmission } from "@/types";
 import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
 import { trackClient } from "@/lib/dprAnalytics";
-
-const topics_selection = [
-  {
-    label:
-      "Comment on the design, size or height of new buildings or extensions",
-    value: "design",
-    selectedTopicsLabel:
-      "The design, size or height of new buildings or extensions",
-  },
-  {
-    label: "Comment on the use and function of the proposed development",
-    value: "use",
-    selectedTopicsLabel: "The use and function of the proposed development",
-  },
-  {
-    label: "Comment on any impacts on natural light",
-    value: "light",
-    selectedTopicsLabel: "Any impacts on natural light",
-  },
-  {
-    label: "Comment on any impacts on privacy of neighbours",
-    value: "privacy",
-    selectedTopicsLabel: "Impacts to the privacy of neighbours",
-  },
-  {
-    label: "Comment on disabled access",
-    value: "access",
-    selectedTopicsLabel: <>Impacts on disabled persons&apos; access</>,
-  },
-  {
-    label: "Comment on any noise from new uses",
-    value: "noise",
-    selectedTopicsLabel: "Any noise from new uses",
-  },
-  {
-    label: "Comment on traffic, parking or road safety",
-    value: "traffic",
-    selectedTopicsLabel: "Impacts to traffic, parking or road safety",
-  },
-  {
-    label: "Other comments",
-    value: "other",
-    selectedTopicsLabel: "Any other things",
-  },
-];
 
 const CommentCheckAnswer = ({
   councilConfig,
@@ -135,8 +93,10 @@ const CommentCheckAnswer = ({
   const formatSelectedTopics = (topics: string[]) => {
     return topics
       .map((topic) => {
-        const foundTopic = topics_selection.find((t) => t.value === topic);
-        return foundTopic ? foundTopic.selectedTopicsLabel : "";
+        const foundTopic = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+          (t) => t.value === topic,
+        );
+        return foundTopic ? foundTopic.selectedLabel : "";
       })
       .filter((label) => label !== "");
   };
@@ -158,7 +118,7 @@ const CommentCheckAnswer = ({
       address: `${personalDetails.address}, ${personalDetails.postcode}`,
       response: comments
         .map(({ topic, comment }) => {
-          const topicLabel = topics_selection.find(
+          const topicLabel = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
             (t) => t.value === topic,
           )?.label;
           return `* ${topicLabel}: ${comment} `;
@@ -261,8 +221,9 @@ const CommentCheckAnswer = ({
                 </dt>
                 <dd className="govuk-summary-list__value">
                   {
-                    sentiment_options.find((option) => option.id === sentiment)
-                      ?.label
+                    COMMENT_PUBLIC_SENTIMENT_OPTIONS.find(
+                      (option) => option.value === sentiment,
+                    )?.label
                   }
                 </dd>
                 <dd className="govuk-summary-list__actions">
@@ -306,12 +267,10 @@ const CommentCheckAnswer = ({
             </dl>
 
             {comments.map(({ topic, comment }, index) => {
-              const foundTopic = topics_selection.find(
+              const foundTopic = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
                 (t) => t.value === topic,
               );
-              const topicLabel = foundTopic
-                ? foundTopic.selectedTopicsLabel
-                : "";
+              const topicLabel = foundTopic ? foundTopic.selectedLabel : "";
 
               return (
                 <dl className="govuk-summary-list" key={index}>

@@ -12,7 +12,8 @@
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
-        "ignoreRestSiblings": true
+        "ignoreRestSiblings": true,
+        "destructuredArrayIgnorePattern": "^_"
       }
     ]
   }

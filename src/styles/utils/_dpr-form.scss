@@ -1,0 +1,66 @@
+/*
+  * @file dpr-form.scss
+  * @description This file is a util for forms for the DPR project.
+  * It is used to create a form with a grid layout and responsive design.
+  * It uses the GOV.UK Frontend framework for styling and layout.
+  * It is used in the FormCommentsSearch component.
+  * It also adds in the date-range component
+  * usage:
+  */
+//
+// @import "src/styles/component-base";
+//
+// $selector: "dpr-form-dataType-formType";
+//
+// .#{$selector} {
+//   @include dpr-form;
+// }
+//
+// <div className="dpr-form-dataType-formType">
+//   <div className="dpr-form-dataType-formType__row">
+//     <div className="dpr-form-dataType-formType__column-one-third">
+//       hello
+//     </div>
+//     <div className="dpr-form-dataType-formType__column-one-third">
+//       hello
+//     </div>
+//     <div className="dpr-form-dataType-formType__column-one-third">
+//       hello
+//     </div>
+//   </div>
+//   <div className="dpr-form-dataType-formType__row">
+//     <div className="dpr-form-dataType-formType__column-two-thirds">
+//       hello
+//     </div>
+//     <div className="dpr-form-dataType-formType__column-one-third">
+//       hello
+//     </div>
+//   </div>
+//   <div className="dpr-form-dataType-formType__row">
+//     <div className="dpr-form-dataType-formType__column-full">hello</div>
+//   </div>
+// </div>
+//
+@use "sass:map";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+
+@mixin dpr-form {
+  &__title {
+    @extend %govuk-heading-m;
+  }
+
+  &__row {
+    @include govuk-clearfix;
+    margin-right: -($govuk-gutter-half);
+    margin-left: -($govuk-gutter-half);
+  }
+
+  @each $width in map-keys($govuk-grid-widths) {
+    &__column-#{$width} {
+      @include govuk-grid-column(
+        $width,
+        $at: map.get($dpr-breakpoints, "laptop")
+      );
+    }
+  }
+}

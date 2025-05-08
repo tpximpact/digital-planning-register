@@ -85,19 +85,14 @@ export const PageApplicationComments = ({
           <input type="hidden" name="type" value={type} />
           <input type="hidden" name="council" value={councilSlug} />
           <input type="hidden" name="reference" value={reference} />
-          <FormCommentsSearch
-            council={councilSlug}
-            reference={reference}
-            searchParams={searchParams}
-            // type={type}
-          />
+          <FormCommentsSearch searchParams={searchParams} />
           <FormCommentsSort searchParams={searchParams} />
         </form>
         <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
         {comments && comments.length > 0 ? (
           <>
             {comments.map((comment) => (
-              <CommentCard key={comment.receivedDate} comment={comment} />
+              <CommentCard key={comment.id} comment={comment} />
             ))}
           </>
         ) : (

@@ -144,147 +144,322 @@ describe("validateSearchParams", () => {
     },
   } as unknown as AppConfig;
 
-  it("returns default values when searchParams is undefined", () => {
-    const result = validateSearchParams(mockAppConfig, undefined);
+  describe("required fields: page, resultsPerPage, type", () => {
+    it("returns default values when searchParams is undefined", () => {
+      const result = validateSearchParams(mockAppConfig, undefined);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
+    });
+
+    it("parses valid page and resultsPerPage values", () => {
+      const searchParams = {
+        page: "2",
+        resultsPerPage: "25",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 2,
+        resultsPerPage: 25,
+        type: "public",
+      });
+    });
+
+    it("defaults to page 1 and resultsPerPage from appConfig when invalid values are provided", () => {
+      const searchParams = {
+        page: "invalid",
+        resultsPerPage: "invalid",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
+    });
+
+    it("validates resultsPerPage against COMMENT_RESULTSPERPAGE_OPTIONS", () => {
+      const searchParams = {
+        resultsPerPage: "100", // Invalid value
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10, // Defaults to appConfig value
+        type: "public",
+      });
     });
   });
 
-  it("parses valid page and resultsPerPage values", () => {
-    const searchParams = {
-      page: "2",
-      resultsPerPage: "25",
-    };
+  // sortby, orderBy
+  describe("sortBy, orderBy", () => {
+    it("parses valid sortBy and orderBy values", () => {
+      const searchParams = {
+        sortBy: "receivedAt",
+        orderBy: "asc",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 2,
-      resultsPerPage: 25,
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        sortBy: "receivedAt",
+        orderBy: "asc",
+      });
+    });
+
+    it("ignores invalid sortBy and orderBy values", () => {
+      const searchParams = {
+        sortBy: "invalid",
+        orderBy: "invalid",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
     });
   });
 
-  it("defaults to page 1 and resultsPerPage from appConfig when invalid values are provided", () => {
-    const searchParams = {
-      page: "invalid",
-      resultsPerPage: "invalid",
-    };
+  // query
+  describe("query", () => {
+    it("parses valid query value", () => {
+      const searchParams = {
+        query: "test-query",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        query: "test-query",
+      });
+    });
+
+    it("handles query as an array and uses the first value", () => {
+      const searchParams = {
+        query: ["test-query", "another-query"],
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        query: "test-query",
+      });
     });
   });
 
-  it("validates resultsPerPage against COMMENT_RESULTSPERPAGE_OPTIONS", () => {
-    const searchParams = {
-      resultsPerPage: "100", // Invalid value
-    };
+  // type
+  describe("type", () => {
+    it("parses type from searchParams", () => {
+      const searchParams = {
+        type: "specialist",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10, // Defaults to appConfig value
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "specialist",
+      });
+    });
+
+    it("defaults to 'public' type when type is invalid", () => {
+      const searchParams = {
+        type: "invalid",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
     });
   });
 
-  it("parses valid sortBy and orderBy values", () => {
-    const searchParams = {
-      sortBy: "receivedAt",
-      orderBy: "asc",
-    };
+  // sentiment
+  describe("sentiment", () => {
+    it("parses valid sentiment from searchParams", () => {
+      const searchParams = {
+        sentiment: "supportive",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
-      sortBy: "receivedAt",
-      orderBy: "asc",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        sentiment: "supportive",
+      });
+    });
+
+    it("ignores invalid sentiment from searchParams", () => {
+      const searchParams = {
+        sentiment: "boohiss",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
     });
   });
 
-  it("ignores invalid sortBy and orderBy values", () => {
-    const searchParams = {
-      sortBy: "invalid",
-      orderBy: "invalid",
-    };
+  // topic
+  describe("topic", () => {
+    it("parses valid topic from searchParams", () => {
+      const searchParams = {
+        topic: "design",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        topic: "design",
+      });
+    });
+
+    it("ignores invalid topic from searchParams", () => {
+      const searchParams = {
+        topic: "nonsense",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+      });
     });
   });
 
-  it("parses valid query value", () => {
-    const searchParams = {
-      query: "test-query",
-    };
+  // publishedAtFrom publishedAtTo
+  describe("publishedAtFrom, publishedAtTo", () => {
+    it("returns valid publishedAtFrom and publishedAtTo when both are valid and in the correct order", () => {
+      const searchParams = {
+        publishedAtFrom: "2025-05-01",
+        publishedAtTo: "2025-05-31",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
-      query: "test-query",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: "2025-05-01",
+        publishedAtTo: "2025-05-31",
+      });
     });
-  });
 
-  it("handles query as an array and uses the first value", () => {
-    const searchParams = {
-      query: ["test-query", "another-query"],
-    };
+    it("returns undefined for both publishedAtFrom and publishedAtTo when they are out of order", () => {
+      const searchParams = {
+        publishedAtFrom: "2025-05-31",
+        publishedAtTo: "2025-05-01",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
-      query: "test-query",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: undefined,
+        publishedAtTo: undefined,
+      });
     });
-  });
 
-  it("parses type from searchParams", () => {
-    const searchParams = {
-      type: "specialist",
-    };
+    it("sets publishedAtTo to the same value as publishedAtFrom when only publishedAtFrom is valid", () => {
+      const searchParams = {
+        publishedAtFrom: "2025-05-01",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "specialist",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: "2025-05-01",
+        publishedAtTo: "2025-05-01",
+      });
     });
-  });
 
-  it("defaults to 'public' type when type is invalid", () => {
-    const searchParams = {
-      type: "invalid",
-    };
+    it("sets publishedAtFrom to the same value as publishedAtTo when only publishedAtTo is valid", () => {
+      const searchParams = {
+        publishedAtTo: "2025-05-31",
+      };
 
-    const result = validateSearchParams(mockAppConfig, searchParams);
+      const result = validateSearchParams(mockAppConfig, searchParams);
 
-    expect(result).toEqual({
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: "2025-05-31",
+        publishedAtTo: "2025-05-31",
+      });
+    });
+
+    it("returns undefined for both publishedAtFrom and publishedAtTo when neither is valid", () => {
+      const searchParams = {
+        publishedAtFrom: "invalid-date",
+        publishedAtTo: "another-invalid-date",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: undefined,
+        publishedAtTo: undefined,
+      });
+    });
+
+    it("returns undefined for both publishedAtFrom and publishedAtTo when both are missing", () => {
+      const searchParams = {};
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "public",
+        publishedAtFrom: undefined,
+        publishedAtTo: undefined,
+      });
     });
   });
 });

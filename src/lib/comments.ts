@@ -31,6 +31,12 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 import { createItemPagination } from "./pagination";
+import {
+  CommentSentiment,
+  SpecialistCommentSentiment,
+} from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import { getValueFromUnknownSearchParams } from "./search";
+import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
 
 /**
  * Sort comments by newest first
@@ -103,41 +109,6 @@ export const buildCommentResult = (
   return commentData;
 };
 
-export const sentiment_options = [
-  { id: "objection", label: "Opposed" },
-  { id: "neutral", label: "Neutral" },
-  { id: "supportive", label: "Support" },
-];
-
-export const topicLabels: Record<string, string> = {
-  design:
-    "Comment on the design, size or height of new buildings or extensions",
-  use: "Comment on the use and function of the proposed development",
-  light: "Comment on impacts on natural light",
-  privacy: "Comment on impacts to the privacy of neighbours",
-  access: "Comment on impacts on disabled persons' access",
-  noise: "Comment on any noise from new uses",
-  traffic: "Comment on impacts to traffic, parking or road safety",
-  other: "Comment on other things",
-};
-
-export const topicLabelsHint: Record<string, string> = {
-  design:
-    "Such as if a building is too tall, or does not fit into the surrounding environment.",
-  use: "Such as a proposed business that would not serve the area well, or could cause problems due to its operation.",
-  light:
-    "Such as a building casting a shadow over residential buildings nearby.",
-  privacy:
-    "Such as a large building overlooking houses and gardens next to it, or being too close to prevent viewing into neighbours windows.",
-  access:
-    "Such as a development not providing accessible access to it's entrance, or removing a previous accessible route.",
-  noise:
-    "Such as a new business causing excessive noise in a residential area.",
-  traffic:
-    "Such as the parking proposed being inadequate, or important parking provisions being removed.",
-  other: "Anything that does not fit into other categories.",
-};
-
 export const pageTitles: Record<number, string> = {
   0: "What you need to know before you comment",
   1: "How do you feel about this development?",
@@ -168,83 +139,309 @@ export const checkCommentsEnabled = (application: DprApplication): boolean => {
  * Return the default and valid sortBy and orderBy values from the searchParams
  */
 export const COMMENT_TYPES = ["public", "specialist"];
-export const COMMENT_SORTBY_OPTIONS = ["receivedAt"];
-export const COMMENT_ORDERBY_OPTIONS = ["desc", "asc"];
-export const COMMENT_SORTBY_DEFAULT = COMMENT_SORTBY_OPTIONS[0];
-export const COMMENT_ORDERBY_DEFAULT = COMMENT_ORDERBY_OPTIONS[0];
 
+// resultsPerPage
 export const COMMENT_RESULTSPERPAGE_OPTIONS = [10, 25, 50];
 export const COMMENT_RESULTSPERPAGE_DEFAULT = COMMENT_RESULTSPERPAGE_OPTIONS[0];
 
+// sortBy
+export const COMMENT_SORTBY_OPTIONS: DprCommentSortBy[] = ["receivedAt"];
+export const COMMENT_SORTBY_DEFAULT = COMMENT_SORTBY_OPTIONS[0];
+
+// orderBy
+export const COMMENT_ORDERBY_OPTIONS = ["desc", "asc"];
+export const COMMENT_ORDERBY_DEFAULT = COMMENT_ORDERBY_OPTIONS[0];
+
+// sentiment - public
+export const COMMENT_PUBLIC_SENTIMENT_OPTIONS: Array<{
+  label: string;
+  value: CommentSentiment;
+}> = [
+  {
+    label: "Support",
+    value: "supportive",
+  },
+  {
+    label: "Neutral",
+    value: "neutral",
+  },
+  {
+    label: "Opposed",
+    value: "objection",
+  },
+];
+
+// sentiment - specialist
+// @todo use SpecialistCommentSentiment not string for value when we have updated the schema
+export const COMMENT_SPECIALIST_SENTIMENT_OPTIONS: Array<{
+  label: string;
+  value: SpecialistCommentSentiment | string;
+}> = [
+  {
+    label: "Approve",
+    value: "approved",
+  },
+  {
+    label: "Amendments needed",
+    value: "amendmentsNeeded",
+  },
+  {
+    label: "Objected",
+    value: "objected",
+  },
+];
+
+// topic
+export const COMMENT_PUBLIC_TOPIC_OPTIONS: Array<{
+  /**
+   * Shown as the label when selecting a topic
+   */
+  label: string;
+  /**
+   * Shown as the label when entering text on the topic
+   */
+  hint: string;
+  /**
+   * Shown when reviewing the comments before submission
+   */
+  selectedLabel: string;
+  /**
+   * The value of the topic
+   */
+  value: CommentTopic;
+  /**
+   * Description of the topic - used as the hint when entering text for a topic
+   */
+
+  description: string;
+}> = [
+  {
+    label: "Design, size or height of new buildings or extensions",
+    hint: "Comment on the design, size or height of new buildings or extensions",
+    selectedLabel: "The design, size or height of new buildings or extensions",
+    value: "design",
+    description:
+      "Such as if a building is too tall, or does not fit into the surrounding environment.",
+  },
+  {
+    label: "Use and function of the proposed development",
+    hint: "Comment on the use and function of the proposed development",
+    selectedLabel: "The use and function of the proposed development",
+    value: "use",
+    description:
+      "Such as a proposed business that would not serve the area well, or could cause problems due to its operation.",
+  },
+  {
+    label: "Impacts on natural light",
+    hint: "Comment on impacts on natural light",
+    selectedLabel: "Any impacts on natural light",
+    value: "light",
+    description:
+      "Such as a building casting a shadow over residential buildings nearby.",
+  },
+  {
+    label: "Privacy of neighbours",
+    hint: "Comment on impacts to the privacy of neighbours",
+    selectedLabel: "Impacts to the privacy of neighbours",
+    value: "privacy",
+    description:
+      "Such as a large building overlooking houses and gardens next to it, or being too close to prevent viewing into neighbours windows.",
+  },
+  {
+    label: "Disabled persons' access",
+    hint: "Comment on impacts on disabled persons' access",
+    selectedLabel: "Impacts on disabled persons&apos; access",
+    value: "access",
+    description:
+      "Such as a development not providing accessible access to it's entrance, or removing a previous accessible route.",
+  },
+  {
+    label: "Noise from new uses",
+    hint: "Comment on any noise from new uses",
+    selectedLabel: "Any noise from new uses",
+    value: "noise",
+    description:
+      "Such as a new business causing excessive noise in a residential area.",
+  },
+  {
+    label: "Traffic, parking or road safety",
+    hint: "Comment on impacts to traffic, parking or road safety",
+    selectedLabel: "Impacts to traffic, parking or road safety",
+    value: "traffic",
+    description:
+      "Such as the parking proposed being inadequate, or important parking provisions being removed.",
+  },
+  {
+    label: "Other",
+    hint: "Comment on other things",
+    selectedLabel: "Any other things",
+    value: "other",
+    description: "Anything that does not fit into other categories.",
+  },
+];
+
 export const validateSearchParams = (
   appConfig: AppConfig,
-  searchParams?: { [key: string]: string | string[] | undefined },
+  searchParams?: UnknownSearchParams,
 ): SearchParamsComments => {
   // page
-  const page: SearchParamsComments["page"] = searchParams?.page
-    ? Array.isArray(searchParams.page)
-      ? parseInt(searchParams.page[0]) // Use the first element if it's an array
-      : parseInt(searchParams.page) // Use the value directly if it's a string
-    : 1;
-
-  // Ensure page is a valid number
-  const validPage = isNaN(page) || page <= 0 ? 1 : page;
+  const validPage = (() => {
+    // get the value if it exists
+    const pageValue = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "page")
+      : undefined;
+    // parse it
+    const pageNumber = parseInt(pageValue || "1", 10);
+    // if its not a number or less than or equal to 0, return 1
+    // otherwise return the number
+    return isNaN(pageNumber) || pageNumber <= 0 ? 1 : pageNumber;
+  })();
 
   // resultsPerPage
-  let resultsPerPage = appConfig.defaults.resultsPerPage;
-  if (searchParams?.resultsPerPage) {
-    const workingResultsPerPage = Array.isArray(searchParams.resultsPerPage)
-      ? parseInt(searchParams.resultsPerPage[0]) // Use the first element if it's an array
-      : parseInt(searchParams.resultsPerPage); // Use the value directly if it's a string
-
-    if (COMMENT_RESULTSPERPAGE_OPTIONS.includes(workingResultsPerPage)) {
-      resultsPerPage = workingResultsPerPage;
+  const resultsPerPage = (() => {
+    if (searchParams?.resultsPerPage) {
+      const workingResultsPerPage = getValueFromUnknownSearchParams(
+        searchParams,
+        "resultsPerPage",
+      );
+      const parsedResultsPerPage = parseInt(workingResultsPerPage || "", 10);
+      if (
+        !isNaN(parsedResultsPerPage) &&
+        COMMENT_RESULTSPERPAGE_OPTIONS.includes(parsedResultsPerPage)
+      ) {
+        return parsedResultsPerPage;
+      }
     }
-  }
+
+    return appConfig.defaults.resultsPerPage;
+  })();
 
   // type
   const type = getCommentTypeToShow(appConfig.council, searchParams);
 
   // sortBy
-  const sortBy = searchParams?.sortBy
-    ? Array.isArray(searchParams.sortBy)
-      ? searchParams.sortBy[0] // Use the first element if it's an array
-      : searchParams.sortBy // Use the value directly if it's a string
-    : undefined;
-
-  // Ensure sortBy is valid
-  const validSortBy: SearchParamsComments["sortBy"] =
-    sortBy && COMMENT_SORTBY_OPTIONS.includes(sortBy as DprCommentSortBy)
-      ? (sortBy as DprCommentSortBy)
+  const sortBy: DprCommentSortBy | undefined = (() => {
+    const sortByValue = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "sortBy")
       : undefined;
+
+    if (
+      sortByValue &&
+      COMMENT_SORTBY_OPTIONS.includes(sortByValue as DprCommentSortBy)
+    ) {
+      return sortByValue as DprCommentSortBy;
+    }
+
+    return undefined;
+  })();
 
   // orderBy
-  const orderBy = searchParams?.orderBy
-    ? Array.isArray(searchParams.orderBy)
-      ? searchParams.orderBy[0] // Use the first element if it's an array
-      : searchParams.orderBy // Use the value directly if it's a string
-    : undefined;
-
-  // Ensure sortBy is valid
-  const validOrderBy: SearchParamsComments["orderBy"] =
-    orderBy && COMMENT_ORDERBY_OPTIONS.includes(orderBy as DprCommentOrderBy)
-      ? (orderBy as DprCommentOrderBy)
+  const orderBy: DprCommentOrderBy | undefined = (() => {
+    const orderByValue = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "orderBy")
       : undefined;
 
+    if (
+      orderByValue &&
+      COMMENT_ORDERBY_OPTIONS.includes(orderByValue as DprCommentOrderBy)
+    ) {
+      return orderByValue as DprCommentOrderBy;
+    }
+
+    return undefined;
+  })();
+
   // Ensure query is a string
-  const query: string | undefined = searchParams?.query
-    ? Array.isArray(searchParams.query)
-      ? searchParams.query[0] // Use the first element if it's an array
-      : searchParams.query // Use the value directly if it's a string
+  const query: string | undefined = searchParams
+    ? getValueFromUnknownSearchParams(searchParams, "query")
     : undefined;
+
+  // sentiment
+  const sentiment = (() => {
+    const sentiment: string | undefined = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "sentiment")
+      : undefined;
+
+    let validSentiment = undefined;
+    if (type === "public") {
+      validSentiment = COMMENT_PUBLIC_SENTIMENT_OPTIONS.find(
+        (s) => s.value === sentiment,
+      );
+      return validSentiment ? validSentiment.value : undefined;
+    } else if (type === "specialist") {
+      validSentiment = COMMENT_SPECIALIST_SENTIMENT_OPTIONS.find(
+        (s) => s.value === sentiment,
+      );
+      return validSentiment ? validSentiment.value : undefined;
+    } else {
+      return undefined;
+    }
+  })();
+
+  // topic
+  const topic = (() => {
+    const topic: string | undefined = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "topic")
+      : undefined;
+    const validTopic = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+      (s) => s.value === topic,
+    );
+    return validTopic ? validTopic.value : undefined;
+  })();
+
+  // publishedAtFrom publishedAtTo
+  const { publishedAtFrom, publishedAtTo } = (() => {
+    const publishedAtFrom = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "publishedAtFrom")
+      : undefined;
+    const publishedAtTo = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "publishedAtTo")
+      : undefined;
+
+    // Helper function to validate YYYY-MM-DD format
+    const isValidDate = (date: string | undefined): boolean => {
+      return !!date && /^\d{4}-\d{2}-\d{2}$/.test(date);
+    };
+
+    // Validate both dates
+    const isFromValid = isValidDate(publishedAtFrom);
+    const isToValid = isValidDate(publishedAtTo);
+
+    // If both are valid, ensure they are in the correct order
+    if (isFromValid && isToValid) {
+      const fromDate = new Date(publishedAtFrom!);
+      const toDate = new Date(publishedAtTo!);
+
+      if (fromDate <= toDate) {
+        return { publishedAtFrom, publishedAtTo };
+      } else {
+        // If out of order, return undefined for both
+        return { publishedAtFrom: undefined, publishedAtTo: undefined };
+      }
+    }
+
+    // If only one is valid, set both to the same value
+    if (isFromValid) {
+      return { publishedAtFrom, publishedAtTo: publishedAtFrom };
+    }
+    if (isToValid) {
+      return { publishedAtFrom: publishedAtTo, publishedAtTo };
+    }
+
+    // If neither is valid, set both to undefined
+    return { publishedAtFrom: undefined, publishedAtTo: undefined };
+  })();
 
   const newSearchParams: SearchParamsComments = {
     page: validPage,
     resultsPerPage,
     type,
     ...(query && { query }),
-    ...(validSortBy && { sortBy: validSortBy }),
-    ...(validOrderBy && { orderBy: validOrderBy }),
+    ...(sortBy && { sortBy }),
+    ...(orderBy && { orderBy }),
+    ...(sentiment && { sentiment }),
+    ...(topic && { topic }),
+    ...(publishedAtFrom && publishedAtTo && { publishedAtFrom, publishedAtTo }),
   };
 
   return newSearchParams;

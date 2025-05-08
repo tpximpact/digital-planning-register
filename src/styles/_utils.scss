@@ -17,6 +17,8 @@
 
 @import "node_modules/govuk-frontend/dist/govuk/base";
 
+@import "utils/dpr-form";
+
 %visually-hidden {
   position: absolute;
   width: 1px;

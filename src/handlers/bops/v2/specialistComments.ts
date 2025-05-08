@@ -59,6 +59,13 @@ export async function specialistComments(
     if (searchParams.orderBy) {
       params.append("orderBy", searchParams.orderBy);
     }
+    if (searchParams.sentiment) {
+      params.append("sentiment", searchParams.sentiment);
+    }
+    if (searchParams.publishedAtFrom && searchParams.publishedAtTo) {
+      params.append("publishedAtFrom", searchParams.publishedAtFrom);
+      params.append("publishedAtTo", searchParams.publishedAtTo);
+    }
     url = `${url}?${params.toString()}`;
   }
 
