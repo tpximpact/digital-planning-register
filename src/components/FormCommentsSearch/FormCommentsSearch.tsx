@@ -102,7 +102,7 @@ export const FormCommentsSearch = ({
           commentSearchFields.includes("sentimentSpecialist") &&
           sentimentFields()}
 
-        {commentSearchFields.includes("topic") && (
+        {type === "public" && commentSearchFields.includes("topic") && (
           <div className="dpr-form-comments-search__column-one-third">
             <div className="govuk-form-group">
               <label className="govuk-label" htmlFor="topic">

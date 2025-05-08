@@ -62,9 +62,6 @@ export async function specialistComments(
     if (searchParams.sentiment) {
       params.append("sentiment", searchParams.sentiment);
     }
-    if (searchParams.topic) {
-      params.append("topic", searchParams.topic);
-    }
     if (searchParams.publishedAtFrom && searchParams.publishedAtTo) {
       params.append("publishedAtFrom", searchParams.publishedAtFrom);
       params.append("publishedAtTo", searchParams.publishedAtTo);
