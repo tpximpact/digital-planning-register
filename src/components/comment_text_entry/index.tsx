@@ -105,7 +105,7 @@ const CommentTextEntry = ({
     e.preventDefault();
     setHasSubmitted(true);
 
-    if (comment && normalisedCharCount <= MAX_COMMENT_LENGTH) {
+    if (normalisedCharCount > 0 && normalisedCharCount <= MAX_COMMENT_LENGTH) {
       sessionStorage.setItem(`comment_${currentTopic}_${reference}`, comment);
       updateProgress(3);
       onContinue();
@@ -126,7 +126,7 @@ const CommentTextEntry = ({
             ref={textareaRef}
             className={`govuk-form-group ${validationError || isMaxLength ? "govuk-form-group--error" : ""}`}
           >
-            {validationError && !comment && (
+            {validationError && normalisedCharCount === 0 && (
               <p
                 id="comment-error"
                 className="govuk-error-message"
@@ -168,9 +168,11 @@ const CommentTextEntry = ({
               value={comment}
               onChange={handleCommentChange}
               maxLength={MAX_COMMENT_LENGTH}
-              aria-invalid={validationError || isMaxLength}
+              aria-invalid={
+                (validationError && normalisedCharCount === 0) || isMaxLength
+              }
               aria-errormessage={
-                validationError
+                validationError && normalisedCharCount === 0
                   ? "comment-error"
                   : isMaxLength
                     ? "length-error"
