@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const council = searchParams.get("council");
 
+  // council parameter is missing
   if (!council) {
-    // console.error("Council parameter is missing");
     return redirect("/not-found");
   }
 
@@ -61,6 +61,5 @@ export async function GET(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const redirectPath = pathname.replace("/search", "");
 
-  // console.log("Redirecting to:", `${redirectPath}?${queryParams.toString()}`);
   redirect(`${redirectPath}?${queryParams.toString()}`);
 }
