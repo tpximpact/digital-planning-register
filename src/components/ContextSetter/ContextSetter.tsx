@@ -62,10 +62,7 @@ export const ContextSetter = ({
           <p>
             <Link
               className="govuk-body-m govuk-link"
-              href={createPathFromParams(
-                { council: councilSlug, reference },
-                application.data.application.reference,
-              )}
+              href={createPathFromParams({ council: councilSlug, reference })}
             >
               {application.data.application.reference}
             </Link>
