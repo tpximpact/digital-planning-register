@@ -38,7 +38,8 @@ describe("Pagination", () => {
       currentPage: 1,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -110,7 +111,8 @@ describe("Pagination", () => {
       currentPage: 2,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -200,7 +202,8 @@ describe("Pagination", () => {
       currentPage: 3,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -298,7 +301,8 @@ describe("Pagination", () => {
       currentPage: 4,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -404,7 +408,8 @@ describe("Pagination", () => {
       currentPage: 5,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -510,7 +515,8 @@ describe("Pagination", () => {
       currentPage: 98,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -608,7 +614,8 @@ describe("Pagination", () => {
       currentPage: 99,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -698,7 +705,8 @@ describe("Pagination", () => {
       currentPage: 100,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,
@@ -768,7 +776,8 @@ describe("Pagination", () => {
       currentPage: 0,
       resultsPerPage: 10,
       totalPages: 100,
-      totalItems: 1000,
+      totalResults: 1000,
+      totalAvailableItems: 1000,
     };
     const searchParams = {
       resultsPerPage: 10,

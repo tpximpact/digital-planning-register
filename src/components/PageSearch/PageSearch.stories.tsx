@@ -98,6 +98,7 @@ export const DefaultWithEmailAlerts: Story = {
 };
 export const SearchResults: Story = {
   args: {
+    pagination: generatePagination(1, 100, 200),
     searchParams: {
       page: 1,
       resultsPerPage: 10,

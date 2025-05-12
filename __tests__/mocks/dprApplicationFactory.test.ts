@@ -110,7 +110,8 @@ describe("generatePagination", () => {
     expect(pagination).toHaveProperty("resultsPerPage");
     expect(pagination).toHaveProperty("currentPage");
     expect(pagination).toHaveProperty("totalPages");
-    expect(pagination).toHaveProperty("totalItems");
+    expect(pagination).toHaveProperty("totalResults");
+    expect(pagination).toHaveProperty("totalAvailableItems");
   });
 
   it("should generate pagination data with the correct values when current page provided", () => {
@@ -122,6 +123,11 @@ describe("generatePagination", () => {
     const pagination1 = generatePagination(1, 100);
     const pagination2 = generatePagination(2, 100);
     expect(pagination1).not.toEqual(pagination2);
+  });
+
+  it("should generate pagination data with the correct values when totalAvailableItems provided", () => {
+    const pagination = generatePagination(1, 100, 200);
+    expect(pagination.totalAvailableItems).toBe(200);
   });
 });
 
