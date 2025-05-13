@@ -87,12 +87,17 @@ async function fetchCommentData({
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
   const response = await fetchApplicationData({
     params,
   });
   const { council, reference } = params;
   const councilName = getAppConfig(council)?.council?.name ?? "";
+
+  const appConfig = getAppConfig(council);
+  const validSearchParams = validateSearchParams(appConfig, searchParams);
+  const type = validSearchParams.type;
 
   if (!response.data) {
     return {
@@ -101,7 +106,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Comments | Application ${reference} | ${councilName} Digital Planning Register`,
+    title: `Comments ${type} | Application ${reference} | ${councilName} Digital Planning Register`,
     description: `All comments for ${councilName} Council planning application ${reference}`,
   };
 }
