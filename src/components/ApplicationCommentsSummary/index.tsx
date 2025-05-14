@@ -15,4 +15,5 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./CommentsListWithSuspense";
+export * from "./ApplicationCommentsSummary";
+export * from "./ApplicationCommentsSummaryWithSuspense";
