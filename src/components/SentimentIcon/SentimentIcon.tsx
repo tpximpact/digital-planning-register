@@ -25,10 +25,16 @@ export const SentimentIcon = ({ sentiment }: SentimentIconProps) => {
   switch (sentiment) {
     case "neutral":
       return <NeutralIcon />;
-    case "support":
+    case "supportive":
       return <SupportIcon />;
-    case "opposed":
+    case "objection":
       return <OpposedIcon />;
+    case "approved":
+      return <ApprovedIcon />;
+    case "amendmentsNeeded":
+      return <AmendmentsNeededIcon />;
+    case "objected":
+      return <ObjectedIcon />;
     default:
       return null;
   }
@@ -122,6 +128,66 @@ export const OpposedIcon = () => {
         d="M27.5043 47.8528L27.5043 47.8528L27.5063 47.8517C27.506 47.8519 27.5063 47.8517 27.5073 47.8511C27.5461 47.8297 28.6135 47.2385 30.2482 46.96C31.9166 46.6757 34.162 46.7184 36.5201 48.0114C36.952 48.2483 37.4602 48.2082 37.8422 47.9528C38.0068 47.8428 38.149 47.6923 38.2511 47.5063L38.2513 47.5059C38.5889 46.8891 38.364 46.1148 37.7464 45.7754L37.746 45.7752C31.7861 42.5067 26.4754 45.5013 26.2278 45.6442L26.2277 45.6441L26.2185 45.6498C25.6383 46.0016 25.404 46.7683 25.7633 47.3874C26.1155 47.9943 26.8926 48.2064 27.5043 47.8528Z"
         fill="#0B0C0C"
         stroke="#0B0C0C"
+      ></path>
+    </svg>
+  );
+};
+
+export const ApprovedIcon = () => {
+  return (
+    <svg
+      // className="smiley-inline"
+      width="30"
+      height="24"
+      viewBox="0 0 25 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M25 3.5L21.5 0L8.5 13L3.5 8L0 11.5L8.5 20L25 3.5Z"
+        fill="#00703c"
+      ></path>
+    </svg>
+  );
+};
+
+export const ObjectedIcon = () => {
+  return (
+    <svg
+      // class="smiley-inline"
+      width="30"
+      height="30"
+      viewBox="-2 -2 22 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M16.4999 0L19.9999 3.5L13.4933 10.0066L20 16.5636L16.5636 20L10.0317 13.4682L3.49992 20L0.0634766 16.5636L6.57014 10.0066L0.0635605 3.5L3.56356 0L10.0317 6.5182L16.4999 0Z"
+        fill="#d4351c"
+      ></path>
+    </svg>
+  );
+};
+
+export const AmendmentsNeededIcon = () => {
+  return (
+    <svg
+      // class="smiley-inline"
+      width="30"
+      height="30"
+      viewBox="0 0 128 128"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M113.784 40.7408L86.8199 13.8432C90.3135 8.82114 99.4719 0.429524 105.76 0.691539C113.621 1.01906 126.283 13.2826 127.265 21.143C128.051 27.4314 118.696 36.5923 113.784 40.7408Z"
+        fill="#003078"
+      ></path>
+      <path
+        d="M105.642 49.2656L78.9588 22.2267L7.62588 93.2038L0.688477 127.536L34.843 120.065L105.642 49.2656Z"
+        fill="#003078"
       ></path>
     </svg>
   );

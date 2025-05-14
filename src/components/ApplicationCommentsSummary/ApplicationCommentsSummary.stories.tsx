@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import type { Meta, StoryObj } from "@storybook/react";
-import { SentimentIcon } from "./SentimentIcon";
+import { Meta, StoryObj } from "@storybook/react";
+import { ApplicationCommentsSummary } from "./ApplicationCommentsSummary";
 
 const meta = {
-  title: "DPR Components/SentimentIcon",
-  component: SentimentIcon,
+  title: "DPR Components/ApplicationnCommentsSummary",
+  component: ApplicationCommentsSummary,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -28,41 +27,47 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    sentiment: "opposed",
+    type: "public",
+    summary: {
+      sentiment: {
+        supportive: 10,
+        neutral: 5,
+        objection: 2,
+      },
+      totalComments: 17,
+    },
   },
-} satisfies Meta<typeof SentimentIcon>;
+} satisfies Meta<typeof ApplicationCommentsSummary>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Opposed: Story = {
+export const Public: Story = {
   args: {
-    sentiment: "objection",
+    type: "public",
+    summary: {
+      sentiment: {
+        supportive: 10,
+        neutral: 5,
+        objection: 2,
+      },
+      totalComments: 17,
+    },
   },
 };
-export const Neutral: Story = {
+
+export const Specialist: Story = {
   args: {
-    sentiment: "neutral",
-  },
-};
-export const Support: Story = {
-  args: {
-    sentiment: "supportive",
-  },
-};
-export const Approved: Story = {
-  args: {
-    sentiment: "approved",
-  },
-};
-export const AmendmentsNeeded: Story = {
-  args: {
-    sentiment: "amendmentsNeeded",
-  },
-};
-export const Objected: Story = {
-  args: {
-    sentiment: "objected",
+    type: "specialist",
+    summary: {
+      sentiment: {
+        approved: 7,
+        amendmentsNeeded: 3,
+        objected: 4,
+      },
+      totalConsulted: 14,
+      totalComments: 14,
+    },
   },
 };
