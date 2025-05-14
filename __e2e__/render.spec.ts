@@ -264,7 +264,7 @@ const testCouncilReferenceComments = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/comments`);
 
   await expect(page).toHaveTitle(
-    "Comments | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Public Comments | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
   );
 
   await expect(
