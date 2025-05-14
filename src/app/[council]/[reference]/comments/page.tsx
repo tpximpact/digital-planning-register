@@ -32,6 +32,7 @@ import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { validateSearchParams } from "@/lib/comments";
 import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsCommentsProps {
   params: {
@@ -97,7 +98,7 @@ export async function generateMetadata({
 
   const appConfig = getAppConfig(council);
   const validSearchParams = validateSearchParams(appConfig, searchParams);
-  const type = validSearchParams.type;
+  const type = capitalizeFirstLetter(validSearchParams.type);
 
   if (!response.data) {
     return {
@@ -106,7 +107,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Comments ${type} | Application ${reference} | ${councilName} Digital Planning Register`,
+    title: `${type} Comments | Application ${reference} | ${councilName} Digital Planning Register`,
     description: `All comments for ${councilName} Council planning application ${reference}`,
   };
 }
