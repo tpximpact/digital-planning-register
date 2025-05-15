@@ -42,7 +42,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    type: "public",
+    reference: "ABC/123",
+    councilSlug: "public-council-1",
+    summary: {
+      sentiment: {
+        supportive: 10,
+        neutral: 5,
+        objection: 2,
+      },
+      totalComments: 17,
+    },
+  },
+};
 export const Public: Story = {
   args: {
     type: "public",
@@ -54,6 +68,8 @@ export const Public: Story = {
       },
       totalComments: 17,
     },
+    reference: "ABC/123",
+    councilSlug: "public-council-1",
   },
 };
 
@@ -66,8 +82,20 @@ export const Specialist: Story = {
         amendmentsNeeded: 3,
         objected: 4,
       },
-      totalConsulted: 14,
+      totalConsulted: 16,
       totalComments: 14,
     },
+    reference: "ABC/123",
+    councilSlug: "public-council-1",
+  },
+};
+
+// add skeleton
+export const Skeleton: Story = {
+  args: {
+    type: "public",
+    reference: "ABC/123",
+    councilSlug: "public-council-1",
+    summary: {},
   },
 };

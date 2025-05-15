@@ -136,6 +136,7 @@ export const OpposedIcon = () => {
 export const ApprovedIcon = () => {
   return (
     <svg
+      className="dsn-sentiment__icon approved-face"
       // className="smiley-inline"
       width="30"
       height="24"
@@ -154,6 +155,7 @@ export const ApprovedIcon = () => {
 export const ObjectedIcon = () => {
   return (
     <svg
+      className="dsn-sentiment__icon objected-face"
       // class="smiley-inline"
       width="30"
       height="30"
@@ -174,6 +176,7 @@ export const ObjectedIcon = () => {
 export const AmendmentsNeededIcon = () => {
   return (
     <svg
+      className="amendments-needed-face"
       // class="smiley-inline"
       width="30"
       height="30"
@@ -187,7 +190,7 @@ export const AmendmentsNeededIcon = () => {
       ></path>
       <path
         d="M105.642 49.2656L78.9588 22.2267L7.62588 93.2038L0.688477 127.536L34.843 120.065L105.642 49.2656Z"
-        fill="#003078"
+        fill="currentColor"
       ></path>
     </svg>
   );
