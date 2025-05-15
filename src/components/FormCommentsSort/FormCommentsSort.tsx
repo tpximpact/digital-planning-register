@@ -15,7 +15,11 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 "use client";
-import { SearchParamsComments } from "@/types";
+import {
+  DprCommentOrderBy,
+  DprCommentSortBy,
+  SearchParamsComments,
+} from "@/types";
 import { Button } from "../button";
 import {
   COMMENT_ORDERBY_DEFAULT,
@@ -24,6 +28,7 @@ import {
   COMMENT_SORTBY_OPTIONS,
 } from "@/lib/comments";
 import { useState } from "react";
+import "./FormCommentsSort.scss";
 
 export interface FormCommentsSortProps {
   searchParams: SearchParamsComments;
@@ -59,11 +64,11 @@ export const FormCommentsSort = ({
     const [newSortBy, newOrderBy] = e.target.value.split("_");
 
     if (
-      COMMENT_SORTBY_OPTIONS.includes(newSortBy) &&
-      COMMENT_ORDERBY_OPTIONS.includes(newOrderBy)
+      COMMENT_SORTBY_OPTIONS.includes(newSortBy as DprCommentSortBy) &&
+      COMMENT_ORDERBY_OPTIONS.includes(newOrderBy as DprCommentOrderBy)
     ) {
-      setSortBy(newSortBy);
-      setOrderBy(newOrderBy);
+      setSortBy(newSortBy as DprCommentSortBy);
+      setOrderBy(newOrderBy as DprCommentOrderBy);
     } else {
       setSortBy(COMMENT_SORTBY_DEFAULT);
       setOrderBy(COMMENT_ORDERBY_DEFAULT);
@@ -74,35 +79,37 @@ export const FormCommentsSort = ({
 
   const renderFormContent = () => (
     <>
-      <div className="govuk-grid-row dpr-form-comments-sort">
-        <div className="govuk-grid-column-one-third">
-          <div className="govuk-form-group">
-            <label htmlFor="commentSortByorderBy" className="govuk-label">
-              Sort by
-            </label>
-            <select
-              id="commentSortByorderBy"
-              value={sortByOrderBy}
-              onChange={handleChange}
-              className="govuk-select govuk-!-width-full"
-            >
-              {commentSortByOrderByOptions.map((option) => (
-                <option
-                  key={option.label}
-                  value={`${option.sortBy}_${option.orderBy}`}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
+      <div className="dpr-form-comments-sort">
+        <div className="dpr-form-comments-search__row">
+          <div className="dpr-form-comments-sort__column-one-third">
+            <div className="govuk-form-group">
+              <label htmlFor="commentSortByorderBy" className="govuk-label">
+                Sort by
+              </label>
+              <select
+                id="commentSortByorderBy"
+                value={sortByOrderBy}
+                onChange={handleChange}
+                className="govuk-select govuk-!-width-full"
+              >
+                {commentSortByOrderByOptions.map((option) => (
+                  <option
+                    key={option.label}
+                    value={`${option.sortBy}_${option.orderBy}`}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="govuk-grid-column-two-thirds govuk-!-padding-top-6">
-          <input type="hidden" name="sortBy" defaultValue={sortBy} />
-          <input type="hidden" name="orderBy" defaultValue={orderBy} />
-          <Button variant="secondary" type="submit">
-            Apply sorting
-          </Button>
+          <div className="dpr-form-comments-sort__column-two-thirds govuk-!-padding-top-6">
+            <input type="hidden" name="sortBy" defaultValue={sortBy} />
+            <input type="hidden" name="orderBy" defaultValue={orderBy} />
+            <Button variant="secondary" type="submit">
+              Apply sorting
+            </Button>
+          </div>
         </div>
       </div>
     </>

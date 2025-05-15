@@ -16,7 +16,9 @@
  */
 
 import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 import { DprCommentTypes } from "@/types/definitions";
+import { CommentTopic } from "./odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
 
 /**
  * This file contains the definitions for common objects used accross the application
@@ -73,6 +75,10 @@ export interface SearchParamsComments extends SearchParams {
   type: DprCommentTypes;
   sortBy?: DprCommentSortBy;
   orderBy?: DprCommentOrderBy;
+  sentiment?: CommentSentiment | SpecialistCommentSentiment;
+  topic?: CommentTopic;
+  publishedAtFrom?: string;
+  publishedAtTo?: string;
 }
 export type DprCommentSortBy = "receivedAt";
 export type DprCommentOrderBy = "asc" | "desc";

@@ -14,47 +14,78 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-"use client";
-import { COMMENT_RESULTSPERPAGE_OPTIONS } from "@/lib/comments";
-import { createPathFromParams } from "@/lib/navigation";
+import {
+  COMMENT_PUBLIC_SENTIMENT_OPTIONS,
+  COMMENT_PUBLIC_TOPIC_OPTIONS,
+  COMMENT_RESULTSPERPAGE_OPTIONS,
+  COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
+} from "@/lib/comments";
 import { SearchParamsComments } from "@/types";
 import { commentSearchFields } from "@/util/featureFlag";
-import { useSearchParams } from "next/navigation";
+import "./FormCommentsSearch.scss";
+import { FormFieldFromTo } from "../FormFieldFromTo";
+import { Button } from "../button";
 
 export interface FormCommentsSearchProps {
-  council: string;
-  reference: string;
   searchParams: SearchParamsComments;
   action?: string;
 }
 
 export const FormCommentsSearch = ({
-  council,
-  reference,
   searchParams,
   action,
 }: FormCommentsSearchProps) => {
-  const urlSearchParams = useSearchParams() || new URLSearchParams();
+  const { type } = searchParams;
 
-  const clearFormQueryParams = new URLSearchParams(
-    Array.from(urlSearchParams.entries()).filter(
-      ([key]) => !commentSearchFields.includes(key),
-    ),
+  const sentimentFields = () => (
+    <div className="dpr-form-comments-search__column-one-third">
+      <div className="govuk-form-group">
+        <label className="govuk-label" htmlFor="sentiment">
+          Sentiment
+        </label>
+        <select
+          className="govuk-select govuk-!-width-full"
+          id="sentiment"
+          name="sentiment"
+          defaultValue={searchParams?.sentiment ?? ""}
+        >
+          <option value="">All</option>
+          {type === "public" && (
+            <>
+              {COMMENT_PUBLIC_SENTIMENT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </>
+          )}
+          {type === "specialist" && (
+            <>
+              {COMMENT_SPECIALIST_SENTIMENT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </>
+          )}
+        </select>
+      </div>
+    </div>
   );
 
   const renderFormContent = () => (
-    <>
-      <h2 className="govuk-heading-m">Search comments</h2>
-      <div className="govuk-grid-row">
+    <div className="dpr-form-comments-search">
+      <h2 className="dpr-form-comments-search__title">Search comments</h2>
+      <div className="dpr-form-comments-search__row">
         {commentSearchFields.includes("query") && (
-          <div className="govuk-grid-column-one-third">
+          <div className="dpr-form-comments-search__column-one-third">
             <div className="govuk-form-group">
               <label htmlFor="query" className="govuk-label">
                 Contents
               </label>
               <input
                 name="query"
-                className="govuk-input"
+                className="govuk-input govuk-!-width-full"
                 id="query"
                 type="text"
                 defaultValue={searchParams?.query ?? ""}
@@ -62,48 +93,92 @@ export const FormCommentsSearch = ({
             </div>
           </div>
         )}
-        <div className="govuk-grid-row">
-          {commentSearchFields.includes("query") && (
-            <div className="govuk-grid-column-one-third">
-              <div className="govuk-form-group">
-                <label htmlFor="resultsPerPage" className="govuk-label">
-                  Comments per page
-                </label>
-                <select
-                  id="resultsPerPage"
-                  name="resultsPerPage"
-                  defaultValue={searchParams.resultsPerPage}
-                  className="govuk-select drp-dropdown__select"
-                >
-                  {COMMENT_RESULTSPERPAGE_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+
+        {/* @TODO get rid of this when both sentimentsare done  */}
+        {type === "public" &&
+          commentSearchFields.includes("sentiment") &&
+          sentimentFields()}
+        {type === "specialist" &&
+          commentSearchFields.includes("sentimentSpecialist") &&
+          sentimentFields()}
+
+        {type === "public" && commentSearchFields.includes("topic") && (
+          <div className="dpr-form-comments-search__column-one-third">
+            <div className="govuk-form-group">
+              <label className="govuk-label" htmlFor="topic">
+                Topic
+              </label>
+
+              <select
+                className="govuk-select govuk-!-width-full"
+                id="topic"
+                name="topic"
+                defaultValue={searchParams?.topic ?? ""}
+              >
+                <option value="">All</option>
+
+                {COMMENT_PUBLIC_TOPIC_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="dpr-form-comments-search__row">
+        {commentSearchFields.includes("publishedAtFrom") &&
+          commentSearchFields.includes("publishedAtTo") && (
+            <div className="dpr-form-comments-search__column-one-third">
+              <FormFieldFromTo
+                title="Published date"
+                from={{
+                  label: "Published from date",
+                  name: "publishedAtFrom",
+                  value: searchParams?.publishedAtFrom,
+                }}
+                to={{
+                  label: "Published to date",
+                  name: "publishedAtTo",
+                  value: searchParams?.publishedAtTo,
+                }}
+              />
             </div>
           )}
-        </div>
-        <div className="govuk-grid-row govuk-!-margin-left-0 grid-row-extra-bottom-margin">
-          <div className="govuk-grid-column-full govuk-button-group">
-            <button
-              type="submit"
-              className="govuk-button dpr-comment-filter__button"
-            >
-              Search
-            </button>
-            <a
-              href={`${createPathFromParams({ council, reference }, "comments")}?${clearFormQueryParams.toString()}`}
-              className="govuk-button govuk-button--secondary"
-              role="button"
-            >
-              Clear search
-            </a>
+        {commentSearchFields.includes("query") && (
+          <div className="dpr-form-comments-search__column-one-third">
+            <div className="govuk-form-group">
+              <label htmlFor="resultsPerPage" className="govuk-label">
+                Comments per page
+              </label>
+              <select
+                id="resultsPerPage"
+                name="resultsPerPage"
+                defaultValue={searchParams.resultsPerPage}
+                className="govuk-select govuk-!-width-full"
+              >
+                {COMMENT_RESULTSPERPAGE_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+        )}
+      </div>
+      <div className="dpr-form-comments-search__row grid-row-extra-bottom-margin">
+        <div className="govuk-grid-column-full govuk-button-group">
+          <Button type="submit" variant="primary" name="action" value="submit">
+            Search
+          </Button>
+          <Button type="submit" variant="secondary" name="action" value="clear">
+            Clear search
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 
   return action ? (

@@ -17,32 +17,47 @@
 
 import { getAppConfig } from "@/config";
 import { validateSearchParams } from "@/lib/comments";
+import { commentSearchFields } from "@/util/featureFlag";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
+const filterSearchParams = (
+  searchParams: URLSearchParams,
+  excludedKeys: string[],
+): URLSearchParams => {
+  return new URLSearchParams(
+    Array.from(searchParams.entries()).filter(
+      ([key]) => !excludedKeys.includes(key),
+    ),
+  );
+};
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  let queryParams = new URLSearchParams();
   const council = searchParams.get("council");
 
-  if (council) {
-    const appConfig = getAppConfig(council);
-    const searchParamsObj = Object.fromEntries(searchParams.entries());
-    const validSearchParams = validateSearchParams(appConfig, searchParamsObj);
-    const validSearchParamsObject: Record<string, string> = Object.entries(
-      validSearchParams,
-    ).reduce(
-      (acc, [key, value]) => {
-        if (value !== undefined) {
-          acc[key] = String(value); // Convert all values to strings
-        }
-        return acc;
-      },
-      {} as Record<string, string>,
-    );
-    queryParams = new URLSearchParams(validSearchParamsObject);
+  // council parameter is missing
+  if (!council) {
+    return redirect("/not-found");
   }
 
+  const submitAction = searchParams.get("action");
+  const filteredSearchParams =
+    submitAction === "clear"
+      ? filterSearchParams(searchParams, [...commentSearchFields, "action"])
+      : searchParams;
+
+  const appConfig = getAppConfig(council);
+  const searchParamsObj = Object.fromEntries(filteredSearchParams.entries());
+  const validSearchParams = validateSearchParams(appConfig, searchParamsObj);
+
+  const validSearchParamsObject = Object.fromEntries(
+    Object.entries(validSearchParams).filter(
+      ([_, value]) => value !== undefined,
+    ),
+  );
+
+  const queryParams = new URLSearchParams(validSearchParamsObject);
   const pathname = request.nextUrl.pathname;
   const redirectPath = pathname.replace("/search", "");
 

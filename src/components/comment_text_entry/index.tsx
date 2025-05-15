@@ -18,7 +18,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/button";
-import { topicLabels, topicLabelsHint } from "@/lib/comments";
+import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
 import { trackClient } from "@/lib/dprAnalytics";
 
 const MAX_COMMENT_LENGTH = 6000;
@@ -151,11 +151,21 @@ const CommentTextEntry = ({
 
             <h2 className="govuk-label-wrapper">
               <label className="govuk-label govuk-label--m" htmlFor="comment">
-                {topicLabels[currentTopic]}
+                {
+                  COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+                    (option) => option.value === currentTopic,
+                  )?.hint
+                }
               </label>
             </h2>
 
-            <p className="govuk-hint">{topicLabelsHint[currentTopic]}</p>
+            <p className="govuk-hint">
+              {
+                COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+                  (option) => option.value === currentTopic,
+                )?.description
+              }
+            </p>
             <p className="govuk-hint">
               {currentTopicIndex + 1} of {totalTopics}
             </p>
