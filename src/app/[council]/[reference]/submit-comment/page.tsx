@@ -37,7 +37,6 @@ import {
   checkCommentsEnabled,
   COMMENT_PUBLIC_TOPIC_OPTIONS,
 } from "@/lib/comments";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
 import { ContextSetterWithSuspense } from "@/components/ContextSetterWithSuspense";
 
 type Props = {
