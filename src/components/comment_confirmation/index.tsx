@@ -15,27 +15,25 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprBoundaryGeojson } from "@/types";
+import { DprApplication } from "@/types";
 import { Panel } from "../govuk/Panel";
 import { Button } from "@/components/button";
 import "./comment-confirmation.scss";
-import CommentHeader from "../comment-header";
 import { AppConfig } from "@/config/types";
+import { ContextSetterWithSuspense } from "../ContextSetterWithSuspense";
 
 interface CommentConfirmationProps {
   reference: string;
   council: string;
-  address?: string;
-  boundary_geojson?: DprBoundaryGeojson;
-  navigateToPage: (page: number, params?: object) => void;
+  application: DprApplication;
+  navigateToPage?: (page: number, params?: object) => void;
   councilConfig: AppConfig["council"];
 }
 
 const CommentConfirmation = ({
   reference,
   council,
-  address,
-  boundary_geojson,
+  application,
   councilConfig,
 }: CommentConfirmationProps) => {
   const emailAlertsLink =
@@ -47,11 +45,11 @@ const CommentConfirmation = ({
         titleText="Comment submitted"
         text={<p>Thank you for your input</p>}
       />
-      <CommentHeader
-        council={council}
+      <ContextSetterWithSuspense
+        councilSlug={council}
         reference={reference}
-        boundary_geojson={boundary_geojson}
-        address={address}
+        application={application}
+        showFeedbackBlurb={false}
       />
       <h2 className="govuk-heading-m">What happens now</h2>
       {/* Commented out for now as email confirmation isn't set up */}

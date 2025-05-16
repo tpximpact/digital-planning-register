@@ -19,10 +19,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import CommentConfirmation from ".";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { Council } from "@/config/types";
-import { generateBoundaryGeoJson } from "@mocks/dprApplicationFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const appConfig = createAppConfig("public-council-1");
 const councilConfig = appConfig.council as Council;
+const { consultation } = generateExampleApplications();
 const meta = {
   title: "Comments/CommentConfirmation",
   component: CommentConfirmation,
@@ -36,6 +37,7 @@ const meta = {
     reference: "12345",
     council: "public-council-1",
     councilConfig,
+    application: consultation,
     navigateToPage: () => {},
   },
 } satisfies Meta<typeof CommentConfirmation>;
@@ -44,12 +46,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const WithData: Story = {
-  args: {
-    boundary_geojson: generateBoundaryGeoJson(),
-    address: "123 Fake Street",
-  },
-};
 
 export const WithEmailAlerts: Story = {
   args: {

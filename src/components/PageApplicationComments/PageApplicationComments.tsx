@@ -31,7 +31,7 @@ import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
 import { FormCommentsSearch } from "@/components/FormCommentsSearch";
-import { ContextSetter } from "@/components/ContextSetter";
+import { ContextSetterWithSuspense } from "@/components/ContextSetterWithSuspense";
 
 export interface PageApplicationCommentsProps {
   params: {
@@ -68,7 +68,7 @@ export const PageApplicationComments = ({
     <>
       <BackButton baseUrl={createPathFromParams(params)} />
       <PageMain>
-        <ContextSetter
+        <ContextSetterWithSuspense
           councilSlug={councilSlug}
           reference={reference}
           application={application}

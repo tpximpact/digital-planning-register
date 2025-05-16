@@ -15,17 +15,20 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CommentConfirmation from "@/components/comment_confirmation";
 import "@testing-library/jest-dom";
-import { DprBoundaryGeojson } from "@/types";
+import { createAppConfig } from "@mocks/appConfigFactory";
+import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 jest.mock("@/components/ApplicationMap", () => ({
   ApplicationMapLoader: () => (
     <div data-testid="mock-application-map-loader">Mocked ApplicationMap</div>
   ),
 }));
+
+const { consultation } = generateExampleApplications();
+const appConfig = createAppConfig("public-council-1");
 
 // stop Not implemented: HTMLFormElement.prototype.requestSubmit error
 beforeAll(() => {
@@ -36,23 +39,12 @@ beforeAll(() => {
 
 describe("CommentConfirmation", () => {
   const defaultProps = {
-    reference: "REF-001",
-    council: "exampleCouncil",
-    address: "123 Main St, ABC 123",
-    boundary_geojson: {
-      type: "Feature",
-      geometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [0, 0],
-            [1, 1],
-            [2, 2],
-            [0, 0],
-          ],
-        ],
-      },
-    } as DprBoundaryGeojson,
+    params: {
+      council: "public-council-1",
+      reference: consultation.data.application.reference,
+    },
+    application: consultation,
+    appConfig: appConfig,
     navigateToPage: jest.fn(),
   };
 
@@ -62,16 +54,20 @@ describe("CommentConfirmation", () => {
   });
 
   it("renders the component with the correct content", () => {
-    render(<CommentConfirmation {...defaultProps} />);
+    render(
+      <CommentConfirmation
+        {...defaultProps}
+        reference={defaultProps.params.reference}
+        council={defaultProps.params.council}
+        councilConfig={appConfig.council}
+      />,
+    );
 
     expect(
       screen.getByRole("heading", { name: "Comment submitted" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("123 Main St, ABC 123")).toBeInTheDocument();
-    expect(screen.getByText("REF-001")).toBeInTheDocument();
-    expect(
-      screen.getByText(/Your feedback helps us improve developments/i),
-    ).toBeInTheDocument();
+    const { reference } = defaultProps.params;
+    expect(screen.getByText(reference)).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
         name: "Discover other planning applications in your area",
@@ -81,34 +77,43 @@ describe("CommentConfirmation", () => {
       screen.getByRole("button", { name: "Back to application search" }),
     ).toBeInTheDocument();
   });
-
   it("does not navigate to page 0 if the comment has been submitted", () => {
     sessionStorage.setItem("submitted_REF-001", "true");
-    render(<CommentConfirmation {...defaultProps} />);
+    render(
+      <CommentConfirmation
+        {...defaultProps}
+        reference={defaultProps.params.reference}
+        council={defaultProps.params.council}
+        councilConfig={appConfig.council}
+      />,
+    );
 
     expect(defaultProps.navigateToPage).not.toHaveBeenCalled();
   });
-
   it("renders the map component when boundary_geojson is provided", () => {
-    render(<CommentConfirmation {...defaultProps} />);
+    render(
+      <CommentConfirmation
+        reference={defaultProps.params.reference}
+        council={defaultProps.params.council}
+        councilConfig={appConfig.council}
+        {...defaultProps}
+      />,
+    );
 
     expect(
       screen.getByTestId("mock-application-map-loader"),
     ).toBeInTheDocument();
   });
 
-  it("does not render the map component when boundary_geojson is not provided", () => {
-    render(
-      <CommentConfirmation {...defaultProps} boundary_geojson={undefined} />,
-    );
-
-    expect(
-      screen.queryByTestId("mock-application-map-loader"),
-    ).not.toBeInTheDocument();
-  });
-
   it('navigates to the council page when the "Back to application search" button is clicked', () => {
-    render(<CommentConfirmation {...defaultProps} />);
+    render(
+      <CommentConfirmation
+        reference={defaultProps.params.reference}
+        council={defaultProps.params.council}
+        councilConfig={appConfig.council}
+        {...defaultProps}
+      />,
+    );
     fireEvent.click(
       screen.getByRole("button", { name: "Back to application search" }),
     );
@@ -120,7 +125,7 @@ describe("CommentConfirmation", () => {
       screen
         .getByRole("button", { name: "Back to application search" })
         .closest("form"),
-    ).toHaveAttribute("action", "/exampleCouncil");
+    ).toHaveAttribute("action", "/public-council-1");
     expect(
       screen
         .getByRole("button", { name: "Back to application search" })

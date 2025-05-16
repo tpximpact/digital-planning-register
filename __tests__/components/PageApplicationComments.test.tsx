@@ -31,8 +31,10 @@ import { DprComment } from "@/types";
 import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
-jest.mock("@/components/ContextSetter", () => ({
-  ContextSetter: jest.fn(() => <div data-testid="ContextSetter" />),
+jest.mock("@/components/ContextSetterWithSuspense", () => ({
+  ContextSetterWithSuspense: jest.fn(() => (
+    <div data-testid="ContextSetterWithSuspense" />
+  )),
 }));
 
 jest.mock("@/components/FormCommentsSearch", () => ({
