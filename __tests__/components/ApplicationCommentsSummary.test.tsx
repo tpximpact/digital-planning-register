@@ -21,7 +21,7 @@ describe("ApplicationCommentsSummary", () => {
   it("renders null when summary is not provided", () => {
     const { container } = render(
       <ApplicationCommentsSummary
-        summary={null as any}
+        summary={undefined}
         type="public"
         reference="ABC/123"
         councilSlug="public-council-1"
