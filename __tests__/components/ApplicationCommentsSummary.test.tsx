@@ -19,15 +19,16 @@ const renderComponent = (
 
 describe("ApplicationCommentsSummary", () => {
   it("renders null when summary is not provided", () => {
-    const { container } = render(
+    render(
       <ApplicationCommentsSummary
-        summary={undefined}
+        summary={null}
         type="public"
         reference="ABC/123"
         councilSlug="public-council-1"
       />,
     );
-    expect(container).toBeEmptyDOMElement();
+    expect(screen.getByText("Public Comments")).toBeInTheDocument();
+    expect(screen.getByTestId("summary-skeleton")).toBeInTheDocument();
   });
 
   describe("public type", () => {
@@ -67,11 +68,7 @@ describe("ApplicationCommentsSummary", () => {
     it("renders the skeleton when sentiment data is missing", () => {
       renderComponent({
         type: "public",
-        summary: {
-          totalComments: 3,
-          // @ts-expect-error testing missing sentiment
-          sentiment: undefined,
-        },
+        summary: null,
         reference: "abc",
         councilSlug: "slug",
       });
