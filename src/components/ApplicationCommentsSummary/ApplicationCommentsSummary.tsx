@@ -20,10 +20,16 @@ import {
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import { SentimentIcon } from "../SentimentIcon";
+import "./ApplicationCommentsSummary.scss";
+import { Button } from "../button";
+import { SummarySkeleton } from "./ApplicationCommentsSummarySkeleton";
+import { capitalizeFirstLetter } from "@/util";
 
 export interface ApplicationCommentsSummaryProps {
-  type: "public" | "specialist";
-  summary: PublicCommentSummary | SpecialistCommentSummary;
+  type?: "public" | "specialist";
+  summary?: PublicCommentSummary | SpecialistCommentSummary;
+  reference: string;
+  councilSlug: string;
 }
 
 type PublicSentimentKey = "supportive" | "objection" | "neutral";
@@ -43,9 +49,39 @@ const sentimentLabels = {
   } as Record<SpecialistSentimentKey, string>,
 };
 
+export const renderHeaderContent = (
+  summary: PublicCommentSummary | SpecialistCommentSummary,
+  type: "public" | "specialist",
+) => {
+  if (type === "public") {
+    return (
+      <h3 className="govuk-heading-m">
+        {summary.totalComments} comment{summary.totalComments !== 1 && "s"}{" "}
+        received
+      </h3>
+    );
+  }
+
+  const specialistSummary = summary as SpecialistCommentSummary;
+  return (
+    <>
+      <h3 className="govuk-heading-m">
+        {specialistSummary.totalConsulted} specialist
+        {specialistSummary.totalConsulted !== 1 && "s"} contacted for
+        consultation
+      </h3>
+      <p className="govuk-body">
+        {specialistSummary.totalConsulted - specialistSummary.totalComments} yet
+        to respond
+      </p>
+    </>
+  );
+};
 export const ApplicationCommentsSummary = ({
   summary,
-  type,
+  type = "public",
+  reference,
+  councilSlug,
 }: ApplicationCommentsSummaryProps) => {
   if (!summary) return null;
 
@@ -53,23 +89,34 @@ export const ApplicationCommentsSummary = ({
   const sentiments = summary.sentiment as Record<string, number>;
 
   return (
-    <div>
-      {Object.entries(labels).map(([key, label]) => (
-        <p key={key}>
-          <SentimentIcon sentiment={key} />
-          {sentiments[key] ?? 0} {label}
-        </p>
-      ))}
+    <div id={`${type}-comments-summary`}>
+      <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
+      {sentiments ? (
+        <>
+          {renderHeaderContent(summary, type)}
+          {Object.entries(labels).map(([key, label]) => (
+            <p key={key} className="govuk-body">
+              <Button
+                element="link"
+                variant="text-only"
+                href={`/${councilSlug}/${reference}/comments?type=${type === "public" ? "public" : "specialist"}&sentiment=${key}`}
+                className="govuk-link dpr-comment-summary-link"
+              >
+                <SentimentIcon sentiment={key} />
+                {sentiments[key] ?? 0} {label}
+              </Button>
+            </p>
+          ))}
+          <Button
+            variant="information"
+            href={`/${councilSlug}/${reference}/comments?type=${type}`}
+          >
+            {`View all ${summary.totalComments} ${type} comments`}
+          </Button>
+        </>
+      ) : (
+        <SummarySkeleton type={type} />
+      )}
     </div>
   );
 };
-
-// PUBLIC COMMENT SUMMARY
-// supportive: number;
-// objection: number;
-// neutral: number;
-
-// SPECIALIST
-// approved: number;
-// amendmentsNeeded: number;
-// objected: number;
