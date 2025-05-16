@@ -96,6 +96,8 @@ export const Skeleton: Story = {
     type: "public",
     reference: "ABC/123",
     councilSlug: "public-council-1",
-    summary: {},
+    summary: {
+      sentiment: undefined,
+    },
   },
 };
