@@ -27,7 +27,7 @@ import { capitalizeFirstLetter } from "@/util";
 
 export interface ApplicationCommentsSummaryProps {
   type?: "public" | "specialist";
-  summary?: PublicCommentSummary | SpecialistCommentSummary;
+  summary?: PublicCommentSummary | SpecialistCommentSummary | null;
   reference: string;
   councilSlug: string;
 }
@@ -83,15 +83,13 @@ export const ApplicationCommentsSummary = ({
   reference,
   councilSlug,
 }: ApplicationCommentsSummaryProps) => {
-  if (!summary) return null;
-
   const labels = sentimentLabels[type];
-  const sentiments = summary.sentiment as Record<string, number>;
+  const sentiments = summary?.sentiment as Record<string, number>;
 
   return (
     <div id={`${type}-comments-summary`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
-      {sentiments ? (
+      {summary ? (
         <>
           {renderHeaderContent(summary, type)}
           {Object.entries(labels).map(([key, label]) => (
