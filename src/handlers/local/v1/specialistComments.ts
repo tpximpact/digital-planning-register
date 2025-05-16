@@ -35,16 +35,16 @@ const response = (
   const exampleComments = generateNResults(20, () => generateComment());
   const sentimentSummary = exampleComments.reduce(
     (acc, comment) => {
-      if (comment.sentiment === "supportive") {
-        acc.supportive++;
-      } else if (comment.sentiment === "objection") {
-        acc.objection++;
-      } else if (comment.sentiment === "neutral") {
-        acc.neutral++;
+      if (comment.sentiment === "approved") {
+        acc.approved++;
+      } else if (comment.sentiment === "amendmentsNeeded") {
+        acc.amendmentsNeeded++;
+      } else if (comment.sentiment === "objected") {
+        acc.objected++;
       }
       return acc;
     },
-    { supportive: 0, objection: 0, neutral: 0 },
+    { approved: 0, amendmentsNeeded: 0, objected: 0 },
   );
 
   const appConfig = getAppConfig(council);
