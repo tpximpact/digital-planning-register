@@ -20,7 +20,12 @@ const renderComponent = (
 describe("ApplicationCommentsSummary", () => {
   it("renders null when summary is not provided", () => {
     const { container } = render(
-      <ApplicationCommentsSummary summary={null as any} type="public" />,
+      <ApplicationCommentsSummary
+        summary={null as any}
+        type="public"
+        reference="ABC/123"
+        councilSlug="public-council-1"
+      />,
     );
     expect(container).toBeEmptyDOMElement();
   });
@@ -36,18 +41,42 @@ describe("ApplicationCommentsSummary", () => {
     };
 
     it("renders public comment count correctly", () => {
-      renderComponent({ type: "public", summary });
+      renderComponent({
+        type: "public",
+        summary,
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
 
       expect(screen.getByText("3 comments received")).toBeInTheDocument();
     });
 
     it("renders sentiment breakdown", () => {
-      renderComponent({ type: "public", summary });
+      renderComponent({
+        type: "public",
+        summary,
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
 
       // Match combined text split across elements
       expect(screen.getByText(/1 neutral/)).toBeInTheDocument();
       expect(screen.getByText(/1 support/i)).toBeInTheDocument();
       expect(screen.getByText(/1 opposed/i)).toBeInTheDocument();
+    });
+    it("renders the skeleton when sentiment data is missing", () => {
+      renderComponent({
+        type: "public",
+        summary: {
+          totalComments: 3,
+          // @ts-expect-error testing missing sentiment
+          sentiment: undefined,
+        },
+        reference: "abc",
+        councilSlug: "slug",
+      });
+
+      expect(screen.getByTestId("summary-skeleton")).toBeInTheDocument(); // Requires a test ID in <SummarySkeleton />
     });
   });
 
@@ -62,8 +91,34 @@ describe("ApplicationCommentsSummary", () => {
       },
     };
 
+    it("renders the correct section title based on type", () => {
+      renderComponent({
+        type: "specialist",
+        summary: {
+          totalComments: 2,
+          totalConsulted: 4,
+          sentiment: {
+            approved: 1,
+            amendmentsNeeded: 1,
+            objected: 0,
+          },
+        },
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
+
+      expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+        "Specialist Comments",
+      );
+    });
+
     it("renders consultation header and pending response text", () => {
-      renderComponent({ type: "specialist", summary });
+      renderComponent({
+        type: "specialist",
+        summary,
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
 
       expect(
         screen.getByText("4 specialists contacted for consultation"),
@@ -72,7 +127,12 @@ describe("ApplicationCommentsSummary", () => {
     });
 
     it("renders sentiment breakdown", () => {
-      renderComponent({ type: "specialist", summary });
+      renderComponent({
+        type: "specialist",
+        summary,
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
       // Match combined text split across elements
       expect(screen.getByText(/1 approve/i)).toBeInTheDocument();
       expect(screen.getByText(/1 amendments needed/i)).toBeInTheDocument();
@@ -80,7 +140,12 @@ describe("ApplicationCommentsSummary", () => {
     });
 
     it("uses correct links for specialist sentiments", () => {
-      renderComponent({ type: "specialist", summary });
+      renderComponent({
+        type: "specialist",
+        summary,
+        reference: "ABC/123",
+        councilSlug: "public-council-1",
+      });
       const links = screen.getAllByRole("link");
       links.forEach((link) => {
         expect(link).toHaveAttribute(
