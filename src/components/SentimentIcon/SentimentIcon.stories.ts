@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Opposed: Story = {
   args: {
-    sentiment: "opposed",
+    sentiment: "objection",
   },
 };
 export const Neutral: Story = {
@@ -48,6 +48,21 @@ export const Neutral: Story = {
 };
 export const Support: Story = {
   args: {
-    sentiment: "support",
+    sentiment: "supportive",
+  },
+};
+export const Approved: Story = {
+  args: {
+    sentiment: "approved",
+  },
+};
+export const AmendmentsNeeded: Story = {
+  args: {
+    sentiment: "amendmentsNeeded",
+  },
+};
+export const Objected: Story = {
+  args: {
+    sentiment: "objected",
   },
 };
