@@ -1,0 +1,84 @@
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "src/styles/component-base";
+
+.dpr-public-comment-card {
+  > div {
+    border-left: 5px solid govuk-colour("mid-grey");
+    margin-top: govuk-spacing(7);
+    margin-bottom: govuk-spacing(7);
+  }
+
+  &:after {
+    margin-top: govuk-spacing(7);
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  &:last-of-type:after {
+    border-bottom: none;
+  }
+
+  &__header {
+    padding: govuk-spacing(0) govuk-spacing(3);
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  &--toggle {
+    color: govuk-colour("blue");
+    margin-top: govuk-spacing(7);
+    position: relative;
+    font-size: 19px;
+    cursor: pointer;
+    display: block;
+    margin-top: govuk-spacing(1);
+    background: none;
+    border: 0;
+  }
+
+  &__skeleton--item,
+  &__skeleton--title,
+  &__skeleton--body {
+    background: rgba(145, 144, 141, 0.6);
+    margin-bottom: govuk-spacing(3);
+    animation: pulse 3s infinite;
+  }
+  &__skeleton--item {
+    height: govuk-spacing(5);
+    width: 25%;
+  }
+  &__skeleton--title {
+    height: govuk-spacing(5);
+    width: 50%;
+  }
+  &__skeleton--body {
+    height: 10 * govuk-spacing(4);
+    width: 75%;
+  }
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
