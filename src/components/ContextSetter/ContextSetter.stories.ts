@@ -41,3 +41,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const WithBlurb: Story = {
+  args: {
+    showFeedbackBlurb: true,
+  },
+};
+
+export const WithoutBlurb: Story = {
+  args: {
+    showFeedbackBlurb: false,
+  },
+};
+
+export const NoApplication: Story = {
+  args: {
+    application: undefined,
+  },
+};

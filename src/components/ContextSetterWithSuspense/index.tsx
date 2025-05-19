@@ -15,48 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "src/styles/component-base";
-
-$selector: "dpr-context-setter";
-
-.#{$selector} {
-  // map and data
-  &__map-data {
-    display: flex;
-    flex-direction: column;
-    gap: $govuk-gutter-half * 2;
-    margin-bottom: govuk-spacing(6);
-
-    @include govuk-media-query($from: desktop) {
-      flex-direction: row;
-    }
-  }
-
-  @include govuk-media-query($from: desktop) {
-    &__map {
-      margin-bottom: 0;
-    }
-  }
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.#{$selector} {
-  &__skeleton {
-    width: 100%;
-    height: 250px;
-    background: rgba(145, 144, 141, 0.6);
-    animation: pulse 3s infinite;
-    margin-bottom: govuk-spacing(6);
-  }
-}
+export * from "./ContextSetterWithSuspense";

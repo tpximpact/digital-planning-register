@@ -21,7 +21,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PreSubmission from "@/components/comment_pre_submission";
 import CommentSentiment from "@/components/comment_sentiment";
 import CommentTopicSelection from "@/components/comment_topic_selection";
-import CommentHeader from "@/components/comment-header";
 import CommentTextEntry from "@/components/comment_text_entry";
 import CommentPersonalDetails from "@/components/comment_personal_details";
 import CommentCheckAnswer from "@/components/comment_check_answer";
@@ -38,7 +37,7 @@ import {
   checkCommentsEnabled,
   COMMENT_PUBLIC_TOPIC_OPTIONS,
 } from "@/lib/comments";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
+import { ContextSetterWithSuspense } from "@/components/ContextSetterWithSuspense";
 
 type Props = {
   params: { reference: string; council: string };
@@ -340,16 +339,6 @@ const Comment = ({ params }: Props) => {
     if (!applicationData) {
       return null;
     }
-
-    const boundary_geojson =
-      applicationData?.submission?.data?.property?.boundary?.site;
-
-    const propertyAddress =
-      applicationData?.submission?.data?.property?.address;
-    const address = propertyAddress
-      ? getPropertyAddress(propertyAddress)
-      : undefined;
-
     const commonProps = {
       reference,
       council,
@@ -400,8 +389,7 @@ const Comment = ({ params }: Props) => {
         return (
           <CommentConfirmation
             {...commonProps}
-            address={address}
-            boundary_geojson={boundary_geojson}
+            application={applicationData}
             councilConfig={appConfig?.council}
           />
         );
@@ -448,13 +436,6 @@ const Comment = ({ params }: Props) => {
     return null;
   }
 
-  const boundary_geojson =
-    applicationData?.submission?.data?.property?.boundary?.site;
-  const propertyAddress = applicationData?.submission?.data?.property?.address;
-  const address = propertyAddress
-    ? getPropertyAddress(propertyAddress)
-    : undefined;
-
   // Render the main component
   return (
     <>
@@ -462,12 +443,11 @@ const Comment = ({ params }: Props) => {
       {page <= 6 && (
         <PageMain className="submit-comment">
           {page >= 1 && page < 6 && applicationData && (
-            <CommentHeader
-              title="Tell us what you think"
-              council={council}
+            <ContextSetterWithSuspense
+              councilSlug={council}
               reference={reference}
-              boundary_geojson={boundary_geojson}
-              address={address}
+              application={applicationData}
+              showFeedbackBlurb={true}
             />
           )}
           {renderComponent()}
