@@ -37,12 +37,10 @@
    }
 
  
-   &__skeleton--item {
+   &__skeleton {
      background: rgba(145, 144, 141, 0.6);
      margin-bottom: govuk-spacing(3);
      animation: pulse 3s infinite;
-   }
-   &__skeleton--item {
      height: govuk-spacing(5);
      width: 25%;
      height: 200px;
