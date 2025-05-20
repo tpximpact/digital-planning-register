@@ -73,6 +73,22 @@ export const Public: Story = {
   },
 };
 
+export const NoButton: Story = {
+  args: {
+    type: "public",
+    summary: {
+      sentiment: {
+        supportive: 0,
+        neutral: 0,
+        objection: 2,
+      },
+      totalComments: 2,
+    },
+    reference: "ABC/123",
+    councilSlug: "public-council-1",
+  },
+};
+
 export const Specialist: Story = {
   args: {
     type: "specialist",
