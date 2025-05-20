@@ -20,6 +20,11 @@ name: Run tests
 
 on:
   pull_request:
+    branches:
+      - "**" # Run on all branches for pull requests
+  push:
+    branches:
+      - main # Run only on the main branch for pushes
 
 env:
   TZ: Europe/London
