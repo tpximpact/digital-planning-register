@@ -73,7 +73,7 @@ export const ApplicationCommentsSummary = ({
 
   const baseUrl = `/${councilSlug}/${reference}/comments?type=${type}`;
   return (
-    <div id={`${type}-comments-summary`}>
+    <div id={`${type}-comments`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
       <>
         {renderHeaderContent(summary, type)}
