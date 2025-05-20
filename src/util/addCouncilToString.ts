@@ -20,13 +20,13 @@
  * @param name
  * @returns
  */
-export const addCouncilToName = (name: string): string => {
-  if (name === "" || name === " ") {
-    return name;
+export const addCouncilToString = (string: string): string => {
+  if (string === "" || string === " ") {
+    return string;
   }
-  const lowerCaseName = name.toLowerCase();
+  const lowerCaseName = string.toLowerCase();
   if (!lowerCaseName.includes("council")) {
-    return `${name} Council`;
+    return `${string} Council`;
   }
-  return name;
+  return string;
 };

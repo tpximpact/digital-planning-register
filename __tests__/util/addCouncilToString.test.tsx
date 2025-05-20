@@ -15,31 +15,31 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { addCouncilToName } from "@/util";
+import { addCouncilToString } from "@/util";
 
-describe("addCouncilToName", () => {
+describe("addCouncilToString", () => {
   it("should add 'Council' to the end of the name if it doesn't contain 'council'", () => {
-    expect(addCouncilToName("Camden")).toBe("Camden Council");
-    expect(addCouncilToName("Barnet")).toBe("Barnet Council");
+    expect(addCouncilToString("Camden")).toBe("Camden Council");
+    expect(addCouncilToString("Barnet")).toBe("Barnet Council");
   });
 
   it("should not add 'Council' if the name already contains 'council'", () => {
-    expect(addCouncilToName("Camden Council")).toBe("Camden Council");
-    expect(addCouncilToName("Barnet Borough Council")).toBe(
+    expect(addCouncilToString("Camden Council")).toBe("Camden Council");
+    expect(addCouncilToString("Barnet Borough Council")).toBe(
       "Barnet Borough Council",
     );
   });
 
   it("should be case insensitive when checking for 'council'", () => {
-    expect(addCouncilToName("Camden council")).toBe("Camden council");
-    expect(addCouncilToName("BARNET COUNCIL")).toBe("BARNET COUNCIL");
+    expect(addCouncilToString("Camden council")).toBe("Camden council");
+    expect(addCouncilToString("BARNET COUNCIL")).toBe("BARNET COUNCIL");
   });
 
   it("should handle empty strings", () => {
-    expect(addCouncilToName("")).toBe("");
+    expect(addCouncilToString("")).toBe("");
   });
 
   it("should handle strings with only whitespace", () => {
-    expect(addCouncilToName(" ")).toBe(" ");
+    expect(addCouncilToString(" ")).toBe(" ");
   });
 });
