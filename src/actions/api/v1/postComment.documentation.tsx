@@ -17,13 +17,16 @@
 
 import { Documentation, DprCommentSubmission } from "@/types";
 import { postComment } from "./postComment";
+import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=postComment`,
   file: `src/actions/api/v1/postComment.ts`,
   description: "Post a comment to BOPS",
   arguments: ["source", "council", "applicationId"],
-  run: async (args: [string, string, string, DprCommentSubmission]) => {
+  run: async (
+    args: [CouncilDataSourceExtended, string, string, DprCommentSubmission],
+  ) => {
     return await postComment(...args);
   },
   examples: [

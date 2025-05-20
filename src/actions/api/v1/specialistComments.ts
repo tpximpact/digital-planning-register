@@ -24,18 +24,25 @@ import {
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
+import { getAppConfig } from "@/config";
+import { CouncilDataSource } from "@/config/types";
 
 /**
  * /api/docs?handler=ApiV1&method=specialistComments
  */
 export async function specialistComments(
-  source: string,
+  source: CouncilDataSource | "appConfig" | "none",
   council: string,
   reference: string,
   searchParams: SearchParamsComments,
 ): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
+  }
+
+  if (source === "appConfig") {
+    const appConfig = getAppConfig(council);
+    source = appConfig.council?.dataSource ?? "none";
   }
 
   switch (source) {

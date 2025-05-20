@@ -24,17 +24,24 @@ import { ApiResponse, DprShowApiResponse } from "@/types";
 import { BopsV2 } from "@/handlers/bops";
 import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
+import { getAppConfig } from "@/config";
+import { CouncilDataSource } from "@/config/types";
 
 /**
  * /api/docs?handler=ApiV1&method=show
  */
 export async function show(
-  source: string,
+  source: CouncilDataSource | "appConfig" | "none",
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
+  }
+
+  if (source === "appConfig") {
+    const appConfig = getAppConfig(council);
+    source = appConfig.council?.dataSource ?? "none";
   }
 
   switch (source) {

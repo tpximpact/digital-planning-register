@@ -16,13 +16,16 @@
  */
 import { Documentation, SearchParams } from "@/types";
 import { search } from "./search";
+import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=search`,
   file: `src/actions/api/v1/search.ts`,
   description: "getPlanningApplications",
   arguments: ["source", "council", "page", "resultsPerPage", "searchQuery"],
-  run: async (args: [string, string, number, number, string]) => {
+  run: async (
+    args: [CouncilDataSourceExtended, string, number, number, string],
+  ) => {
     const searchObj: SearchParams = {
       page: args[2],
       resultsPerPage: args[3],

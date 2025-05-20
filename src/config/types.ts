@@ -72,11 +72,18 @@ export interface AppConfig {
 
 export type CouncilVisibility = "public" | "private" | "unlisted";
 
+export type CouncilDataSource = "bops" | "local";
+
+export type CouncilDataSourceExtended =
+  | CouncilDataSource
+  | "appConfig"
+  | "none";
+
 export interface Council {
   name: string;
   slug: string;
   visibility: CouncilVisibility;
-  dataSource: string;
+  dataSource: CouncilDataSource;
   publicComments: boolean;
   specialistComments: boolean;
   contact?: string;

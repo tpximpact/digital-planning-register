@@ -28,18 +28,25 @@ import {
 import { BopsV2 } from "@/handlers/bops";
 import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
+import { CouncilDataSource } from "@/config/types";
+import { getAppConfig } from "@/config";
 
 /**
  * /api/docs?handler=ApiV1&method=documents
  */
 export async function documents(
-  source: string,
+  source: CouncilDataSource | "appConfig" | "none",
   council: string,
   reference: string,
   searchParams?: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
+  }
+
+  if (source === "appConfig") {
+    const appConfig = getAppConfig(council);
+    source = appConfig.council?.dataSource ?? "none";
   }
 
   switch (source) {

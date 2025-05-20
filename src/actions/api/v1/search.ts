@@ -24,17 +24,24 @@ import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
 import { BopsV2 } from "@/handlers/bops";
 import { LocalV1 } from "@/handlers/local";
 import { apiReturnError } from "@/handlers/lib";
+import { getAppConfig } from "@/config";
+import { CouncilDataSource } from "@/config/types";
 
 /**
  * /api/docs?handler=ApiV1&method=search
  */
 export async function search(
-  source: string,
+  source: CouncilDataSource | "appConfig" | "none",
   council: string,
   searchParams?: SearchParams,
 ): Promise<ApiResponse<DprSearchApiResponse | null>> {
   if (!council) {
     return apiReturnError("Council is required");
+  }
+
+  if (source === "appConfig") {
+    const appConfig = getAppConfig(council);
+    source = appConfig.council?.dataSource ?? "none";
   }
 
   switch (source) {
