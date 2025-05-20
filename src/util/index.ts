@@ -27,3 +27,4 @@ export * from "./flattenObject";
 export * from "./findItemByKey";
 export * from "./addCouncilToName";
 export * from "./splitStringOnOrBeforeMaxChars";
+export * from "./pascalToSentenceCase";
