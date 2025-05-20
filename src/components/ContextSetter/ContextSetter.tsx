@@ -21,15 +21,13 @@ import { getPropertyAddress } from "@/lib/planningApplication/application";
 import Link from "next/link";
 import { createPathFromParams } from "@/lib/navigation";
 import { ApplicationMapLoader } from "../ApplicationMap";
-import { capitaliseWord } from "@/util";
-import { Council } from "@/config/types";
+import { addCouncilToString, capitaliseWord } from "@/util";
 
 export interface ContextSetterProps {
   councilSlug: string;
   reference: string;
-  application: DprApplication | null;
+  application?: DprApplication;
   showFeedbackBlurb?: boolean;
-  council?: Council;
 }
 
 export const ContextSetter = ({
@@ -37,60 +35,54 @@ export const ContextSetter = ({
   reference,
   application,
   showFeedbackBlurb = false,
-  council,
 }: ContextSetterProps) => {
-  if (application) {
-    const address = getPropertyAddress(
-      application?.submission?.data?.property?.address,
-    );
-    const boundary_geojson =
-      application?.submission?.data?.property?.boundary?.site;
+  if (!application) {
+    return null;
+  }
+  const address = getPropertyAddress(
+    application?.submission?.data?.property?.address,
+  );
+  const boundary_geojson =
+    application?.submission?.data?.property?.boundary?.site;
 
-    return (
-      <div
-        className={`dpr-context-setter${boundary_geojson ? "" : " dpr-context-setter--no-map"}`}
-      >
-        <div className="dpr-context-setter__map-data">
-          {boundary_geojson && (
-            <div className="dpr-context-setter__map">
-              <ApplicationMapLoader
-                reference={reference}
-                mapData={boundary_geojson}
-                description="Interactive map showing the location of the application"
-                mapType="context-setter"
-              />
-            </div>
-          )}
-          <div className="dpr-context-setter__data">
-            <p className="govuk-heading-m">{address}</p>
-            <p className="govuk-heading-s">Application Reference</p>
-            <p className="govuk-body">
-              <Link
-                className="govuk-body-m govuk-link"
-                href={createPathFromParams({ council: councilSlug, reference })}
-              >
-                {application.data.application.reference}
-              </Link>
-            </p>
-            {showFeedbackBlurb && (
-              <p className="govuk-body">
-                Your feedback helps us improve developments so they meet the
-                needs of people in{" "}
-                {council?.name
-                  ? capitaliseWord(council?.name)
-                  : "your council."}
-                . It&apos;s important you let us know what you think.
-              </p>
-            )}
+  return (
+    <div
+      className={`dpr-context-setter${boundary_geojson ? "" : " dpr-context-setter--no-map"}`}
+    >
+      <div className="dpr-context-setter__map-data">
+        {boundary_geojson && (
+          <div className="dpr-context-setter__map">
+            <ApplicationMapLoader
+              reference={reference}
+              mapData={boundary_geojson}
+              description="Interactive map showing the location of the application"
+              mapType="context-setter"
+            />
           </div>
+        )}
+        <div className="dpr-context-setter__data">
+          <p className="govuk-heading-m">{address}</p>
+          <p className="govuk-heading-s">Application Reference</p>
+          <p className="govuk-body">
+            <Link
+              className="govuk-body-m govuk-link"
+              href={createPathFromParams({ council: councilSlug, reference })}
+            >
+              {application.data.application.reference}
+            </Link>
+          </p>
+          {showFeedbackBlurb && (
+            <p className="govuk-body">
+              Your feedback helps us improve developments so they meet the needs
+              of people in{" "}
+              {councilSlug
+                ? addCouncilToString(capitaliseWord(councilSlug))
+                : "your council"}
+              . It&apos;s important you let us know what you think.
+            </p>
+          )}
         </div>
       </div>
-    );
-  } else {
-    return <ContextSetterSkeleton />;
-  }
+    </div>
+  );
 };
-
-export const ContextSetterSkeleton = () => (
-  <div className="dpr-context-setter__skeleton" />
-);

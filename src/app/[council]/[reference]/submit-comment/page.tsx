@@ -37,7 +37,7 @@ import {
   checkCommentsEnabled,
   COMMENT_PUBLIC_TOPIC_OPTIONS,
 } from "@/lib/comments";
-import { ContextSetterWithSuspense } from "@/components/ContextSetterWithSuspense";
+import { ContextSetter } from "@/components/ContextSetter";
 
 type Props = {
   params: { reference: string; council: string };
@@ -72,7 +72,7 @@ const Comment = ({ params }: Props) => {
     console.log("Setting client title...");
     const council = appConfig?.council?.name;
 
-    const baseTitle = `Application ${reference} | ${council} Digital Planning Register`;
+    const baseTitle = `Application ${reference} | ${council} | Digital Planning Register`;
     let stepTitle = pageTitles[page] ?? "Comment page";
 
     if (page === 3 && selectedTopics[currentTopicIndex]) {
@@ -443,7 +443,7 @@ const Comment = ({ params }: Props) => {
       {page <= 6 && (
         <PageMain className="submit-comment">
           {page >= 1 && page < 6 && applicationData && (
-            <ContextSetterWithSuspense
+            <ContextSetter
               councilSlug={council}
               reference={reference}
               application={applicationData}

@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 import "@testing-library/jest-dom";
-import { checkCommentsEnabled } from "@/lib/comments";
+import { checkCommentsEnabled, getAvailableCommentTypes } from "@/lib/comments";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { getCommentTypeToShow } from "@/lib/comments";
 import { AppConfig } from "@/config/types";
@@ -130,6 +130,50 @@ describe("getCommentTypeToShow", () => {
     const searchParams = {};
     const result = getCommentTypeToShow(councilConfig, searchParams);
     expect(result).toBe("specialist");
+  });
+});
+
+describe("getAvailableCommentTypes", () => {
+  it("returns both 'public' and 'specialist' when both are enabled", () => {
+    const mockCouncilConfig = {
+      publicComments: true,
+      specialistComments: true,
+    } as unknown as AppConfig["council"];
+    const result = getAvailableCommentTypes(mockCouncilConfig);
+    expect(result).toEqual(["public", "specialist"]);
+  });
+
+  it("returns only 'public' when public is enabled", () => {
+    const mockCouncilConfig = {
+      publicComments: true,
+      specialistComments: false,
+    } as unknown as AppConfig["council"];
+    const result = getAvailableCommentTypes(mockCouncilConfig);
+    expect(result).toEqual(["public"]);
+  });
+
+  it("returns only 'specialist' when specialist is enabled", () => {
+    const mockCouncilConfig = {
+      publicComments: false,
+      specialistComments: true,
+    } as unknown as AppConfig["council"];
+    const result = getAvailableCommentTypes(mockCouncilConfig);
+    expect(result).toEqual(["specialist"]);
+  });
+
+  it("returns empty when none are enabled", () => {
+    const mockCouncilConfig = {
+      publicComments: false,
+      specialistComments: false,
+    } as unknown as AppConfig["council"];
+    const result = getAvailableCommentTypes(mockCouncilConfig);
+    expect(result).toEqual([]);
+  });
+
+  it("returns empty when none are defined", () => {
+    const mockCouncilConfig = {} as unknown as AppConfig["council"];
+    const result = getAvailableCommentTypes(mockCouncilConfig);
+    expect(result).toEqual([]);
   });
 });
 

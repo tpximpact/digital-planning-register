@@ -20,6 +20,14 @@
 $selector: "dpr-context-setter";
 
 .#{$selector} {
+  &--skeleton {
+    width: 100%;
+    height: 250px;
+    background: rgba(145, 144, 141, 0.6);
+    animation: pulse 3s infinite;
+    margin-bottom: govuk-spacing(6);
+  }
+
   // map and data
   &__map-data {
     display: flex;
@@ -36,27 +44,5 @@ $selector: "dpr-context-setter";
     &__map {
       margin-bottom: 0;
     }
-  }
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.#{$selector} {
-  &__skeleton {
-    width: 100%;
-    height: 250px;
-    background: rgba(145, 144, 141, 0.6);
-    animation: pulse 3s infinite;
-    margin-bottom: govuk-spacing(6);
   }
 }

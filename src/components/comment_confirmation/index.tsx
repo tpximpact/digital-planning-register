@@ -20,7 +20,7 @@ import { Panel } from "../govuk/Panel";
 import { Button } from "@/components/button";
 import "./comment-confirmation.scss";
 import { AppConfig } from "@/config/types";
-import { ContextSetterWithSuspense } from "../ContextSetterWithSuspense";
+import { ContextSetterWithSuspense } from "@/components/ContextSetter";
 
 interface CommentConfirmationProps {
   reference: string;

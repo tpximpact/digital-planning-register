@@ -31,7 +31,7 @@ import { createPathFromParams } from "@/lib/navigation";
 import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
 import { FormCommentsSearch } from "@/components/FormCommentsSearch";
-import { ContextSetterWithSuspense } from "@/components/ContextSetterWithSuspense";
+import { ContextSetterWithSuspense } from "@/components/ContextSetter";
 
 export interface PageApplicationCommentsProps {
   params: {
@@ -39,7 +39,7 @@ export interface PageApplicationCommentsProps {
     reference: string;
   };
   appConfig: AppConfig;
-  application: DprApplication;
+  application?: DprApplication;
   type: DprCommentTypes;
   comments: DprComment[] | null;
   searchParams: SearchParamsComments;

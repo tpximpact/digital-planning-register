@@ -15,4 +15,22 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./ContextSetterWithSuspense";
+import type { Meta, StoryObj } from "@storybook/react";
+import { ContextSetterSkeleton } from "./ContextSetterSkeleton";
+
+const meta = {
+  title: "DPR Components/ContextSetter/ContextSetterSkeleton",
+  component: ContextSetterSkeleton,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ["autodocs"],
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: "fullscreen",
+  },
+  args: {},
+} satisfies Meta<typeof ContextSetterSkeleton>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

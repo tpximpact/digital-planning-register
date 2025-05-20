@@ -59,7 +59,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Application form as submitted | Application ${reference} | ${councilName} Digital Planning Register`,
+    title: `Application form as submitted`,
     description: `Application form as submitted for ${councilName} Council planning application ${reference}`,
   };
 }
