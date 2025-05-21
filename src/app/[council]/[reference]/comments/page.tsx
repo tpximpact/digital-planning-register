@@ -19,7 +19,6 @@ import { Metadata } from "next";
 import {
   ApiResponse,
   DprPublicCommentsApiResponse,
-  DprShowApiResponse,
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
   UnknownSearchParams,
@@ -30,7 +29,7 @@ import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
-import { validateSearchParams } from "@/lib/comments";
+import { getAvailableCommentTypes, validateSearchParams } from "@/lib/comments";
 import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 import { capitalizeFirstLetter } from "@/util";
 
@@ -46,20 +45,6 @@ interface PlanningApplicationDetailsCommentsFetchProps
   extends Omit<PlanningApplicationDetailsCommentsProps, "searchParams"> {
   searchParams: SearchParamsComments;
   type: CommentType;
-}
-
-async function fetchApplicationData({
-  params,
-}: {
-  params: { council: string; reference: string };
-}): Promise<ApiResponse<DprShowApiResponse>> {
-  const { council, reference } = params;
-  const appConfig = getAppConfig(council);
-  const dataSource = appConfig.council?.dataSource ?? "none";
-
-  const response = await ApiV1.show(dataSource, council, reference);
-
-  return response;
 }
 
 async function fetchCommentData({
@@ -90,9 +75,6 @@ export async function generateMetadata({
   params,
   searchParams,
 }: PlanningApplicationDetailsCommentsProps): Promise<Metadata | undefined> {
-  const response = await fetchApplicationData({
-    params,
-  });
   const { council, reference } = params;
   const councilName = getAppConfig(council)?.council?.name ?? "";
 
@@ -100,14 +82,8 @@ export async function generateMetadata({
   const validSearchParams = validateSearchParams(appConfig, searchParams);
   const type = capitalizeFirstLetter(validSearchParams.type);
 
-  if (!response.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
   return {
-    title: `${type} Comments | Application ${reference} | ${councilName} Digital Planning Register`,
+    title: `${type} Comments`,
     description: `All comments for ${councilName} Council planning application ${reference}`,
   };
 }
@@ -120,20 +96,16 @@ export default async function PlanningApplicationDetailsComments({
   const appConfig = getAppConfig(council);
   const validSearchParams = validateSearchParams(appConfig, searchParams);
   const type = validSearchParams.type;
-  const applicationResponse = await fetchApplicationData({ params });
-  if (
-    applicationResponse.status.code !== 200 ||
-    !applicationResponse.data ||
-    !appConfig.council
-  ) {
+
+  const availableCommentTypes = getAvailableCommentTypes(appConfig?.council);
+
+  if (availableCommentTypes.length === 0) {
     return (
       <PageMain>
-        <ContentError />
+        <ContentNotFound councilConfig={appConfig.council} />
       </PageMain>
     );
   }
-
-  const application = applicationResponse.data;
 
   const commentResponse = await fetchCommentData({
     params,
@@ -148,23 +120,10 @@ export default async function PlanningApplicationDetailsComments({
       </PageMain>
     );
   }
-  const availableCommentTypes = [
-    appConfig.council.publicComments && "public",
-    appConfig.council.specialistComments && "specialist",
-  ].filter(Boolean);
-
-  if (availableCommentTypes.length === 0) {
-    return (
-      <PageMain>
-        <ContentNotFound councilConfig={appConfig.council} />
-      </PageMain>
-    );
-  }
 
   return (
     <PageApplicationComments
       comments={commentResponse.data.comments}
-      application={application}
       type={type}
       pagination={commentResponse.pagination}
       appConfig={appConfig}

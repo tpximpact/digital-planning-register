@@ -17,6 +17,7 @@
 
 import { Documentation, SearchParamsComments } from "@/types";
 import { publicComments } from "./publicComments";
+import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=publicComments`,
@@ -30,7 +31,9 @@ export const documentation: Documentation = {
     "resultsPerPage",
     "searchQuery",
   ],
-  run: async (args: [string, string, string, SearchParamsComments]) => {
+  run: async (
+    args: [CouncilDataSourceExtended, string, string, SearchParamsComments],
+  ) => {
     return await publicComments(...args);
   },
   examples: [

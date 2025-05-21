@@ -23,7 +23,7 @@ import { usePathname } from "next/navigation";
 import { AppConfig } from "@/config/types";
 import { councilLogos } from "../CouncilLogos";
 import "./Header.scss";
-import { addCouncilToName, capitaliseWord } from "@/util";
+import { addCouncilToString, capitaliseWord } from "@/util";
 
 export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
   const currentPath = usePathname();
@@ -59,7 +59,7 @@ export const Header = ({ appConfig }: { appConfig: AppConfig }) => {
               </>
             ) : (
               <span>
-                {capitaliseWord(addCouncilToName(councilConfig.name))}
+                {capitaliseWord(addCouncilToString(councilConfig.name))}
               </span>
             )}
           </Link>

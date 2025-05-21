@@ -32,7 +32,10 @@ export async function generateMetadata({
   const councilName = getAppConfig(council)?.council?.name ?? "";
 
   return {
-    title: `Application ${reference} | ${councilName} Digital Planning Register`,
+    title: {
+      template: `%s | Application ${reference} | ${councilName ?? "Not Found"} | Digital Planning Register`,
+      default: `Application ${reference}`,
+    },
     description: `${councilName} planning application ${reference}`,
   };
 }

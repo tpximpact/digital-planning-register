@@ -80,7 +80,7 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `Documents | Application ${reference} | ${councilName} Digital Planning Register`,
+    title: `Documents`,
     description: `All documents for ${councilName} Council planning application ${reference}`,
   };
 }

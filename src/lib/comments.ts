@@ -78,6 +78,20 @@ export const getCommentTypeToShow = (
 };
 
 /**
+ * Get the available comment types based on the appConfig
+ * @param council
+ * @returns DprCommentTypes[] or []
+ */
+export const getAvailableCommentTypes = (
+  council: AppConfig["council"],
+): DprCommentTypes[] => {
+  return [
+    council?.publicComments ? "public" : undefined,
+    council?.specialistComments ? "specialist" : undefined,
+  ].filter((type): type is DprCommentTypes => !!type);
+};
+
+/**
  * Builds the comments result into our format so that it looks like it came from the API
  */
 export const buildCommentResult = (

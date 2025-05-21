@@ -14,48 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-"use client";
+
 import { ApiV1 } from "@/actions/api";
-import { ApiResponse, DprApplication, DprShowApiResponse } from "@/types";
-import { Suspense } from "react";
 import {
+  ContextSetterProps,
   ContextSetter,
   ContextSetterSkeleton,
-} from "../ContextSetter/ContextSetter";
-import { getAppConfigClientSide } from "@/config/getAppConfigClientSide";
+} from "@/components/ContextSetter";
+import { Suspense } from "react";
 
-async function fetchData({
-  params,
-}: {
-  params: { councilSlug: string; reference: string };
-}): Promise<{
-  response: ApiResponse<DprShowApiResponse>;
-}> {
-  const { reference, councilSlug } = params;
-  const appConfig = await getAppConfigClientSide(councilSlug);
-
-  const response = await ApiV1.show(
-    appConfig.council?.dataSource ?? "none",
-    councilSlug,
-    reference,
-  );
-
-  return { response };
-}
-
-export interface ContextSetterWithSuspenseProps {
-  councilSlug: string;
-  reference: string;
-  application?: DprApplication;
-  showFeedbackBlurb?: boolean;
-}
-
-export function ContextSetterWithSuspense({
+export const ContextSetterWithSuspense = ({
   councilSlug,
   reference,
   application,
   showFeedbackBlurb = false,
-}: ContextSetterWithSuspenseProps) {
+}: ContextSetterProps) => {
   if (application) {
     return (
       <ContextSetter
@@ -67,7 +40,10 @@ export function ContextSetterWithSuspense({
     );
   }
 
-  // Otherwise, use the async loader wrapped in Suspense.
+  if (!councilSlug || !reference) {
+    return <ContextSetterSkeleton />;
+  }
+
   return (
     <Suspense fallback={<ContextSetterSkeleton />}>
       <ContextSetterLoader
@@ -77,23 +53,15 @@ export function ContextSetterWithSuspense({
       />
     </Suspense>
   );
-}
+};
 
-async function ContextSetterLoader({
+const ContextSetterLoader = async ({
   councilSlug,
   reference,
-  showFeedbackBlurb,
-}: {
-  councilSlug: string;
-  reference: string;
-  showFeedbackBlurb?: boolean;
-}) {
-  const { response } = await fetchData({
-    params: { councilSlug, reference },
-  });
+  showFeedbackBlurb = false,
+}: ContextSetterProps) => {
+  const response = await ApiV1.show("appConfig", councilSlug, reference);
   const application = response.data;
-  const appConfig = await getAppConfigClientSide(councilSlug);
-  const council = appConfig.council;
 
   return (
     <ContextSetter
@@ -101,7 +69,6 @@ async function ContextSetterLoader({
       reference={reference}
       application={application}
       showFeedbackBlurb={showFeedbackBlurb}
-      council={council}
     />
   );
-}
+};

@@ -25,6 +25,6 @@ export * from "./slugify";
 export * from "./concatenateFieldsInOrder";
 export * from "./flattenObject";
 export * from "./findItemByKey";
-export * from "./addCouncilToName";
+export * from "./addCouncilToString";
 export * from "./splitStringOnOrBeforeMaxChars";
 export * from "./pascalToSentenceCase";

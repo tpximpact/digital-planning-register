@@ -204,7 +204,7 @@ const testCouncilPlanningProcess = async (page: Page) => {
   await page.goto(`/public-council-1/help`);
 
   await expect(page).toHaveTitle(
-    "Help using the Digital Planning Register | Public Council 1 Digital Planning Register",
+    "Help using the Digital Planning Register | Public Council 1 | Digital Planning Register",
   );
   await expect(
     page.getByRole("heading", {
@@ -224,7 +224,7 @@ const testCouncilReference = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP`);
 
   await expect(page).toHaveTitle(
-    "Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Application 24-00135-HAPP | Public Council 1 | Digital Planning Register",
   );
 
   await expect(
@@ -244,7 +244,7 @@ const testCouncilReferenceApplicationForm = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/application-form`);
 
   await expect(page).toHaveTitle(
-    "Application form as submitted | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Application form as submitted | Application 24-00135-HAPP | Public Council 1 | Digital Planning Register",
   );
 
   await expect(
@@ -264,7 +264,7 @@ const testCouncilReferenceComments = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/comments`);
 
   await expect(page).toHaveTitle(
-    "Public Comments | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Public Comments | Application 24-00135-HAPP | Public Council 1 | Digital Planning Register",
   );
 
   await expect(
@@ -284,7 +284,7 @@ const testCouncilReferenceDocuments = async (page: Page) => {
   await page.goto(`/public-council-1/24-00135-HAPP/documents`);
 
   await expect(page).toHaveTitle(
-    "Documents | Application 24-00135-HAPP | Public Council 1 Digital Planning Register",
+    "Documents | Application 24-00135-HAPP | Public Council 1 | Digital Planning Register",
   );
 
   await expect(
@@ -312,7 +312,7 @@ const testCouncilReferenceSubmitComment = async (
     await page.goto(`/public-council-1/TEST-C0MNT-F10W/submit-comment`);
 
     await expect(page).toHaveTitle(
-      "What you need to know before you comment | Application TEST-C0MNT-F10W | Public Council 1 Digital Planning Register",
+      "What you need to know before you comment | Application TEST-C0MNT-F10W | Public Council 1 | Digital Planning Register",
     );
 
     // there is a race condition here

@@ -17,13 +17,14 @@
 
 import { Documentation } from "@/types";
 import { show } from "./show";
+import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=show`,
   file: `src/actions/api/v1/show.ts`,
   description: "show",
   arguments: ["source", "council", "reference"],
-  run: async (args: [string, string, string]) => {
+  run: async (args: [CouncilDataSourceExtended, string, string]) => {
     return await show(...args);
   },
   examples: [

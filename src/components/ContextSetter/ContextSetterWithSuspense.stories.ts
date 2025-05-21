@@ -16,14 +16,13 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { ContextSetter } from "./ContextSetter";
+import { ContextSetterWithSuspense } from "@/components/ContextSetter";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 const { consultation } = generateExampleApplications();
-
 const meta = {
-  title: "DPR Components/ContextSetter",
-  component: ContextSetter,
+  title: "DPR Components/ContextSetter/ContextSetterWithSuspense",
+  component: ContextSetterWithSuspense,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -31,25 +30,17 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    councilSlug: "camden",
-    reference: "123456",
-    application: consultation,
+    councilSlug: "test-council",
+    reference: "1234",
   },
-} satisfies Meta<typeof ContextSetter>;
+} satisfies Meta<typeof ContextSetterWithSuspense>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const WithBlurb: Story = {
+export const Preloaded: Story = {
   args: {
-    showFeedbackBlurb: true,
-  },
-};
-
-export const WithoutBlurb: Story = {
-  args: {
-    showFeedbackBlurb: false,
+    application: consultation,
   },
 };

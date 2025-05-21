@@ -17,13 +17,14 @@
 
 import { Documentation } from "@/types";
 import { applicationSubmission } from "./applicationSubmission";
+import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=applicationSubmission`,
   file: `src/actions/api/v1/applicationSubmission.ts`,
   description: "applicationSubmission",
   arguments: ["source", "council", "reference"],
-  run: async (args: [string, string, string]) => {
+  run: async (args: [CouncilDataSourceExtended, string, string]) => {
     return await applicationSubmission(...args);
   },
   examples: [

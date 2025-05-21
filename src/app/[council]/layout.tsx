@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   return {
     title: {
-      template: `%s | ${appConfig.council?.name ?? "Not Found"} Digital Planning Register`,
+      template: `%s | ${appConfig.council?.name ?? "Not Found"} | Digital Planning Register`,
       default: `${appConfig.council?.name ?? "Not Found"}`,
     },
   };

@@ -15,4 +15,18 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./ContextSetterWithSuspense";
+/**
+ * Adds the word "Council" to the end of a string if it is not already present.
+ * @param name
+ * @returns
+ */
+export const addCouncilToString = (string: string): string => {
+  if (string === "" || string === " ") {
+    return string;
+  }
+  const lowerCaseName = string.toLowerCase();
+  if (!lowerCaseName.includes("council")) {
+    return `${string} Council`;
+  }
+  return string;
+};
