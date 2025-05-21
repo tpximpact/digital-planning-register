@@ -11,6 +11,7 @@ export const publicComments: PublicComments = {
   },
   comments: [
     {
+      id: 1,
       sentiment: 'supportive',
       comment: [
         {
@@ -64,10 +65,11 @@ export const publicComments: PublicComments = {
       metadata: {
         submittedAt: '2024-02-20T15:54:31.021Z',
         publishedAt: '2024-02-21T15:54:31.021Z',
-        validAt: '2024-02-21T15:54:31.021Z',
+        validatedAt: '2024-02-21T15:54:31.021Z',
       },
     },
     {
+      id: 2,
       sentiment: 'objection',
       comment: [
         {
@@ -121,10 +123,11 @@ export const publicComments: PublicComments = {
       metadata: {
         submittedAt: '2024-02-20T15:54:31.021Z',
         publishedAt: '2024-02-21T15:54:31.021Z',
-        validAt: '2024-02-21T15:54:31.021Z',
+        validatedAt: '2024-02-21T15:54:31.021Z',
       },
     },
     {
+      id: 3,
       sentiment: 'objection',
       comment: [
         {
@@ -178,10 +181,11 @@ export const publicComments: PublicComments = {
       metadata: {
         submittedAt: '2024-02-20T15:54:31.021Z',
         publishedAt: '2024-02-21T15:54:31.021Z',
-        validAt: '2024-02-21T15:54:31.021Z',
+        validatedAt: '2024-02-21T15:54:31.021Z',
       },
     },
     {
+      id: 4,
       sentiment: 'neutral',
       comment: [
         {
@@ -235,7 +239,7 @@ export const publicComments: PublicComments = {
       metadata: {
         submittedAt: '2024-02-20T15:54:31.021Z',
         publishedAt: '2024-02-21T15:54:31.021Z',
-        validAt: '2024-02-21T15:54:31.021Z',
+        validatedAt: '2024-02-21T15:54:31.021Z',
       },
     },
   ],
@@ -246,14 +250,16 @@ export const specialistComments: SpecialistComments = {
     totalConsulted: 4,
     totalComments: 1,
     sentiment: {
-      supportive: 1,
-      objection: 0,
-      neutral: 0,
+      approved: 1,
+      amendmentsNeeded: 0,
+      objected: 0,
     },
   },
   comments: [
     {
-      sentiment: 'supportive',
+      id: 1,
+      organisationSpecialism: 'Historic England',
+      reason: 'constraint',
       constraints: [
         {
           value: 'monument',
@@ -270,43 +276,29 @@ export const specialistComments: SpecialistComments = {
           ],
         },
       ],
-      comment: 'lalala',
-      author: {
-        name: {
-          singleLine: 'Jane Smith',
-        },
-        organisation: 'Historic England',
-        specialism: 'Heritage Conservation',
-        jobTitle: 'Heritage Conservation Officer',
-      },
-      consultedAt: '2025-01-27T12:50:49+0000',
-      respondedAt: '2025-01-27T12:50:49+0000',
-      responses: [
+      firstConsultedAt: '2024-02-20T15:54:31.021Z',
+      comments: [
         {
-          sentiment: 'supportive',
-          comment: 'lalala',
-          author: {
-            name: {
-              singleLine: 'Jane Smith',
-            },
-            organisation: 'Historic England',
-            specialism: 'Heritage Conservation',
-            jobTitle: 'Heritage Conservation Officer',
-          },
-          consultedAt: '2025-01-27T12:50:49+0000',
-          respondedAt: '2025-01-27T12:50:49+0000',
+          id: 2,
+          sentiment: 'approved',
+          comment: 'I approve of this application after amendments',
           metadata: {
-            submittedAt: '2025-01-27T12:50:49+0000',
-            publishedAt: '2025-01-27T12:50:49+0000',
-            validAt: '2025-01-27T12:50:49+0000',
+            submittedAt: '2024-02-20T15:54:31.021Z',
+            publishedAt: '2024-02-21T15:54:31.021Z',
+            validatedAt: '2024-02-21T15:54:31.021Z',
+          },
+        },
+        {
+          id: 1,
+          sentiment: 'amendmentsNeeded',
+          comment: 'Please amend this application',
+          metadata: {
+            submittedAt: '2024-02-20T15:54:31.021Z',
+            publishedAt: '2024-02-21T15:54:31.021Z',
+            validatedAt: '2024-02-21T15:54:31.021Z',
           },
         },
       ],
-      metadata: {
-        submittedAt: '2025-01-27T12:50:49+0000',
-        publishedAt: '2025-01-27T12:50:49+0000',
-        validAt: '2025-01-27T12:50:49+0000',
-      },
     },
   ],
 };

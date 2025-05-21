@@ -1,5 +1,5 @@
 import {Date} from '../../../shared/utils';
-import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
+import {ApplicationType} from '../../prototypeApplication/enums/ApplicationType';
 import {AssessmentDecision} from '../enums/AssessmentDecision';
 
 /**
@@ -89,16 +89,56 @@ export type PriorApprovalAssessment = PostSubmissionAssessment & {
 };
 
 /**
- * TypeMap of PrimaryApplicationTypes to their specific Assessment models
+ * TypeMap of granular application types to their specific Assessment models
  */
 type AssessmentVariants = {
-  pa: PriorApprovalAssessment;
+  'pa.part1.classA': PriorApprovalAssessment;
+  'pa.part1.classAA': PriorApprovalAssessment;
+  'pa.part3.classG': PriorApprovalAssessment;
+  'pa.part3.classM': PriorApprovalAssessment;
+  'pa.part3.classMA': PriorApprovalAssessment;
+  'pa.part3.classN': PriorApprovalAssessment;
+  'pa.part3.classQ': PriorApprovalAssessment;
+  'pa.part3.classR': PriorApprovalAssessment;
+  'pa.part3.classS': PriorApprovalAssessment;
+  'pa.part3.classT': PriorApprovalAssessment;
+  'pa.part3.classV': PriorApprovalAssessment;
+  'pa.part4.classBB': PriorApprovalAssessment;
+  'pa.part4.classBC': PriorApprovalAssessment;
+  'pa.part4.classCA': PriorApprovalAssessment;
+  'pa.part4.classE': PriorApprovalAssessment;
+  'pa.part6': PriorApprovalAssessment;
+  'pa.part6.classA': PriorApprovalAssessment;
+  'pa.part6.classB': PriorApprovalAssessment;
+  'pa.part6.classE': PriorApprovalAssessment;
+  'pa.part7.classC': PriorApprovalAssessment;
+  'pa.part7.classM': PriorApprovalAssessment;
+  'pa.part9.classD': PriorApprovalAssessment;
+  'pa.part11.classB': PriorApprovalAssessment;
+  'pa.part14.classA': PriorApprovalAssessment;
+  'pa.part14.classB': PriorApprovalAssessment;
+  'pa.part14.classJ': PriorApprovalAssessment;
+  'pa.part14.classK': PriorApprovalAssessment;
+  'pa.part14.classOA': PriorApprovalAssessment;
+  'pa.part16.classA': PriorApprovalAssessment;
+  'pa.part17': PriorApprovalAssessment;
+  'pa.part17.classB': PriorApprovalAssessment;
+  'pa.part17.classC': PriorApprovalAssessment;
+  'pa.part17.classG': PriorApprovalAssessment;
+  'pa.part18.classA': PriorApprovalAssessment;
+  'pa.part19.classTA': PriorApprovalAssessment;
+  'pa.part20.classA': PriorApprovalAssessment;
+  'pa.part20.classAA': PriorApprovalAssessment;
+  'pa.part20.classAB': PriorApprovalAssessment;
+  'pa.part20.classAC': PriorApprovalAssessment;
+  'pa.part20.classAD': PriorApprovalAssessment;
+  'pa.part20.classZA': PriorApprovalAssessment;
 };
 
 /**
- * @internal Conditional type to return a specific or generic Property model, based on PrimaryApplicationType
+ * @internal Conditional type to return a specific or generic Property model
  */
-export type Assessment<TPrimary extends PrimaryApplicationType> =
-  TPrimary extends keyof AssessmentVariants
-    ? AssessmentVariants[TPrimary]
+export type Assessment<T extends ApplicationType> =
+  T extends keyof AssessmentVariants
+    ? AssessmentVariants[T]
     : PostSubmissionAssessment;

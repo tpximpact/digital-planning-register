@@ -20,17 +20,24 @@ type Supportive = 'supportive';
 export type CommentSentiment = Objection | Neutral | Supportive;
 
 /**
- * @description Accepted, subject to conditions
+ * @description Approved
  */
-type AcceptedConditions = 'Accepted, subject to conditions';
+type Approved = 'approved';
 
 /**
- * @description Accepted
+ * @description Amendments needed
  */
-type Accepted = 'Accepted';
+type AmendmentsNeeded = 'amendmentsNeeded';
+
+/**
+ * @description Objected
+ */
+type Objected = 'objected';
 
 /**
  * @id #SpecialistCommentSentiment
  * @description Types of comments
+ *
+ * @TODO this will move to something like these in the future "Amendments needed before recommendation can be made", "Accepted", "Accepted, subject to conditions", "Objected", "No comment"
  */
-export type SpecialistCommentSentiment = Accepted | AcceptedConditions;
+export type SpecialistCommentSentiment = Approved | AmendmentsNeeded | Objected;

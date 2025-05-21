@@ -38,9 +38,6 @@ export const priorApprovalLargerExtensionPrototype: PrototypeApplication = {
       address: {
         sameAsSiteAddress: true,
       },
-      siteContact: {
-        role: "applicant",
-      },
     },
     property: {
       address: {

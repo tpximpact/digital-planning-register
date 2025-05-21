@@ -1,4 +1,4 @@
-import {PrimaryApplicationType} from '../../prototypeApplication/enums/ApplicationType';
+import {ApplicationType} from '../../prototypeApplication/enums/ApplicationType';
 
 type LocalPlanningAuthorityBase = {
   /**
@@ -6,7 +6,7 @@ type LocalPlanningAuthorityBase = {
    * However some LPA's allow comments until a decision regardles of whether there is a consultation stage
    * This field allows LPA's to set this behaviour per application in their back office and not obstruct the planning process
    */
-  commentsAcceptedUntilDecision: boolean;
+  publicCommentsAcceptedUntilDecision: boolean;
 };
 
 /**
@@ -17,7 +17,7 @@ type LocalPlanningAuthorityVariants = {};
 /**
  * @internal Conditional type to return a specific or generic Property model, based on PrimaryLocalPlanningAuthorityType
  */
-export type LocalPlanningAuthority<TPrimary extends PrimaryApplicationType> =
-  TPrimary extends keyof LocalPlanningAuthorityVariants
-    ? LocalPlanningAuthorityVariants[TPrimary]
+export type LocalPlanningAuthority<T extends ApplicationType> =
+  T extends keyof LocalPlanningAuthorityVariants
+    ? LocalPlanningAuthorityVariants[T]
     : LocalPlanningAuthorityBase;
