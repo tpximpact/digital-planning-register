@@ -19,7 +19,6 @@ import "@/styles/global.scss";
 import React from "react";
 import { CookieBanner } from "@/components/CookieBanner";
 import { SkipLink } from "@/components/govuk/SkipLink";
-import { GovUkInitAll } from "@/components/GovUkInitAll";
 import { Metadata } from "next";
 import { DprAnalytics } from "@/lib/dprAnalytics";
 
@@ -28,7 +27,7 @@ export function generateMetadata(): Metadata {
   const description =
     "This site allows you to find planning applications submitted through the Open Digital Planning system for your local council planning authority.";
   const image =
-    "http://planningregister.org/assets/images/govuk-opengraph-image.png";
+    "http://planningregister.org/govuk/assets/images/govuk-opengraph-image.png";
 
   return {
     title: {
@@ -57,7 +56,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="govuk-template">
+    <html lang="en" className="govuk-template govuk-template--rebranded ">
       <body className={`govuk-template__body`}>
         <DprAnalytics />
         <noscript>
@@ -68,7 +67,6 @@ export default async function RootLayout({
         <CookieBanner />
         <SkipLink href="#main" />
         {children}
-        <GovUkInitAll />
       </body>
     </html>
   );

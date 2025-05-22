@@ -16,7 +16,7 @@
  */
 
 "use client";
-import "./Footer.scss";
+
 import { AppConfig } from "@/config/types";
 import "./Footer.scss";
 import { OdpLogo } from "./OdpLogo";

@@ -29,36 +29,36 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0b0c0c",
     icons: [
       {
-        src: "/assets/images/favicon.ico",
+        src: "/assets/favicon.ico",
         type: "image/x-icon",
         sizes: "48x48",
       },
       {
-        src: "/assets/images/favicon.svg",
+        src: "/assets/favicon.svg",
         type: "image/svg+xml",
         sizes: "150x150",
         purpose: "any",
       },
       {
-        src: "/assets/images/govuk-icon-180.png",
+        src: "/govuk/assets/images/govuk-icon-180.png",
         type: "image/png",
         sizes: "180x180",
         purpose: "maskable",
       },
       {
-        src: "/assets/images/govuk-icon-192.png",
+        src: "/govuk/assets/images/govuk-icon-192.png",
         type: "image/png",
         sizes: "192x192",
         purpose: "maskable",
       },
       {
-        src: "/assets/images/govuk-icon-512.png",
+        src: "/govuk/assets/images/govuk-icon-512.png",
         type: "image/png",
         sizes: "512x512",
         purpose: "maskable",
       },
       {
-        src: "/assets/images/govuk-icon-mask.svg",
+        src: "/govuk/assets/images/govuk-icon-mask.svg",
         type: "image/svg+xml",
         sizes: "150x150",
         purpose: "monochrome",
