@@ -22,32 +22,15 @@ import {
 import { SentimentIcon } from "../SentimentIcon";
 import "./ApplicationCommentsSummary.scss";
 import { Button } from "../button";
-import { SummarySkeleton } from "./ApplicationCommentsSummarySkeleton";
 import { capitalizeFirstLetter } from "@/util";
+import { pascalToSentenceCase } from "@/util/pascalToSentenceCase";
 
 export interface ApplicationCommentsSummaryProps {
   type?: "public" | "specialist";
-  summary?: PublicCommentSummary | SpecialistCommentSummary | null;
+  summary?: PublicCommentSummary | SpecialistCommentSummary;
   reference: string;
   councilSlug: string;
 }
-
-type PublicSentimentKey = "supportive" | "objection" | "neutral";
-type SpecialistSentimentKey = "approved" | "amendmentsNeeded" | "objected";
-
-const sentimentLabels = {
-  public: {
-    supportive: "support",
-    objection: "opposed",
-    neutral: "neutral",
-  } as Record<PublicSentimentKey, string>,
-
-  specialist: {
-    approved: "approve",
-    amendmentsNeeded: "amendments needed",
-    objected: "objected",
-  } as Record<SpecialistSentimentKey, string>,
-};
 
 export const renderHeaderContent = (
   summary: PublicCommentSummary | SpecialistCommentSummary,
@@ -55,21 +38,21 @@ export const renderHeaderContent = (
 ) => {
   if (type === "public") {
     return (
-      <h3 className="govuk-heading-m">
+      <p className="govuk-heading-m">
         {summary.totalComments} comment{summary.totalComments !== 1 && "s"}{" "}
         received
-      </h3>
+      </p>
     );
   }
 
   const specialistSummary = summary as SpecialistCommentSummary;
   return (
     <>
-      <h3 className="govuk-heading-m">
+      <p className="govuk-heading-m">
         {specialistSummary.totalConsulted} specialist
         {specialistSummary.totalConsulted !== 1 && "s"} contacted for
         consultation
-      </h3>
+      </p>
       <p className="govuk-body">
         {specialistSummary.totalConsulted - specialistSummary.totalComments} yet
         to respond
@@ -83,38 +66,39 @@ export const ApplicationCommentsSummary = ({
   reference,
   councilSlug,
 }: ApplicationCommentsSummaryProps) => {
-  const labels = sentimentLabels[type];
-  const sentiments = summary?.sentiment as Record<string, number>;
+  if (!summary || !summary.sentiment) {
+    return null;
+  }
 
+  const baseUrl = `/${councilSlug}/${reference}/comments?type=${type}`;
   return (
     <div id={`${type}-comments-summary`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
-      {summary ? (
-        <>
-          {renderHeaderContent(summary, type)}
-          {Object.entries(labels).map(([key, label]) => (
-            <p key={key} className="govuk-body">
+      <>
+        {renderHeaderContent(summary, type)}
+        <ul className="govuk-list dpr-comment-summary__list">
+          {Object.entries(summary.sentiment).map(([key, label]) => (
+            <li key={key}>
               <Button
+                href={`${baseUrl}}&sentiment=${key}`}
                 element="link"
                 variant="text-only"
-                href={`/${councilSlug}/${reference}/comments?type=${type === "public" ? "public" : "specialist"}&sentiment=${key}`}
-                className="govuk-link dpr-comment-summary-link"
               >
                 <SentimentIcon sentiment={key} />
-                {sentiments[key] ?? 0} {label}
+                <span>
+                  {label} {capitalizeFirstLetter(pascalToSentenceCase(key))}
+                </span>
               </Button>
-            </p>
+            </li>
           ))}
-          <Button
-            variant="information"
-            href={`/${councilSlug}/${reference}/comments?type=${type}`}
-          >
-            {`View all ${summary.totalComments} ${type} comments`}
-          </Button>
-        </>
-      ) : (
-        <SummarySkeleton type={type} />
-      )}
+        </ul>
+        <Button
+          variant="information"
+          href={`/${councilSlug}/${reference}/comments?type=${type}`}
+        >
+          {`View all ${summary.totalComments} ${type} comments`}
+        </Button>
+      </>
     </div>
   );
 };

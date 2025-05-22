@@ -16,6 +16,7 @@
  */
 
  @import "src/styles/component-base";
+ @import "node_modules/govuk-frontend/dist/govuk/core/index";
 
  .dpr-comment-summary-link {
     display: flex;
@@ -26,18 +27,34 @@
 
 
  .dpr-comment-summary {
-     margin-top: govuk-spacing(7);
-     margin-bottom: govuk-spacing(7);
 
- 
-   &__header {
-     padding: govuk-spacing(0) govuk-spacing(3);
-     box-sizing: border-box;
-     width: 100%;
-   }
+  &__list {
+    li {
+      padding-bottom: govuk-spacing(2);
+      > a {
+        &:focus {
+          outline: none;
+        }
+        &:focus-within {
+          span {
+            @include govuk-focused-text;
+          }
+        }
 
- 
-   &__skeleton {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: govuk-spacing(2);
+
+        > span {
+          @extend %govuk-link;
+          color: $govuk-link-colour;
+        }
+      }
+    }
+  }
+
+   &--skeleton {
      background: rgba(145, 144, 141, 0.6);
      margin-bottom: govuk-spacing(3);
      animation: pulse 3s infinite;
@@ -45,17 +62,6 @@
      width: 25%;
      height: 200px;
    }
-   }
-   @keyframes pulse {
-     0% {
-       opacity: 1;
-     }
-     50% {
-       opacity: 0.5;
-     }
-     100% {
-       opacity: 1;
-     }
    }
  
  
