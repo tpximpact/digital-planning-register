@@ -1,13 +1,14 @@
 import { DprCommentTypes } from "@/types";
 import "./ApplicationCommentsSummary.scss";
 
-export const SummarySkeleton = (type: { type: DprCommentTypes }) => {
+export const ApplicationCommentsSummarySkeleton = (type: {
+  type: DprCommentTypes;
+}) => {
   return (
-    <div id={`${type}-comments-summary`}>
-      <div
-        className="dpr-comment-summary__skeleton "
-        data-testid="summary-skeleton"
-      ></div>
-    </div>
+    <div
+      className="dpr-comment-summary dpr-comment-summary--skeleton"
+      data-testid="summary-skeleton"
+      id={`${type}-comments-summary`}
+    ></div>
   );
 };

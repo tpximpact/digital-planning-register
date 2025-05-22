@@ -136,18 +136,18 @@ export const OpposedIcon = () => {
 export const ApprovedIcon = () => {
   return (
     <svg
-      className="dsn-sentiment__icon approved-face"
-      // className="smiley-inline"
-      width="30"
-      height="24"
-      viewBox="0 0 25 20"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="dsn-sentiment__icon approved-face"
+      fill="none"
+      width="30"
+      height="30"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
     >
       <path
-        d="M25 3.5L21.5 0L8.5 13L3.5 8L0 11.5L8.5 20L25 3.5Z"
-        fill="#00703c"
-      ></path>
+        fill="#00703C"
+        d="M64 15.925 21.76 58 0 36.325 8.96 27.4l12.8 12.75L55.04 7 64 15.925Z"
+      />
     </svg>
   );
 };
@@ -155,20 +155,18 @@ export const ApprovedIcon = () => {
 export const ObjectedIcon = () => {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
       className="dsn-sentiment__icon objected-face"
-      // class="smiley-inline"
+      fill="none"
       width="30"
       height="30"
-      viewBox="-2 -2 22 22"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M16.4999 0L19.9999 3.5L13.4933 10.0066L20 16.5636L16.5636 20L10.0317 13.4682L3.49992 20L0.0634766 16.5636L6.57014 10.0066L0.0635605 3.5L3.56356 0L10.0317 6.5182L16.4999 0Z"
-        fill="#d4351c"
-      ></path>
+        fill="#D4351C"
+        d="M64 12.032 43.112 32.92 64 53.969 52.969 65 32 44.032 11.031 65 0 53.969l20.888-21.05L0 12.033 11.236.796 32 21.72 52.764.796 64 12.032Z"
+      />
     </svg>
   );
 };
@@ -176,22 +174,18 @@ export const ObjectedIcon = () => {
 export const AmendmentsNeededIcon = () => {
   return (
     <svg
-      className="amendments-needed-face"
-      // class="smiley-inline"
+      xmlns="http://www.w3.org/2000/svg"
+      className="dsn-sentiment__icon amendmentsNeeded"
+      fill="none"
       width="30"
       height="30"
-      viewBox="0 0 128 128"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
     >
       <path
-        d="M113.784 40.7408L86.8199 13.8432C90.3135 8.82114 99.4719 0.429524 105.76 0.691539C113.621 1.01906 126.283 13.2826 127.265 21.143C128.051 27.4314 118.696 36.5923 113.784 40.7408Z"
         fill="#003078"
-      ></path>
-      <path
-        d="M105.642 49.2656L78.9588 22.2267L7.62588 93.2038L0.688477 127.536L34.843 120.065L105.642 49.2656Z"
-        fill="currentColor"
-      ></path>
+        d="M53.048 24.997 17.263 60.78 0 64.558l3.507-17.353L39.56 11.33l13.488 13.667ZM53.107.445c3.974.166 10.373 6.364 10.87 10.337.397 3.178-4.331 7.81-6.814 9.906L43.534 7.093C45.3 4.554 49.93.313 53.107.445Z"
+      />
     </svg>
   );
 };

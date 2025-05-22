@@ -18,7 +18,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { ApplicationCommentsSummary } from "./ApplicationCommentsSummary";
 
 const meta = {
-  title: "DPR Components/ApplicationnCommentsSummary",
+  title: "DPR Components/ApplicationCommentsSummary",
   component: ApplicationCommentsSummary,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -96,6 +96,5 @@ export const Skeleton: Story = {
     type: "public",
     reference: "ABC/123",
     councilSlug: "public-council-1",
-    summary: null,
   },
 };
