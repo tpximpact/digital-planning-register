@@ -24,6 +24,7 @@ import "./ApplicationCommentsSummary.scss";
 import { Button } from "../button";
 import { capitalizeFirstLetter } from "@/util";
 import { pascalToSentenceCase } from "@/util/pascalToSentenceCase";
+import Link from "next/link";
 
 export interface ApplicationCommentsSummaryProps {
   type?: "public" | "specialist";
@@ -79,16 +80,12 @@ export const ApplicationCommentsSummary = ({
         <ul className="govuk-list dpr-comment-summary__list">
           {Object.entries(summary.sentiment).map(([key, label]) => (
             <li key={key}>
-              <Button
-                href={`${baseUrl}}&sentiment=${key}`}
-                element="link"
-                variant="text-only"
-              >
+              <Link href={`${baseUrl}}&sentiment=${key}`}>
                 <SentimentIcon sentiment={key} />
                 <span>
                   {label} {capitalizeFirstLetter(pascalToSentenceCase(key))}
                 </span>
-              </Button>
+              </Link>
             </li>
           ))}
         </ul>

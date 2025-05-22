@@ -91,10 +91,10 @@ export const Specialist: Story = {
 };
 
 // add skeleton
-export const Skeleton: Story = {
-  args: {
-    type: "public",
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
-  },
-};
+// export const Skeleton: Story = {
+//   args: {
+//     type: "public",
+//     reference: "ABC/123",
+//     councilSlug: "public-council-1",
+//   },
+// };
