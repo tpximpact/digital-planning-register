@@ -19,6 +19,17 @@
 const nextConfig = {
   output: "standalone",
   transpilePackages: ["@opensystemslab/map"],
+  // uncomment to debug sass
+  // sassOptions: {
+  //   logger: {
+  //     warn: function (message) {
+  //       console.warn(message);
+  //     },
+  //     debug: function (message) {
+  //       console.log(message);
+  //     },
+  //   },
+  // },
 };
 
 export default nextConfig;

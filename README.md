@@ -112,3 +112,39 @@ You can enter any proxy URL, if you wish to use the one built into DPR you will 
 |    `OS_MAP_API_KEY`     |                     ###                     |
 |   `OS_MAP_PROXY_URL`    | http://localhost:3000/proxy/ordnance-survey |
 | `OS_MAP_ALLOWED_ORIGIN` |            http://localhost:3000            |
+
+## GOV.UK
+
+DPR uses the [GOV.UK styles](https://design-system.service.gov.uk/) to make updating and upgrading simpler we store the govuk assets in the `/public/govuk` folder so any updates can be made by replacing the assets folder in that folder
+
+CSS wise some componenents in the `/components/govuk` are straight from GOVUK others are a mix of reusing govuk mixings and redoing it all ourselves
+
+We do not use the govuk font because its not allowed on non govuk domains, ensure that you always incllude @import "src/styles/component-base";in components and don't override the vars.scss file!
+
+DPR follows the [GOV.UK Design System](https://design-system.service.gov.uk/) for styling.
+
+To maintain consistency and simplify future updates here is some further information.
+
+#### GOV.UK Assets
+
+- GOV.UK static assets (CSS, JS, fonts, etc.) are stored in the `/public/govuk` directory.
+- To update GOV.UK styles, replace the contents of this folder with the latest version from the GOV.UK frontend toolkit.
+
+#### Components
+
+- Components in `/components/govuk` are direct copies from the GOV.UK Design System with no custom changes by us
+- All other components either use GOV.UK Sass mixins or are fully rewritten to suit DPR’s requirements.
+
+#### Fonts
+
+- **We do not use the GOV.UK font** because its license restricts usage to GOV.UK domains only.
+
+#### Styling Guidelines
+
+- Always include the shared base styles in your component Sass with:
+
+```scss
+@import "src/styles/component-base";
+```
+
+- Make sure you dont re-import `node_modules/govuk-frontend/dist/govuk/base` anywhere as it overwrites the gov-uk vars in the `vars.scss` file!

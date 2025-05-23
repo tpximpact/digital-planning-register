@@ -30,7 +30,7 @@ export const config = {
      * 4. /assets (inside /public)
      * 5. all root files inside /public (e.g. /favicon.ico)
      */
-    "/((?!docs/|_next/|_static/|_vercel|assets|images|icons|[\\w-]+\\.\\w+).*)",
+    "/((?!docs/|_next/|_static/|_vercel|assets|govuk|images|icons|[\\w-]+\\.\\w+).*)",
   ],
 };
 
@@ -149,7 +149,7 @@ export default async function middleware(request: NextRequest) {
       return pathname.includes(`/${council.slug}/`);
     });
     if (!isValidPath) {
-      console.error("Not a valid council - no access");
+      console.error("Not a valid council - no access", pathname);
       return NextResponse.rewrite(new URL("/404", request.url));
     }
   }

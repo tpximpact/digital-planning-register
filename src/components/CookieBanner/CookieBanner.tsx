@@ -23,6 +23,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/button";
 import { TextButton } from "../TextButton";
+import "./CookieBanner.scss";
 
 type BannerState = "initial" | "accepted" | "rejected" | "hidden";
 
