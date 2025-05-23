@@ -16,7 +16,14 @@
  */
 
 import { AppConfig } from "@/config/types";
-import { DprApplication, DprDocument } from "@/types";
+import {
+  ApiResponse,
+  DprApplication,
+  DprCommentTypes,
+  DprDocument,
+  DprPublicCommentsApiResponse,
+  DprSpecialistCommentsApiResponse,
+} from "@/types";
 import { ApplicationPeople } from "../ApplicationPeople";
 import { ApplicationHero } from "../ApplicationHero";
 import { DocumentsList } from "@/components/DocumentsList";
@@ -31,7 +38,9 @@ import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
-import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
+import { ApplicationCommentsSummaryWithSuspense } from "../ApplicationCommentsSummary";
+import { ApiV1 } from "@/actions/api";
+import { getAppConfig } from "@/config";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -40,7 +49,33 @@ export interface ApplicationDetailsProps {
   documents: DprDocument[] | null;
 }
 
-export const ApplicationDetails = ({
+async function fetchData({
+  params,
+  type,
+}: {
+  params: { councilSlug: string; reference: string };
+  type?: DprCommentTypes;
+}): Promise<{
+  response: ApiResponse<
+    DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse | null
+  >;
+}> {
+  const { reference, councilSlug } = params;
+  const appConfig = getAppConfig(councilSlug);
+
+  const commentsApi =
+    type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
+
+  const response = await commentsApi(
+    appConfig.council?.dataSource ?? "none",
+    councilSlug,
+    reference,
+  );
+
+  return { response };
+}
+
+export const ApplicationDetails = async ({
   reference,
   appConfig,
   application,
@@ -59,6 +94,13 @@ export const ApplicationDetails = ({
   const appeal = application.data.appeal;
   const { url: decisionNoticeUrl } =
     documents?.find((d) => d.title === "Decision notice") ?? {};
+
+  const [responseSpecialist, responsePublic] = await Promise.all([
+    fetchData({ type: "specialist", params: { councilSlug, reference } }),
+    fetchData({ type: "public", params: { councilSlug, reference } }),
+  ]);
+  const specialistComments = responseSpecialist.response.data?.summary;
+  const publicComments = responsePublic.response.data?.summary;
 
   const sidebar = [
     {
@@ -181,19 +223,19 @@ export const ApplicationDetails = ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <CommentsListWithSuspense
-              councilSlug={appConfig?.council?.slug}
-              reference={reference}
+            <ApplicationCommentsSummaryWithSuspense
               type="specialist"
-              resultsPerPage={3}
+              councilSlug={councilSlug}
+              reference={reference}
+              summary={specialistComments}
             />
           )}
           {appConfig.council?.publicComments && (
-            <CommentsListWithSuspense
-              councilSlug={appConfig?.council?.slug}
-              reference={reference}
+            <ApplicationCommentsSummaryWithSuspense
               type="public"
-              resultsPerPage={3}
+              councilSlug={councilSlug}
+              reference={reference}
+              summary={publicComments}
             />
           )}
         </div>

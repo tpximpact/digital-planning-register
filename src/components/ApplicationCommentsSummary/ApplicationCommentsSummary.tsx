@@ -73,14 +73,14 @@ export const ApplicationCommentsSummary = ({
 
   const baseUrl = `/${councilSlug}/${reference}/comments?type=${type}`;
   return (
-    <div id={`${type}-comments-summary`}>
+    <div id={`${type}-comments`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
       <>
         {renderHeaderContent(summary, type)}
         <ul className="govuk-list dpr-comment-summary__list">
           {Object.entries(summary.sentiment).map(([key, label]) => (
             <li key={key}>
-              <Link href={`${baseUrl}}&sentiment=${key}`}>
+              <Link href={`${baseUrl}&sentiment=${key}`}>
                 <SentimentIcon sentiment={key} />
                 <span>
                   {label} {capitalizeFirstLetter(pascalToSentenceCase(key))}
@@ -89,10 +89,7 @@ export const ApplicationCommentsSummary = ({
             </li>
           ))}
         </ul>
-        <Button
-          variant="information"
-          href={`/${councilSlug}/${reference}/comments?type=${type}`}
-        >
+        <Button variant="information" href={`${baseUrl}`} element="link">
           {`View all ${summary.totalComments} ${type} comments`}
         </Button>
       </>

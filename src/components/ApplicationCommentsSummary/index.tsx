@@ -16,3 +16,4 @@
  */
 
 export * from "./ApplicationCommentsSummary";
+export * from "./ApplicationCommentsSummaryWithSuspense";
