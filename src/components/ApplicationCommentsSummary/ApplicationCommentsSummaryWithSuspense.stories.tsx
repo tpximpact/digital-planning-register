@@ -14,12 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-import { Meta, StoryObj } from "@storybook/react";
-import { ApplicationCommentsSummary } from "./ApplicationCommentsSummary";
+
+import type { Meta, StoryObj } from "@storybook/react";
+// import { ContextSetterWithSuspense } from "@/components/ContextSetter";
+import { ApplicationCommentsSummaryWithSuspense } from "./ApplicationCommentsSummaryWithSuspense";
 
 const meta = {
-  title: "DPR Components/ApplicationCommentsSummary",
-  component: ApplicationCommentsSummary,
+  title:
+    "DPR Components/ApplicationCommentsSummary/ApplicationCommentsSummaryWithSuspense",
+  component: ApplicationCommentsSummaryWithSuspense,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -27,65 +30,24 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    type: "public",
-    summary: {
-      sentiment: {
-        supportive: 10,
-        neutral: 5,
-        objection: 2,
-      },
-      totalComments: 17,
-    },
+    councilSlug: "public-council-1",
+    reference: "1234",
   },
-} satisfies Meta<typeof ApplicationCommentsSummary>;
+} satisfies Meta<typeof ApplicationCommentsSummaryWithSuspense>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: Story = {};
+export const Preloaded: Story = {
   args: {
-    type: "public",
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
     summary: {
       sentiment: {
-        supportive: 10,
-        neutral: 5,
+        supportive: 0,
+        neutral: 0,
         objection: 2,
       },
-      totalComments: 17,
+      totalComments: 2,
     },
-  },
-};
-export const Public: Story = {
-  args: {
-    type: "public",
-    summary: {
-      sentiment: {
-        supportive: 10,
-        neutral: 5,
-        objection: 2,
-      },
-      totalComments: 17,
-    },
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
-  },
-};
-
-export const Specialist: Story = {
-  args: {
-    type: "specialist",
-    summary: {
-      sentiment: {
-        approved: 7,
-        amendmentsNeeded: 3,
-        objected: 4,
-      },
-      totalConsulted: 16,
-      totalComments: 14,
-    },
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
   },
 };

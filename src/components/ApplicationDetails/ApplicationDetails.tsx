@@ -38,7 +38,7 @@ import { ApplicationAppeals } from "../ApplicationAppeals";
 // import { ImpactMeasures } from "../ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
-import { ApplicationCommentsSummary } from "../ApplicationCommentsSummary";
+import { ApplicationCommentsSummaryWithSuspense } from "../ApplicationCommentsSummary";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 
@@ -223,7 +223,7 @@ export const ApplicationDetails = async ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <ApplicationCommentsSummary
+            <ApplicationCommentsSummaryWithSuspense
               type="specialist"
               councilSlug={councilSlug}
               reference={reference}
@@ -231,7 +231,7 @@ export const ApplicationDetails = async ({
             />
           )}
           {appConfig.council?.publicComments && (
-            <ApplicationCommentsSummary
+            <ApplicationCommentsSummaryWithSuspense
               type="public"
               councilSlug={councilSlug}
               reference={reference}

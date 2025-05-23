@@ -1,7 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { ApplicationCommentsSummary } from "@/components/ApplicationCommentsSummary";
+import {
+  ApplicationCommentsSummary,
+  ApplicationCommentsSummaryWithSuspense,
+} from "@/components/ApplicationCommentsSummary";
 import {
   PublicCommentSummary,
   SpecialistCommentSummary,
@@ -18,17 +21,70 @@ const renderComponent = (
 };
 
 describe("ApplicationCommentsSummary", () => {
-  // it("renders null when summary is not provided", () => {
-  //   render(
-  //     <ApplicationCommentsSummary
-  //       type="public"
-  //       reference="ABC/123"
-  //       councilSlug="public-council-1"
-  //     />,
-  //   );
-  //   expect(screen.getByText("Public Comments")).toBeInTheDocument();
-  //   expect(screen.getByTestId("summary-skeleton")).toBeInTheDocument();
-  // });
+  it("renders null when summary is not provided", () => {
+    const { container } = render(
+      <ApplicationCommentsSummary
+        reference="ABC/123"
+        councilSlug="public-council-1"
+      />,
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("returns null when summary is provided but sentiment is missing", () => {
+    const { container } = render(
+      <ApplicationCommentsSummary
+        reference="ABC/123"
+        councilSlug="public-council-1"
+        summary={{ totalComments: 3 } as any} // forcing invalid data
+      />,
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("renders the 'View all' button with correct text", () => {
+    renderComponent({
+      type: "public",
+      summary: {
+        totalComments: 3,
+        sentiment: {
+          supportive: 1,
+          objection: 1,
+          neutral: 1,
+        },
+      },
+      reference: "ABC/123",
+      councilSlug: "public-council-1",
+    });
+
+    expect(
+      screen.getByRole("button", { name: /view all 3 public comments/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("uses correct links for public sentiments", () => {
+    renderComponent({
+      type: "public",
+      summary: {
+        totalComments: 3,
+        sentiment: {
+          supportive: 1,
+          objection: 1,
+          neutral: 1,
+        },
+      },
+      reference: "ABC/123",
+      councilSlug: "public-council-1",
+    });
+
+    const links = screen.getAllByRole("link");
+    links.forEach((link) => {
+      expect(link).toHaveAttribute(
+        "href",
+        expect.stringContaining("type=public"),
+      );
+    });
+  });
 
   describe("public type", () => {
     const summary: PublicCommentSummary = {
@@ -62,17 +118,8 @@ describe("ApplicationCommentsSummary", () => {
       // Match combined text split across elements
       expect(screen.getByText(/1 Neutral/)).toBeInTheDocument();
       expect(screen.getByText(/1 Support/i)).toBeInTheDocument();
-      // expect(screen.getByText(/1 Opposed/i)).toBeInTheDocument();
+      expect(screen.getByText(/1 Objection/i)).toBeInTheDocument();
     });
-    // it("renders the skeleton when sentiment data is missing", () => {
-    //   renderComponent({
-    //     type: "public",
-    //     reference: "abc",
-    //     councilSlug: "slug",
-    //   });
-
-    //   expect(screen.getByTestId("summary-skeleton")).toBeInTheDocument(); // Requires a test ID in <SummarySkeleton />
-    // });
   });
 
   describe("specialist type", () => {
@@ -149,5 +196,18 @@ describe("ApplicationCommentsSummary", () => {
         );
       });
     });
+  });
+});
+describe("ApplicationCommentsSummaryWithSuspense", () => {
+  it("renders skeleton when summary is missing and no councilSlug/reference", () => {
+    render(
+      <ApplicationCommentsSummaryWithSuspense
+        reference=""
+        councilSlug=""
+        type="public"
+      />,
+    );
+
+    expect(screen.getByTestId("summary-skeleton")).toBeInTheDocument();
   });
 });
