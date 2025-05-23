@@ -24,7 +24,10 @@ interface PageMainProps {
 
 export const PageMain = ({ children, className }: PageMainProps) => {
   return (
-    <main className={`govuk-main-wrapper ${className}`} id="main">
+    <main
+      className={`govuk-main-wrapper${className ? ` ${className}` : ""}`}
+      id="main"
+    >
       {children}
     </main>
   );
