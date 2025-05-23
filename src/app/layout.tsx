@@ -56,7 +56,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="govuk-template govuk-template--rebranded ">
+    <html lang="en" className="govuk-template">
       <body className={`govuk-template__body`}>
         <DprAnalytics />
         <noscript>
