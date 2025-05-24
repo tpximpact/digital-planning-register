@@ -16,9 +16,9 @@
  */
 
 import { getAppConfig } from "@/config";
-import { validateSearchParams } from "@/lib/comments";
+import { validateSearchParams } from "@/lib/planningApplication/search";
 import { filterSearchParams } from "@/lib/search";
-import { commentSearchFields } from "@/util/featureFlag";
+import { applicationSearchFields } from "@/util/featureFlag";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -34,22 +34,44 @@ export async function GET(request: NextRequest) {
   const submitAction = searchParams.get("action");
   const filteredSearchParams =
     submitAction === "clear"
-      ? filterSearchParams(searchParams, [...commentSearchFields, "action"])
+      ? filterSearchParams(searchParams, [...applicationSearchFields, "action"])
       : searchParams;
 
   const appConfig = getAppConfig(council);
-  const searchParamsObj = Object.fromEntries(filteredSearchParams.entries());
+  const searchParamsObj: Record<string, string> = {};
+  for (const [key, value] of Array.from(filteredSearchParams.entries())) {
+    if (searchParamsObj[key]) {
+      // Split, add, dedupe, and join
+      const values = searchParamsObj[key].split(",");
+      if (!values.includes(value)) {
+        values.push(value);
+      }
+      searchParamsObj[key] = values.join(",");
+    } else {
+      searchParamsObj[key] = value;
+    }
+  }
+
   const validSearchParams = validateSearchParams(appConfig, searchParamsObj);
 
-  const validSearchParamsObject = Object.fromEntries(
+  // we're temporarily removing the resultsPerPage from the search params because the design doesn't account for it
+  // removing it 'properly' would require a lot of work and it's likely something that will be added in the future
+  // const validSearchParamsObject = Object.fromEntries(
+  //   Object.entries(validSearchParams).filter(
+  //     ([_, value]) => value !== undefined,
+  //   ),
+  // );
+  const validSearchParamsObjectMinusResultsPerPage = Object.fromEntries(
     Object.entries(validSearchParams).filter(
-      ([_, value]) => value !== undefined,
+      ([key, value]) => value !== undefined && key !== "resultsPerPage",
     ),
   );
 
-  const queryParams = new URLSearchParams(validSearchParamsObject);
+  const queryParams = new URLSearchParams(
+    validSearchParamsObjectMinusResultsPerPage,
+  );
   const pathname = request.nextUrl.pathname;
-  const redirectPath = pathname.replace("/search", "");
+  const redirectPath = pathname.replace("/search-form", "");
 
   redirect(`${redirectPath}?${queryParams.toString()}`);
 }

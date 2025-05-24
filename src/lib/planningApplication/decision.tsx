@@ -32,6 +32,18 @@ import {
 import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
 
 /**
+ * Valid decision summaries for DPR applications.
+ * @TODO what happens if we're searching for a decision type that doesn't include prior approval?
+ */
+export const validDprDecisionSummaries: DprDecisionSummary[] = [
+  "granted",
+  "refused",
+  "Prior approval required and approved",
+  "Prior approval not required",
+  "Prior approval required and refused",
+];
+
+/**
  * @deprecated Use getApplicationDprDecisionSummary in future when using PostSubmission schema
  * Returns a formatted decision string based on the application type.
  *
