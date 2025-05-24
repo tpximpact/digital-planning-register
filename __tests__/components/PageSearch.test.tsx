@@ -14,99 +14,447 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-import { render, screen } from "@testing-library/react";
+
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import { PageSearch } from "@/components/PageSearch";
-import { getAppConfig } from "@/config";
+import { AppConfig } from "@/config/types";
+import {
+  ApiResponse,
+  DprSearchApiResponse,
+  SearchParamsApplication,
+} from "@/types";
 import { generatePagination } from "@mocks/dprApplicationFactory";
-import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
-const {
-  consultation,
-  assessmentInProgress,
-  planningOfficerDetermined,
-  assessmentInCommittee,
-  committeeDetermined,
-} = generateExampleApplications();
-
-const exampleApplications = [
-  consultation,
-  assessmentInProgress,
-  planningOfficerDetermined,
-  assessmentInCommittee,
-  committeeDetermined,
-];
-
+// Mocks
 jest.mock("@/components/FormSearch", () => ({
-  FormSearch: () => <div data-testid="form-search"></div>,
+  FormSearch: (props: any) => <div data-testid="form-search" />,
 }));
-
+jest.mock("@/components/FormSearchFull", () => ({
+  FormSearchFull: (props: any) => <div data-testid="form-search-full" />,
+}));
 jest.mock("@/components/ApplicationCard", () => ({
-  ApplicationCard: () => <div data-testid="application-card"></div>,
+  ApplicationCard: (props: any) => <div data-testid="application-card" />,
 }));
-
+jest.mock("@/components/govuk/NotificationBanner", () => ({
+  NotificationBanner: (props: any) => (
+    <div data-testid="notification-banner">
+      {props.title}
+      {props.heading}
+    </div>
+  ),
+}));
 jest.mock("@/components/govuk/Pagination", () => ({
-  Pagination: () => <div data-testid="pagination"></div>,
+  Pagination: (props: any) => <div data-testid="pagination" />,
 }));
-
 jest.mock("@/components/ContentNoResult", () => ({
-  ContentNoResult: () => <div data-testid="content-no-result"></div>,
+  ContentNoResult: (props: any) => <div data-testid="content-no-result" />,
+}));
+jest.mock("@/components/EmailSignUpButton", () => ({
+  EmailSignUpButton: (props: any) => (
+    <a data-testid="email-signup" href={props.href}>
+      Sign up
+    </a>
+  ),
+}));
+jest.mock("@/components/FormApplicationsSort", () => ({
+  FormApplicationsSort: (props: any) => (
+    <div data-testid="form-applications-sort" />
+  ),
+}));
+jest.mock("@/lib/navigation", () => ({
+  createPathFromParams: jest.fn(() => "/search-form"),
+}));
+jest.mock("@/util", () => ({
+  pascalToSentenceCase: (s: string) => s,
+}));
+jest.mock("@/lib/planningApplication/search", () => ({
+  checkSearchPerformed: jest.fn(
+    (params) => !!params && !!Object.keys(params).length && params.hasResults,
+  ),
 }));
 
-describe("PageSearch Component", () => {
-  it("renders a list of results", async () => {
+const baseParams = { council: "camden" };
+const mockAppConfig: AppConfig = {
+  defaults: {
+    resultsPerPage: 10,
+  },
+} as unknown as AppConfig;
+const baseSearchParams: SearchParamsApplication = {
+  page: 1,
+  resultsPerPage: 10,
+  type: "simple",
+};
+const mockResponse: ApiResponse<DprSearchApiResponse> = {
+  status: {
+    code: 200,
+    message: "OK",
+  },
+  data: [
+    { data: { application: { reference: "A1" } } },
+    { data: { application: { reference: "A2" } } },
+  ] as DprSearchApiResponse,
+  pagination: generatePagination(1, 100),
+};
+
+describe("PageSearch", () => {
+  // there are some key visual difference between the four states of the page:
+  // no actions performed, shows the welcome message and simple search form
+  // simple search performed, shows the simple search form and results
+  // dprFilter search performed, shows the quick filters, simple search form and results
+  // advanced search performed, shows Scroll to results notification, the advanced search form and results
+
+  // there are also some header differences naming and accessibility wise
+
+  it("renders the form element and sort form", () => {
     render(
       <PageSearch
-        appConfig={getAppConfig("public-council-1")}
-        applications={exampleApplications}
-        pagination={generatePagination(0, 100)}
-        searchParams={undefined}
+        params={baseParams}
+        appConfig={mockAppConfig}
+        searchParams={baseSearchParams}
+        response={mockResponse}
       />,
     );
+    const form = screen.getByRole("form", {});
+    expect(form).toBeInTheDocument();
+    expect(form).toHaveAttribute("action", "/search-form");
+    expect(form).toHaveAttribute("method", "get");
+    expect(form).toHaveAttribute("aria-label", "Search applications");
 
-    expect(
-      screen.getByRole("heading", {
-        name: "Recently published applications",
-      }),
-    ).toBeInTheDocument();
-    expect(screen.queryByTestId("back-link")).not.toBeInTheDocument();
-    expect(screen.getByTestId("form-search")).toBeInTheDocument();
-    expect(screen.getAllByTestId("application-card")).toHaveLength(5);
-    expect(screen.getByTestId("pagination")).toBeInTheDocument();
+    expect(screen.getByTestId("form-applications-sort")).toBeInTheDocument();
   });
 
-  it("renders a list of search results", async () => {
+  it("renders email sign up link button if council has email link", () => {
+    const mockAppConfigWithLink: AppConfig = {
+      ...mockAppConfig,
+      council: {
+        pageContent: {
+          email_alerts: {
+            sign_up_for_alerts_link: "https://alerts.example.com",
+          },
+        },
+      },
+    } as unknown as AppConfig;
     render(
       <PageSearch
-        appConfig={getAppConfig("public-council-1")}
-        applications={exampleApplications}
-        pagination={generatePagination(0, 100, 200)}
-        searchParams={{ page: 1, resultsPerPage: 10, query: "search" }}
+        params={baseParams}
+        appConfig={mockAppConfigWithLink}
+        searchParams={baseSearchParams}
+        response={mockResponse}
       />,
     );
-
-    expect(
-      screen.getByRole("heading", { name: "Search results" }),
-    ).toBeInTheDocument();
-    expect(screen.queryByTestId("back-link")).not.toBeInTheDocument();
-    expect(screen.getByTestId("form-search")).toBeInTheDocument();
-    expect(screen.getAllByTestId("application-card")).toHaveLength(5);
-    expect(screen.getByTestId("pagination")).toBeInTheDocument();
+    expect(screen.getByTestId("email-signup")).toHaveAttribute(
+      "href",
+      "https://alerts.example.com",
+    );
   });
 
-  it("does not render a list of search results", async () => {
-    render(
-      <PageSearch
-        appConfig={getAppConfig("public-council-1")}
-        applications={[]}
-        pagination={generatePagination(0, 0)}
-        searchParams={{ page: 1, resultsPerPage: 10, query: "noresultsplease" }}
-      />,
-    );
-    expect(screen.queryByRole("heading")).toBeInTheDocument();
-    expect(screen.getByTestId("form-search")).toBeInTheDocument();
-    expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
-    expect(screen.queryByTestId("application-card")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("pagination")).not.toBeInTheDocument();
+  const checkForSimpleNoSearchHeader = (presence: boolean = true) => {
+    expect(
+      screen.queryByText(/Welcome to the Digital Planning Register/i) !== null,
+    ).toBe(presence);
+  };
+
+  const checkForAdvancedResultsNotification = (presence: boolean = true) => {
+    expect(screen.queryByTestId("notification-banner") !== null).toBe(presence);
+  };
+
+  const checkForSimpleSearchForm = (presence: boolean = true) => {
+    expect(screen.queryByTestId("form-search") !== null).toBe(presence);
+  };
+
+  const checkForAdvancedSearchForm = (presence: boolean = true) => {
+    expect(screen.queryByTestId("form-search-full") !== null).toBe(presence);
+  };
+
+  describe("When no actions have been performed", () => {
+    it("should show welcome message", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleNoSearchHeader(true);
+    });
+    it("should have correct headings", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        "Welcome to the Digital Planning Register",
+      );
+      expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+        "Recently published applications",
+      );
+    });
+    it("should not show scroll to results notification", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedResultsNotification(false);
+    });
+    it("should show simple search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleSearchForm(true);
+    });
+    it("should not show advanced search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedSearchForm(false);
+    });
+  });
+
+  describe("When a simple search has been performed", () => {
+    const mockSimpleSearchParams: SearchParamsApplication = {
+      ...baseSearchParams,
+      hasResults: true,
+    } as unknown as SearchParamsApplication;
+    it("should not show welcome message", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleNoSearchHeader(false);
+    });
+    it("should have correct headings", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        "Search results",
+      );
+    });
+    it("should not show scroll to results notification", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedResultsNotification(false);
+    });
+    it("should show simple search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleSearchForm(true);
+    });
+    it("should not show advanced search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedSearchForm(false);
+    });
+  });
+
+  describe("When a quick filter has been performed", () => {
+    const mockQuickfilterSearchParams: SearchParamsApplication = {
+      ...baseSearchParams,
+      dprFilter: "inConsultation",
+      hasResults: true,
+    } as unknown as SearchParamsApplication;
+    it("should not show welcome message", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleNoSearchHeader(false);
+    });
+    it("should have correct headings", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        "Applications inConsultation",
+      );
+    });
+    it("should not show scroll to results notification", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedResultsNotification(false);
+    });
+    it("should show simple search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleSearchForm(true);
+    });
+    it("should not show advanced search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedSearchForm(false);
+    });
+  });
+
+  describe("When an advanced search search has been performed", () => {
+    const mockAdvancedSearchParams: SearchParamsApplication = {
+      ...baseSearchParams,
+      type: "full",
+      hasResults: true,
+    } as unknown as SearchParamsApplication;
+    it("should not show welcome message", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleNoSearchHeader(false);
+    });
+    it("should have correct headings", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        "Search results",
+      );
+    });
+    it("should show scroll to results notification", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedResultsNotification(true);
+    });
+    it("should not show simple search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForSimpleSearchForm(false);
+    });
+    it("should show advanced search form", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForAdvancedSearchForm(true);
+    });
+  });
+
+  describe("Managing results", () => {
+    it("if results it shows a paginated list of applications", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+
+      expect(screen.getAllByTestId("application-card")).toHaveLength(2);
+      expect(screen.getByTestId("pagination")).toBeInTheDocument();
+    });
+
+    it("if no results it shows content not found message ", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={{
+            ...mockResponse,
+            data: null,
+          }}
+        />,
+      );
+
+      expect(screen.queryAllByTestId("application-card")).toHaveLength(0);
+      expect(screen.queryByTestId("pagination")).not.toBeInTheDocument();
+      expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
+    });
   });
 });

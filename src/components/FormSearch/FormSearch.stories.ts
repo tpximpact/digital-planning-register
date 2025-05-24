@@ -28,7 +28,9 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    action: "/search",
+    params: {
+      council: "test-council",
+    },
   },
 } satisfies Meta<typeof FormSearch>;
 
@@ -36,3 +38,23 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const WithSearchQuery: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+      query: "Search query",
+    },
+  },
+};
+export const WithDprFilter: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+      dprFilter: "inConsultation",
+    },
+  },
+};

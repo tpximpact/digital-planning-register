@@ -42,6 +42,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Open: Story = {
+  args: {
+    open: true,
+  },
+};
 export const White: Story = {
   args: {
     isInverted: true,

@@ -59,20 +59,34 @@ const meta = {
     },
   },
   args: {
+    params: {
+      council: "test-council-1",
+    },
     appConfig: defaultAppConfig,
-    applications: [
-      consultation,
-      assessmentInProgress,
-      planningOfficerDetermined,
-      assessmentInCommittee,
-      committeeDetermined,
-      appealLodged,
-      appealValid,
-      appealStarted,
-      appealDetermined,
-      withdrawn,
-    ],
-    pagination: generatePagination(1, 100),
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+    },
+    response: {
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      data: [
+        consultation,
+        assessmentInProgress,
+        planningOfficerDetermined,
+        assessmentInCommittee,
+        committeeDetermined,
+        appealLodged,
+        appealValid,
+        appealStarted,
+        appealDetermined,
+        withdrawn,
+      ],
+      pagination: generatePagination(1, 100),
+    },
   },
 } satisfies Meta<typeof PageSearch>;
 
@@ -80,7 +94,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const DefaultWithEmailAlerts: Story = {
+export const WithEmailAlerts: Story = {
   args: {
     appConfig: {
       ...defaultAppConfig,
@@ -96,23 +110,81 @@ export const DefaultWithEmailAlerts: Story = {
     },
   },
 };
-export const SearchResults: Story = {
+export const SimpleSearchNoResults: Story = {
   args: {
-    pagination: generatePagination(1, 100, 200),
     searchParams: {
       page: 1,
       resultsPerPage: 10,
+      type: "simple",
+      query: "search query",
+    },
+    response: {
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      data: null,
+      pagination: generatePagination(1, 0),
+    },
+  },
+};
+export const SimpleSearchPerformed: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
       query: "search query",
     },
   },
 };
-export const NoResults: Story = {
+export const SimpleSearchSorted: Story = {
   args: {
-    applications: [],
     searchParams: {
       page: 1,
       resultsPerPage: 10,
-      query: "noresultsplease",
+      type: "simple",
+      query: "search query",
+      sortBy: "receivedAt",
+      orderBy: "asc",
+    },
+  },
+};
+export const QuickFiltered: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+      dprFilter: "inConsultation",
+    },
+  },
+};
+export const AdvancedSearchNoResults: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "full",
+      reference: "12345",
+    },
+    response: {
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      data: null,
+      pagination: generatePagination(1, 0),
+    },
+  },
+};
+export const AdvancedSearchPerformed: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "full",
+      reference: "12345",
     },
   },
 };

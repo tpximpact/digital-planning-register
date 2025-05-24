@@ -15,25 +15,34 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
-import { ApiResponse, DprSearchApiResponse, SearchParams } from "@/types";
+import {
+  ApiResponse,
+  DprSearchApiResponse,
+  SearchParamsApplication,
+  UnknownSearchParams,
+} from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { ContentError } from "@/components/ContentError";
 import { PageMain } from "@/components/PageMain";
 import { PageSearch } from "@/components/PageSearch";
+import { validateSearchParams } from "@/lib/planningApplication/search";
 
 interface HomeProps {
   params: {
     council: string;
   };
-  searchParams?: SearchParams;
+  searchParams?: UnknownSearchParams;
+}
+
+interface FetchDataProps extends Omit<HomeProps, "searchParams"> {
+  searchParams: SearchParamsApplication;
 }
 
 async function fetchData({
   params,
   searchParams,
-}: HomeProps): Promise<ApiResponse<DprSearchApiResponse | null>> {
+}: FetchDataProps): Promise<ApiResponse<DprSearchApiResponse | null>> {
   const { council } = params;
   const appConfig = getAppConfig(council);
 
@@ -51,7 +60,10 @@ async function fetchData({
 }
 
 export async function generateMetadata({ params, searchParams }: HomeProps) {
-  const response = await fetchData({ params, searchParams });
+  const { council } = params;
+  const appConfig = getAppConfig(council);
+  const validSearchParams = validateSearchParams(appConfig, searchParams);
+  const response = await fetchData({ params, searchParams: validSearchParams });
 
   if (!response.data) {
     return {
@@ -67,7 +79,8 @@ export default async function PlanningApplicationSearch({
 }: HomeProps) {
   const { council } = params;
   const appConfig = getAppConfig(council);
-  const response = await fetchData({ params, searchParams });
+  const validSearchParams = validateSearchParams(appConfig, searchParams);
+  const response = await fetchData({ params, searchParams: validSearchParams });
 
   if (
     !response ||
@@ -83,11 +96,10 @@ export default async function PlanningApplicationSearch({
 
   return (
     <PageSearch
-      appConfig={appConfig}
-      applications={response.data}
-      pagination={response.pagination}
       params={params}
-      searchParams={searchParams}
+      searchParams={validSearchParams}
+      response={response}
+      appConfig={appConfig}
     />
   );
 }

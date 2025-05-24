@@ -70,7 +70,48 @@ export interface SearchParams {
   resultsPerPage: number;
   query?: string;
 }
+
+// Application specific search params
+export interface SearchParamsApplication extends SearchParams {
+  type: "simple" | "full";
+  sortBy?: DprApplicationSortBy;
+  orderBy?: DprApplicationOrderBy;
+  dprFilter?: DprQuickSearchFilter;
+  reference?: string;
+  description?: string;
+  applicationType?: string;
+  applicationStatus?: string;
+  councilDecision?: string;
+  dateType?: DprApplicationDateType;
+  dateRange?: DprApplicationDateRange;
+  dateRangeFrom?: string;
+  dateRangeTo?: string;
+}
+export type DprApplicationSortBy = "receivedAt" | "councilDecisionDate";
+export type DprApplicationOrderBy = "asc" | "desc";
+export type DprQuickSearchFilter =
+  | "inConsultation"
+  | "publishedThisWeek"
+  | "publishedThisMonth"
+  | "decidedThisWeek"
+  | "decidedThisMonth";
+export type DprApplicationDateType =
+  | "receivedAt"
+  | "validatedAt"
+  | "publishedAt"
+  | "consultationEndDate"
+  | "councilDecisionDate"
+  | "appealDecisionDate";
+export type DprApplicationDateRange =
+  | "week"
+  | "month"
+  | "quarter"
+  | "year"
+  | "fixed";
+// Document specific search params
 export type SearchParamsDocuments = SearchParams;
+
+// Comment specific search params
 export interface SearchParamsComments extends SearchParams {
   type: DprCommentTypes;
   sortBy?: DprCommentSortBy;
