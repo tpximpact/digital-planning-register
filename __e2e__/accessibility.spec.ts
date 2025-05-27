@@ -35,6 +35,7 @@ const pages = [
   "/public-council-1?page=2",
   "/public-council-1?query=75-81011-ARSX",
   "/public-council-1?query=noresultsplease",
+  "/public-council-1/search",
   "/public-council-1/help",
   "/public-council-1/TEST-C0MNT-F10W",
   "/public-council-1/TEST-C0MNT-F10W/application-form",

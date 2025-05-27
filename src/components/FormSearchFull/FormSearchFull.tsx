@@ -60,6 +60,8 @@ export const FormSearchFull = ({
         </Button> */}
       </div>
 
+      <h1 className="govuk-visually-hidden">Full application search</h1>
+
       {["reference", "description"].some((field) =>
         applicationSearchFields.includes(field),
       ) && (

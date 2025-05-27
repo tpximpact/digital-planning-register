@@ -44,7 +44,7 @@ export const FormFieldApplicationDateRange = ({
         </label>
         <select
           className="govuk-select"
-          id="date"
+          id="dateType"
           name="dateType"
           defaultValue={searchParams?.dateType ?? ""}
         >
@@ -72,7 +72,9 @@ export const FormFieldApplicationDateRange = ({
                 name="dateRange"
                 type="radio"
                 value={option.value}
-                aria-controls={`conditional-${option.value}`}
+                {...(option.value === "fixed"
+                  ? { "aria-controls": `conditional-${option.value}` }
+                  : {})}
                 defaultChecked={searchParams?.dateRange === option.value}
                 onChange={() => setShow(option.value === "fixed")}
               />

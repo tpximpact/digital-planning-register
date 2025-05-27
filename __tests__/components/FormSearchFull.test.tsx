@@ -117,6 +117,22 @@ describe("FormSearchFull", () => {
         "Get help understanding what everything here means",
       );
     });
+
+    it("renders a visually hidden title", () => {
+      render(
+        <FormSearchFull
+          councilSlug="test-council-1"
+          searchParams={defaultSearchParams}
+        />,
+      );
+
+      expect(
+        screen.getByRole("heading", { name: "Full application search" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Full application search" }),
+      ).toHaveClass("govuk-visually-hidden");
+    });
   });
 
   describe("Form structure", () => {
