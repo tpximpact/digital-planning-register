@@ -216,7 +216,7 @@ export const ApplicationCard = ({
             )}
             {application?.data?.appeal?.decision && (
               <>
-                {application?.data?.appeal?.decisionDate ? (
+                {application?.data?.appeal?.decisionDate && (
                   <ApplicationDataField
                     title="Appeal decision date"
                     value={
@@ -227,7 +227,7 @@ export const ApplicationCard = ({
                       </time>
                     }
                   />
-                ) : null}
+                )}
 
                 <ApplicationDataField
                   title="Appeal decision"
