@@ -50,12 +50,3 @@ export const BackLink = ({ link }: { link?: string }) => {
     </>
   );
 };
-
-/** @deprecated Use Button with element="link" instead */
-export const OldBackButton = ({ href }: { href: string }) => {
-  return (
-    <Link href={href} className="govuk-back-link">
-      Back
-    </Link>
-  );
-};
