@@ -18,7 +18,7 @@
 "use client";
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
-import { determineMapTypeProps } from "./utils";
+import { determineMapTypeProps } from "./ApplicationMap.utils";
 import { trackClient } from "@/lib/dprAnalytics";
 
 export interface ApplicationMapProps {
@@ -74,20 +74,27 @@ export const ApplicationMap = ({
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    import("@opensystemslab/map").then(() => {
+    let didCancel = false;
+
+    async function fetchData() {
+      await import("@opensystemslab/map");
+      if (didCancel) return;
+      setIsClient(true);
       const myMapElement = document.querySelector("my-map");
       if (myMapElement) {
         myMapElement.addEventListener("wheel", handleScroll);
-
-        // myMapElement.addEventListener("ready", (event) => {
-        //   console.log("ready");
-        // });
-        return () => {
-          myMapElement.removeEventListener("wheel", handleScroll);
-        };
       }
-    });
+    }
+
+    fetchData();
+
+    return () => {
+      didCancel = true;
+      const myMapElement = document.querySelector("my-map");
+      if (myMapElement) {
+        myMapElement.removeEventListener("wheel", handleScroll);
+      }
+    };
   }, []);
 
   const { staticMode, classModifier, mapTypeProps } =
@@ -119,26 +126,29 @@ export const ApplicationMap = ({
   }
 
   const geojsonData = JSON.stringify(mapData);
-
-  if (isClient && geojsonData) {
-    return (
-      <div
-        role="region"
-        aria-label={`Map showing application ${reference}`}
-        id={`${reference}-map-test`}
-        className={`dpr-application-map dpr-application-map--${classModifier}`}
-      >
-        <my-map
-          role="application"
-          geojsonData={geojsonData}
-          geojsonColor={"#ff0000"}
-          aria-label={description ?? "An interactive map"}
-          osCopyright={
-            "© Crown copyright and database rights 2024 OS (0)100024857"
-          }
-          {...mapProps}
-        />
-      </div>
-    );
+  if (!geojsonData || geojsonData === "{}") {
+    return null;
   }
+
+  if (!isClient) return null;
+
+  return (
+    <div
+      role="region"
+      aria-label={`Map showing application ${reference}`}
+      id={`${reference}-map-test`}
+      className={`dpr-application-map dpr-application-map--${classModifier}`}
+    >
+      <my-map
+        role="application"
+        geojsonData={geojsonData}
+        geojsonColor={"#ff0000"}
+        aria-label={description ?? "An interactive map"}
+        osCopyright={
+          "© Crown copyright and database rights 2024 OS (0)100024857"
+        }
+        {...mapProps}
+      />
+    </div>
+  );
 };
