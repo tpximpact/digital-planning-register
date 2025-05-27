@@ -16,12 +16,17 @@
  */
 
 import "@testing-library/jest-dom";
-import { ApplicationPeople } from "@/components/ApplicationPeople";
+import {
+  ApplicationPeople,
+  ApplicationPeopleApplicant,
+  ApplicationPeopleCaseOfficer,
+} from "@/components/ApplicationPeople";
 import { screen, render } from "@testing-library/react";
 import {
   generateAgent,
   generateCaseOfficer,
 } from "@mocks/dprNewApplicationFactory";
+import { DprApplication } from "@/types";
 
 describe("Render ApplicationPeople", () => {
   const applicant = generateAgent;
@@ -113,7 +118,8 @@ describe("Render ApplicationPeople", () => {
   it("shouldn't show applicant column if the fields we need are empty", async () => {
     // Remove type, name, and address
     const { type, name, address, ...restApplicant } = applicant;
-    const updatedApplicant = restApplicant;
+    const updatedApplicant =
+      restApplicant as DprApplication["submission"]["data"]["applicant"];
     render(<ApplicationPeople applicant={updatedApplicant} />);
 
     // it should be showing
@@ -159,5 +165,28 @@ describe("Render ApplicationPeople", () => {
     expect(
       screen.queryByRole("heading", { name: "Case Officer" }),
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("ApplicationPeopleCaseOfficer", () => {
+  it("should return null if case officer name is empty", () => {
+    const caseOfficer = { name: "" };
+    const { container } = render(
+      <ApplicationPeopleCaseOfficer caseOfficer={caseOfficer} />,
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("ApplicationPeopleApplicant", () => {
+  it("should show Same as site address if sameAsSiteAddress is true ", () => {
+    const applicant: DprApplication["submission"]["data"]["applicant"] = {
+      ...generateAgent,
+      address: { ...generateAgent.address, sameAsSiteAddress: true },
+    };
+    const { container } = render(
+      <ApplicationPeopleApplicant applicant={applicant} />,
+    );
+    expect(container).toHaveTextContent("Same as site address");
   });
 });
