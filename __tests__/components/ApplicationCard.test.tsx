@@ -20,14 +20,11 @@ import { render, screen, act } from "@testing-library/react";
 import { ApplicationCard } from "../../src/components/ApplicationCard";
 import "@testing-library/jest-dom";
 import { ApplicationDataFieldProps } from "@/components/ApplicationDataField";
-import { DprApplication } from "@/types";
+import { DprApplication, DprContentPage } from "@/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { slugify } from "@/util";
 import { formatDateTimeToDprDate, formatDateToDprDate } from "@/util";
-import {
-  getDescription,
-  getPropertyAddress,
-} from "@/lib/planningApplication/application";
+import { getDescription } from "@/lib/planningApplication/application";
 
 jest.mock("@/components/InfoIcon", () => ({
   InfoIcon: () => <div data-testid="info-icon">Info Icon</div>,
@@ -62,6 +59,21 @@ jest.mock("@/lib/planningApplication/application", () => {
     __esModule: true,
     ...originalModule,
     getPropertyAddress: jest.fn(() => "123 Test Street"),
+  };
+});
+
+// Mock contentDecisions and findItemByKey to control the returned title
+jest.mock("@/lib/planningApplication", () => {
+  const original = jest.requireActual("@/lib/planningApplication");
+  return {
+    ...original,
+    contentDecisions: jest.fn(() => [
+      { key: "allowed", title: "Allowed" },
+      { key: "dismissed", title: "Dismissed" },
+    ]),
+    findItemByKey: jest.fn((arr, key) =>
+      arr.find((item: DprContentPage) => item.key === key),
+    ),
   };
 });
 
@@ -189,14 +201,12 @@ describe("Render ApplicationCard", () => {
   });
 
   it("should not error when data isn't available", async () => {
-    await act(async () => {
-      render(
-        <ApplicationCard
-          councilSlug="public-council-1"
-          application={{} as DprApplication}
-        />,
-      );
-    });
+    render(
+      <ApplicationCard
+        councilSlug="public-council-1"
+        application={{} as DprApplication}
+      />,
+    );
 
     // Ensure application-specific data is NOT present
     expect(
@@ -206,5 +216,36 @@ describe("Render ApplicationCard", () => {
     expect(screen.queryByText(/Status/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Received date/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Council decision/i)).not.toBeInTheDocument();
+  });
+
+  it("does not render appeal decision date if appeal.decision is set but appeal.decisionDate is not", async () => {
+    const applicationWithAppealNoDecisionDate = {
+      ...planningOfficerDetermined,
+      data: {
+        ...planningOfficerDetermined.data,
+        appeal: {
+          ...planningOfficerDetermined.data?.appeal,
+          decision: "allowed", // matches contentDecisions key
+          decisionDate: undefined, // no decision date
+        },
+      },
+    };
+
+    render(
+      <ApplicationCard
+        councilSlug="public-council-1"
+        application={applicationWithAppealNoDecisionDate as DprApplication}
+      />,
+    );
+
+    const appealDecisionEl = screen.getByTestId(
+      "application-data-field-appeal-decision",
+    );
+    expect(appealDecisionEl).toHaveTextContent("Appeal decision - Allowed");
+
+    const appealDecisionDateEl = screen.queryByTestId(
+      "application-data-field-appeal-decision-date",
+    );
+    expect(appealDecisionDateEl).not.toBeInTheDocument();
   });
 });

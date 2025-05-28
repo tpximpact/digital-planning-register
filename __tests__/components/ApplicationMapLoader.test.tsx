@@ -15,10 +15,11 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import {
   ApplicationMapLoader,
+  ApplicationMapLoaderDelay,
   ApplicationMapLoading,
   ApplicationMapProps,
   ApplicationMapUnavailable,
@@ -35,7 +36,7 @@ jest.mock("@/components/ApplicationMap/ApplicationMap", () => ({
   ApplicationMap: jest.fn(),
 }));
 
-const MockApplicationMap = (props: ApplicationMapProps) => (
+const MockApplicationMap = () => (
   <div data-testid="mock-application-map">Mock ApplicationMap</div>
 );
 
@@ -78,5 +79,29 @@ describe("ApplicationMapLoader", () => {
     render(<ApplicationMapUnavailable {...defaultProps} />);
     const loadingElement = screen.getByText("Map view unavailable");
     expect(loadingElement).toBeInTheDocument();
+  });
+});
+
+describe("ApplicationMapLoaderDelay", () => {
+  it("shows loading state for at least 2 seconds in ApplicationMapLoaderDelay", async () => {
+    (ApplicationMap as jest.Mock).mockImplementation(MockApplicationMap);
+
+    jest.useFakeTimers();
+    render(<ApplicationMapLoaderDelay {...defaultProps} />);
+    expect(screen.getByText(/loading map view/i)).toBeInTheDocument();
+
+    // Fast-forward 1 second, should still show loading
+    jest.advanceTimersByTime(1000);
+    expect(screen.getByText(/loading map view/i)).toBeInTheDocument();
+
+    // Fast-forward another 1 second (total 2s)
+    jest.advanceTimersByTime(1000);
+
+    // Wait for lazy loaded map to appear
+    await waitFor(() => {
+      expect(screen.getByTestId("mock-application-map")).toBeInTheDocument();
+    });
+
+    jest.useRealTimers();
   });
 });

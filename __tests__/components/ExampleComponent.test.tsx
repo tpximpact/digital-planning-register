@@ -15,38 +15,14 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+import { ExampleComponent } from "@/components/ExampleComponent";
 
-export const BackLink = ({ link }: { link?: string }) => {
-  const router = useRouter();
-  const [isJsEnabled, setIsJsEnabled] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.className = "js-enabled";
-    setIsJsEnabled(true);
-  }, []);
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (!link) {
-      e.preventDefault();
-      router.back();
-    }
-  };
-
-  return (
-    <>
-      {isJsEnabled && (
-        <Link
-          href={link || "#"}
-          onClick={handleClick}
-          className="govuk-back-link"
-        >
-          Back
-        </Link>
-      )}
-    </>
-  );
-};
+describe("ExampleComponent", () => {
+  it("renders the component", () => {
+    render(<ExampleComponent councilName="Test Council" />);
+    const element = screen.getByText("hello Test Council");
+    expect(element).toBeInTheDocument();
+  });
+});

@@ -18,7 +18,7 @@
 import { Suspense, lazy } from "react";
 import { ApplicationMapProps } from "./ApplicationMap";
 import "./ApplicationMap.scss";
-import { determineMapTypeProps } from "./utils";
+import { determineMapTypeProps } from "./ApplicationMap.utils";
 
 const ApplicationMap = lazy(async () => ({
   default: (await import("@/components/ApplicationMap/ApplicationMap"))

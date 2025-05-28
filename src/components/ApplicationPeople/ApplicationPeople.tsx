@@ -69,7 +69,7 @@ export const ApplicationPeople = ({
  * @param caseOfficer
  * @returns
  */
-export const getCasedOfficerFields = (
+export const getCaseOfficerFields = (
   caseOfficer: DprApplication["data"]["caseOfficer"],
 ) => {
   const caseOfficerName = caseOfficer.name;
@@ -86,10 +86,10 @@ export const ApplicationPeopleCaseOfficer = ({
 }: {
   caseOfficer: DprApplication["data"]["caseOfficer"];
 }) => {
-  const { caseOfficerName } = getCasedOfficerFields(caseOfficer);
+  const { caseOfficerName } = getCaseOfficerFields(caseOfficer);
 
   if (!caseOfficerName) {
-    return <></>;
+    return null;
   }
   return (
     <div className="dpr-application-people__grid-item">
@@ -147,7 +147,7 @@ export const ApplicationPeopleAgent = ({
   const { agentName, agentAddress } = getAgentFields(agent);
 
   if (!agentName && !agentAddress) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -226,7 +226,7 @@ export const ApplicationPeopleApplicant = ({
     getApplicantFields(applicant);
 
   if (!applicantName || !applicantType || !applicantAddress) {
-    return <></>;
+    return null;
   }
 
   return (
