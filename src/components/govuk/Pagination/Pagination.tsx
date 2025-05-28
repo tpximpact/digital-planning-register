@@ -17,14 +17,24 @@
 
 import React from "react";
 import "./Pagination.scss";
-import { DprPagination, SearchParams } from "@/types";
+import {
+  DprPagination,
+  SearchParams,
+  SearchParamsApplication,
+  SearchParamsComments,
+  SearchParamsDocuments,
+} from "@/types";
 import { ArrowLink } from "./ArrowLink";
 import { PageItem } from "./PageItem";
 import { generatePaginationItems } from "./utils";
 
 interface PaginationProps {
   baseUrl: string;
-  searchParams?: SearchParams;
+  searchParams?:
+    | SearchParams
+    | SearchParamsApplication
+    | SearchParamsComments
+    | SearchParamsDocuments;
   pagination?: DprPagination;
   prev?: PaginationPropsLink;
   next?: PaginationPropsLink;

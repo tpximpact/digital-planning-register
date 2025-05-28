@@ -172,7 +172,7 @@ const testSearchPage = async (
   await page
     .getByLabel("Search by application reference, address or description")
     .fill(`noresultsplease`);
-  await page.getByRole("button", { name: "Search" }).click();
+  await page.getByRole("button", { name: "Search", exact: true }).click();
   await expect(applications).toHaveCount(0);
   expect(
     page.getByRole("heading", { name: "No applications match your search" }),
@@ -185,7 +185,7 @@ const testSearchPage = async (
   await page
     .getByLabel("Search by application reference, address or description")
     .fill(`24-00135-HAPP`);
-  await page.getByRole("button", { name: "Search" }).click();
+  await page.getByRole("button", { name: "Search", exact: true }).click();
   const firstResult = applications.first();
   await expect(firstResult).toHaveCount(1);
   await page.screenshot({
@@ -381,6 +381,7 @@ test.describe("/cookie-policy", () => {
 
     test.fixme(
       "disable functionality if cookies disabled?",
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async ({ page }) => {},
     );
   });
@@ -397,6 +398,7 @@ test.describe("/cookie-policy", () => {
       await testCookiePolicy(page);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     test.fixme("test cookie functionality", async ({ page }) => {});
   });
 });

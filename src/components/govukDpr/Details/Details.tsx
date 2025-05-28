@@ -21,16 +21,22 @@ export interface DetailsProps {
   summaryText: JSX.Element | string;
   text: JSX.Element | string;
   isInverted?: boolean;
+  open?: boolean;
+  name?: string;
 }
 
 export const Details = ({
   summaryText,
   text,
   isInverted = false,
+  open = false,
+  name,
 }: DetailsProps) => {
   return (
     <details
       className={`govuk-details ${isInverted ? "govuk-details--inverted" : ""}`}
+      {...(open ? { open } : {})}
+      {...(name ? { name } : {})}
     >
       <summary className="govuk-details__summary">
         <span className="govuk-details__summary-text">{summaryText}</span>

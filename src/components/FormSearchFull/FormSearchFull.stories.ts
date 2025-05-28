@@ -16,11 +16,18 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "./Details";
+import { FormSearchFull } from "./FormSearchFull";
+import {
+  validApplicationStatusSummaries,
+  validApplicationTypes,
+  validDprDecisionSummaries,
+} from "@/lib/planningApplication";
+
+const flatApplicationTypes = Object.values(validApplicationTypes).flat();
 
 const meta = {
-  title: "GOV UK DPR Components/Details",
-  component: Details,
+  title: "Forms/Search form (full)",
+  component: FormSearchFull,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -28,27 +35,39 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    summaryText: "Help with commenting",
-    text: (
-      <>
-        Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a
-        ante venenatis dapibus posuere velit aliquet.
-      </>
-    ),
+    councilSlug: "test-council-1",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+    },
   },
-} satisfies Meta<typeof Details>;
+} satisfies Meta<typeof FormSearchFull>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Open: Story = {
+export const InForm: Story = {
   args: {
-    open: true,
+    action: "search",
   },
 };
-export const White: Story = {
+export const WithSearchParams: Story = {
   args: {
-    isInverted: true,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "full",
+      reference: "12345",
+      description: "Test description",
+      applicationType: flatApplicationTypes.splice(0, 10).join(","),
+      applicationStatus: validApplicationStatusSummaries.splice(0, 3).join(","),
+      councilDecision: validDprDecisionSummaries.splice(0, 3).join(","),
+      dateType: "publishedAt",
+      dateRange: "fixed",
+      dateRangeFrom: "2023-01-01",
+      dateRangeTo: "2023-01-31",
+    },
   },
 };

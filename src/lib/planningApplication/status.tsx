@@ -42,6 +42,37 @@ dayjs.extend(isSameOrAfter);
 dayjs.utc().isUTC();
 
 /**
+ * The valid application types
+ */
+export const validApplicationStatusSummaries: DprStatusSummary[] = [
+  "Application submitted",
+  "Application returned",
+  "Consultation in progress",
+  "Assessment in progress",
+  "Determined",
+  "Withdrawn",
+  "Appeal lodged",
+  "Appeal validated",
+  "Appeal in progress",
+  "Appeal decided",
+  "Unknown",
+];
+
+/**
+ * The valid application types that are public and therefor on DPR
+ */
+export const validPublicApplicationStatusSummaries: DprStatusSummary[] = [
+  "Consultation in progress",
+  "Assessment in progress",
+  "Determined",
+  "Withdrawn",
+  "Appeal lodged",
+  "Appeal validated",
+  "Appeal in progress",
+  "Appeal decided",
+];
+
+/**
  *
  * @deprecated Use getApplicationDprStatusSummary in future when using PostSubmission schema
  * Determines the formatted status based on the provided status and consultation start/end date.

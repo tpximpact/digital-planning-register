@@ -1,0 +1,156 @@
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "src/styles/component-base";
+
+$selector: "dpr-details-checkbox-accordion";
+
+.#{$selector} {
+  $govuk-accordion-base-colour: govuk-colour("black");
+  $govuk-accordion-hover-colour: govuk-colour("light-grey");
+  $govuk-accordion-icon-focus-colour: $govuk-focus-colour;
+  $govuk-accordion-bottom-border-width: 1px;
+
+  &__content {
+    padding-bottom: govuk-spacing(5);
+    @include govuk-media-query($from: tablet) {
+      padding-bottom: govuk-spacing(7);
+    }
+  }
+
+  // sort out the header
+
+  summary {
+    border-top: $govuk-accordion-bottom-border-width solid $govuk-border-colour;
+    padding-top: govuk-spacing(3);
+    padding-bottom: govuk-spacing(5);
+
+    @include govuk-media-query($from: tablet) {
+      padding-bottom: govuk-spacing(7);
+    }
+
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      cursor: pointer;
+      color: $govuk-accordion-base-colour;
+      background: $govuk-accordion-hover-colour;
+      // The focus state adds a box-shadow to the top and bottom of the
+      // button. We add a grey box-shadow on hover too, to make the height of
+      // the hover state match the height of the focus state.
+      box-shadow:
+        0 -2px $govuk-accordion-hover-colour,
+        0 4px $govuk-accordion-hover-colour;
+
+      .#{$selector}__chevron {
+        &::after {
+          color: $govuk-accordion-base-colour;
+        }
+        span {
+          color: $govuk-accordion-hover-colour;
+          background: $govuk-accordion-base-colour;
+        }
+      }
+    }
+
+    &:focus-within {
+      > p > span {
+        @include govuk-focused-text;
+      }
+      .#{$selector}__chevron,
+      &::after {
+        @include govuk-focused-text;
+      }
+      .#{$selector}__chevron {
+        &::after {
+          color: $govuk-accordion-base-colour;
+        }
+        span {
+          color: $govuk-accordion-icon-focus-colour;
+          background: $govuk-accordion-base-colour;
+        }
+      }
+    }
+  }
+
+  // hide the marker
+  summary {
+    &::marker {
+      content: "";
+    }
+  }
+
+  // fake the show/hide text and chevron
+  &[open] {
+    .#{$selector}__chevron {
+      &::after {
+        content: "Hide";
+      }
+      span {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__chevron {
+    display: inline-block;
+    @include govuk-font-size($size: 19);
+    &::after {
+      content: "Show";
+      @include govuk-font-size($size: 19);
+      @include govuk-typography-weight-regular;
+      color: $govuk-link-colour;
+    }
+    span {
+      color: $govuk-link-colour;
+      margin: 0 govuk-spacing(1) 0 0;
+      box-sizing: border-box;
+      display: inline-block;
+
+      position: relative;
+
+      // Set size using rems so icon scales with text
+      width: govuk-px-to-rem(20px);
+      height: govuk-px-to-rem(20px);
+
+      border: govuk-px-to-rem(1px) solid;
+      border-radius: 50%;
+
+      vertical-align: middle;
+
+      // Create inner chevron arrow
+      &::after {
+        content: "";
+        box-sizing: border-box;
+        display: block;
+
+        position: absolute;
+        top: govuk-px-to-rem(5px);
+        left: govuk-px-to-rem(6px);
+
+        width: govuk-px-to-rem(6px);
+        height: govuk-px-to-rem(6px);
+
+        transform: rotate(135deg);
+
+        border-top: govuk-px-to-rem(2px) solid;
+        border-right: govuk-px-to-rem(2px) solid;
+      }
+    }
+  }
+}

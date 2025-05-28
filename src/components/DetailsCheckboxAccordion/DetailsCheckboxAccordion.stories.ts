@@ -16,11 +16,13 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "./Details";
+import { DetailsCheckboxAccordion } from "./DetailsCheckboxAccordion";
+import { validApplicationTypes } from "@/lib/planningApplication";
 
+const flatApplicationTypes = Object.values(validApplicationTypes).flat();
 const meta = {
-  title: "GOV UK DPR Components/Details",
-  component: Details,
+  title: "Forms/DetailsCheckboxAccordion",
+  component: DetailsCheckboxAccordion,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -28,27 +30,18 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    summaryText: "Help with commenting",
-    text: (
-      <>
-        Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a
-        ante venenatis dapibus posuere velit aliquet.
-      </>
-    ),
+    title: "public-council-1",
+    name: "applicationType",
+    options: flatApplicationTypes,
   },
-} satisfies Meta<typeof Details>;
+} satisfies Meta<typeof DetailsCheckboxAccordion>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Open: Story = {
+export const Checked: Story = {
   args: {
-    open: true,
-  },
-};
-export const White: Story = {
-  args: {
-    isInverted: true,
+    checkedOptions: flatApplicationTypes.slice(10, 15),
   },
 };

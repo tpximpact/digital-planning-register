@@ -15,40 +15,47 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "./Details";
+import { Meta, StoryObj } from "@storybook/react";
+import { FormApplicationsSort } from "./FormApplicationsSort";
 
-const meta = {
-  title: "GOV UK DPR Components/Details",
-  component: Details,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+const meta: Meta<typeof FormApplicationsSort> = {
+  title: "Forms/Applications Sort",
+  component: FormApplicationsSort,
   tags: ["autodocs"],
-  parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: "fullscreen",
-  },
   args: {
-    summaryText: "Help with commenting",
-    text: (
-      <>
-        Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a
-        ante venenatis dapibus posuere velit aliquet.
-      </>
-    ),
-  },
-} satisfies Meta<typeof Details>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {};
-export const Open: Story = {
-  args: {
-    open: true,
+    searchParams: {
+      type: "simple",
+      resultsPerPage: 10,
+      page: 1,
+    },
   },
 };
-export const White: Story = {
+
+export default meta;
+
+type Story = StoryObj<typeof FormApplicationsSort>;
+
+export const Default: Story = {};
+
+export const OldestFirst: Story = {
   args: {
-    isInverted: true,
+    searchParams: {
+      type: "simple",
+      sortBy: "receivedAt",
+      orderBy: "asc",
+      resultsPerPage: 10,
+      page: 1,
+    },
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    action: "/comments",
+    searchParams: {
+      type: "simple",
+      resultsPerPage: 10,
+      page: 1,
+    },
   },
 };

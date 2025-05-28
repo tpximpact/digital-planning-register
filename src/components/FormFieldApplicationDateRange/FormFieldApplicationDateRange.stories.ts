@@ -16,11 +16,11 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Details } from "./Details";
+import { FormFieldApplicationDateRange } from "./FormFieldApplicationDateRange";
 
 const meta = {
-  title: "GOV UK DPR Components/Details",
-  component: Details,
+  title: "Forms/FormFieldApplicationDateRange",
+  component: FormFieldApplicationDateRange,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -28,27 +28,39 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    summaryText: "Help with commenting",
-    text: (
-      <>
-        Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a
-        ante venenatis dapibus posuere velit aliquet.
-      </>
-    ),
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+    },
   },
-} satisfies Meta<typeof Details>;
+} satisfies Meta<typeof FormFieldApplicationDateRange>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Open: Story = {
+export const WithData: Story = {
   args: {
-    open: true,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+      dateType: "publishedAt",
+      dateRange: "month",
+    },
   },
 };
-export const White: Story = {
+export const Fixed: Story = {
   args: {
-    isInverted: true,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "simple",
+      dateType: "publishedAt",
+      dateRange: "fixed",
+      dateRangeFrom: "2023-01-01",
+      dateRangeTo: "2023-01-31",
+    },
   },
 };

@@ -107,10 +107,19 @@ export const documentSearchFields = handleFeatureFlags(
  * Application Search Fields
  */
 export const APPLICATION_SEARCH_FIELDS = [
-  "applicationId",
-  "status",
-  "submittedDate",
-  "applicantName",
+  "advancedSearch",
+  "sortBy",
+  "quickFilters",
+  "query",
+  "reference",
+  "description",
+  "applicationType",
+  "applicationStatus",
+  "councilDecision",
+  "dateType",
+  "dateRange",
+  "dateRangeFrom",
+  "dateRangeTo",
 ] as const;
 
 export const applicationSearchFields = handleFeatureFlags(

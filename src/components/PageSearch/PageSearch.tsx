@@ -15,117 +15,167 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication, DprPagination, SearchParams } from "@/types";
-import { BackButton } from "../BackButton";
-import { FormSearch } from "../FormSearch";
-import { ContentNoResult } from "../ContentNoResult";
+import {
+  ApiResponse,
+  DprSearchApiResponse,
+  SearchParamsApplication,
+} from "@/types";
+import { FormSearch } from "@/components/FormSearch";
+import { ContentNoResult } from "@/components/ContentNoResult";
 import { AppConfig } from "@/config/types";
-import { ApplicationCard } from "../ApplicationCard";
+import { ApplicationCard } from "@/components/ApplicationCard";
 import { Pagination } from "@/components/govuk/Pagination";
 import "./PageSearch.scss";
-import { EmailSignUpButton } from "../EmailSignUpButton";
-import { PageMain } from "../PageMain";
+import { EmailSignUpButton } from "@/components/EmailSignUpButton";
+import { PageMain } from "@/components/PageMain";
 import { createPathFromParams } from "@/lib/navigation";
+import { checkSearchPerformed } from "@/lib/planningApplication/search";
+import { pascalToSentenceCase } from "@/util";
+import { NotificationBanner } from "@/components/govuk/NotificationBanner";
+import { FormSearchFull } from "@/components/FormSearchFull";
+import { FormApplicationsSort } from "@/components/FormApplicationsSort";
+import React, { Suspense } from "react";
+import { applicationSearchFields } from "@/util/featureFlag";
 
 export interface PageSearchProps {
-  appConfig: AppConfig;
-  applications: DprApplication[] | null;
-  pagination: DprPagination | undefined;
-  params?: {
+  params: {
     council: string;
-    reference?: string;
   };
-  searchParams?: SearchParams;
+  appConfig: AppConfig;
+  searchParams: SearchParamsApplication;
+  response: ApiResponse<DprSearchApiResponse | null>;
 }
 
 export const PageSearch = ({
-  appConfig,
-  applications,
-  pagination,
   params,
+  appConfig,
   searchParams,
+  response,
 }: PageSearchProps) => {
-  if (!appConfig || !appConfig.council) {
-    return null;
-  }
-  const hasSearchQuery = searchParams?.query ? true : false;
-  const title = hasSearchQuery
+  const { council } = params;
+  const type = searchParams.type;
+  const searchPerformed = checkSearchPerformed(searchParams);
+
+  // heading
+  const pageTitleHeadingLevel =
+    type === "simple" && !searchPerformed ? "h2" : "h1";
+  let pageTitle = searchPerformed
     ? "Search results"
     : "Recently published applications";
+  if (searchParams?.dprFilter) {
+    pageTitle = `Applications ${pascalToSentenceCase(searchParams.dprFilter)}`;
+  }
 
-  const council = appConfig.council;
-  const baseUrl = `/${council.slug}`;
+  // misc
+  const emailAlertsLink =
+    appConfig.council?.pageContent?.email_alerts?.sign_up_for_alerts_link;
 
   return (
-    <>
-      {!applications && <BackButton baseUrl={baseUrl} />}
-      <PageMain>
-        {!hasSearchQuery && (
-          <div className="govuk-grid-row intro-text">
-            <div className="govuk-grid-column-two-thirds">
-              <h1 className="govuk-heading-xl">
-                Welcome to the Digital Planning Register
-              </h1>
-              <p className="govuk-body">
-                You can find planning applications submitted through the Open
-                Digital Planning system for your local council planning
-                authority.
-              </p>
-              <p className="govuk-body">
-                Not all planning applications will be available through this
-                register. You may need to check individual council&apos;s
-                websites to see what records are kept here.
-              </p>
-            </div>
-            {appConfig.council?.pageContent?.email_alerts
-              ?.sign_up_for_alerts_link && (
-              <div className="govuk-grid-column-one-third">
-                <div className="email-signup-button-container">
-                  <EmailSignUpButton
-                    href={
-                      appConfig.council?.pageContent?.email_alerts
-                        ?.sign_up_for_alerts_link
-                    }
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        <FormSearch
-          action={`/${appConfig.council.slug}`}
-          searchParams={searchParams}
+    <PageMain>
+      {type === "simple" && !searchPerformed && (
+        <SimpleNoSearchHeader emailAlertsLink={emailAlertsLink} />
+      )}
+      {type === "full" && searchPerformed && (
+        <NotificationBanner
+          title={<>Your results</>}
+          heading={
+            <>
+              <a
+                className="govuk-notification-banner__link"
+                href="#search-results"
+              >
+                Scroll down to your search results
+              </a>
+            </>
+          }
         />
-        {applications && applications?.length > 0 ? (
-          <>
-            {hasSearchQuery ? (
-              <h1 className="govuk-heading-l">{title}</h1>
-            ) : (
-              <h2 className="govuk-heading-l">{title}</h2>
-            )}
+      )}
 
-            {applications.map((application) => (
+      <form
+        action={createPathFromParams(params, "search-form")}
+        method="get"
+        className="govuk-form"
+        aria-label="Search applications"
+      >
+        <input type="hidden" name="council" value={council} />
+
+        {type === "simple" && (
+          <FormSearch params={params} searchParams={searchParams} />
+        )}
+        {type === "full" && (
+          <FormSearchFull councilSlug={council} searchParams={searchParams} />
+        )}
+        {React.createElement(
+          pageTitleHeadingLevel,
+          { className: "govuk-heading-l", id: "search-results" },
+          pageTitle,
+        )}
+
+        {applicationSearchFields.includes("sortBy") && (
+          <FormApplicationsSort searchParams={searchParams} />
+        )}
+      </form>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        {response.data !== null ? (
+          <>
+            {response.data.map((application) => (
               <ApplicationCard
                 key={application?.data?.application?.reference}
-                councilSlug={appConfig.council!.slug}
+                councilSlug={council}
                 application={application}
               />
             ))}
-            {pagination && pagination.totalPages > 1 && (
+            {response.pagination && response.pagination.totalPages > 1 && (
               <Pagination
                 baseUrl={createPathFromParams(params)}
                 searchParams={searchParams}
-                pagination={pagination}
+                pagination={response.pagination}
               />
             )}
           </>
         ) : (
-          <>
-            <h1 className="govuk-visually-hidden">Search results</h1>
-            <ContentNoResult councilConfig={appConfig.council} />
-          </>
+          <ContentNoResult councilConfig={appConfig.council} />
         )}
-      </PageMain>
-    </>
+      </Suspense>
+    </PageMain>
+  );
+};
+
+/**
+ * This header is used for the simple search page and is only displayed when a search hasn't been done
+ * @param param0
+ * @returns
+ */
+const SimpleNoSearchHeader = ({
+  emailAlertsLink,
+}: {
+  emailAlertsLink?: string;
+}) => {
+  return (
+    <div className="govuk-grid-row grid-row-extra-bottom-margin">
+      <div className="govuk-grid-column-two-thirds">
+        <h1 className="govuk-heading-xl">
+          Welcome to the Digital Planning Register
+        </h1>
+        <p className="govuk-body">
+          You can find planning applications submitted through the Open Digital
+          Planning system for your local council planning authority.
+        </p>
+        <p className="govuk-body">
+          Not all planning applications will be available through this register.
+          You may need to check individual council&apos;s websites to see what
+          records are kept here.
+        </p>
+      </div>
+
+      {emailAlertsLink && (
+        <div className="govuk-grid-column-one-third">
+          <div className="email-signup-button-container">
+            <EmailSignUpButton href={emailAlertsLink} />
+          </div>
+        </div>
+      )}
+    </div>
   );
 };

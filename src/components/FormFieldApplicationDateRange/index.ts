@@ -15,19 +15,4 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "src/styles/component-base";
-
-.dpr-form-search {
-  &__actions {
-    // this mimics the govuk-label element on the other side of the grid so that the buttons stay aligned regardless of screen size
-    &::before {
-      @include govuk-font($size: 19);
-      content: "Search by application reference, address or description";
-      visibility: hidden;
-      display: block;
-    }
-  }
-  .govuk-button-group {
-    margin-top: govuk-spacing(1);
-  }
-}
+export * from "./FormFieldApplicationDateRange";
