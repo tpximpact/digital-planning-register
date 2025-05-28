@@ -80,7 +80,7 @@ export const FormCommentsSort = ({
   const renderFormContent = () => (
     <>
       <div className="dpr-form-comments-sort">
-        <div className="dpr-form-comments-search__row">
+        <div className="dpr-form-comments-sort__row">
           <div className="dpr-form-comments-sort__column-one-third">
             <div className="govuk-form-group">
               <label htmlFor="commentSortByorderBy" className="govuk-label">

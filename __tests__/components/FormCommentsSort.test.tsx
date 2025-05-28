@@ -115,4 +115,24 @@ describe("FormCommentsSort", () => {
     expect(sortByInput).toHaveAttribute("name", "sortBy");
     expect(orderByInput).toHaveAttribute("name", "orderBy");
   });
+
+  it("falls back to default sortBy and orderBy when invalid option is selected", () => {
+    render(<FormCommentsSort {...defaultProps} />);
+
+    const select = screen.getByLabelText(/sort by/i) as HTMLSelectElement;
+
+    // Simulate selecting an invalid value
+    fireEvent.change(select, { target: { value: "invalid_invalid" } });
+
+    // The hidden inputs should now have the default values
+    const sortByInput = screen.getByDisplayValue(
+      COMMENT_SORTBY_DEFAULT,
+    ) as HTMLInputElement;
+    const orderByInput = screen.getByDisplayValue(
+      COMMENT_ORDERBY_DEFAULT,
+    ) as HTMLInputElement;
+
+    expect(sortByInput).toHaveAttribute("name", "sortBy");
+    expect(orderByInput).toHaveAttribute("name", "orderBy");
+  });
 });
