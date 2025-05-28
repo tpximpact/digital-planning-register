@@ -1,5 +1,12 @@
 coverage:
   status:
+    # sets project coverage target to 80% for CI builds but failure doesn't block the build
+    project:
+      default:
+        target: 80
+        flags:
+          - unit
+        if_ci_failed: success
     # pull requests should aim for 100% coverage give or take 10%
     patch:
       default:
