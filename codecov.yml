@@ -1,0 +1,7 @@
+coverage:
+  status:
+    # pull requests should aim for 100% coverage give or take 10%
+    patch:
+      default:
+        target: auto
+        threshold: 10%
