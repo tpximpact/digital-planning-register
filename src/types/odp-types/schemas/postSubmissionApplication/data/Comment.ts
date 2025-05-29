@@ -2,12 +2,15 @@
  *
  */
 
-import {PlanningConstraint} from '../../../shared/Constraints';
-import {DateTime} from '../../../shared/utils';
-import {CommentSentiment} from '../enums/CommentSentiment';
-import {CommentTopic} from '../enums/CommentTopic';
-import {PublicCommentSummary, SpecialistCommentSummary} from './CommentSummary';
-import {PostSubmissionFile} from './File';
+import { PlanningConstraint } from "../../../shared/Constraints";
+import { DateTime } from "../../../shared/utils";
+import { CommentSentiment } from "../enums/CommentSentiment";
+import { CommentTopic } from "../enums/CommentTopic";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "./CommentSummary";
+import { PostSubmissionFile } from "./File";
 
 /**
  * @id #PublicComments
@@ -19,6 +22,7 @@ export type PublicComments = {
 };
 
 export interface PublicComment {
+  id: number;
   sentiment: CommentSentiment;
   comment: TopicAndComments[] | string;
   author: CommentAuthor;
@@ -82,6 +86,7 @@ export interface SpecialistCommentAuthor extends CommentAuthor {
  * @todo is reason/constraint the same thing? is one or both required?
  */
 export interface SpecialistComment {
+  id: number;
   /**
    * @todo how do we get from CommentSentiment to SpecialistCommentSentiment?
    */

@@ -62,6 +62,12 @@ import {
   BaseApplicant,
 } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
 import { CaseOfficerBase } from "@/types/odp-types/schemas/postSubmissionApplication/data/CaseOfficer";
+import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
+import {
+  PublicComment,
+  TopicAndComments,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 
 type PossibleDates = {
   application: {
@@ -188,6 +194,47 @@ export const generateAllPossibleDates = (
   };
 
   return dates;
+};
+
+/**
+ * Generates a random PublicComment
+ *
+ * @param numberOfTopics - number of random topics to include
+ * @returns a randomly generated PublicComment
+ */
+export const generatePublicComment = (
+  numberOfTopics: number = 1,
+): PublicComment => {
+  const selectedOptions = faker.helpers.arrayElements(
+    COMMENT_PUBLIC_TOPIC_OPTIONS,
+    numberOfTopics,
+  );
+
+  const topicsAndComments: TopicAndComments[] = selectedOptions.map(
+    (option) => ({
+      topic: option.value,
+      question: option.hint,
+      comment: faker.lorem.paragraph({ min: 1, max: 5 }),
+    }),
+  );
+
+  const sentiment = faker.helpers.arrayElement<CommentSentiment>([
+    "objection",
+    "neutral",
+    "supportive",
+  ]);
+  const baseComment: PublicComment = {
+    id: faker.number.int({ min: 1, max: 1000 }),
+    sentiment,
+    comment: topicsAndComments,
+    author: { name: { singleLine: faker.person.fullName() } },
+    metadata: {
+      submittedAt: faker.date.past().toISOString(),
+      publishedAt: faker.date.past().toISOString(),
+      validAt: faker.date.past().toISOString(),
+    },
+  };
+  return baseComment;
 };
 
 export const generateProposedAddress: ProposedAddress = {

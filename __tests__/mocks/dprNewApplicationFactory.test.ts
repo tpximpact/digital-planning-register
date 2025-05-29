@@ -23,12 +23,16 @@ import {
   generateDprApplication,
   generateExampleApplications,
   generateAllPossibleDates,
+  generatePublicComment,
 } from "@mocks/dprNewApplicationFactory";
 import fs from "fs";
 import path from "path";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
 
@@ -1774,5 +1778,63 @@ describe("generateAllPossibleDates", () => {
         dates.assessment.planningOfficerDecisionAt,
       ),
     ).toBe(true);
+  });
+});
+
+describe("generatePublicComment", () => {
+  const sentimentValues: CommentSentiment[] = [
+    "objection",
+    "neutral",
+    "supportive",
+  ];
+
+  it("returns a PublicComment with exactly 1 topic by default", () => {
+    const comment = generatePublicComment();
+    expect(typeof comment.id).toBe("number");
+
+    expect(Array.isArray(comment.comment)).toBe(true);
+    if (!Array.isArray(comment.comment)) {
+      throw new Error("Expected comment.comment to be an array");
+    }
+
+    expect(comment.comment).toHaveLength(1);
+  });
+
+  it("respects the numberOfTopics parameter", () => {
+    const n = 5;
+    const comment = generatePublicComment(n);
+
+    expect(Array.isArray(comment.comment)).toBe(true);
+    if (!Array.isArray(comment.comment)) throw new Error("Expected array");
+    expect(comment.comment).toHaveLength(n);
+  });
+
+  it("assigns a valid sentiment", () => {
+    const comment = generatePublicComment(3);
+    expect(comment.sentiment).toBeDefined();
+    expect(sentimentValues).toContain(comment.sentiment as CommentSentiment);
+  });
+
+  it("uses only known topics", () => {
+    const allowedTopics = COMMENT_PUBLIC_TOPIC_OPTIONS.map((o) => o.value);
+    if (!Array.isArray(generatePublicComment(4).comment)) {
+      throw new Error("Expected array");
+    }
+    const comment = generatePublicComment(4);
+    const topics = comment.comment as TopicAndComments[];
+
+    topics.forEach((tc: TopicAndComments) => {
+      expect(allowedTopics).toContain(tc.topic);
+      expect(typeof tc.question).toBe("string");
+      expect(typeof tc.comment).toBe("string");
+      expect(tc.comment.length).toBeGreaterThan(0);
+    });
+  });
+
+  it("adds an author name", () => {
+    const comment = generatePublicComment();
+    expect(comment.author).toBeDefined();
+    expect(typeof comment.author.name.singleLine).toBe("string");
+    expect(comment.author.name.singleLine.length).toBeGreaterThan(0);
   });
 });
