@@ -18,6 +18,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { DetailsCheckboxAccordion } from "@/components/DetailsCheckboxAccordion";
+import { InfoIcon } from "@/components/InfoIcon";
 
 // Helper for a simple string option type
 const OPTIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
@@ -111,5 +112,28 @@ describe("DetailsCheckboxAccordion", () => {
       />,
     );
     expect(container.firstChild).toBeNull();
+  });
+  it("shows the content prop if provided", () => {
+    const content = (
+      <InfoIcon
+        href={`/council/help/application-statuses`}
+        title="Get help understanding what application statuses mean"
+        ariaLabel="Get help understanding what application statuses mean"
+      />
+    );
+    render(
+      <DetailsCheckboxAccordion
+        title="With Content"
+        name="with-content"
+        options={OPTIONS}
+        checkedOptions={[]}
+        content={content}
+      />,
+    );
+    expect(
+      screen.queryByTitle(
+        "Get help understanding what application statuses mean",
+      ),
+    ).toBeInTheDocument();
   });
 });
