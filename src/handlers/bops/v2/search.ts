@@ -181,7 +181,7 @@ export async function search(
 
   return {
     ...request,
-    data: dprApplications,
+    data: dprApplications.length > 0 ? dprApplications : null,
     pagination,
   };
 }
