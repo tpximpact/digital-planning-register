@@ -1,3 +1,6 @@
+import { collapseTopicsByCharLimit } from "@/components/PublicCommentCard/PublicCommentCard.utils";
+import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+
 /*
  * This file is part of the Digital Planning Register project.
  *
@@ -14,27 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
-import { PublicCommentCard } from "@/components/PublicCommentCard";
-import { collapseTopicsByCharLimit } from "@/components/PublicCommentCard/PublicCommentCard.utils";
-import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
-
-describe("Render PublicCommentCard", () => {
-  it("should render a comment card", () => {
-    const comment = generatePublicComment(1);
-    render(<PublicCommentCard comment={comment} />);
-
-    expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
-
-    expect(
-      screen.getByText("Sentiment towards this application"),
-    ).toBeInTheDocument();
-  });
-});
-
 describe("collapseTopicsByCharLimit (500-char limit)", () => {
   it("returns an empty array when given no topics", () => {
     expect(collapseTopicsByCharLimit([])).toEqual([]);

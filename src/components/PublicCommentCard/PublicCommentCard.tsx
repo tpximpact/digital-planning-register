@@ -24,6 +24,7 @@ import {
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
 import { useState } from "react";
 import { collapseTopicsByCharLimit } from "./PublicCommentCard.utils";
+import { TextButton } from "../TextButton";
 
 export interface PublicCommentCardProps {
   comment?: PublicComment;
@@ -83,10 +84,7 @@ export const PublicCommentCard = ({
 
   return (
     <div className="dpr-public-comment-card">
-      <div
-        className="dpr-public-comment-card__header"
-        id={`public-comment-${commentId}`}
-      >
+      <div className="dpr-public-comment-card__header">
         <h3 className="govuk-heading-m">{`Comment #${commentId}`}</h3>
         {comment.metadata?.publishedAt && (
           <p className="govuk-body">
@@ -107,39 +105,39 @@ export const PublicCommentCard = ({
             <p className="govuk-body">{capitaliseWord(comment.sentiment)}</p>
           </div>
         )}
-
-        {displayedTopicsAndComments.map((topicObj) => {
-          const option = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
-            (o) => o.value === topicObj.topic,
-          );
-          const title = option?.label ?? capitaliseWord(topicObj.topic);
-
-          return (
-            <div
-              key={topicObj.originalIndex}
-              className="dpr-public-comment-card__topic-section"
-            >
-              <div className="govuk-heading-s">{title}</div>
-              <div className="govuk-body">
-                {topicObj.comment}
-                {!isExpanded && topicObj.truncated && "…"}
+        <div id={`public-comment-${commentId}`} aria-expanded={isExpanded}>
+          {displayedTopicsAndComments.map((topicObj) => {
+            const option = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
+              (o) => o.value === topicObj.topic,
+            );
+            const title = option?.label ?? capitaliseWord(topicObj.topic);
+            return (
+              <div
+                key={topicObj.originalIndex}
+                className="dpr-public-comment-card__topic-section"
+              >
+                <div className="govuk-heading-s">{title}</div>
+                <div className="govuk-body">
+                  {topicObj.comment}
+                  {!isExpanded && topicObj.truncated && "…"}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        {hasOverflow && (
-          <button
-            aria-expanded={isExpanded}
-            aria-controls={`comment-${commentId}`}
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="govuk-link govuk-link--no-visited-state dpr-comment-card--toggle"
-          >
-            {isExpanded
-              ? "Minimise this comment"
-              : "Read the rest of this comment"}
-          </button>
-        )}
+          {hasOverflow && (
+            <TextButton
+              aria-expanded={isExpanded}
+              aria-controls={`public-comment-${commentId}`}
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="govuk-link govuk-link--no-visited-state dpr-public-comment-card--toggle-button"
+            >
+              {isExpanded
+                ? "Minimise this comment"
+                : "Read the rest of this comment"}
+            </TextButton>
+          )}
+        </div>
       </div>
     </div>
   );

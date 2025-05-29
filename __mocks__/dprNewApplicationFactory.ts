@@ -67,6 +67,7 @@ import {
   PublicComment,
   TopicAndComments,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 
 type PossibleDates = {
   application: {
@@ -198,30 +199,33 @@ export const generateAllPossibleDates = (
 /**
  * Generates a random PublicComment
  *
+ * @param numberOfTopics - number of random topics to include
  * @returns a randomly generated PublicComment
  */
-export const generateComment = (numberOfTopics: number = 1) => {
+export const generatePublicComment = (
+  numberOfTopics: number = 1,
+): PublicComment => {
   const selectedOptions = faker.helpers.arrayElements(
     COMMENT_PUBLIC_TOPIC_OPTIONS,
     numberOfTopics,
   );
+
   const topicsAndComments: TopicAndComments[] = selectedOptions.map(
     (option) => ({
       topic: option.value,
       question: option.hint,
-      comment: faker.lorem.paragraph({ min: 1, max: 100 }),
+      comment: faker.lorem.paragraph({ min: 1, max: 5 }),
     }),
   );
 
-  const baseComment: Omit<PublicComment, "comment"> & {
-    comment: TopicAndComments[];
-  } = {
+  const sentiment = faker.helpers.arrayElement<CommentSentiment>([
+    "objection",
+    "neutral",
+    "supportive",
+  ]);
+  const baseComment: PublicComment = {
     id: faker.number.int({ min: 1, max: 1000 }),
-    sentiment: faker.helpers.arrayElement([
-      "objection",
-      "neutral",
-      "supportive",
-    ]),
+    sentiment,
     comment: topicsAndComments,
     author: { name: { singleLine: faker.person.fullName() } },
     metadata: {

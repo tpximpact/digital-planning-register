@@ -17,18 +17,18 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { PublicCommentCard } from "./PublicCommentCard";
-import { generateComment } from "@mocks/dprNewApplicationFactory";
+import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
 
-const comment = generateComment();
+const comment = generatePublicComment();
 
-const oneTopicComment = generateComment(1);
-const twoTopicsComment = generateComment(2);
-const threeTopicsComment = generateComment(3);
-const fourTopicsComment = generateComment(4);
-const fiveTopicsComment = generateComment(5);
-const sixTopicsComment = generateComment(6);
-const sevenTopicsComment = generateComment(7);
-const eightTopicsComment = generateComment(8);
+const oneTopicComment = generatePublicComment(1);
+const twoTopicsComment = generatePublicComment(2);
+const threeTopicsComment = generatePublicComment(3);
+const fourTopicsComment = generatePublicComment(4);
+const fiveTopicsComment = generatePublicComment(5);
+const sixTopicsComment = generatePublicComment(6);
+const sevenTopicsComment = generatePublicComment(7);
+const eightTopicsComment = generatePublicComment(8);
 
 const meta = {
   title: "DPR Components/PublicCommentCard",

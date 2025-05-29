@@ -16,6 +16,7 @@
  */
 
 @import "src/styles/component-base";
+@import "src/styles/utils/_pulse";
 
 .dpr-comment-card {
   > div {
@@ -69,16 +70,5 @@
   &__skeleton--body {
     height: 10 * govuk-spacing(4);
     width: 75%;
-  }
-  @keyframes pulse {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
   }
 }
