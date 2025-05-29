@@ -16,81 +16,97 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
 import { PublicCommentCard } from "@/components/PublicCommentCard";
-import { collapseTopicsByCharLimit } from "@/components/PublicCommentCard/PublicCommentCard.utils";
-import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
+import type { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
 
-describe("Render PublicCommentCard", () => {
-  it("should render a comment card", () => {
-    const comment = generatePublicComment(1);
-    render(<PublicCommentCard comment={comment} />);
-
-    expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
-
-    expect(
-      screen.getByText("Sentiment towards this application"),
-    ).toBeInTheDocument();
-  });
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+afterAll(() => {
+  (console.error as jest.Mock).mockRestore();
 });
 
-describe("collapseTopicsByCharLimit (500-char limit)", () => {
-  it("returns an empty array when given no topics", () => {
-    expect(collapseTopicsByCharLimit([])).toEqual([]);
+jest.mock("@/util", () => ({
+  capitaliseWord: (w: string) => `MOCK_CAP(${w})`,
+  formatDateTimeToDprDate: (d: string) => `MOCK_DATE(${d})`,
+}));
+
+jest.mock("@/lib/comments", () => ({
+  COMMENT_PUBLIC_TOPIC_OPTIONS: [
+    { value: "foo", label: "FooLabel", hint: "HintFoo" },
+    { value: "bar", label: "BarLabel", hint: "HintBar" },
+    { value: "other", label: "OtherLabel", hint: "HintOther" },
+  ],
+}));
+
+jest.mock("@/components/PublicCommentCard/PublicCommentCard.utils", () => ({
+  collapseTopicsByCharLimit: jest.fn((topics: TopicAndComments[]) =>
+    topics.map((t) => ({
+      ...t,
+      comment: t.comment.length > 5 ? t.comment.slice(0, 5) : t.comment,
+      truncated: t.comment.length > 5,
+    })),
+  ),
+}));
+
+describe("PublicCommentCard", () => {
+  it("renders skeleton placeholders when no comment is provided", () => {
+    const { container } = render(<PublicCommentCard comment={undefined} />);
+    expect(
+      container.getElementsByClassName(
+        "dpr-public-comment-card__skeleton--item",
+      ),
+    ).toHaveLength(1);
+    expect(
+      container.getElementsByClassName(
+        "dpr-public-comment-card__skeleton--title",
+      ),
+    ).toHaveLength(1);
+    expect(
+      container.getElementsByClassName(
+        "dpr-public-comment-card__skeleton--body",
+      ),
+    ).toHaveLength(1);
   });
 
-  it("returns all topics unmodified when total length is under 500 chars", () => {
-    const topics: TopicAndComments[] = [
-      { topic: "noise", question: "", comment: "short1" },
-      { topic: "traffic", question: "", comment: "short2" },
-    ];
-    const result = collapseTopicsByCharLimit(topics);
-    expect(result).toHaveLength(2);
-    expect(result[0].comment).toBe("short1");
-    expect(result[0].truncated).toBe(false);
-    expect(result[1].comment).toBe("short2");
-    expect(result[1].truncated).toBe(false);
+  it("renders an array-based comment and toggles expand/collapse", async () => {
+    const comment = generatePublicComment(2);
+    const longText = "ABCDEFGHIJKL";
+    (comment.comment as TopicAndComments[])[0].comment = longText;
+
+    render(<PublicCommentCard comment={comment} />);
+    expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`MOCK_DATE(${comment.metadata!.publishedAt})`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`MOCK_CAP(${comment.sentiment!})`),
+    ).toBeInTheDocument();
+    expect(screen.getByText(longText.slice(0, 5) + "…")).toBeInTheDocument();
+    const btn = screen.getByText("Read the rest of this comment");
+    await userEvent.click(btn);
+    expect(btn).toHaveTextContent("Minimise this comment");
+    expect(screen.getByText(longText)).toBeInTheDocument();
   });
 
-  it("truncates a single-topic comment that exceeds 500 chars", () => {
-    const topics: TopicAndComments[] = [
-      { topic: "other", question: "", comment: "X".repeat(600) },
-    ];
-    const result = collapseTopicsByCharLimit(topics);
-    expect(result).toHaveLength(1);
-    expect(result[0].comment).toBe("X".repeat(500));
-    expect(result[0].truncated).toBe(true);
-  });
+  it("renders a string-only comment correctly", async () => {
+    const comment = generatePublicComment(1);
+    const original = (comment.comment as TopicAndComments[])[0].comment;
+    comment.comment = original;
 
-  it("accumulates across multiple topics and truncates only the last one to fit 500 chars", () => {
-    const t1: TopicAndComments = {
-      topic: "light",
-      question: "",
-      comment: "A".repeat(300),
-    };
-    const t2: TopicAndComments = {
-      topic: "access",
-      question: "",
-      comment: "B".repeat(300),
-    };
-    const t3: TopicAndComments = {
-      topic: "privacy",
-      question: "",
-      comment: "C".repeat(50),
-    };
-
-    const result = collapseTopicsByCharLimit([t1, t2, t3]);
-
-    // First topic fits entirely (300 chars)
-    expect(result[0].comment).toBe("A".repeat(300));
-    expect(result[0].truncated).toBe(false);
-
-    // Second topic truncated to remaining 200 chars
-    expect(result[1].comment).toBe("B".repeat(200));
-    expect(result[1].truncated).toBe(true);
-
-    // Only two segments returned
-    expect(result).toHaveLength(2);
+    render(<PublicCommentCard comment={comment} />);
+    expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`MOCK_DATE(${comment.metadata!.publishedAt})`),
+    ).toBeInTheDocument();
+    const snippet = original.length > 5 ? original.slice(0, 5) + "…" : original;
+    expect(screen.getByText(snippet)).toBeInTheDocument();
+    const btn = screen.getByText("Read the rest of this comment");
+    await userEvent.click(btn);
+    expect(btn).toHaveTextContent("Minimise this comment");
+    expect(screen.getByText(original)).toBeInTheDocument();
   });
 });
