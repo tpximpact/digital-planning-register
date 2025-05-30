@@ -175,7 +175,7 @@ export const AmendmentsNeededIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="dsn-sentiment__icon amendmentsNeeded"
+      className="dsn-sentiment__icon amendmentsNeeded-face"
       fill="none"
       width="30"
       height="30"

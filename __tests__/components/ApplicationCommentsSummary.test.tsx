@@ -11,6 +11,28 @@ jest.mock("@/components/SentimentIcon", () => ({
   SentimentIcon: ({ sentiment }: { sentiment: string }) => sentiment,
 }));
 
+jest.mock("@/components/button", () => ({
+  Button: ({ children, ...props }: any) => (
+    <a {...props} role="button">
+      {children}
+    </a>
+  ),
+}));
+
+jest.mock("@/util", () => ({
+  capitalizeFirstLetter: jest.fn((str: string) => {
+    if (!str) return str;
+    const lower = str.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }),
+}));
+
+jest.mock("@/util/pascalToSentenceCase", () => ({
+  pascalToSentenceCase: jest.fn((str: string) => {
+    return str.replace(/([A-Z])/g, " $1").trim();
+  }),
+}));
+
 const renderComponent = (
   props: React.ComponentProps<typeof ApplicationCommentsSummary>,
 ) => {
@@ -52,6 +74,26 @@ describe("ApplicationCommentsSummary", () => {
       expect(screen.getByText(/1 Support/i)).toBeInTheDocument();
       expect(screen.getByText(/1 Objection/i)).toBeInTheDocument();
     });
+  });
+  it("returns null when summary or sentiment is missing", () => {
+    const { container } = render(
+      <ApplicationCommentsSummary
+        type="public"
+        reference="ABC/123"
+        councilSlug="public-council-1"
+      />,
+    );
+    expect(container.firstChild).toBeNull();
+
+    const { container: noSentimentContainer } = render(
+      <ApplicationCommentsSummary
+        type="public"
+        reference="ABC/123"
+        councilSlug="public-council-1"
+        summary={{ totalComments: 5 } as any} // missing sentiment
+      />,
+    );
+    expect(noSentimentContainer.firstChild).toBeNull();
   });
 
   describe("specialist type", () => {
