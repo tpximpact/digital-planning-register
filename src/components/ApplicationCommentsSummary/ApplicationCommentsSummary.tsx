@@ -46,20 +46,19 @@ export const renderHeaderContent = (
     );
   }
 
-  const specialistSummary = summary as SpecialistCommentSummary;
-  return (
-    <>
-      <p className="govuk-heading-m">
-        {specialistSummary.totalConsulted} specialist
-        {specialistSummary.totalConsulted !== 1 && "s"} contacted for
-        consultation
-      </p>
-      <p className="govuk-body">
-        {specialistSummary.totalConsulted - specialistSummary.totalComments} yet
-        to respond
-      </p>
-    </>
-  );
+  if (type === "specialist" && "totalConsulted" in summary) {
+    return (
+      <>
+        <p className="govuk-heading-m">
+          {summary.totalConsulted} specialist
+          {summary.totalConsulted !== 1 && "s"} contacted for consultation
+        </p>
+        <p className="govuk-body">
+          {summary.totalConsulted - summary.totalComments} yet to respond
+        </p>
+      </>
+    );
+  }
 };
 export const ApplicationCommentsSummary = ({
   summary,
@@ -75,27 +74,25 @@ export const ApplicationCommentsSummary = ({
   return (
     <div id={`${type}-comments-summary`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
-      <>
-        {renderHeaderContent(summary, type)}
-        <ul className="govuk-list dpr-comment-summary__list">
-          {Object.entries(summary.sentiment).map(([key, label]) => (
-            <li key={key}>
-              <Link href={`${baseUrl}}&sentiment=${key}`}>
-                <SentimentIcon sentiment={key} />
-                <span>
-                  {label} {capitalizeFirstLetter(pascalToSentenceCase(key))}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Button
-          variant="information"
-          href={`/${councilSlug}/${reference}/comments?type=${type}`}
-        >
-          {`View all ${summary.totalComments} ${type} comments`}
-        </Button>
-      </>
+      {renderHeaderContent(summary, type)}
+      <ul className="govuk-list dpr-comment-summary__list">
+        {Object.entries(summary.sentiment).map(([key, label]) => (
+          <li key={key}>
+            <Link href={`${baseUrl}&sentiment=${key}`}>
+              <SentimentIcon sentiment={key} />
+              <span>
+                {label} {capitalizeFirstLetter(pascalToSentenceCase(key))}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Button
+        variant="information"
+        href={`/${councilSlug}/${reference}/comments?type=${type}`}
+      >
+        {`View all ${summary.totalComments} ${type} comments`}
+      </Button>
     </div>
   );
 };
