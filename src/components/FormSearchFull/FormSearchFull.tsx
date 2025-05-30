@@ -116,6 +116,13 @@ export const FormSearchFull = ({
           name="applicationType"
           options={flatApplicationTypes}
           checkedOptions={searchParams?.applicationType?.split(",") ?? []}
+          content={
+            <InfoIcon
+              href={`/${councilSlug}/help/application-types`}
+              title="Get help understanding what application types mean"
+              ariaLabel="Get help understanding what application types mean"
+            />
+          }
         />
       )}
 
@@ -125,6 +132,13 @@ export const FormSearchFull = ({
           name="applicationStatus"
           options={validPublicApplicationStatusSummaries}
           checkedOptions={searchParams?.applicationStatus?.split(",") ?? []}
+          content={
+            <InfoIcon
+              href={`/${councilSlug}/help/application-statuses`}
+              title="Get help understanding what application statuses mean"
+              ariaLabel="Get help understanding what application statuses mean"
+            />
+          }
         />
       )}
 
@@ -136,6 +150,13 @@ export const FormSearchFull = ({
             capitalizeFirstLetter(option),
           )}
           checkedOptions={searchParams?.councilDecision?.split(",") ?? []}
+          content={
+            <InfoIcon
+              href={`/${councilSlug}/help/decisions#council-decisions`}
+              title="Get help understanding what council decisions mean"
+              ariaLabel="Get help understanding what council decisions mean"
+            />
+          }
         />
       )}
 

@@ -18,6 +18,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DetailsCheckboxAccordion } from "./DetailsCheckboxAccordion";
 import { validApplicationTypes } from "@/lib/planningApplication";
+import { InfoIcon } from "@/components/InfoIcon";
 
 const flatApplicationTypes = Object.values(validApplicationTypes).flat();
 const meta = {
@@ -33,6 +34,13 @@ const meta = {
     title: "public-council-1",
     name: "applicationType",
     options: flatApplicationTypes,
+    content: (
+      <InfoIcon
+        href={`/public-council-1/help/application-types`}
+        title="Get help understanding what application types mean"
+        ariaLabel="Get help understanding what application types mean"
+      />
+    ),
   },
 } satisfies Meta<typeof DetailsCheckboxAccordion>;
 
@@ -43,5 +51,29 @@ export const Default: Story = {};
 export const Checked: Story = {
   args: {
     checkedOptions: flatApplicationTypes.slice(10, 15),
+  },
+};
+
+export const WithStringContent: Story = {
+  args: {
+    content: "This is a string content example for the accordion.",
+  },
+};
+
+export const WithReactNodeContent: Story = {
+  args: {
+    content: (
+      <InfoIcon
+        href={`/public-council-1/help/decisions#council-decisions`}
+        title="Get help understanding what council decisions mean"
+        ariaLabel="Get help understanding what council decisions mean"
+      />
+    ),
+  },
+};
+
+export const WithoutContent: Story = {
+  args: {
+    content: undefined,
   },
 };
