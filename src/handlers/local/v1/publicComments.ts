@@ -20,61 +20,102 @@
 import { getAppConfig } from "@/config";
 import {
   ApiResponse,
+  DprComment,
   DprPublicCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
+import { PublicCommentSummary } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import {
   generateNResults,
   generateComment,
+  generatePagination,
 } from "@mocks/dprApplicationFactory";
+
+const makeCommentSummary = (comments: DprComment[]): PublicCommentSummary => {
+  return {
+    totalComments: comments.length,
+    sentiment: comments.reduce(
+      (acc, comment) => {
+        if (comment.sentiment === "supportive") {
+          acc.supportive++;
+        } else if (comment.sentiment === "objection") {
+          acc.objection++;
+        } else if (comment.sentiment === "neutral") {
+          acc.neutral++;
+        }
+        return acc;
+      },
+      { supportive: 0, objection: 0, neutral: 0 },
+    ),
+  };
+};
 
 const response = (
   council: string,
   reference: string,
   searchParams: SearchParamsComments,
 ): ApiResponse<DprPublicCommentsApiResponse> => {
-  const exampleComments = generateNResults(20, () => generateComment());
-  const sentimentSummary = exampleComments.reduce(
-    (acc, comment) => {
-      if (comment.sentiment === "supportive") {
-        acc.supportive++;
-      } else if (comment.sentiment === "objection") {
-        acc.objection++;
-      } else if (comment.sentiment === "neutral") {
-        acc.neutral++;
-      }
-      return acc;
-    },
-    { supportive: 0, objection: 0, neutral: 0 },
-  );
   const appConfig = getAppConfig(council);
-  const resultsPerPage = appConfig?.defaults?.resultsPerPage || 10;
-  const currentPage = searchParams?.page || 1;
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const paginatedComments = exampleComments.slice(
-    startIndex,
-    startIndex + resultsPerPage,
+  const resultsPerPage = searchParams?.resultsPerPage
+    ? searchParams.resultsPerPage
+    : appConfig.defaults.resultsPerPage;
+
+  const allComments = generateNResults<DprComment>(
+    resultsPerPage * 10,
+    generateComment,
   );
-  const totalPages = Math.ceil(exampleComments.length / resultsPerPage);
+  let comments = allComments.slice(0, resultsPerPage);
+  let summary = makeCommentSummary(allComments);
+  let pagination = generatePagination(
+    searchParams?.page ?? 1,
+    allComments.length,
+    allComments.length,
+    resultsPerPage,
+  );
+
+  if (reference === "APP-NULL") {
+    // if the reference is APP-NULL, we return no comments
+    comments = [];
+    summary = makeCommentSummary([]);
+    pagination = generatePagination(
+      searchParams?.page ?? 1,
+      0,
+      0,
+      resultsPerPage,
+    );
+  }
+
+  // if we've done a search just rename the first result to match the query
+  if (searchParams?.query) {
+    if (searchParams?.query === "noresultsplease") {
+      comments = [];
+      pagination = generatePagination(
+        searchParams?.page ?? 1,
+        0,
+        allComments.length,
+        resultsPerPage,
+      );
+    } else {
+      comments = [generateComment()];
+      comments[0].comment = searchParams?.query;
+      pagination = generatePagination(
+        searchParams?.page ?? 1,
+        1,
+        allComments.length,
+        resultsPerPage,
+      );
+    }
+  }
 
   return {
     data: {
-      comments: paginatedComments,
-      summary: {
-        totalComments: exampleComments.length,
-        sentiment: sentimentSummary,
-      },
+      comments,
+      summary,
     },
+    pagination,
     status: {
       code: 200,
       message: "Success",
-    },
-    pagination: {
-      resultsPerPage: resultsPerPage,
-      currentPage: currentPage,
-      totalPages: totalPages,
-      totalResults: exampleComments.length,
-      totalAvailableItems: exampleComments.length,
     },
   };
 };

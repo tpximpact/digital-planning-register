@@ -40,7 +40,7 @@ import { defaultPagination } from "@/handlers/lib";
 export async function specialistComments(
   council: string,
   reference: string,
-  searchParams?: SearchParamsComments,
+  searchParams: SearchParamsComments,
 ): Promise<ApiResponse<DprSpecialistCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/specialist`;
 

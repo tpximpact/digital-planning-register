@@ -18,32 +18,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationComments } from "./PageApplicationComments";
 import {
-  generatePagination,
   generateComment,
   generateNResults,
+  generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { createAppConfig } from "@mocks/appConfigFactory";
 import { DprComment } from "@/types";
+import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
-const application = generateDprApplication();
 
-const defaultArgs = {
-  params: {
-    council: "public-council-1",
-    reference: "12345",
-  },
-  appConfig: createAppConfig("public-council-1"),
-  type: "public" as CommentType,
-  application: application,
-  comments: generateNResults<DprComment>(10, generateComment),
-  pagination: generatePagination(1, 50),
-  searchParams: {
-    page: 1,
-    resultsPerPage: 10,
-    type: "public" as CommentType,
-  },
-};
+const comments = generateNResults<DprComment>(10, generateComment);
 
 const meta = {
   title: "Council pages/Application comments",
@@ -59,6 +42,7 @@ const meta = {
     },
   ],
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  // tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
@@ -67,36 +51,59 @@ const meta = {
     },
   },
   args: {
-    ...defaultArgs,
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
+    appConfig: createAppConfig("public-council-1"),
+    comments,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+    },
+    application: generateDprApplication(),
+    pagination: generatePagination(
+      1,
+      comments.length * 5,
+      comments.length * 5,
+      10,
+    ),
   },
 } satisfies Meta<typeof PageApplicationComments>;
+
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Public: Story = {
-  args: {
-    ...defaultArgs,
-    type: "public" as CommentType,
-    searchParams: {
-      ...defaultArgs.searchParams,
-      type: "public" as CommentType,
-    },
-  },
-};
-export const Specialist: Story = {
-  args: {
-    ...defaultArgs,
-    type: "specialist" as CommentType,
-    searchParams: {
-      ...defaultArgs.searchParams,
-      type: "specialist" as CommentType,
-    },
-  },
-};
+export const Default: Story = {};
+
 export const NoComments: Story = {
   args: {
-    ...defaultArgs,
     comments: [],
-    pagination: generatePagination(1, 0),
+    pagination: generatePagination(1, 0, 0, 10),
+  },
+};
+export const SearchResults: Story = {
+  args: {
+    comments: [comments[0]],
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+      query: "Test Comment",
+    },
+    pagination: generatePagination(1, 1, comments.length * 5, 10),
+  },
+};
+export const SearchNoResults: Story = {
+  args: {
+    comments: [],
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+      query: "Test Comment",
+    },
+    pagination: generatePagination(1, 0, comments.length * 5, 10),
   },
 };

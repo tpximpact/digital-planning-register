@@ -75,7 +75,6 @@ describe("PageApplicationComments", () => {
     },
     application: consultation,
     appConfig: appConfig,
-    type: "public" as CommentType,
     pagination: generatePagination(1, 50),
     searchParams: {
       page: 1,

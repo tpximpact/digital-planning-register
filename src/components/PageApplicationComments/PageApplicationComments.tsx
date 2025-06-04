@@ -17,7 +17,6 @@
 import {
   DprApplication,
   DprComment,
-  DprCommentTypes,
   DprPagination,
   SearchParamsComments,
 } from "@/types";
@@ -40,7 +39,6 @@ export interface PageApplicationCommentsProps {
   };
   appConfig: AppConfig;
   application?: DprApplication;
-  type: DprCommentTypes;
   comments: DprComment[] | null;
   searchParams: SearchParamsComments;
   pagination?: DprPagination;
@@ -50,12 +48,11 @@ export const PageApplicationComments = ({
   params,
   appConfig,
   application,
-  type,
   comments,
   pagination,
   searchParams,
 }: PageApplicationCommentsProps) => {
-  if (!appConfig || !appConfig.council) {
+  if (!appConfig || !appConfig.council || !pagination) {
     return (
       <PageMain>
         <ContentNotFound />
@@ -63,7 +60,7 @@ export const PageApplicationComments = ({
     );
   }
   const { council: councilSlug, reference } = params;
-
+  const { type } = searchParams;
   return (
     <>
       <BackButton baseUrl={createPathFromParams(params)} />
@@ -76,35 +73,51 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        <form
-          className="govuk-form"
-          method="get"
-          action={createPathFromParams(params, "comments/search")}
-          aria-label="Search & Sort comments"
-        >
-          <input type="hidden" name="type" value={type} />
-          <input type="hidden" name="council" value={councilSlug} />
-          <input type="hidden" name="reference" value={reference} />
-          <FormCommentsSearch searchParams={searchParams} />
-          <FormCommentsSort searchParams={searchParams} />
-        </form>
-        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
-        {comments && comments.length > 0 ? (
-          <>
-            {comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} />
-            ))}
-          </>
-        ) : (
-          <ContentNoResult councilConfig={appConfig.council} type="comment" />
-        )}
 
-        {pagination && pagination.totalPages > 1 && (
-          <Pagination
-            baseUrl={createPathFromParams(params, "comments")}
-            searchParams={searchParams}
-            pagination={pagination}
-          />
+        {pagination?.totalAvailableItems === 0 ? (
+          <p className="govuk-hint">
+            <em>
+              {type === "specialist"
+                ? "No comments from specialists have been published at this time."
+                : "No comments from the public have been published at this time."}
+            </em>
+          </p>
+        ) : (
+          <>
+            <form
+              className="govuk-form"
+              method="get"
+              action={createPathFromParams(params, "comments/search")}
+              aria-label="Search & Sort comments"
+            >
+              <input type="hidden" name="type" value={type} />
+              <input type="hidden" name="council" value={councilSlug} />
+              <input type="hidden" name="reference" value={reference} />
+              <FormCommentsSearch searchParams={searchParams} />
+              <FormCommentsSort searchParams={searchParams} />
+            </form>
+
+            <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
+
+            {comments && comments.length > 0 ? (
+              comments.map((comment) => (
+                <CommentCard key={comment.id} comment={comment} />
+              ))
+            ) : (
+              <ContentNoResult
+                councilConfig={appConfig.council}
+                type="comment"
+              />
+            )}
+
+            {pagination.totalPages > 1 && (
+              <Pagination
+                baseUrl={createPathFromParams(params, "comments")}
+                searchParams={searchParams}
+                pagination={pagination}
+              />
+            )}
+          </>
         )}
       </PageMain>
     </>
