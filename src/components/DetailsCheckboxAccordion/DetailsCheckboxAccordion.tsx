@@ -23,6 +23,7 @@ export interface DetailsCheckboxAccordionProps<T> {
   name: string;
   options: T[];
   checkedOptions?: T[];
+  content?: string | React.ReactNode;
 }
 
 export function DetailsCheckboxAccordion<T>({
@@ -30,6 +31,7 @@ export function DetailsCheckboxAccordion<T>({
   name,
   options,
   checkedOptions,
+  content,
 }: DetailsCheckboxAccordionProps<T>) {
   const [checked, setChecked] = useState<T[]>(checkedOptions ?? []);
 
@@ -78,6 +80,7 @@ export function DetailsCheckboxAccordion<T>({
         </div>
       </summary>
       <fieldset className="govuk-fieldset dpr-details-checkbox-accordion__content">
+        {content && content}
         <legend className="govuk-fieldset__legend govuk-fieldset__legend--m govuk-visually-hidden">
           {title}
         </legend>

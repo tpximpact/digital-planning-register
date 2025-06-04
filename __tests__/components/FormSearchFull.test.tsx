@@ -39,15 +39,25 @@ jest.mock("@/components/InfoIcon", () => ({
     href,
     ariaLabel,
     title,
+    className,
   }: {
     href: string;
     ariaLabel: string;
     title: string;
-  }) => (
-    <a data-testid="info-icon" href={href} aria-label={ariaLabel}>
-      {title}
-    </a>
-  ),
+    className?: string;
+  }) => {
+    const isPrimary = className?.includes("dpr-form-search-full__info-icon");
+    return (
+      <a
+        data-testid={isPrimary ? "primary-info-icon" : "accordion-info-icon"}
+        href={href}
+        aria-label={ariaLabel}
+        className={className}
+      >
+        {title}
+      </a>
+    );
+  },
 }));
 
 jest.mock("@/util", () => ({
@@ -64,12 +74,15 @@ jest.mock("@/components/DetailsCheckboxAccordion", () => ({
   DetailsCheckboxAccordion: ({
     title,
     name,
+    content,
   }: {
     title: string;
     name: string;
+    content?: React.ReactNode;
   }) => (
     <div data-testid="DetailsCheckboxAccordion">
       <label htmlFor={name}>{title}</label>
+      {content}
       <input type="checkbox" id={name} name={name} />
     </div>
   ),
@@ -99,22 +112,49 @@ describe("FormSearchFull", () => {
       expect(link).toHaveAttribute("href", "/test-council-1");
     });
 
-    it("renders infoIcon with link to help page", () => {
+    it("renders the primary help icon in header", () => {
       render(
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
         />,
       );
-      const infoIcon = screen.getByTestId("info-icon");
-      expect(infoIcon).toBeInTheDocument();
-      expect(infoIcon).toHaveAttribute("href", "/test-council-1/help");
-      expect(infoIcon).toHaveAttribute(
+      const primary = screen.getByTestId("primary-info-icon");
+      expect(primary).toBeInTheDocument();
+      expect(primary).toHaveAttribute("href", "/test-council-1/help");
+      expect(primary).toHaveAttribute(
         "aria-label",
         "Get help understanding what everything here means",
       );
-      expect(infoIcon).toHaveTextContent(
-        "Get help understanding what everything here means",
+    });
+
+    it("renders a help link in each accordion section", () => {
+      jest.doMock("@/util/featureFlag", () => ({
+        applicationSearchFields: [
+          "applicationType",
+          "applicationStatus",
+          "councilDecision",
+        ],
+      }));
+      const { FormSearchFull } = require("@/components/FormSearchFull");
+
+      render(
+        <FormSearchFull
+          councilSlug="test-council-1"
+          searchParams={defaultSearchParams}
+        />,
+      );
+
+      const icons = screen.getAllByTestId("accordion-info-icon");
+      expect(icons).toHaveLength(3);
+
+      const hrefs = icons.map((icon) => icon.getAttribute("href"));
+      expect(hrefs).toEqual(
+        expect.arrayContaining([
+          "/test-council-1/help/application-types",
+          "/test-council-1/help/application-statuses",
+          "/test-council-1/help/decisions#council-decisions",
+        ]),
       );
     });
 
@@ -272,7 +312,9 @@ describe("FormSearchFull", () => {
             searchParams={defaultSearchParams}
           />,
         );
-        expect(screen.getByLabelText(/application type/i)).toBeInTheDocument();
+        expect(
+          screen.getByRole("checkbox", { name: /application type/i }),
+        ).toBeInTheDocument();
       });
 
       it("does not render applicationType field if not enabled", () => {
@@ -310,7 +352,7 @@ describe("FormSearchFull", () => {
           />,
         );
         expect(
-          screen.getByLabelText(/application status/i),
+          screen.getByRole("checkbox", { name: /application status/i }),
         ).toBeInTheDocument();
       });
 
@@ -348,7 +390,9 @@ describe("FormSearchFull", () => {
             searchParams={defaultSearchParams}
           />,
         );
-        expect(screen.getByLabelText(/council decision/i)).toBeInTheDocument();
+        expect(
+          screen.getByRole("checkbox", { name: /council decision/i }),
+        ).toBeInTheDocument();
       });
 
       it("does not render councilDecision field if not enabled", () => {

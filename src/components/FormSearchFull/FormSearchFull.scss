@@ -19,7 +19,7 @@
 
 .dpr-form-search-full {
   position: relative;
-  .info-icon {
+  & > .info-icon.dpr-form-search-full__info-icon {
     position: absolute;
     top: 0;
     right: 0;
