@@ -25,10 +25,16 @@ export const SentimentIcon = ({ sentiment }: SentimentIconProps) => {
   switch (sentiment) {
     case "neutral":
       return <NeutralIcon />;
-    case "support":
+    case "supportive":
       return <SupportIcon />;
-    case "opposed":
+    case "objection":
       return <OpposedIcon />;
+    case "approved":
+      return <ApprovedIcon />;
+    case "amendmentsNeeded":
+      return <AmendmentsNeededIcon />;
+    case "objected":
+      return <ObjectedIcon />;
     default:
       return null;
   }
@@ -123,6 +129,63 @@ export const OpposedIcon = () => {
         fill="#0B0C0C"
         stroke="#0B0C0C"
       ></path>
+    </svg>
+  );
+};
+
+export const ApprovedIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="dsn-sentiment__icon approved"
+      fill="none"
+      width="30"
+      height="30"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
+    >
+      <path
+        fill="#00703C"
+        d="M64 15.925 21.76 58 0 36.325 8.96 27.4l12.8 12.75L55.04 7 64 15.925Z"
+      />
+    </svg>
+  );
+};
+
+export const ObjectedIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="dsn-sentiment__icon objected"
+      fill="none"
+      width="30"
+      height="30"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
+    >
+      <path
+        fill="#D4351C"
+        d="M64 12.032 43.112 32.92 64 53.969 52.969 65 32 44.032 11.031 65 0 53.969l20.888-21.05L0 12.033 11.236.796 32 21.72 52.764.796 64 12.032Z"
+      />
+    </svg>
+  );
+};
+
+export const AmendmentsNeededIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="dsn-sentiment__icon amendmentsNeeded"
+      fill="none"
+      width="30"
+      height="30"
+      viewBox="0 0 64 65"
+      aria-hidden="true"
+    >
+      <path
+        fill="#003078"
+        d="M53.048 24.997 17.263 60.78 0 64.558l3.507-17.353L39.56 11.33l13.488 13.667ZM53.107.445c3.974.166 10.373 6.364 10.87 10.337.397 3.178-4.331 7.81-6.814 9.906L43.534 7.093C45.3 4.554 49.93.313 53.107.445Z"
+      />
     </svg>
   );
 };

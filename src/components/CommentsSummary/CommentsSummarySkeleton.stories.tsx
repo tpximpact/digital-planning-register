@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-
-import type { Meta, StoryObj } from "@storybook/react";
-import { SentimentIcon } from "./SentimentIcon";
+import { Meta, StoryObj } from "@storybook/react";
+import { CommentsSummarySkeleton } from "@/components/CommentsSummary";
 
 const meta = {
-  title: "DPR Components/SentimentIcon",
-  component: SentimentIcon,
+  title: "DPR Components/Comments summary/Skeleton",
+  component: CommentsSummarySkeleton,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -28,41 +27,11 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    sentiment: "opposed",
+    type: "public",
   },
-} satisfies Meta<typeof SentimentIcon>;
+} satisfies Meta<typeof CommentsSummarySkeleton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Opposed: Story = {
-  args: {
-    sentiment: "objection",
-  },
-};
-export const Neutral: Story = {
-  args: {
-    sentiment: "neutral",
-  },
-};
-export const Support: Story = {
-  args: {
-    sentiment: "supportive",
-  },
-};
-export const Approved: Story = {
-  args: {
-    sentiment: "approved",
-  },
-};
-export const AmendmentsNeeded: Story = {
-  args: {
-    sentiment: "amendmentsNeeded",
-  },
-};
-export const Objected: Story = {
-  args: {
-    sentiment: "objected",
-  },
-};

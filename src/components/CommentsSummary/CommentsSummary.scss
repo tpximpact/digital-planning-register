@@ -1,0 +1,64 @@
+/*
+ * This file is part of the Digital Planning Register project.
+ *
+ * Digital Planning Register is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Digital Planning Register is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "src/styles/component-base";
+@import "node_modules/govuk-frontend/dist/govuk/core/index";
+@import "src/styles/utils/_pulse";
+
+$selector: dpr-comment-summary;
+
+.#{$selector} {
+  &__list {
+    li {
+      padding-bottom: govuk-spacing(2);
+      > .#{$selector}__list-item,
+      > .#{$selector}__list-link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: govuk-spacing(2);
+      }
+      > .#{$selector}__list-link {
+        &:focus {
+          outline: none;
+        }
+        &:focus-within {
+          span {
+            @include govuk-focused-text;
+          }
+        }
+
+        > span {
+          @extend %govuk-link;
+          color: $govuk-link-colour;
+        }
+      }
+    }
+  }
+
+  %skeleton-base {
+    background: rgba(145, 144, 141, 0.6);
+    animation: pulse 3s infinite;
+  }
+
+  &__skeleton {
+    @extend %skeleton-base;
+    width: 100%;
+    height: 300px;
+    margin-bottom: govuk-spacing(3);
+  }
+}

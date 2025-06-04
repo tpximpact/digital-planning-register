@@ -39,15 +39,15 @@ const makeCommentSummary = (
     sentiment: comments.reduce(
       (acc, comment) => {
         if (comment.sentiment === "supportive") {
-          acc.supportive++;
+          acc.approved++;
         } else if (comment.sentiment === "objection") {
-          acc.objection++;
+          acc.objected++;
         } else if (comment.sentiment === "neutral") {
-          acc.neutral++;
+          acc.amendmentsNeeded++;
         }
         return acc;
       },
-      { supportive: 0, objection: 0, neutral: 0 },
+      { approved: 0, objected: 0, amendmentsNeeded: 0 },
     ),
   };
 };

@@ -250,9 +250,9 @@ export const specialistComments: SpecialistComments = {
     totalConsulted: 4,
     totalComments: 1,
     sentiment: {
-      supportive: 1,
-      objection: 0,
-      neutral: 0,
+      approved: 1,
+      amendmentsNeeded: 0,
+      objected: 0,
     },
   },
   comments: [
