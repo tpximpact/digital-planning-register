@@ -17,7 +17,6 @@
 import {
   DprApplication,
   DprComment,
-  DprCommentTypes,
   DprPagination,
   SearchParamsComments,
 } from "@/types";
@@ -40,7 +39,6 @@ export interface PageApplicationCommentsProps {
   };
   appConfig: AppConfig;
   application?: DprApplication;
-  type: DprCommentTypes;
   comments: DprComment[] | null;
   searchParams: SearchParamsComments;
   pagination?: DprPagination;
@@ -50,7 +48,6 @@ export const PageApplicationComments = ({
   params,
   appConfig,
   application,
-  type,
   comments,
   pagination,
   searchParams,
@@ -63,7 +60,7 @@ export const PageApplicationComments = ({
     );
   }
   const { council: councilSlug, reference } = params;
-
+  const { type } = searchParams;
   return (
     <>
       <BackButton baseUrl={createPathFromParams(params)} />
