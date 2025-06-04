@@ -137,7 +137,7 @@ export const ApprovedIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="dsn-sentiment__icon approved-face"
+      className="dsn-sentiment__icon approved"
       fill="none"
       width="30"
       height="30"
@@ -156,7 +156,7 @@ export const ObjectedIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="dsn-sentiment__icon objected-face"
+      className="dsn-sentiment__icon objected"
       fill="none"
       width="30"
       height="30"
@@ -175,7 +175,7 @@ export const AmendmentsNeededIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="dsn-sentiment__icon amendmentsNeeded-face"
+      className="dsn-sentiment__icon amendmentsNeeded"
       fill="none"
       width="30"
       height="30"

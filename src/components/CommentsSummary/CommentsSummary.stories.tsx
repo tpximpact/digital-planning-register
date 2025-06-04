@@ -15,11 +15,11 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 import { Meta, StoryObj } from "@storybook/react";
-import { ApplicationCommentsSummary } from "./ApplicationCommentsSummary";
+import { CommentsSummary } from "./CommentsSummary";
 
 const meta = {
-  title: "DPR Components/ApplicationCommentsSummary",
-  component: ApplicationCommentsSummary,
+  title: "DPR Components/Comments summary",
+  component: CommentsSummary,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   parameters: {
@@ -27,7 +27,15 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
-    type: "public",
+    params: {
+      council: "public-council-1",
+      reference: "ABC/123",
+    },
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "public",
+    },
     summary: {
       sentiment: {
         supportive: 10,
@@ -37,45 +45,44 @@ const meta = {
       totalComments: 17,
     },
   },
-} satisfies Meta<typeof ApplicationCommentsSummary>;
+} satisfies Meta<typeof CommentsSummary>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: Story = {};
+export const Public: Story = {};
+export const PublicNoComments: Story = {
   args: {
-    type: "public",
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
     summary: {
       sentiment: {
-        supportive: 10,
-        neutral: 5,
-        objection: 2,
+        supportive: 0,
+        neutral: 0,
+        objection: 0,
       },
-      totalComments: 17,
+      totalComments: 0,
     },
   },
 };
-export const Public: Story = {
+export const PublicSingularComments: Story = {
   args: {
-    type: "public",
     summary: {
       sentiment: {
-        supportive: 10,
-        neutral: 5,
-        objection: 2,
+        supportive: 1,
+        neutral: 0,
+        objection: 0,
       },
-      totalComments: 17,
+      totalComments: 1,
     },
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
   },
 };
-
 export const Specialist: Story = {
   args: {
-    type: "specialist",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
+    },
     summary: {
       sentiment: {
         approved: 7,
@@ -85,7 +92,42 @@ export const Specialist: Story = {
       totalConsulted: 16,
       totalComments: 14,
     },
-    reference: "ABC/123",
-    councilSlug: "public-council-1",
+  },
+};
+
+export const SpecialistNoComments: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
+    },
+    summary: {
+      sentiment: {
+        approved: 0,
+        amendmentsNeeded: 0,
+        objected: 0,
+      },
+      totalConsulted: 0,
+      totalComments: 0,
+    },
+  },
+};
+export const SpecialistSingularComments: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
+    },
+    summary: {
+      sentiment: {
+        approved: 1,
+        amendmentsNeeded: 0,
+        objected: 0,
+      },
+      totalConsulted: 1,
+      totalComments: 1,
+    },
   },
 };
