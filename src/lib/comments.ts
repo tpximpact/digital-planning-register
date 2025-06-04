@@ -25,12 +25,11 @@ import {
   DprCommentOrderBy,
   DprCommentSortBy,
   DprCommentTypes,
-  DprPagination,
   SearchParamsComments,
   UnknownSearchParams,
 } from "@/types";
 import { AppConfig } from "@/config/types";
-import { createItemPagination } from "./pagination";
+
 import {
   CommentSentiment,
   SpecialistCommentSentiment,
@@ -89,38 +88,6 @@ export const getAvailableCommentTypes = (
     council?.publicComments ? "public" : undefined,
     council?.specialistComments ? "specialist" : undefined,
   ].filter((type): type is DprCommentTypes => !!type);
-};
-
-/**
- * Builds the comments result into our format so that it looks like it came from the API
- */
-export const buildCommentResult = (
-  appConfig: AppConfig,
-  type: DprCommentTypes,
-  application: DprApplication,
-  searchParams?: SearchParamsComments,
-) => {
-  const comments =
-    type === "specialist"
-      ? application.comments?.specialist?.comments
-      : type === "public"
-        ? application.comments?.public?.comments
-        : null;
-  const totalComments = comments ? comments.length : 0;
-  const currentPage = Number(searchParams?.page ?? 1);
-
-  const commentData: { pagination: DprPagination; data: DprComment[] } = {
-    pagination: {
-      ...createItemPagination(
-        totalComments,
-        currentPage,
-        appConfig.defaults.resultsPerPage,
-      ),
-    },
-    data: comments ? [...comments] : [],
-  };
-
-  return commentData;
 };
 
 export const pageTitles: Record<number, string> = {

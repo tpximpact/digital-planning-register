@@ -19,7 +19,7 @@ import { AppConfig } from "@/config/types";
 import { DprApplication, DprDocument } from "@/types";
 import { ApplicationPeople } from "@/components/ApplicationPeople";
 import { ApplicationHero } from "@/components/ApplicationHero";
-import { DocumentsList } from "@/components/DocumentsList";
+import { DocumentsListWithSuspense } from "@/components/DocumentsListWithSuspense";
 import { ContentError } from "@/components/ContentError";
 import "./ApplicationDetails.scss";
 import { ContentSidebar } from "@/components/ContentSidebar";
@@ -37,7 +37,7 @@ export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
   application: DprApplication;
-  documents: DprDocument[] | null;
+  documents?: DprDocument[];
 }
 
 export const ApplicationDetails = ({
@@ -168,12 +168,10 @@ export const ApplicationDetails = ({
             />
           )}
           {/* <ImpactMeasures /> */}
-          <DocumentsList
+          <DocumentsListWithSuspense
             councilSlug={appConfig?.council?.slug}
             reference={reference}
-            showMoreButton={true}
-            documents={documents?.slice(0, 6) ?? null}
-            totalDocuments={documents?.length ?? 0}
+            documentsToShow={6}
           />
           <ApplicationPeople
             applicant={application.submission.data.applicant}

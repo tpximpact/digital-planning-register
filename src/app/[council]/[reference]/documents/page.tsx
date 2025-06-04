@@ -18,16 +18,15 @@
 import { Metadata } from "next";
 import {
   ApiResponse,
-  DprShowApiResponse,
   DprDocumentsApiResponse,
   SearchParamsDocuments,
+  UnknownSearchParams,
 } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
-import { ContentNotFound } from "@/components/ContentNotFound";
-import { buildDocumentData } from "@/lib/documents";
+import { validateSearchParams } from "@/lib/documents";
 import { PageApplicationDocuments } from "@/components/PageApplicationDocuments";
 
 interface PlanningApplicationDetailsDocumentsProps {
@@ -35,50 +34,37 @@ interface PlanningApplicationDetailsDocumentsProps {
     council: string;
     reference: string;
   };
-  searchParams?: SearchParamsDocuments;
+  searchParams?: UnknownSearchParams;
+}
+
+interface PlanningApplicationDetailsDocumentsFetchProps
+  extends Omit<PlanningApplicationDetailsDocumentsProps, "searchParams"> {
+  searchParams: SearchParamsDocuments;
 }
 
 async function fetchData({
   params,
   searchParams,
-}: PlanningApplicationDetailsDocumentsProps): Promise<{
-  applicationResponse: ApiResponse<DprShowApiResponse | null>;
-  documentResponse: ApiResponse<DprDocumentsApiResponse | null>;
-}> {
+}: PlanningApplicationDetailsDocumentsFetchProps): Promise<
+  ApiResponse<DprDocumentsApiResponse | null>
+> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
-  const [applicationResponse, documentResponse] = await Promise.all([
-    ApiV1.show(appConfig.council?.dataSource ?? "none", council, reference),
-    ApiV1.documents(
-      appConfig.council?.dataSource ?? "none",
-      council,
-      reference,
-      {
-        ...searchParams,
-        page: searchParams?.page ? Number(searchParams.page) : 1,
-        resultsPerPage: searchParams?.resultsPerPage
-          ? Number(searchParams.resultsPerPage)
-          : appConfig.defaults.resultsPerPage,
-      },
-    ),
-  ]);
-  return { applicationResponse, documentResponse };
+  const response = await ApiV1.documents(
+    appConfig.council?.dataSource ?? "none",
+    council,
+    reference,
+    searchParams,
+  );
+  return response;
 }
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: PlanningApplicationDetailsDocumentsProps): Promise<Metadata | undefined> {
-  const { applicationResponse } = await fetchData({ params, searchParams });
-  const { reference, council } = params;
+  const { council, reference } = params;
   const councilName = getAppConfig(council)?.council?.name ?? "";
 
-  if (!applicationResponse.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
   return {
     title: `Documents`,
     description: `All documents for ${councilName} Council planning application ${reference}`,
@@ -89,15 +75,10 @@ export default async function PlanningApplicationDetailsDocuments({
   params,
   searchParams,
 }: PlanningApplicationDetailsDocumentsProps) {
-  const { reference, council } = params;
+  const { council } = params;
   const appConfig = getAppConfig(council);
-  const { applicationResponse, documentResponse } = await fetchData({ params });
 
-  if (
-    !documentResponse ||
-    documentResponse?.status?.code !== 200 ||
-    appConfig.council === undefined
-  ) {
+  if (appConfig.council === undefined) {
     return (
       <PageMain>
         <ContentError />
@@ -105,28 +86,27 @@ export default async function PlanningApplicationDetailsDocuments({
     );
   }
 
-  const application = applicationResponse?.data;
-  const documents = documentResponse?.data;
+  const validSearchParams = validateSearchParams(appConfig, searchParams);
+  const documentResponse = await fetchData({
+    params,
+    searchParams: validSearchParams,
+  });
 
-  if (!documents || !application) {
+  if (!documentResponse || documentResponse?.status?.code !== 200) {
     return (
       <PageMain>
-        <ContentNotFound councilConfig={appConfig.council} />
+        <ContentError />
       </PageMain>
     );
   }
 
-  const documentData = buildDocumentData(documents, searchParams);
-
   return (
     <PageApplicationDocuments
-      reference={reference}
-      application={application}
-      documents={documentData.data}
-      pagination={documentData.pagination}
+      documents={documentResponse.data}
+      pagination={documentResponse.pagination}
       appConfig={appConfig}
       params={params}
-      searchParams={searchParams}
+      searchParams={validSearchParams}
     />
   );
 }

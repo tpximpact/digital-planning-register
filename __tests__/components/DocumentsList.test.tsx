@@ -15,69 +15,77 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// CommentsList.test.tsx
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { DocumentsList } from "@/components/DocumentsList";
-import { DprDocument } from "@/types";
-import { FileList } from "@/components/FileList";
-import {
-  generateDocument,
-  generateNResults,
-} from "@mocks/dprApplicationFactory";
+import { DocumentsList, DocumentsListProps } from "@/components/DocumentsList";
 
+// Mock FileList and Button to isolate the component
 jest.mock("@/components/FileList", () => ({
-  FileList: jest.fn(),
+  FileList: ({ documents }: any) => (
+    <div data-testid="file-list">{documents?.length} files</div>
+  ),
+}));
+jest.mock("@/components/button", () => ({
+  Button: ({ children, ...props }: any) => (
+    <a data-testid="show-all-btn" {...props}>
+      {children}
+    </a>
+  ),
 }));
 
+const baseProps: DocumentsListProps = {
+  councilSlug: "public-council-1",
+  reference: "APP-123",
+  documents: [
+    { url: "/doc1", title: "Doc 1", metadata: {} },
+    { url: "/doc2", title: "Doc 2", metadata: {} },
+    { url: "/doc3", title: "Doc 3", metadata: {} },
+  ],
+  totalDocuments: 3,
+  documentsToShow: 2,
+};
+
 describe("DocumentsList", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  it("renders the heading", () => {
+    render(<DocumentsList {...baseProps} />);
+    expect(
+      screen.getByRole("heading", { name: /Documents/i }),
+    ).toBeInTheDocument();
   });
 
-  it("shows the correct documents", () => {
-    const documents = generateNResults<DprDocument>(9, generateDocument);
-    render(
-      <DocumentsList
-        councilSlug="public-council-1"
-        reference="12345"
-        documents={documents}
-        totalDocuments={100}
-        showMoreButton={true}
-      />,
-    );
-
-    expect(
-      screen.getByRole("heading", { name: "Documents" }),
-    ).toBeInTheDocument();
-    expect(FileList).toHaveBeenCalledTimes(1);
-    expect(FileList).toHaveBeenCalledWith(
-      expect.objectContaining({
-        documents: expect.arrayContaining(documents),
-      }),
-      expect.anything(),
-    );
-    expect(screen.getByText("Showing 9 of 100 documents")).toBeInTheDocument();
-    expect(screen.getByText("Show all 100 documents")).toBeInTheDocument();
+  it("renders the FileList with the correct number of documents", () => {
+    render(<DocumentsList {...baseProps} />);
+    expect(screen.getByTestId("file-list")).toHaveTextContent("2 files");
   });
 
-  it("shows message when no documents", () => {
-    render(
-      <DocumentsList
-        councilSlug="public-council-1"
-        reference="12345"
-        documents={[]}
-        totalDocuments={0}
-      />,
+  it("shows the 'Show all' button and hint if not all documents are shown", () => {
+    render(<DocumentsList {...baseProps} />);
+    expect(screen.getByTestId("show-all-btn")).toHaveAttribute(
+      "href",
+      "/public-council-1/APP-123/documents",
     );
+    expect(screen.getByText(/Showing 2 of 3 documents/)).toBeInTheDocument();
+    expect(screen.getByText(/Show all 3 documents/)).toBeInTheDocument();
+  });
 
+  it("does not show the 'Show all' button if all documents are displayed", () => {
+    render(<DocumentsList {...baseProps} documentsToShow={3} />);
+    expect(screen.queryByTestId("show-all-btn")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Showing/)).not.toBeInTheDocument();
+  });
+
+  it("renders the no documents message if documents is null", () => {
+    render(<DocumentsList {...baseProps} documents={null} />);
     expect(
-      screen.getByRole("heading", { name: "Documents" }),
+      screen.getByText(/No documents have been published at this time/i),
     ).toBeInTheDocument();
-    expect(FileList).not.toHaveBeenCalled();
+  });
+
+  it("renders the no documents message if documents is an empty array", () => {
+    render(<DocumentsList {...baseProps} documents={[]} />);
     expect(
-      screen.getByText("No documents have been published at this time."),
+      screen.getByText(/No documents have been published at this time/i),
     ).toBeInTheDocument();
   });
 });
