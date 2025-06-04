@@ -32,7 +32,6 @@ import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
 import { FormCommentsSearch } from "@/components/FormCommentsSearch";
 import { ContextSetterWithSuspense } from "@/components/ContextSetter";
-import { ContentNotPublished } from "../ContentNotPublished";
 
 export interface PageApplicationCommentsProps {
   params: {
@@ -56,7 +55,7 @@ export const PageApplicationComments = ({
   pagination,
   searchParams,
 }: PageApplicationCommentsProps) => {
-  if (!appConfig || !appConfig.council) {
+  if (!appConfig || !appConfig.council || !pagination) {
     return (
       <PageMain>
         <ContentNotFound />
@@ -77,43 +76,51 @@ export const PageApplicationComments = ({
         <h1 className="govuk-heading-l">
           {type === "public" ? "Public Comments" : "Specialist Comments"}
         </h1>
-        {pagination?.totalAvailableItems &&
-        pagination?.totalAvailableItems > 0 ? (
-          <form
-            className="govuk-form"
-            method="get"
-            action={createPathFromParams(params, "comments/search")}
-            aria-label="Search & Sort comments"
-          >
-            <input type="hidden" name="type" value={type} />
-            <input type="hidden" name="council" value={councilSlug} />
-            <input type="hidden" name="reference" value={reference} />
-            <FormCommentsSearch searchParams={searchParams} />
-            <FormCommentsSort searchParams={searchParams} />
-          </form>
-        ) : (
-          <></>
-        )}
 
-        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
-        {comments && comments.length > 0 ? (
+        {pagination?.totalAvailableItems === 0 ? (
+          <p className="govuk-hint">
+            <em>
+              {type === "specialist"
+                ? "No comments from specialists have been published at this time."
+                : "No comments from the public have been published at this time."}
+            </em>
+          </p>
+        ) : (
           <>
-            {comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} />
-            ))}
-          </>
-        ) : pagination?.totalAvailableItems === 0 ? (
-          <ContentNotPublished type={type} />
-        ) : (
-          <ContentNoResult councilConfig={appConfig.council} type="comment" />
-        )}
+            <form
+              className="govuk-form"
+              method="get"
+              action={createPathFromParams(params, "comments/search")}
+              aria-label="Search & Sort comments"
+            >
+              <input type="hidden" name="type" value={type} />
+              <input type="hidden" name="council" value={councilSlug} />
+              <input type="hidden" name="reference" value={reference} />
+              <FormCommentsSearch searchParams={searchParams} />
+              <FormCommentsSort searchParams={searchParams} />
+            </form>
 
-        {pagination && pagination.totalPages > 1 && (
-          <Pagination
-            baseUrl={createPathFromParams(params, "comments")}
-            searchParams={searchParams}
-            pagination={pagination}
-          />
+            <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
+
+            {comments && comments.length > 0 ? (
+              comments.map((comment) => (
+                <CommentCard key={comment.id} comment={comment} />
+              ))
+            ) : (
+              <ContentNoResult
+                councilConfig={appConfig.council}
+                type="comment"
+              />
+            )}
+
+            {pagination.totalPages > 1 && (
+              <Pagination
+                baseUrl={createPathFromParams(params, "comments")}
+                searchParams={searchParams}
+                pagination={pagination}
+              />
+            )}
+          </>
         )}
       </PageMain>
     </>

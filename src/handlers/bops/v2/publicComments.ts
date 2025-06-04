@@ -40,7 +40,7 @@ import { defaultPagination } from "@/handlers/lib";
 export async function publicComments(
   council: string,
   reference: string,
-  searchParams?: SearchParamsComments,
+  searchParams: SearchParamsComments,
 ): Promise<ApiResponse<DprPublicCommentsApiResponse | null>> {
   let url = `public/planning_applications/${reference}/comments/public`;
 
