@@ -127,7 +127,6 @@ export const PublicCommentCard = ({
 
           {hasOverflow && (
             <TextButton
-              aria-expanded={isExpanded}
               aria-controls={`public-comment-${commentId}`}
               onClick={() => setIsExpanded(!isExpanded)}
               className="govuk-link govuk-link--no-visited-state dpr-public-comment-card--toggle-button"
