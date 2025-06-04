@@ -17,21 +17,21 @@
 
 import { AppConfig } from "@/config/types";
 import { DprApplication, DprDocument } from "@/types";
-import { ApplicationPeople } from "../ApplicationPeople";
-import { ApplicationHero } from "../ApplicationHero";
+import { ApplicationPeople } from "@/components/ApplicationPeople";
+import { ApplicationHero } from "@/components/ApplicationHero";
 import { DocumentsList } from "@/components/DocumentsList";
-import { ContentError } from "../ContentError";
+import { ContentError } from "@/components/ContentError";
 import "./ApplicationDetails.scss";
-import { ContentSidebar } from "../ContentSidebar";
+import { ContentSidebar } from "@/components/ContentSidebar";
 import { slugify } from "@/util";
 import { Button } from "@/components/button";
-import { ApplicationProgressInfo } from "../ApplicationProgressInfo";
+import { ApplicationProgressInfo } from "@/components/ApplicationProgressInfo";
 import { buildApplicationProgress } from "@/lib/planningApplication/progress";
-import { ApplicationAppeals } from "../ApplicationAppeals";
-// import { ImpactMeasures } from "../ImpactMeasures";
+import { ApplicationAppeals } from "@/components/ApplicationAppeals";
+// import { ImpactMeasures } from "@/components/ImpactMeasures";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
-import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
+import { CommentsSummaryWithSuspense } from "@/components/CommentsSummaryWithSuspense";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -102,14 +102,14 @@ export const ApplicationDetails = ({
 
   if (appConfig.council?.specialistComments) {
     sidebar.push({
-      key: slugify("Specialist comments"),
+      key: slugify("Specialist comments summary"),
       title: "Specialist comments",
     });
   }
 
   if (appConfig.council?.publicComments) {
     sidebar.push({
-      key: slugify("Public comments"),
+      key: slugify("Public comments summary"),
       title: "Public comments",
     });
   }
@@ -181,19 +181,15 @@ export const ApplicationDetails = ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <CommentsListWithSuspense
-              councilSlug={appConfig?.council?.slug}
-              reference={reference}
+            <CommentsSummaryWithSuspense
+              params={{ council: councilSlug, reference: reference }}
               type="specialist"
-              resultsPerPage={3}
             />
           )}
           {appConfig.council?.publicComments && (
-            <CommentsListWithSuspense
-              councilSlug={appConfig?.council?.slug}
-              reference={reference}
+            <CommentsSummaryWithSuspense
+              params={{ council: councilSlug, reference: reference }}
               type="public"
-              resultsPerPage={3}
             />
           )}
         </div>

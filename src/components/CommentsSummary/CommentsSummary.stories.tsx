@@ -31,11 +31,7 @@ const meta = {
       council: "public-council-1",
       reference: "ABC/123",
     },
-    searchParams: {
-      page: 1,
-      resultsPerPage: 10,
-      type: "public",
-    },
+    type: "public",
     summary: {
       sentiment: {
         supportive: 10,
@@ -78,11 +74,7 @@ export const PublicSingularComments: Story = {
 };
 export const Specialist: Story = {
   args: {
-    searchParams: {
-      page: 1,
-      resultsPerPage: 10,
-      type: "specialist",
-    },
+    type: "specialist",
     summary: {
       sentiment: {
         approved: 7,
@@ -97,11 +89,7 @@ export const Specialist: Story = {
 
 export const SpecialistNoComments: Story = {
   args: {
-    searchParams: {
-      page: 1,
-      resultsPerPage: 10,
-      type: "specialist",
-    },
+    type: "specialist",
     summary: {
       sentiment: {
         approved: 0,
@@ -115,11 +103,7 @@ export const SpecialistNoComments: Story = {
 };
 export const SpecialistSingularComments: Story = {
   args: {
-    searchParams: {
-      page: 1,
-      resultsPerPage: 10,
-      type: "specialist",
-    },
+    type: "specialist",
     summary: {
       sentiment: {
         approved: 1,

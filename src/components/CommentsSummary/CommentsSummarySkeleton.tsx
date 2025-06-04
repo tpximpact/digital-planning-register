@@ -1,9 +1,9 @@
-import { DprCommentTypes } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 import "./CommentsSummary.scss";
 import { capitalizeFirstLetter } from "@/util";
 
 interface CommentsSummarySkeletonProps {
-  type: DprCommentTypes;
+  type: CommentType;
 }
 
 export const CommentsSummarySkeleton = ({

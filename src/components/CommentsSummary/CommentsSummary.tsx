@@ -19,7 +19,6 @@ import {
   PublicCommentSummary,
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
-import { SearchParamsComments } from "@/types";
 
 import { SentimentIcon } from "@/components/SentimentIcon";
 import { Button } from "@/components/button";
@@ -29,22 +28,22 @@ import { createPathFromParams } from "@/lib/navigation";
 
 import Link from "next/link";
 import "./CommentsSummary.scss";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 export interface CommentsSummaryProps {
   params: {
     council: string;
     reference: string;
   };
-  searchParams: SearchParamsComments;
+  type: CommentType;
   summary: PublicCommentSummary | SpecialistCommentSummary;
 }
 
 export const CommentsSummary = ({
   params,
-  searchParams,
+  type,
   summary,
 }: CommentsSummaryProps) => {
-  const { type } = searchParams;
   if (!type || !summary.sentiment) {
     return null;
   }
