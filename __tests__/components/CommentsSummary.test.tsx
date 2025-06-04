@@ -23,7 +23,7 @@ import {
   PublicCommentSummary,
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
-import { SearchParamsComments } from "@/types";
+import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
 
 jest.mock("@/components/SentimentIcon", () => ({
   SentimentIcon: ({ sentiment }: any) => (
@@ -56,12 +56,6 @@ describe("CommentsSummary", () => {
     reference: "ref-1234",
   };
 
-  const publicSearchParams: SearchParamsComments = {
-    page: 1,
-    resultsPerPage: 10,
-    type: "public",
-  };
-
   const publicSummary: PublicCommentSummary = {
     totalComments: 3,
     sentiment: {
@@ -69,12 +63,6 @@ describe("CommentsSummary", () => {
       objection: 1,
       neutral: 1,
     },
-  };
-
-  const specialistSearchParams: SearchParamsComments = {
-    page: 1,
-    resultsPerPage: 10,
-    type: "specialist",
   };
 
   const specialistSummary: SpecialistCommentSummary = {
@@ -91,7 +79,7 @@ describe("CommentsSummary", () => {
     const { container } = render(
       <CommentsSummary
         params={params}
-        searchParams={{} as SearchParamsComments}
+        type={undefined as unknown as CommentType}
         summary={publicSummary}
       />,
     );
@@ -102,7 +90,7 @@ describe("CommentsSummary", () => {
     const { container } = render(
       <CommentsSummary
         params={params}
-        searchParams={publicSearchParams}
+        type="public"
         summary={{} as PublicCommentSummary}
       />,
     );
@@ -114,7 +102,7 @@ describe("CommentsSummary", () => {
       const { container } = render(
         <CommentsSummary
           params={params}
-          searchParams={publicSearchParams}
+          type="public"
           summary={publicSummary}
         />,
       );
@@ -164,7 +152,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={publicSearchParams}
+            type="public"
             summary={{
               totalComments: 0,
               sentiment: {
@@ -194,7 +182,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={publicSearchParams}
+            type="public"
             summary={{
               totalComments: 3,
               sentiment: {
@@ -225,7 +213,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={publicSearchParams}
+            type="public"
             summary={{
               totalComments: 1,
               sentiment: {
@@ -257,7 +245,7 @@ describe("CommentsSummary", () => {
       const { container } = render(
         <CommentsSummary
           params={params}
-          searchParams={specialistSearchParams}
+          type="specialist"
           summary={specialistSummary}
         />,
       );
@@ -308,7 +296,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={specialistSearchParams}
+            type="specialist"
             summary={{
               totalComments: 0,
               totalConsulted: 0,
@@ -343,7 +331,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={specialistSearchParams}
+            type="specialist"
             summary={{
               totalComments: 2,
               totalConsulted: 4,
@@ -379,7 +367,7 @@ describe("CommentsSummary", () => {
         render(
           <CommentsSummary
             params={params}
-            searchParams={specialistSearchParams}
+            type="specialist"
             summary={{
               totalComments: 1,
               totalConsulted: 4,
