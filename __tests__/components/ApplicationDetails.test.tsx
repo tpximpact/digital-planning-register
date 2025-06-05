@@ -17,14 +17,9 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
-import {
-  ApplicationDetails,
-  ApplicationDetailsProps,
-} from "@/components/ApplicationDetails";
+import { ApplicationDetails } from "@/components/ApplicationDetails";
 import { AppConfig } from "@/config/types";
-import { DprApplication } from "@/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
-import { AssessmentInProgress } from "@/components/ApplicationCard/ApplicationCard.stories";
 
 // Mock child components
 jest.mock("@/components/ApplicationHero", () => ({
@@ -58,9 +53,9 @@ jest.mock("@/components/DocumentsListWithSuspense", () => ({
 jest.mock("@/components/ApplicationPeople", () => ({
   ApplicationPeople: () => <div data-testid="application-people" />,
 }));
-jest.mock("@/components/CommentsListWithSuspense", () => ({
-  CommentsListWithSuspense: (props: any) => (
-    <div data-testid={`comments-list-with-suspense-${props.type}`} />
+jest.mock("@/components/CommentsSummaryWithSuspense", () => ({
+  CommentsSummaryWithSuspense: (props: any) => (
+    <div data-testid={`comments-summary-with-suspense-${props.type}`} />
   ),
 }));
 jest.mock("@/components/ContentError", () => ({
@@ -123,10 +118,10 @@ describe.only("ApplicationDetails", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("application-people")).toBeInTheDocument();
     expect(
-      screen.getByTestId("comments-list-with-suspense-specialist"),
+      screen.getByTestId("comments-summary-with-suspense-specialist"),
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId("comments-list-with-suspense-public"),
+      screen.getByTestId("comments-summary-with-suspense-public"),
     ).toBeInTheDocument();
   });
 
@@ -198,10 +193,10 @@ describe.only("ApplicationDetails", () => {
       />,
     );
     expect(
-      screen.queryByTestId("comments-list-with-suspense-specialist"),
+      screen.queryByTestId("comments-summary-with-suspense-specialist"),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId("comments-list-with-suspense-public"),
+      screen.queryByTestId("comments-summary-with-suspense-public"),
     ).not.toBeInTheDocument();
   });
 });
