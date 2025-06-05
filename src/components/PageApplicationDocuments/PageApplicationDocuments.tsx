@@ -16,80 +16,108 @@
  */
 
 import { BackButton } from "@/components/BackButton";
-import ApplicationHeader from "../application_header";
 import { Pagination } from "@/components/govuk/Pagination";
 import {
   DprApplication,
   DprDocument,
   DprPagination,
-  SearchParams,
+  SearchParamsDocuments,
 } from "@/types";
 import { AppConfig } from "@/config/types";
-import { DocumentsList } from "@/components/DocumentsList";
-import { PageMain } from "../PageMain";
+import { FileList } from "@/components/FileList";
+import { PageMain } from "@/components/PageMain";
 import { createPathFromParams } from "@/lib/navigation";
-import { getPropertyAddress } from "@/lib/planningApplication/application";
+import { ContextSetterWithSuspense } from "@/components/ContextSetter";
+import { ContentNotFound } from "@/components/ContentNotFound";
+import { FormDocumentsSearch } from "@/components/FormDocumentsSearch";
+import { FormDocumentsSort } from "@/components/FormDocumentsSort";
+import { ContentNoResult } from "@/components/ContentNoResult";
+import { documentSearchFields } from "@/util/featureFlag";
 
 export interface PageApplicationDocumentsProps {
-  reference: string;
-  application: DprApplication;
-  documents: DprDocument[] | null;
-  pagination: DprPagination;
-  appConfig: AppConfig;
-  params?: {
+  params: {
     council: string;
-    reference?: string;
+    reference: string;
   };
-  searchParams?: SearchParams;
+  appConfig: AppConfig;
+  documents: DprDocument[] | null;
+  searchParams: SearchParamsDocuments;
+  pagination?: DprPagination;
+  application?: DprApplication;
 }
 
 export const PageApplicationDocuments = ({
-  reference,
-  application,
-  documents,
-  pagination,
-  appConfig,
   params,
+  appConfig,
+  documents,
   searchParams,
+  pagination,
+  application,
 }: PageApplicationDocumentsProps) => {
-  if (!appConfig || !appConfig.council) {
-    return null;
+  if (!appConfig || !appConfig.council || !pagination) {
+    return (
+      <PageMain>
+        <ContentNotFound />
+      </PageMain>
+    );
   }
-  const councilSlug = appConfig.council.slug;
+  const { council: councilSlug, reference } = params;
 
-  const documentsPagination = pagination ?? {
-    currentPage: 1,
-    resultsPerPage: searchParams?.resultsPerPage ?? 9,
-    totalPages: 1,
-    totalResults: documents?.length ?? 0,
-    totalAvailableItems: documents?.length ?? 0,
-  };
-
-  const { currentPage, resultsPerPage } = documentsPagination;
-  const from = (currentPage - 1) * resultsPerPage;
-  const displayedDocuments = documents?.slice(from, from + resultsPerPage);
-
-  const address = getPropertyAddress(
-    application?.submission?.data?.property?.address,
-  );
   return (
     <>
-      <BackButton baseUrl={`/${councilSlug}/${reference}`} />
+      <BackButton baseUrl={createPathFromParams(params)} />
       <PageMain>
-        <ApplicationHeader reference={reference} address={address} />
-        <DocumentsList
-          councilSlug={appConfig.council.slug}
+        <ContextSetterWithSuspense
+          councilSlug={councilSlug}
           reference={reference}
-          documents={displayedDocuments ?? null}
-          totalDocuments={documents?.length ?? displayedDocuments?.length ?? 0}
-          showMoreButton={false}
+          application={application}
         />
-        {pagination && pagination.totalPages > 1 && (
-          <Pagination
-            baseUrl={createPathFromParams(params, "documents")}
-            searchParams={searchParams}
-            pagination={pagination}
-          />
+        <h1 className="govuk-heading-l" id="documents">
+          Documents
+        </h1>
+        {pagination?.totalAvailableItems === 0 ? (
+          <p className="govuk-hint">
+            <em>No documents have been published at this time.</em>
+          </p>
+        ) : (
+          <>
+            <p className="govuk-body">
+              To find out more detailed information, please read the following
+              document(s) provided by the applicant.
+            </p>
+            <form
+              className="govuk-form"
+              method="get"
+              action={createPathFromParams(params, "documents/search")}
+              aria-label="Search & Sort documents"
+            >
+              <input type="hidden" name="council" value={councilSlug} />
+              <input type="hidden" name="reference" value={reference} />
+              <FormDocumentsSearch searchParams={searchParams} />
+              {documentSearchFields.includes("sortBy") && (
+                <FormDocumentsSort searchParams={searchParams} />
+              )}
+            </form>
+            <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
+
+            {documents ? (
+              <FileList documents={documents} />
+            ) : (
+              <ContentNoResult
+                councilConfig={appConfig.council}
+                type="comment"
+              />
+            )}
+
+            <hr className="govuk-section-break govuk-section-break--l govuk-section-break--invisible"></hr>
+            {pagination.totalPages > 1 && (
+              <Pagination
+                baseUrl={createPathFromParams(params, "documents")}
+                searchParams={searchParams}
+                pagination={pagination}
+              />
+            )}
+          </>
         )}
       </PageMain>
     </>

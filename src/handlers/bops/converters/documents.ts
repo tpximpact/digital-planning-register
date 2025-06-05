@@ -15,9 +15,14 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprDocument } from "@/types";
-import { BopsFile, BopsNonStandardDocument } from "@/handlers/bops/types";
-import { convertDateTimeToUtc, formatTag } from "@/util";
+import {
+  ApiResponse,
+  DprDocument,
+  DprDocumentsApiResponse,
+  SearchParamsDocuments,
+} from "@/types";
+import { BopsFile } from "@/handlers/bops/types";
+import { convertDateTimeToUtc } from "@/util";
 
 /**
  * Converts BOPS files into our standard format
@@ -38,22 +43,38 @@ export const convertDocumentBopsFile = (document: BopsFile): DprDocument => {
   };
 };
 
-/**
- * Converts BOPS documents into our standard format
- * @param comment
- * @returns
- */
-export const convertDocumentBopsNonStandard = (
-  document: BopsNonStandardDocument,
-): DprDocument => {
+export const convertBopsDocumentEndpointToDprDocumentEndpoint = (
+  documents: BopsFile[],
+  totalResults: number,
+  searchParams: SearchParamsDocuments,
+  status: ApiResponse<DprDocument[]>["status"],
+  extraDocuments: DprDocument[] = [],
+): ApiResponse<DprDocumentsApiResponse> => {
+  const convertedDocuments = documents.map(convertDocumentBopsFile);
+  const allDocuments = [...extraDocuments, ...convertedDocuments];
+
+  const finalTotalResults = totalResults + extraDocuments.length;
+
+  const resultsPerPage = searchParams.resultsPerPage;
+  const currentPage = searchParams.page;
+  const totalPages = Math.ceil(finalTotalResults / resultsPerPage);
+
+  // Calculate shown documents
+  const startIdx = ((currentPage ?? 1) - 1) * (resultsPerPage ?? 10);
+  const endIdx = startIdx + (resultsPerPage ?? 10);
+  const data = allDocuments.slice(startIdx, endIdx);
+
+  const pagination = {
+    resultsPerPage,
+    currentPage,
+    totalPages,
+    totalResults: finalTotalResults,
+    totalAvailableItems: finalTotalResults,
+  };
+
   return {
-    url: document.url,
-    title:
-      document?.tags?.length > 0
-        ? document.tags.map(formatTag).join(", ")
-        : "Unnamed Document",
-    createdDate: document.created_at
-      ? convertDateTimeToUtc(document.created_at)
-      : undefined,
+    data: data.length > 0 ? data : null,
+    pagination,
+    status,
   };
 };

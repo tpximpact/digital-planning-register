@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, SearchParamsDocuments } from "@/types";
 import { documents } from "./documents";
 import { CouncilDataSourceExtended } from "@/config/types";
 
@@ -23,8 +23,10 @@ export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=documents`,
   file: `src/actions/api/v1/documents.ts`,
   description: "documents",
-  arguments: ["source", "council", "reference"],
-  run: async (args: [CouncilDataSourceExtended, string, string]) => {
+  arguments: ["source", "council", "reference", "searchParams"],
+  run: async (
+    args: [CouncilDataSourceExtended, string, string, SearchParamsDocuments],
+  ) => {
     return await documents(...args);
   },
   examples: [

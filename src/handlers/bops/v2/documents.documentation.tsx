@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
+import { Documentation, SearchParamsDocuments } from "@/types";
 import { documents } from "./documents";
 
 export const documentation: Documentation = {
@@ -23,7 +23,7 @@ export const documentation: Documentation = {
   file: `src/handlers/bops/v2/documents.ts`,
   description: "documents",
   arguments: ["council", "reference"],
-  run: async (args: [string, string]) => {
+  run: async (args: [string, string, SearchParamsDocuments]) => {
     return await documents(...args);
   },
   examples: [

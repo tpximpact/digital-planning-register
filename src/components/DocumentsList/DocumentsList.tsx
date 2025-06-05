@@ -27,7 +27,7 @@ export interface DocumentsListProps {
   reference: string;
   documents: DprDocument[] | null;
   totalDocuments: number;
-  showMoreButton?: boolean;
+  documentsToShow: number;
 }
 
 /**
@@ -40,41 +40,41 @@ export const DocumentsList = ({
   reference,
   documents,
   totalDocuments,
-  showMoreButton = false,
+  documentsToShow = 6,
 }: DocumentsListProps) => {
+  const documentsToDisplay = documents?.slice(0, documentsToShow) || null;
   return (
     <section className="dpr-documents-list" aria-labelledby="documents">
       <h2 className="govuk-heading-l" id="documents">
         Documents
       </h2>
-      <p className="govuk-body">
-        To find out more detailed information, please read the following
-        document(s) provided by the applicant.
-      </p>
 
-      {documents && documents.length > 0 ? (
+      {documentsToDisplay && documentsToDisplay.length > 0 ? (
         <>
-          <FileList documents={documents} />
-          {showMoreButton &&
-            documents.length > 0 &&
-            documents.length < totalDocuments && (
-              <div className="govuk-grid-row grid-row-extra-bottom-margin">
-                <div className="govuk-grid-column-full">
-                  <p className="govuk-hint">
-                    Showing {documents.length} of {totalDocuments} documents
-                  </p>
-                  {councilSlug && (
-                    <Button
-                      variant="information"
-                      element="link"
-                      href={`/${councilSlug}/${reference}/documents`}
-                    >
-                      {`Show all ${totalDocuments} documents`}
-                    </Button>
-                  )}
-                </div>
+          <p className="govuk-body">
+            To find out more detailed information, please read the following
+            document(s) provided by the applicant.
+          </p>
+          <FileList documents={documentsToDisplay} />
+          {documentsToDisplay.length < totalDocuments && (
+            <div className="govuk-grid-row grid-row-extra-bottom-margin">
+              <div className="govuk-grid-column-full">
+                <p className="govuk-hint">
+                  Showing {documentsToDisplay.length} of {totalDocuments}{" "}
+                  documents
+                </p>
+                {councilSlug && (
+                  <Button
+                    variant="information"
+                    element="link"
+                    href={`/${councilSlug}/${reference}/documents`}
+                  >
+                    {`Show all ${totalDocuments} documents`}
+                  </Button>
+                )}
               </div>
-            )}
+            </div>
+          )}
         </>
       ) : (
         <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -85,6 +85,17 @@ export const DocumentsList = ({
           </div>
         </div>
       )}
+    </section>
+  );
+};
+
+export const DocumentsListSkeleton = () => {
+  return (
+    <section className="dpr-documents-list" aria-labelledby="documents">
+      <h2 className="govuk-heading-l" id="documents">
+        Documents
+      </h2>
+      <div className="dpr-documents-list__skeleton"></div>
     </section>
   );
 };

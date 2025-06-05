@@ -15,29 +15,44 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprPagination } from "@/types";
+import { Meta, StoryObj } from "@storybook/react";
+import { FormDocumentsSort } from "./FormDocumentsSort";
 
-/**
- * Since comments and documents aren't officially paginated we're faking it atm so
- * that the <Pagination /> component can be standardised
- * @param totalComments
- * @param currentPage
- * @returns
- */
+const meta: Meta<typeof FormDocumentsSort> = {
+  title: "Forms/Documents Sort",
+  component: FormDocumentsSort,
+  tags: ["autodocs"],
+  args: {
+    searchParams: {
+      resultsPerPage: 10,
+      page: 1,
+    },
+  },
+};
 
-export const createItemPagination = (
-  totalResults: number = 0,
-  paramsPage: number = 1,
-  maxDisplayItems: number = 10,
-): DprPagination => {
-  const currentPage = Number(paramsPage);
-  const totalPages = Math.ceil(totalResults / maxDisplayItems);
+export default meta;
 
-  return {
-    resultsPerPage: maxDisplayItems,
-    currentPage: currentPage,
-    totalPages: totalPages,
-    totalResults,
-    totalAvailableItems: totalResults,
-  };
+type Story = StoryObj<typeof FormDocumentsSort>;
+
+export const Default: Story = {};
+
+export const OldestFirst: Story = {
+  args: {
+    searchParams: {
+      sortBy: "publishedAt",
+      orderBy: "asc",
+      resultsPerPage: 10,
+      page: 1,
+    },
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    action: "/documents",
+    searchParams: {
+      resultsPerPage: 10,
+      page: 1,
+    },
+  },
 };

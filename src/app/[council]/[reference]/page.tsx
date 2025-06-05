@@ -16,12 +16,7 @@
  */
 
 import { Metadata } from "next";
-import {
-  ApiResponse,
-  DprShowApiResponse,
-  DprDocumentsApiResponse,
-  SearchParams,
-} from "@/types";
+import { ApiResponse, DprShowApiResponse, UnknownSearchParams } from "@/types";
 import { ApiV1 } from "@/actions/api";
 import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
@@ -34,30 +29,28 @@ interface PlanningApplicationDetailsProps {
     council: string;
     reference: string;
   };
-  searchParams?: SearchParams;
+  searchParams?: UnknownSearchParams;
 }
 
-async function fetchData({ params }: PlanningApplicationDetailsProps): Promise<{
-  applicationResponse: ApiResponse<DprShowApiResponse | null>;
-  documentResponse: ApiResponse<DprDocumentsApiResponse | null>;
-}> {
+async function fetchData({
+  params,
+}: PlanningApplicationDetailsProps): Promise<
+  ApiResponse<DprShowApiResponse | null>
+> {
   const { reference, council } = params;
   const appConfig = getAppConfig(council);
-  const [applicationResponse, documentResponse] = await Promise.all([
-    ApiV1.show(appConfig.council?.dataSource ?? "none", council, reference),
-    ApiV1.documents(
-      appConfig.council?.dataSource ?? "none",
-      council,
-      reference,
-    ),
-  ]);
-  return { applicationResponse, documentResponse };
+  const applicationResponse = await ApiV1.show(
+    appConfig.council?.dataSource ?? "none",
+    council,
+    reference,
+  );
+  return applicationResponse;
 }
 
 export async function generateMetadata({
   params,
 }: PlanningApplicationDetailsProps): Promise<Metadata | undefined> {
-  const { applicationResponse } = await fetchData({ params });
+  const applicationResponse = await fetchData({ params });
 
   if (!applicationResponse.data) {
     return {
@@ -73,7 +66,7 @@ const PlanningApplicationDetails = async ({
 }: PlanningApplicationDetailsProps) => {
   const { council, reference } = params;
   const appConfig = getAppConfig(council);
-  const { applicationResponse, documentResponse } = await fetchData({ params });
+  const applicationResponse = await fetchData({ params });
   if (
     !applicationResponse ||
     applicationResponse?.status?.code !== 200 ||
@@ -86,7 +79,6 @@ const PlanningApplicationDetails = async ({
     );
   }
   const application = applicationResponse.data;
-  const documents = documentResponse?.data ?? null;
 
   if (application) {
     trackServer(`siteNoticeTracking`, {
@@ -97,12 +89,7 @@ const PlanningApplicationDetails = async ({
   }
 
   return (
-    <PageShow
-      appConfig={appConfig}
-      application={application}
-      documents={documents}
-      params={params}
-    />
+    <PageShow appConfig={appConfig} application={application} params={params} />
   );
 };
 

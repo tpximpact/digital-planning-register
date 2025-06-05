@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplication, DprDocument, SearchParams } from "@/types";
+import { DprApplication, DprDocument } from "@/types";
 import { BackButton } from "@/components/BackButton";
 import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
@@ -25,19 +25,18 @@ import { ContentNotFound } from "../ContentNotFound";
 export interface PageShowProps {
   appConfig: AppConfig;
   application: DprApplication | null;
-  documents: DprDocument[] | null;
+  documents?: DprDocument[];
   params: {
     council: string;
     reference: string;
   };
-  searchParams?: SearchParams;
 }
 
 export const PageShow = ({
   appConfig,
   application,
-  documents,
   params,
+  documents,
 }: PageShowProps) => {
   const { council, reference } = params;
 

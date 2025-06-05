@@ -290,11 +290,8 @@ const testCouncilReferenceDocuments = async (page: Page) => {
   await expect(
     page.getByRole("heading", {
       name: "Documents",
+      level: 1,
     }),
-  ).toBeVisible();
-
-  await expect(
-    page.locator("a", { hasText: "Application form" }),
   ).toBeVisible();
 };
 

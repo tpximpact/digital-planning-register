@@ -26,7 +26,7 @@ import { DprDocument } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
 
-const documents = generateNResults<DprDocument>(50, generateDocument);
+const documents = generateNResults<DprDocument>(10, generateDocument);
 
 const meta = {
   title: "Council pages/Application documents",
@@ -51,11 +51,18 @@ const meta = {
     },
   },
   args: {
-    reference: "12345",
-    application: generateDprApplication(),
-    documents: documents,
-    pagination: generatePagination(1, documents.length),
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
     appConfig: createAppConfig("public-council-1"),
+    documents: documents,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+    },
+    application: generateDprApplication(),
+    pagination: generatePagination(1, documents.length * 5),
   },
 } satisfies Meta<typeof PageApplicationDocuments>;
 
@@ -66,21 +73,26 @@ export const Default: Story = {};
 export const NoDocuments: Story = {
   args: {
     documents: undefined,
-    pagination: undefined,
+    pagination: generatePagination(1, 0),
   },
 };
-export const FirstPage: Story = {
+export const SearchResults: Story = {
   args: {
-    pagination: generatePagination(1, documents.length),
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      name: "Test Document",
+    },
   },
 };
-export const SecondPage: Story = {
+export const SearchNoResults: Story = {
   args: {
-    pagination: generatePagination(2, documents.length),
-  },
-};
-export const ThirdPage: Story = {
-  args: {
-    pagination: generatePagination(3, documents.length),
+    documents: null,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      name: "Test Document",
+    },
+    pagination: generatePagination(1, 0, documents.length * 5),
   },
 };
