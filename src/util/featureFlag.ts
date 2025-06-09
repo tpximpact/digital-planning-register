@@ -91,10 +91,14 @@ export const commentSearchFields = handleFeatureFlags(
  * Document Search Fields
  */
 export const DOCUMENT_SEARCH_FIELDS = [
-  "title",
-  "author",
-  "datePublished",
-  "fileType",
+  "sortBy",
+  "query",
+  "resultsPerPage",
+  "page",
+  "name",
+  "publishedAtFrom",
+  "publishedAtTo",
+  "type",
 ] as const;
 
 export const documentSearchFields = handleFeatureFlags(

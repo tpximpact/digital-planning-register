@@ -33,40 +33,51 @@ import {
 const responseQuery = (
   council: string,
   reference: string,
-  searchParams?: SearchParamsDocuments,
+  searchParams: SearchParamsDocuments,
 ): ApiResponse<DprDocumentsApiResponse> => {
   const appConfig = getAppConfig();
   const resultsPerPage = searchParams?.resultsPerPage
     ? searchParams.resultsPerPage
     : appConfig.defaults.resultsPerPage;
 
-  let documents = [
-    ...generateNResults<DprDocument>(resultsPerPage * 10, generateDocument),
-  ];
-  if (searchParams?.page === 1) {
-    documents = [
-      {
-        url: `/${council}/${reference}/application-form`,
-        title: "Application form",
-        metadata: {
-          contentType: "text/html",
-        },
-      },
-      ...generateNResults<DprDocument>(
-        resultsPerPage * 10 - 1,
-        generateDocument,
-      ),
-    ];
+  let documents: DprDocument[] | null = generateNResults<DprDocument>(
+    resultsPerPage,
+    generateDocument,
+  );
+  let pagination = generatePagination(
+    searchParams?.page ?? 1,
+    resultsPerPage * 5,
+  );
+
+  if (reference === "APP-NULL") {
+    // if the reference is APP-NULL, we return no documents
+    documents = null;
+    pagination = generatePagination(searchParams?.page ?? 1, 0, 0);
   }
 
   // if we've done a search just rename the first result to match the query
-  if (searchParams?.query) {
-    documents[0].title = searchParams?.query;
+  if (searchParams?.name) {
+    if (searchParams?.name === "noresultsplease") {
+      documents = null;
+      pagination = generatePagination(
+        searchParams?.page ?? 1,
+        0,
+        resultsPerPage * 5,
+      );
+    } else {
+      documents = [generateDocument()];
+      documents[0].title = searchParams?.name;
+      pagination = generatePagination(
+        searchParams?.page ?? 1,
+        1,
+        resultsPerPage * 5,
+      );
+    }
   }
 
   return {
     data: documents,
-    pagination: generatePagination(searchParams?.page ?? 1, documents.length),
+    pagination,
     status: {
       code: 200,
       message: "",
@@ -77,7 +88,7 @@ const responseQuery = (
 export const documents = (
   council: string,
   reference: string,
-  searchParams?: SearchParamsDocuments,
+  searchParams: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> => {
   return Promise.resolve(responseQuery(council, reference, searchParams));
 };

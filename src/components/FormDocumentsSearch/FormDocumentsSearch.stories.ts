@@ -15,25 +15,53 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Meta, StoryObj } from "@storybook/react";
-import ApplicationHeader from ".";
+import { Meta, StoryObj } from "@storybook/react";
+import { FormDocumentsSearch } from "./FormDocumentsSearch";
 
-const meta = {
-  title: "DPR Components/ApplicationHeader",
-  component: ApplicationHeader,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+const meta: Meta<typeof FormDocumentsSearch> = {
+  title: "Forms/Documents Search",
+  component: FormDocumentsSearch,
   tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
+    nextjs: {
+      appDirectory: true,
+    },
   },
   args: {
-    reference: "12345",
-    address: "123 Fake Street",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+    },
   },
-} satisfies Meta<typeof ApplicationHeader>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+
+type Story = StoryObj<typeof FormDocumentsSearch>;
 
 export const Default: Story = {};
+
+export const WithContent: Story = {
+  args: {
+    searchParams: {
+      page: 1,
+      resultsPerPage: 25,
+      name: "This is the default content",
+      type: "usePlan.existing",
+      publishedAtFrom: "2023-01-01",
+      publishedAtTo: "2023-12-31",
+    },
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    action: "/documents",
+    searchParams: {
+      page: 1,
+      resultsPerPage: 25,
+    },
+  },
+};

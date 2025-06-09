@@ -35,8 +35,9 @@ const meta = {
   args: {
     councilSlug: "public-council-1",
     reference: "12345",
-    documents: generateNResults<DprDocument>(9, generateDocument),
-    totalDocuments: 100,
+    documents: generateNResults<DprDocument>(10, generateDocument),
+    totalDocuments: 50,
+    documentsToShow: 6,
   },
 } satisfies Meta<typeof DocumentsList>;
 
@@ -46,12 +47,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const NoDocuments: Story = {
   args: {
-    documents: undefined,
-  },
-};
-export const ApplicationDocumentCta: Story = {
-  args: {
-    documents: generateNResults<DprDocument>(3, generateDocument),
-    showMoreButton: true,
+    documents: null,
   },
 };

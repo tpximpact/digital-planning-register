@@ -19,6 +19,7 @@ import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionAppl
 import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
 import { DprCommentTypes } from "@/types/definitions";
 import { CommentTopic } from "./odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
+import { PrototypeFileType } from "@/types/odp-types/schemas/prototypeApplication/enums/FileType";
 
 /**
  * This file contains the definitions for common objects used accross the application
@@ -109,7 +110,16 @@ export type DprApplicationDateRange =
   | "year"
   | "fixed";
 // Document specific search params
-export type SearchParamsDocuments = SearchParams;
+export interface SearchParamsDocuments extends SearchParams {
+  sortBy?: DprDocumentSortBy;
+  orderBy?: DprDocumentOrderBy;
+  name?: string;
+  type?: PrototypeFileType;
+  publishedAtFrom?: string;
+  publishedAtTo?: string;
+}
+export type DprDocumentSortBy = "publishedAt" | "name";
+export type DprDocumentOrderBy = "asc" | "desc";
 
 // Comment specific search params
 export interface SearchParamsComments extends SearchParams {

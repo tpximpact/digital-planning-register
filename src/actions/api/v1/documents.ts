@@ -38,7 +38,7 @@ export async function documents(
   source: CouncilDataSource | "appConfig" | "none",
   council: string,
   reference: string,
-  searchParams?: SearchParamsDocuments,
+  searchParams: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
   if (!council || !reference) {
     return apiReturnError("Council and reference are required");
