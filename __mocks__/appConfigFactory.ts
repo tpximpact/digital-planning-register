@@ -138,6 +138,7 @@ export const createCouncilConfig = ({
   specialistComments = true,
   pageContent,
   features,
+  contact,
 }: {
   councilName: string;
   visibility?: Council["visibility"];
@@ -146,6 +147,7 @@ export const createCouncilConfig = ({
   specialistComments?: Council["specialistComments"];
   pageContent?: Council["pageContent"];
   features?: Council["features"];
+  contact?: Council["contact"];
 }): Council => {
   const slug = slugify(councilName);
   const defaultPageContent = {
@@ -162,6 +164,7 @@ export const createCouncilConfig = ({
     specialistComments,
     pageContent: pageContent ?? defaultPageContent,
     features,
+    contact,
   };
 };
 
