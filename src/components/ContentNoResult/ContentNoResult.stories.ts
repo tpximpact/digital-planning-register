@@ -17,9 +17,13 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ContentNoResult } from "./ContentNoResult";
-import { getAppConfig } from "@/config";
+import { createCouncilConfig } from "@mocks/appConfigFactory";
 
-const appConfig = getAppConfig("public-council-1");
+const baseCouncilConfig = createCouncilConfig({
+  councilName: "Public Council 1",
+  contact: "https://planningregister.org/",
+});
+
 const meta = {
   title: "Content/No result",
   component: ContentNoResult,
@@ -39,6 +43,6 @@ export const Default: Story = {};
 
 export const WithCouncilConfig: Story = {
   args: {
-    councilConfig: appConfig.council,
+    councilConfig: baseCouncilConfig,
   },
 };
