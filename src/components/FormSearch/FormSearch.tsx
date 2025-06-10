@@ -53,7 +53,6 @@ export const FormSearch = ({
               type="text"
               defaultValue={searchParams?.query || ""}
               autoComplete="on"
-              required={true}
             />
           </div>
         </div>
