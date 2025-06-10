@@ -102,7 +102,7 @@ export const CommentsSummary = ({
         ))}
       </ul>
       {summary.totalComments > 0 && (
-        <Button variant="information" href={baseUrl}>
+        <Button element="link" variant="information" href={baseUrl}>
           {`View ${summary.totalComments > 1 ? `all ${summary.totalComments}` : ""} ${type} comments`}
         </Button>
       )}
