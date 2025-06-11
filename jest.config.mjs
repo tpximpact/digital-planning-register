@@ -49,6 +49,7 @@ const config = {
     "!src/**/index.(ts|tsx)",
     "!src/**/*.stories.(ts|tsx)",
     "!src/types/odp-types/**/*",
+    "!**/types/**", // Exclude all 'types' folders from coverage
   ],
 
   // The directory where Jest should output its coverage files
