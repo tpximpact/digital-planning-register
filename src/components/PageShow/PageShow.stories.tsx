@@ -69,6 +69,23 @@ const meta = {
     appConfig: createAppConfig("public-council-1"),
     application: committeeDetermined,
     documents: generateNResults(10, generateDocument),
+    publicCommentSummary: {
+      sentiment: {
+        supportive: 0,
+        neutral: 0,
+        objection: 0,
+      },
+      totalComments: 0,
+    },
+    specialistCommentSummary: {
+      sentiment: {
+        approved: 0,
+        amendmentsNeeded: 0,
+        objected: 0,
+      },
+      totalConsulted: 0,
+      totalComments: 0,
+    },
     params: {
       council: "public-council-1",
       reference: "123456",

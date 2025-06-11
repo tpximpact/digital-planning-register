@@ -32,12 +32,18 @@ import { ApplicationAppeals } from "@/components/ApplicationAppeals";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
 import { CommentsSummaryWithSuspense } from "@/components/CommentsSummaryWithSuspense";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 export interface ApplicationDetailsProps {
   reference: string;
   appConfig: AppConfig;
   application: DprApplication;
   documents?: DprDocument[];
+  publicCommentSummary?: PublicCommentSummary;
+  specialistCommentSummary?: SpecialistCommentSummary;
 }
 
 export const ApplicationDetails = ({
@@ -45,6 +51,8 @@ export const ApplicationDetails = ({
   appConfig,
   application,
   documents,
+  publicCommentSummary,
+  specialistCommentSummary,
 }: ApplicationDetailsProps) => {
   if (!appConfig.council) {
     return <ContentError />;
@@ -172,6 +180,10 @@ export const ApplicationDetails = ({
             councilSlug={appConfig?.council?.slug}
             reference={reference}
             documentsToShow={6}
+            // this enables us to show this component in storybook without needing to fetch documents
+            {...(documents !== undefined
+              ? { documents, totalDocuments: documents.length }
+              : {})}
           />
           <ApplicationPeople
             applicant={application.submission.data.applicant}
@@ -182,12 +194,20 @@ export const ApplicationDetails = ({
             <CommentsSummaryWithSuspense
               params={{ council: councilSlug, reference: reference }}
               type="specialist"
+              // this enables us to show this component in storybook without needing to fetch comments
+              {...(specialistCommentSummary !== undefined
+                ? { summary: specialistCommentSummary }
+                : {})}
             />
           )}
           {appConfig.council?.publicComments && (
             <CommentsSummaryWithSuspense
               params={{ council: councilSlug, reference: reference }}
               type="public"
+              // this enables us to show this component in storybook without needing to fetch comments
+              {...(publicCommentSummary !== undefined
+                ? { summary: publicCommentSummary }
+                : {})}
             />
           )}
         </div>

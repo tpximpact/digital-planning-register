@@ -20,6 +20,7 @@ import React from "react";
 import { ApplicationDetails } from "@/components/ApplicationDetails";
 import { AppConfig } from "@/config/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
+import { CommentsSummaryWithSuspense } from "@/components/CommentsSummaryWithSuspense";
 
 // Mock child components
 jest.mock("@/components/ApplicationHero", () => ({
@@ -54,9 +55,9 @@ jest.mock("@/components/ApplicationPeople", () => ({
   ApplicationPeople: () => <div data-testid="application-people" />,
 }));
 jest.mock("@/components/CommentsSummaryWithSuspense", () => ({
-  CommentsSummaryWithSuspense: (props: any) => (
+  CommentsSummaryWithSuspense: jest.fn((props) => (
     <div data-testid={`comments-summary-with-suspense-${props.type}`} />
-  ),
+  )),
 }));
 jest.mock("@/components/ContentError", () => ({
   ContentError: () => <div data-testid="content-error" />,
@@ -198,5 +199,67 @@ describe.only("ApplicationDetails", () => {
     expect(
       screen.queryByTestId("comments-summary-with-suspense-public"),
     ).not.toBeInTheDocument();
+  });
+
+  it("Passes public comments summary to CommentsSummaryWithSuspense", () => {
+    const publicCommentSummary = {
+      sentiment: {
+        supportive: 2,
+        neutral: 0,
+        objection: 0,
+      },
+      totalComments: 2,
+    };
+
+    render(
+      <ApplicationDetails
+        {...baseProps}
+        application={planningOfficerDetermined}
+        publicCommentSummary={publicCommentSummary}
+      />,
+    );
+
+    expect(
+      screen.getByTestId("comments-summary-with-suspense-public"),
+    ).toBeInTheDocument();
+    expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: { council: "public-council-1", reference: "APP-123" },
+        type: "public",
+        summary: publicCommentSummary,
+      }),
+      expect.anything(),
+    );
+  });
+  it("Passes specialist comments summary to CommentsSummaryWithSuspense", () => {
+    const specialistCommentSummary = {
+      sentiment: {
+        approved: 2,
+        amendmentsNeeded: 0,
+        objected: 0,
+      },
+      totalConsulted: 2,
+      totalComments: 2,
+    };
+
+    render(
+      <ApplicationDetails
+        {...baseProps}
+        application={planningOfficerDetermined}
+        specialistCommentSummary={specialistCommentSummary}
+      />,
+    );
+
+    expect(
+      screen.getByTestId("comments-summary-with-suspense-specialist"),
+    ).toBeInTheDocument();
+    expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: { council: "public-council-1", reference: "APP-123" },
+        type: "specialist",
+        summary: specialistCommentSummary,
+      }),
+      expect.anything(),
+    );
   });
 });
