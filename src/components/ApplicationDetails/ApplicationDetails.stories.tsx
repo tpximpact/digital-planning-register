@@ -42,6 +42,23 @@ const meta = {
     appConfig: baseAppConfig,
     application: committeeDetermined,
     documents: generateNResults<DprDocument>(3, generateDocument),
+    publicCommentSummary: {
+      sentiment: {
+        supportive: 0,
+        neutral: 0,
+        objection: 0,
+      },
+      totalComments: 0,
+    },
+    specialistCommentSummary: {
+      sentiment: {
+        approved: 0,
+        amendmentsNeeded: 0,
+        objected: 0,
+      },
+      totalConsulted: 0,
+      totalComments: 0,
+    },
   },
 } satisfies Meta<typeof ApplicationDetails>;
 

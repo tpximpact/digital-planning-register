@@ -21,11 +21,17 @@ import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
 import { PageMain } from "../PageMain";
 import { ContentNotFound } from "../ContentNotFound";
+import {
+  PublicCommentSummary,
+  SpecialistCommentSummary,
+} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 
 export interface PageShowProps {
   appConfig: AppConfig;
   application: DprApplication | null;
   documents?: DprDocument[];
+  publicCommentSummary?: PublicCommentSummary;
+  specialistCommentSummary?: SpecialistCommentSummary;
   params: {
     council: string;
     reference: string;
@@ -37,6 +43,8 @@ export const PageShow = ({
   application,
   params,
   documents,
+  publicCommentSummary,
+  specialistCommentSummary,
 }: PageShowProps) => {
   const { council, reference } = params;
 
@@ -55,8 +63,17 @@ export const PageShow = ({
         <ApplicationDetails
           reference={reference}
           application={application}
-          documents={documents}
           appConfig={appConfig}
+          // this enables us to show this component in storybook without needing to fetch documents
+          {...(documents !== undefined ? { documents } : {})}
+          // this enables us to show this component in storybook without needing to fetch comments
+          {...(specialistCommentSummary !== undefined
+            ? { specialistCommentSummary: specialistCommentSummary }
+            : {})}
+          // this enables us to show this component in storybook without needing to fetch comments
+          {...(publicCommentSummary !== undefined
+            ? { publicCommentSummary: publicCommentSummary }
+            : {})}
         />
       </PageMain>
     </>
