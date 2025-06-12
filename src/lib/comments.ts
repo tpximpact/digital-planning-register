@@ -159,7 +159,7 @@ export const COMMENT_SPECIALIST_SENTIMENT_OPTIONS: Array<{
   value: SpecialistCommentSentiment | string;
 }> = [
   {
-    label: "Approve",
+    label: "Approved",
     value: "approved",
   },
   {
