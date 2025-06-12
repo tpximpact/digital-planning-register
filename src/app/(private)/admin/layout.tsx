@@ -15,55 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "node_modules/govuk-frontend/dist/govuk/base";
+import { ReactNode } from "react";
+import { getAppConfig } from "@/config";
+import { PageTemplate } from "@/components/PageTemplate";
 
-@import "utils/dpr-form";
+export default function PublicLayout({ children }: { children: ReactNode }) {
+  const appConfig = getAppConfig();
 
-%visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  border: 0;
-  white-space: nowrap;
-  user-select: none;
-  &::before {
-    content: "\00a0";
-  }
-  &::after {
-    content: "\00a0";
-  }
-}
-
-.grid-row-extra-bottom-margin {
-  margin-bottom: govuk-spacing(6);
-}
-
-.js-enabled {
-  .hidden-js-enabled {
-    display: none;
-  }
-}
-
-// 99.9% sure this code is redundant
-.js-enabled .js-only {
-  display: inline;
-}
-
-.js-only {
-  display: none;
-}
-
-.noscript-only {
-  display: inline;
-}
-
-.govuk-list--indented {
-  ul {
-    margin-left: govuk-spacing(3);
-  }
+  return <PageTemplate appConfig={appConfig}>{children}</PageTemplate>;
 }

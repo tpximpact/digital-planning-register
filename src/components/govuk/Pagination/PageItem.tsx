@@ -16,13 +16,12 @@
  */
 
 import Link from "next/link";
-import { Page } from "./Pagination";
-import { SearchParams } from "@/types";
+import { Page, SearchParamsWithCouncil } from "./Pagination";
 
 export interface PageItemProps {
   page: Page;
   link: string;
-  searchParams?: SearchParams;
+  searchParams?: SearchParamsWithCouncil;
 }
 
 export const PageItem = ({ page, link, searchParams }: PageItemProps) => {
