@@ -19,17 +19,17 @@ import { Documentation } from "@/types";
 import { show } from "./show";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=LocalV1&method=show&reference=24-00135-HAPP`,
+  url: `/admin/json?handler=LocalV1&method=show&reference=24-00135-HAPP`,
   file: `src/handlers/local/v1/show.ts`,
   description: `Show the details for the specified application by reference number.`,
   validate: [
     {
-      url: "/docs/json?handler=LocalV1&method=show&council=camden&reference=24-00135-HAPP",
-      type: "application",
+      url: "/admin/json?handler=LocalV1&method=show&council=camden&reference=24-00135-HAPP",
+      type: "postSubmissionApplication",
     },
     {
-      url: "/docs/json?handler=LocalV1&method=show&council=camden&reference=24-00135-HAPP",
-      type: "prototypeApplication",
+      url: "/admin/json?handler=LocalV1&method=show&council=camden&reference=24-00135-HAPP",
+      type: "postSubmissionApplication",
     },
   ],
   arguments: ["council", "reference"],
@@ -38,7 +38,7 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=LocalV1&method=show&reference=TEST-C0MNT-F10W`,
+      url: `/admin/json?handler=LocalV1&method=show&reference=TEST-C0MNT-F10W`,
       description: "Show application with in_assessment status",
     },
   ],

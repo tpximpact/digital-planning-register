@@ -18,7 +18,7 @@ import { Documentation, SearchParamsComments } from "@/types";
 import { publicComments } from "./publicComments";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=LocalV1&method=publicComments`,
+  url: `/admin/json?handler=LocalV1&method=publicComments`,
   file: `src/handlers/local/v1/publicComments.ts`,
   description: "publicComments",
   arguments: [
@@ -34,7 +34,7 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=LocalV1&method=publicComments`,
+      url: `/admin/json?handler=LocalV1&method=publicComments`,
       description: "publicComments",
     },
   ],

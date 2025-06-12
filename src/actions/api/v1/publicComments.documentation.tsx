@@ -20,7 +20,7 @@ import { publicComments } from "./publicComments";
 import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=ApiV1&method=publicComments`,
+  url: `/admin/json?handler=ApiV1&method=publicComments`,
   file: `src/actions/api/v1/publicComments.ts`,
   description: "[publicComments]",
   arguments: [
@@ -38,19 +38,19 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=25-00292-HAPP`,
+      url: `/admin/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=25-00292-HAPP`,
       description: "publicComments exists",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=doesnotexist`,
+      url: `/admin/json?handler=ApiV1&method=publicComments&source=bops&council=southwark&reference=doesnotexist`,
       description: "publicComments doesn't exist",
     },
     // {
-    //   url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=24-00129-HAPP`,
+    //   url: `/admin/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=24-00129-HAPP`,
     //   description: "publicComments exists",
     // },
     // {
-    //   url: `/docs/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=doesnotexist`,
+    //   url: `/admin/json?handler=ApiV1&method=publicComments&source=bops&council=camden&reference=doesnotexist`,
     //   description: "publicComments doesn't exist",
     // },
   ],

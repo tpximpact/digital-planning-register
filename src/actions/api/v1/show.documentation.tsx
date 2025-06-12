@@ -20,7 +20,7 @@ import { show } from "./show";
 import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=ApiV1&method=show`,
+  url: `/admin/json?handler=ApiV1&method=show`,
   file: `src/actions/api/v1/show.ts`,
   description: "show",
   arguments: ["source", "council", "reference"],
@@ -29,11 +29,11 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=ApiV1&method=show&source=bops&council=camden&reference=24-00136-HAPP`,
+      url: `/admin/json?handler=ApiV1&method=show&source=bops&council=camden&reference=24-00136-HAPP`,
       description: "show exists",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=show&source=bops&council=camden&reference=doesnotexist`,
+      url: `/admin/json?handler=ApiV1&method=show&source=bops&council=camden&reference=doesnotexist`,
       description: "show doesn't exist",
     },
   ],

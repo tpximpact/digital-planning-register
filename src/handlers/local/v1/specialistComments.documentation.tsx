@@ -19,7 +19,7 @@ import { Documentation, SearchParamsComments } from "@/types";
 import { specialistComments } from "./specialistComments";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=LocalV1&method=specialistComments`,
+  url: `/admin/json?handler=LocalV1&method=specialistComments`,
   file: `src/handlers/local/v1/specialistComments.ts`,
   description: "specialistComments",
   arguments: [
@@ -35,7 +35,7 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=LocalV1&method=specialistComments`,
+      url: `/admin/json?handler=LocalV1&method=specialistComments`,
       description: "specialistComments",
     },
   ],

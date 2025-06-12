@@ -19,20 +19,24 @@ import { Documentation, SearchParamsDocuments } from "@/types";
 import { documents } from "./documents";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=BopsV2&method=documents`,
+  url: `/admin/json?handler=BopsV2&method=documents`,
   file: `src/handlers/bops/v2/documents.ts`,
   description: "documents",
-  arguments: ["council", "reference"],
-  run: async (args: [string, string, SearchParamsDocuments]) => {
-    return await documents(...args);
+  arguments: ["council", "reference", "page", "resultsPerPage"],
+  run: async (args: [string, string, number, number]) => {
+    const searchObj: SearchParamsDocuments = {
+      page: Number(args[2]),
+      resultsPerPage: Number(args[3]),
+    };
+    return await documents(args[0], args[1], searchObj);
   },
   examples: [
     {
-      url: `/docs/json?handler=BopsV2&method=documents&council=camden&reference=24-00129-HAPP`,
+      url: `/admin/json?handler=BopsV2&method=documents&council=camden&reference=24-00129-HAPP`,
       description: "documents has documents",
     },
     {
-      url: `/docs/json?handler=BopsV2&method=documents&council=camden&reference=doesnotexist`,
+      url: `/admin/json?handler=BopsV2&method=documents&council=camden&reference=doesnotexist`,
       description: "documents doesn't have documents",
     },
   ],

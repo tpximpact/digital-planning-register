@@ -20,7 +20,7 @@ import { applicationSubmission } from "./applicationSubmission";
 import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=ApiV1&method=applicationSubmission`,
+  url: `/admin/json?handler=ApiV1&method=applicationSubmission`,
   file: `src/actions/api/v1/applicationSubmission.ts`,
   description: "applicationSubmission",
   arguments: ["source", "council", "reference"],
@@ -29,11 +29,11 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=ApiV1&method=applicationSubmission&source=bops&council=camden&reference=24-00136-HAPP`,
+      url: `/admin/json?handler=ApiV1&method=applicationSubmission&source=bops&council=camden&reference=24-00136-HAPP`,
       description: "applicationSubmission exists",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=applicationSubmission&source=bops&council=camden&reference=nonexistent`,
+      url: `/admin/json?handler=ApiV1&method=applicationSubmission&source=bops&council=camden&reference=nonexistent`,
       description: "applicationSubmission doesnt exist",
     },
   ],

@@ -19,7 +19,7 @@ import { search } from "./search";
 import { CouncilDataSourceExtended } from "@/config/types";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=ApiV1&method=search`,
+  url: `/admin/json?handler=ApiV1&method=search`,
   file: `src/actions/api/v1/search.ts`,
   description: "getPlanningApplications",
   arguments: ["source", "council", "page", "resultsPerPage", "searchQuery"],
@@ -35,19 +35,19 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden`,
+      url: `/admin/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden`,
       description: "search page 1",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=search&page=3&resultsPerPage=10&source=bops&council=camden`,
+      url: `/admin/json?handler=ApiV1&method=search&page=3&resultsPerPage=10&source=bops&council=camden`,
       description: "search page 3",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchQuery=HAPP`,
+      url: `/admin/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchQuery=HAPP`,
       description: "search search w results",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchQuery=noresultsplease`,
+      url: `/admin/json?handler=ApiV1&method=search&page=1&resultsPerPage=10&source=bops&council=camden&searchQuery=noresultsplease`,
       description: "search search no results",
     },
   ],
