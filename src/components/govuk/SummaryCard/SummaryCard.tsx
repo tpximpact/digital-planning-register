@@ -21,15 +21,21 @@ import "./SummaryCard.scss";
 export interface SummaryCardProps {
   title: NonNullable<SummaryListProps["cardTitle"]>;
   actions?: SummaryListProps["rows"][number]["actions"];
+  id?: string;
   children: React.ReactNode;
 }
 
-export const SummaryCard = ({ title, actions, children }: SummaryCardProps) => {
+export const SummaryCard = ({
+  title,
+  actions,
+  id,
+  children,
+}: SummaryCardProps) => {
   const headingLevel = title.headingLevel ?? "2";
   const HeadingTag = `h${headingLevel}` as keyof JSX.IntrinsicElements;
   return (
     <>
-      <div className="govuk-summary-card">
+      <div className="govuk-summary-card" {...(id ? { id } : {})}>
         <div className="govuk-summary-card__title-wrapper">
           {title && (
             <HeadingTag className="govuk-summary-card__title">

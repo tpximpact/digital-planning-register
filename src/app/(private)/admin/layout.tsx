@@ -15,15 +15,12 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation } from "@/types";
-import { postComment } from "./postComment";
+import { ReactNode } from "react";
+import { getAppConfig } from "@/config";
+import { PageTemplate } from "@/components/PageTemplate";
 
-export const documentation: Documentation = {
-  url: `/admin/json?handler=LocalV1&method=postComment`,
-  file: `src/handlers/local/v1/postComment.ts`,
-  description: "postComment",
-  arguments: ["council", "applicationId"],
-  run: async (args: [string, number]) => {
-    return await postComment(...args);
-  },
-};
+export default function PublicLayout({ children }: { children: ReactNode }) {
+  const appConfig = getAppConfig();
+
+  return <PageTemplate appConfig={appConfig}>{children}</PageTemplate>;
+}

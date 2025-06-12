@@ -28,13 +28,24 @@ import { ArrowLink } from "./ArrowLink";
 import { PageItem } from "./PageItem";
 import { generatePaginationItems } from "./utils";
 
+/**
+ * SearchParamsWithCouncil is a union type that extends the basic search parameters
+ * with an optional `council` property.
+ *
+ * This is in anticipation of future use cases where the pagination might need to filter
+ * or display results based on a specific council where council will be added to SearchParams.
+ *
+ * But this is a small change that will not affect the current functionality so that we can paginate in our 'admin'
+ */
+export type SearchParamsWithCouncil =
+  | (SearchParams & { council?: string })
+  | (SearchParamsApplication & { council?: string })
+  | (SearchParamsComments & { council?: string })
+  | (SearchParamsDocuments & { council?: string });
+
 interface PaginationProps {
   baseUrl: string;
-  searchParams?:
-    | SearchParams
-    | SearchParamsApplication
-    | SearchParamsComments
-    | SearchParamsDocuments;
+  searchParams?: SearchParamsWithCouncil;
   pagination?: DprPagination;
   prev?: PaginationPropsLink;
   next?: PaginationPropsLink;
