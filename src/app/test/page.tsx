@@ -31,9 +31,9 @@ import { ContainerClient } from "@azure/storage-blob";
 import { ApplicationCard } from "@/components/ApplicationCard";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { de } from "@faker-js/faker";
 import { validateSearchParams } from "@/lib/planningApplication/search";
 import { Pagination } from "@/components/govuk/Pagination";
+import { FormSearch } from "@/components/FormSearch";
 dayjs.extend(utc);
 
 interface HomeProps {
@@ -105,7 +105,14 @@ const fakePagination = (
   // Calculate shown documents
   const startIdx = ((currentPage ?? 1) - 1) * (resultsPerPage ?? 10);
   const endIdx = startIdx + (resultsPerPage ?? 10);
-  const currentPageData = data.slice(startIdx, endIdx);
+  // Sort by DCAPPL[DATEAPRECV] descending (newest first)
+  const currentPageData = data
+    .sort((a, b) => {
+      const dateA = new Date(a["DCAPPL[DATEAPRECV]"] ?? 0).getTime();
+      const dateB = new Date(b["DCAPPL[DATEAPRECV]"] ?? 0).getTime();
+      return dateB - dateA;
+    })
+    .slice(startIdx, endIdx);
 
   const pagination = {
     resultsPerPage,
@@ -161,8 +168,26 @@ export default async function PlanningApplicationSearch({
     return (
       <PageTemplate appConfig={appConfig}>
         <PageMain>
-          <h1 className="govuk-heading-xl">Azure Blob storage test</h1>
+          <div className="govuk-grid-row grid-row-extra-bottom-margin">
+            <div className="govuk-grid-column-two-thirds">
+              <h1 className="govuk-heading-xl">
+                Welcome to the Digital Planning Register
+              </h1>
+              <p className="govuk-body">
+                You can find planning applications submitted through the Open
+                Digital Planning system for your local council planning
+                authority.
+              </p>
+              <p className="govuk-body">
+                Not all planning applications will be available through this
+                register. You may need to check individual council&apos;s
+                websites to see what records are kept here.
+              </p>
+            </div>
+          </div>
+          <FormSearch params={{}} searchParams={validSearchParams} />
 
+          <h2 className="govuk-heading-l">Recently published applications</h2>
           {data.map((application, index) => (
             <>
               {/* <p>
