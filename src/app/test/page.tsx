@@ -75,9 +75,14 @@ export default async function PlanningApplicationSearch({
               </p>
             </div>
           </div>
-          <FormSearch params={{}} searchParams={validSearchParams} />
+          <FormSearch
+            params={{ council: "barnet" }}
+            searchParams={validSearchParams}
+          />
 
-          <Suspense fallback={<p>Loading application data...</p>}>
+          <Suspense
+            fallback={<p className="govuk-body">Loading application data...</p>}
+          >
             <h2 className="govuk-heading-l">Recently published applications</h2>
             <ShowApplications
               validSearchParams={validSearchParams}

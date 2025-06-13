@@ -2,19 +2,27 @@ import { Pagination } from "@/components/govuk/Pagination";
 import { getData } from "./data";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { ContentNoResult } from "@/components/ContentNoResult";
+import { ApplicationCard } from "@/components/ApplicationCard";
 dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 export default async function ShowApplications({
   validSearchParams,
   accessToken,
 }: any) {
-  const paginatedData = await getData(validSearchParams);
-  return (
-    <>
-      {paginatedData.data.map((application, index) => (
-        <>
-          {application.REFVAL} <br />
-          {/* <ApplicationCard
+  try {
+    const response = await getData(validSearchParams);
+    return (
+      <>
+        {response.data && response.data.length > 0 ? (
+          <>
+            {response.data.map((application, index) => (
+              <div key={`top-${application.REFVAL}`}>
+                <strong>Application Reference:</strong> {application.REFVAL}
+                <hr />
+                <ApplicationCard
                   councilSlug={"barnet"}
                   key={application.REFVAL}
                   application={{
@@ -113,21 +121,32 @@ export default async function ShowApplications({
                         commentsAcceptedUntilDecision: false,
                       },
                       submission: {
-                        submittedAt: dayjs
-                          .utc(application.DATEAPRECV)
-                          .toISOString(),
+                        submittedAt:
+                          application.DATEAPRECV ||
+                          application.DATEAPRECV.length !== 0
+                            ? dayjs
+                                .utc(application.DATEAPRECV, "DD/MM/YYYY HH:mm")
+                                .toISOString()
+                            : undefined,
                       },
                       validation: {
-                        receivedAt: dayjs
-                          .utc(application.DATEAPRECV)
-                          .toISOString(),
-                        validatedAt: dayjs
-                          .utc(application.DATEAPVAL)
-                          .toISOString(),
+                        receivedAt:
+                          application.DATEAPRECV ||
+                          application.DATEAPRECV.length !== 0
+                            ? dayjs
+                                .utc(application.DATEAPRECV, "DD/MM/YYYY HH:mm")
+                                .toISOString()
+                            : undefined,
+                        validatedAt:
+                          application.DATEAPVAL ||
+                          application.DATEAPVAL.length !== 0
+                            ? dayjs
+                                .utc(application.DATEAPVAL, "DD/MM/YYYY HH:mm")
+                                .toISOString()
+                            : undefined,
                         isValid: true,
                       },
                       assessment: {
-                        expiryDate: "2022-02-05",
                         planningOfficerDecision: (() => {
                           const decision = application.DECSN;
 
@@ -176,9 +195,13 @@ export default async function ShowApplications({
                           }
                         })(),
 
-                        planningOfficerDecisionDate: dayjs
-                          .utc(application.DATEDECISN)
-                          .toISOString(),
+                        planningOfficerDecisionDate:
+                          application.DATEDECISN ||
+                          application.DATEDECISN.length !== 0
+                            ? dayjs
+                                .utc(application.DATEDECISN, "DD/MM/YYYY HH:mm")
+                                .toISOString()
+                            : undefined,
                       },
                       caseOfficer: { name: "Casey Officer" },
                     },
@@ -215,9 +238,13 @@ export default async function ShowApplications({
                         organisation: "LBH",
                         id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf",
                         source: "PlanX",
-                        submittedAt: dayjs
-                          .utc(application.DATEAPRECV)
-                          .toISOString(),
+                        submittedAt:
+                          application.DATEAPRECV ||
+                          application.DATEAPRECV.length !== 0
+                            ? dayjs
+                                .utc(application.DATEAPRECV, "DD/MM/YYYY HH:mm")
+                                .toISOString()
+                            : undefined,
                         schema:
                           "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/prototypeApplication.json",
                       },
@@ -226,23 +253,50 @@ export default async function ShowApplications({
                       organisation: "BOPS",
                       id: "1234",
                       publishedAt: dayjs.utc().toISOString(),
-                      submittedAt: dayjs
-                        .utc(application.DATEAPRECV)
-                        .toISOString(),
+                      submittedAt:
+                        application.DATEAPRECV ||
+                        application.DATEAPRECV.length !== 0
+                          ? dayjs
+                              .utc(application.DATEAPRECV, "DD/MM/YYYY HH:mm")
+                              .toISOString()
+                          : undefined,
                       schema:
                         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
                     },
                   }}
-                /> */}
-        </>
-      ))}
-      {paginatedData.pagination && paginatedData.pagination.totalPages > 1 && (
-        <Pagination
-          baseUrl={"/test"}
-          searchParams={{ ...validSearchParams, accessToken }}
-          pagination={paginatedData.pagination}
-        />
-      )}
-    </>
-  );
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <ContentNoResult />
+          </>
+        )}
+
+        {response.data &&
+          response.data.length > validSearchParams.resultsPerPage && (
+            <Pagination
+              baseUrl={"/test"}
+              searchParams={{ ...validSearchParams, accessToken }}
+              next={{
+                href: "/test?page=" + (validSearchParams.page || 1) + 1,
+              }}
+            />
+          )}
+      </>
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    const message = error instanceof Error ? error.message : String(error);
+
+    return (
+      <>
+        <p className="govuk-body">
+          An error occurred while fetching the data: {message}
+        </p>
+      </>
+    );
+  }
 }

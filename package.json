@@ -33,6 +33,7 @@
     "@opensystemslab/map": "^0.8.3",
     "@types/geojson": "^7946.0.16",
     "dayjs": "^1.11.13",
+    "fast-csv": "^5.0.2",
     "govuk-frontend": "^5.10.1",
     "next": "14.2.28",
     "react": "^18",
