@@ -14,6 +14,11 @@ export default async function ShowApplications({
 }: any) {
   try {
     const response = await getData(validSearchParams);
+
+    const nextPage = (validSearchParams.page || 1) + 1;
+    const prevPage = (validSearchParams.page || 1) - 1;
+    const showPrev = validSearchParams.page > 1;
+
     return (
       <>
         {response.data && response.data.length > 0 ? (
@@ -280,8 +285,25 @@ export default async function ShowApplications({
               baseUrl={"/test"}
               searchParams={{ ...validSearchParams, accessToken }}
               next={{
-                href: "/test?page=" + (validSearchParams.page || 1) + 1,
+                href: `/test`,
+                searchParams: {
+                  ...validSearchParams,
+                  accessToken,
+                  page: nextPage,
+                },
               }}
+              {...(showPrev
+                ? {
+                    prev: {
+                      href: `/test`,
+                      searchParams: {
+                        ...validSearchParams,
+                        accessToken,
+                        page: prevPage,
+                      },
+                    },
+                  }
+                : {})}
             />
           )}
       </>
