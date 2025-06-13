@@ -164,19 +164,11 @@ describe("CommentsSummary", () => {
           />,
         );
 
-        expect(screen.getByText("0 comments received")).toBeInTheDocument();
-        expect(screen.getByText("0 Supportive")).toBeInTheDocument();
-        expect(screen.getByText("0 Objection")).toBeInTheDocument();
-        expect(screen.getByText("0 Neutral")).toBeInTheDocument();
         expect(
-          screen.queryByRole("link", { name: "0 Supportive" }),
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByRole("link", { name: "0 Objection" }),
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByRole("link", { name: "0 Neutral" }),
-        ).not.toBeInTheDocument();
+          screen.getByText(
+            "No comments from the public have been published at this time.",
+          ),
+        ).toBeInTheDocument();
         expect(screen.queryByTestId("view-all-btn")).not.toBeInTheDocument();
 
         render(
@@ -310,21 +302,10 @@ describe("CommentsSummary", () => {
         );
 
         expect(
-          screen.getByText("0 specialists contacted for consultation"),
+          screen.getByText(
+            "No comments from specialists have been published at this time.",
+          ),
         ).toBeInTheDocument();
-        expect(screen.getByText("0 yet to respond")).toBeInTheDocument();
-        expect(screen.getByText("0 Approved")).toBeInTheDocument();
-        expect(screen.getByText("0 Amendments Needed")).toBeInTheDocument();
-        expect(screen.getByText("0 Objected")).toBeInTheDocument();
-        expect(
-          screen.queryByRole("link", { name: "0 Approved" }),
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByRole("link", { name: "0 Amendments Needed" }),
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByRole("link", { name: "0 Objected" }),
-        ).not.toBeInTheDocument();
 
         expect(screen.queryByTestId("view-all-btn")).not.toBeInTheDocument();
 
