@@ -48,7 +48,7 @@ async function fetchData(): Promise<string[]> {
       const blobClient = containerClient.getBlobClient(blob.name);
       const downloadResponse = await blobClient.download();
       const downloaded = await streamToString(
-        downloadResponse.readableStreamBody,
+        downloadResponse.readableStreamBody ?? null,
       );
       return JSON.parse(downloaded);
     }
