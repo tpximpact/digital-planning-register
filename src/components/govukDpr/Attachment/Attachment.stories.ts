@@ -119,7 +119,7 @@ export const WithThumbnail: Story = {
   args: {
     title: "Attachment with Thumbnail",
     url: "#",
-    thumbnailUrl: "/images/file.jpg",
+    thumbnailUrl: "/govuk/assets/images/govuk-crest.svg",
     contentType: "pdf",
     fileSize: 1234567,
     numberOfPages: 5,

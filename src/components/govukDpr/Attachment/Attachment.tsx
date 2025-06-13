@@ -50,25 +50,43 @@ export const Attachment = ({
   alternativeFormatContactEmail,
   createdDate,
 }: AttachmentProps) => {
-  function pickGOVUKIcon(type?: string): JSX.Element {
-    switch (type?.toLowerCase()) {
-      case "application/pdf":
-      case "pdf":
-        return <ThumbnailPdf />;
-      case "doc":
-      case "docx":
-        return <ThumbnailDocument />;
-      case "xls":
-      case "xlsx":
-      case "spreadsheet":
-        return <ThumbnailSpreadsheet />;
-      case "html":
-        return <ThumbnailHtml />;
-      case "external":
-        return <ThumbnailExternal />;
-      default:
-        return <ThumbnailGeneric />;
+  function pickGOVUKIcon(contentType?: string): JSX.Element {
+    const type = contentType?.toLowerCase();
+
+    // PDFs
+    if (type?.includes("pdf")) {
+      return <ThumbnailPdf />;
     }
+
+    // Word documents
+    if (
+      type?.endsWith("doc") ||
+      type?.endsWith("docx") ||
+      type?.includes("msword") ||
+      type?.includes("wordprocessingml")
+    ) {
+      return <ThumbnailDocument />;
+    }
+
+    // Spreadsheets
+    if (
+      type?.endsWith("xls") ||
+      type?.endsWith("xlsx") ||
+      type?.includes("excel") ||
+      type?.includes("spreadsheet")
+    ) {
+      return <ThumbnailSpreadsheet />;
+    }
+
+    // HTML pages
+    if (type?.includes("html")) {
+      return <ThumbnailHtml />;
+    }
+
+    if (type === "external") {
+      return <ThumbnailExternal />;
+    }
+    return <ThumbnailGeneric />;
   }
 
   const formattedFileSize =
