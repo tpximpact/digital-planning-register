@@ -81,6 +81,6 @@ async function CommentsSummaryLoader({
     type,
   });
 
-  const summary = response.data.summary;
+  const summary = response?.data?.summary;
   return <CommentsSummary params={params} type={type} summary={summary} />;
 }
