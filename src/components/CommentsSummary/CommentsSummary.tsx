@@ -58,53 +58,55 @@ export const CommentsSummary = ({
   return (
     <div className="dpr-comment-summary" id={`${type}-comments-summary`}>
       <h2 className="govuk-heading-l">{`${capitalizeFirstLetter(type)} Comments`}</h2>
-
-      <div className="dpr-comment-summary__header">
-        {type === "public" && (
-          <p className="govuk-heading-m">
-            {`${summary.totalComments} comment${summary.totalComments !== 1 ? "s" : ""} received`}
-          </p>
-        )}
-
-        {type === "specialist" && isSpecialistSummary(summary) && (
-          <>
-            <p className="govuk-heading-m">
-              {`${summary.totalConsulted} specialist${summary.totalConsulted !== 1 ? "s" : ""} contacted for consultation`}
-            </p>
-            <p className="govuk-body">
-              {`${Math.max(0, summary.totalConsulted - summary.totalComments)} yet to respond`}
-            </p>
-          </>
-        )}
-      </div>
-      <ul className="govuk-list dpr-comment-summary__list">
-        {Object.entries(summary.sentiment).map(([key, label]) => (
-          <li key={key}>
-            {summary.totalComments > 0 ? (
-              <Link
-                href={`${baseUrl}&sentiment=${key}`}
-                className="dpr-comment-summary__list-link"
-              >
-                <SentimentIcon sentiment={key} />
-                <span>
-                  {`${label} ${capitalizeFirstLetter(pascalToSentenceCase(key))}`}
-                </span>
-              </Link>
-            ) : (
-              <div className="dpr-comment-summary__list-item">
-                <SentimentIcon sentiment={key} />
-                <span>
-                  {`${label} ${capitalizeFirstLetter(pascalToSentenceCase(key))}`}
-                </span>
-              </div>
+      {summary.totalComments === 0 ? (
+        <p className="govuk-hint">
+          <em>
+            {type === "specialist"
+              ? "No comments from specialists have been published at this time."
+              : "No comments from the public have been published at this time."}
+          </em>
+        </p>
+      ) : (
+        <>
+          <div className="dpr-comment-summary__header">
+            {type === "public" && (
+              <p className="govuk-heading-m">
+                {`${summary.totalComments} comment${summary.totalComments !== 1 ? "s" : ""} received`}
+              </p>
             )}
-          </li>
-        ))}
-      </ul>
-      {summary.totalComments > 0 && (
-        <Button element="link" variant="information" href={baseUrl}>
-          {`View ${summary.totalComments > 1 ? `all ${summary.totalComments}` : ""} ${type} comments`}
-        </Button>
+
+            {type === "specialist" && isSpecialistSummary(summary) && (
+              <>
+                <p className="govuk-heading-m">
+                  {`${summary.totalConsulted} specialist${summary.totalConsulted !== 1 ? "s" : ""} contacted for consultation`}
+                </p>
+                <p className="govuk-body">
+                  {`${Math.max(0, summary.totalConsulted - summary.totalComments)} yet to respond`}
+                </p>
+              </>
+            )}
+          </div>
+          <ul className="govuk-list dpr-comment-summary__list">
+            {Object.entries(summary.sentiment).map(([key, label]) => (
+              <li key={key}>
+                {summary.totalComments > 0 && (
+                  <Link
+                    href={`${baseUrl}&sentiment=${key}`}
+                    className="dpr-comment-summary__list-link"
+                  >
+                    <SentimentIcon sentiment={key} />
+                    <span>
+                      {`${label} ${capitalizeFirstLetter(pascalToSentenceCase(key))}`}
+                    </span>
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+          <Button element="link" variant="information" href={baseUrl}>
+            {`View ${summary.totalComments > 1 ? `all ${summary.totalComments}` : ""} ${type} comments`}
+          </Button>
+        </>
       )}
     </div>
   );
