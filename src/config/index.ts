@@ -306,6 +306,23 @@ const councils: Council[] = [
     },
   },
   {
+    name: "Cavyshire Borough",
+    slug: "cavyshire-borough",
+    visibility: "private",
+    contact: "https://planningregister.org/",
+    dataSource: "local",
+    publicComments: true,
+    specialistComments: true,
+    features: {
+      logoInHeader: true,
+    },
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link: "https://planningregister.org/",
+      },
+    },
+  },
+  {
     name: "Gateshead",
     slug: "gateshead",
     visibility: "public",
