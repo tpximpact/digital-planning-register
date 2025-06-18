@@ -585,7 +585,7 @@ describe("validateSearchParams", () => {
       it.each(APPLICATION_DATETYPE_OPTIONS)(
         "parses valid dateType '%s' from searchParams",
         (dateType) => {
-          const searchParams = { dateType: dateType.value };
+          const searchParams = { dateType: dateType.value, dateRange: "week" };
 
           const result = validateSearchParams(mockAppConfig, searchParams);
 
@@ -594,6 +594,7 @@ describe("validateSearchParams", () => {
             resultsPerPage: 10,
             type: "simple",
             dateType: dateType.value,
+            dateRange: "week",
           });
         },
       );
@@ -620,7 +621,10 @@ describe("validateSearchParams", () => {
       it.each(APPLICATION_DATERANGE_OPTIONS)(
         "parses valid dateRange '%s' from searchParams",
         (dateRange) => {
-          const searchParams = { dateRange: dateRange.value };
+          const searchParams = {
+            dateType: "receivedAt",
+            dateRange: dateRange.value,
+          };
 
           const result = validateSearchParams(mockAppConfig, searchParams);
 
@@ -628,6 +632,7 @@ describe("validateSearchParams", () => {
             page: 1,
             resultsPerPage: 10,
             type: "simple",
+            dateType: "receivedAt",
             dateRange: dateRange.value,
           });
         },
@@ -645,6 +650,201 @@ describe("validateSearchParams", () => {
         page: 1,
         resultsPerPage: 10,
         type: "simple",
+      });
+    });
+  });
+
+  // dateRangeFrom, dateRangeTo
+  describe("dateRangeFrom, dateRangeTo", () => {
+    it("returns valid dateRangeFrom and dateRangeTo when both are valid and in the correct order", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-01",
+        dateRangeTo: "2025-05-31",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-01",
+        dateRangeTo: "2025-05-31",
+      });
+    });
+
+    it("returns undefined for both dateRangeFrom and dateRangeTo when they are out of order", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-31",
+        dateRangeTo: "2025-05-01",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: undefined,
+        dateRangeTo: undefined,
+      });
+    });
+
+    it("sets dateRangeTo to the same value as dateRangeFrom when only dateRangeFrom is valid", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-01",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-01",
+        dateRangeTo: "2025-05-01",
+      });
+    });
+
+    it("sets dateRangeFrom to the same value as dateRangeTo when only dateRangeTo is valid", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeTo: "2025-05-31",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2025-05-31",
+        dateRangeTo: "2025-05-31",
+      });
+    });
+
+    it("returns undefined for both dateRangeFrom and dateRangeTo when neither is valid", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "invalid-date",
+        dateRangeTo: "another-invalid-date",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: undefined,
+        dateRangeTo: undefined,
+      });
+    });
+
+    it("returns undefined for both dateRangeFrom and dateRangeTo when both are missing", () => {
+      const searchParams = {};
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateRangeFrom: undefined,
+        dateRangeTo: undefined,
+      });
+    });
+  });
+
+  // dateType, dateRange, dateRangeFrom, dateRangeTo
+  describe("dateType, dateRange, dateRangeFrom, dateRangeTo", () => {
+    it("ignores all if dateType is missing", () => {
+      const searchParams = {
+        dateRange: "week",
+        dateRangeFrom: "2023-01-01",
+        dateRangeTo: "2023-01-07",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+      });
+    });
+
+    it("ignores all if dateRange is missing", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRangeFrom: "2023-01-01",
+        dateRangeTo: "2023-01-07",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+      });
+    });
+
+    it("ignores dateRangeFrom, dateRangeTo if dateRange is not set to fixed", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "week",
+        dateRangeFrom: "2023-01-01",
+        dateRangeTo: "2023-01-07",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "week",
+      });
+    });
+
+    it("allows dateRangeFrom, dateRangeTo if dateRange is set to fixed", () => {
+      const searchParams = {
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2023-01-01",
+        dateRangeTo: "2023-01-07",
+      };
+
+      const result = validateSearchParams(mockAppConfig, searchParams);
+
+      expect(result).toEqual({
+        page: 1,
+        resultsPerPage: 10,
+        type: "simple",
+        dateType: "receivedAt",
+        dateRange: "fixed",
+        dateRangeFrom: "2023-01-01",
+        dateRangeTo: "2023-01-07",
       });
     });
   });

@@ -267,7 +267,7 @@ export const validateSearchParams = (
   })();
 
   // dateType
-  const dateType: DprApplicationDateType | undefined = (() => {
+  let dateType: DprApplicationDateType | undefined = (() => {
     const dateTypeValue = searchParams
       ? getValueFromUnknownSearchParams(searchParams, "dateType")
       : undefined;
@@ -287,7 +287,7 @@ export const validateSearchParams = (
   })();
 
   // dateRange
-  const dateRange: DprApplicationDateRange | undefined = (() => {
+  let dateRange: DprApplicationDateRange | undefined = (() => {
     const dateRangeValue = searchParams
       ? getValueFromUnknownSearchParams(searchParams, "dateRange")
       : undefined;
@@ -305,6 +305,62 @@ export const validateSearchParams = (
 
     return undefined;
   })();
+
+  // dateRangeFrom dateRangeTo
+  let { dateRangeFrom, dateRangeTo } = (() => {
+    const dateRangeFrom = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "dateRangeFrom")
+      : undefined;
+    const dateRangeTo = searchParams
+      ? getValueFromUnknownSearchParams(searchParams, "dateRangeTo")
+      : undefined;
+
+    // Helper function to validate YYYY-MM-DD format
+    const isValidDate = (date: string | undefined): boolean => {
+      return !!date && /^\d{4}-\d{2}-\d{2}$/.test(date);
+    };
+
+    // Validate both dates
+    const isFromValid = isValidDate(dateRangeFrom);
+    const isToValid = isValidDate(dateRangeTo);
+
+    // If both are valid, ensure they are in the correct order
+    if (isFromValid && isToValid) {
+      const fromDate = new Date(dateRangeFrom!);
+      const toDate = new Date(dateRangeTo!);
+
+      if (fromDate <= toDate) {
+        return { dateRangeFrom, dateRangeTo };
+      } else {
+        // If out of order, return undefined for both
+        return { dateRangeFrom: undefined, dateRangeTo: undefined };
+      }
+    }
+
+    // If only one is valid, set both to the same value
+    if (isFromValid) {
+      return { dateRangeFrom, dateRangeTo: dateRangeFrom };
+    }
+    if (isToValid) {
+      return { dateRangeFrom: dateRangeTo, dateRangeTo };
+    }
+
+    // If neither is valid, set both to undefined
+    return { dateRangeFrom: undefined, dateRangeTo: undefined };
+  })();
+
+  // dateType, dateRange, dateRangeFrom, dateRangeTo
+  // Nb if theres valid dateType and dateRange is fixed but no dateRangeFrom or dateRangeTo
+  // then we allow that so the UI shows the relevant sections and the user can enter them
+  if (!dateType || !dateRange) {
+    dateType = undefined;
+    dateRange = undefined;
+  }
+
+  if (!dateRange || dateRange !== "fixed") {
+    dateRangeFrom = undefined;
+    dateRangeTo = undefined;
+  }
 
   // dprFilter
   // @TODO this can only be set if the other values are valid for this filter
@@ -340,6 +396,8 @@ export const validateSearchParams = (
     ...(councilDecision && { councilDecision }),
     ...(dateType && { dateType }),
     ...(dateRange && { dateRange }),
+    ...(dateRangeFrom && { dateRangeFrom }),
+    ...(dateRangeTo && { dateRangeTo }),
   };
 
   return newSearchParams;

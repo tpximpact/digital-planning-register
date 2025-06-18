@@ -48,7 +48,7 @@ export const FormFieldApplicationDateRange = ({
           name="dateType"
           defaultValue={searchParams?.dateType ?? ""}
         >
-          <option value="" disabled />
+          <option value=""></option>
           {APPLICATION_DATETYPE_OPTIONS.map(
             (option: { value: string; label: string }) => (
               <option key={option.value} value={option.value}>
