@@ -26,6 +26,7 @@ import {
 } from "./Thumbnails";
 import { formatDateTimeToDprDate, formatFileSize } from "@/util";
 import { Details } from "../Details";
+import { mapMimeToAttachmentContentType } from "@/util/convertAttachmentContentType";
 
 export interface AttachmentProps {
   title?: string;
@@ -50,43 +51,23 @@ export const Attachment = ({
   alternativeFormatContactEmail,
   createdDate,
 }: AttachmentProps) => {
-  function pickGOVUKIcon(contentType?: string): JSX.Element {
-    const type = contentType?.toLowerCase();
+  function renderIcon(contentType?: string): JSX.Element {
+    const type = mapMimeToAttachmentContentType(contentType);
 
-    // PDFs
-    if (type?.includes("pdf")) {
-      return <ThumbnailPdf />;
+    switch (type) {
+      case "pdf":
+        return <ThumbnailPdf />;
+      case "document":
+        return <ThumbnailDocument />;
+      case "spreadsheet":
+        return <ThumbnailSpreadsheet />;
+      case "html":
+        return <ThumbnailHtml />;
+      case "external":
+        return <ThumbnailExternal />;
+      default:
+        return <ThumbnailGeneric />;
     }
-
-    // Word documents
-    if (
-      type?.endsWith("doc") ||
-      type?.endsWith("docx") ||
-      type?.includes("msword") ||
-      type?.includes("wordprocessingml")
-    ) {
-      return <ThumbnailDocument />;
-    }
-
-    // Spreadsheets
-    if (
-      type?.endsWith("xls") ||
-      type?.endsWith("xlsx") ||
-      type?.includes("excel") ||
-      type?.includes("spreadsheet")
-    ) {
-      return <ThumbnailSpreadsheet />;
-    }
-
-    // HTML pages
-    if (type?.includes("html")) {
-      return <ThumbnailHtml />;
-    }
-
-    if (type === "external") {
-      return <ThumbnailExternal />;
-    }
-    return <ThumbnailGeneric />;
   }
 
   const formattedFileSize =
@@ -119,7 +100,7 @@ export const Attachment = ({
       className="dpr-attachment__thumbnail-image"
     />
   ) : (
-    pickGOVUKIcon(contentType)
+    renderIcon(contentType)
   );
 
   return (

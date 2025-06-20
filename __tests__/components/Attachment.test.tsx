@@ -97,133 +97,34 @@ describe("Attachment Component", () => {
 });
 
 describe("MIME-type icon rendering", () => {
-  it('renders the PDF icon for shorthand "pdf"', () => {
-    const { container } = render(<Attachment contentType="pdf" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--pdf",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the PDF icon for "application/pdf"', () => {
-    const { container } = render(<Attachment contentType="application/pdf" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--pdf",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Document icon for shorthand "doc"', () => {
-    const { container } = render(<Attachment contentType="doc" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--document",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Document icon for "application/msword"', () => {
-    const { container } = render(
-      <Attachment contentType="application/msword" />,
-    );
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--document",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Document icon for shorthand "docx"', () => {
-    const { container } = render(<Attachment contentType="docx" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--document",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it("renders the Document icon for the full DOCX MIME type", () => {
-    const { container } = render(
-      <Attachment contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />,
-    );
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--document",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Spreadsheet icon for shorthand "xls"', () => {
-    const { container } = render(<Attachment contentType="xls" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--spreadsheet",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Spreadsheet icon for "application/vnd.ms-excel"', () => {
-    const { container } = render(
-      <Attachment contentType="application/vnd.ms-excel" />,
-    );
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--spreadsheet",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Spreadsheet icon for shorthand "xlsx"', () => {
-    const { container } = render(<Attachment contentType="xlsx" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--spreadsheet",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it("renders the Spreadsheet icon for the full XLSX MIME type", () => {
-    const { container } = render(
-      <Attachment contentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />,
-    );
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--spreadsheet",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the Spreadsheet icon for shorthand "spreadsheet"', () => {
-    const { container } = render(<Attachment contentType="spreadsheet" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--spreadsheet",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the HTML icon for shorthand "html"', () => {
-    const { container } = render(<Attachment contentType="html" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--html",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the HTML icon for "text/html"', () => {
-    const { container } = render(<Attachment contentType="text/html" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--html",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the HTML icon for "application/xhtml+xml"', () => {
-    const { container } = render(
-      <Attachment contentType="application/xhtml+xml" />,
-    );
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--html",
-    );
-    expect(icon).toBeInTheDocument();
-  });
-
-  it('renders the External icon for "external"', () => {
-    const { container } = render(<Attachment contentType="external" />);
-    const icon = container.querySelector(
-      ".dpr-attachment__thumbnail-image--external",
-    );
+  it.each([
+    ["pdf", "pdf"],
+    ["pdf", "application/pdf"],
+    ["document", "doc"],
+    ["document", "docx"],
+    ["document", "application/msword"],
+    [
+      "document",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+    ["spreadsheet", "xls"],
+    ["spreadsheet", "xlsx"],
+    ["spreadsheet", "spreadsheet"],
+    ["spreadsheet", "application/vnd.ms-excel"],
+    [
+      "spreadsheet",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ],
+    ["html", "html"],
+    ["html", "text/html"],
+    ["html", "application/xhtml+xml"],
+    ["external", "external"],
+    ["generic", "some/unknown-type"],
+    ["generic", "invalid/type"],
+  ])("renders the %s icon for contentType '%s'", (expectedType, mimeType) => {
+    const { container } = render(<Attachment contentType={mimeType} />);
+    const expectedSelector = `.dpr-attachment__thumbnail-image--${expectedType}`;
+    const icon = container.querySelector(expectedSelector);
     expect(icon).toBeInTheDocument();
   });
 });
