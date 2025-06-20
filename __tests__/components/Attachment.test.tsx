@@ -95,3 +95,36 @@ describe("Attachment Component", () => {
     ).not.toBeInTheDocument();
   });
 });
+
+describe("MIME-type icon rendering", () => {
+  it.each([
+    ["pdf", "pdf"],
+    ["pdf", "application/pdf"],
+    ["document", "doc"],
+    ["document", "docx"],
+    ["document", "application/msword"],
+    [
+      "document",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+    ["spreadsheet", "xls"],
+    ["spreadsheet", "xlsx"],
+    ["spreadsheet", "spreadsheet"],
+    ["spreadsheet", "application/vnd.ms-excel"],
+    [
+      "spreadsheet",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ],
+    ["html", "html"],
+    ["html", "text/html"],
+    ["html", "application/xhtml+xml"],
+    ["external", "external"],
+    ["generic", "some/unknown-type"],
+    ["generic", "invalid/type"],
+  ])("renders the %s icon for contentType '%s'", (expectedType, mimeType) => {
+    const { container } = render(<Attachment contentType={mimeType} />);
+    const expectedSelector = `.dpr-attachment__thumbnail-image--${expectedType}`;
+    const icon = container.querySelector(expectedSelector);
+    expect(icon).toBeInTheDocument();
+  });
+});

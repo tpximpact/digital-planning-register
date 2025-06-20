@@ -26,6 +26,7 @@ import {
 } from "./Thumbnails";
 import { formatDateTimeToDprDate, formatFileSize } from "@/util";
 import { Details } from "../Details";
+import { mapMimeToAttachmentContentType } from "@/util/convertAttachmentContentType";
 
 export interface AttachmentProps {
   title?: string;
@@ -50,16 +51,14 @@ export const Attachment = ({
   alternativeFormatContactEmail,
   createdDate,
 }: AttachmentProps) => {
-  function pickGOVUKIcon(type?: string): JSX.Element {
-    switch (type?.toLowerCase()) {
-      case "application/pdf":
+  function renderIcon(contentType?: string): JSX.Element {
+    const type = mapMimeToAttachmentContentType(contentType);
+
+    switch (type) {
       case "pdf":
         return <ThumbnailPdf />;
-      case "doc":
-      case "docx":
+      case "document":
         return <ThumbnailDocument />;
-      case "xls":
-      case "xlsx":
       case "spreadsheet":
         return <ThumbnailSpreadsheet />;
       case "html":
@@ -101,7 +100,7 @@ export const Attachment = ({
       className="dpr-attachment__thumbnail-image"
     />
   ) : (
-    pickGOVUKIcon(contentType)
+    renderIcon(contentType)
   );
 
   return (
