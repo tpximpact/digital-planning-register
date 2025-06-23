@@ -74,6 +74,12 @@ jest.mock("@/lib/planningApplication/search", () => ({
   ),
 }));
 
+jest.mock("@/components/ContentNotOnDprYet", () => ({
+  ContentNotOnDprYet: (props: any) => (
+    <div data-testid="content-not-on-dpr-yet" />
+  ),
+}));
+
 const baseParams = { council: "camden" };
 const mockAppConfig: AppConfig = {
   defaults: {
@@ -228,6 +234,19 @@ describe("PageSearch", () => {
       );
       checkForAdvancedSearchForm(false);
     });
+    it("should show ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      expect(
+        screen.queryAllByTestId("content-not-on-dpr-yet").length,
+      ).toBeGreaterThan(0);
+    });
   });
 
   describe("When a simple search has been performed", () => {
@@ -291,6 +310,22 @@ describe("PageSearch", () => {
         />,
       );
       checkForAdvancedSearchForm(false);
+    });
+    it("should not show ContentNotOnDprYet component unless the current page is the last page", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={{
+            ...mockResponse,
+            pagination: generatePagination(1, 1),
+          }}
+        />,
+      );
+      expect(
+        screen.queryByTestId("content-not-on-dpr-yet"),
+      ).toBeInTheDocument();
     });
   });
 
@@ -455,6 +490,23 @@ describe("PageSearch", () => {
       expect(screen.queryAllByTestId("application-card")).toHaveLength(0);
       expect(screen.queryByTestId("pagination")).not.toBeInTheDocument();
       expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
+    });
+    it("if no results it shows ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={{
+            ...mockResponse,
+            data: null,
+          }}
+        />,
+      );
+
+      expect(
+        screen.queryAllByTestId("content-not-on-dpr-yet").length,
+      ).toBeGreaterThan(0);
     });
   });
 });

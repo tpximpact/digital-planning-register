@@ -90,6 +90,7 @@ export interface Council {
   features?: {
     logoInHeader?: boolean;
   };
+  currentLiveRegister?: string;
   pageContent: {
     privacy_policy: {
       privacy_policy_link: string;

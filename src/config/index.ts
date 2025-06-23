@@ -252,6 +252,8 @@ const councils: Council[] = [
     features: {
       logoInHeader: true,
     },
+    currentLiveRegister:
+      "https://planningrecords.camden.gov.uk/NECSWS/PlanningExplorer/GeneralSearch.aspx",
     pageContent: {
       council_reference_submit_comment_pre_submission: {
         what_happens_to_your_comments_link:
