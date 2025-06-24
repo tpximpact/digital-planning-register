@@ -36,6 +36,8 @@ import {
   PublicCommentSummary,
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
+import { commentSearchFields } from "@/util/featureFlag";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -191,24 +193,47 @@ export const ApplicationDetails = ({
           />
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
-            <CommentsSummaryWithSuspense
-              params={{ council: councilSlug, reference: reference }}
-              type="specialist"
-              // this enables us to show this component in storybook without needing to fetch comments
-              {...(specialistCommentSummary !== undefined
-                ? { summary: specialistCommentSummary }
-                : {})}
-            />
+            <>
+              {commentSearchFields.includes("sentimentSpecialist") ? (
+                <CommentsSummaryWithSuspense
+                  params={{ council: councilSlug, reference: reference }}
+                  type="specialist"
+                  // this enables us to show this component in storybook without needing to fetch comments
+                  {...(specialistCommentSummary !== undefined
+                    ? { summary: specialistCommentSummary }
+                    : {})}
+                />
+              ) : (
+                <CommentsListWithSuspense
+                  councilSlug={councilSlug}
+                  reference={reference}
+                  type="specialist"
+                  resultsPerPage={3}
+                />
+              )}
+            </>
           )}
+
           {appConfig.council?.publicComments && (
-            <CommentsSummaryWithSuspense
-              params={{ council: councilSlug, reference: reference }}
-              type="public"
-              // this enables us to show this component in storybook without needing to fetch comments
-              {...(publicCommentSummary !== undefined
-                ? { summary: publicCommentSummary }
-                : {})}
-            />
+            <>
+              {commentSearchFields.includes("sentiment") ? (
+                <CommentsSummaryWithSuspense
+                  params={{ council: councilSlug, reference: reference }}
+                  type="public"
+                  // this enables us to show this component in storybook without needing to fetch comments
+                  {...(publicCommentSummary !== undefined
+                    ? { summary: publicCommentSummary }
+                    : {})}
+                />
+              ) : (
+                <CommentsListWithSuspense
+                  councilSlug={councilSlug}
+                  reference={reference}
+                  type="public"
+                  resultsPerPage={3}
+                />
+              )}
+            </>
           )}
         </div>
       </div>
