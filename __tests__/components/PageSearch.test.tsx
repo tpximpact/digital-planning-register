@@ -74,6 +74,12 @@ jest.mock("@/lib/planningApplication/search", () => ({
   ),
 }));
 
+jest.mock("@/components/ContentNotOnDprYet", () => ({
+  ContentNotOnDprYet: (props: any) => (
+    <div data-testid="content-not-on-dpr-yet" />
+  ),
+}));
+
 const baseParams = { council: "camden" };
 const mockAppConfig: AppConfig = {
   defaults: {
@@ -167,6 +173,38 @@ describe("PageSearch", () => {
     expect(screen.queryByTestId("form-search-full") !== null).toBe(presence);
   };
 
+  const checkForContentNotFoundOnDprYet = (presence: boolean = true) => {
+    expect(screen.queryByTestId("content-not-on-dpr-yet") !== null).toBe(
+      presence,
+    );
+  };
+
+  const checkForContentNoResultAfterApplicationCards = () => {
+    const cards = screen.getAllByTestId("application-card");
+    const allContentNotOnDprYet = screen.getAllByTestId(
+      "content-not-on-dpr-yet",
+    );
+    const pagination = screen.getByTestId("pagination");
+
+    // Use the last ContentNotOnDprYet (the one after the last card)
+    const contentNotOnDprYet =
+      allContentNotOnDprYet[allContentNotOnDprYet.length - 1];
+
+    // All should share the same parent
+    expect(cards[cards.length - 1].parentElement).toBe(
+      contentNotOnDprYet.parentElement,
+    );
+    expect(contentNotOnDprYet.parentElement).toBe(pagination.parentElement);
+
+    const siblings = Array.from(contentNotOnDprYet.parentElement!.children);
+    const lastCardIndex = siblings.indexOf(cards[cards.length - 1]);
+    const contentIndex = siblings.indexOf(contentNotOnDprYet);
+    const paginationIndex = siblings.indexOf(pagination);
+
+    expect(lastCardIndex).toBeLessThan(contentIndex);
+    expect(contentIndex).toBeLessThan(paginationIndex);
+  };
+
   describe("When no actions have been performed", () => {
     it("should show welcome message", () => {
       render(
@@ -227,6 +265,34 @@ describe("PageSearch", () => {
         />,
       );
       checkForAdvancedSearchForm(false);
+    });
+    it("should show ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForContentNotFoundOnDprYet(true);
+    });
+    describe("and we view the last page of results", () => {
+      const mockResponseLastPage = {
+        ...mockResponse,
+        pagination: generatePagination(10, 100),
+      };
+      it("should render ContentNotOnDprYet component between last ApplicationCard and Pagination", () => {
+        render(
+          <PageSearch
+            params={baseParams}
+            appConfig={mockAppConfig}
+            searchParams={baseSearchParams}
+            response={mockResponseLastPage}
+          />,
+        );
+        checkForContentNoResultAfterApplicationCards();
+      });
     });
   });
 
@@ -291,6 +357,34 @@ describe("PageSearch", () => {
         />,
       );
       checkForAdvancedSearchForm(false);
+    });
+    it("should not show ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockSimpleSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForContentNotFoundOnDprYet(false);
+    });
+    describe("and we view the last page of results", () => {
+      const mockResponseLastPage = {
+        ...mockResponse,
+        pagination: generatePagination(10, 100),
+      };
+      it("should render ContentNotOnDprYet component between last ApplicationCard and Pagination", () => {
+        render(
+          <PageSearch
+            params={baseParams}
+            appConfig={mockAppConfig}
+            searchParams={mockSimpleSearchParams}
+            response={mockResponseLastPage}
+          />,
+        );
+        checkForContentNoResultAfterApplicationCards();
+      });
     });
   });
 
@@ -357,6 +451,34 @@ describe("PageSearch", () => {
       );
       checkForAdvancedSearchForm(false);
     });
+    it("should not show ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockQuickfilterSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForContentNotFoundOnDprYet(false);
+    });
+    describe("and we view the last page of results", () => {
+      const mockResponseLastPage = {
+        ...mockResponse,
+        pagination: generatePagination(10, 100),
+      };
+      it("should render ContentNotOnDprYet component between last ApplicationCard and Pagination", () => {
+        render(
+          <PageSearch
+            params={baseParams}
+            appConfig={mockAppConfig}
+            searchParams={mockQuickfilterSearchParams}
+            response={mockResponseLastPage}
+          />,
+        );
+        checkForContentNoResultAfterApplicationCards();
+      });
+    });
   });
 
   describe("When an advanced search search has been performed", () => {
@@ -422,6 +544,34 @@ describe("PageSearch", () => {
       );
       checkForAdvancedSearchForm(true);
     });
+    it("should not show ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={mockAdvancedSearchParams}
+          response={mockResponse}
+        />,
+      );
+      checkForContentNotFoundOnDprYet(false);
+    });
+    describe("and we view the last page of results", () => {
+      const mockResponseLastPage = {
+        ...mockResponse,
+        pagination: generatePagination(10, 100),
+      };
+      it("should render ContentNotOnDprYet component between last ApplicationCard and Pagination", () => {
+        render(
+          <PageSearch
+            params={baseParams}
+            appConfig={mockAppConfig}
+            searchParams={mockAdvancedSearchParams}
+            response={mockResponseLastPage}
+          />,
+        );
+        checkForContentNoResultAfterApplicationCards();
+      });
+    });
   });
 
   describe("Managing results", () => {
@@ -455,6 +605,23 @@ describe("PageSearch", () => {
       expect(screen.queryAllByTestId("application-card")).toHaveLength(0);
       expect(screen.queryByTestId("pagination")).not.toBeInTheDocument();
       expect(screen.getByTestId("content-no-result")).toBeInTheDocument();
+    });
+    it("if no results it shows ContentNotOnDprYet component", () => {
+      render(
+        <PageSearch
+          params={baseParams}
+          appConfig={mockAppConfig}
+          searchParams={baseSearchParams}
+          response={{
+            ...mockResponse,
+            data: null,
+          }}
+        />,
+      );
+
+      expect(
+        screen.queryAllByTestId("content-not-on-dpr-yet").length,
+      ).toBeGreaterThan(0);
     });
   });
 });

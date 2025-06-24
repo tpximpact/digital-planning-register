@@ -36,6 +36,7 @@ import { FormSearchFull } from "@/components/FormSearchFull";
 import { FormApplicationsSort } from "@/components/FormApplicationsSort";
 import React, { Suspense } from "react";
 import { applicationSearchFields } from "@/util/featureFlag";
+import { ContentNotOnDprYet } from "../ContentNotOnDprYet";
 
 export interface PageSearchProps {
   params: {
@@ -73,7 +74,10 @@ export const PageSearch = ({
   return (
     <PageMain>
       {type === "simple" && !searchPerformed && (
-        <SimpleNoSearchHeader emailAlertsLink={emailAlertsLink} />
+        <SimpleNoSearchHeader
+          emailAlertsLink={emailAlertsLink}
+          appConfig={appConfig}
+        />
       )}
       {type === "full" && searchPerformed && (
         <NotificationBanner
@@ -126,6 +130,11 @@ export const PageSearch = ({
                 application={application}
               />
             ))}
+            {response.pagination &&
+              response.pagination.currentPage ===
+                response.pagination.totalPages && (
+                <ContentNotOnDprYet council={appConfig.council} />
+              )}
             {response.pagination && response.pagination.totalPages > 1 && (
               <Pagination
                 baseUrl={createPathFromParams(params)}
@@ -135,7 +144,13 @@ export const PageSearch = ({
             )}
           </>
         ) : (
-          <ContentNoResult councilConfig={appConfig.council} />
+          <>
+            <ContentNoResult
+              councilConfig={appConfig.council}
+              type="application"
+            />
+            <ContentNotOnDprYet council={appConfig.council} />
+          </>
         )}
       </Suspense>
     </PageMain>
@@ -149,8 +164,10 @@ export const PageSearch = ({
  */
 const SimpleNoSearchHeader = ({
   emailAlertsLink,
+  appConfig,
 }: {
   emailAlertsLink?: string;
+  appConfig: AppConfig;
 }) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -162,11 +179,7 @@ const SimpleNoSearchHeader = ({
           You can find planning applications submitted through the Open Digital
           Planning system for your local council planning authority.
         </p>
-        <p className="govuk-body">
-          Not all planning applications will be available through this register.
-          You may need to check individual council&apos;s websites to see what
-          records are kept here.
-        </p>
+        <ContentNotOnDprYet council={appConfig.council} />
       </div>
 
       {emailAlertsLink && (

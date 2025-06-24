@@ -188,3 +188,22 @@ export const AdvancedSearchPerformed: Story = {
     },
   },
 };
+
+export const LastPageShowsNotOnDprYet: Story = {
+  args: {
+    searchParams: {
+      page: 10,
+      resultsPerPage: 10,
+      type: "simple",
+      reference: "12345",
+    },
+    response: {
+      status: {
+        code: 200,
+        message: "OK",
+      },
+      data: [],
+      pagination: generatePagination(10, 100),
+    },
+  },
+};
