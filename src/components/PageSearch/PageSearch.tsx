@@ -74,14 +74,10 @@ export const PageSearch = ({
   return (
     <PageMain>
       {type === "simple" && !searchPerformed && (
-        <>
-          <SimpleNoSearchHeader emailAlertsLink={emailAlertsLink} />
-          <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            <div className="govuk-grid-column-two-thirds">
-              <ContentNotOnDprYet council={appConfig.council} />
-            </div>
-          </div>
-        </>
+        <SimpleNoSearchHeader
+          emailAlertsLink={emailAlertsLink}
+          appConfig={appConfig}
+        />
       )}
       {type === "full" && searchPerformed && (
         <NotificationBanner
@@ -134,8 +130,7 @@ export const PageSearch = ({
                 application={application}
               />
             ))}
-            {searchPerformed &&
-              response.pagination &&
+            {response.pagination &&
               response.pagination.currentPage ===
                 response.pagination.totalPages && (
                 <ContentNotOnDprYet council={appConfig.council} />
@@ -169,8 +164,10 @@ export const PageSearch = ({
  */
 const SimpleNoSearchHeader = ({
   emailAlertsLink,
+  appConfig,
 }: {
   emailAlertsLink?: string;
+  appConfig: AppConfig;
 }) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -182,6 +179,7 @@ const SimpleNoSearchHeader = ({
           You can find planning applications submitted through the Open Digital
           Planning system for your local council planning authority.
         </p>
+        <ContentNotOnDprYet council={appConfig.council} />
       </div>
 
       {emailAlertsLink && (
