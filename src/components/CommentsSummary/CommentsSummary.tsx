@@ -44,7 +44,7 @@ export const CommentsSummary = ({
   type,
   summary,
 }: CommentsSummaryProps) => {
-  if (!type || !summary.sentiment) {
+  if (!type || !summary?.sentiment) {
     return null;
   }
 
