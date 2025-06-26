@@ -25,6 +25,12 @@ $selector: "dpr-accordion";
   $govuk-accordion-icon-focus-colour: $govuk-focus-colour;
   $govuk-accordion-bottom-border-width: 1px;
 
+  &--no-controls {
+    .#{$selector}__controls {
+      display: none;
+    }
+  }
+
   &__controls {
     margin-bottom: govuk-spacing(2);
     @include govuk-media-query($from: tablet) {

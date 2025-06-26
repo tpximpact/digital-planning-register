@@ -54,6 +54,24 @@ export function Accordion({ name, children }: AccordionProps) {
     };
   }, []);
 
+  // hide the toggle button if there are < 2 sections
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const sections = containerRef.current.querySelectorAll<HTMLDetailsElement>(
+      ".dpr-accordion-section",
+    );
+    const accordion = containerRef.current;
+
+    if (accordion) {
+      if (sections.length < 2) {
+        accordion.classList.add("dpr-accordion--no-controls");
+      } else {
+        accordion.classList.remove("dpr-accordion--no-controls");
+      }
+    }
+  }, []);
+
   /**
    * Handles the toggle of all sections in the accordion
    * When the button is clicked, it toggles the open state of all sections.

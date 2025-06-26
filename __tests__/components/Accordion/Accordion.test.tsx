@@ -38,10 +38,35 @@ function renderAccordion(
 }
 
 describe("Accordion", () => {
-  it("renders the accordion and its sections", () => {
+  it("renders the accordion and toggle button if there are multiple sections", () => {
     renderAccordion();
+    expect(screen.getByText("Show all sections")).toBeInTheDocument();
     expect(screen.getByText("Section 1")).toBeInTheDocument();
     expect(screen.getByText("Section 2")).toBeInTheDocument();
+  });
+
+  it("renders the accordion and no toggle button if there is one section", () => {
+    const { container } = render(
+      <Accordion name="test-accordion">
+        <AccordionSection title="Section 1" name="section1" open>
+          Content 1
+        </AccordionSection>
+      </Accordion>,
+    );
+    expect(container.firstChild).toHaveClass("dpr-accordion--no-controls");
+    const sections = container.querySelectorAll(".dpr-accordion-section");
+    expect(sections.length).toBe(1);
+  });
+
+  it("renders the accordion and no toggle button if there is no sections", () => {
+    const { container } = render(
+      <Accordion name="test-accordion">
+        <></>
+      </Accordion>,
+    );
+    expect(container.firstChild).toHaveClass("dpr-accordion--no-controls");
+    const sections = container.querySelectorAll(".dpr-accordion-section");
+    expect(sections.length).toBe(0);
   });
 
   it("shows the toggle button when JS is enabled", () => {
