@@ -23,6 +23,8 @@ export interface AccordionSectionProps {
   summary?: string;
   open?: boolean;
   children: React.ReactNode;
+  onToggle?: (event: React.SyntheticEvent<HTMLDetailsElement>) => void;
+  headingLevel?: number;
 }
 
 export function AccordionSection({
@@ -31,15 +33,18 @@ export function AccordionSection({
   summary,
   open,
   children,
+  onToggle,
+  headingLevel = 2,
 }: AccordionSectionProps) {
   return (
     <details
       className="dpr-accordion-section"
       name={name}
       {...(open ? { open: true } : {})}
+      {...(onToggle ? { onToggle } : {})}
     >
       <summary>
-        <p className="govuk-heading-m" role="heading" aria-level={2}>
+        <p className="govuk-heading-m" role="heading" aria-level={headingLevel}>
           <span>
             <span className="govuk-visually-hidden">Open section: </span>
             {title}
