@@ -252,6 +252,12 @@ export const MapTypeContextSetter: Story = {
   },
 };
 
+export const MapTypeConstraintAccordion: Story = {
+  args: {
+    mapType: "constraint-accordion",
+  },
+};
+
 export const MapTypeApplicationSearch: Story = {
   args: {
     mapType: "application-search",
