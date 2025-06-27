@@ -61,6 +61,15 @@ export const determineMapTypeProps = (mapType?: string) => {
         geojsonbuffer: 12,
       };
       break;
+    case "constraint-accordion":
+      classModifier = "constraint-accordion";
+      staticMode = false;
+      mapTypeProps = {
+        showScale: true,
+        zoom: 24,
+        geojsonbuffer: 12,
+      };
+      break;
     default:
       classModifier = "default";
       staticMode = false;
