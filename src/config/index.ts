@@ -18,6 +18,11 @@
 import "server-only";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import { AppConfig, Council, CouncilVisibility } from "./types";
+import {
+  applicationSearchFields,
+  commentSearchFields,
+  documentSearchFields,
+} from "@/config/featureFlag";
 
 /**
  * Retrieves the application configuration for a given council.
@@ -55,6 +60,15 @@ export const getAppConfig = (council?: string): AppConfig => {
     features: {
       getApplicationIdFromPrivateEndpoint: true,
       osMapProxyUrl: process.env.OS_MAP_PROXY_URL ?? undefined,
+      documentSearchFields: documentSearchFields
+        ? documentSearchFields
+        : undefined,
+      commentSearchFields: commentSearchFields
+        ? commentSearchFields
+        : undefined,
+      applicationSearchFields: applicationSearchFields
+        ? applicationSearchFields
+        : undefined,
     },
     defaults: {
       resultsPerPage: 10,
@@ -173,11 +187,17 @@ const determineCouncilVisibility = (councilConfig: Council) => {
  * // Returns ["council1", "council2"]
  */
 export const getCouncilList = (councilConfigs: Council[]) => {
+  if (!councilConfigs || !Array.isArray(councilConfigs)) {
+    return [];
+  }
   return councilConfigs
-    .map(
-      (council) =>
-        council.slug ?? council.name.toLowerCase().split(" ").join("-"),
-    )
+    .map((council) => {
+      if (!council.slug && !council.name) return null;
+      return council.slug
+        ? council.slug.toLowerCase()
+        : // Generate slug from name if slug is not provided
+          council.name.toLowerCase().split(" ").join("-");
+    })
     .filter(Boolean);
 };
 
