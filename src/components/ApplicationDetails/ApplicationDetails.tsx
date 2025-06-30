@@ -38,6 +38,7 @@ import {
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
 import { commentSearchFields } from "@/util/featureFlag";
+import { ApplicationConstraints } from "../ApplicationConstraints";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -191,7 +192,13 @@ export const ApplicationDetails = ({
             applicant={application.submission.data.applicant}
             caseOfficer={application.data.caseOfficer}
           />
-          {/* <ApplicationConstraints /> */}
+          {application.submission.data?.property?.planning?.designations && (
+            <ApplicationConstraints
+              constraints={
+                application.submission.data?.property?.planning?.designations
+              }
+            />
+          )}
           {appConfig.council?.specialistComments && (
             <>
               {commentSearchFields.includes("sentimentSpecialist") ? (

@@ -70,7 +70,7 @@ export type DprApplication = Omit<
       applicant: PrototypeApplication["data"]["applicant"];
       property: Pick<
         PrototypeApplication["data"]["property"],
-        "address" | "boundary"
+        "address" | "boundary" | "planning"
       >;
       proposal: PrototypeApplication["data"]["proposal"];
     };

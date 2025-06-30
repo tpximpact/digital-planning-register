@@ -138,6 +138,12 @@ export default async function PlanningApplicationSearch({
                   >
                     Specialist comments
                   </th>
+                  <th
+                    scope="col"
+                    className="govuk-table__header govuk-table__header--numeric"
+                  >
+                    Designations
+                  </th>
                 </tr>
               </thead>
               <tbody className="govuk-table__body">
@@ -174,6 +180,10 @@ export default async function PlanningApplicationSearch({
                     </td>
                     <td className="govuk-table__cell govuk-table__cell--numeric">
                       {application.comments?.specialist?.comments?.length}
+                    </td>
+                    <td className="govuk-table__cell govuk-table__cell--numeric">
+                      {application.submission.data?.property?.planning
+                        ?.designations?.length ?? "n/a"}
                     </td>
                   </tr>
                 ))}
