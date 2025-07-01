@@ -32,7 +32,7 @@ import { ContentNotFound } from "@/components/ContentNotFound";
 import { FormDocumentsSearch } from "@/components/FormDocumentsSearch";
 import { FormDocumentsSort } from "@/components/FormDocumentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
-import { documentSearchFields } from "@/util/featureFlag";
+import { documentSearchFields } from "@/config/featureFlag";
 
 export interface PageApplicationDocumentsProps {
   params: {
@@ -62,6 +62,7 @@ export const PageApplicationDocuments = ({
     );
   }
   const { council: councilSlug, reference } = params;
+  const documentSearchFields = appConfig.features?.documentSearchFields ?? [];
 
   return (
     <>
