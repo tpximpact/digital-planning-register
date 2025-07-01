@@ -16,7 +16,7 @@
  */
 
 import { AppConfig } from "@/config/types";
-import { DprApplication, DprDocument } from "@/types";
+import { DprApplication, DprComment, DprDocument } from "@/types";
 import { ApplicationPeople } from "@/components/ApplicationPeople";
 import { ApplicationHero } from "@/components/ApplicationHero";
 import { DocumentsListWithSuspense } from "@/components/DocumentsListWithSuspense";
@@ -37,7 +37,6 @@ import {
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
-import { commentSearchFields } from "@/util/featureFlag";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -46,6 +45,8 @@ export interface ApplicationDetailsProps {
   documents?: DprDocument[];
   publicCommentSummary?: PublicCommentSummary;
   specialistCommentSummary?: SpecialistCommentSummary;
+  publicComments?: DprComment[];
+  specialistComments?: DprComment[];
 }
 
 export const ApplicationDetails = ({
@@ -55,10 +56,14 @@ export const ApplicationDetails = ({
   documents,
   publicCommentSummary,
   specialistCommentSummary,
+  publicComments,
+  specialistComments,
 }: ApplicationDetailsProps) => {
   if (!appConfig.council) {
     return <ContentError />;
   }
+
+  const commentSearchFields = appConfig.features?.commentSearchFields ?? [];
 
   const commentsEnabled = checkCommentsEnabled(application);
   const councilSlug = appConfig.council.slug;
@@ -191,6 +196,7 @@ export const ApplicationDetails = ({
             applicant={application.submission.data.applicant}
             caseOfficer={application.data.caseOfficer}
           />
+
           {/* <ApplicationConstraints /> */}
           {appConfig.council?.specialistComments && (
             <>
@@ -209,6 +215,10 @@ export const ApplicationDetails = ({
                   reference={reference}
                   type="specialist"
                   resultsPerPage={3}
+                  // this enables us to show this component in storybook without needing to fetch comments
+                  {...(specialistComments !== undefined
+                    ? { comments: specialistComments }
+                    : {})}
                 />
               )}
             </>
@@ -231,6 +241,10 @@ export const ApplicationDetails = ({
                   reference={reference}
                   type="public"
                   resultsPerPage={3}
+                  // this enables us to show this component in storybook without needing to fetch comments
+                  {...(publicComments !== undefined
+                    ? { comments: publicComments }
+                    : {})}
                 />
               )}
             </>
