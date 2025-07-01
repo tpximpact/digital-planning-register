@@ -21,6 +21,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FormSearchFull } from "@/components/FormSearchFull";
 import { SearchParamsApplication } from "@/types";
+import { AppConfig } from "@/config/types";
 
 // Mocks
 jest.mock("@/components/button", () => ({
@@ -94,6 +95,30 @@ const defaultSearchParams: SearchParamsApplication = {
   type: "full",
 };
 
+const mockAppConfig = {
+  features: {
+    applicationSearchFields: [
+      "advancedSearch",
+      "sortBy",
+      "quickFilters",
+      "query",
+      "reference",
+      "description",
+      "applicationType",
+      "applicationStatus",
+      "councilDecision",
+      "dateType",
+      "dateRange",
+      "dateRangeFrom",
+      "dateRangeTo",
+    ],
+  },
+} as AppConfig;
+
+const emptyAppConfig = {
+  features: { applicationSearchFields: [] },
+} as unknown as AppConfig;
+
 describe("FormSearchFull", () => {
   beforeEach(() => {
     jest.resetModules();
@@ -105,6 +130,7 @@ describe("FormSearchFull", () => {
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
       const link = screen.getByRole("link", { name: /back to simple search/i });
@@ -117,6 +143,7 @@ describe("FormSearchFull", () => {
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
       const primary = screen.getByTestId("primary-info-icon");
@@ -129,19 +156,11 @@ describe("FormSearchFull", () => {
     });
 
     it("renders a help link in each accordion section", () => {
-      jest.doMock("@/util/featureFlag", () => ({
-        applicationSearchFields: [
-          "applicationType",
-          "applicationStatus",
-          "councilDecision",
-        ],
-      }));
-      const { FormSearchFull } = require("@/components/FormSearchFull");
-
       render(
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
 
@@ -163,6 +182,7 @@ describe("FormSearchFull", () => {
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
 
@@ -181,6 +201,7 @@ describe("FormSearchFull", () => {
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
       const input = container.querySelector(
@@ -196,6 +217,7 @@ describe("FormSearchFull", () => {
           councilSlug="test-council-1"
           action="/test-council-1/search-form"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
       const form = screen.getByRole("form");
@@ -222,6 +244,7 @@ describe("FormSearchFull", () => {
         <FormSearchFull
           councilSlug="test-council-1"
           searchParams={defaultSearchParams}
+          appConfig={mockAppConfig}
         />,
       );
       expect(
@@ -236,17 +259,11 @@ describe("FormSearchFull", () => {
   describe("Search fields", () => {
     describe("reference and description", () => {
       it("renders reference and description fields if enabled", () => {
-        // Mock applicationSearchFields to include both
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: ["reference", "description"],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={mockAppConfig}
           />,
         );
         expect(
@@ -256,16 +273,11 @@ describe("FormSearchFull", () => {
       });
 
       it("does not render reference/description fields if not enabled", () => {
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: [],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={emptyAppConfig}
           />,
         );
         expect(
@@ -286,6 +298,7 @@ describe("FormSearchFull", () => {
           <FormSearchFull
             councilSlug="test-council-1"
             searchParams={searchParams}
+            appConfig={mockAppConfig}
           />,
         );
         const referenceInput = screen.getByLabelText(/application reference/i);
@@ -299,17 +312,11 @@ describe("FormSearchFull", () => {
 
     describe("applicationType", () => {
       it("renders applicationType fields if enabled", () => {
-        // Mock applicationSearchFields to include both
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: ["applicationType"],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={mockAppConfig}
           />,
         );
         expect(
@@ -318,16 +325,11 @@ describe("FormSearchFull", () => {
       });
 
       it("does not render applicationType field if not enabled", () => {
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: [],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={emptyAppConfig}
           />,
         );
         expect(
@@ -338,17 +340,11 @@ describe("FormSearchFull", () => {
 
     describe("applicationStatus", () => {
       it("renders applicationStatus fields if enabled", () => {
-        // Mock applicationSearchFields to include both
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: ["applicationStatus"],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={mockAppConfig}
           />,
         );
         expect(
@@ -357,16 +353,11 @@ describe("FormSearchFull", () => {
       });
 
       it("does not render applicationStatus field if not enabled", () => {
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: [],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={emptyAppConfig}
           />,
         );
         expect(
@@ -377,17 +368,11 @@ describe("FormSearchFull", () => {
 
     describe("councilDecision", () => {
       it("renders councilDecision fields if enabled", () => {
-        // Mock applicationSearchFields to include both
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: ["councilDecision"],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={mockAppConfig}
           />,
         );
         expect(
@@ -396,16 +381,11 @@ describe("FormSearchFull", () => {
       });
 
       it("does not render councilDecision field if not enabled", () => {
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: [],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={emptyAppConfig}
           />,
         );
         expect(
@@ -416,17 +396,11 @@ describe("FormSearchFull", () => {
 
     describe("dateRange", () => {
       it("renders dateRange fields if enabled", () => {
-        // Mock applicationSearchFields to include both
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: ["dateRange"],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={mockAppConfig}
           />,
         );
         expect(
@@ -435,16 +409,11 @@ describe("FormSearchFull", () => {
       });
 
       it("does not render dateRange field if not enabled", () => {
-        jest.doMock("@/util/featureFlag", () => ({
-          applicationSearchFields: [],
-        }));
-        const {
-          FormSearchFull: ReloadedFormSearchFull,
-        } = require("@/components/FormSearchFull");
         render(
-          <ReloadedFormSearchFull
+          <FormSearchFull
             councilSlug="test-council-1"
             searchParams={defaultSearchParams}
+            appConfig={emptyAppConfig}
           />,
         );
         expect(

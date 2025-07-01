@@ -22,6 +22,9 @@ import {
   validApplicationTypes,
   validDprDecisionSummaries,
 } from "@/lib/planningApplication";
+import { createAppConfig } from "@mocks/appConfigFactory";
+
+const appConfig = createAppConfig("public-council-1");
 
 const flatApplicationTypes = Object.values(validApplicationTypes).flat();
 
@@ -36,6 +39,7 @@ const meta = {
   },
   args: {
     councilSlug: "test-council-1",
+    appConfig,
     searchParams: {
       page: 1,
       resultsPerPage: 10,

@@ -112,7 +112,11 @@ export const PageSearch = ({
           />
         )}
         {type === "full" && (
-          <FormSearchFull councilSlug={council} searchParams={searchParams} />
+          <FormSearchFull
+            councilSlug={council}
+            searchParams={searchParams}
+            appConfig={appConfig}
+          />
         )}
         {React.createElement(
           pageTitleHeadingLevel,
