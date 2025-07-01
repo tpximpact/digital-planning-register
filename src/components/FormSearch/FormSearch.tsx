@@ -23,21 +23,25 @@ import { Details } from "@/components/govukDpr/Details";
 import { APPLICATION_DPR_FILTER_OPTIONS } from "@/lib/planningApplication/search";
 import { capitalizeFirstLetter, pascalToSentenceCase } from "@/util";
 import Link from "next/link";
-import { applicationSearchFields } from "@/util/featureFlag";
+import { AppConfig } from "@/config/types";
 
 export interface FormSearchProps {
   params: {
     council: string;
   };
+  appConfig: AppConfig;
   action?: string;
   searchParams?: SearchParamsApplication;
 }
 
 export const FormSearch = ({
   params,
+  appConfig,
   action,
   searchParams,
 }: FormSearchProps) => {
+  const applicationSearchFields =
+    appConfig.features?.applicationSearchFields ?? [];
   const renderFormContent = () => (
     <>
       <div className="govuk-grid-row dpr-form-search">
@@ -98,7 +102,10 @@ export const FormSearch = ({
   );
 };
 
-const QuickFilters = ({ params, searchParams }: FormSearchProps) => {
+const QuickFilters = ({
+  params,
+  searchParams,
+}: Omit<FormSearchProps, "appConfig">) => {
   const activeFilter = searchParams?.dprFilter;
   return (
     <>

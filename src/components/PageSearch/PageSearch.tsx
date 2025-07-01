@@ -105,7 +105,11 @@ export const PageSearch = ({
         <input type="hidden" name="council" value={council} />
 
         {type === "simple" && (
-          <FormSearch params={params} searchParams={searchParams} />
+          <FormSearch
+            params={params}
+            searchParams={searchParams}
+            appConfig={appConfig}
+          />
         )}
         {type === "full" && (
           <FormSearchFull councilSlug={council} searchParams={searchParams} />

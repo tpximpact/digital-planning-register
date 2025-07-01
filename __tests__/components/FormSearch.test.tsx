@@ -18,6 +18,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FormSearch } from "@/components/FormSearch";
+import { AppConfig } from "@/config/types";
 
 // Mocks
 jest.mock("@/components/button", () => ({
@@ -43,9 +44,6 @@ jest.mock("@/components/govukDpr/Details", () => ({
     </details>
   ),
 }));
-jest.mock("@/util/featureFlag", () => ({
-  applicationSearchFields: ["advancedSearch", "quickFilters"],
-}));
 jest.mock("@/lib/planningApplication/search", () => ({
   APPLICATION_DPR_FILTER_OPTIONS: ["inConsultation", "decided"],
 }));
@@ -55,9 +53,20 @@ jest.mock("@/util", () => ({
     s.replace(/([A-Z])/g, " $1").toLowerCase(),
 }));
 
+const mockAppConfig = {
+  features: {
+    applicationSearchFields: ["advancedSearch", "quickFilters"],
+  },
+} as AppConfig;
+
 describe("FormSearch", () => {
   it("renders the form", () => {
-    render(<FormSearch params={{ council: "test-council-1" }} />);
+    render(
+      <FormSearch
+        params={{ council: "test-council-1" }}
+        appConfig={mockAppConfig}
+      />,
+    );
     expect(
       screen.getByLabelText(/Search by application reference/i),
     ).toBeInTheDocument();
@@ -73,6 +82,7 @@ describe("FormSearch", () => {
       <FormSearch
         params={{ council: "test-council-1" }}
         action="/test-council-1/search-form"
+        appConfig={mockAppConfig}
       />,
     );
     expect(screen.getByRole("form")).toBeInTheDocument();
@@ -89,7 +99,12 @@ describe("FormSearch", () => {
   });
 
   it("renders as a fragment if action is not provided", () => {
-    render(<FormSearch params={{ council: "test-council-1" }} />);
+    render(
+      <FormSearch
+        params={{ council: "test-council-1" }}
+        appConfig={mockAppConfig}
+      />,
+    );
     // Should not find a form element
     expect(screen.queryByRole("form")).not.toBeInTheDocument();
   });
@@ -99,13 +114,19 @@ describe("FormSearch", () => {
       <FormSearch
         params={{ council: "test-council-1" }}
         searchParams={{ query: "foo" } as any}
+        appConfig={mockAppConfig}
       />,
     );
     expect(screen.getByRole("textbox")).toHaveValue("foo");
   });
 
   it("renders Advanced search button if advancedSearch is enabled", () => {
-    render(<FormSearch params={{ council: "test-council-1" }} />);
+    render(
+      <FormSearch
+        params={{ council: "test-council-1" }}
+        appConfig={mockAppConfig}
+      />,
+    );
     expect(
       screen.getByRole("link", { name: /advanced search/i }),
     ).toBeInTheDocument();
@@ -113,7 +134,12 @@ describe("FormSearch", () => {
 
   describe("quickFilters", () => {
     it("renders quick filters details if quickFilters is enabled", () => {
-      render(<FormSearch params={{ council: "test-council-1" }} />);
+      render(
+        <FormSearch
+          params={{ council: "test-council-1" }}
+          appConfig={mockAppConfig}
+        />,
+      );
       const details = screen.getByTestId("details");
       expect(details).toBeInTheDocument();
       expect(details).not.toHaveAttribute("open");
@@ -127,6 +153,7 @@ describe("FormSearch", () => {
         <FormSearch
           params={{ council: "test-council-1" }}
           searchParams={{ dprFilter: "inConsultation" } as any}
+          appConfig={mockAppConfig}
         />,
       );
       expect(screen.getByText(/✔/)).toBeInTheDocument();
