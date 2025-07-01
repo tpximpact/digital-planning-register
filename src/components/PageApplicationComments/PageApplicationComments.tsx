@@ -100,8 +100,8 @@ export const PageApplicationComments = ({
             <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible"></hr>
 
             {comments && comments.length > 0 ? (
-              comments.map((comment) => (
-                <CommentCard key={comment.id} comment={comment} />
+              comments.map((comment, i) => (
+                <CommentCard key={`${i}-${comment.id}`} comment={comment} />
               ))
             ) : (
               <ContentNoResult
