@@ -21,21 +21,25 @@ import {
   COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
 } from "@/lib/comments";
 import { SearchParamsComments } from "@/types";
-import { commentSearchFields } from "@/util/featureFlag";
 import "./FormCommentsSearch.scss";
 import { FormFieldFromTo } from "../FormFieldFromTo";
 import { Button } from "../button";
+import { AppConfig } from "@/config/types";
 
 export interface FormCommentsSearchProps {
   searchParams: SearchParamsComments;
+  appConfig: AppConfig;
   action?: string;
 }
 
 export const FormCommentsSearch = ({
   searchParams,
+  appConfig,
   action,
 }: FormCommentsSearchProps) => {
   const { type } = searchParams;
+
+  const commentSearchFields = appConfig.features?.commentSearchFields ?? [];
 
   const sentimentFields = () => (
     <div className="dpr-form-comments-search__column-one-third">
