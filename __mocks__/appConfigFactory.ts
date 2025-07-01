@@ -15,6 +15,11 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {
+  applicationSearchFields,
+  commentSearchFields,
+  documentSearchFields,
+} from "@/config/featureFlag";
 import { AppConfig, Council } from "@/config/types";
 import { slugify } from "@/util";
 
@@ -89,6 +94,15 @@ export const createAppConfig = (council?: string): AppConfig => {
     councils: councilConfigs,
     features: {
       getApplicationIdFromPrivateEndpoint: true,
+      documentSearchFields: documentSearchFields
+        ? documentSearchFields
+        : undefined,
+      commentSearchFields: commentSearchFields
+        ? commentSearchFields
+        : undefined,
+      applicationSearchFields: applicationSearchFields
+        ? applicationSearchFields
+        : undefined,
     },
     defaults: {
       resultsPerPage: 10,
