@@ -67,8 +67,6 @@ export const ApplicationDetails = ({
     application.data.caseOfficer.name || application.submission.data.applicant;
   const applicationProgress = buildApplicationProgress(application);
   const appeal = application.data.appeal;
-  const { url: decisionNoticeUrl } =
-    documents?.find((d) => d.title === "Decision notice") ?? {};
 
   const sidebar = [
     {
@@ -165,7 +163,7 @@ export const ApplicationDetails = ({
         <div className="govuk-grid-column-two-thirds-from-desktop dpr-application-details--flow">
           <ApplicationProgressInfo
             sections={applicationProgress}
-            decisionNoticeUrl={decisionNoticeUrl}
+            application={application}
           />
           <h2 className="govuk-heading-l" id="description">
             Description

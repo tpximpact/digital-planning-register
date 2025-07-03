@@ -26,17 +26,17 @@ import {
   ProgressSectionBase,
 } from "./ApplicationProgressInfoSection";
 import { ApplicationProgressInfoToggleButton } from "./ApplicationProgressInfoToggleButton";
-import { Button } from "../button";
 import { Details } from "../govukDpr/Details";
-
+import { FileList } from "@/components/FileList";
+import { DprApplication } from "@/types";
 export interface ApplicationProgressInfoProps {
   sections: ProgressSectionBase[];
-  decisionNoticeUrl?: string;
+  application: DprApplication;
 }
 
 export const ApplicationProgressInfo = ({
   sections,
-  decisionNoticeUrl,
+  application,
 }: ApplicationProgressInfoProps) => {
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -91,6 +91,10 @@ export const ApplicationProgressInfo = ({
     return null;
   }
 
+  const decisionNoticeUrl = application?.data?.assessment?.decisionNotice?.url;
+  const decisionDate =
+    application?.data?.assessment?.planningOfficerDecisionDate;
+
   return (
     <section
       className="dpr-progress-info__container"
@@ -138,9 +142,20 @@ export const ApplicationProgressInfo = ({
         </>
       )}
       {decisionNoticeUrl && (
-        <Button variant="information" element="link" href={decisionNoticeUrl}>
-          View decision notice
-        </Button>
+        <div className="grid-row-extra-bottom-margin">
+          <FileList
+            documents={[
+              {
+                url: decisionNoticeUrl,
+                title: "Decision notice",
+                createdDate: decisionDate,
+                metadata: {
+                  contentType: "application/pdf",
+                },
+              },
+            ]}
+          />
+        </div>
       )}
       {/* commented out until we do this work */}
       {/* {councilSlug && reference && (
