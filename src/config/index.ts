@@ -248,7 +248,7 @@ const councils: Council[] = [
     contact: "https://www.camden.gov.uk/contact-camden",
     dataSource: "bops",
     publicComments: true,
-    specialistComments: false,
+    specialistComments: true,
     features: {
       logoInHeader: true,
     },
