@@ -92,7 +92,7 @@ export const createAppConfig = (council?: string): AppConfig => {
     },
     defaults: {
       resultsPerPage: 10,
-      revalidate: 3600,
+      revalidate: 1800,
     },
     navigation: [
       {
