@@ -67,23 +67,12 @@ export async function documents(
   const bopsPagination = request.data?.metadata || { totalResults: 0 };
   const totalResults = bopsPagination.totalResults;
 
-  // add extra documents
-  const extraDocuments = [
-    {
-      url: `/${council}/${reference}/application-form`,
-      title: "Application form",
-      metadata: {
-        contentType: "html",
-      },
-    },
-  ];
 
   const documents = convertBopsDocumentEndpointToDprDocumentEndpoint(
     bopsDocuments,
     totalResults,
     searchParams,
     status,
-    extraDocuments,
   );
 
   return documents;

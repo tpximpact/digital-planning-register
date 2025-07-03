@@ -37,6 +37,9 @@ import {
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
+import { commentSearchFields } from "@/util/featureFlag";
+import { FileList } from "@/components/FileList";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -159,6 +162,23 @@ export const ApplicationDetails = ({
             Description
           </h2>
           <p className="govuk-body">{description}</p>
+          <h3 className="govuk-heading-m">Full application form</h3>
+          <FileList
+            documents={[
+              {
+                url: createPathFromParams(
+                  { council: councilSlug, reference },
+                  "application-form",
+                ),
+                title: "Application form",
+                createdDate: application.data.submission.submittedAt,
+                metadata: {
+                  contentType: "html",
+                },
+              },
+            ]}
+          />
+
           {(appeal?.files || appeal?.reason) && (
             <ApplicationAppeals
               appealReason={appeal?.reason}
