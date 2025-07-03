@@ -31,7 +31,7 @@ import { FileList } from "@/components/FileList";
 import { DprApplication } from "@/types";
 export interface ApplicationProgressInfoProps {
   sections: ProgressSectionBase[];
-  application: DprApplication;
+  application?: DprApplication;
 }
 
 export const ApplicationProgressInfo = ({
