@@ -27,6 +27,24 @@ export interface AppConfig {
      * This is done so that we don't need to provide OS_MAP_PROXY_URL at build time so the map component can access it
      */
     osMapProxyUrl?: string | undefined;
+
+    /**
+     * Array of document filtering options that are enabled
+     * This is used to disable certain filtering options in the document search until we have support for them
+     */
+    documentSearchFields?: string[];
+
+    /**
+     * Array of comment filtering options that are enabled
+     * This is used to disable certain filtering options in the document search until we have support for them
+     */
+    commentSearchFields?: string[];
+
+    /**
+     * Array of application filtering options that are enabled
+     * This is used to disable certain filtering options in the document search until we have support for them
+     */
+    applicationSearchFields?: string[];
   };
   /**
    * All the council configuration options

@@ -48,7 +48,7 @@ export const CommentsList = ({
   summary,
 }: CommentsListProps) => {
   const displayedComments = comments?.slice(0, resultsPerPage);
-  const totalComments = summary?.totalComments;
+  const totalComments = summary?.totalComments ?? "";
   return (
     <section
       aria-labelledby={
@@ -84,7 +84,8 @@ export const CommentsList = ({
             <div className="govuk-grid-row grid-row-extra-bottom-margin">
               <div className="govuk-grid-column-full">
                 <p className="govuk-hint">
-                  Showing {displayedComments.length} of {totalComments} comments
+                  Showing {displayedComments.length}{" "}
+                  {totalComments ? `of ${totalComments}` : ""} comments
                 </p>
                 {councilSlug && (
                   <Button

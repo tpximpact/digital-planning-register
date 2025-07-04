@@ -19,10 +19,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ApplicationDetails } from "./ApplicationDetails";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
+  generateComment,
   generateDocument,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
-import { DprDocument } from "@/types";
+import { DprComment, DprDocument } from "@/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 const baseAppConfig = createAppConfig("public-council-1");
 
@@ -44,21 +45,23 @@ const meta = {
     documents: generateNResults<DprDocument>(3, generateDocument),
     publicCommentSummary: {
       sentiment: {
-        supportive: 0,
-        neutral: 0,
-        objection: 0,
+        supportive: 10,
+        neutral: 5,
+        objection: 2,
       },
-      totalComments: 0,
+      totalComments: 17,
     },
     specialistCommentSummary: {
       sentiment: {
-        approved: 0,
-        amendmentsNeeded: 0,
-        objected: 0,
+        approved: 7,
+        amendmentsNeeded: 3,
+        objected: 4,
       },
-      totalConsulted: 0,
-      totalComments: 0,
+      totalConsulted: 16,
+      totalComments: 14,
     },
+    publicComments: generateNResults<DprComment>(3, generateComment),
+    specialistComments: generateNResults<DprComment>(3, generateComment),
   },
 } satisfies Meta<typeof ApplicationDetails>;
 
@@ -66,3 +69,31 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const WithSentimentSummaryEnabled: Story = {
+  args: {
+    appConfig: {
+      ...baseAppConfig,
+      features: {
+        getApplicationIdFromPrivateEndpoint:
+          baseAppConfig.features?.getApplicationIdFromPrivateEndpoint ?? true,
+        commentSearchFields: ["sentiment", "sentimentSpecialist"],
+      },
+    },
+    publicComments: undefined,
+    specialistComments: undefined,
+  },
+};
+export const WithSentimentSummaryDisabled: Story = {
+  args: {
+    appConfig: {
+      ...baseAppConfig,
+      features: {
+        getApplicationIdFromPrivateEndpoint:
+          baseAppConfig.features?.getApplicationIdFromPrivateEndpoint ?? true,
+        commentSearchFields: [],
+      },
+    },
+    publicCommentSummary: undefined,
+    specialistCommentSummary: undefined,
+  },
+};

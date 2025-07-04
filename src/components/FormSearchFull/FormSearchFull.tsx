@@ -19,7 +19,6 @@ import { Button } from "@/components/button";
 import "./FormSearchFull.scss";
 import { SearchParamsApplication } from "@/types";
 import { InfoIcon } from "../InfoIcon";
-import { applicationSearchFields } from "@/util/featureFlag";
 import { DetailsCheckboxAccordion } from "@/components/DetailsCheckboxAccordion";
 import {
   validApplicationTypes,
@@ -28,20 +27,24 @@ import {
 } from "@/lib/planningApplication";
 import { capitalizeFirstLetter } from "@/util";
 import { FormFieldApplicationDateRange } from "@/components/FormFieldApplicationDateRange";
+import { AppConfig } from "@/config/types";
 
 export interface FormSearchFullProps {
   councilSlug: string;
+  appConfig: AppConfig;
   action?: string;
   searchParams: SearchParamsApplication;
 }
 
 export const FormSearchFull = ({
   councilSlug,
+  appConfig,
   action,
   searchParams,
 }: FormSearchFullProps) => {
   const flatApplicationTypes = Object.values(validApplicationTypes).flat();
-
+  const applicationSearchFields =
+    appConfig.features?.applicationSearchFields ?? [];
   const renderFormContent = () => (
     <div className="dpr-form-search-full">
       <input type="hidden" name="type" value="full" />

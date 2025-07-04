@@ -21,12 +21,24 @@ import {
   FormDocumentsSearchProps,
 } from "@/components/FormDocumentsSearch";
 import { PrototypeFileType } from "@/types/odp-types/schemas/prototypeApplication/enums/FileType";
+import { AppConfig } from "@/config/types";
 
 const defaultProps: FormDocumentsSearchProps = {
   searchParams: {
     page: 1,
     resultsPerPage: 25,
   },
+  appConfig: {
+    features: {
+      documentSearchFields: [
+        "name",
+        "type",
+        "publishedAtFrom",
+        "publishedAtTo",
+        "resultsPerPage",
+      ],
+    },
+  } as AppConfig,
   action: "/search",
 };
 
@@ -79,14 +91,11 @@ describe("FormDocumentsSearch", () => {
   });
 
   it("renders only enabled fields based on feature flags", () => {
-    jest.resetModules();
-    jest.doMock("@/util/featureFlag", () => ({
-      documentSearchFields: [],
-    }));
-    const {
-      FormDocumentsSearch: ReloadedFormDocumentsSearch,
-    } = require("@/components/FormDocumentsSearch");
-    render(<ReloadedFormDocumentsSearch {...defaultProps} />);
+    const updatedDefaultProps = {
+      ...defaultProps,
+      appConfig: {} as AppConfig,
+    };
+    render(<FormDocumentsSearch {...updatedDefaultProps} />);
     // Should not find any of the fields that are disabled by feature flags
     expect(screen.queryByLabelText(/Name/i)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/Document type/i)).not.toBeInTheDocument();

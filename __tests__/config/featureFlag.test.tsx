@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { computeEnabledFields } from "@/util/featureFlag";
+import { computeEnabledFields } from "@/config/featureFlag";
 
 describe("computeEnabledFields", () => {
   it("returns all fields when envVar is undefined", () => {

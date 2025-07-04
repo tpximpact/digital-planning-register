@@ -17,6 +17,9 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { FormSearch } from "./FormSearch";
+import { createAppConfig } from "@mocks/appConfigFactory";
+
+const appConfig = createAppConfig("public-council-1");
 
 const meta = {
   title: "Forms/Search form",
@@ -31,6 +34,7 @@ const meta = {
     params: {
       council: "test-council",
     },
+    appConfig,
   },
 } satisfies Meta<typeof FormSearch>;
 

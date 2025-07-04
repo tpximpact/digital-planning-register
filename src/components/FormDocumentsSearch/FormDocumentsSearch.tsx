@@ -19,21 +19,25 @@ import {
   DOCUMENT_TYPE_OPTIONS,
 } from "@/lib/documents";
 import { SearchParamsDocuments } from "@/types";
-import { documentSearchFields } from "@/util/featureFlag";
 import "./FormDocumentsSearch.scss";
 import { FormFieldFromTo } from "@/components/FormFieldFromTo";
 import { Button } from "@/components/button";
 import { capitalizeFirstLetter, pascalToSentenceCase } from "@/util";
+import { AppConfig } from "@/config/types";
 
 export interface FormDocumentsSearchProps {
   searchParams: SearchParamsDocuments;
+  appConfig: AppConfig;
   action?: string;
 }
 
 export const FormDocumentsSearch = ({
   searchParams,
+  appConfig,
   action,
 }: FormDocumentsSearchProps) => {
+  const documentSearchFields = appConfig.features?.documentSearchFields ?? [];
+
   const renderFormContent = () => (
     <div className="dpr-form-documents-search">
       <h2 className="dpr-form-documents-search__title">Search documents</h2>

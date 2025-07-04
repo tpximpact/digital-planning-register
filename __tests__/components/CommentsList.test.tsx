@@ -148,4 +148,18 @@ describe("CommentsList", () => {
       ),
     ).toBeInTheDocument();
   });
+
+  it("Supports no summary being present", () => {
+    const comments = generateNResults(10, () => generateComment());
+    render(
+      <CommentsList
+        type="public"
+        councilSlug="public-council-1"
+        reference="12345"
+        comments={comments}
+      />,
+    );
+    expect(screen.getByText("Showing 10 comments")).toBeInTheDocument();
+    expect(screen.getByText("Show all neighbour comments")).toBeInTheDocument();
+  });
 });

@@ -27,16 +27,17 @@ jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
 }));
 jest.mock("@/config", () => ({
-  getAppConfig: jest.fn(() => ({})),
+  getAppConfig: jest.fn(() => ({
+    features: {
+      documentSearchFields: ["field1", "field2"],
+    },
+  })),
 }));
 jest.mock("@/lib/documents", () => ({
   validateSearchParams: jest.fn((_, params) => params),
 }));
 jest.mock("@/lib/search", () => ({
   filterSearchParams: jest.fn((params) => params),
-}));
-jest.mock("@/util/featureFlag", () => ({
-  documentSearchFields: ["field1", "field2"],
 }));
 
 const getMockRequest = (params: Record<string, string>) => {

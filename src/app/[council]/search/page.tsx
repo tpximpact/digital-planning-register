@@ -39,6 +39,7 @@ export default async function Page({ params, searchParams }: PageProps) {
         action={createPathFromParams(params, "/search-form")}
         councilSlug={council}
         searchParams={validSearchParams}
+        appConfig={appConfig}
       />
     </PageMain>
   );

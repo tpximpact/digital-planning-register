@@ -18,7 +18,6 @@
 import { getAppConfig } from "@/config";
 import { validateSearchParams } from "@/lib/planningApplication/search";
 import { filterSearchParams } from "@/lib/search";
-import { applicationSearchFields } from "@/util/featureFlag";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -31,13 +30,15 @@ export async function GET(request: NextRequest) {
     return redirect("/not-found");
   }
 
+  const appConfig = getAppConfig(council);
+  const applicationSearchFields =
+    appConfig.features?.applicationSearchFields ?? [];
   const submitAction = searchParams.get("action");
   const filteredSearchParams =
     submitAction === "clear"
       ? filterSearchParams(searchParams, [...applicationSearchFields, "action"])
       : searchParams;
 
-  const appConfig = getAppConfig(council);
   const searchParamsObj: Record<string, string> = {};
   for (const [key, value] of Array.from(filteredSearchParams.entries())) {
     if (searchParamsObj[key]) {

@@ -21,6 +21,7 @@ import {
   FormCommentsSearchProps,
 } from "@/components/FormCommentsSearch";
 import { COMMENT_RESULTSPERPAGE_DEFAULT } from "@/lib/comments";
+import { AppConfig } from "@/config/types";
 
 describe("FormCommentsSearch", () => {
   const defaultProps: FormCommentsSearchProps = {
@@ -29,6 +30,20 @@ describe("FormCommentsSearch", () => {
       resultsPerPage: 10,
       type: "public",
     },
+    appConfig: {
+      features: {
+        commentSearchFields: [
+          "query",
+          "resultsPerPage",
+          "page",
+          "publishedAtFrom",
+          "publishedAtTo",
+          "sentiment",
+          "sentimentSpecialist",
+          "topic",
+        ],
+      },
+    } as AppConfig,
     action: "/test-action",
   };
 
@@ -58,7 +73,12 @@ describe("FormCommentsSearch", () => {
   });
 
   it("renders without the form tag when action is not provided", () => {
-    render(<FormCommentsSearch searchParams={defaultProps.searchParams} />);
+    render(
+      <FormCommentsSearch
+        searchParams={defaultProps.searchParams}
+        appConfig={defaultProps.appConfig}
+      />,
+    );
 
     // Check that the form is not rendered
     const form = screen.queryByRole("form", { name: /Search comments/i });

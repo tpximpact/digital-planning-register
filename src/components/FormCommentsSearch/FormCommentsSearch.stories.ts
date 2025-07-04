@@ -17,6 +17,9 @@
 
 import { Meta, StoryObj } from "@storybook/react";
 import { FormCommentsSearch } from "./FormCommentsSearch";
+import { createAppConfig } from "@mocks/appConfigFactory";
+
+const appConfig = createAppConfig("public-council-1");
 
 const meta: Meta<typeof FormCommentsSearch> = {
   title: "Forms/Comments Search",
@@ -30,6 +33,7 @@ const meta: Meta<typeof FormCommentsSearch> = {
     },
   },
   args: {
+    appConfig: appConfig,
     searchParams: {
       page: 1,
       resultsPerPage: 10,
