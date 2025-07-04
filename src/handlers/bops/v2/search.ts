@@ -28,10 +28,7 @@ import {
 import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
 import { handleBopsGetRequest } from "@/handlers/bops/requests";
 import { defaultPagination } from "@/handlers/lib";
-import {
-  convertBopsToDpr,
-  convertBopsToDprPagination,
-} from "@/handlers/bops/converters/planningApplication";
+import { convertBopsToDpr } from "@/handlers/bops/converters/planningApplication";
 import {
   convertToDprApplication,
   isDprApplication,
@@ -173,11 +170,8 @@ export async function search(
   if (errors.length > 0) {
     console.warn("Some applications failed to convert:", errors);
   }
-  const metadata = request.data?.metadata;
   const pagination: DprPagination =
-    metadata && "results" in metadata
-      ? convertBopsToDprPagination(metadata)
-      : defaultPagination;
+    request.data?.pagination || defaultPagination;
 
   return {
     ...request,
