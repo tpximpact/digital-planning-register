@@ -68,17 +68,12 @@ const CommentConfirmation = ({
         in the decision report.
       </p>
       {emailAlertsLink && (
-        <>
-          <p className="govuk-body">
-            You can sign up for email alerts to receive notifications when new
-            comments are published, including your own comment. You can also
-            receive notifications when anything else changes with this
-            application.
-          </p>
-          <Button variant="information" href={emailAlertsLink} element="link">
-            Sign up for email alerts
-          </Button>
-        </>
+        <p className="govuk-body">
+          You can sign up for email alerts to receive notifications when new
+          comments are published, including your own comment. You can also
+          receive notifications when anything else changes with this
+          application.
+        </p>
       )}
       <h2 className="govuk-heading-m">
         Discover other planning applications in your area
