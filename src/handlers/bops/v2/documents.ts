@@ -70,13 +70,6 @@ export async function documents(
   // add extra documents
   const decisionNoticeUrl = request?.data?.decisionNotice?.url;
   const extraDocuments = [
-    {
-      url: `/${council}/${reference}/application-form`,
-      title: "Application form",
-      metadata: {
-        contentType: "html",
-      },
-    },
     ...(decisionNoticeUrl
       ? [
           {
