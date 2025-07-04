@@ -154,13 +154,6 @@ describe.only("ApplicationDetails", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the email alerts button if sign_up_for_alerts_link is set", () => {
-    render(<ApplicationDetails {...baseProps} application={consultation} />);
-    expect(
-      screen.getByRole("button", { name: /Sign up for email alerts/i }),
-    ).toBeInTheDocument();
-  });
-
   it("renders ApplicationAppeals if appeal reason or files exist", () => {
     render(
       <ApplicationDetails {...baseProps} application={appealDetermined} />,

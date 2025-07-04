@@ -25,6 +25,7 @@ import {
   SearchParamsApplication,
 } from "@/types";
 import { generatePagination } from "@mocks/dprApplicationFactory";
+import { features } from "process";
 
 // Mocks
 jest.mock("@/components/FormSearch", () => ({
@@ -137,6 +138,9 @@ describe("PageSearch", () => {
     const mockAppConfigWithLink: AppConfig = {
       ...mockAppConfig,
       council: {
+        features: {
+          alertsAllApplications: true,
+        },
         pageContent: {
           email_alerts: {
             sign_up_for_alerts_link: "https://alerts.example.com",
