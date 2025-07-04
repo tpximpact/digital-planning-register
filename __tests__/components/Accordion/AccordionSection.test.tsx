@@ -18,6 +18,7 @@
 import { AccordionSection } from "@/components/Accordion";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 describe("AccordionSection", () => {
   it("renders the title", () => {
@@ -26,7 +27,26 @@ describe("AccordionSection", () => {
         Content
       </AccordionSection>,
     );
-    expect(screen.getByText("Section Title")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Open section: Section Title",
+        level: 2,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the correct title level", () => {
+    render(
+      <AccordionSection title="Section Title" name="section1" headingLevel={3}>
+        Content
+      </AccordionSection>,
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: "Open section: Section Title",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
   });
 
   it("renders the summary if provided", () => {
@@ -82,5 +102,32 @@ describe("AccordionSection", () => {
       screen.getByRole("group", { hidden: true }) ||
       screen.getByText("Section Title").closest("details");
     expect(details).not.toHaveAttribute("open");
+  });
+
+  it("calls onToggle when the section is toggled", async () => {
+    const user = userEvent.setup();
+    const onToggle = jest.fn();
+    render(
+      <AccordionSection
+        title="Section Title"
+        name="section1"
+        onToggle={onToggle}
+      >
+        Content
+      </AccordionSection>,
+    );
+    // Click the summary to toggle open/close
+    const summaryEl = screen.getByRole("heading", {
+      name: "Open section: Section Title",
+      level: 2,
+    });
+    expect(summaryEl).toBeInTheDocument();
+
+    await user.click(summaryEl!);
+    expect(onToggle).toHaveBeenCalledTimes(1);
+
+    // Toggle again to close
+    await user.click(summaryEl!);
+    expect(onToggle).toHaveBeenCalledTimes(2);
   });
 });

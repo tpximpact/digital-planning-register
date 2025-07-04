@@ -143,6 +143,7 @@ export const ApplicationMap = ({
         role="application"
         geojsonData={geojsonData}
         geojsonColor={"#ff0000"}
+        geojsonFill={"#ff0000"}
         aria-label={description ?? "An interactive map"}
         osCopyright={
           "© Crown copyright and database rights 2024 OS (0)100024857"

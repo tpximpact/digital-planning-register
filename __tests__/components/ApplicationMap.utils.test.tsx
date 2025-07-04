@@ -29,6 +29,19 @@ describe("determineMapTypeProps", () => {
     });
   });
 
+  it("returns correct props for constraint-accordion map type", () => {
+    const { staticMode, classModifier, mapTypeProps } = determineMapTypeProps(
+      "constraint-accordion",
+    );
+    expect(staticMode).toBe(false);
+    expect(classModifier).toEqual("constraint-accordion");
+    expect(mapTypeProps).toEqual({
+      showScale: true,
+      zoom: 24,
+      geojsonbuffer: 12,
+    });
+  });
+
   it("returns correct props for application-search map type", () => {
     const { staticMode, classModifier, mapTypeProps } =
       determineMapTypeProps("application-search");

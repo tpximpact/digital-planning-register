@@ -15,16 +15,16 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import {
   ApplicationMapLoader,
-  ApplicationMapLoaderDelay,
   ApplicationMapLoading,
   ApplicationMapProps,
   ApplicationMapUnavailable,
 } from "@/components/ApplicationMap";
 import { ApplicationMap } from "@/components/ApplicationMap/ApplicationMap";
+import { act } from "react";
 
 jest.mock("@opensystemslab/map", () => {
   return jest.fn(() => <></>);
@@ -80,28 +80,72 @@ describe("ApplicationMapLoader", () => {
     const loadingElement = screen.getByText("Map view unavailable");
     expect(loadingElement).toBeInTheDocument();
   });
-});
 
-describe("ApplicationMapLoaderDelay", () => {
-  it("shows loading state for at least 2 seconds in ApplicationMapLoaderDelay", async () => {
-    (ApplicationMap as jest.Mock).mockImplementation(MockApplicationMap);
+  describe("ApplicationMapLoader with OS_MAP_PROXY_URL", () => {
+    const ORIGINAL_ENV = process.env;
 
-    jest.useFakeTimers();
-    render(<ApplicationMapLoaderDelay {...defaultProps} />);
-    expect(screen.getByText(/loading map view/i)).toBeInTheDocument();
-
-    // Fast-forward 1 second, should still show loading
-    jest.advanceTimersByTime(1000);
-    expect(screen.getByText(/loading map view/i)).toBeInTheDocument();
-
-    // Fast-forward another 1 second (total 2s)
-    jest.advanceTimersByTime(1000);
-
-    // Wait for lazy loaded map to appear
-    await waitFor(() => {
-      expect(screen.getByTestId("mock-application-map")).toBeInTheDocument();
+    beforeEach(() => {
+      jest.resetModules(); // Clears the cache so env changes take effect
+      process.env = {
+        ...ORIGINAL_ENV,
+        OS_MAP_PROXY_URL: "https://proxy.example.com",
+      };
     });
 
-    jest.useRealTimers();
+    afterEach(() => {
+      process.env = ORIGINAL_ENV; // Restore original env
+    });
+
+    it("passes osMapProxyUrl prop when env var is set", async () => {
+      (ApplicationMap as jest.Mock).mockImplementation(MockApplicationMap);
+
+      await act(async () => {
+        render(<ApplicationMapLoader {...defaultProps} />);
+      });
+
+      const mapElement = await screen.findByTestId("mock-application-map");
+      expect(mapElement).toBeInTheDocument();
+
+      // Check if the osMapProxyUrl prop is passed correctly
+      expect(ApplicationMap).toHaveBeenCalledWith(
+        expect.objectContaining({
+          osMapProxyUrl: "https://proxy.example.com",
+        }),
+        expect.anything(),
+      );
+    });
+  });
+
+  describe("ApplicationMapLoader without OS_MAP_PROXY_URL", () => {
+    const ORIGINAL_ENV = process.env;
+
+    beforeEach(() => {
+      jest.resetModules();
+      process.env = { ...ORIGINAL_ENV };
+      delete process.env.OS_MAP_PROXY_URL;
+    });
+
+    afterEach(() => {
+      process.env = ORIGINAL_ENV;
+    });
+
+    it("does not pass osMapProxyUrl prop when env var is not set", async () => {
+      (ApplicationMap as jest.Mock).mockImplementation(MockApplicationMap);
+
+      await act(async () => {
+        render(<ApplicationMapLoader {...defaultProps} />);
+      });
+
+      const mapElement = await screen.findByTestId("mock-application-map");
+      expect(mapElement).toBeInTheDocument();
+
+      // Check if the osMapProxyUrl prop is not passed
+      expect(ApplicationMap).toHaveBeenCalledWith(
+        expect.not.objectContaining({
+          osMapProxyUrl: expect.any(String),
+        }),
+        expect.anything(),
+      );
+    });
   });
 });
