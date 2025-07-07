@@ -44,7 +44,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const geometry: GeoJSON = {
+const geometry: GeoJSON = {
   type: "Feature",
   geometry: {
     type: "MultiPolygon",
