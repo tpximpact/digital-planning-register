@@ -1,3 +1,4 @@
+"use client";
 /*
  * This file is part of the Digital Planning Register project.
  *
@@ -15,64 +16,86 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export const ApplicationConstraints = () => {
+import {
+  filterConstraints,
+  prepareConstraints,
+} from "./ApplicationConstraints.utils";
+import { Accordion, AccordionSection } from "../Accordion";
+import { useRef, useState } from "react";
+import { fetchConstraintData } from "./ApplicationConstraints.data";
+import {
+  PlanningConstraint,
+  PlanningDesignation,
+} from "@/types/odp-types/shared/Constraints";
+import { DprDesignationConstraint } from "./ApplicationConstraints.types";
+import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";
+export interface ApplicationConstraintsProps {
+  constraints: (PlanningDesignation | PlanningConstraint)[];
+}
+
+export const ApplicationConstraints = ({
+  constraints,
+}: ApplicationConstraintsProps) => {
+  const loaded = useRef<Record<string, boolean>>({});
+  const [data, setData] = useState<Record<string, DprDesignationConstraint>>(
+    {},
+  );
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+  if (!constraints || constraints.length === 0) {
+    return null;
+  }
+  const preparedConstraints = prepareConstraints(constraints);
+  const intersectingConstraints = filterConstraints(preparedConstraints);
+
+  const handleToggle = async (
+    event: React.SyntheticEvent<HTMLDetailsElement>,
+    constraint: DprDesignationConstraint,
+  ) => {
+    const name = event.currentTarget.getAttribute("name") || "";
+    const open = event.currentTarget.open;
+    setOpenSections((prev) => ({ ...prev, [name]: open }));
+
+    if (open && !loaded.current[name]) {
+      const result = await fetchConstraintData(constraint);
+      setData((prev) => ({ ...prev, [name]: result }));
+      loaded.current[name] = true;
+    }
+  };
+
   return (
     <>
       <h2 className="govuk-heading-l">Constraints</h2>
-      <p className="govuk-body">
-        <em>
-          Planning constraints, guidance and designations that intersect with
-          the proposed site
-        </em>
+      <p className="govuk-hint">
+        These policies apply to this application, and will need to be taken into
+        consideration by the planning team when assessing this application.
       </p>
 
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third">
-          <h3 className="govuk-heading-s">General policy</h3>
-          <p className="govuk-body">Article 4 direction areas</p>
-          <p className="govuk-body">
-            <a href="/" className="govuk-link govuk-link--no-visited-state">
-              Source
-            </a>
-          </p>
-        </div>
-
-        <div className="govuk-grid-column-one-third">
-          <h3 className="govuk-heading-s">Heritage conservation area</h3>
-          <p className="govuk-body">
-            <a href="/" className="govuk-link govuk-link--no-visited-state">
-              Source
-            </a>
-          </p>
-        </div>
-
-        <div className="govuk-grid-column-one-third">
-          <h3 className="govuk-heading-s">General policy</h3>
-          <p className="govuk-body">Classified roads</p>
-          <p className="govuk-body">
-            <a href="/" className="govuk-link govuk-link--no-visited-state">
-              Source
-            </a>
-          </p>
-        </div>
-      </div>
-
-      <div className="govuk-grid-row grid-row-extra-bottom-margin">
-        <div className="govuk-grid-column-two-thirds">
-          <h3 className="govuk-heading-m">Sources</h3>
-          <p className="govuk-body">
-            <em>
-              A list of open data requests or websites that explain how these
-              constraints were sourced
-            </em>
-          </p>
-          <p className="govuk-body">
-            <a href="/" className="govuk-link govuk-link--no-visited-state">
-              DE-9IM spatial relationship definition of intersects
-            </a>
-          </p>
-        </div>
-      </div>
+      <Accordion name={"applicationConstraints"}>
+        {intersectingConstraints.map((constraint, i) => {
+          const uniqueName = `${i}-${constraint.value.replace(" ", "")}`;
+          return (
+            <AccordionSection
+              title={constraint.description}
+              name={uniqueName}
+              key={uniqueName}
+              open={!!openSections[constraint.value]}
+              onToggle={(event) => handleToggle(event, constraint)}
+              headingLevel={3}
+            >
+              {data[uniqueName] ? (
+                <ApplicationConstraintsConstraint
+                  constraint={data[uniqueName]}
+                />
+              ) : openSections[uniqueName] ? (
+                <p className="govuk-body">Loading...</p>
+              ) : (
+                <ApplicationConstraintsConstraint constraint={constraint} />
+              )}
+            </AccordionSection>
+          );
+        })}
+      </Accordion>
     </>
   );
 };

@@ -17,6 +17,7 @@
 
 declare module "govuk-frontend";
 declare module "@opensystemslab/map";
+declare module "wkt";
 
 declare namespace JSX {
   interface IntrinsicElements {
