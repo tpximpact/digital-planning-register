@@ -107,6 +107,8 @@ export interface Council {
   contact?: string;
   features?: {
     logoInHeader?: boolean;
+    alertsAllApplications?: boolean;
+    alertsApplication?: boolean;
   };
   currentLiveRegister?: string;
   pageContent: {

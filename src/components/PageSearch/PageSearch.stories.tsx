@@ -100,6 +100,9 @@ export const WithEmailAlerts: Story = {
       ...defaultAppConfig,
       council: defaultAppConfig.council && {
         ...defaultAppConfig.council,
+        features: {
+          alertsAllApplications: true,
+        },
         pageContent: {
           ...defaultAppConfig.council.pageContent,
           email_alerts: {

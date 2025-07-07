@@ -69,13 +69,17 @@ export const PageSearch = ({
   }
 
   // misc
+  const appConfigCouncil = appConfig.council;
   const emailAlertsLink =
-    appConfig.council?.pageContent?.email_alerts?.sign_up_for_alerts_link;
+    appConfigCouncil?.pageContent?.email_alerts?.sign_up_for_alerts_link;
+  const alertAllApplications =
+    appConfigCouncil?.features?.alertsAllApplications;
 
   return (
     <PageMain>
       {type === "simple" && !searchPerformed && (
         <SimpleNoSearchHeader
+          alertAllApplications={alertAllApplications}
           emailAlertsLink={emailAlertsLink}
           appConfig={appConfig}
         />
@@ -174,9 +178,11 @@ export const PageSearch = ({
 const SimpleNoSearchHeader = ({
   emailAlertsLink,
   appConfig,
+  alertAllApplications,
 }: {
   emailAlertsLink?: string;
   appConfig: AppConfig;
+  alertAllApplications?: boolean;
 }) => {
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
@@ -190,8 +196,7 @@ const SimpleNoSearchHeader = ({
         </p>
         <ContentNotOnDprYet council={appConfig.council} />
       </div>
-
-      {emailAlertsLink && (
+      {alertAllApplications && emailAlertsLink && (
         <div className="govuk-grid-column-one-third">
           <div className="email-signup-button-container">
             <EmailSignUpButton href={emailAlertsLink} />

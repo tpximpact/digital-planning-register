@@ -271,6 +271,7 @@ const councils: Council[] = [
     specialistComments: true,
     features: {
       logoInHeader: true,
+      alertsAllApplications: true,
     },
     currentLiveRegister:
       "https://planningrecords.camden.gov.uk/NECSWS/PlanningExplorer/GeneralSearch.aspx",
