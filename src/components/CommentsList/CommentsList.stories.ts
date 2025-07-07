@@ -73,3 +73,9 @@ export const FirstPage: Story = {
     comments: generateNResults(30, () => generateComment()),
   },
 };
+
+export const NoSummarySupport: Story = {
+  args: {
+    summary: undefined,
+  },
+};

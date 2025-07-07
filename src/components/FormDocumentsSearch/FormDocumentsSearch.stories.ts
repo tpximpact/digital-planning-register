@@ -17,6 +17,9 @@
 
 import { Meta, StoryObj } from "@storybook/react";
 import { FormDocumentsSearch } from "./FormDocumentsSearch";
+import { createAppConfig } from "@mocks/appConfigFactory";
+
+const appConfig = createAppConfig("public-council-1");
 
 const meta: Meta<typeof FormDocumentsSearch> = {
   title: "Forms/Documents Search",
@@ -30,6 +33,7 @@ const meta: Meta<typeof FormDocumentsSearch> = {
     },
   },
   args: {
+    appConfig: appConfig,
     searchParams: {
       page: 1,
       resultsPerPage: 10,

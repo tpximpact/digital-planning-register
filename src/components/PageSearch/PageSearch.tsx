@@ -35,7 +35,6 @@ import { NotificationBanner } from "@/components/govuk/NotificationBanner";
 import { FormSearchFull } from "@/components/FormSearchFull";
 import { FormApplicationsSort } from "@/components/FormApplicationsSort";
 import React, { Suspense } from "react";
-import { applicationSearchFields } from "@/util/featureFlag";
 import { ContentNotOnDprYet } from "../ContentNotOnDprYet";
 
 export interface PageSearchProps {
@@ -56,6 +55,8 @@ export const PageSearch = ({
   const { council } = params;
   const type = searchParams.type;
   const searchPerformed = checkSearchPerformed(searchParams);
+  const applicationSearchFields =
+    appConfig.features?.applicationSearchFields ?? [];
 
   // heading
   const pageTitleHeadingLevel =
@@ -104,10 +105,18 @@ export const PageSearch = ({
         <input type="hidden" name="council" value={council} />
 
         {type === "simple" && (
-          <FormSearch params={params} searchParams={searchParams} />
+          <FormSearch
+            params={params}
+            searchParams={searchParams}
+            appConfig={appConfig}
+          />
         )}
         {type === "full" && (
-          <FormSearchFull councilSlug={council} searchParams={searchParams} />
+          <FormSearchFull
+            councilSlug={council}
+            searchParams={searchParams}
+            appConfig={appConfig}
+          />
         )}
         {React.createElement(
           pageTitleHeadingLevel,

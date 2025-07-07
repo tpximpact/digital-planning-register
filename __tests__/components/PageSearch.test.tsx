@@ -85,6 +85,9 @@ const mockAppConfig: AppConfig = {
   defaults: {
     resultsPerPage: 10,
   },
+  features: {
+    applicationSearchFields: ["sortBy"],
+  },
 } as unknown as AppConfig;
 const baseSearchParams: SearchParamsApplication = {
   page: 1,

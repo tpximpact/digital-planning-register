@@ -32,7 +32,6 @@ import { ContentNotFound } from "@/components/ContentNotFound";
 import { FormDocumentsSearch } from "@/components/FormDocumentsSearch";
 import { FormDocumentsSort } from "@/components/FormDocumentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
-import { documentSearchFields } from "@/util/featureFlag";
 
 export interface PageApplicationDocumentsProps {
   params: {
@@ -62,6 +61,7 @@ export const PageApplicationDocuments = ({
     );
   }
   const { council: councilSlug, reference } = params;
+  const documentSearchFields = appConfig.features?.documentSearchFields ?? [];
 
   return (
     <>
@@ -93,7 +93,10 @@ export const PageApplicationDocuments = ({
             >
               <input type="hidden" name="council" value={councilSlug} />
               <input type="hidden" name="reference" value={reference} />
-              <FormDocumentsSearch searchParams={searchParams} />
+              <FormDocumentsSearch
+                searchParams={searchParams}
+                appConfig={appConfig}
+              />
               {documentSearchFields.includes("sortBy") && (
                 <FormDocumentsSort searchParams={searchParams} />
               )}

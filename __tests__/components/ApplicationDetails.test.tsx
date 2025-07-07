@@ -21,6 +21,8 @@ import { ApplicationDetails } from "@/components/ApplicationDetails";
 import { AppConfig } from "@/config/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { CommentsSummaryWithSuspense } from "@/components/CommentsSummaryWithSuspense";
+import { CommentsListWithSuspense } from "@/components/CommentsListWithSuspense";
+import { DprComment } from "@/types";
 
 // Mock child components
 jest.mock("@/components/ApplicationHero", () => ({
@@ -57,6 +59,11 @@ jest.mock("@/components/ApplicationPeople", () => ({
 jest.mock("@/components/CommentsSummaryWithSuspense", () => ({
   CommentsSummaryWithSuspense: jest.fn((props) => (
     <div data-testid={`comments-summary-with-suspense-${props.type}`} />
+  )),
+}));
+jest.mock("@/components/CommentsListWithSuspense", () => ({
+  CommentsListWithSuspense: jest.fn((props) => (
+    <div data-testid={`comments-list-with-suspense-${props.type}`} />
   )),
 }));
 jest.mock("@/components/ContentError", () => ({
@@ -118,12 +125,6 @@ describe.only("ApplicationDetails", () => {
       screen.getByTestId("documents-list-with-suspense"),
     ).toBeInTheDocument();
     expect(screen.getByTestId("application-people")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("comments-summary-with-suspense-specialist"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId("comments-summary-with-suspense-public"),
-    ).toBeInTheDocument();
   });
 
   it("renders the comment button if comments are enabled", () => {
@@ -177,89 +178,191 @@ describe.only("ApplicationDetails", () => {
     expect(screen.getByTestId("application-people")).toBeInTheDocument();
   });
 
-  it("does not render comments sections if not enabled", () => {
-    const appConfig = {
+  describe("While comment summary is not supported", () => {
+    it("does not render comments sections if not enabled", () => {
+      const appConfig = {
+        ...baseAppConfig,
+        council: {
+          ...baseAppConfig.council,
+          specialistComments: false,
+          publicComments: false,
+        },
+      };
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          appConfig={appConfig as AppConfig}
+          application={appealDetermined}
+        />,
+      );
+      expect(
+        screen.queryByTestId("comments-list-with-suspense-specialist"),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("comments-list-with-suspense-public"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("Passes public comments summary to CommentsListWithSuspense", () => {
+      const comments = [
+        {
+          id: "comment-1",
+          text: "This is a public comment",
+          sentiment: "supportive",
+        },
+      ];
+
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          application={planningOfficerDetermined}
+          publicComments={comments as unknown as DprComment[]}
+        />,
+      );
+
+      expect(
+        screen.getByTestId("comments-list-with-suspense-public"),
+      ).toBeInTheDocument();
+      expect(CommentsListWithSuspense).toHaveBeenCalledWith(
+        expect.objectContaining({
+          councilSlug: "public-council-1",
+          reference: "APP-123",
+          type: "public",
+          resultsPerPage: 3,
+          comments: comments as unknown as DprComment[],
+        }),
+        expect.anything(),
+      );
+    });
+
+    it("Passes specialist comments summary to CommentsListWithSuspense", () => {
+      const comments = [
+        {
+          id: "comment-1",
+          text: "This is a specialist comment",
+          sentiment: "supportive",
+        },
+      ];
+
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          application={planningOfficerDetermined}
+          specialistComments={comments as unknown as DprComment[]}
+        />,
+      );
+
+      expect(
+        screen.getByTestId("comments-list-with-suspense-specialist"),
+      ).toBeInTheDocument();
+      expect(CommentsListWithSuspense).toHaveBeenCalledWith(
+        expect.objectContaining({
+          councilSlug: "public-council-1",
+          reference: "APP-123",
+          type: "specialist",
+          resultsPerPage: 3,
+          comments: comments as unknown as DprComment[],
+        }),
+        expect.anything(),
+      );
+    });
+  });
+
+  describe("When commentSearchFields includes sentimentSpecialist and sentiment", () => {
+    const baseAppConfigWithSentiment = {
       ...baseAppConfig,
-      council: {
-        ...baseAppConfig.council,
-        specialistComments: false,
-        publicComments: false,
+      features: {
+        commentSearchFields: ["sentiment", "sentimentSpecialist"],
       },
     };
-    render(
-      <ApplicationDetails
-        {...baseProps}
-        appConfig={appConfig as any}
-        application={appealDetermined}
-      />,
-    );
-    expect(
-      screen.queryByTestId("comments-summary-with-suspense-specialist"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId("comments-summary-with-suspense-public"),
-    ).not.toBeInTheDocument();
-  });
 
-  it("Passes public comments summary to CommentsSummaryWithSuspense", () => {
-    const publicCommentSummary = {
-      sentiment: {
-        supportive: 2,
-        neutral: 0,
-        objection: 0,
-      },
-      totalComments: 2,
-    };
+    it("does not render comments sections if not enabled", () => {
+      const appConfig = {
+        ...baseAppConfigWithSentiment,
+        council: {
+          ...baseAppConfigWithSentiment.council,
+          specialistComments: false,
+          publicComments: false,
+        },
+      };
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          appConfig={appConfig as AppConfig}
+          application={appealDetermined}
+        />,
+      );
+      expect(
+        screen.queryByTestId("comments-summary-with-suspense-specialist"),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("comments-summary-with-suspense-public"),
+      ).not.toBeInTheDocument();
+    });
 
-    render(
-      <ApplicationDetails
-        {...baseProps}
-        application={planningOfficerDetermined}
-        publicCommentSummary={publicCommentSummary}
-      />,
-    );
+    it("Passes public comments summary to CommentsSummaryWithSuspense", () => {
+      const publicCommentSummary = {
+        sentiment: {
+          supportive: 2,
+          neutral: 0,
+          objection: 0,
+        },
+        totalComments: 2,
+      };
 
-    expect(
-      screen.getByTestId("comments-summary-with-suspense-public"),
-    ).toBeInTheDocument();
-    expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
-      expect.objectContaining({
-        params: { council: "public-council-1", reference: "APP-123" },
-        type: "public",
-        summary: publicCommentSummary,
-      }),
-      expect.anything(),
-    );
-  });
-  it("Passes specialist comments summary to CommentsSummaryWithSuspense", () => {
-    const specialistCommentSummary = {
-      sentiment: {
-        approved: 2,
-        amendmentsNeeded: 0,
-        objected: 0,
-      },
-      totalConsulted: 2,
-      totalComments: 2,
-    };
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          appConfig={baseAppConfigWithSentiment as AppConfig}
+          application={planningOfficerDetermined}
+          publicCommentSummary={publicCommentSummary}
+        />,
+      );
 
-    render(
-      <ApplicationDetails
-        {...baseProps}
-        application={planningOfficerDetermined}
-        specialistCommentSummary={specialistCommentSummary}
-      />,
-    );
+      expect(
+        screen.getByTestId("comments-summary-with-suspense-public"),
+      ).toBeInTheDocument();
+      expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
+        expect.objectContaining({
+          params: { council: "public-council-1", reference: "APP-123" },
+          type: "public",
+          summary: publicCommentSummary,
+        }),
+        expect.anything(),
+      );
+    });
 
-    expect(
-      screen.getByTestId("comments-summary-with-suspense-specialist"),
-    ).toBeInTheDocument();
-    expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
-      expect.objectContaining({
-        params: { council: "public-council-1", reference: "APP-123" },
-        type: "specialist",
-        summary: specialistCommentSummary,
-      }),
-      expect.anything(),
-    );
+    it("Passes specialist comments summary to CommentsSummaryWithSuspense", () => {
+      const specialistCommentSummary = {
+        sentiment: {
+          approved: 2,
+          amendmentsNeeded: 0,
+          objected: 0,
+        },
+        totalConsulted: 2,
+        totalComments: 2,
+      };
+
+      render(
+        <ApplicationDetails
+          {...baseProps}
+          appConfig={baseAppConfigWithSentiment as AppConfig}
+          application={planningOfficerDetermined}
+          specialistCommentSummary={specialistCommentSummary}
+        />,
+      );
+
+      expect(
+        screen.getByTestId("comments-summary-with-suspense-specialist"),
+      ).toBeInTheDocument();
+      expect(CommentsSummaryWithSuspense).toHaveBeenCalledWith(
+        expect.objectContaining({
+          params: { council: "public-council-1", reference: "APP-123" },
+          type: "specialist",
+          summary: specialistCommentSummary,
+        }),
+        expect.anything(),
+      );
+    });
   });
 });

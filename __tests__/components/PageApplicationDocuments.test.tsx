@@ -56,6 +56,9 @@ const baseProps: PageApplicationDocumentsProps = {
   appConfig: {
     council: { name: "Camden" },
     defaults: { resultsPerPage: 10 },
+    features: {
+      documentSearchFields: ["sortBy"],
+    },
   } as any,
   documents: [
     { id: "doc1", title: "Document 1" },

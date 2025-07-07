@@ -93,7 +93,10 @@ export const PageApplicationComments = ({
               <input type="hidden" name="type" value={type} />
               <input type="hidden" name="council" value={councilSlug} />
               <input type="hidden" name="reference" value={reference} />
-              <FormCommentsSearch searchParams={searchParams} />
+              <FormCommentsSearch
+                searchParams={searchParams}
+                appConfig={appConfig}
+              />
               <FormCommentsSort searchParams={searchParams} />
             </form>
 
