@@ -194,3 +194,44 @@ export const SomeOpen: Story = {
     ),
   },
 };
+export const OneSection: Story = {
+  args: {
+    children: (
+      <>
+        <AccordionSection
+          title="Fusce Inceptos Tristique Justo Pellentesque"
+          name="accordion-section-1"
+          summary="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        >
+          <p className="govuk-body">
+            Cras mattis consectetur purus sit amet fermentum. Sed posuere
+            consectetur est at lobortis. Nullam quis risus eget urna mollis
+            ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur.
+          </p>
+
+          <p className="govuk-body">
+            Cras mattis consectetur purus sit amet fermentum. Cras mattis
+            consectetur purus sit amet fermentum. Aenean eu leo quam.
+            Pellentesque ornare sem lacinia quam venenatis vestibulum.
+            Vestibulum id ligula porta felis euismod semper. Donec id elit non
+            mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque
+            ornare sem lacinia quam venenatis vestibulum. Donec ullamcorper
+            nulla non metus auctor fringilla.
+          </p>
+
+          <p className="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+            posuere erat a ante venenatis dapibus posuere velit aliquet.
+            Curabitur blandit tempus porttitor. Sed posuere consectetur est at
+            lobortis.
+          </p>
+        </AccordionSection>
+      </>
+    ),
+  },
+};
+export const NoSections: Story = {
+  args: {
+    children: <></>,
+  },
+};
