@@ -68,7 +68,6 @@ export async function documents(
   const totalResults = bopsPagination.totalResults;
 
   // add extra documents
-  const decisionNoticeUrl = request?.data?.decisionNotice?.url;
   const extraDocuments = [
     {
       url: `/${council}/${reference}/application-form`,
@@ -77,17 +76,6 @@ export async function documents(
         contentType: "html",
       },
     },
-    ...(decisionNoticeUrl
-      ? [
-          {
-            url: decisionNoticeUrl,
-            title: "Decision notice",
-            metadata: {
-              contentType: "application/pdf",
-            },
-          },
-        ]
-      : []),
   ];
 
   const documents = convertBopsDocumentEndpointToDprDocumentEndpoint(
