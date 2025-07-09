@@ -65,9 +65,11 @@ import { CaseOfficerBase } from "@/types/odp-types/schemas/postSubmissionApplica
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
 import {
   PublicComment,
+  SpecialistComment,
   TopicAndComments,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
 import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+// import { SpecialistBase } from "@/handlers/bops/types/definitions/comment";
 
 type PossibleDates = {
   application: {
@@ -233,6 +235,29 @@ export const generatePublicComment = (
       publishedAt: faker.date.past().toISOString(),
       validAt: faker.date.past().toISOString(),
     },
+  };
+  return baseComment;
+};
+
+export const generateSpecialistComment = (): SpecialistComment => {
+  const sentiment = faker.helpers.arrayElement<CommentSentiment>([
+    "objection",
+    "neutral",
+    "supportive",
+  ]);
+  const baseComment: SpecialistComment = {
+    id: faker.number.int({ min: 1, max: 1000 }),
+    sentiment,
+    comment: faker.lorem.paragraph({ min: 1, max: 5 }),
+    author: {
+      name: { singleLine: faker.person.fullName() },
+      organisation: faker.commerce.department(),
+      specialism: faker.lorem.word(),
+      jobTitle: faker.lorem.word(),
+    },
+    reason: faker.lorem.words(),
+    consultedAt: faker.date.past().toISOString(),
+    respondedAt: faker.date.past().toISOString(),
   };
   return baseComment;
 };
