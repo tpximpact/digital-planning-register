@@ -160,6 +160,17 @@ export const COMMENT_SPECIALIST_SENTIMENT_OPTIONS: Array<{
   },
 ];
 
+/**
+ * Converts a raw sentiment string (e.g., "amendmentsNeeded") to its display-friendly label (e.g., "Amendments needed").
+ * Falls back to the original string if no matching label is found.
+ */
+export const formatSpecialistSentiment = (sentiment: string): string => {
+  const option = COMMENT_SPECIALIST_SENTIMENT_OPTIONS.find(
+    (opt) => opt.value === sentiment,
+  );
+  return option ? option.label : sentiment;
+};
+
 // topic
 export const COMMENT_PUBLIC_TOPIC_OPTIONS: Array<{
   /**
