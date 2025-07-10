@@ -19,16 +19,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { SpecialistCommentCard } from "./SpecialistCommentCard";
 import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
 
-const comment = generateSpecialistComment();
+const comment = generateSpecialistComment(1);
 
-const oneTopicComment = generateSpecialistComment();
-const twoTopicsComment = generateSpecialistComment();
-const threeTopicsComment = generateSpecialistComment();
-const fourTopicsComment = generateSpecialistComment();
-const fiveTopicsComment = generateSpecialistComment();
-const sixTopicsComment = generateSpecialistComment();
-const sevenTopicsComment = generateSpecialistComment();
-const eightTopicsComment = generateSpecialistComment();
+const shortComment = generateSpecialistComment(1);
+const longComment = generateSpecialistComment(20);
 
 const meta = {
   title: "DPR Components/SpecialistCommentCard",
@@ -54,45 +48,14 @@ export const NoComment: Story = {
     comment: undefined,
   },
 };
-export const OneTopicComment: Story = {
+export const ShortComment: Story = {
   args: {
-    comment: oneTopicComment,
+    comment: shortComment,
   },
 };
 
-export const TwoTopicComment: Story = {
+export const LongComment: Story = {
   args: {
-    comment: twoTopicsComment,
-  },
-};
-export const ThreeTopicsComment: Story = {
-  args: {
-    comment: threeTopicsComment,
-  },
-};
-
-export const FourTopicsComment: Story = {
-  args: {
-    comment: fourTopicsComment,
-  },
-};
-export const FiveTopicsComment: Story = {
-  args: {
-    comment: fiveTopicsComment,
-  },
-};
-export const SixTopicsComment: Story = {
-  args: {
-    comment: sixTopicsComment,
-  },
-};
-export const SevenTopicsComment: Story = {
-  args: {
-    comment: sevenTopicsComment,
-  },
-};
-export const EightTopicsComment: Story = {
-  args: {
-    comment: eightTopicsComment,
+    comment: longComment,
   },
 };

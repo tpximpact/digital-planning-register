@@ -20,22 +20,39 @@
 "use client";
 import {
   SpecialistComment,
-  // TopicAndComments,
+  TopicAndComments,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
 import "./SpecialistCommentCard.scss";
-// import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
 import { useState } from "react";
-import {
-  // capitaliseWord,
-  formatDateTimeToDprDate,
-} from "@/util";
-// import { collapseTopicsByCharLimit } from "./PublicCommentCard.utils";
+import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
 import { TextButton } from "../TextButton";
 import Link from "next/link";
 
 export interface SpecialistCommentCardProps {
   comment?: SpecialistComment;
   commentNumber?: number;
+}
+
+export function collapseCommentsByCharLimit(
+  comments: string[],
+  maxChars = 300,
+): { text: string; truncated: boolean } {
+  let text = "";
+  let used = 0;
+  let truncated = false;
+
+  for (const comment of comments) {
+    if (used + comment.length > maxChars) {
+      text += comment.slice(0, maxChars - used);
+      truncated = true;
+      break;
+    }
+
+    text += comment;
+    used += comment.length;
+  }
+
+  return { text, truncated };
 }
 
 /**
@@ -50,65 +67,63 @@ export const SpecialistCommentCard = ({
 
   if (!comment) {
     return (
-      <div className="dpr-public-comment-card">
-        <div className="dpr-public-comment-card__header">
-          <div className="dpr-public-comment-card__skeleton--item" />
-          <div className="dpr-public-comment-card__skeleton--title" />
-          <div className="dpr-public-comment-card__skeleton--body" />
+      <div className="dpr-specialist-comment-card">
+        <div className="dpr-specialist-comment-card__header">
+          <div className="dpr-specialist-comment-card__skeleton--item" />
+          <div className="dpr-specialist-comment-card__skeleton--title" />
+          <div className="dpr-specialist-comment-card__skeleton--body" />
         </div>
       </div>
     );
   }
 
-  //   const topicsAndComments: TopicAndComments[] = Array.isArray(comment.comment)
-  //     ? comment.comment
-  //     : [
-  //         {
-  //           topic: "other",
-  //           question: "",
-  //           comment: comment.comment as string,
-  //         },
-  //       ];
+  const comments: string[] = Array.isArray(comment.comment)
+    ? comment.comment.map((c: TopicAndComments) => c.comment)
+    : [comment.comment as string];
 
-  // const collapsedTopicsAndComments =
-  //   collapseTopicsByCharLimit(topicsAndComments);
-
-  // const displayedTopicsAndComments = isExpanded
-  //   ? topicsAndComments.map((t, i) => ({
-  //       originalIndex: i,
-  //       topic: t.topic,
-  //       question: t.question,
-  //       comment: t.comment,
-  //       truncated: false,
-  //     }))
-  //   : collapsedTopicsAndComments;
-
-  // const hasOverflow =
-  //   collapsedTopicsAndComments.length < topicsAndComments.length ||
-  //   collapsedTopicsAndComments.some((topicObj) => topicObj.truncated);
+  const { text: collapsedText, truncated } =
+    collapseCommentsByCharLimit(comments);
+  const hasOverflow = truncated;
 
   const commentId = comment.id ?? commentNumber;
+  const author = comment.author.specialism || comment.author.organisation;
 
   return (
-    // <>
-    <div className="dpr-public-comment-card">
-      <div className="dpr-public-comment-card__header">
+    <div className="dpr-specialist-comment-card">
+      <div className="dpr-specialist-comment-card__header">
         <h4 className="govuk-heading-s">Consultee Name</h4>
         <p className="govuk-body">{comment.author.name.singleLine}</p>
-        <h4 className="govuk-heading-s">Organisation or specialism</h4>
-        <p className="govuk-body">
-          {comment.author.specialism || comment.author.organisation}
-        </p>
+        {author && (
+          <>
+            <h4 className="govuk-heading-s">Organisation or Specialism</h4>
+            <p className="govuk-body">{capitaliseWord(author)}</p>
+          </>
+        )}
         {comment.reason && (
           <>
             <h4 className="govuk-heading-s">Reason for consultation</h4>
-            <Link href={comment.reason} className="govuk-link govuk-body">
-              {comment.reason}
-            </Link>
+            <ul className="govuk-list">
+              <li>
+                Article 4 Direction Area:
+                <ul className="govuk-list govuk-list--bullet">
+                  <li>
+                    <a
+                      href="https://www.planning.data.gov.uk/entity/7010002192"
+                      className="govuk-link govuk-link--not-visited
+    "
+                    >
+                      Whole District excluding the Town of Chesham - Poultry
+                      production.
+                    </a>
+                  </li>
+                  <li>Stock Lane - Classified Unnumbered</li>
+                </ul>
+              </li>
+            </ul>
           </>
         )}
         <h4 className="govuk-heading-s">Sentiment towards application</h4>
-        <p className="govuk-body">{comment.sentiment}</p>
+        <p className="govuk-body">{capitaliseWord(comment.sentiment)}</p>
         <h4 className="govuk-heading-s">Date Consulted</h4>
         <p className="govuk-body">
           {formatDateTimeToDprDate(comment.consultedAt)}
@@ -118,61 +133,47 @@ export const SpecialistCommentCard = ({
           {formatDateTimeToDprDate(comment.respondedAt)}
         </p>
         <h4 className="govuk-heading-s">Files</h4>
-        {/* <p className="govuk-body">{comment.files}</p> */}
-        <h4 className="govuk-heading-s">Full comment</h4>
-        <p className="govuk-body">{comment.comment}</p>
-
-        {comment.metadata?.publishedAt && (
-          <p className="govuk-body">
-            <em>
-              Published{" "}
-              <time dateTime={comment.metadata.publishedAt}>
-                {/* {formatDateTimeToDprDate(comment.metadata.publishedAt)} */}
-              </time>
-            </em>
-          </p>
-        )}
-
-        {/* {comment.sentiment && (
-          <div>
-            <div className="govuk-heading-s">
-              Sentiment towards this application
-            </div> */}
-        {/* <p className="govuk-body">{capitaliseWord(comment.sentiment)}</p> */}
-        {/* </div>
-        )} */}
-        {/* <div id={`public-comment-${commentId}`} aria-expanded={isExpanded}>
-          {displayedTopicsAndComments.map((topicObj) => {
-            const option = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
-              (o) => o.value === topicObj.topic,
-            );
-            const title = option?.label ?? capitaliseWord(topicObj.topic);
-            return (
-              <div
-                key={topicObj.originalIndex}
-                className="dpr-public-comment-card__topic-section"
-              >
-                <div className="govuk-heading-s">{title}</div>
-                <div className="govuk-body">
-                  {topicObj.comment}
-                  {!isExpanded && topicObj.truncated && "…"}
+        {comment.files ? (
+          <div className="govuk-grid-row">
+            {comment.files.map((file, i) => (
+              <div key={i}>
+                <div className="govuk-grid-column-one-half grid-row-extra-bottom-margin">
+                  {/* add svg */}
+                  <div className="govuk-grid-column-one-third">SVG</div>
+                  <div className="govuk-grid-column-two-thirds">
+                    <Link href={file.url} className="govuk-link govuk-body">
+                      {capitaliseWord(file.name)}
+                    </Link>
+                    <p className="govuk-hint">{file.description}</p>
+                  </div>
                 </div>
               </div>
-            );
-          })} */}
-
-        {/* {hasOverflow && ( */}
-        <TextButton
-          aria-controls={`public-comment-${commentId}`}
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="govuk-link govuk-link--no-visited-state dpr-public-comment-card--toggle-button"
-        >
-          {isExpanded
-            ? "Minimise this comment"
-            : "Read the rest of this comment"}
-        </TextButton>
-        {/* )} */}
-        {/* </div> */}
+            ))}
+          </div>
+        ) : (
+          "No file"
+        )}
+        <h4 className="govuk-heading-s">Full comment</h4>
+        <div id={`specialist-comment-${commentId}`} aria-expanded={isExpanded}>
+          <div className="dpr-specialist-comment-card__topic-section">
+            <div className="govuk-body">
+              {isExpanded
+                ? comments.map((c, i) => <p key={i}>{c}</p>)
+                : `${collapsedText}${truncated ? "…" : ""}`}
+            </div>
+          </div>
+          {hasOverflow && (
+            <TextButton
+              aria-controls={`specialist-comment-${commentId}`}
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="govuk-link govuk-link--no-visited-state dpr-specialist-comment-card--toggle-button"
+            >
+              {isExpanded
+                ? "Minimise this comment"
+                : "Read the rest of this comment"}
+            </TextButton>
+          )}
+        </div>
       </div>
     </div>
   );
