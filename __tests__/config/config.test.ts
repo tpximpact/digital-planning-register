@@ -70,7 +70,7 @@ describe("getAppConfig", () => {
   it("sets defaults and navigation", () => {
     const config = getAppConfig("public-council-1");
     expect(config.defaults.resultsPerPage).toBe(10);
-    expect(config.defaults.revalidate).toBe(3600);
+    expect(config.defaults.revalidate).toBe(60);
     expect(Array.isArray(config.navigation)).toBe(true);
     expect(config.navigation[0]).toHaveProperty("label");
   });
