@@ -48,7 +48,6 @@ const config = {
     "src/**/*.(ts|tsx)",
     "!src/**/index.(ts|tsx)",
     "!src/**/*.stories.(ts|tsx)",
-    "!src/types/odp-types/**/*",
     "!**/types/**", // Exclude all 'types' folders from coverage
   ],
 
