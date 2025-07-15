@@ -18,7 +18,7 @@
 import { DprApplication } from "@/types";
 import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 import "./ApplicationPeople.scss";
-import type { Agent } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
+import type { ApplicantWithAgent } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 
 interface ApplicationPeopleProps {
   applicant?: DprApplication["submission"]["data"]["applicant"];
@@ -30,7 +30,9 @@ export const ApplicationPeople = ({
   caseOfficer,
 }: ApplicationPeopleProps) => {
   const agent =
-    applicant && "agent" in applicant ? (applicant as Agent).agent : undefined;
+    applicant && "agent" in applicant
+      ? (applicant as ApplicantWithAgent).agent
+      : undefined;
   const hasPeople = caseOfficer || agent || applicant;
   if (!hasPeople) {
     return null;
@@ -114,7 +116,7 @@ export const ApplicationPeopleCaseOfficer = ({
  * @param agent
  * @returns
  */
-export const getAgentFields = (agent: Agent["agent"]) => {
+export const getAgentFields = (agent: ApplicantWithAgent["agent"]) => {
   const agentName = concatenateFieldsInOrder(
     agent?.name,
     ["first", "last"],
@@ -142,7 +144,7 @@ export const getAgentFields = (agent: Agent["agent"]) => {
 export const ApplicationPeopleAgent = ({
   agent,
 }: {
-  agent: Agent["agent"];
+  agent: ApplicantWithAgent["agent"];
 }) => {
   const { agentName, agentAddress } = getAgentFields(agent);
 

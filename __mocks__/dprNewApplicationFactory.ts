@@ -61,7 +61,7 @@ import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types
 import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 import type { AppealDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AppealDecision.ts";
 import type {
-  Agent,
+  ApplicantWithAgent,
   BaseApplicant,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
@@ -309,7 +309,7 @@ export const generateBaseApplicant: BaseApplicant = {
   },
 };
 
-export const generateAgent: Agent = {
+export const generateAgent: ApplicantWithAgent = {
   ...generateBaseApplicant,
   agent: {
     name: {

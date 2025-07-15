@@ -38,7 +38,7 @@ import {
   generateSiteAddress,
 } from "./dprNewApplicationFactory";
 import type {
-  Agent,
+  ApplicantWithAgent,
   BaseApplicant,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 
@@ -309,7 +309,7 @@ export const generateDprApplication = ({
     proposal: {
       description: faker.lorem.paragraphs({ min: 1, max: 10 }),
     },
-    applicant: faker.helpers.arrayElement<BaseApplicant | Agent>([
+    applicant: faker.helpers.arrayElement<BaseApplicant | ApplicantWithAgent>([
       generateBaseApplicant,
       generateAgent,
     ]),
