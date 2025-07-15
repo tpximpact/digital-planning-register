@@ -606,7 +606,7 @@ export const generateDprApplication = ({
         // see below for withdrawnAt and withdrawnReason being added
       },
       localPlanningAuthority: {
-        commentsAcceptedUntilDecision: false,
+        publicCommentsAcceptedUntilDecision: false,
       },
       submission: {
         submittedAt: dates.submission.submittedAt.toISOString(),
@@ -656,7 +656,7 @@ export const generateDprApplication = ({
       primaryApplicationType,
     )
   ) {
-    data.data.localPlanningAuthority.commentsAcceptedUntilDecision = true;
+    data.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision = true;
   }
 
   // manage priorApprovalRequired field for prior approvals

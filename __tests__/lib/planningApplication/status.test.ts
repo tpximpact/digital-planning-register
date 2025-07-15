@@ -221,7 +221,7 @@ describe("getApplicationDprStatusSummary", () => {
           status: "determined",
         },
         localPlanningAuthority: {
-          commentsAcceptedUntilDecision: false,
+          publicCommentsAcceptedUntilDecision: false,
         },
         submission: {
           submittedAt: dates.submission.submittedAt.toISOString(),
@@ -251,7 +251,7 @@ describe("getApplicationDprStatusSummary", () => {
             withdrawnReason: "No longer needed",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -290,7 +290,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -319,7 +319,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "returned",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -357,7 +357,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -397,7 +397,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -437,7 +437,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -476,7 +476,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -513,7 +513,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "undetermined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -557,7 +557,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -604,7 +604,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -655,7 +655,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -701,7 +701,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -753,7 +753,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -807,7 +807,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -862,7 +862,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -918,7 +918,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
@@ -976,7 +976,7 @@ describe("getApplicationDprStatusSummary", () => {
             status: "determined",
           },
           localPlanningAuthority: {
-            commentsAcceptedUntilDecision: false,
+            publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),

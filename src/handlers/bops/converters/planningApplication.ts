@@ -108,13 +108,13 @@ const createData = (
   application: BopsPlanningApplication,
   council: string,
 ): DprPlanningApplication["data"] => {
-  let commentsAcceptedUntilDecision = false;
+  let publicCommentsAcceptedUntilDecision = false;
   const primaryApplicationType = getPrimaryApplicationTypeKey(
     application.application.type.value,
   );
 
   if (council === "camden" && primaryApplicationType === "ldc") {
-    commentsAcceptedUntilDecision = true;
+    publicCommentsAcceptedUntilDecision = true;
   }
 
   let appeal = application.data?.appeal ?? undefined;
@@ -130,7 +130,7 @@ const createData = (
 
   return {
     localPlanningAuthority: {
-      commentsAcceptedUntilDecision,
+      publicCommentsAcceptedUntilDecision,
     },
     appeal,
   };

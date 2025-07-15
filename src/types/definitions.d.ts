@@ -93,7 +93,7 @@ export interface DprPlanningApplication {
   applicationType: ApplicationType;
   data: {
     localPlanningAuthority: {
-      commentsAcceptedUntilDecision: boolean;
+      publicCommentsAcceptedUntilDecision: boolean;
     };
     appeal?: Appeal & {
       files?: DprDocument[];

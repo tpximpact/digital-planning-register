@@ -1381,7 +1381,7 @@ describe("generateDprApplication", () => {
       });
     expect(
       planningPermissionFullHouseholderAssessmentInProgress.data
-        .localPlanningAuthority.commentsAcceptedUntilDecision,
+        .localPlanningAuthority.publicCommentsAcceptedUntilDecision,
     ).toBe(false);
 
     const lawfulDevelopmentCertificateProposedAssessmentInProgress =
@@ -1392,7 +1392,7 @@ describe("generateDprApplication", () => {
 
     expect(
       lawfulDevelopmentCertificateProposedAssessmentInProgress.data
-        .localPlanningAuthority.commentsAcceptedUntilDecision,
+        .localPlanningAuthority.publicCommentsAcceptedUntilDecision,
     ).toBe(true);
   });
 

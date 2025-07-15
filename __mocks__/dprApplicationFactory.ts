@@ -276,7 +276,7 @@ export const generateDprApplication = ({
     applicationType,
     data: {
       localPlanningAuthority: {
-        commentsAcceptedUntilDecision:
+        publicCommentsAcceptedUntilDecision:
           primaryApplicationType === "ldc" ? true : false,
       },
       appeal,

@@ -110,7 +110,9 @@ export const pageTitles: Record<number, string> = {
  */
 export const checkCommentsEnabled = (application: DprApplication): boolean => {
   const commentsAllowedInStatus = ["Consultation in progress"];
-  if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
+  if (
+    application.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision
+  ) {
     commentsAllowedInStatus.push("Assessment in progress");
   }
   return commentsAllowedInStatus.includes(application.applicationStatusSummary);
