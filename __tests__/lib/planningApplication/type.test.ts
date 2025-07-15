@@ -42,7 +42,7 @@ describe("isValidPrimaryApplicationType", () => {
     ];
 
     invalidTypes.forEach((type) => {
-      expect(isValidPrimaryApplicationType(type)).toBe(false);
+      expect(isValidPrimaryApplicationType(type as string)).toBe(false);
     });
   });
 });
