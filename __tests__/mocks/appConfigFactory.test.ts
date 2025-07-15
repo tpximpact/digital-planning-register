@@ -19,6 +19,7 @@
  * gotta test the tests!
  */
 
+import { CouncilDataSource } from "@/config/types";
 import { createAppConfig, createCouncilConfig } from "@mocks/appConfigFactory";
 
 describe("createAppConfig", () => {
@@ -79,7 +80,7 @@ describe("createCouncilConfig", () => {
     const councilConfig = createCouncilConfig({
       councilName: "Custom Council",
       visibility: "private",
-      dataSource: "customSource",
+      dataSource: "customSource" as CouncilDataSource,
       publicComments: false,
       specialistComments: false,
       pageContent: customPageContent,
