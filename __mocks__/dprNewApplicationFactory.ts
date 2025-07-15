@@ -219,14 +219,14 @@ export const generatePublicComment = (
     "supportive",
   ]);
   const baseComment: PublicComment = {
-    id: faker.number.int({ min: 1, max: 1000 }),
+    id: faker.number.int({ min: 1, max: 1000 }).toString(),
     sentiment,
     comment: topicsAndComments,
     author: { name: { singleLine: faker.person.fullName() } },
     metadata: {
       submittedAt: faker.date.past().toISOString(),
       publishedAt: faker.date.past().toISOString(),
-      validAt: faker.date.past().toISOString(),
+      validatedAt: faker.date.past().toISOString(),
     },
   };
   return baseComment;
@@ -284,12 +284,6 @@ export const generateBaseApplicant: BaseApplicant = {
     postcode: fakerEN_GB.location.zipCode(),
     country: fakerEN_GB.location.country(),
     sameAsSiteAddress: false,
-  },
-  siteContact: {
-    role: "other",
-    name: `${faker.person.firstName()} ${faker.person.lastName()}`,
-    email: faker.internet.email(),
-    phone: fakerEN_GB.phone.number(),
   },
 };
 

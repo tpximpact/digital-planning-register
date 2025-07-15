@@ -1796,7 +1796,7 @@ describe("generatePublicComment", () => {
 
   it("returns a PublicComment with exactly 1 topic by default", () => {
     const comment = generatePublicComment();
-    expect(typeof comment.id).toBe("number");
+    expect(typeof comment.id).toBe("string");
 
     expect(Array.isArray(comment.comment)).toBe(true);
     if (!Array.isArray(comment.comment)) {
