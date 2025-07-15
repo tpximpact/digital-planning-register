@@ -30,12 +30,12 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 
-import {
+import type {
   CommentSentiment,
   SpecialistCommentSentiment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { getValueFromUnknownSearchParams } from "./search";
-import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
+import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
 
 /**
  * Sort comments by newest first

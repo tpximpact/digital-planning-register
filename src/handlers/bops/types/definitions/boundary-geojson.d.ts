@@ -15,5 +15,5 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
+import type { GeoBoundary } from "digital-planning-data-schemas/types/schemas/shared/Boundaries.ts";
 export type BopsBoundaryGeojson = GeoBoundary["site"];

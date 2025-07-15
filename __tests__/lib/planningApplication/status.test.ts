@@ -21,14 +21,13 @@ import {
   getApplicationStatusSummarySentiment,
 } from "@/lib/planningApplication";
 import { DprPlanningApplication } from "@/types";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 import { formatDateToYmd } from "@/util";
 import {
   generateAllPossibleDates,
   generateMetadata,
 } from "@mocks/dprNewApplicationFactory";
-import { planningPermissionFullHouseholderPrototype } from "@mocks/odp-submission-data/planningPermission/fullHouseholder";
-import { format } from "path";
+import planningPermissionFullHouseholderPrototype from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
 
 describe("getApplicationStatusSummary", () => {
   describe("Assessment-related statuses", () => {
@@ -213,7 +212,7 @@ describe("getApplicationStatusSummarySentiment", () => {
 describe("getApplicationDprStatusSummary", () => {
   it("should return Unknown for invalid status", () => {
     const dates = generateAllPossibleDates();
-    const application: PostSubmissionApplication = {
+    const application: PostSubmissionPublishedApplication = {
       applicationType: "pp.full.householder",
       data: {
         application: {
@@ -241,7 +240,7 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Withdrawn status", () => {
     it("should return Withdrawn if withdrawn date set", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -282,7 +281,7 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Application submitted status", () => {
     it("should return Application submitted", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -311,7 +310,7 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Application returned status", () => {
     it("should return Application returned", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -349,7 +348,7 @@ describe("getApplicationDprStatusSummary", () => {
       const startDate = formatDateToYmd(today);
       // const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(new Date(today.getTime() + 86400000));
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -389,7 +388,7 @@ describe("getApplicationDprStatusSummary", () => {
       const today = new Date();
       const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(new Date(today.getTime() + 86400000));
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -429,7 +428,7 @@ describe("getApplicationDprStatusSummary", () => {
       const today = new Date();
       const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(today);
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -468,7 +467,7 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Determined & Assessment in progress status", () => {
     it("should return Assessment in progress if no determination has been made yet", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -505,7 +504,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Assessment in progress if application is in committee", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -549,7 +548,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Determined if application has a council decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -596,7 +595,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Determined if application has a committee decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -647,7 +646,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Assessment in progress if no council decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -693,7 +692,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Assessment in progress if no committee decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -745,7 +744,7 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Appeal status", () => {
     it("should return Appeal lodged when appeal has been lodged", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -799,7 +798,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Appeal validated when appeal has been validated", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -854,7 +853,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Appeal in progress when appeal has started", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -910,7 +909,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Appeal decided when appeal has been determined", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {
@@ -968,7 +967,7 @@ describe("getApplicationDprStatusSummary", () => {
 
     it("should return Appeal withdrawn when appeal has been withdrawn", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionApplication = {
+      const application: PostSubmissionPublishedApplication = {
         applicationType: "pp.full.householder",
         data: {
           application: {

@@ -20,7 +20,7 @@
  */
 
 import { DprContentPage, DprPlanningApplication } from "@/types";
-import { PrimaryApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { PrimaryApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { slugify } from "@/util";
 
 /**

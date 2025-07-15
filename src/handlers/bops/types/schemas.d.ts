@@ -25,10 +25,10 @@ import {
 } from "./definitions/application";
 import { BopsComment } from "./definitions/comment";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 
 /**
  * GET /api/v2/public/planning_applications/search

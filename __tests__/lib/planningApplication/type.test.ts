@@ -23,10 +23,7 @@ import {
   getDocumentedApplicationType,
 } from "@/lib/planningApplication";
 import { DprPlanningApplication } from "@/types";
-import {
-  ApplicationType,
-  PrimaryApplicationType,
-} from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 
 describe("isValidPrimaryApplicationType", () => {
   it("should return true for valid primary application types", () => {

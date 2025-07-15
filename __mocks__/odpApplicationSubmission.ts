@@ -15,7 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// import { PrototypeApplication } from "odp-types/schemas/prototypeApplication";
+// import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.ts";
 
 /**
  * examples/prototypeApplication/planningPermission/fullHouseholder.json

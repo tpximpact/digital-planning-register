@@ -23,7 +23,7 @@ import {
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 import { generateDprApplication as generateOldDprApplication } from "@mocks/dprApplicationFactory";
 import { DprApplication, DprPlanningApplication } from "@/types";
-import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+import type { PriorApprovalAssessment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 
 // YYYY-MM-DD
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;

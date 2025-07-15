@@ -26,7 +26,7 @@ import { convertCommentBops } from "./comments";
 import { convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 import { convertDocumentBopsFile } from "./documents";
-import { Area } from "@/types/odp-types/shared/utils";
+import type { Area } from "digital-planning-data-schemas/types/shared/utils.ts";
 
 export const convertBopsToDpr = (
   application: BopsPlanningApplication,

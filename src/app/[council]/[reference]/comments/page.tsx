@@ -30,7 +30,7 @@ import { ContentError } from "@/components/ContentError";
 import { PageApplicationComments } from "@/components/PageApplicationComments";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { getAvailableCommentTypes, validateSearchParams } from "@/lib/comments";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 import { capitalizeFirstLetter } from "@/util";
 
 interface PlanningApplicationDetailsCommentsProps {

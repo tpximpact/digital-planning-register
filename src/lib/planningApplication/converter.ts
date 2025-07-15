@@ -16,17 +16,17 @@
  */
 
 import { DprApplication, DprPlanningApplication } from "@/types";
-import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
+import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/Metadata.ts";
 import { getApplicationDprDecisionSummary } from "./decision";
 import { getApplicationDprStatusSummary } from "./status";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
-import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
-import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
+import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
+import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
+import type { AssessmentDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AssessmentDecision.ts";
 import { getPrimaryApplicationTypeKey } from "./type";
-import {
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 import { getDescription } from "./application";
 
 /**

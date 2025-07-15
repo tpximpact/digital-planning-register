@@ -20,10 +20,10 @@ import { render, screen } from "@testing-library/react";
 import { PageShow } from "@/components/PageShow/PageShow";
 import { AppConfig } from "@/config/types";
 import { DprApplication, DprDocument } from "@/types";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 
 // Mock child components to isolate PageShow
 jest.mock("@/components/BackButton", () => ({

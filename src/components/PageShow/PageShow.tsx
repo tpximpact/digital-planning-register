@@ -21,10 +21,10 @@ import { AppConfig } from "@/config/types";
 import { ApplicationDetails } from "../ApplicationDetails";
 import { PageMain } from "../PageMain";
 import { ContentNotFound } from "../ContentNotFound";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 
 export interface PageShowProps {
   appConfig: AppConfig;

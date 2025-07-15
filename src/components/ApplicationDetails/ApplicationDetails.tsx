@@ -32,10 +32,10 @@ import { ApplicationAppeals } from "@/components/ApplicationAppeals";
 import { checkCommentsEnabled } from "@/lib/comments";
 import { getDescription } from "@/lib/planningApplication/application";
 import { CommentsSummaryWithSuspense } from "@/components/CommentsSummaryWithSuspense";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
 
 export interface ApplicationDetailsProps {

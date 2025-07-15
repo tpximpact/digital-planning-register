@@ -30,11 +30,11 @@ import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { Council } from "@/config/types";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
-import {
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
@@ -188,7 +188,7 @@ export const getApplicationStatusSummary = (
  */
 export const getApplicationDprStatusSummary = (
   application:
-    | PostSubmissionApplication
+    | PostSubmissionPublishedApplication
     | Omit<
         DprApplication,
         "applicationStatusSummary" | "applicationDecisionSummary"

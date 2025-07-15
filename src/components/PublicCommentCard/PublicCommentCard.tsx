@@ -17,10 +17,10 @@
 "use client";
 import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
 import "./PublicCommentCard.scss";
-import {
+import type {
   PublicComment,
   TopicAndComments,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
 import { useState } from "react";
 import { collapseTopicsByCharLimit } from "./PublicCommentCard.utils";

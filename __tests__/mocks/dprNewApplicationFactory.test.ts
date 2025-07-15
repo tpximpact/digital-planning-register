@@ -15,10 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 import {
   generateDprApplication,
   generateExampleApplications,
@@ -31,8 +31,8 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
-import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
 

@@ -22,10 +22,10 @@
 import { BopsBoundaryGeojson } from "./boundary-geojson";
 import { BopsNonStandardDocument } from "./document";
 import { BopsNonStandardComment } from "./comment";
-import { Applicant } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
-import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import type { Applicant } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { DprDocument } from "@/types";
-import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appeal";
+import type { Appeal } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Appeal.ts";
 
 /**
  * #/components/definitions/ApplicationOverview

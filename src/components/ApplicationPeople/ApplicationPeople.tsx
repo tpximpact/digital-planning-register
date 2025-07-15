@@ -18,7 +18,7 @@
 import { DprApplication } from "@/types";
 import { capitalizeFirstLetter, concatenateFieldsInOrder } from "@/util";
 import "./ApplicationPeople.scss";
-import { Agent } from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+import type { Agent } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 
 interface ApplicationPeopleProps {
   applicant?: DprApplication["submission"]["data"]["applicant"];

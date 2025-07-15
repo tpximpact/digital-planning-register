@@ -19,8 +19,11 @@ import { DprApplication } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
 import dayjs, { Dayjs } from "dayjs";
 import { generateReference } from "./dprApplicationFactory";
-import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
-import {
+import type {
+  OSAddress,
+  ProposedAddress,
+} from "digital-planning-data-schemas/types/shared/Addresses.ts";
+import type {
   AdvertConsentApplicationType,
   AmendmentApplicationType,
   ApplicationType,
@@ -40,34 +43,34 @@ import {
   PrimaryApplicationType,
   RightsOfWayOrderApplicationType,
   WTTApplicationType,
-} from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
-import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
+import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
 import {
   getApplicationDprDecisionSummary,
   getApplicationDprStatusSummary,
   getPrimaryApplicationTypeKey,
   validApplicationTypes,
 } from "@/lib/planningApplication";
-import { planningPermissionFullHouseholderPrototype } from "./odp-submission-data/planningPermission/fullHouseholder";
-import { priorApprovalLargerExtensionPrototype } from "./odp-submission-data/priorApproval/largerExtension";
-import { lawfulDevelopmentCertificateProposedPrototype } from "./odp-submission-data/lawfulDevelopmentCertificate/proposed";
-import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
-import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
-import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
-import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
-import {
+import planningPermissionFullHouseholderPrototype from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
+import priorApprovalLargerExtensionPrototype from "digital-planning-data-schemas/examples/prototypeApplication/priorApproval/largerExtension.json";
+import lawfulDevelopmentCertificateProposedPrototype from "digital-planning-data-schemas/examples/prototypeApplication/lawfulDevelopmentCertificate/proposed.json";
+import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.ts";
+import type { PriorApprovalAssessment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
+import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/Metadata.ts";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
+import type { AppealDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AppealDecision.ts";
+import type {
   Agent,
   BaseApplicant,
-} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
-import { CaseOfficerBase } from "@/types/odp-types/schemas/postSubmissionApplication/data/CaseOfficer";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
+import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
-import {
+import type {
   PublicComment,
   TopicAndComments,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 
 type PossibleDates = {
   application: {
@@ -584,7 +587,7 @@ export const generateDprApplication = ({
   }
 
   // create the basics of all stages and manage further below
-  const data: PostSubmissionApplication = {
+  const data: PostSubmissionPublishedApplication = {
     applicationType: applicationType,
     data: {
       application: {
