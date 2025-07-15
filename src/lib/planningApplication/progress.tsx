@@ -88,7 +88,7 @@ export const buildApplicationProgress = (
 
   // 03 published
 
-  if (application.metadata?.publishedAt) {
+  if (application.data.application?.publishedAt) {
     const publishedAtContent = findItemByKey<DprContentPage>(
       importantDates,
       slugify("Published date"),
@@ -96,8 +96,8 @@ export const buildApplicationProgress = (
     progressData.push({
       title: "Published",
       date: (
-        <time dateTime={application.metadata.publishedAt}>
-          {formatDateTimeToDprDate(application.metadata.publishedAt)}
+        <time dateTime={application.data.application.publishedAt}>
+          {formatDateTimeToDprDate(application.data.application.publishedAt)}
         </time>
       ),
       content: publishedAtContent ?? <></>,

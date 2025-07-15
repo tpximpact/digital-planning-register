@@ -155,7 +155,7 @@ describe("Render ApplicationCard", () => {
       expect(validFromEl).toHaveTextContent(`Valid from date - ${formatted}`);
     }
     // Published date
-    const publishedAt = planningOfficerDetermined.metadata?.publishedAt;
+    const publishedAt = planningOfficerDetermined.data.application?.publishedAt;
     if (publishedAt) {
       const formatted = formatDateTimeToDprDate(publishedAt);
       const publishedEl = screen.getByTestId(

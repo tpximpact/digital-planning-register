@@ -237,6 +237,7 @@ export const convertToDprApplication = (
         status: status as ApplicationStatus,
         withdrawnAt,
         withdrawnReason,
+        publishedAt: app.application.publishedAt,
       },
       localPlanningAuthority: app.data.localPlanningAuthority,
       submission: {
@@ -279,7 +280,7 @@ export const convertToDprApplication = (
     metadata: {
       organisation: "BOPS",
       id: app.application.reference,
-      publishedAt: app.application.publishedAt,
+      generatedAt: app.application.publishedAt,
       submittedAt: app.application.receivedAt,
       schema:
         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",

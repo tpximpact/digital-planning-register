@@ -101,6 +101,7 @@ type PossibleDates = {
     decidedAt: Dayjs;
     withdrawnAt: Dayjs;
   };
+  generatedAt: Dayjs;
 };
 
 export const generateAllPossibleDates = (
@@ -165,6 +166,12 @@ export const generateAllPossibleDates = (
   // appeal is withdrawn any time between appealLodgedAt and appealDecidedAt
   const appealWithdrawnAt = dayjs(appealLodgedAt).add(1, "day");
 
+  // when the data is generated it is given a generatedAt date,
+  // if it was an API this would be the current date and time
+  // but if it was a static file this would be the date the file was generated
+  // in this case we are using a fixed date for consistency in tests
+  const generatedAt = dayjs();
+
   const dates = {
     application: {
       withdrawnAt: withdrawnAt,
@@ -194,6 +201,7 @@ export const generateAllPossibleDates = (
       decidedAt: appealDecidedAt,
       withdrawnAt: appealWithdrawnAt,
     },
+    generatedAt: generatedAt,
   };
 
   return dates;
@@ -338,7 +346,7 @@ export const generateMetadata = (
   const metadata: PostSubmissionMetadata = {
     organisation: "BOPS",
     id: "1234",
-    publishedAt: dates.publishedAt.toISOString(),
+    generatedAt: dates.generatedAt.toISOString(),
     submittedAt: dates.submission.submittedAt.toISOString(),
     schema: `https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json`,
   };
@@ -594,6 +602,7 @@ export const generateDprApplication = ({
         reference: generateReference(),
         stage: applicationStage,
         status: applicationStatus,
+        publishedAt: dates.publishedAt.toISOString(),
         // see below for withdrawnAt and withdrawnReason being added
       },
       localPlanningAuthority: {

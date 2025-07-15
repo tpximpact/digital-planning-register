@@ -182,7 +182,7 @@ describe("convertToDprApplication", () => {
       "schema",
     ]);
 
-    expect(result.metadata.publishedAt).toMatch(utcDateRegex);
+    expect(result.data.application.publishedAt).toMatch(utcDateRegex);
     expect(result.metadata.submittedAt).toMatch(utcDateRegex);
   };
 
