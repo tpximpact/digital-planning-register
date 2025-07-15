@@ -174,10 +174,11 @@ describe("convertToDprApplication", () => {
 
     // metadata
     expect(result.metadata).toBeDefined();
+    expect(result.data.application.publishedAt).toBeDefined();
     expect(Object.keys(result.metadata)).toEqual([
       "organisation",
       "id",
-      "publishedAt",
+      "generatedAt",
       "submittedAt",
       "schema",
     ]);
@@ -231,7 +232,7 @@ describe("convertToDprApplication", () => {
 
   describe("03-consultation", () => {
     it("in_assessment", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "in_assessment",
@@ -245,7 +246,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.application.status).toBe("undetermined");
     });
     it("assessment_in_progress", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "assessment_in_progress",
@@ -262,7 +263,7 @@ describe("convertToDprApplication", () => {
 
   describe("04-assessment-00-assessment-in-progress", () => {
     it("in_assessment", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "in_assessment",
@@ -273,7 +274,7 @@ describe("convertToDprApplication", () => {
       testAssessment(result);
     });
     it("assessment_in_progress", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "assessment_in_progress",
@@ -284,7 +285,7 @@ describe("convertToDprApplication", () => {
       testAssessment(result);
     });
     it("awaiting_determination", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "awaiting_determination",
@@ -295,7 +296,7 @@ describe("convertToDprApplication", () => {
       testAssessment(result);
     });
     it("to_be_reviewed", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "to_be_reviewed",
@@ -309,7 +310,7 @@ describe("convertToDprApplication", () => {
 
   describe("04-assessment-01-council-determined", () => {
     it("determined", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "determined",
@@ -363,7 +364,7 @@ describe("convertToDprApplication", () => {
 
   describe("04-assessment-02-assessment-in-committee", () => {
     it("in_committee", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "in_committee",
@@ -377,7 +378,7 @@ describe("convertToDprApplication", () => {
 
   describe("04-assessment-03-committee-determined", () => {
     it("determined", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "determined",
@@ -395,7 +396,7 @@ describe("convertToDprApplication", () => {
 
   describe("05-appeal-00-appeal-lodged", () => {
     it("Appeal lodged", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal lodged",
@@ -420,7 +421,7 @@ describe("convertToDprApplication", () => {
 
   describe("05-appeal-01-appeal-validated", () => {
     it("Appeal valid", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal valid",
@@ -445,7 +446,7 @@ describe("convertToDprApplication", () => {
 
   describe("05-appeal-02-appeal-started", () => {
     it("Appeal started", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal started",
@@ -470,7 +471,7 @@ describe("convertToDprApplication", () => {
 
   describe("05-appeal-03-appeal-determined", () => {
     it("Appeal determined", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal determined",
@@ -492,7 +493,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.appeal?.files?.length).toBeGreaterThan(0);
     });
     it("Appeal withdrawn", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal withdrawn",
@@ -514,7 +515,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.appeal?.files?.length).toBeGreaterThan(0);
     });
     it("Appeal allowed", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal allowed",
@@ -536,7 +537,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.appeal?.files?.length).toBeGreaterThan(0);
     });
     it("Appeal dismissed", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal dismissed",
@@ -559,7 +560,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.appeal?.files?.length).toBeGreaterThan(0);
     });
     it("Appeal split decision", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "Appeal split decision",
@@ -584,7 +585,7 @@ describe("convertToDprApplication", () => {
 
   describe("06-assessment-withdrawn", () => {
     it("withdrawn", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "withdrawn",
@@ -606,7 +607,7 @@ describe("convertToDprApplication", () => {
       expect(result.data.appeal).toBeUndefined();
     });
     it("closed", () => {
-      const applicationType = "pp.full";
+      const applicationType = "pp.full.householder";
       const from = generateOldDprApplication({
         applicationType: applicationType,
         applicationStatus: "closed",

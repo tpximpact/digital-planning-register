@@ -23,26 +23,11 @@ import type {
   OSAddress,
   ProposedAddress,
 } from "digital-planning-data-schemas/types/shared/Addresses.ts";
+import type * as PostSubmissionPublishedTypes from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.js";
+import type * as PrototypeTypes from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.js";
 import type {
-  AdvertConsentApplicationType,
-  AmendmentApplicationType,
   ApplicationType,
-  ApprovalApplicationType,
-  ComplianceConfirmationApplicationType,
-  EnvironmentalImpactApplicationType,
-  HazardousSubstanceConsentApplicationType,
-  HedgerowRemovalNoticeApplicationType,
-  LandDrainageConsentApplicationType,
-  LDCApplicationType,
-  ListedApplicationType,
-  NotifyCompletionApplicationType,
-  ObligationApplicationType,
-  OnshoreExtractionOilAndGasApplicationType,
-  PAApplicationType,
-  PPApplicationType,
   PrimaryApplicationType,
-  RightsOfWayOrderApplicationType,
-  WTTApplicationType,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
 import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
@@ -50,15 +35,14 @@ import {
   getApplicationDprDecisionSummary,
   getApplicationDprStatusSummary,
   getPrimaryApplicationTypeKey,
+  setCorrectApplicationType,
   validApplicationTypes,
 } from "@/lib/planningApplication";
 import planningPermissionFullHouseholderPrototype from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
 import priorApprovalLargerExtensionPrototype from "digital-planning-data-schemas/examples/prototypeApplication/priorApproval/largerExtension.json";
 import lawfulDevelopmentCertificateProposedPrototype from "digital-planning-data-schemas/examples/prototypeApplication/lawfulDevelopmentCertificate/proposed.json";
-import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.ts";
 import type { PriorApprovalAssessment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/Metadata.ts";
-import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 import type { AppealDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AppealDecision.ts";
 import type {
   ApplicantWithAgent,
@@ -515,17 +499,23 @@ export const generateDprApplication = ({
   }
 
   // determine the submission part - copied from ODP examples
-  let submission: PrototypeApplication =
-    planningPermissionFullHouseholderPrototype;
+  let submission;
   switch (primaryApplicationType) {
     case "pp":
-      submission = planningPermissionFullHouseholderPrototype;
+      submission =
+        planningPermissionFullHouseholderPrototype as unknown as PrototypeTypes.PlanningPermissionFullHouseholder;
       break;
     case "pa":
-      submission = priorApprovalLargerExtensionPrototype;
+      submission =
+        priorApprovalLargerExtensionPrototype as unknown as PrototypeTypes.PriorApprovalPart1ClassA;
       break;
     case "ldc":
-      submission = lawfulDevelopmentCertificateProposedPrototype;
+      submission =
+        lawfulDevelopmentCertificateProposedPrototype as unknown as PrototypeTypes.LawfulDevelopmentCertificateProposed;
+      break;
+    default:
+      submission =
+        planningPermissionFullHouseholderPrototype as unknown as PrototypeTypes.PlanningPermissionFullHouseholder;
       break;
   }
 
@@ -554,48 +544,9 @@ export const generateDprApplication = ({
   }
 
   // applicationType musst be XApplicationType not ApplicationType for the data object to behave
-  switch (primaryApplicationType) {
-    case "advertConsent":
-      applicationType = applicationType as AdvertConsentApplicationType;
-    case "amendment":
-      applicationType = applicationType as AmendmentApplicationType;
-    case "approval":
-      applicationType = applicationType as ApprovalApplicationType;
-    case "complianceConfirmation":
-      applicationType =
-        applicationType as ComplianceConfirmationApplicationType;
-    case "environmentalImpact":
-      applicationType = applicationType as EnvironmentalImpactApplicationType;
-    case "hazardousSubstanceConsent":
-      applicationType =
-        applicationType as HazardousSubstanceConsentApplicationType;
-    case "hedgerowRemovalNotice":
-      applicationType = applicationType as HedgerowRemovalNoticeApplicationType;
-    case "landDrainageConsent":
-      applicationType = applicationType as LandDrainageConsentApplicationType;
-    case "ldc":
-      applicationType = applicationType as LDCApplicationType;
-    case "listed":
-      applicationType = applicationType as ListedApplicationType;
-    case "notifyCompletion":
-      applicationType = applicationType as NotifyCompletionApplicationType;
-    case "obligation":
-      applicationType = applicationType as ObligationApplicationType;
-    case "onshoreExtractionOilAndGas":
-      applicationType =
-        applicationType as OnshoreExtractionOilAndGasApplicationType;
-    case "pa":
-      applicationType = applicationType as PAApplicationType;
-    case "pp":
-      applicationType = applicationType as PPApplicationType;
-    case "rightsOfWayOrder":
-      applicationType = applicationType as RightsOfWayOrderApplicationType;
-    case "wtt":
-      applicationType = applicationType as WTTApplicationType;
-  }
 
   // create the basics of all stages and manage further below
-  const data: PostSubmissionPublishedApplication = {
+  const applicationData = {
     applicationType: applicationType,
     data: {
       application: {
@@ -649,6 +600,11 @@ export const generateDprApplication = ({
     submission,
     metadata: metadata,
   };
+
+  const data = setCorrectApplicationType(
+    applicationType,
+    applicationData as PostSubmissionPublishedTypes.PostSubmissionPublishedApplication,
+  );
 
   // This mocks camden allowing comments until a decision is made for certain application types
   if (

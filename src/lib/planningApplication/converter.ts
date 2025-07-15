@@ -22,11 +22,15 @@ import { getApplicationDprStatusSummary } from "./status";
 import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
 import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
 import type { AssessmentDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AssessmentDecision.ts";
-import { getPrimaryApplicationTypeKey } from "./type";
+import {
+  setCorrectApplicationType,
+  getPrimaryApplicationTypeKey,
+} from "./type";
 import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.js";
 import { getDescription } from "./application";
 
 /**
@@ -269,14 +273,14 @@ export const convertToDprApplication = (
         },
       },
     },
-    comments: {
-      public: {
-        comments: app.application.consultation.publishedComments ?? undefined,
-      },
-      specialist: {
-        comments: app.application.consultation.consulteeComments ?? undefined,
-      },
-    },
+    // comments: {
+    //   public: {
+    //     comments: app.application.consultation.publishedComments ?? undefined,
+    //   },
+    //   specialist: {
+    //     comments: app.application.consultation.consulteeComments ?? undefined,
+    //   },
+    // },
     metadata: {
       organisation: "BOPS",
       id: app.application.reference,
@@ -315,15 +319,20 @@ export const convertToDprApplication = (
     }
   }
 
+  const typedDprApplication = setCorrectApplicationType(
+    dprApplication.applicationType,
+    dprApplication as PostSubmissionPublishedApplication,
+  );
+
   const applicationDecisionSummary =
-    getApplicationDprDecisionSummary(dprApplication);
+    getApplicationDprDecisionSummary(typedDprApplication);
   const applicationStatusSummary =
-    getApplicationDprStatusSummary(dprApplication);
+    getApplicationDprStatusSummary(typedDprApplication);
   const application = {
     applicationStatusSummary,
     applicationDecisionSummary,
     ...dprApplication,
-  };
+  } as DprApplication;
 
   return application;
 };

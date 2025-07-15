@@ -21,13 +21,17 @@ import {
   getApplicationStatusSummarySentiment,
 } from "@/lib/planningApplication";
 import { DprPlanningApplication } from "@/types";
-import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
+import type { PostSubmissionPublishedPlanningPermissionFullHouseholder } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
+import type { PlanningPermissionFullHouseholder } from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.ts";
 import { formatDateToYmd } from "@/util";
 import {
   generateAllPossibleDates,
   generateMetadata,
 } from "@mocks/dprNewApplicationFactory";
-import planningPermissionFullHouseholderPrototype from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
+import planningPermissionFullHouseholderPrototypeJson from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
+
+const planningPermissionFullHouseholderPrototype =
+  planningPermissionFullHouseholderPrototypeJson as PlanningPermissionFullHouseholder;
 
 describe("getApplicationStatusSummary", () => {
   describe("Assessment-related statuses", () => {
@@ -212,59 +216,20 @@ describe("getApplicationStatusSummarySentiment", () => {
 describe("getApplicationDprStatusSummary", () => {
   it("should return Unknown for invalid status", () => {
     const dates = generateAllPossibleDates();
-    const application: PostSubmissionPublishedApplication = {
-      applicationType: "pp.full.householder",
-      data: {
-        application: {
-          reference: "ABC-123-XYZ",
-          stage: "consultation",
-          status: "determined",
-        },
-        localPlanningAuthority: {
-          publicCommentsAcceptedUntilDecision: false,
-        },
-        submission: {
-          submittedAt: dates.submission.submittedAt.toISOString(),
-        },
-        caseOfficer: {
-          name: "Casey Officer",
-        },
-      },
-      submission: planningPermissionFullHouseholderPrototype,
-      metadata: generateMetadata(dates),
-    };
-    const statusSummary = getApplicationDprStatusSummary(application);
-    expect(statusSummary).toBe("Unknown");
-  });
-
-  describe("Withdrawn status", () => {
-    it("should return Withdrawn if withdrawn date set", () => {
-      const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
+    const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+      {
         applicationType: "pp.full.householder",
         data: {
           application: {
             reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "undetermined",
-            withdrawnAt: dates.application.withdrawnAt.toISOString(),
-            withdrawnReason: "No longer needed",
+            stage: "consultation",
+            status: "determined",
           },
           localPlanningAuthority: {
             publicCommentsAcceptedUntilDecision: false,
           },
           submission: {
             submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
           },
           caseOfficer: {
             name: "Casey Officer",
@@ -273,6 +238,47 @@ describe("getApplicationDprStatusSummary", () => {
         submission: planningPermissionFullHouseholderPrototype,
         metadata: generateMetadata(dates),
       };
+    const statusSummary = getApplicationDprStatusSummary(application);
+    expect(statusSummary).toBe("Unknown");
+  });
+
+  describe("Withdrawn status", () => {
+    it("should return Withdrawn if withdrawn date set", () => {
+      const dates = generateAllPossibleDates();
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "undetermined",
+              withdrawnAt: dates.application.withdrawnAt.toISOString(),
+              withdrawnReason: "No longer needed",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
+          },
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Withdrawn");
     });
@@ -281,27 +287,28 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Application submitted status", () => {
     it("should return Application submitted", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "submission",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "submission",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Application submitted");
     });
@@ -310,32 +317,33 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Application returned status", () => {
     it("should return Application returned", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "validation",
-            status: "returned",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "validation",
+              status: "returned",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Application returned");
     });
@@ -348,37 +356,38 @@ describe("getApplicationDprStatusSummary", () => {
       const startDate = formatDateToYmd(today);
       // const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(new Date(today.getTime() + 86400000));
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "consultation",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "consultation",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: startDate,
+              endDate: endDate,
+              siteNotice: true,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: startDate,
-            endDate: endDate,
-            siteNotice: true,
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Consultation in progress");
     });
@@ -388,37 +397,38 @@ describe("getApplicationDprStatusSummary", () => {
       const today = new Date();
       const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(new Date(today.getTime() + 86400000));
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "consultation",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "consultation",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: startDate,
+              endDate: endDate,
+              siteNotice: true,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: startDate,
-            endDate: endDate,
-            siteNotice: true,
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Consultation in progress");
     });
@@ -428,37 +438,38 @@ describe("getApplicationDprStatusSummary", () => {
       const today = new Date();
       const startDate = formatDateToYmd(new Date(today.getTime() - 86400000));
       const endDate = formatDateToYmd(today);
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "consultation",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "consultation",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: startDate,
+              endDate: endDate,
+              siteNotice: true,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: startDate,
-            endDate: endDate,
-            siteNotice: true,
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Assessment in progress");
     });
@@ -467,275 +478,281 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Determined & Assessment in progress status", () => {
     it("should return Assessment in progress if no determination has been made yet", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Assessment in progress");
     });
 
     it("should return Assessment in progress if application is in committee", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "undetermined",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "undetermined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+            },
+            caseOfficer: {
+              name: "Casey Officer",
+            },
           },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Assessment in progress");
     });
 
     it("should return Determined if application has a council decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerDecision: "granted",
-            planningOfficerDecisionDate: formatDateToYmd(
-              dates.assessment.planningOfficerDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerDecision: "granted",
+              planningOfficerDecisionDate: formatDateToYmd(
+                dates.assessment.planningOfficerDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Determined");
     });
 
     it("should return Determined if application has a committee decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecision: "granted",
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecision: "granted",
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Determined");
     });
 
     it("should return Assessment in progress if no council decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerDecisionDate: formatDateToYmd(
-              dates.assessment.planningOfficerDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerDecisionDate: formatDateToYmd(
+                dates.assessment.planningOfficerDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Assessment in progress");
     });
 
     it("should return Assessment in progress if no committee decision", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "assessment",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "assessment",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Assessment in progress");
     });
@@ -744,280 +761,285 @@ describe("getApplicationDprStatusSummary", () => {
   describe("Appeal status", () => {
     it("should return Appeal lodged when appeal has been lodged", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "appeal",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "appeal",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            appeal: {
+              lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
+              reason: "The council's decision was unfair",
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          appeal: {
-            lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
-            reason: "The council's decision was unfair",
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Appeal lodged");
     });
 
     it("should return Appeal validated when appeal has been validated", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "appeal",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "appeal",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            appeal: {
+              lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
+              validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
+              reason: "The council's decision was unfair",
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          appeal: {
-            lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
-            validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
-            reason: "The council's decision was unfair",
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Appeal validated");
     });
 
     it("should return Appeal in progress when appeal has started", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "appeal",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "appeal",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            appeal: {
+              lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
+              validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
+              startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
+              reason: "The council's decision was unfair",
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          appeal: {
-            lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
-            validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
-            startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
-            reason: "The council's decision was unfair",
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Appeal in progress");
     });
 
     it("should return Appeal decided when appeal has been determined", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "appeal",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "appeal",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            appeal: {
+              lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
+              validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
+              startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
+              decisionDate: formatDateToYmd(dates.appeal.decidedAt.toDate()),
+              decision: "allowed",
+              reason: "The council's decision was unfair",
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          appeal: {
-            lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
-            validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
-            startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
-            decisionDate: formatDateToYmd(dates.appeal.decidedAt.toDate()),
-            decision: "allowed",
-            reason: "The council's decision was unfair",
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Appeal decided");
     });
 
     it("should return Appeal withdrawn when appeal has been withdrawn", () => {
       const dates = generateAllPossibleDates();
-      const application: PostSubmissionPublishedApplication = {
-        applicationType: "pp.full.householder",
-        data: {
-          application: {
-            reference: "ABC-123-XYZ",
-            stage: "appeal",
-            status: "determined",
-          },
-          localPlanningAuthority: {
-            publicCommentsAcceptedUntilDecision: false,
-          },
-          submission: {
-            submittedAt: dates.submission.submittedAt.toISOString(),
-          },
-          validation: {
-            receivedAt: dates.validation.receivedAt.toISOString(),
-            validatedAt: dates.validation.validatedAt.toISOString(),
-            isValid: false,
-          },
-          consultation: {
-            startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
-            endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
-            siteNotice: true,
-          },
-          assessment: {
-            expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
-            planningOfficerRecommendation: "refused",
-            committeeSentDate: formatDateToYmd(
-              dates.assessment.committeeSentAt.toDate(),
-            ),
-            committeeDecisionDate: formatDateToYmd(
-              dates.assessment.committeeDecisionAt.toDate(),
-            ),
-            decisionNotice: {
-              url: "https://planningregister.org",
+      const application: PostSubmissionPublishedPlanningPermissionFullHouseholder =
+        {
+          applicationType: "pp.full.householder",
+          data: {
+            application: {
+              reference: "ABC-123-XYZ",
+              stage: "appeal",
+              status: "determined",
+            },
+            localPlanningAuthority: {
+              publicCommentsAcceptedUntilDecision: false,
+            },
+            submission: {
+              submittedAt: dates.submission.submittedAt.toISOString(),
+            },
+            validation: {
+              receivedAt: dates.validation.receivedAt.toISOString(),
+              validatedAt: dates.validation.validatedAt.toISOString(),
+              isValid: false,
+            },
+            consultation: {
+              startDate: formatDateToYmd(dates.consultation.startAt.toDate()),
+              endDate: formatDateToYmd(dates.consultation.endAt.toDate()),
+              siteNotice: true,
+            },
+            assessment: {
+              expiryDate: formatDateToYmd(dates.assessment.expiryAt.toDate()),
+              planningOfficerRecommendation: "refused",
+              committeeSentDate: formatDateToYmd(
+                dates.assessment.committeeSentAt.toDate(),
+              ),
+              committeeDecisionDate: formatDateToYmd(
+                dates.assessment.committeeDecisionAt.toDate(),
+              ),
+              decisionNotice: {
+                url: "https://planningregister.org",
+              },
+            },
+            appeal: {
+              lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
+              validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
+              startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
+              decision: "withdrawn",
+              reason: "The council's decision was unfair",
+            },
+            caseOfficer: {
+              name: "Casey Officer",
             },
           },
-          appeal: {
-            lodgedDate: formatDateToYmd(dates.appeal.lodgedAt.toDate()),
-            validatedDate: formatDateToYmd(dates.appeal.validatedAt.toDate()),
-            startedDate: formatDateToYmd(dates.appeal.startedAt.toDate()),
-            decision: "withdrawn",
-            reason: "The council's decision was unfair",
-          },
-          caseOfficer: {
-            name: "Casey Officer",
-          },
-        },
-        submission: planningPermissionFullHouseholderPrototype,
-        metadata: generateMetadata(dates),
-      };
+          submission: planningPermissionFullHouseholderPrototype,
+          metadata: generateMetadata(dates),
+        };
       const statusSummary = getApplicationDprStatusSummary(application);
       expect(statusSummary).toBe("Appeal decided");
     });
