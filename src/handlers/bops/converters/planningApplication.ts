@@ -21,8 +21,6 @@ import {
   BopsPlanningApplication,
   BopsSearchMetadata,
 } from "../types";
-import { sortComments } from "@/lib/comments";
-import { convertCommentBops } from "./comments";
 import { convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 import { convertDocumentBopsFile } from "./documents";
@@ -46,27 +44,14 @@ export const convertBopsToDpr = (
 export const convertBopsApplicationToDpr = (
   application: BopsApplicationOverview,
 ): DprPlanningApplication["application"] => {
-  const { consulteeComments = [], publishedComments = [] } =
-    application.consultation || {};
-
-  const consultee_comments =
-    consulteeComments && consulteeComments.length > 0
-      ? sortComments(consulteeComments?.map(convertCommentBops))
-      : null;
-
-  const published_comments =
-    publishedComments && publishedComments.length > 0
-      ? sortComments(publishedComments?.map(convertCommentBops))
-      : null;
-
   return {
     reference: application.reference,
     status: application.status,
     consultation: {
       startDate: application.consultation?.startDate,
       endDate: application.consultation?.endDate,
-      consulteeComments: consultee_comments,
-      publishedComments: published_comments,
+      consulteeComments: null,
+      publishedComments: null,
     },
     receivedAt: application.receivedAt
       ? convertDateTimeToUtc(application.receivedAt)

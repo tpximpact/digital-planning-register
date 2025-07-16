@@ -21,7 +21,6 @@
 
 import {
   DprApplication,
-  DprComment,
   DprCommentOrderBy,
   DprCommentSortBy,
   DprCommentTypes,
@@ -36,19 +35,6 @@ import type {
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { getValueFromUnknownSearchParams } from "./search";
 import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
-
-/**
- * Sort comments by newest first
- * @param comments
- * @returns
- */
-export const sortComments = (comments: DprComment[]) => {
-  return comments?.sort((a, b) => {
-    const dateA = a.receivedDate ? new Date(a.receivedDate).getTime() : 0;
-    const dateB = b.receivedDate ? new Date(b.receivedDate).getTime() : 0;
-    return dateB - dateA;
-  });
-};
 
 /**
  * returns the type assuming its available in the config
