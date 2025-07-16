@@ -19,7 +19,6 @@ import { DprApplication } from "@/types";
 import { Panel } from "../govuk/Panel";
 import { Button } from "@/components/button";
 import "./comment-confirmation.scss";
-import { AppConfig } from "@/config/types";
 import { ContextSetterWithSuspense } from "@/components/ContextSetter";
 
 interface CommentConfirmationProps {
@@ -27,18 +26,13 @@ interface CommentConfirmationProps {
   council: string;
   application: DprApplication;
   navigateToPage?: (page: number, params?: object) => void;
-  councilConfig: AppConfig["council"];
 }
 
 const CommentConfirmation = ({
   reference,
   council,
   application,
-  councilConfig,
 }: CommentConfirmationProps) => {
-  const emailAlertsLink =
-    councilConfig?.pageContent?.email_alerts?.sign_up_for_alerts_link;
-
   return (
     <>
       <Panel
@@ -52,11 +46,6 @@ const CommentConfirmation = ({
         showFeedbackBlurb={false}
       />
       <h2 className="govuk-heading-m">What happens now</h2>
-      {/* Commented out for now as email confirmation isn't set up */}
-      {/* <p className="govuk-body">
-        If you provided your email, you will receive an email confirming that
-        your comment was received.
-      </p> */}
       <p className="govuk-body">
         Your comment will be published on this site once a member of the
         planning team has reviewed your comment and removed any identifying
@@ -67,14 +56,6 @@ const CommentConfirmation = ({
         You will not receive a direct reply, but your comment will be addressed
         in the decision report.
       </p>
-      {emailAlertsLink && (
-        <p className="govuk-body">
-          You can sign up for email alerts to receive notifications when new
-          comments are published, including your own comment. You can also
-          receive notifications when anything else changes with this
-          application.
-        </p>
-      )}
       <h2 className="govuk-heading-m">
         Discover other planning applications in your area
       </h2>

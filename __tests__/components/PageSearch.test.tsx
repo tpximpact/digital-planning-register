@@ -25,7 +25,6 @@ import {
   SearchParamsApplication,
 } from "@/types";
 import { generatePagination } from "@mocks/dprApplicationFactory";
-import { features } from "process";
 
 // Mocks
 jest.mock("@/components/FormSearch", () => ({

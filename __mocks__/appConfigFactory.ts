@@ -204,7 +204,6 @@ const defaultCouncils: Council[] = [
     visibility: "public",
     features: {
       logoInHeader: false,
-      alertsAllApplications: false,
     },
   }),
   createCouncilConfig({
