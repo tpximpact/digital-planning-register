@@ -68,17 +68,10 @@ export const PageSearch = ({
     pageTitle = `Applications ${pascalToSentenceCase(searchParams.dprFilter)}`;
   }
 
-  // misc
-  const emailAlertsLink =
-    appConfig.council?.pageContent?.email_alerts?.sign_up_for_alerts_link;
-
   return (
     <PageMain>
       {type === "simple" && !searchPerformed && (
-        <SimpleNoSearchHeader
-          emailAlertsLink={emailAlertsLink}
-          appConfig={appConfig}
-        />
+        <SimpleNoSearchHeader appConfig={appConfig} />
       )}
       {type === "full" && searchPerformed && (
         <NotificationBanner
@@ -171,13 +164,13 @@ export const PageSearch = ({
  * @param param0
  * @returns
  */
-const SimpleNoSearchHeader = ({
-  emailAlertsLink,
-  appConfig,
-}: {
-  emailAlertsLink?: string;
-  appConfig: AppConfig;
-}) => {
+const SimpleNoSearchHeader = ({ appConfig }: { appConfig: AppConfig }) => {
+  const councilConfig = appConfig.council;
+  const alertAllApplications = councilConfig?.features?.alertsAllApplications;
+  const emailAlertsLink = alertAllApplications
+    ? councilConfig.pageContent?.email_alerts?.sign_up_for_alerts_link
+    : undefined;
+
   return (
     <div className="govuk-grid-row grid-row-extra-bottom-margin">
       <div className="govuk-grid-column-two-thirds">
@@ -190,7 +183,6 @@ const SimpleNoSearchHeader = ({
         </p>
         <ContentNotOnDprYet council={appConfig.council} />
       </div>
-
       {emailAlertsLink && (
         <div className="govuk-grid-column-one-third">
           <div className="email-signup-button-container">

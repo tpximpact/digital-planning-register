@@ -151,21 +151,6 @@ export const ApplicationDetails = ({
               Comment on this application
             </Button>
           )}
-
-          {appConfig.council?.pageContent?.email_alerts
-            ?.sign_up_for_alerts_link && (
-            <Button
-              href={
-                appConfig.council?.pageContent?.email_alerts
-                  ?.sign_up_for_alerts_link
-              }
-              element="link"
-              ariaLabel="Sign up for email alerts"
-              variant="information"
-            >
-              Sign up for email alerts
-            </Button>
-          )}
         </div>
         <div className="govuk-grid-column-two-thirds-from-desktop dpr-application-details--flow">
           <ApplicationProgressInfo

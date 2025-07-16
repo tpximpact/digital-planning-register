@@ -137,6 +137,9 @@ describe("PageSearch", () => {
     const mockAppConfigWithLink: AppConfig = {
       ...mockAppConfig,
       council: {
+        features: {
+          alertsAllApplications: true,
+        },
         pageContent: {
           email_alerts: {
             sign_up_for_alerts_link: "https://alerts.example.com",

@@ -387,11 +387,7 @@ const Comment = ({ params }: Props) => {
         );
       case 6:
         return (
-          <CommentConfirmation
-            {...commonProps}
-            application={applicationData}
-            councilConfig={appConfig?.council}
-          />
+          <CommentConfirmation {...commonProps} application={applicationData} />
         );
       default:
         return (

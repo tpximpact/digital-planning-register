@@ -59,7 +59,6 @@ describe("CommentConfirmation", () => {
         {...defaultProps}
         reference={defaultProps.params.reference}
         council={defaultProps.params.council}
-        councilConfig={appConfig.council}
       />,
     );
 
@@ -84,7 +83,6 @@ describe("CommentConfirmation", () => {
         {...defaultProps}
         reference={defaultProps.params.reference}
         council={defaultProps.params.council}
-        councilConfig={appConfig.council}
       />,
     );
 
@@ -95,7 +93,6 @@ describe("CommentConfirmation", () => {
       <CommentConfirmation
         reference={defaultProps.params.reference}
         council={defaultProps.params.council}
-        councilConfig={appConfig.council}
         {...defaultProps}
       />,
     );
@@ -110,7 +107,6 @@ describe("CommentConfirmation", () => {
       <CommentConfirmation
         reference={defaultProps.params.reference}
         council={defaultProps.params.council}
-        councilConfig={appConfig.council}
         {...defaultProps}
       />,
     );

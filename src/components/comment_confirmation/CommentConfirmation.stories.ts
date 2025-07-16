@@ -17,12 +17,8 @@
 
 import type { Meta, StoryObj } from "@storybook/react";
 import CommentConfirmation from ".";
-import { createAppConfig } from "@mocks/appConfigFactory";
-import { Council } from "@/config/types";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
-const appConfig = createAppConfig("public-council-1");
-const councilConfig = appConfig.council as Council;
 const { consultation } = generateExampleApplications();
 const meta = {
   title: "Comments/CommentConfirmation",
@@ -36,7 +32,6 @@ const meta = {
   args: {
     reference: "12345",
     council: "public-council-1",
-    councilConfig,
     application: consultation,
     navigateToPage: () => {},
   },
@@ -46,28 +41,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const WithEmailAlerts: Story = {
-  args: {
-    councilConfig: {
-      ...councilConfig,
-      pageContent: {
-        ...councilConfig?.pageContent,
-        email_alerts: {
-          sign_up_for_alerts_link: "http://example.com",
-        },
-      },
-    },
-  },
-};
-
-export const WithoutEmailAlerts: Story = {
-  args: {
-    councilConfig: {
-      ...councilConfig,
-      pageContent: {
-        ...councilConfig?.pageContent,
-      },
-    },
-  },
-};
