@@ -66,6 +66,7 @@ export const Consultation: Story = {
   name: "03-consultation",
   args: {
     sections: buildApplicationProgress(consultation),
+    application: consultation,
   },
 };
 
@@ -74,6 +75,7 @@ export const AssessmentInProgress: Story = {
   name: "04-assessment-00-assessment-in-progress",
   args: {
     sections: buildApplicationProgress(assessmentInProgress),
+    application: assessmentInProgress,
   },
 };
 
@@ -82,6 +84,7 @@ export const PlanningOfficerDetermined: Story = {
   name: "04-assessment-01-council-determined",
   args: {
     sections: buildApplicationProgress(planningOfficerDetermined),
+    application: planningOfficerDetermined,
   },
 };
 
@@ -90,6 +93,7 @@ export const AssessmentInCommittee: Story = {
   name: "04-assessment-02-assessment-in-committee",
   args: {
     sections: buildApplicationProgress(assessmentInCommittee),
+    application: assessmentInCommittee,
   },
 };
 
@@ -98,6 +102,7 @@ export const CommitteeDetermined: Story = {
   name: "04-assessment-03-committee-determined",
   args: {
     sections: buildApplicationProgress(committeeDetermined),
+    application: committeeDetermined,
   },
 };
 
@@ -106,6 +111,7 @@ export const AppealLodged: Story = {
   name: "05-appeal-00-appeal-lodged",
   args: {
     sections: buildApplicationProgress(appealLodged),
+    application: appealLodged,
   },
 };
 
@@ -114,6 +120,7 @@ export const AppealValid: Story = {
   name: "05-appeal-01-appeal-validated",
   args: {
     sections: buildApplicationProgress(appealValid),
+    application: appealValid,
   },
 };
 

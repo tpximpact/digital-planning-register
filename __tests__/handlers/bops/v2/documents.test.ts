@@ -18,11 +18,7 @@
 import { documents } from "@/handlers/bops/v2/documents";
 import { handleBopsGetRequest } from "@/handlers/bops/requests";
 import { convertBopsDocumentEndpointToDprDocumentEndpoint } from "@/handlers/bops/converters/documents";
-import {
-  ApiResponse,
-  DprDocumentsApiResponse,
-  SearchParamsDocuments,
-} from "@/types";
+import { SearchParamsDocuments } from "@/types";
 
 jest.mock("@/handlers/bops/requests");
 jest.mock("@/handlers/bops/converters/documents");
@@ -76,7 +72,7 @@ describe("documents", () => {
     expect(urlArg).toContain("publishedAtTo=2024-01-31");
   });
 
-  it("adds only the application form if decisionNoticeUrl is not set", async () => {
+  it("adds only the application form", async () => {
     mockHandleBopsGetRequest.mockResolvedValue({
       status: { code: 200, message: "" },
       data: { files: [], metadata: { totalResults: 0 } },
@@ -88,25 +84,6 @@ describe("documents", () => {
       mockConvertBopsDocumentEndpointToDprDocumentEndpoint.mock.calls[0][4];
     expect(extraDocs).toHaveLength(1);
     expect(extraDocs[0].title).toBe("Application form");
-  });
-
-  it("adds the decision notice if decisionNoticeUrl is set", async () => {
-    mockHandleBopsGetRequest.mockResolvedValue({
-      status: { code: 200, message: "" },
-      data: {
-        files: [],
-        metadata: { totalResults: 0 },
-        decisionNotice: { url: "/docs/decision.pdf" },
-      },
-    });
-
-    await documents("camden", "APP-123", baseSearchParams);
-
-    const extraDocs =
-      mockConvertBopsDocumentEndpointToDprDocumentEndpoint.mock.calls[0][4];
-    expect(extraDocs).toHaveLength(2);
-    expect(extraDocs[1].title).toBe("Decision notice");
-    expect(extraDocs[1].url).toBe("/docs/decision.pdf");
   });
 
   it("returns the result from the converter", async () => {
