@@ -17,10 +17,7 @@
 
 import { search } from "@/handlers/bops/v2/search";
 import { handleBopsGetRequest } from "@/handlers/bops/requests";
-import {
-  convertBopsToDpr,
-  convertBopsToDprPagination,
-} from "@/handlers/bops/converters/planningApplication";
+import { convertBopsToDpr } from "@/handlers/bops/converters/planningApplication";
 import {
   isDprApplication,
   convertToDprApplication,
@@ -42,7 +39,6 @@ jest.mock("@/handlers/lib", () => ({
 
 const mockHandleBopsGetRequest = handleBopsGetRequest as jest.Mock;
 const mockConvertBopsToDpr = convertBopsToDpr as jest.Mock;
-const mockConvertBopsToDprPagination = convertBopsToDprPagination as jest.Mock;
 const mockIsDprApplication = isDprApplication as unknown as jest.Mock;
 const mockConvertToDprApplication = convertToDprApplication as jest.Mock;
 const logErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
@@ -51,11 +47,6 @@ const logWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
 describe("search", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockConvertBopsToDprPagination.mockReturnValue({
-      page: 1,
-      totalPages: 1,
-      totalAvailableItems: 1,
-    });
   });
 
   it("should return null data if no applications are found", async () => {

@@ -20,7 +20,6 @@ import {
   BopsApplicationOverview,
   BopsNonStandardApplication,
   BopsPlanningApplication,
-  BopsSearchLinks,
   BopsSearchMetadata,
 } from "./definitions/application";
 import { BopsComment } from "./definitions/comment";
@@ -35,8 +34,7 @@ import {
  * #/components/schemas/Search
  */
 export interface BopsV2PublicPlanningApplicationsSearch {
-  metadata: BopsSearchMetadata;
-  links: BopsSearchLinks;
+  pagination: DprPagination;
   data: BopsPlanningApplication[];
 }
 
