@@ -15,11 +15,11 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+import type { AssessmentDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AssessmentDecision.ts";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { DprCommentTypes } from "@/types/definitions";
-import { CommentTopic } from "./odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
-import { PrototypeFileType } from "@/types/odp-types/schemas/prototypeApplication/enums/FileType";
+import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PrototypeFileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
 
 /**
  * This file contains the definitions for common objects used accross the application
@@ -139,7 +139,7 @@ export type DprCommentOrderBy = "asc" | "desc";
  *
  * DprPagination
  * the object that describes the pagination of a list of objects
- * @todo export type DprPagination = Pagination (from odp-types)
+ * @todo export type DprPagination = Pagination (from digital-planning-data-schemas)
  *
  *
  *

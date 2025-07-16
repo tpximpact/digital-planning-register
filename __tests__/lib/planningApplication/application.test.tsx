@@ -6,12 +6,15 @@ import {
   getPropertyAddressLatitudeLongitude,
 } from "@/lib/planningApplication/application";
 import { DprApplication } from "@/types";
-import {
+import type {
   GeographyBasedProposal,
   HedgerowRemovalNoticeProposal,
   ProposalBase,
-} from "@/types/odp-types/schemas/prototypeApplication/data/Proposal";
-import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Proposal.ts";
+import type {
+  OSAddress,
+  ProposedAddress,
+} from "digital-planning-data-schemas/types/shared/Addresses.ts";
 
 describe("getPropertyAddress", () => {
   it("should return the description for an application with ProposedAddress address", () => {

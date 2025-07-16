@@ -32,10 +32,10 @@ import {
   DprApplication,
 } from "./definitions";
 import { DprApplicationSubmissionData } from "./applicationSubmission";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "./odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 
 /**
  * /api/search

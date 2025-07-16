@@ -23,10 +23,9 @@ import {
   getDocumentedApplicationType,
 } from "@/lib/planningApplication";
 import { DprPlanningApplication } from "@/types";
-import {
-  ApplicationType,
-  PrimaryApplicationType,
-} from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import { setCorrectApplicationType } from "@/lib/planningApplication/type";
+import type * as PostSubmissionPublishedTypes from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.js";
 
 describe("isValidPrimaryApplicationType", () => {
   it("should return true for valid primary application types", () => {
@@ -45,7 +44,7 @@ describe("isValidPrimaryApplicationType", () => {
     ];
 
     invalidTypes.forEach((type) => {
-      expect(isValidPrimaryApplicationType(type)).toBe(false);
+      expect(isValidPrimaryApplicationType(type as string)).toBe(false);
     });
   });
 });
@@ -281,5 +280,36 @@ describe("getDocumentedApplicationType", () => {
     const applicationType: any = undefined;
     const result = getDocumentedApplicationType(applicationType);
     expect(result).toBeUndefined();
+  });
+});
+
+describe("setCorrectApplicationType", () => {
+  it("returns the correct type for advertConsent", () => {
+    const mockApplication = {
+      foo: "bar",
+    } as unknown as PostSubmissionPublishedTypes.PostSubmissionPublishedApplication;
+    const result = setCorrectApplicationType("advertConsent", mockApplication);
+    // Type assertion for test: should be PostSubmissionPublishedAdvertConsent
+    // (at runtime, it's still the same object, but TS type is changed)
+    expect(result).toBe(mockApplication);
+  });
+
+  it("returns the correct type for pp.full.householder", () => {
+    const mockApplication = {
+      foo: "baz",
+    } as unknown as PostSubmissionPublishedTypes.PostSubmissionPublishedApplication;
+    const result = setCorrectApplicationType(
+      "pp.full.householder",
+      mockApplication,
+    );
+    expect(result).toBe(mockApplication);
+  });
+
+  it("throws for unknown application type", () => {
+    const mockApplication =
+      {} as PostSubmissionPublishedTypes.PostSubmissionPublishedApplication;
+    expect(() =>
+      setCorrectApplicationType("not-a-real-type", mockApplication),
+    ).toThrow("Unknown application type: not-a-real-type");
   });
 });

@@ -27,7 +27,7 @@ const { assessmentInProgress, consultation, planningOfficerDetermined } =
 describe("checkCommentsEnabled", () => {
   it("Application not in consultation should now allow comments", () => {
     const application = assessmentInProgress;
-    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+    application.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision =
       false;
 
     const commentsEnabled = checkCommentsEnabled(application);
@@ -43,7 +43,7 @@ describe("checkCommentsEnabled", () => {
 
   it("Application not in consultation and not yet determined but which the LPA allows comments until determination should allow comments", () => {
     const application = assessmentInProgress;
-    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+    application.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision =
       true;
 
     const commentsEnabled = checkCommentsEnabled(application);
@@ -52,7 +52,7 @@ describe("checkCommentsEnabled", () => {
 
   it("Application determined but which the LPA allows comments until determination should not allow comments", () => {
     const application = planningOfficerDetermined;
-    application.data.localPlanningAuthority.commentsAcceptedUntilDecision =
+    application.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision =
       true;
 
     const commentsEnabled = checkCommentsEnabled(application);

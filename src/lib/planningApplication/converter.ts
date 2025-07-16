@@ -16,17 +16,21 @@
  */
 
 import { DprApplication, DprPlanningApplication } from "@/types";
-import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
+import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/Metadata.ts";
 import { getApplicationDprDecisionSummary } from "./decision";
 import { getApplicationDprStatusSummary } from "./status";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
-import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
-import { AssessmentDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AssessmentDecision";
-import { getPrimaryApplicationTypeKey } from "./type";
+import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
+import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
+import type { AssessmentDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AssessmentDecision.ts";
 import {
+  setCorrectApplicationType,
+  getPrimaryApplicationTypeKey,
+} from "./type";
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.js";
 import { getDescription } from "./application";
 
 /**
@@ -237,6 +241,7 @@ export const convertToDprApplication = (
         status: status as ApplicationStatus,
         withdrawnAt,
         withdrawnReason,
+        publishedAt: app.application.publishedAt,
       },
       localPlanningAuthority: app.data.localPlanningAuthority,
       submission: {
@@ -268,18 +273,10 @@ export const convertToDprApplication = (
         },
       },
     },
-    comments: {
-      public: {
-        comments: app.application.consultation.publishedComments ?? undefined,
-      },
-      specialist: {
-        comments: app.application.consultation.consulteeComments ?? undefined,
-      },
-    },
     metadata: {
       organisation: "BOPS",
       id: app.application.reference,
-      publishedAt: app.application.publishedAt,
+      generatedAt: app.application.publishedAt,
       submittedAt: app.application.receivedAt,
       schema:
         "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json",
@@ -314,15 +311,20 @@ export const convertToDprApplication = (
     }
   }
 
+  const typedDprApplication = setCorrectApplicationType(
+    dprApplication.applicationType,
+    dprApplication as PostSubmissionPublishedApplication,
+  );
+
   const applicationDecisionSummary =
-    getApplicationDprDecisionSummary(dprApplication);
+    getApplicationDprDecisionSummary(typedDprApplication);
   const applicationStatusSummary =
-    getApplicationDprStatusSummary(dprApplication);
+    getApplicationDprStatusSummary(typedDprApplication);
   const application = {
     applicationStatusSummary,
     applicationDecisionSummary,
     ...dprApplication,
-  };
+  } as DprApplication;
 
   return application;
 };

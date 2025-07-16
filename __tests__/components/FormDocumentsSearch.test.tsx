@@ -20,7 +20,7 @@ import {
   FormDocumentsSearch,
   FormDocumentsSearchProps,
 } from "@/components/FormDocumentsSearch";
-import { PrototypeFileType } from "@/types/odp-types/schemas/prototypeApplication/enums/FileType";
+import type { PrototypeFileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
 import { AppConfig } from "@/config/types";
 
 const defaultProps: FormDocumentsSearchProps = {

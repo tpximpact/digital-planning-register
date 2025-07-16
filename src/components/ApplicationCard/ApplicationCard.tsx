@@ -178,13 +178,13 @@ export const ApplicationCard = ({
                 }
               />
             )}
-            {application?.metadata?.publishedAt && (
+            {application?.data?.application?.publishedAt && (
               <ApplicationDataField
                 title="Published date"
                 value={
-                  <time dateTime={application?.metadata?.publishedAt}>
+                  <time dateTime={application.data.application.publishedAt}>
                     {formatDateTimeToDprDate(
-                      application?.metadata?.publishedAt,
+                      application.data.application.publishedAt,
                     )}
                   </time>
                 }

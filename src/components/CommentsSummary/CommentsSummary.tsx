@@ -15,10 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 
 import { SentimentIcon } from "@/components/SentimentIcon";
 import { Button } from "@/components/button";
@@ -28,7 +28,7 @@ import { createPathFromParams } from "@/lib/navigation";
 
 import Link from "next/link";
 import "./CommentsSummary.scss";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 
 export interface CommentsSummaryProps {
   params: {

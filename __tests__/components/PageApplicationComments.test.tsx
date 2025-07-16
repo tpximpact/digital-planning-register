@@ -28,7 +28,7 @@ import {
   generatePagination,
 } from "@mocks/dprApplicationFactory";
 import { DprComment } from "@/types";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 import { generateExampleApplications } from "@mocks/dprNewApplicationFactory";
 
 jest.mock("@/components/ContextSetter", () => ({

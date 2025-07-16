@@ -20,7 +20,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { PublicCommentCard } from "@/components/PublicCommentCard";
 import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
-import type { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});

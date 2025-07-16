@@ -21,12 +21,10 @@ import {
   BopsPlanningApplication,
   BopsSearchMetadata,
 } from "../types";
-import { sortComments } from "@/lib/comments";
-import { convertCommentBops } from "./comments";
 import { convertDateTimeToUtc } from "@/util";
 import { getPrimaryApplicationTypeKey } from "@/lib/planningApplication";
 import { convertDocumentBopsFile } from "./documents";
-import { Area } from "@/types/odp-types/shared/utils";
+import type { Area } from "digital-planning-data-schemas/types/shared/utils.ts";
 
 export const convertBopsToDpr = (
   application: BopsPlanningApplication,
@@ -46,27 +44,14 @@ export const convertBopsToDpr = (
 export const convertBopsApplicationToDpr = (
   application: BopsApplicationOverview,
 ): DprPlanningApplication["application"] => {
-  const { consulteeComments = [], publishedComments = [] } =
-    application.consultation || {};
-
-  const consultee_comments =
-    consulteeComments && consulteeComments.length > 0
-      ? sortComments(consulteeComments?.map(convertCommentBops))
-      : null;
-
-  const published_comments =
-    publishedComments && publishedComments.length > 0
-      ? sortComments(publishedComments?.map(convertCommentBops))
-      : null;
-
   return {
     reference: application.reference,
     status: application.status,
     consultation: {
       startDate: application.consultation?.startDate,
       endDate: application.consultation?.endDate,
-      consulteeComments: consultee_comments,
-      publishedComments: published_comments,
+      consulteeComments: null,
+      publishedComments: null,
     },
     receivedAt: application.receivedAt
       ? convertDateTimeToUtc(application.receivedAt)
@@ -108,13 +93,13 @@ const createData = (
   application: BopsPlanningApplication,
   council: string,
 ): DprPlanningApplication["data"] => {
-  let commentsAcceptedUntilDecision = false;
+  let publicCommentsAcceptedUntilDecision = false;
   const primaryApplicationType = getPrimaryApplicationTypeKey(
     application.application.type.value,
   );
 
   if (council === "camden" && primaryApplicationType === "ldc") {
-    commentsAcceptedUntilDecision = true;
+    publicCommentsAcceptedUntilDecision = true;
   }
 
   let appeal = application.data?.appeal ?? undefined;
@@ -130,7 +115,7 @@ const createData = (
 
   return {
     localPlanningAuthority: {
-      commentsAcceptedUntilDecision,
+      publicCommentsAcceptedUntilDecision,
     },
     appeal,
   };

@@ -21,7 +21,7 @@ import {
   SearchParamsDocuments,
   UnknownSearchParams,
 } from "@/types";
-import { PrototypeFileType } from "@/types/odp-types/schemas/prototypeApplication/enums/FileType";
+import type { PrototypeFileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
 import { getValueFromUnknownSearchParams } from "./search";
 import { AppConfig } from "@/config/types";
 

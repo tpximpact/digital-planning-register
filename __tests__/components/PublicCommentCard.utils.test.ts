@@ -1,5 +1,5 @@
 import { collapseTopicsByCharLimit } from "@/components/PublicCommentCard/PublicCommentCard.utils";
-import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 
 /*
  * This file is part of the Digital Planning Register project.

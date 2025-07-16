@@ -1,4 +1,4 @@
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 import "./CommentsSummary.scss";
 import { capitalizeFirstLetter } from "@/util";
 
