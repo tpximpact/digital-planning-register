@@ -52,7 +52,8 @@ const getResponse = async (searchParams: URLSearchParams, body?: string) => {
       response = {
         error: "Invalid handler or method",
       };
-      return;
+
+      return Promise.resolve(response);
     }
     let args = handlerMethod.arguments?.map((arg: string) => {
       return searchParams.get(arg);
@@ -62,7 +63,7 @@ const getResponse = async (searchParams: URLSearchParams, body?: string) => {
     }
     response = await handlerMethod.run(args);
   } else {
-    response = apis;
+    response = await Promise.resolve(apis);
   }
   return response;
 };

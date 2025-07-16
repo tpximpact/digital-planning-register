@@ -19,7 +19,7 @@ import { Documentation } from "@/types";
 import { applicationSubmission } from "./applicationSubmission";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=LocalV1&method=applicationSubmission`,
+  url: `/admin/json?handler=LocalV1&method=applicationSubmission`,
   file: `src/handlers/local/v1/applicationSubmission.ts`,
   description: "applicationSubmission",
   arguments: [],
@@ -28,7 +28,7 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=LocalV1&method=applicationSubmission`,
+      url: `/admin/json?handler=LocalV1&method=applicationSubmission`,
       description: "applicationSubmission",
     },
   ],

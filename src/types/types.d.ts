@@ -186,7 +186,7 @@ export interface Documentation {
   run: Awaited<(...args) => void>;
   validate?: {
     url: string;
-    type: "application" | "prototypeApplication";
+    type: "application" | "prototypeApplication" | "postSubmissionApplication";
   }[];
   examples?: {
     url: string;

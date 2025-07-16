@@ -19,7 +19,7 @@ import { Documentation, SearchParams } from "@/types";
 import { search } from "./search";
 
 export const documentation: Documentation = {
-  url: `/docs/json?handler=LocalV1&method=search`,
+  url: `/admin/json?handler=LocalV1&method=search`,
   file: `src/handlers/local/v1/search.ts`,
   description: "search",
   arguments: ["page", "resultsPerPage", "council", "searchQuery", "searchType"],
@@ -33,11 +33,11 @@ export const documentation: Documentation = {
   },
   examples: [
     {
-      url: `/docs/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden`,
+      url: `/admin/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden`,
       description: "search page 1",
     },
     {
-      url: `/docs/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP`,
+      url: `/admin/json?handler=LocalV1&method=search&page=1&resultsPerPage=10&council=camden&searchQuery=HAPP`,
       description: "search search w results",
     },
   ],
