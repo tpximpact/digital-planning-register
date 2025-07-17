@@ -67,7 +67,6 @@ export async function documents(
   const bopsPagination = request.data?.metadata || { totalResults: 0 };
   const totalResults = bopsPagination.totalResults;
 
-
   const documents = convertBopsDocumentEndpointToDprDocumentEndpoint(
     bopsDocuments,
     totalResults,

@@ -37,7 +37,6 @@ import {
   SpecialistCommentSummary,
 } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
-import { commentSearchFields } from "@/util/featureFlag";
 import { FileList } from "@/components/FileList";
 import { createPathFromParams } from "@/lib/navigation";
 
