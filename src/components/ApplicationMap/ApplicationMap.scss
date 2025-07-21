@@ -42,6 +42,11 @@
     height: 220px;
   }
 
+  &--constraint-accordion {
+    width: 100%;
+    height: 350px;
+  }
+
   &--unavailable,
   &--loading {
     display: flex;

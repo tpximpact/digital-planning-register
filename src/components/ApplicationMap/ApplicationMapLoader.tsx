@@ -44,10 +44,11 @@ const ApplicationMap = lazy(async () => ({
  */
 export const ApplicationMapLoader = (props: ApplicationMapProps) => {
   const osMapProxyUrl = process.env.OS_MAP_PROXY_URL;
+  const mapProps = osMapProxyUrl ? { ...props, osMapProxyUrl } : props;
   return (
     <>
       <Suspense fallback={<ApplicationMapLoading {...props} />}>
-        <ApplicationMap osMapProxyUrl={osMapProxyUrl} {...props} />
+        <ApplicationMap {...mapProps} />
       </Suspense>
     </>
   );
