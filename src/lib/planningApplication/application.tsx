@@ -1,5 +1,8 @@
 import { DprApplication } from "@/types";
-import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
+import type {
+  OSAddress,
+  ProposedAddress,
+} from "digital-planning-data-schemas/types/shared/Addresses.ts";
 
 /**
  * Helper method to get the address for an application

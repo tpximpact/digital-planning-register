@@ -164,7 +164,8 @@ describe("generateDprApplication", () => {
     const application = generateDprApplication({ applicationType: "pp.full" });
     expect(application.applicationType).toEqual("pp.full");
     expect(
-      application.data.localPlanningAuthority.commentsAcceptedUntilDecision,
+      application.data.localPlanningAuthority
+        .publicCommentsAcceptedUntilDecision,
     ).toBe(false);
   });
 
@@ -172,7 +173,8 @@ describe("generateDprApplication", () => {
     const application = generateDprApplication({ applicationType: "ldc" });
     expect(application.applicationType).toEqual("ldc");
     expect(
-      application.data.localPlanningAuthority.commentsAcceptedUntilDecision,
+      application.data.localPlanningAuthority
+        .publicCommentsAcceptedUntilDecision,
     ).toBe(true);
   });
 
@@ -193,16 +195,16 @@ describe("generateDprApplication", () => {
     expect(application.application.determinedAt).toMatch(utcDateRegex);
   });
 
-  it("should set commentsAcceptedUntilDecision to true for ldc's", () => {
+  it("should set publicCommentsAcceptedUntilDecision to true for ldc's", () => {
     const ldc = generateDprApplication({ applicationType: "ldc" });
-    expect(ldc.data.localPlanningAuthority.commentsAcceptedUntilDecision).toBe(
-      true,
-    );
+    expect(
+      ldc.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision,
+    ).toBe(true);
 
     const pp = generateDprApplication({ applicationType: "pp.full" });
-    expect(pp.data.localPlanningAuthority.commentsAcceptedUntilDecision).toBe(
-      false,
-    );
+    expect(
+      pp.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision,
+    ).toBe(false);
   });
 
   it("should generate sensible consultation dates", () => {

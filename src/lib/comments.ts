@@ -21,7 +21,6 @@
 
 import {
   DprApplication,
-  DprComment,
   DprCommentOrderBy,
   DprCommentSortBy,
   DprCommentTypes,
@@ -30,25 +29,12 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 
-import {
+import type {
   CommentSentiment,
   SpecialistCommentSentiment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { getValueFromUnknownSearchParams } from "./search";
-import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
-
-/**
- * Sort comments by newest first
- * @param comments
- * @returns
- */
-export const sortComments = (comments: DprComment[]) => {
-  return comments?.sort((a, b) => {
-    const dateA = a.receivedDate ? new Date(a.receivedDate).getTime() : 0;
-    const dateB = b.receivedDate ? new Date(b.receivedDate).getTime() : 0;
-    return dateB - dateA;
-  });
-};
+import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
 
 /**
  * returns the type assuming its available in the config
@@ -110,7 +96,9 @@ export const pageTitles: Record<number, string> = {
  */
 export const checkCommentsEnabled = (application: DprApplication): boolean => {
   const commentsAllowedInStatus = ["Consultation in progress"];
-  if (application.data.localPlanningAuthority.commentsAcceptedUntilDecision) {
+  if (
+    application.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision
+  ) {
     commentsAllowedInStatus.push("Assessment in progress");
   }
   return commentsAllowedInStatus.includes(application.applicationStatusSummary);

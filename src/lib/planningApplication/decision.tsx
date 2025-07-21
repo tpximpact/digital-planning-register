@@ -25,11 +25,11 @@ import { capitalizeFirstLetter, slugify } from "@/util";
 import { getPrimaryApplicationTypeKey } from "./type";
 import { Council } from "@/config/types";
 import Link from "next/link";
-import {
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 
 /**
  * Valid decision summaries for DPR applications.
@@ -128,7 +128,7 @@ export function getApplicationDecisionSummarySentiment(status: string) {
  */
 export const getApplicationDprDecisionSummary = (
   application:
-    | PostSubmissionApplication
+    | PostSubmissionPublishedApplication
     | Omit<
         DprApplication,
         "applicationStatusSummary" | "applicationDecisionSummary"

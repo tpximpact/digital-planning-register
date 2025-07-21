@@ -15,10 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
+import type {
   PostSubmissionAssessment,
   PriorApprovalAssessment,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
 import {
   generateDprApplication,
   generateExampleApplications,
@@ -31,8 +31,8 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
-import { TopicAndComments } from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
 
@@ -86,7 +86,7 @@ describe("generateDprApplication", () => {
       "pp.full.householder",
     );
     expect(
-      planningPermissionFullHouseholderSubmission.metadata.publishedAt,
+      planningPermissionFullHouseholderSubmission.data.application.publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderSubmission.submission)
@@ -153,7 +153,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderValidationFail.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderValidationFail.metadata.publishedAt,
+      planningPermissionFullHouseholderValidationFail.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderValidationFail.submission)
@@ -227,7 +228,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderConsultation.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderConsultation.metadata.publishedAt,
+      planningPermissionFullHouseholderConsultation.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderConsultation.submission)
@@ -301,7 +303,7 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentInProgress.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAssessmentInProgress.metadata
+      planningPermissionFullHouseholderAssessmentInProgress.data.application
         .publishedAt,
     ).toBeDefined();
     expect(
@@ -401,8 +403,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCouncilDetermined.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAssessmentCouncilDetermined.metadata
-        .publishedAt,
+      planningPermissionFullHouseholderAssessmentCouncilDetermined.data
+        .application.publishedAt,
     ).toBeDefined();
     expect(
       Object.values(
@@ -525,7 +527,7 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentInCommittee.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAssessmentInCommittee.metadata
+      planningPermissionFullHouseholderAssessmentInCommittee.data.application
         .publishedAt,
     ).toBeDefined();
     expect(
@@ -635,8 +637,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAssessmentCommitteeDetermined.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAssessmentCommitteeDetermined.metadata
-        .publishedAt,
+      planningPermissionFullHouseholderAssessmentCommitteeDetermined.data
+        .application.publishedAt,
     ).toBeDefined();
     expect(
       Object.values(
@@ -745,7 +747,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealLodged.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAppealLodged.metadata.publishedAt,
+      planningPermissionFullHouseholderAppealLodged.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderAppealLodged.submission)
@@ -859,7 +862,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealValidated.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAppealValidated.metadata.publishedAt,
+      planningPermissionFullHouseholderAppealValidated.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderAppealValidated.submission)
@@ -980,7 +984,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealStarted.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAppealStarted.metadata.publishedAt,
+      planningPermissionFullHouseholderAppealStarted.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderAppealStarted.submission)
@@ -1103,7 +1108,8 @@ describe("generateDprApplication", () => {
       planningPermissionFullHouseholderAppealDetermined.applicationType,
     ).toEqual("pp.full.householder");
     expect(
-      planningPermissionFullHouseholderAppealDetermined.metadata.publishedAt,
+      planningPermissionFullHouseholderAppealDetermined.data.application
+        .publishedAt,
     ).toBeDefined();
     expect(
       Object.values(
@@ -1260,7 +1266,7 @@ describe("generateDprApplication", () => {
       "pp.full.householder",
     );
     expect(
-      planningPermissionFullHouseholderWithdrawn.metadata.publishedAt,
+      planningPermissionFullHouseholderWithdrawn.data.application.publishedAt,
     ).toBeDefined();
     expect(
       Object.values(planningPermissionFullHouseholderWithdrawn.submission)
@@ -1375,7 +1381,7 @@ describe("generateDprApplication", () => {
       });
     expect(
       planningPermissionFullHouseholderAssessmentInProgress.data
-        .localPlanningAuthority.commentsAcceptedUntilDecision,
+        .localPlanningAuthority.publicCommentsAcceptedUntilDecision,
     ).toBe(false);
 
     const lawfulDevelopmentCertificateProposedAssessmentInProgress =
@@ -1386,7 +1392,7 @@ describe("generateDprApplication", () => {
 
     expect(
       lawfulDevelopmentCertificateProposedAssessmentInProgress.data
-        .localPlanningAuthority.commentsAcceptedUntilDecision,
+        .localPlanningAuthority.publicCommentsAcceptedUntilDecision,
     ).toBe(true);
   });
 
@@ -1790,7 +1796,7 @@ describe("generatePublicComment", () => {
 
   it("returns a PublicComment with exactly 1 topic by default", () => {
     const comment = generatePublicComment();
-    expect(typeof comment.id).toBe("number");
+    expect(typeof comment.id).toBe("string");
 
     expect(Array.isArray(comment.comment)).toBe(true);
     if (!Array.isArray(comment.comment)) {

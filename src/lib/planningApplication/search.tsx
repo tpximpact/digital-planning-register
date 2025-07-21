@@ -29,7 +29,7 @@ import {
   UnknownSearchParams,
 } from "@/types";
 import { validApplicationTypes } from "./type";
-import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { validPublicApplicationStatusSummaries } from "./status";
 import { validDprDecisionSummaries } from "./decision";
 

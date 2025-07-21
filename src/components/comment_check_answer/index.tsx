@@ -29,8 +29,8 @@ import {
 } from "@/lib/comments";
 import { PersonalDetails } from "../comment_personal_details";
 import { DprCommentSubmission } from "@/types";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
-import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
 import { trackClient } from "@/lib/dprAnalytics";
 
 const CommentCheckAnswer = ({

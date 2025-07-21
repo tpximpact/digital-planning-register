@@ -25,15 +25,15 @@
  * DprBoundaryGeojson - the messy data bit that describes the boundary of a planning application
  */
 
-import { Appeal } from "@/types/odp-types/schemas/prototypeApplication/data/Appeal";
-import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType.ts";
-import { GeoBoundary } from "@/types/odp-types/shared/Boundaries";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication/index";
+import type { Appeal } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Appeal.ts";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import type { GeoBoundary } from "digital-planning-data-schemas/types/shared/Boundaries/index.ts";
+import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 import { DprStatusSummary, DprDecisionSummary } from "@/types";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
-import { CommentTopic } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentTopic";
-import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication.ts";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 
 /**
  *
@@ -49,11 +49,11 @@ import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication
  *
  */
 export type DprApplication = Omit<
-  PostSubmissionApplication,
+  PostSubmissionPublishedApplication,
   "data" | "submission" | "comments"
 > & {
-  data: Omit<PostSubmissionApplication["data"], "appeal"> & {
-    appeal?: PostSubmissionApplication["data"]["appeal"] & {
+  data: Omit<PostSubmissionPublishedApplication["data"], "appeal"> & {
+    appeal?: PostSubmissionPublishedApplication["data"]["appeal"] & {
       files?: DprDocument[];
     };
   };
@@ -93,7 +93,7 @@ export interface DprPlanningApplication {
   applicationType: ApplicationType;
   data: {
     localPlanningAuthority: {
-      commentsAcceptedUntilDecision: boolean;
+      publicCommentsAcceptedUntilDecision: boolean;
     };
     appeal?: Appeal & {
       files?: DprDocument[];
@@ -167,12 +167,12 @@ export interface DprPlanningApplication {
     decision?: string | null;
   };
   property: Pick<
-    PostSubmissionApplication["data"]["property"],
+    PostSubmissionPublishedApplication["data"]["property"],
     "address" | "boundary"
   >;
-  proposal: PostSubmissionApplication["data"]["proposal"];
-  applicant: PostSubmissionApplication["data"]["applicant"];
-  officer: PostSubmissionApplication["data"]["caseOfficer"];
+  proposal: PostSubmissionPublishedApplication["data"]["proposal"];
+  applicant: PostSubmissionPublishedApplication["data"]["applicant"];
+  officer: PostSubmissionPublishedApplication["data"]["caseOfficer"];
 }
 
 /**

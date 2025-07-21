@@ -23,7 +23,7 @@ import {
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
-import { SpecialistCommentSummary } from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+import type { SpecialistCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import {
   generateNResults,
   generateComment,

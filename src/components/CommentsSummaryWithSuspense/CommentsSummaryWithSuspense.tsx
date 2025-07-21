@@ -17,15 +17,15 @@
 
 import { ApiV1 } from "@/actions/api";
 import { Suspense } from "react";
-import {
+import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/CommentSummary";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import {
   CommentsSummary,
   CommentsSummarySkeleton,
 } from "@/components/CommentsSummary";
-import { CommentType } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentType";
+import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 
 export interface CommentsSummaryWithSuspenseProps {
   params: {

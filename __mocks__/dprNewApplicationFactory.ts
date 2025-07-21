@@ -19,55 +19,42 @@ import { DprApplication } from "@/types";
 import { faker, fakerEN_GB } from "@faker-js/faker";
 import dayjs, { Dayjs } from "dayjs";
 import { generateReference } from "./dprApplicationFactory";
-import { OSAddress, ProposedAddress } from "@/types/odp-types/shared/Addresses";
-import {
-  AdvertConsentApplicationType,
-  AmendmentApplicationType,
+import type {
+  OSAddress,
+  ProposedAddress,
+} from "digital-planning-data-schemas/types/shared/Addresses.ts";
+import type * as PostSubmissionPublishedTypes from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.js";
+import type * as PrototypeTypes from "digital-planning-data-schemas/types/schemas/prototypeApplication/index.js";
+import type {
   ApplicationType,
-  ApprovalApplicationType,
-  ComplianceConfirmationApplicationType,
-  EnvironmentalImpactApplicationType,
-  HazardousSubstanceConsentApplicationType,
-  HedgerowRemovalNoticeApplicationType,
-  LandDrainageConsentApplicationType,
-  LDCApplicationType,
-  ListedApplicationType,
-  NotifyCompletionApplicationType,
-  ObligationApplicationType,
-  OnshoreExtractionOilAndGasApplicationType,
-  PAApplicationType,
-  PPApplicationType,
   PrimaryApplicationType,
-  RightsOfWayOrderApplicationType,
-  WTTApplicationType,
-} from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
-import { ApplicationStatus } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ApplicationStatus";
-import { ProcessStage } from "@/types/odp-types/schemas/postSubmissionApplication/enums/ProcessStage";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
+import type { ApplicationStatus } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ApplicationStatus.ts";
+import type { ProcessStage } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/ProcessStage.ts";
 import {
   getApplicationDprDecisionSummary,
   getApplicationDprStatusSummary,
   getPrimaryApplicationTypeKey,
+  setCorrectApplicationType,
   validApplicationTypes,
 } from "@/lib/planningApplication";
-import { planningPermissionFullHouseholderPrototype } from "./odp-submission-data/planningPermission/fullHouseholder";
-import { priorApprovalLargerExtensionPrototype } from "./odp-submission-data/priorApproval/largerExtension";
-import { lawfulDevelopmentCertificateProposedPrototype } from "./odp-submission-data/lawfulDevelopmentCertificate/proposed";
-import { PrototypeApplication } from "@/types/odp-types/schemas/prototypeApplication";
-import { PriorApprovalAssessment } from "@/types/odp-types/schemas/postSubmissionApplication/data/Assessment";
-import { PostSubmissionMetadata } from "@/types/odp-types/schemas/postSubmissionApplication/Metadata";
-import { PostSubmissionApplication } from "@/types/odp-types/schemas/postSubmissionApplication";
-import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
-import {
-  Agent,
+import planningPermissionFullHouseholderPrototype from "digital-planning-data-schemas/examples/prototypeApplication/planningPermission/fullHouseholder.json";
+import priorApprovalLargerExtensionPrototype from "digital-planning-data-schemas/examples/prototypeApplication/priorApproval/largerExtension.json";
+import lawfulDevelopmentCertificateProposedPrototype from "digital-planning-data-schemas/examples/prototypeApplication/lawfulDevelopmentCertificate/proposed.json";
+import type { PriorApprovalAssessment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Assessment.ts";
+import type { PostSubmissionMetadata } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/Metadata.ts";
+import type { AppealDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AppealDecision.ts";
+import type {
+  ApplicantWithAgent,
   BaseApplicant,
-} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
-import { CaseOfficerBase } from "@/types/odp-types/schemas/postSubmissionApplication/data/CaseOfficer";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
+import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
-import {
+import type {
   PublicComment,
   TopicAndComments,
-} from "@/types/odp-types/schemas/postSubmissionApplication/data/Comment";
-import { CommentSentiment } from "@/types/odp-types/schemas/postSubmissionApplication/enums/CommentSentiment";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
+import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 
 type PossibleDates = {
   application: {
@@ -98,6 +85,7 @@ type PossibleDates = {
     decidedAt: Dayjs;
     withdrawnAt: Dayjs;
   };
+  generatedAt: Dayjs;
 };
 
 export const generateAllPossibleDates = (
@@ -162,6 +150,12 @@ export const generateAllPossibleDates = (
   // appeal is withdrawn any time between appealLodgedAt and appealDecidedAt
   const appealWithdrawnAt = dayjs(appealLodgedAt).add(1, "day");
 
+  // when the data is generated it is given a generatedAt date,
+  // if it was an API this would be the current date and time
+  // but if it was a static file this would be the date the file was generated
+  // in this case we are using a fixed date for consistency in tests
+  const generatedAt = dayjs();
+
   const dates = {
     application: {
       withdrawnAt: withdrawnAt,
@@ -191,6 +185,7 @@ export const generateAllPossibleDates = (
       decidedAt: appealDecidedAt,
       withdrawnAt: appealWithdrawnAt,
     },
+    generatedAt: generatedAt,
   };
 
   return dates;
@@ -224,14 +219,14 @@ export const generatePublicComment = (
     "supportive",
   ]);
   const baseComment: PublicComment = {
-    id: faker.number.int({ min: 1, max: 1000 }),
+    id: faker.number.int({ min: 1, max: 1000 }).toString(),
     sentiment,
     comment: topicsAndComments,
     author: { name: { singleLine: faker.person.fullName() } },
     metadata: {
       submittedAt: faker.date.past().toISOString(),
       publishedAt: faker.date.past().toISOString(),
-      validAt: faker.date.past().toISOString(),
+      validatedAt: faker.date.past().toISOString(),
     },
   };
   return baseComment;
@@ -290,15 +285,9 @@ export const generateBaseApplicant: BaseApplicant = {
     country: fakerEN_GB.location.country(),
     sameAsSiteAddress: false,
   },
-  siteContact: {
-    role: "other",
-    name: `${faker.person.firstName()} ${faker.person.lastName()}`,
-    email: faker.internet.email(),
-    phone: fakerEN_GB.phone.number(),
-  },
 };
 
-export const generateAgent: Agent = {
+export const generateAgent: ApplicantWithAgent = {
   ...generateBaseApplicant,
   agent: {
     name: {
@@ -335,7 +324,7 @@ export const generateMetadata = (
   const metadata: PostSubmissionMetadata = {
     organisation: "BOPS",
     id: "1234",
-    publishedAt: dates.publishedAt.toISOString(),
+    generatedAt: dates.generatedAt.toISOString(),
     submittedAt: dates.submission.submittedAt.toISOString(),
     schema: `https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/postSubmissionApplication.json`,
   };
@@ -504,17 +493,23 @@ export const generateDprApplication = ({
   }
 
   // determine the submission part - copied from ODP examples
-  let submission: PrototypeApplication =
-    planningPermissionFullHouseholderPrototype;
+  let submission;
   switch (primaryApplicationType) {
     case "pp":
-      submission = planningPermissionFullHouseholderPrototype;
+      submission =
+        planningPermissionFullHouseholderPrototype as unknown as PrototypeTypes.PlanningPermissionFullHouseholder;
       break;
     case "pa":
-      submission = priorApprovalLargerExtensionPrototype;
+      submission =
+        priorApprovalLargerExtensionPrototype as unknown as PrototypeTypes.PriorApprovalPart1ClassA;
       break;
     case "ldc":
-      submission = lawfulDevelopmentCertificateProposedPrototype;
+      submission =
+        lawfulDevelopmentCertificateProposedPrototype as unknown as PrototypeTypes.LawfulDevelopmentCertificateProposed;
+      break;
+    default:
+      submission =
+        planningPermissionFullHouseholderPrototype as unknown as PrototypeTypes.PlanningPermissionFullHouseholder;
       break;
   }
 
@@ -543,58 +538,20 @@ export const generateDprApplication = ({
   }
 
   // applicationType musst be XApplicationType not ApplicationType for the data object to behave
-  switch (primaryApplicationType) {
-    case "advertConsent":
-      applicationType = applicationType as AdvertConsentApplicationType;
-    case "amendment":
-      applicationType = applicationType as AmendmentApplicationType;
-    case "approval":
-      applicationType = applicationType as ApprovalApplicationType;
-    case "complianceConfirmation":
-      applicationType =
-        applicationType as ComplianceConfirmationApplicationType;
-    case "environmentalImpact":
-      applicationType = applicationType as EnvironmentalImpactApplicationType;
-    case "hazardousSubstanceConsent":
-      applicationType =
-        applicationType as HazardousSubstanceConsentApplicationType;
-    case "hedgerowRemovalNotice":
-      applicationType = applicationType as HedgerowRemovalNoticeApplicationType;
-    case "landDrainageConsent":
-      applicationType = applicationType as LandDrainageConsentApplicationType;
-    case "ldc":
-      applicationType = applicationType as LDCApplicationType;
-    case "listed":
-      applicationType = applicationType as ListedApplicationType;
-    case "notifyCompletion":
-      applicationType = applicationType as NotifyCompletionApplicationType;
-    case "obligation":
-      applicationType = applicationType as ObligationApplicationType;
-    case "onshoreExtractionOilAndGas":
-      applicationType =
-        applicationType as OnshoreExtractionOilAndGasApplicationType;
-    case "pa":
-      applicationType = applicationType as PAApplicationType;
-    case "pp":
-      applicationType = applicationType as PPApplicationType;
-    case "rightsOfWayOrder":
-      applicationType = applicationType as RightsOfWayOrderApplicationType;
-    case "wtt":
-      applicationType = applicationType as WTTApplicationType;
-  }
 
   // create the basics of all stages and manage further below
-  const data: PostSubmissionApplication = {
+  const applicationData = {
     applicationType: applicationType,
     data: {
       application: {
         reference: generateReference(),
         stage: applicationStage,
         status: applicationStatus,
+        publishedAt: dates.publishedAt.toISOString(),
         // see below for withdrawnAt and withdrawnReason being added
       },
       localPlanningAuthority: {
-        commentsAcceptedUntilDecision: false,
+        publicCommentsAcceptedUntilDecision: false,
       },
       submission: {
         submittedAt: dates.submission.submittedAt.toISOString(),
@@ -638,13 +595,18 @@ export const generateDprApplication = ({
     metadata: metadata,
   };
 
+  const data = setCorrectApplicationType(
+    applicationType,
+    applicationData as PostSubmissionPublishedTypes.PostSubmissionPublishedApplication,
+  );
+
   // This mocks camden allowing comments until a decision is made for certain application types
   if (
     applicationTypesWithCommentsAcceptedUntilDecision.includes(
       primaryApplicationType,
     )
   ) {
-    data.data.localPlanningAuthority.commentsAcceptedUntilDecision = true;
+    data.data.localPlanningAuthority.publicCommentsAcceptedUntilDecision = true;
   }
 
   // manage priorApprovalRequired field for prior approvals

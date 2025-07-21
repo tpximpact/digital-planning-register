@@ -26,8 +26,8 @@ import {
   DprBoundaryGeojson,
   DprPagination,
 } from "@/types";
-import { AppealDecision } from "@/types/odp-types/schemas/postSubmissionApplication/enums/AppealDecision";
-import { ApplicationType } from "@/types/odp-types/schemas/prototypeApplication/enums/ApplicationType";
+import type { AppealDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AppealDecision.ts";
+import type { ApplicationType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/ApplicationType.ts";
 import { formatDateToYmd } from "@/util";
 
 import { faker } from "@faker-js/faker";
@@ -37,10 +37,10 @@ import {
   generateCaseOfficer,
   generateSiteAddress,
 } from "./dprNewApplicationFactory";
-import {
-  Agent,
+import type {
+  ApplicantWithAgent,
   BaseApplicant,
-} from "@/types/odp-types/schemas/prototypeApplication/data/Applicant";
+} from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 
 /**
  * Generates a random reference string in the format `XX-XXXXX-XXXX`.
@@ -276,7 +276,7 @@ export const generateDprApplication = ({
     applicationType,
     data: {
       localPlanningAuthority: {
-        commentsAcceptedUntilDecision:
+        publicCommentsAcceptedUntilDecision:
           primaryApplicationType === "ldc" ? true : false,
       },
       appeal,
@@ -309,7 +309,7 @@ export const generateDprApplication = ({
     proposal: {
       description: faker.lorem.paragraphs({ min: 1, max: 10 }),
     },
-    applicant: faker.helpers.arrayElement<BaseApplicant | Agent>([
+    applicant: faker.helpers.arrayElement<BaseApplicant | ApplicantWithAgent>([
       generateBaseApplicant,
       generateAgent,
     ]),

@@ -143,7 +143,7 @@ describe.only("ApplicationDetails", () => {
           data: {
             ...assessmentInProgress.data,
             localPlanningAuthority: {
-              commentsAcceptedUntilDecision: true,
+              publicCommentsAcceptedUntilDecision: true,
             },
           },
         }}
