@@ -72,20 +72,6 @@ describe("documents", () => {
     expect(urlArg).toContain("publishedAtTo=2024-01-31");
   });
 
-  it("adds only the application form", async () => {
-    mockHandleBopsGetRequest.mockResolvedValue({
-      status: { code: 200, message: "" },
-      data: { files: [], metadata: { totalResults: 0 } },
-    });
-
-    await documents("camden", "APP-123", baseSearchParams);
-
-    const extraDocs =
-      mockConvertBopsDocumentEndpointToDprDocumentEndpoint.mock.calls[0][4];
-    expect(extraDocs).toHaveLength(1);
-    expect(extraDocs[0].title).toBe("Application form");
-  });
-
   it("returns the result from the converter", async () => {
     mockHandleBopsGetRequest.mockResolvedValue({
       status: { code: 200, message: "" },

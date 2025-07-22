@@ -37,6 +37,8 @@ import type {
   SpecialistCommentSummary,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import { CommentsListWithSuspense } from "../CommentsListWithSuspense";
+import { FileList } from "@/components/FileList";
+import { createPathFromParams } from "@/lib/navigation";
 
 export interface ApplicationDetailsProps {
   reference: string;
@@ -159,6 +161,23 @@ export const ApplicationDetails = ({
             Description
           </h2>
           <p className="govuk-body">{description}</p>
+          <h3 className="govuk-heading-m">Full application form</h3>
+          <FileList
+            documents={[
+              {
+                url: createPathFromParams(
+                  { council: councilSlug, reference },
+                  "application-form",
+                ),
+                title: "Application form",
+                createdDate: application.data.submission.submittedAt,
+                metadata: {
+                  contentType: "html",
+                },
+              },
+            ]}
+          />
+
           {(appeal?.files || appeal?.reason) && (
             <ApplicationAppeals
               appealReason={appeal?.reason}
