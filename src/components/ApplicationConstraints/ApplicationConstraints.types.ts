@@ -1,4 +1,4 @@
-import { Entity } from "@/types/odp-types/shared/Constraints";
+import type { Entity } from "digital-planning-data-schemas/types/shared/Constraints.ts";
 import { GeoJSON } from "geojson";
 
 export type DprDesignationConstraint = {

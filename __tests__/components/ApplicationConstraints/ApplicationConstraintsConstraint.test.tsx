@@ -19,10 +19,10 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";
-import {
+import type {
   PlanningConstraint,
   PlanningDesignation,
-} from "@/types/odp-types/shared/Constraints";
+} from "digital-planning-data-schemas/types/shared/Constraints.ts";
 import { DprDesignationConstraint } from "@/components/ApplicationConstraints";
 
 // Mock ApplicationMapLoader
