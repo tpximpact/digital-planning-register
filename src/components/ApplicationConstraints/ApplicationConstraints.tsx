@@ -23,10 +23,10 @@ import {
 import { Accordion, AccordionSection } from "../Accordion";
 import { useRef, useState } from "react";
 import { fetchConstraintData } from "./ApplicationConstraints.data";
-import {
+import type {
   PlanningConstraint,
   PlanningDesignation,
-} from "@/types/odp-types/shared/Constraints";
+} from "digital-planning-data-schemas/types/shared/Constraints.ts";
 import { DprDesignationConstraint } from "./ApplicationConstraints.types";
 import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";
 export interface ApplicationConstraintsProps {

@@ -20,10 +20,10 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ApplicationConstraints } from "@/components/ApplicationConstraints/ApplicationConstraints";
 import { fetchConstraintData } from "@/components/ApplicationConstraints/ApplicationConstraints.data";
-import {
+import type {
   PlanningConstraint,
   PlanningDesignation,
-} from "@/types/odp-types/shared/Constraints";
+} from "digital-planning-data-schemas/types/shared/Constraints.ts";
 // needed for the mocks
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";

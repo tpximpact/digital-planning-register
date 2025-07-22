@@ -29,6 +29,8 @@ WORKDIR /app
 COPY package*.json ./
 # Husky install file needed too
 COPY .husky/install.mjs ./.husky/install.mjs
+# Copy the local tgz package
+COPY digital-planning-data-schemas-*.tgz ./
 # Install dependencies
 RUN npm ci
 

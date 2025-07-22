@@ -19,10 +19,10 @@ import {
   filterConstraints,
   getEntityFromUrl,
 } from "@/components/ApplicationConstraints/ApplicationConstraints.utils";
-import {
+import type {
   PlanningConstraint,
   PlanningDesignation,
-} from "@/types/odp-types/shared/Constraints";
+} from "digital-planning-data-schemas/types/shared/Constraints.ts";
 
 // NonIntersectingPlanningDesignation
 const testNonIntersectingPlanningDesignation: PlanningDesignation = {

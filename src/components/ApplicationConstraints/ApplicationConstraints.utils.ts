@@ -15,10 +15,10 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
+import type {
   PlanningConstraint,
   PlanningDesignation,
-} from "@/types/odp-types/shared/Constraints";
+} from "digital-planning-data-schemas/types/shared/Constraints.ts";
 import { DprDesignationConstraint } from ".";
 
 /**
