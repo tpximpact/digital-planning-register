@@ -96,7 +96,7 @@ const baseProps = {
   appConfig: baseAppConfig as AppConfig,
 };
 
-describe.only("ApplicationDetails", () => {
+describe("ApplicationDetails", () => {
   it("renders ContentError if council config is missing", () => {
     render(
       <ApplicationDetails
