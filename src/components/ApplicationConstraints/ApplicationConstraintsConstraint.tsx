@@ -16,11 +16,11 @@
  */
 
 import React from "react";
-import { DprDesignationConstraint } from "./ApplicationConstraints.types";
+import { DprPlanningDataEntity } from "./ApplicationConstraints.types";
 import { ApplicationMapLoader } from "../ApplicationMap";
 
 export interface ApplicationConstraintsConstraintProps {
-  constraint: DprDesignationConstraint;
+  constraint: DprPlanningDataEntity;
 }
 
 export const ApplicationConstraintsConstraint = ({
@@ -28,133 +28,114 @@ export const ApplicationConstraintsConstraint = ({
 }: ApplicationConstraintsConstraintProps) => {
   return (
     <>
-      <p className="govuk-body">{constraint.description}</p>
-      {constraint.entities && constraint.entities.length > 0 && (
-        <React.Fragment>
-          {constraint.entities.map((entity, index) => (
-            <React.Fragment key={index}>
-              <hr className="govuk-section-break govuk-section-break--l" />
+      {/* if there is loaded data show it! */}
+      {constraint.data ? (
+        <>
+          {constraint.data.description && (
+            <p className="govuk-body">{constraint.data.description}</p>
+          )}
+          {constraint.data.reference && (
+            <p className="govuk-body">
+              <strong>Reference:</strong> {constraint.data.reference}
+            </p>
+          )}
 
-              {/* if there is loaded data show it! */}
-              {entity.data ? (
-                <>
-                  {entity.data.name && (
-                    <p className="govuk-body-l govuk-!-font-weight-bold">
-                      {entity.data.name}
-                    </p>
-                  )}
-                  {entity.data.description && (
-                    <p className="govuk-body">{entity.data.description}</p>
-                  )}
-                  {entity.data.reference && (
-                    <p className="govuk-body">
-                      <strong>Reference:</strong> {entity.data.reference}
-                    </p>
-                  )}
+          {constraint.data.entryDate && (
+            <p className="govuk-body">
+              <strong>Entry date:</strong> {constraint.data.entryDate}
+            </p>
+          )}
+          {constraint.data.startDate && (
+            <p className="govuk-body">
+              <strong>Start date:</strong> {constraint.data.startDate}
+            </p>
+          )}
+          {constraint.data.endDate && (
+            <p className="govuk-body">
+              <strong>End date:</strong> {constraint.data.endDate}
+            </p>
+          )}
+          {constraint.data.designationDate && (
+            <p className="govuk-body">
+              <strong>End date:</strong> {constraint.data.designationDate}
+            </p>
+          )}
 
-                  {entity.data.entryDate && (
-                    <p className="govuk-body">
-                      <strong>Entry date:</strong> {entity.data.entryDate}
-                    </p>
-                  )}
-                  {entity.data.startDate && (
-                    <p className="govuk-body">
-                      <strong>Start date:</strong> {entity.data.startDate}
-                    </p>
-                  )}
-                  {entity.data.endDate && (
-                    <p className="govuk-body">
-                      <strong>End date:</strong> {entity.data.endDate}
-                    </p>
-                  )}
-                  {entity.data.designationDate && (
-                    <p className="govuk-body">
-                      <strong>End date:</strong> {entity.data.designationDate}
-                    </p>
-                  )}
+          {constraint.data.geometry && (
+            <>
+              <ApplicationMapLoader
+                reference={constraint.data.entity.toString()}
+                mapData={constraint.data.geometry}
+                description={`Map showing outline of the area covered for ${constraint.data.entity}`}
+                mapType="constraint-accordion"
+              />
+              <br />
+            </>
+          )}
 
-                  {entity.data.geometry && (
-                    <>
-                      <ApplicationMapLoader
-                        reference={entity.data.entity.toString()}
-                        mapData={entity.data.geometry}
-                        description={`Map showing outline of the area covered for ${entity.data.entity}`}
-                        mapType="constraint-accordion"
-                      />
-                      <br />
-                    </>
-                  )}
+          {constraint.data.documentUrl && (
+            <p className="govuk-body">
+              <strong>Document URL:</strong>{" "}
+              <a
+                href={constraint.data.documentUrl}
+                target="_blank"
+                className="govuk-link govuk-link--no-visited-state"
+                rel="noopener noreferrer"
+              >
+                {constraint.data.documentUrl}
+              </a>
+            </p>
+          )}
 
-                  {entity.data.documentUrl && (
-                    <p className="govuk-body">
-                      <strong>Document URL:</strong>{" "}
-                      <a
-                        href={entity.data.documentUrl}
-                        target="_blank"
-                        className="govuk-link govuk-link--no-visited-state"
-                        rel="noopener noreferrer"
-                      >
-                        {entity.data.documentUrl}
-                      </a>
-                    </p>
-                  )}
+          {constraint.data.documentationUrl && (
+            <p className="govuk-body">
+              <strong>Document URL:</strong>{" "}
+              <a
+                href={constraint.data.documentationUrl}
+                target="_blank"
+                className="govuk-link govuk-link--no-visited-state"
+                rel="noopener noreferrer"
+              >
+                {constraint.data.documentationUrl}
+              </a>
+            </p>
+          )}
 
-                  {entity.data.documentationUrl && (
-                    <p className="govuk-body">
-                      <strong>Document URL:</strong>{" "}
-                      <a
-                        href={entity.data.documentationUrl}
-                        target="_blank"
-                        className="govuk-link govuk-link--no-visited-state"
-                        rel="noopener noreferrer"
-                      >
-                        {entity.data.documentationUrl}
-                      </a>
-                    </p>
-                  )}
-
-                  {/* hidden but useful for debugging purposes */}
-                  {entity.data.dataset && (
-                    <p className="hidden">
-                      <strong>Dataset:</strong> {entity.data.dataset}
-                    </p>
-                  )}
-                  {entity.data.entity && (
-                    <p className="hidden">
-                      <strong>Entity:</strong> {entity.data.entity}
-                    </p>
-                  )}
-                </>
+          {/* hidden but useful for testing & debugging purposes */}
+          {constraint.data.dataset && (
+            <p className="hidden" data-field="dataset">
+              <strong>Dataset:</strong> {constraint.data.dataset}
+            </p>
+          )}
+          {constraint.data.entity && (
+            <p className="hidden">
+              <strong>Entity:</strong> {constraint.data.entity}
+            </p>
+          )}
+        </>
+      ) : (
+        <>
+          {constraint.description && (
+            <p className="govuk-body">{constraint.description}</p>
+          )}
+          {constraint.source.text && (
+            <p className="govuk-body-s">
+              <strong>Source:</strong>{" "}
+              {"url" in constraint.source && constraint.source.url ? (
+                <a
+                  href={constraint.source.url}
+                  target="_blank"
+                  className="govuk-link govuk-link--no-visited-state"
+                  rel="noopener noreferrer"
+                >
+                  {constraint.source.url || constraint.source.text}
+                </a>
               ) : (
-                <>
-                  <p className="govuk-body-l govuk-!-font-weight-bold">
-                    {entity.name}
-                  </p>
-                  {entity.description && (
-                    <p className="govuk-body">{entity.description}</p>
-                  )}
-                  {entity.source.text && (
-                    <p className="govuk-body-s">
-                      <strong>Source:</strong>{" "}
-                      {"url" in entity.source && entity.source.url ? (
-                        <a
-                          href={entity.source.url}
-                          target="_blank"
-                          className="govuk-link govuk-link--no-visited-state"
-                          rel="noopener noreferrer"
-                        >
-                          {entity.source.url || entity.source.text}
-                        </a>
-                      ) : (
-                        entity.source.text
-                      )}
-                    </p>
-                  )}
-                </>
+                constraint.source.text
               )}
-            </React.Fragment>
-          ))}
-        </React.Fragment>
+            </p>
+          )}
+        </>
       )}
     </>
   );

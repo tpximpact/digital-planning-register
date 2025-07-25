@@ -3533,118 +3533,63 @@ const geometry: GeoJSON = {
     entity: 7010002192,
   },
 };
-export const LoadedIntersectingPlanningDesignation: Story = {
+
+export const LoadedPlanningDataConstraint: Story = {
   args: {
     constraint: {
-      value: "articleFour",
-      description: "Article 4 direction area",
-      intersects: true,
-      entities: [
-        {
-          name: "Whole District excluding the Town of Chesham - Poultry production.",
-          description:
-            "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-          source: {
-            text: "Planning Data",
-            url: "https://www.planning.data.gov.uk/entity/7010002192",
-          },
-          data: {
-            name: "Whole District excluding the Town of Chesham - Poultry production.",
-            dataset: "article-4-direction-area",
-            entity: 7010002192,
-            description:
-              "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-            entryDate: "2025-01-08",
-            startDate: "2059-01-15",
-            geometry: geometry,
-          },
-        },
-        {
-          name: "Stock Lane - Classified Unnumbered",
-          source: {
-            text: "Ordnance Survey MasterMap Highways",
-          },
-        },
-      ],
+      name: "Whole District excluding the Town of Chesham - Poultry production.",
+      description:
+        "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
+      source: {
+        text: "Planning Data",
+        url: "https://www.planning.data.gov.uk/entity/7010002192",
+      },
+      data: {
+        name: "Whole District excluding the Town of Chesham - Poultry production.",
+        dataset: "article-4-direction-area",
+        entity: 7010002192,
+        description:
+          "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
+        entryDate: "2025-01-08",
+        startDate: "2059-01-15",
+        geometry: geometry,
+      },
     },
   },
 };
 
-export const LoadedIntersectingPlanningConstraint: Story = {
+export const LoadedOrdnanceSurveyConstraint: Story = {
   args: {
     constraint: {
-      value: "IntersectingPlanningConstraint value",
-      description: "IntersectingPlanningConstraint description",
-      intersects: true,
-      entities: [
-        {
-          name: "Whole District excluding the Town of Chesham - Poultry production.",
-          description:
-            "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-          source: {
-            text: "Planning Data",
-            url: "https://www.planning.data.gov.uk/entity/7010002192",
-          },
-          data: {
-            name: "Whole District excluding the Town of Chesham - Poultry production.",
-            dataset: "article-4-direction-area",
-            entity: 7010002192,
-            description:
-              "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-            entryDate: "2025-01-08",
-            startDate: "2059-01-15",
-            geometry: geometry,
-          },
-        },
-      ],
+      name: "Stock Lane - Classified Unnumbered",
+      source: {
+        text: "Ordnance Survey MasterMap Highways",
+      },
     },
   },
 };
 
-export const DefaultIntersectingPlanningDesignation: Story = {
+export const DefaultPlanningDataConstraint: Story = {
   args: {
     constraint: {
-      value: "articleFour",
-      description: "Article 4 direction area",
-      intersects: true,
-      entities: [
-        {
-          name: "Whole District excluding the Town of Chesham - Poultry production.",
-          description:
-            "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-          source: {
-            text: "Planning Data",
-            url: "https://www.planning.data.gov.uk/entity/7010002192",
-          },
-        },
-        {
-          name: "Stock Lane - Classified Unnumbered",
-          source: {
-            text: "Ordnance Survey MasterMap Highways",
-          },
-        },
-      ],
+      name: "Whole District excluding the Town of Chesham - Poultry production.",
+      description:
+        "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
+      source: {
+        text: "Planning Data",
+        url: "https://www.planning.data.gov.uk/entity/7010002192",
+      },
     },
   },
 };
 
-export const DefaultIntersectingPlanningConstraint: Story = {
+export const DefaultOrdnanceSurveyConstraint: Story = {
   args: {
     constraint: {
-      value: "IntersectingPlanningConstraint value",
-      description: "IntersectingPlanningConstraint description",
-      intersects: true,
-      entities: [
-        {
-          name: "Whole District excluding the Town of Chesham - Poultry production.",
-          description:
-            "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-          source: {
-            text: "Planning Data",
-            url: "https://www.planning.data.gov.uk/entity/7010002192",
-          },
-        },
-      ],
+      name: "Stock Lane - Classified Unnumbered",
+      source: {
+        text: "Ordnance Survey MasterMap Highways",
+      },
     },
   },
 };

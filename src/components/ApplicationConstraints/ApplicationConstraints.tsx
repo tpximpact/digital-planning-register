@@ -27,8 +27,9 @@ import type {
   PlanningConstraint,
   PlanningDesignation,
 } from "digital-planning-data-schemas/types/shared/Constraints.ts";
-import { DprDesignationConstraint } from "./ApplicationConstraints.types";
+import { DprPlanningDataEntity } from "./ApplicationConstraints.types";
 import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";
+import React from "react";
 export interface ApplicationConstraintsProps {
   constraints: (PlanningDesignation | PlanningConstraint)[];
 }
@@ -37,20 +38,30 @@ export const ApplicationConstraints = ({
   constraints,
 }: ApplicationConstraintsProps) => {
   const loaded = useRef<Record<string, boolean>>({});
-  const [data, setData] = useState<Record<string, DprDesignationConstraint>>(
-    {},
-  );
+  const [data, setData] = useState<Record<string, DprPlanningDataEntity>>({});
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   if (!constraints || constraints.length === 0) {
     return null;
   }
+  // make constraint and designation types usable
   const preparedConstraints = prepareConstraints(constraints);
+
+  // our assumption is that constraints assigned to an application will always contain
+  // constraints grouped by planning data (or eventually, other) data sets
+  //
+  // when fetching constraints the back office system will have gone through each data set and
+  // checked to see if any of the data in there applies to this application
+  // if they do they're added to the group for that data set with the intersects flag set to true
   const intersectingConstraints = filterConstraints(preparedConstraints);
+
+  if (!intersectingConstraints || intersectingConstraints.length === 0) {
+    return null;
+  }
 
   const handleToggle = async (
     event: React.SyntheticEvent<HTMLDetailsElement>,
-    constraint: DprDesignationConstraint,
+    constraint: DprPlanningDataEntity,
   ) => {
     const name = event.currentTarget.getAttribute("name") || "";
     const open = event.currentTarget.open;
@@ -72,27 +83,41 @@ export const ApplicationConstraints = ({
       </p>
 
       <Accordion name={"applicationConstraints"}>
-        {intersectingConstraints.map((constraint, i) => {
-          const uniqueName = `${i}-${constraint.value.replace(" ", "")}`;
+        {intersectingConstraints.map((constraintGroup, i) => {
           return (
-            <AccordionSection
-              title={constraint.description}
-              name={uniqueName}
-              key={uniqueName}
-              open={!!openSections[constraint.value]}
-              onToggle={(event) => handleToggle(event, constraint)}
-              headingLevel={3}
-            >
-              {data[uniqueName] ? (
-                <ApplicationConstraintsConstraint
-                  constraint={data[uniqueName]}
-                />
-              ) : openSections[uniqueName] ? (
-                <p className="govuk-body">Loading...</p>
-              ) : (
-                <ApplicationConstraintsConstraint constraint={constraint} />
-              )}
-            </AccordionSection>
+            <React.Fragment key={i}>
+              {constraintGroup.entities &&
+                constraintGroup.entities.length > 0 && (
+                  <>
+                    {constraintGroup.entities.map((constraint, idx) => {
+                      const uniqueName = `${i}-${idx}-${constraint.name.replace(" ", "")}`;
+                      const title = `${constraintGroup.description}: ${constraint.name}`;
+                      return (
+                        <AccordionSection
+                          title={title}
+                          name={uniqueName}
+                          key={uniqueName}
+                          open={!!openSections[constraint.name]}
+                          onToggle={(event) => handleToggle(event, constraint)}
+                          headingLevel={3}
+                        >
+                          {data[uniqueName] ? (
+                            <ApplicationConstraintsConstraint
+                              constraint={data[uniqueName]}
+                            />
+                          ) : openSections[uniqueName] ? (
+                            <p className="govuk-body">Loading...</p>
+                          ) : (
+                            <ApplicationConstraintsConstraint
+                              constraint={constraint}
+                            />
+                          )}
+                        </AccordionSection>
+                      );
+                    })}
+                  </>
+                )}
+            </React.Fragment>
           );
         })}
       </Accordion>

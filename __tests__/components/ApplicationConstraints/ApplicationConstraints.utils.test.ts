@@ -103,7 +103,7 @@ describe("ApplicationConstraints.utils", () => {
   });
 
   describe("filterConstraints", () => {
-    it("returns only constraints where intersects is true", () => {
+    it("returns only constraints where intersects is true and has entities", () => {
       const constraints = [
         testNonIntersectingPlanningDesignation,
         testIntersectingPlanningDesignation,
@@ -116,6 +116,17 @@ describe("ApplicationConstraints.utils", () => {
         testIntersectingPlanningDesignation,
         testIntersectingPlanningConstraint,
       ]);
+    });
+
+    it("returns only constraints where intersects is true and has entities", () => {
+      const constraints = [
+        testNonIntersectingPlanningDesignation,
+        { ...testIntersectingPlanningDesignation, entities: [] },
+        testNonIntersectingPlanningConstraint,
+        { ...testIntersectingPlanningConstraint, entities: [] },
+      ];
+      const result = filterConstraints(constraints);
+      expect(result).toHaveLength(0);
     });
   });
 

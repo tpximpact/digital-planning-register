@@ -24,9 +24,6 @@ import type {
   PlanningConstraint,
   PlanningDesignation,
 } from "digital-planning-data-schemas/types/shared/Constraints.ts";
-// needed for the mocks
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApplicationConstraintsConstraint } from "@/components/ApplicationConstraints/ApplicationConstraintsConstraint";
 
 jest.mock(
   "@/components/ApplicationConstraints/ApplicationConstraints.data",
@@ -38,80 +35,73 @@ jest.mock(
   "@/components/ApplicationConstraints/ApplicationConstraintsConstraint",
   () => ({
     ApplicationConstraintsConstraint: jest.fn(({ constraint }) => (
-      <div data-testid={`constraint-${constraint.value}`}>
+      <div data-testid={`constraint-${constraint.name}`}>
         {constraint.description}
       </div>
     )),
   }),
 );
 
-// NonIntersectingPlanningDesignation
-const testNonIntersectingPlanningDesignation: PlanningDesignation = {
-  value: "nature.SAC",
-  description: "Special Area of Conservation (SAC)",
-  intersects: false,
-};
-
-// IntersectingPlanningDesignation
-const testIntersectingPlanningDesignation: PlanningDesignation = {
-  value: "articleFour",
-  description: "Article 4 direction area",
-  intersects: true,
-  entities: [
-    {
-      name: "Whole District excluding the Town of Chesham - Poultry production.",
-      description:
-        "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-      source: {
-        text: "Planning Data",
-        url: "https://www.planning.data.gov.uk/entity/7010002192",
+const mockConstraintsGroup: (PlanningDesignation | PlanningConstraint)[] = [
+  {
+    value: "articleFour",
+    description: "Article 4 direction area",
+    intersects: true,
+    entities: [
+      {
+        name: "Whole District excluding the Town of Chesham - Poultry production.",
+        description:
+          "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
+        source: {
+          text: "Planning Data",
+          url: "https://www.planning.data.gov.uk/entity/7010002192",
+        },
       },
-    },
-    {
-      name: "Stock Lane - Classified Unnumbered",
-      source: {
-        text: "Ordnance Survey MasterMap Highways",
+      {
+        name: "Stock Lane - Classified Unnumbered",
+        source: {
+          text: "Ordnance Survey MasterMap Highways",
+        },
       },
-    },
-  ],
-};
-
-// NonIntersectingPlanningConstraint
-const testNonIntersectingPlanningConstraint: PlanningConstraint = {
-  value: "any value non intersecting",
-  description: "any description",
-  intersects: false,
-};
-
-// IntersectingPlanningConstraint
-const testIntersectingPlanningConstraint: PlanningConstraint = {
-  value: "any value intersecting",
-  description: "any description",
-  intersects: true,
-  entities: [
-    {
-      name: "Whole District excluding the Town of Chesham - Poultry production.",
-      description:
-        "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
-      source: {
-        text: "Planning Data",
-        url: "https://www.planning.data.gov.uk/entity/7010002192",
+    ],
+  },
+  {
+    value: "articleFour.caz",
+    description: "Central Activities Zone (CAZ)",
+    intersects: false,
+  },
+  {
+    value: "tpo",
+    description: "Tree Preservation Order (TPO) or zone",
+    intersects: false,
+  },
+  {
+    value: "non intersecting constraint group value",
+    description: "non intersecting constraint group description",
+    intersects: false,
+  },
+  {
+    value: "non intersecting constraint group value",
+    description: "non intersecting constraint group description",
+    intersects: true,
+    entities: [
+      {
+        name: "Whole District excluding the Town of Chesham - Poultry production.",
+        description:
+          "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
+        source: {
+          text: "Planning Data",
+          url: "https://www.planning.data.gov.uk/entity/7010002192",
+        },
       },
-    },
-    {
-      name: "Stock Lane - Classified Unnumbered",
-      source: {
-        text: "Ordnance Survey MasterMap Highways",
+      {
+        name: "Stock Lane - Classified Unnumbered",
+        source: {
+          text: "Ordnance Survey MasterMap Highways",
+        },
       },
-    },
-  ],
-};
-
-const mockConstraints: (PlanningDesignation | PlanningConstraint)[] = [
-  testNonIntersectingPlanningDesignation,
-  testIntersectingPlanningDesignation,
-  testNonIntersectingPlanningConstraint,
-  testIntersectingPlanningConstraint,
+    ],
+  },
 ];
 
 describe("ApplicationConstraints", () => {
@@ -125,7 +115,7 @@ describe("ApplicationConstraints", () => {
   });
 
   it("renders heading and hint", () => {
-    render(<ApplicationConstraints constraints={mockConstraints} />);
+    render(<ApplicationConstraints constraints={mockConstraintsGroup} />);
     expect(screen.getByText("Constraints")).toBeInTheDocument();
     expect(
       screen.getByText(/These policies apply to this application/i),
@@ -133,26 +123,40 @@ describe("ApplicationConstraints", () => {
   });
 
   it("renders only intersecting constraints in Accordion", () => {
-    render(<ApplicationConstraints constraints={mockConstraints} />);
-    expect(screen.getByTestId("constraint-articleFour")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("constraint-any value intersecting"),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("constraint-nature.SAC"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId("constraint-any value non intersecting"),
-    ).not.toBeInTheDocument();
+    render(<ApplicationConstraints constraints={mockConstraintsGroup} />);
+
+    const constraintNodes = screen.queryAllByTestId(
+      (testId) =>
+        typeof testId === "string" && testId.startsWith("constraint-"),
+    );
+
+    const renderedConstraintNames = constraintNodes.map((node) =>
+      node.getAttribute("data-testid")?.replace("constraint-", ""),
+    );
+
+    const expectedConstraintNames = [
+      "Whole District excluding the Town of Chesham - Poultry production.",
+      "Stock Lane - Classified Unnumbered",
+      "Whole District excluding the Town of Chesham - Poultry production.",
+      "Stock Lane - Classified Unnumbered",
+    ];
+
+    expect(renderedConstraintNames.sort()).toEqual(
+      expectedConstraintNames.sort(),
+    );
+
+    expect(renderedConstraintNames.length).toBe(4);
   });
 
   it("shows loading when section is opened and fetch is pending", async () => {
     (fetchConstraintData as jest.Mock).mockImplementation(
       () => new Promise(() => {}),
     );
-    render(<ApplicationConstraints constraints={mockConstraints} />);
+    render(<ApplicationConstraints constraints={mockConstraintsGroup} />);
     const summary = screen
-      .getByRole("heading", { name: "Open section: Article 4 direction area" })
+      .getByRole("heading", {
+        name: "Open section: Article 4 direction area: Whole District excluding the Town of Chesham - Poultry production.",
+      })
       .closest("summary");
     fireEvent.click(summary!);
     expect(await screen.findByText("Loading...")).toBeInTheDocument();
@@ -164,27 +168,15 @@ describe("ApplicationConstraints", () => {
       description: "Fetched Constraint A",
       intersects: true,
     });
-    render(<ApplicationConstraints constraints={mockConstraints} />);
+    render(<ApplicationConstraints constraints={mockConstraintsGroup} />);
     const summary = screen
-      .getByRole("heading", { name: "Open section: Article 4 direction area" })
+      .getByRole("heading", {
+        name: "Open section: Article 4 direction area: Whole District excluding the Town of Chesham - Poultry production.",
+      })
       .closest("summary");
     fireEvent.click(summary!);
     await waitFor(() =>
       expect(screen.getByText("Fetched Constraint A")).toBeInTheDocument(),
     );
-  });
-
-  it("shows initial constraint if section is not opened", () => {
-    render(<ApplicationConstraints constraints={mockConstraints} />);
-    expect(screen.getByTestId("constraint-articleFour")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("constraint-any value intersecting"),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("constraint-nature.SAC"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId("constraint-any value non intersecting"),
-    ).not.toBeInTheDocument();
   });
 });
