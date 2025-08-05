@@ -48,12 +48,11 @@ export const convertBopsDocumentEndpointToDprDocumentEndpoint = (
   totalResults: number,
   searchParams: SearchParamsDocuments,
   status: ApiResponse<DprDocument[]>["status"],
-  extraDocuments: DprDocument[] = [],
 ): ApiResponse<DprDocumentsApiResponse> => {
   const convertedDocuments = documents.map(convertDocumentBopsFile);
-  const allDocuments = [...extraDocuments, ...convertedDocuments];
+  const allDocuments = [...convertedDocuments];
 
-  const finalTotalResults = totalResults + extraDocuments.length;
+  const finalTotalResults = totalResults;
 
   const resultsPerPage = searchParams.resultsPerPage;
   const currentPage = searchParams.page;

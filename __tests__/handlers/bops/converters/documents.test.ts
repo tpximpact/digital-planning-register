@@ -163,41 +163,4 @@ describe("convertBopsDocumentEndpointToDprDocumentEndpoint", () => {
 
     expect(result.data).toBeNull();
   });
-
-  it("returns paginated extra documents and correct pagination info", () => {
-    const docs = [1, 2, 3, 4, 5].map(makeBopsFile);
-    const searchParams: SearchParamsDocuments = { resultsPerPage: 2, page: 2 };
-    const totalResults = 5;
-    const status = { code: 200, message: "" };
-    const extraDocuments = [
-      {
-        url: "http://example.com/extra.pdf",
-        title: "Extra document",
-        metadata: {
-          contentType: "text/pdf",
-        },
-      },
-    ];
-
-    const result = convertBopsDocumentEndpointToDprDocumentEndpoint(
-      docs,
-      totalResults,
-      searchParams,
-      status,
-      extraDocuments,
-    );
-
-    expect(result.data).toHaveLength(2);
-    expect(result.data).not.toBeNull();
-    expect(result.data![0].title).toBe("Doc 2");
-    expect(result.data![1].title).toBe("Doc 3");
-    expect(result.pagination).toEqual({
-      resultsPerPage: 2,
-      currentPage: 2,
-      totalPages: 3,
-      totalResults: 6,
-      totalAvailableItems: 6,
-    });
-    expect(result.status).toEqual(status);
-  });
 });
