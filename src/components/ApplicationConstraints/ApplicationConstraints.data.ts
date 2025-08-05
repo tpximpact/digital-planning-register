@@ -16,46 +16,29 @@
  */
 
 import { fetchEntityFromPlanningData } from "@/actions/planningData";
-import {
-  DprDesignationConstraint,
-  DprPlanningDataEntity,
-} from "./ApplicationConstraints.types";
+import { DprPlanningDataEntity } from "./ApplicationConstraints.types";
 import { getEntityFromUrl } from "./ApplicationConstraints.utils";
 
 export const fetchConstraintData = async (
-  constraint: DprDesignationConstraint,
-): Promise<DprDesignationConstraint> => {
-  if (!constraint.entities) return constraint;
-  const entities = constraint.entities;
-
-  const updatedEntities = await Promise.allSettled(
-    entities.map(async (entity: DprPlanningDataEntity) => {
-      try {
-        if (
-          entity.source &&
-          "url" in entity.source &&
-          typeof entity.source.url === "string" &&
-          entity.source.url.includes("planning.data.gov.uk/entity")
-        ) {
-          const entityId = getEntityFromUrl(entity.source.url);
-          if (entityId) {
-            const planningData = await fetchEntityFromPlanningData(entityId);
-            if (planningData.data) {
-              return { ...entity, data: planningData.data };
-            }
-          }
+  constraint: DprPlanningDataEntity,
+): Promise<DprPlanningDataEntity> => {
+  try {
+    if (
+      constraint.source &&
+      "url" in constraint.source &&
+      typeof constraint.source.url === "string" &&
+      constraint.source.url.includes("planning.data.gov.uk/entity")
+    ) {
+      const entityId = getEntityFromUrl(constraint.source.url);
+      if (entityId) {
+        const planningData = await fetchEntityFromPlanningData(entityId);
+        if (planningData.data) {
+          return { ...constraint, data: planningData.data };
         }
-        return entity;
-      } catch {
-        return entity;
       }
-    }),
-  );
-
-  return {
-    ...constraint,
-    entities: updatedEntities.map((result, i) =>
-      result.status === "fulfilled" ? result.value : { ...entities[i] },
-    ),
-  };
+    }
+    return constraint;
+  } catch {
+    return constraint;
+  }
 };

@@ -17,10 +17,7 @@
 import { fetchConstraintData } from "@/components/ApplicationConstraints/ApplicationConstraints.data";
 import { fetchEntityFromPlanningData } from "@/actions/planningData";
 import { getEntityFromUrl } from "@/components/ApplicationConstraints/ApplicationConstraints.utils";
-import {
-  DprDesignationConstraint,
-  DprPlanningDataEntity,
-} from "@/components/ApplicationConstraints/ApplicationConstraints.types";
+import { DprPlanningDataEntity } from "@/components/ApplicationConstraints/ApplicationConstraints.types";
 
 jest.mock("@/actions/planningData", () => ({
   fetchEntityFromPlanningData: jest.fn(),
@@ -32,7 +29,7 @@ jest.mock(
   }),
 );
 
-describe.only("fetchConstraintData", () => {
+describe("fetchConstraintData", () => {
   const mockEntity: DprPlanningDataEntity = {
     name: "Entity 1",
     source: {
@@ -48,28 +45,11 @@ describe.only("fetchConstraintData", () => {
     },
   };
 
-  const mockConstraint: DprDesignationConstraint = {
-    value: "test",
-    description: "desc",
-    intersects: true,
-    entities: [mockEntity, mockEntityNoUrl],
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("returns the constraint unchanged if there are no entities", async () => {
-    const constraint: DprDesignationConstraint = {
-      value: "no-entities",
-      description: "desc",
-      intersects: true,
-    };
-    const result = await fetchConstraintData(constraint);
-    expect(result).toBe(constraint);
-  });
-
-  it("fetches data for entities with a valid planning data url and adds data prop", async () => {
+  it("fetches data for constraint with a valid planning data url and adds data prop", async () => {
     (getEntityFromUrl as jest.Mock).mockReturnValue(7010002192);
     (fetchEntityFromPlanningData as jest.Mock).mockResolvedValue({
       data: {
@@ -79,14 +59,14 @@ describe.only("fetchConstraintData", () => {
       },
     });
 
-    const result = await fetchConstraintData(mockConstraint);
+    const result = await fetchConstraintData(mockEntity);
 
     expect(getEntityFromUrl).toHaveBeenCalledWith(
       "https://www.planning.data.gov.uk/entity/7010002192",
     );
     expect(fetchEntityFromPlanningData).toHaveBeenCalledWith(7010002192);
 
-    expect(result.entities?.[0]).toMatchObject({
+    expect(result).toMatchObject({
       ...mockEntity,
       data: {
         entity: 7010002192,
@@ -94,8 +74,25 @@ describe.only("fetchConstraintData", () => {
         dataset: "article-4-direction-area",
       },
     });
+  });
+
+  it("fetches data for constraint with a valid planning data url and adds data prop", async () => {
+    (getEntityFromUrl as jest.Mock).mockReturnValue(7010002192);
+    (fetchEntityFromPlanningData as jest.Mock).mockResolvedValue({
+      data: {
+        entity: 7010002192,
+        name: "Whole District excluding the Town of Chesham - Poultry production.",
+        dataset: "article-4-direction-area",
+      },
+    });
+
+    const result = await fetchConstraintData(mockEntityNoUrl);
+
+    expect(getEntityFromUrl).not.toHaveBeenCalled();
+    expect(fetchEntityFromPlanningData).not.toHaveBeenCalled();
+
     // Entity without a valid url should not have data
-    expect(result.entities?.[1]).toEqual(mockEntityNoUrl);
+    expect(result).toEqual(mockEntityNoUrl);
   });
 
   it("returns the original entity if fetchEntityFromPlanningData throws", async () => {
@@ -104,38 +101,31 @@ describe.only("fetchConstraintData", () => {
       new Error("fail"),
     );
 
-    const result = await fetchConstraintData(mockConstraint);
+    const result = await fetchConstraintData(mockEntity);
 
-    expect(result.entities?.[0]).toEqual(mockEntity);
+    expect(result).toEqual(mockEntity);
   });
 
   it("returns the original entity if getEntityFromUrl returns null", async () => {
     (getEntityFromUrl as jest.Mock).mockReturnValue(null);
 
-    const result = await fetchConstraintData(mockConstraint);
+    const result = await fetchConstraintData(mockEntity);
 
-    expect(result.entities?.[0]).toEqual(mockEntity);
+    expect(result).toEqual(mockEntity);
   });
 
   it("returns the original entity if entity.source.url does not include planning.data.gov.uk/entity", async () => {
-    const constraint: DprDesignationConstraint = {
-      value: "test",
-      description: "desc",
-      intersects: true,
-      entities: [
-        {
-          name: "Entity 3",
-          source: {
-            text: "Planning Data",
-            url: "https://example.com/entity/999",
-          },
-        },
-      ],
+    const constraint: DprPlanningDataEntity = {
+      name: "Entity 3",
+      source: {
+        text: "Planning Data",
+        url: "https://example.com/entity/999",
+      },
     };
 
     const result = await fetchConstraintData(constraint);
 
-    expect(result.entities?.[0]).toEqual(constraint.entities?.[0]);
+    expect(result).toEqual(constraint);
     expect(getEntityFromUrl).not.toHaveBeenCalled();
     expect(fetchEntityFromPlanningData).not.toHaveBeenCalled();
   });

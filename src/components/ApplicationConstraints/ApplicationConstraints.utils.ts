@@ -41,12 +41,17 @@ export const prepareConstraints = (
 };
 
 /**
- * Removes constraints that do not intersect from the list of constraints.
+ * Allow only items that have intersects set to true and has entities
  * @param constraints
  * @returns
  */
 export const filterConstraints = (constraints: DprDesignationConstraint[]) => {
-  return constraints.filter((constraint) => constraint.intersects);
+  return constraints.filter(
+    (constraint) =>
+      constraint.intersects &&
+      constraint.entities &&
+      constraint.entities.length > 0,
+  );
 };
 
 /**
