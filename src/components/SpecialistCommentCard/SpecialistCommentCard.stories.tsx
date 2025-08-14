@@ -34,7 +34,7 @@ const meta = {
       comments: [
         {
           ...generateSpecialistComment(1).comments[0],
-          comment:
+          commentRedacted:
             "Asperiores inventore, consectetur adipisicing elit. Eligendi rem sapiente dolor, inventore veritatis optio.",
         },
       ],
@@ -81,17 +81,17 @@ export const MultipleComments: Story = {
       comments: [
         {
           ...generateSpecialistComment(3).comments[0],
-          comment:
+          commentRedacted:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         },
         {
           ...generateSpecialistComment(3).comments[1],
-          comment:
+          commentRedacted:
             "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         },
         {
           ...generateSpecialistComment(3).comments[2],
-          comment:
+          commentRedacted:
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
         },
       ],
@@ -155,169 +155,35 @@ export const ApprovedSentiment: Story = {
   },
 };
 
-export const ReasonIsConstraintSingleIntersecting: Story = {
+export const Constraint: Story = {
   args: {
     specialist: {
       ...generateSpecialistComment(1),
       reason: "Constraint",
       constraints: [
         {
-          value: "greenBelt",
-          description: "Lorem ipsum dolor sit amet",
+          value: "articleFour",
+          description: "Article 4 direction area",
           intersects: true,
           entities: [
             {
-              name: "Area Viridis I",
+              name: "Whole District excluding the Town of Chesham - Poultry production.",
+              description:
+                "Bucks County Council Town and Country Planning Act 1947 Town and Country Planning General Development Order 1950. Re Whole District excluding the Town of Chesham. In relation to poultry production.",
               source: {
                 text: "Planning Data",
-                url: "https://example.com/",
+                url: "https://www.planning.data.gov.uk/entity/7010002192",
               },
             },
             {
-              name: "Sectio Parci Loci",
+              name: "Stock Lane - Classified Unnumbered",
               source: {
-                text: "Planning Data",
-                url: "https://example.com/",
+                text: "Ordnance Survey MasterMap Highways",
               },
             },
           ],
         },
       ],
-    },
-  },
-};
-
-export const ReasonIsConstraintMultipleIntersecting: Story = {
-  args: {
-    specialist: {
-      ...generateSpecialistComment(1),
-      reason: "Constraint",
-      constraints: [
-        {
-          value: "listed.gradeOne",
-          description: "Consectetur adipiscing elit",
-          intersects: true,
-          entities: [
-            {
-              name: "Domus Historica",
-              source: {
-                text: "Planning Data",
-                url: "https://example.com/",
-              },
-            },
-          ],
-        },
-        {
-          value: "tpo",
-          description: "Sed do eiusmod tempor",
-          intersects: true,
-          entities: [
-            {
-              name: "Quercus Arbor TPO-2023-001",
-              source: {
-                text: "Planning Data",
-                url: "https://example.com/",
-              },
-            },
-          ],
-        },
-        {
-          value: "nature.SSSI",
-          description: "Incididunt ut labore",
-          intersects: true,
-          entities: [
-            {
-              name: "Area Humida Faunae",
-              source: {
-                text: "Planning Data",
-                url: "https://example.com/",
-              },
-            },
-          ],
-        },
-      ],
-    },
-  },
-};
-
-export const ReasonIsConstraintNonIntersecting: Story = {
-  args: {
-    specialist: {
-      ...generateSpecialistComment(1),
-      reason: "Constraint",
-      constraints: [
-        {
-          value: "flood.zoneThree.a",
-          description: "Et dolore magna aliqua",
-          intersects: false,
-        },
-      ],
-    },
-  },
-};
-
-export const ReasonIsConstraintMixed: Story = {
-  args: {
-    specialist: {
-      ...generateSpecialistComment(1),
-      reason: "Constraint",
-      constraints: [
-        {
-          value: "designated.conservationArea",
-          description: "Ut enim ad minim veniam",
-          intersects: true,
-          entities: [
-            {
-              name: "Zona Conservationis Urbanae",
-              source: {
-                text: "Planning Data",
-                url: "https://example.com/",
-              },
-            },
-          ],
-        },
-        {
-          value: "aquifer.principal",
-          description: "Quis nostrud exercitation",
-          intersects: false,
-        },
-        {
-          value: "road.classified",
-          description: "Ullamco laboris nisi",
-          intersects: true,
-          entities: [
-            {
-              name: "Via Classificata A40",
-              source: {
-                text: "Planning Data",
-                url: "https://example.com/",
-              },
-            },
-          ],
-        },
-      ],
-    },
-  },
-  name: "Reason: Constraint (Mixed Intersecting/Non-Intersecting)",
-};
-
-export const ReasonIsConstraintNoData: Story = {
-  args: {
-    specialist: {
-      ...generateSpecialistComment(1),
-      reason: "Constraint",
-      constraints: [],
-    },
-  },
-};
-
-export const ReasonIsOther: Story = {
-  args: {
-    specialist: {
-      ...generateSpecialistComment(1),
-      reason:
-        "Voluptatum cupiditate perferendis vitae eaque, quia voluptates inventore veritatis voluptas.",
-      constraints: [],
     },
   },
 };

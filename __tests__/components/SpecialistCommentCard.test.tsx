@@ -31,9 +31,12 @@ afterAll(() => {
 
 jest.mock("@/util", () => ({
   formatDateTimeToDprDate: (d: string) => `MOCK_DATE(${d})`,
+  pascalToSentenceCase: (s: string) => `MOCK_PASCAL(${s})`,
+  capitalizeFirstLetter: (s: string) => `MOCK_CAPITAL(${s})`,
 }));
 
 jest.mock("@/lib/comments", () => ({
+  ...jest.requireActual<typeof import("@/lib/comments")>("@/lib/comments"),
   formatSpecialistSentiment: (s: string) => `MOCK_SENTIMENT(${s})`,
 }));
 
@@ -89,7 +92,6 @@ describe("SpecialistCommentCard", () => {
         association: "specialistComment",
       },
     ] as SpecialistComment["files"];
-    specialistData.comments[0].comment = "This is a short comment.";
     specialistData.comments[0].commentRedacted = "This is a short comment.";
 
     render(<SpecialistCommentCard specialist={specialistData} />);
@@ -103,7 +105,9 @@ describe("SpecialistCommentCard", () => {
     expect(
       screen.getByText("Sentiment towards application"),
     ).toBeInTheDocument();
-    expect(screen.getByText("MOCK_SENTIMENT(approved)")).toBeInTheDocument();
+    expect(
+      screen.getByText("MOCK_CAPITAL(MOCK_PASCAL(approved))"),
+    ).toBeInTheDocument();
 
     expect(screen.getByText("Date Consulted")).toBeInTheDocument();
     expect(
@@ -202,7 +206,6 @@ describe("SpecialistCommentCard", () => {
   it("does not show expand button for short comments", () => {
     const shortComment = "Short comment.";
     const specialistData = generateSpecialistComment(1);
-    specialistData.comments[0].comment = shortComment;
     specialistData.comments[0].commentRedacted = shortComment;
 
     render(<SpecialistCommentCard specialist={specialistData} />);
@@ -230,8 +233,8 @@ describe("SpecialistCommentCard", () => {
   it("renders 'View all responses' button when multiple comments exist", () => {
     const specialistData = generateSpecialistComment(2);
     specialistData.comments.push(generateSpecialistComment(1).comments[0]);
-    specialistData.comments[0].comment = "Comment 1";
-    specialistData.comments[1].comment = "Comment 2";
+    specialistData.comments[0].commentRedacted = "Comment 1";
+    specialistData.comments[1].commentRedacted = "Comment 2";
 
     render(<SpecialistCommentCard specialist={specialistData} />);
 

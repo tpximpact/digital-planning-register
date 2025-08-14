@@ -1885,8 +1885,8 @@ describe("generateSpecialistComment", () => {
 
     expect(specialistSentimentValues).toContain(comment.sentiment);
 
-    expect(typeof comment.comment).toBe("string");
-    expect(comment.comment.length).toBeGreaterThan(0);
+    expect(typeof comment.commentRedacted).toBe("string");
+    expect(comment.commentRedacted.length).toBeGreaterThan(0);
 
     expect(typeof comment.commentRedacted).toBe("string");
     expect(comment.commentRedacted).toBeDefined();

@@ -49,7 +49,10 @@ import type {
   BaseApplicant,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
-import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
+import {
+  COMMENT_PUBLIC_TOPIC_OPTIONS,
+  COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
+} from "@/lib/comments";
 import type {
   CommentSentiment,
   SpecialistCommentSentiment,
@@ -59,8 +62,8 @@ import {
   TopicAndComments,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 import {
-  Specialist,
-  SpecialistComment,
+  SpecialistCommentRedacted,
+  SpecialistRedacted,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 import { PostSubmissionFile } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/File.js";
 
@@ -242,15 +245,15 @@ export const generatePublicComment = (
 
 export const generateSpecialistComment = (
   paragraphCount: number = 1,
-): Specialist => {
-  const generatedComment: SpecialistComment = {
+): SpecialistRedacted => {
+  const specialistSentimentValues = COMMENT_SPECIALIST_SENTIMENT_OPTIONS.map(
+    (opt) => opt.value,
+  );
+  const generatedComment: SpecialistCommentRedacted = {
     id: faker.string.uuid(),
-    sentiment: faker.helpers.arrayElement<SpecialistCommentSentiment>([
-      "objected",
-      "amendmentsNeeded",
-      "approved",
-    ]),
-    comment: faker.lorem.paragraphs(paragraphCount),
+    sentiment: faker.helpers.arrayElement(
+      specialistSentimentValues,
+    ) as SpecialistCommentSentiment,
     commentRedacted: faker.lorem.paragraphs(paragraphCount),
     files: Array.from(
       { length: faker.number.int({ min: 0, max: 2 }) },
@@ -280,7 +283,7 @@ export const generateSpecialistComment = (
   };
 
   // Construct the Specialist object
-  const specialist: Specialist = {
+  const specialist: SpecialistRedacted = {
     id: faker.string.uuid(),
     organisationSpecialism: faker.company.name(),
     jobTitle: faker.person.jobTitle(),

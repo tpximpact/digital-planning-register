@@ -17,14 +17,17 @@
 "use client";
 import "./SpecialistCommentCard.scss";
 import { useState } from "react";
-import { formatDateTimeToDprDate } from "@/util";
+import {
+  capitalizeFirstLetter,
+  formatDateTimeToDprDate,
+  pascalToSentenceCase,
+} from "@/util";
 import { TextButton } from "../TextButton";
 import { Attachment } from "../govukDpr/Attachment";
-import { Specialist } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
-import { formatSpecialistSentiment } from "@/lib/comments";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
 export interface SpecialistCommentCardProps {
-  specialist?: Specialist;
+  specialist?: SpecialistRedacted;
 }
 
 export function collapseCommentsByCharLimit(
@@ -64,7 +67,7 @@ export const SpecialistCommentCard = ({
   const latestSpecialistComment = specialist.comments[0];
 
   const { text: collapsedText, truncated } = collapseCommentsByCharLimit(
-    latestSpecialistComment.comment,
+    latestSpecialistComment.commentRedacted,
   );
   const hasOverflow = truncated;
 
@@ -115,7 +118,9 @@ export const SpecialistCommentCard = ({
           <>
             <h4 className="govuk-heading-s">Sentiment towards application</h4>
             <p className="govuk-body">
-              {formatSpecialistSentiment(latestSpecialistComment.sentiment)}
+              {capitalizeFirstLetter(
+                pascalToSentenceCase(latestSpecialistComment.sentiment),
+              )}
             </p>
           </>
         )}
@@ -160,10 +165,7 @@ export const SpecialistCommentCard = ({
           )}
         </div>
         <h4 className="govuk-heading-s">Full comment</h4>
-        <div
-          id={`specialist-comment-${specialist?.id}`}
-          aria-expanded={isExpanded}
-        >
+        <div id={`specialist-comment-${specialist?.id}`}>
           <div className="dpr-specialist-comment-card__topic-section">
             <div className="govuk-body">
               {isExpanded ? (
@@ -175,6 +177,7 @@ export const SpecialistCommentCard = ({
           </div>
           {hasOverflow && (
             <TextButton
+              aria-expanded={isExpanded}
               aria-controls={`specialist-comment-${specialist?.id}`}
               onClick={() => setIsExpanded(!isExpanded)}
               className="govuk-link govuk-link--no-visited-state dpr-specialist-comment-card--toggle-button"

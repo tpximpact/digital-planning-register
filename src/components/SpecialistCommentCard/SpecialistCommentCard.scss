@@ -46,7 +46,7 @@
   &__toggle-button {
     display: block;
     margin-top: govuk-spacing(1);
-    font-size: 19px;
+    @include govuk-font($size: 19);
     color: govuk-colour("blue");
     background: none;
     border: 0;
