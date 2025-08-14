@@ -49,12 +49,23 @@ import type {
   BaseApplicant,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
-import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
+import {
+  COMMENT_PUBLIC_TOPIC_OPTIONS,
+  COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
+} from "@/lib/comments";
 import type {
+  CommentSentiment,
+  SpecialistCommentSentiment,
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import {
   PublicComment,
   TopicAndComments,
-} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
-import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
+import {
+  SpecialistCommentRedacted,
+  SpecialistRedacted,
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { PostSubmissionFile } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/File.js";
 
 type PossibleDates = {
   application: {
@@ -232,6 +243,57 @@ export const generatePublicComment = (
   return baseComment;
 };
 
+export const generateSpecialistComment = (
+  paragraphCount: number = 1,
+): SpecialistRedacted => {
+  const specialistSentimentValues = COMMENT_SPECIALIST_SENTIMENT_OPTIONS.map(
+    (opt) => opt.value,
+  );
+  const generatedComment: SpecialistCommentRedacted = {
+    id: faker.string.uuid(),
+    sentiment: faker.helpers.arrayElement(
+      specialistSentimentValues,
+    ) as SpecialistCommentSentiment,
+    commentRedacted: faker.lorem.paragraphs(paragraphCount),
+    files: Array.from(
+      { length: faker.number.int({ min: 0, max: 2 }) },
+      (): PostSubmissionFile => ({
+        id: faker.number.int({ min: 1, max: 1000000 }),
+        type: ["otherEvidence"],
+        association: "specialistComment",
+        name: faker.lorem.words({ min: 2, max: 5 }),
+        description: faker.lorem.sentence(),
+        url: faker.internet.url(),
+        metadata: {
+          mimeType: faker.system.mimeType(),
+          createdAt: faker.date.past().toISOString(),
+          publishedAt: faker.date.recent().toISOString(),
+          size: {
+            bytes: faker.number.int({ min: 10 * 1024, max: 5 * 1024 * 1024 }),
+          },
+          submittedAt: faker.date.past().toISOString(),
+        },
+      }),
+    ),
+    metadata: {
+      submittedAt: faker.date.past().toISOString(),
+      validatedAt: faker.date.past().toISOString(),
+      publishedAt: faker.date.recent().toISOString(),
+    },
+  };
+
+  // Construct the Specialist object
+  const specialist: SpecialistRedacted = {
+    id: faker.string.uuid(),
+    organisationSpecialism: faker.company.name(),
+    jobTitle: faker.person.jobTitle(),
+    reason: faker.helpers.arrayElement(["Constraint", "Other"]),
+    firstConsultedAt: faker.date.past({ years: 1 }).toISOString(),
+    comments: [generatedComment],
+  };
+
+  return specialist;
+};
 export const generateProposedAddress: ProposedAddress = {
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
