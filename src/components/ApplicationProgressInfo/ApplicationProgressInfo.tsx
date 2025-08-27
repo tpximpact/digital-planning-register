@@ -146,11 +146,20 @@ export const ApplicationProgressInfo = ({
           <FileList
             documents={[
               {
+                id: 1,
+                name: "Decision notice",
+                association: "application",
+                type: ["otherDocument"],
                 url: decisionNoticeUrl,
-                title: "Decision notice",
-                createdDate: decisionDate,
                 metadata: {
-                  contentType: "application/pdf",
+                  size: {
+                    bytes: 0,
+                  },
+                  mimeType: "application/pdf",
+                  createdAt: decisionDate ?? new Date().toISOString(),
+                  submittedAt: decisionDate ?? new Date().toISOString(),
+                  validatedAt: decisionDate ?? new Date().toISOString(),
+                  publishedAt: decisionDate ?? new Date().toISOString(),
                 },
               },
             ]}

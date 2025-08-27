@@ -66,7 +66,7 @@ const responseQuery = (
       );
     } else {
       documents = [generateDocument()];
-      documents[0].title = searchParams?.name;
+      documents[0].name = searchParams?.name;
       pagination = generatePagination(
         searchParams?.page ?? 1,
         1,

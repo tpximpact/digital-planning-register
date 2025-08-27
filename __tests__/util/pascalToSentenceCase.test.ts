@@ -26,4 +26,9 @@ describe("pascalToSentenceCase", () => {
   it("handles strings with only one word", () => {
     expect(pascalToSentenceCase("Word")).toBe("word");
   });
+
+  it("handles punctuation", () => {
+    expect(pascalToSentenceCase("Word.")).toBe("word.");
+    expect(pascalToSentenceCase("Hello.World!")).toBe("hello world!");
+  });
 });

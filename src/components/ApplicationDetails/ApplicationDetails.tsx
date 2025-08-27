@@ -165,14 +165,23 @@ export const ApplicationDetails = ({
           <FileList
             documents={[
               {
+                id: 1,
+                name: "Application form",
+                association: "application",
+                type: ["otherDocument"],
                 url: createPathFromParams(
                   { council: councilSlug, reference },
                   "application-form",
                 ),
-                title: "Application form",
-                createdDate: application.data.submission.submittedAt,
                 metadata: {
-                  contentType: "html",
+                  size: {
+                    bytes: 0,
+                  },
+                  mimeType: "text/html",
+                  createdAt: application.data.submission.submittedAt,
+                  submittedAt: application.data.submission.submittedAt,
+                  validatedAt: application.data?.validation?.validatedAt,
+                  publishedAt: application.data?.application?.publishedAt,
                 },
               },
             ]}

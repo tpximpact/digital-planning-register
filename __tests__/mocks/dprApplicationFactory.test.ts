@@ -91,10 +91,10 @@ describe("generateComment", () => {
 describe("generateDocument", () => {
   it("should generate a document object with the correct structure", () => {
     const document = generateDocument();
-    expect(document).toHaveProperty("title");
+    expect(document).toHaveProperty("name");
     expect(document).toHaveProperty("url");
-    expect(document).toHaveProperty("createdDate");
-    expect(document.createdDate).toMatch(utcDateRegex);
+    expect(document.metadata).toHaveProperty("createdAt");
+    expect(document.metadata.createdAt).toMatch(utcDateRegex);
   });
 
   it("should generate different documents on subsequent calls", () => {
