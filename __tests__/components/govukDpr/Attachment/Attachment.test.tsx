@@ -58,18 +58,24 @@ describe("Attachment Component", () => {
     expect(thumbImg).toHaveAttribute("alt", "Custom Thumbnail Doc thumbnail");
   });
 
-  it("shows the correct inline icon if recognized contentType is 'application/pdf'", () => {
-    const { container } = render(<Attachment contentType="application/pdf" />);
+  it("shows the correct inline icon if recognized contentType is 'pdf'", () => {
+    const { container } = render(<Attachment contentType="pdf" />);
     const pdfIcon = container.querySelector(
       ".dpr-attachment__thumbnail-image--pdf",
     );
     expect(pdfIcon).toBeInTheDocument();
   });
 
-  it("shows the default/generic icon if contentType is unrecognized", () => {
-    const { container } = render(
-      <Attachment contentType="some/unknown-type" />,
+  it("shows the correct inline icon if recognized mimeType is 'application/pdf'", () => {
+    const { container } = render(<Attachment mimeType="application/pdf" />);
+    const pdfIcon = container.querySelector(
+      ".dpr-attachment__thumbnail-image--pdf",
     );
+    expect(pdfIcon).toBeInTheDocument();
+  });
+
+  it("shows the default/generic icon if mimeType is unrecognized", () => {
+    const { container } = render(<Attachment mimeType="some/unknown-type" />);
     const genericIcon = container.querySelector(
       ".dpr-attachment__thumbnail-image--generic",
     );
@@ -93,6 +99,21 @@ describe("Attachment Component", () => {
     expect(
       screen.queryByText(/Request an accessible format/i),
     ).not.toBeInTheDocument();
+  });
+
+  it("mimeType takes precedence over contentType", () => {
+    const { container } = render(
+      <Attachment mimeType="application/pdf" contentType="document" />,
+    );
+    const pdfIcon = container.querySelector(
+      ".dpr-attachment__thumbnail-image--pdf",
+    );
+    expect(pdfIcon).toBeInTheDocument();
+  });
+
+  it("shows tags and tag prefix", () => {
+    render(<Attachment tagPrefix="File type" tags={["application/pdf"]} />);
+    expect(screen.getByText("File type: application/pdf")).toBeInTheDocument();
   });
 });
 
@@ -122,7 +143,7 @@ describe("MIME-type icon rendering", () => {
     ["generic", "some/unknown-type"],
     ["generic", "invalid/type"],
   ])("renders the %s icon for contentType '%s'", (expectedType, mimeType) => {
-    const { container } = render(<Attachment contentType={mimeType} />);
+    const { container } = render(<Attachment mimeType={mimeType} />);
     const expectedSelector = `.dpr-attachment__thumbnail-image--${expectedType}`;
     const icon = container.querySelector(expectedSelector);
     expect(icon).toBeInTheDocument();

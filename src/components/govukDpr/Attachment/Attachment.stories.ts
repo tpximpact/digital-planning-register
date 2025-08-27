@@ -16,18 +16,8 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import Attachment from "./Attachment";
+import { Attachment } from "./Attachment";
 
-export interface AttachmentProps {
-  title?: string;
-  url?: string;
-  fileName?: string;
-  thumbnailUrl?: string;
-  contentType?: string;
-  fileSize?: number;
-  alternativeFormatContactEmail?: string;
-  numberOfPages?: number;
-}
 const meta = {
   title: "Gov UK DPR Components/Attachment",
   component: Attachment,
@@ -37,82 +27,49 @@ const meta = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
   },
-  args: {
-    title: "Lorem ipsum odor amet, consectetuer adipiscing elit",
-    url: "#",
-    fileSize: 21234000,
-    numberOfPages: 3,
-  },
+  args: {},
 } satisfies Meta<typeof Attachment>;
 
 export default meta;
-type Story = StoryObj<AttachmentProps>;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const Pdf: Story = {
+// add options here instead of above so thet dont affect other stories
+export const Default: Story = {
   args: {
+    title: "Full example",
+    url: "#",
+    fileName: "filename.pdf",
     contentType: "pdf",
-    url: "#",
-    fileSize: 200223420,
-    title: "Lorem ipsum dolor sit amet",
-    numberOfPages: 3,
-  },
-};
-
-export const Doc: Story = {
-  args: {
-    contentType: "doc",
-    url: "#",
     fileSize: 25000,
-    title: "Facilisi porta ante",
-    numberOfPages: 1,
+    numberOfPages: 4,
+    alternativeFormatContactEmail: "test@example.com",
+    uploadedAt: new Date().toISOString(),
   },
 };
 
-export const Spreadsheet: Story = {
+export const Blank: Story = {};
+
+export const MimeType: Story = {
   args: {
-    contentType: "xls",
-    url: "#",
-    fileSize: 68880,
-    title: "Aptent iaculis sem luctus eleifend in nibh netus pharetra vehicula",
+    mimeType: "application/pdf",
   },
 };
 
-export const Html: Story = {
+export const Tags: Story = {
   args: {
-    contentType: "html",
-    url: "#",
-    fileSize: 645640,
-    title: "Cubilia montes scelerisque",
-  },
-};
-
-export const External: Story = {
-  args: {
-    contentType: "external",
-    url: "#",
-    fileSize: 5000,
-    title: "Dui ante volutpat feugiat rutrum aptent arcu sollicitudin euismod",
-  },
-};
-
-export const Generic: Story = {
-  args: {
-    contentType: "xxx",
-    url: "#",
-    title: " Eu vitae aliquam",
+    tagPrefix: "Document type",
+    tags: ["one", "two", "three"],
   },
 };
 
 export const RequestAccessibleFormatEmail: Story = {
   args: {
-    contentType: "pdf",
+    title: "Request accessible format with email",
     url: "#",
-    fileSize: 2023400,
-    title: "Lorem ipsum dolor sit amet",
-    numberOfPages: 3,
     alternativeFormatContactEmail: "test@example.com",
+    contentType: "pdf",
+    fileSize: 25000,
+    numberOfPages: 2,
   },
 };
 export const WithThumbnail: Story = {
@@ -121,7 +78,49 @@ export const WithThumbnail: Story = {
     url: "#",
     thumbnailUrl: "/govuk/assets/images/govuk-crest.svg",
     contentType: "pdf",
-    fileSize: 1234567,
-    numberOfPages: 5,
+    fileSize: 25000,
+    numberOfPages: 2,
+  },
+};
+
+export const Pdf: Story = {
+  name: "Content type: PDF",
+  args: {
+    contentType: "pdf",
+  },
+};
+
+export const Document: Story = {
+  name: "Content type: Document",
+  args: {
+    contentType: "document",
+  },
+};
+
+export const Spreadsheet: Story = {
+  name: "Content type: Spreadsheet",
+  args: {
+    contentType: "spreadsheet",
+  },
+};
+
+export const Html: Story = {
+  name: "Content type: HTML",
+  args: {
+    contentType: "html",
+  },
+};
+
+export const External: Story = {
+  name: "Content type: External",
+  args: {
+    contentType: "external",
+  },
+};
+
+export const Generic: Story = {
+  name: "Content type: Generic",
+  args: {
+    contentType: "generic",
   },
 };

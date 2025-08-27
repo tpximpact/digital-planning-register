@@ -15,13 +15,7 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export type AttachmentContentType =
-  | "pdf"
-  | "document"
-  | "spreadsheet"
-  | "html"
-  | "external"
-  | "generic";
+import { AttachmentContentType } from "./Attachment";
 
 export function mapMimeToAttachmentContentType(
   mime?: string,

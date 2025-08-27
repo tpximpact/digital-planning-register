@@ -28,16 +28,30 @@ import { formatDateTimeToDprDate, formatFileSize } from "@/util";
 import { Details } from "../Details";
 import { mapMimeToAttachmentContentType } from "./Attachment.utils";
 
+export type AttachmentContentType =
+  | "pdf"
+  | "document"
+  | "spreadsheet"
+  | "html"
+  | "external"
+  | "generic";
+
 export interface AttachmentProps {
   title?: string;
   url?: string;
   fileName?: string;
   thumbnailUrl?: string;
-  contentType?: string;
+  contentType?: AttachmentContentType;
   fileSize?: number;
   numberOfPages?: number;
   alternativeFormatContactEmail?: string;
-  createdDate?: string;
+  uploadedAt?: string;
+  /**
+   * overrides contentType
+   */
+  mimeType?: string;
+  tagPrefix?: string;
+  tags?: string[];
 }
 
 export const Attachment = ({
@@ -49,12 +63,13 @@ export const Attachment = ({
   fileSize,
   numberOfPages,
   alternativeFormatContactEmail,
-  createdDate,
+  uploadedAt,
+  mimeType,
+  tagPrefix,
+  tags,
 }: AttachmentProps) => {
-  function renderIcon(contentType?: string): JSX.Element {
-    const type = mapMimeToAttachmentContentType(contentType);
-
-    switch (type) {
+  function renderIcon(contentType?: AttachmentContentType): JSX.Element {
+    switch (contentType) {
       case "pdf":
         return <ThumbnailPdf />;
       case "document":
@@ -65,13 +80,23 @@ export const Attachment = ({
         return <ThumbnailHtml />;
       case "external":
         return <ThumbnailExternal />;
+      case "generic":
       default:
         return <ThumbnailGeneric />;
     }
   }
 
+  if (!contentType) {
+    contentType = "generic";
+  }
+
+  if (mimeType) {
+    const type = mapMimeToAttachmentContentType(mimeType);
+    contentType = type;
+  }
+
   const formattedFileSize =
-    fileSize != null ? formatFileSize(fileSize) : undefined;
+    fileSize != null && fileSize > 0 ? formatFileSize(fileSize) : undefined;
 
   const metadataSegments: string[] = [];
   if (contentType) {
@@ -80,8 +105,8 @@ export const Attachment = ({
   if (formattedFileSize) {
     metadataSegments.push(formattedFileSize);
   }
-  if (createdDate) {
-    const formattedCreatedDate = formatDateTimeToDprDate(createdDate);
+  if (uploadedAt) {
+    const formattedCreatedDate = formatDateTimeToDprDate(uploadedAt);
     metadataSegments.push(`uploaded ${formattedCreatedDate}`);
   }
   if (numberOfPages && numberOfPages > 0) {
@@ -117,6 +142,12 @@ export const Attachment = ({
           </a>
         </div>
 
+        {tags && tags.length > 0 && (
+          <p className="dpr-attachment__metadata">
+            {tagPrefix && `${tagPrefix}: `}
+            {tags.join(", ")}
+          </p>
+        )}
         {metadataLine && (
           <p className="dpr-attachment__metadata">{metadataLine}</p>
         )}
