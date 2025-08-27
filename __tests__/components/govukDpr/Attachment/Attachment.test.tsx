@@ -16,7 +16,7 @@
  */
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Attachment from "@/components/govukDpr/Attachment/Attachment";
+import { Attachment } from "@/components/govukDpr/Attachment";
 
 describe("Attachment Component", () => {
   it("displays the correct title and URL link", () => {

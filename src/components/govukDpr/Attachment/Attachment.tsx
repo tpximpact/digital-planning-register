@@ -26,7 +26,7 @@ import {
 } from "./Thumbnails";
 import { formatDateTimeToDprDate, formatFileSize } from "@/util";
 import { Details } from "../Details";
-import { mapMimeToAttachmentContentType } from "@/util/convertAttachmentContentType";
+import { mapMimeToAttachmentContentType } from "./Attachment.utils";
 
 export interface AttachmentProps {
   title?: string;
