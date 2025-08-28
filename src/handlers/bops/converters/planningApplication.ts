@@ -18,6 +18,7 @@
 import { DprPagination, DprPlanningApplication } from "@/types";
 import {
   BopsApplicationOverview,
+  BopsFile,
   BopsPlanningApplication,
   BopsSearchMetadata,
 } from "../types";
@@ -104,9 +105,9 @@ const createData = (
 
   let appeal = application.data?.appeal ?? undefined;
   if (application.data?.appeal?.files) {
-    const appealFiles = application.data.appeal.files.map(
-      convertDocumentBopsFile,
-    );
+    const appealFiles = application.data.appeal.files.map((file: BopsFile) => {
+      return convertDocumentBopsFile(file, "appeal");
+    });
     appeal = {
       ...application.data.appeal,
       files: appealFiles,

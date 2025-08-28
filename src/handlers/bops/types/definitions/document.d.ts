@@ -24,7 +24,7 @@ export interface BopsFile {
   name: string;
   url: string;
   type: FileType[];
-  createdAt: string | null;
+  createdAt: string;
   applicantDescription: string | null;
   metadata: {
     byteSize: number;

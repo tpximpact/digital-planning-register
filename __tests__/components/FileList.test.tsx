@@ -25,11 +25,20 @@ import {
   generateDocument,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
+import type { PrototypeFileType as FileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
+
+jest.mock("@/util", () => ({
+  capitalizeFirstLetter: (s: string) => s.charAt(0).toUpperCase() + s.slice(1),
+  pascalToSentenceCase: jest.fn((str: string) => {
+    return str.replace(/([A-Z])/g, " $1").trim();
+  }),
+}));
 
 jest.mock("@/components/govukDpr/Attachment", () => ({
-  Attachment: ({ title }: { title?: string }) => (
+  Attachment: ({ title, tags }: { title?: string; tags?: string[] }) => (
     <div data-testid="dpr-attachment__thumbnail">
       <p>document title: {title}</p>
+      <p>document tags: {tags?.join(", ")}</p>
     </div>
   ),
 }));
@@ -42,5 +51,14 @@ describe("FileList", () => {
       />,
     );
     expect(screen.getAllByTestId("dpr-attachment__thumbnail")).toHaveLength(9);
+  });
+
+  it("passes DprDocument to <Attachment /> correctly", () => {
+    const document = generateDocument();
+    document.type = ["one", "twoThree"] as unknown as FileType[];
+    render(<FileList documents={[document]} />);
+    expect(
+      screen.getByText("document tags: One, Two Three"),
+    ).toBeInTheDocument();
   });
 });

@@ -23,22 +23,35 @@ import {
 } from "@/types";
 import { BopsFile } from "@/handlers/bops/types";
 import { convertDateTimeToUtc } from "@/util";
-
+import type { PostSubmissionFileAssociation } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/FileAssociation.ts";
+import type { PrototypeFileType as FileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
 /**
  * Converts BOPS files into our standard format
  * @param document
  * @returns
  */
-export const convertDocumentBopsFile = (document: BopsFile): DprDocument => {
+export const convertDocumentBopsFile = (
+  document: BopsFile,
+  association: PostSubmissionFileAssociation = "application",
+): DprDocument => {
   return {
+    id: Math.ceil(Math.random() * 10000),
+    name: document.name ?? "Unnamed document",
+    association: association ?? "application",
+    // nb not validating here yet as its not needed in DPR (yet)
+    type: Array.isArray(document.type)
+      ? (document.type.map((t) => t.value) as FileType[])
+      : ["otherDocument"],
     url: document.url,
-    title: document.name ?? "Unnamed document",
-    createdDate: document.createdAt
-      ? convertDateTimeToUtc(document.createdAt)
-      : undefined,
     metadata: {
-      byteSize: document.metadata?.byteSize,
-      contentType: document.metadata?.contentType,
+      size: {
+        bytes: document.metadata?.byteSize ?? 0,
+      },
+      mimeType: document.metadata?.contentType ?? "application/octet-stream",
+      createdAt: convertDateTimeToUtc(document.createdAt),
+      submittedAt: convertDateTimeToUtc(document.createdAt),
+      validatedAt: convertDateTimeToUtc(document.createdAt),
+      publishedAt: convertDateTimeToUtc(document.createdAt),
     },
   };
 };
@@ -49,7 +62,9 @@ export const convertBopsDocumentEndpointToDprDocumentEndpoint = (
   searchParams: SearchParamsDocuments,
   status: ApiResponse<DprDocument[]>["status"],
 ): ApiResponse<DprDocumentsApiResponse> => {
-  const convertedDocuments = documents.map(convertDocumentBopsFile);
+  const convertedDocuments = documents.map((file) =>
+    convertDocumentBopsFile(file),
+  );
   const allDocuments = [...convertedDocuments];
 
   const finalTotalResults = totalResults;

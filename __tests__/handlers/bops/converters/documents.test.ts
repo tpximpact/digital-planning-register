@@ -45,12 +45,18 @@ describe("convertDocumentBopsFile", () => {
     };
     const result = convertDocumentBopsFile(bopsFile);
     expect(result).toEqual({
+      id: expect.any(Number),
+      name: "Test Document",
+      association: "application",
+      type: ["heritageStatement"],
       url: "http://example.com/doc.pdf",
-      title: "Test Document",
-      createdDate: "UTC:2024-01-01T12:00:00Z",
       metadata: {
-        byteSize: 12345,
-        contentType: "application/pdf",
+        size: { bytes: 12345 },
+        mimeType: "application/pdf",
+        createdAt: "UTC:2024-01-01T12:00:00Z",
+        submittedAt: "UTC:2024-01-01T12:00:00Z",
+        validatedAt: "UTC:2024-01-01T12:00:00Z",
+        publishedAt: "UTC:2024-01-01T12:00:00Z",
       },
     });
   });
@@ -59,24 +65,24 @@ describe("convertDocumentBopsFile", () => {
     const bopsFile: BopsFile = {
       name: undefined,
       url: "http://example.com/doc.pdf",
-      type: [
-        {
-          value: "heritageStatement",
-          description: "Heritage Statement",
-        },
-      ],
       applicantDescription: null,
-      createdAt: undefined,
+      createdAt: "2024-01-01T12:00:00Z",
       metadata: undefined,
     } as unknown as BopsFile;
     const result = convertDocumentBopsFile(bopsFile);
     expect(result).toEqual({
+      id: expect.any(Number),
+      name: "Unnamed document",
+      association: "application",
+      type: ["otherDocument"],
       url: "http://example.com/doc.pdf",
-      title: "Unnamed document",
-      createdDate: undefined,
       metadata: {
-        byteSize: undefined,
-        contentType: undefined,
+        size: { bytes: 0 },
+        mimeType: "application/octet-stream",
+        createdAt: "UTC:2024-01-01T12:00:00Z",
+        submittedAt: "UTC:2024-01-01T12:00:00Z",
+        validatedAt: "UTC:2024-01-01T12:00:00Z",
+        publishedAt: "UTC:2024-01-01T12:00:00Z",
       },
     });
   });
@@ -112,8 +118,8 @@ describe("convertBopsDocumentEndpointToDprDocumentEndpoint", () => {
 
     expect(result.data).toHaveLength(2);
     expect(result.data).not.toBeNull();
-    expect(result.data![0].title).toBe("Doc 3");
-    expect(result.data![1].title).toBe("Doc 4");
+    expect(result.data![0].name).toBe("Doc 3");
+    expect(result.data![1].name).toBe("Doc 4");
     expect(result.pagination).toEqual({
       resultsPerPage: 2,
       currentPage: 2,

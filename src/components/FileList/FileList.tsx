@@ -20,6 +20,7 @@ import { Attachment } from "@/components/govukDpr/Attachment";
 import type { DprDocument } from "@/types";
 
 import "./FileList.scss";
+import { capitalizeFirstLetter, pascalToSentenceCase } from "@/util";
 
 export interface FileListProps {
   documents: DprDocument[] | null;
@@ -42,12 +43,15 @@ export const FileList = ({ documents }: FileListProps) => {
             {documents.map((document, i) => (
               <Attachment
                 key={i}
-                title={document.title}
+                title={document.name}
                 url={document.url}
-                fileName={document.title}
-                contentType={document.metadata?.contentType}
-                fileSize={document.metadata?.byteSize}
-                createdDate={document.createdDate}
+                mimeType={document.metadata?.mimeType}
+                fileSize={document.metadata?.size?.bytes}
+                uploadedAt={document.metadata?.submittedAt}
+                tagPrefix="Document type"
+                tags={document.type.map((tag) =>
+                  capitalizeFirstLetter(pascalToSentenceCase(tag)),
+                )}
               />
             ))}
           </div>

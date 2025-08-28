@@ -34,6 +34,7 @@ import type { CommentSentiment } from "digital-planning-data-schemas/types/schem
 import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
 import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication.ts";
 import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
+import type { PostSubmissionFile } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/File.ts";
 
 /**
  *
@@ -185,20 +186,7 @@ export interface DprPlanningApplication {
  *
  *
  */
-export interface DprDocument {
-  url: string;
-  title: string;
-  /**
-   * 2024-05-30T14:23:21.936Z
-   * NB coverting to UTC in the converters
-   * Optional because of the need to insert fake application form document
-   */
-  createdDate?: string;
-  metadata?: {
-    byteSize?: number;
-    contentType?: string;
-  };
-}
+export type DprDocument = PostSubmissionFile;
 
 /**
  *
