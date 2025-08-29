@@ -68,6 +68,7 @@ export const getIsConsultationPeriod = (
 
 export const convertToDprApplication = (
   app: DprPlanningApplication,
+  additionalData?: { decisionNoticeUrl?: string },
 ): DprApplication => {
   let stage = undefined;
   let status = undefined;
@@ -289,11 +290,12 @@ export const convertToDprApplication = (
     dprApplication.data.assessment = {
       planningOfficerDecision: app.application.decision as AssessmentDecision,
       planningOfficerDecisionDate: app.application.determinedAt,
-      decisionNotice: app.application.decision
-        ? {
-            url: "https://planningregister.org",
-          }
-        : undefined,
+      decisionNotice:
+        app.application.decision && additionalData?.decisionNoticeUrl
+          ? {
+              url: additionalData.decisionNoticeUrl,
+            }
+          : undefined,
     } as PostSubmissionAssessment;
 
     if (getPrimaryApplicationTypeKey(app.applicationType) === "pa") {

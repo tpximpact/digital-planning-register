@@ -230,6 +230,36 @@ describe("convertToDprApplication", () => {
     );
   };
 
+  describe("additionalData", () => {
+    it("includes additional data when provided", () => {
+      const decisionNoticeUrl = "testUrl";
+      const applicationType = "pp.full.householder";
+      const from = generateOldDprApplication({
+        applicationType: applicationType,
+        applicationStatus: "determined",
+        decision: "granted",
+        consultationStartDate: consultationStartDateInPast,
+      });
+      const result = convertToDprApplication(from, {
+        decisionNoticeUrl,
+      });
+      expect(result.data?.assessment?.decisionNotice?.url).toBe(
+        decisionNoticeUrl,
+      );
+    });
+    it("doesn't include additional data when not provided", () => {
+      const applicationType = "pp.full.householder";
+      const from = generateOldDprApplication({
+        applicationType: applicationType,
+        applicationStatus: "determined",
+        decision: "granted",
+        consultationStartDate: consultationStartDateInPast,
+      });
+      const result = convertToDprApplication(from);
+      expect(result.data?.assessment?.decisionNotice).not.toBeDefined();
+    });
+  });
+
   describe("03-consultation", () => {
     it("in_assessment", () => {
       const applicationType = "pp.full.householder";
