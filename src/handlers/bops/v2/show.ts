@@ -25,6 +25,7 @@ import {
   convertToDprApplication,
   isDprApplication,
 } from "@/lib/planningApplication/converter";
+import { getDecisionNoticeUrl } from "../actions/getDecisionNoticeUrl";
 
 /**
  * Get the details for an application
@@ -47,9 +48,11 @@ export async function show(
     }
     const convertedData = convertBopsToDpr(request.data, council);
 
+    const decisionNoticeUrl = await getDecisionNoticeUrl(council, reference);
+
     const convertedApplication: DprApplication = isDprApplication(convertedData)
       ? convertedData
-      : convertToDprApplication(convertedData);
+      : convertToDprApplication(convertedData, { decisionNoticeUrl });
 
     return { ...request, data: convertedApplication };
   } catch (error) {
