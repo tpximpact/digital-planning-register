@@ -24,6 +24,7 @@ import {
   generateExampleApplications,
   generateAllPossibleDates,
   generatePublicComment,
+  generateSpecialistComment,
 } from "@mocks/dprNewApplicationFactory";
 import fs from "fs";
 import path from "path";
@@ -31,7 +32,10 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
-import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type {
+  CommentSentiment,
+  SpecialistCommentSentiment,
+} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isBetween);
@@ -1842,5 +1846,75 @@ describe("generatePublicComment", () => {
     expect(comment.author).toBeDefined();
     expect(typeof comment.author.name.singleLine).toBe("string");
     expect(comment.author.name.singleLine.length).toBeGreaterThan(0);
+  });
+});
+
+describe("generateSpecialistComment", () => {
+  const specialistSentimentValues: SpecialistCommentSentiment[] = [
+    "objected",
+    "amendmentsNeeded",
+    "approved",
+  ];
+
+  it("returns a Specialist object with a valid structure", () => {
+    const specialist = generateSpecialistComment();
+
+    expect(typeof specialist.id).toBe("string");
+    expect(specialist.id.length).toBeGreaterThan(0);
+
+    expect(typeof specialist.organisationSpecialism).toBe("string");
+    expect(specialist.organisationSpecialism.length).toBeGreaterThan(0);
+
+    expect(typeof specialist.jobTitle).toBe("string");
+    expect(specialist.jobTitle).toBeDefined();
+    expect(specialist.jobTitle!.length).toBeGreaterThan(0);
+
+    expect(["Constraint", "Other"]).toContain(specialist.reason);
+
+    expect(typeof specialist.firstConsultedAt).toBe("string");
+    expect(() =>
+      new Date(specialist.firstConsultedAt).toISOString(),
+    ).not.toThrow();
+
+    expect(Array.isArray(specialist.comments)).toBe(true);
+
+    const comment = specialist.comments[0];
+
+    expect(typeof comment.id).toBe("string");
+    expect(comment.id.length).toBeGreaterThan(0);
+
+    expect(specialistSentimentValues).toContain(comment.sentiment);
+
+    expect(typeof comment.commentRedacted).toBe("string");
+    expect(comment.commentRedacted.length).toBeGreaterThan(0);
+
+    expect(typeof comment.commentRedacted).toBe("string");
+    expect(comment.commentRedacted).toBeDefined();
+    expect(comment.commentRedacted!.length).toBeGreaterThan(0);
+
+    expect(Array.isArray(comment.files)).toBe(true);
+    comment.files?.forEach((file) => {
+      expect(typeof file.id).toBe("number");
+      expect(file.id).toBeGreaterThan(0);
+      expect(Array.isArray(file.type)).toBe(true);
+      expect(file.type).toContain("otherEvidence");
+      expect(file.association).toBe("specialistComment");
+      expect(typeof file.name).toBe("string");
+      expect(file.name.length).toBeGreaterThan(0);
+      expect(typeof file.description).toBe("string");
+      expect(typeof file.url).toBe("string");
+      expect(file.url.startsWith("http")).toBe(true);
+
+      expect(typeof file.metadata.mimeType).toBe("string");
+      expect(typeof file.metadata.createdAt).toBe("string");
+      expect(typeof file.metadata.publishedAt).toBe("string");
+      expect(typeof file.metadata.size.bytes).toBe("number");
+      expect(file.metadata.size.bytes).toBeGreaterThan(0);
+      expect(typeof file.metadata.submittedAt).toBe("string");
+    });
+
+    expect(typeof comment.metadata.submittedAt).toBe("string");
+    expect(typeof comment.metadata.validatedAt).toBe("string");
+    expect(typeof comment.metadata.publishedAt).toBe("string");
   });
 });
