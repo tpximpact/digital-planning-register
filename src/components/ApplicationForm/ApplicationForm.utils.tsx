@@ -42,9 +42,16 @@ export const filterSensitiveData = (applicationForm: unknown): unknown => {
   ) {
     const { responses, ...rest } = applicationForm as { responses: Responses };
     // Filter out responses where question contains 'disab'
-    const filteredResponses = responses.filter(
+    let filteredResponses = responses.filter(
       (response) => !response.question?.toLowerCase().includes("disab"),
     );
+    // Filter out responses where section name is "Pay and send"
+    const payAndSendRegex = /pay\s*(and|&)?\s*send/i;
+    filteredResponses = filteredResponses.filter(
+      (response) =>
+        !payAndSendRegex.test(response?.metadata?.sectionName ?? ""),
+    );
+    console.log("filteredResponses", filteredResponses);
     // Return new object with filtered responses
     return { ...rest, responses: filteredResponses };
   }

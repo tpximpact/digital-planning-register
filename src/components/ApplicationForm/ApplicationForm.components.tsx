@@ -38,7 +38,6 @@ export const Section = ({
 }): JSX.Element => (
   <div
     className={`govuk-grid-row${level < 1 ? " grid-row-extra-bottom-margin" : ""}`}
-    style={{ marginLeft: level * 16 }}
   >
     <div className="govuk-grid-column-full">
       {title &&
@@ -82,13 +81,11 @@ export const Section = ({
 export const Row = ({
   title,
   content,
-  level = 0,
 }: {
   title: string;
   content: unknown;
-  level: number;
 }): JSX.Element => (
-  <dl className="govuk-summary-list__row" style={{ marginLeft: level * 16 }}>
+  <dl className="govuk-summary-list__row">
     <dt className="govuk-summary-list__key">{title}</dt>
     <dd className="govuk-summary-list__value">
       <RenderString data={content} />
@@ -96,18 +93,9 @@ export const Row = ({
   </dl>
 );
 
-export const List = ({
-  data,
-  level = 0,
-}: {
-  data: unknown[];
-  level?: number;
-}) => {
+export const List = ({ data }: { data: unknown[] }) => {
   return (
-    <ul
-      className="govuk-list govuk-list--bullet"
-      style={{ marginLeft: level * 16 }}
-    >
+    <ul className="govuk-list govuk-list--bullet">
       {data.map((item, idx) => (
         <li key={idx}>
           <RenderString data={item} />
@@ -174,7 +162,7 @@ export const RecursiveObjectRenderer: React.FC<RenderProps> = ({
   if (type === "array") {
     if (isFlatArrayOfPrimitives(data)) {
       if ((data as unknown[]).length > 1) {
-        return <List data={data as unknown[]} level={level} />;
+        return <List data={data as unknown[]} />;
       }
     }
     return (data as unknown[]).map((item, idx) => (
@@ -196,7 +184,6 @@ export const RecursiveObjectRenderer: React.FC<RenderProps> = ({
                     key={key}
                     title={capitalizeFirstLetter(pascalToSentenceCase(key))}
                     content={value}
-                    level={Math.min(level + 1, 6)}
                   />
                 ),
               )}

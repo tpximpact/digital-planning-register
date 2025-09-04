@@ -43,6 +43,30 @@ describe("filterSensitiveData", () => {
     expect(result.foo).toBe("bar");
   });
 
+  it("removes responses with 'Pay and send' in the metadata section name", () => {
+    const input = {
+      responses: [
+        {
+          question: "What is your disability?",
+          value: "test",
+          metadata: {
+            sectionName: "Pay and send",
+          },
+        },
+        { question: "Other question", value: "ok" },
+      ],
+      foo: "bar",
+    };
+    type FilteredData = {
+      responses: Array<{ question: string; value: string }>;
+      foo: string;
+    };
+    const result = filterSensitiveData(input) as FilteredData;
+    expect(result.responses).toHaveLength(1);
+    expect(result.responses[0].question).toBe("Other question");
+    expect(result.foo).toBe("bar");
+  });
+
   it("returns undefined if input does not match expected shape", () => {
     expect(filterSensitiveData(null)).toBeUndefined();
     expect(filterSensitiveData({})).toBeUndefined();
