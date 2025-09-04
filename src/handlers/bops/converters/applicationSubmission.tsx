@@ -17,6 +17,8 @@
 // allowing any here because this code will be replaced soon
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import type { Responses } from "digital-planning-data-schemas/types/shared/Responses.ts";
+
 import {
   DprApplicationSubmissionData,
   DprApplicationSubmissionSubtopic,
@@ -40,12 +42,38 @@ export const convertApplicationSubmissionBops = (
   submission: BopsApplicationSubmission,
 ): DprApplicationSubmissionData => {
   return {
-    data: convertApplicationSubmissionDataBops(submission),
+    data: convertApplicationSubmissionDataBops(
+      filterSensitiveData(submission) as BopsApplicationSubmission,
+    ),
     metadata: {
       submittedAt: convertDateTimeToUtc(submission.metadata.submittedAt),
       raw: JSON.stringify(submission),
     },
   };
+};
+
+export const filterSensitiveData = (applicationForm: unknown): unknown => {
+  if (
+    typeof applicationForm === "object" &&
+    applicationForm !== null &&
+    "responses" in applicationForm &&
+    Array.isArray((applicationForm as { responses?: unknown }).responses)
+  ) {
+    const { responses, ...rest } = applicationForm as { responses: Responses };
+    // Filter out responses where question contains 'disab'
+    let filteredResponses = responses.filter(
+      (response) => !response.question?.toLowerCase().includes("disab"),
+    );
+    // Filter out responses where section name is "Pay and send"
+    const payAndSendRegex = /pay\s*(and|&)?\s*send/i;
+    filteredResponses = filteredResponses.filter(
+      (response) =>
+        !payAndSendRegex.test(response?.metadata?.sectionName ?? ""),
+    );
+    console.log("filteredResponses", filteredResponses);
+    // Return new object with filtered responses
+    return { ...rest, responses: filteredResponses };
+  }
 };
 
 /**
