@@ -15,24 +15,24 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplicationSubmissionSubtopic } from "@/types";
-import { Section } from "./section";
 import "./ApplicationForm.scss";
+import React from "react";
+import { processApplicationForm } from "./ApplicationForm.utils";
+import { RecursiveObjectRenderer } from "./ApplicationForm.components";
 
 interface ApplicationFormProps {
-  submissionData: DprApplicationSubmissionSubtopic[] | null;
+  submissionData: unknown;
 }
 
-const ApplicationForm = ({ submissionData }: ApplicationFormProps) => {
+export const ApplicationForm = ({ submissionData }: ApplicationFormProps) => {
   if (!submissionData) {
     return null;
   }
+  const data = processApplicationForm(submissionData);
   return (
-    <div className="govuk-grid-row faux-document">
+    <div className="govuk-grid-row dpr-application-form">
       <div className="govuk-grid-column-full">
-        {submissionData?.map((el, i) => (
-          <Section subtopic={el.subtopic} value={el.value} key={i} />
-        ))}
+        <RecursiveObjectRenderer data={data} />
       </div>
     </div>
   );

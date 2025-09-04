@@ -16,15 +16,13 @@
  */
 
 import { BackButton } from "@/components/BackButton";
-import ApplicationForm from "../application_form";
+import { ApplicationForm } from "@/components/ApplicationForm";
 import { PageMain } from "../PageMain";
 import { formatDateTimeToDprDateTime } from "@/util";
 
 export interface PageApplicationSubmissionProps {
   reference: string;
-  // allowing any here because this type will be replaced soon
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  applicationSubmissionData?: any;
+  applicationSubmissionData?: unknown;
   submittedAt?: string;
   council?: string;
 }
@@ -62,7 +60,7 @@ export const PageApplicationSubmission = ({
             </div>
           </div>
         </div>
-        {applicationSubmissionData && applicationSubmissionData.length > 0 ? (
+        {applicationSubmissionData ? (
           <ApplicationForm submissionData={applicationSubmissionData} />
         ) : (
           <p className="govuk-body">Submission data not available</p>

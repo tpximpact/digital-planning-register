@@ -31,7 +31,6 @@ import {
   DprComment,
   DprApplication,
 } from "./definitions";
-import { DprApplicationSubmissionData } from "./applicationSubmission";
 import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
@@ -61,7 +60,7 @@ export type DprDocumentsApiResponse = DprDocument[];
  */
 export interface DprApplicationSubmissionApiResponse {
   application: DprPlanningApplication["application"];
-  submission: DprApplicationSubmissionData | null;
+  submission: unknown | null;
 }
 
 /**

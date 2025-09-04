@@ -15,19 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "src/styles/component-base";
-// @todo theres a component now for this
-@import "node_modules/govuk-frontend/dist/govuk/components/summary-list/index";
-
-.faux-document {
-  border: 1px solid govuk-colour("mid-grey");
-  margin-left: 0;
-  margin-right: 0;
-  padding: 2em 1em 1em;
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-}
+export * from "./ApplicationForm";
+export * from "./ApplicationForm.utils";
+export * from "./ApplicationForm.components";

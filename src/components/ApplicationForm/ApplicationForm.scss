@@ -15,29 +15,22 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprBoundaryGeojson } from "./definitions/boundaryGeojson";
+@import "src/styles/component-base";
+// @todo theres a component now for this
+@import "node_modules/govuk-frontend/dist/govuk/components/summary-list/index";
 
-export interface DprApplicationSubmissionData {
-  data: DprApplicationSubmissionSubtopic[];
-  metadata: {
-    submittedAt: string;
-    /**
-     * This is the raw JSON string of the submission - in case we need to display just that at some point in the future
-     */
-    raw: string;
-  };
-}
+.dpr-application-form {
+  border: 1px solid govuk-colour("mid-grey");
+  margin-left: 0;
+  margin-right: 0;
+  padding: 2em 1em 1em;
 
-/**
- * We convert into subtopic and value pairs
- */
-export interface DprApplicationSubmissionSubtopic {
-  subtopic: string;
-  value: DprApplicationSubmissionSubtopicValue[];
-}
+  // add extra spacing between multiple <ul></ul><ul></ul>
+  ul + ul {
+    margin-top: govuk-spacing(8);
+  }
 
-export interface DprApplicationSubmissionSubtopicValue {
-  description: string;
-  value: string | null | JSX.Element | DprApplicationSubmissionSubtopicValue[];
-  map?: DprBoundaryGeojson;
+  &__content {
+    word-break: break-word;
+  }
 }

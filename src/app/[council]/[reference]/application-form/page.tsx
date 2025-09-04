@@ -83,14 +83,25 @@ export default async function ApplicationFormPage({
     );
   }
 
-  const submittedAt = response?.data?.submission?.metadata.submittedAt;
-  const applicationSubmissionData = response?.data?.submission?.data;
+  const submission = response?.data?.submission;
+  let submittedAt: string | undefined = undefined;
+  // runtime typeguard on unknown data type
+  if (
+    submission &&
+    typeof submission === "object" &&
+    "metadata" in submission &&
+    submission.metadata &&
+    typeof submission.metadata === "object" &&
+    "submittedAt" in submission.metadata
+  ) {
+    submittedAt = (submission.metadata as { submittedAt?: string }).submittedAt;
+  }
 
   return (
     <PageApplicationSubmission
       reference={reference}
       submittedAt={submittedAt}
-      applicationSubmissionData={applicationSubmissionData}
+      applicationSubmissionData={submission}
       council={council}
     />
   );

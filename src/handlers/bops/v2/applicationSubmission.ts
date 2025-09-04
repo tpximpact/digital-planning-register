@@ -21,7 +21,6 @@ import { ApiResponse } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/handlers/bops/types";
 import { DprApplicationSubmissionApiResponse } from "@/types";
 import { handleBopsGetRequest } from "../requests";
-import { convertApplicationSubmissionBops } from "../converters/applicationSubmission";
 import { convertBopsApplicationToDpr } from "../converters/planningApplication";
 
 /**
@@ -43,7 +42,7 @@ export async function applicationSubmission(
   if (request.data?.application) {
     const application = convertBopsApplicationToDpr(request.data?.application);
     const submission = request.data?.submission
-      ? convertApplicationSubmissionBops(request.data?.submission)
+      ? request.data?.submission
       : null;
 
     const convertedData = {
