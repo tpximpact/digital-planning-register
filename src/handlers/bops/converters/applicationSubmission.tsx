@@ -70,7 +70,6 @@ export const filterSensitiveData = (applicationForm: unknown): unknown => {
       (response) =>
         !payAndSendRegex.test(response?.metadata?.sectionName ?? ""),
     );
-    console.log("filteredResponses", filteredResponses);
     // Return new object with filtered responses
     return { ...rest, responses: filteredResponses };
   }
