@@ -509,6 +509,55 @@ const councils: Council[] = [
     },
   },
   {
+    name: "Newcastle",
+    slug: "newcastle",
+    visibility: "public",
+    contact: "https://www.newcastle.gov.uk/contact-us",
+    dataSource: "bops",
+    publicComments: true,
+    specialistComments: true,
+    features: {
+      logoInHeader: true,
+    },
+    pageContent: {
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link: "https://newcastle.gov.uk/contact-us",
+        corporate_privacy_statement_link: `https://www.newcastle.gov.uk/local-government/access-information-and-data/open-data/privacy-notice#:~:text=We%20will%20only%20collect%20and,be%20used%20for%20that%20research.`,
+        planning_service_privacy_statement_link: `https://www.newcastle.gov.uk/services/planning-building-and-development/guide-planning-applications/planning-privacy-notice`,
+      },
+      council_reference_submit_comment_check_answer: {
+        contact_planning_advice_link: "https://newcastle.gov.uk/contact-us",
+        corporate_privacy_statement_link: `https://www.newcastle.gov.uk/local-government/access-information-and-data/open-data/privacy-notice#:~:text=We%20will%20only%20collect%20and,be%20used%20for%20that%20research.`,
+        planning_service_privacy_statement_link: `https://www.newcastle.gov.uk/services/planning-building-and-development/guide-planning-applications/planning-privacy-notice`,
+      },
+      privacy_policy: {
+        privacy_policy_link: `https://www.newcastle.gov.uk/local-government/access-information-and-data/open-data/privacy-notice#:~:text=We%20will%20only%20collect%20and,be%20used%20for%20that%20research.`,
+      },
+      help: {
+        planning_process: {
+          council_local_plan_link: "https://www.newcastle.gov.uk/newcastleplan",
+        },
+        concerns: {
+          parking_link:
+            "https://www.newcastle.gov.uk/services/parking-and-permits",
+          building_control_link:
+            "https://www.newcastle.gov.uk/services/planning-building-and-development/building-control-services",
+          housing_repair_link:
+            "https://new.newcastle.gov.uk/housing/council-housing/repairs-and-alterations/repairs",
+          street_issues_link: "https://new.newcastle.gov.uk/travel/report",
+          abandoned_vehicles_link:
+            "https://www.newcastle.gov.uk/services/environment-and-waste/vehicles-and-environment/abandoned-vehicles",
+          fly_tipping_link:
+            "https://www.newcastle.gov.uk/services/environment-and-waste/street-care-and-cleansing/report-fly-tipping-removal",
+          noise_link:
+            "https://www.newcastle.gov.uk/services/environment-and-waste/environmental-health-and-pollution/statutory-nuisance",
+          apply_for_building_control_regularisation_link:
+            "https://www.newcastle.gov.uk/services/planning-building-and-development/building-regulations/apply-building-regulations",
+        },
+      },
+    },
+  },
+  {
     name: "Southwark",
     slug: "southwark",
     visibility: "public",

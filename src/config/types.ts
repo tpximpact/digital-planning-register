@@ -136,15 +136,15 @@ export interface Council {
         council_local_plan_link: string;
       };
       concerns?: {
-        parking_link: string;
-        building_control_link: string;
-        housing_repair_link: string;
-        street_issues_link: string;
-        abandoned_vehicles_link: string;
-        fly_tipping_link: string;
-        noise_link: string;
-        licensing_link: string;
-        apply_for_building_control_regularisation_link: string;
+        parking_link?: string;
+        building_control_link?: string;
+        housing_repair_link?: string;
+        street_issues_link?: string;
+        abandoned_vehicles_link?: string;
+        fly_tipping_link?: string;
+        noise_link?: string;
+        licensing_link?: string;
+        apply_for_building_control_regularisation_link?: string;
       };
     };
   };
