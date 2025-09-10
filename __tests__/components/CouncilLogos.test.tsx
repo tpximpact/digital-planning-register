@@ -93,6 +93,7 @@ describe("councilLogos object", () => {
       "gateshead",
       "lambeth",
       "medway",
+      "newcastle",
       "southwark",
       "public-council-1",
       "public-council-2",

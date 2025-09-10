@@ -64,6 +64,9 @@ export const Lambeth: Story = {
 export const Medway: Story = {
   render: () => <>{councilLogos.medway}</>,
 };
+export const Newcastle: Story = {
+  render: () => <>{councilLogos.newcastle}</>,
+};
 export const Southwark: Story = {
   render: () => <>{councilLogos.southwark}</>,
 };
