@@ -18,7 +18,10 @@
 "use client";
 import { DprBoundaryGeojson } from "@/types";
 import { useState, useEffect } from "react";
-import { determineMapTypeProps } from "./ApplicationMap.utils";
+import {
+  determineMapTypeProps,
+  normaliseGeojsonData,
+} from "./ApplicationMap.utils";
 import { trackClient } from "@/lib/dprAnalytics";
 
 export interface ApplicationMapProps {
@@ -124,9 +127,14 @@ export const ApplicationMap = ({
       osProxyEndpoint: osMapProxyUrl,
     };
   }
+  const normalisedMapData = normaliseGeojsonData(mapData);
+  const geojsonData = JSON.stringify(normalisedMapData);
 
-  const geojsonData = JSON.stringify(mapData);
-  if (!geojsonData || geojsonData === "{}") {
+  if (
+    !normalisedMapData ||
+    geojsonData === '{"type":"FeatureCollection","features":[]}' ||
+    geojsonData === "{}"
+  ) {
     return null;
   }
 

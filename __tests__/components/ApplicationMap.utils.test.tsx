@@ -14,7 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-import { determineMapTypeProps } from "@/components/ApplicationMap/ApplicationMap.utils";
+import {
+  determineMapTypeProps,
+  normaliseGeojsonData,
+} from "@/components/ApplicationMap/ApplicationMap.utils";
 
 describe("determineMapTypeProps", () => {
   it("returns correct props for context-setter map type", () => {
@@ -88,5 +91,36 @@ describe("determineMapTypeProps", () => {
       zoom: 14,
       geojsonbuffer: 82,
     });
+  });
+});
+describe("normaliseGeojsonData", () => {
+  it("should correctly handle a standard GeoJSON Feature", () => {
+    const singleFeature = {
+      type: "Feature" as const,
+      geometry: { type: "Point" as const, coordinates: [0, 0] },
+      properties: {},
+    };
+
+    expect(normaliseGeojsonData(singleFeature)).toEqual(singleFeature);
+  });
+
+  it("should find and return GeoJSON from a nested object", () => {
+    const featureCollection = {
+      type: "FeatureCollection" as const,
+      features: [],
+    };
+    const nestedData = {
+      "EPSG:27700": featureCollection,
+    };
+
+    expect(normaliseGeojsonData(nestedData)).toEqual(featureCollection);
+  });
+
+  it("should return null for invalid or empty data", () => {
+    const invalidData = { name: "ABCD", location: "1234" };
+
+    expect(normaliseGeojsonData(null)).toBeNull();
+    expect(normaliseGeojsonData(undefined)).toBeNull();
+    expect(normaliseGeojsonData(invalidData)).toBeNull();
   });
 });
