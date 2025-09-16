@@ -15,6 +15,9 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DprBoundaryGeojson } from "@/types/definitions";
+import { FeatureCollection, Feature } from "geojson";
+
 export interface mapTypeProps {
   showScale: boolean;
   zoom: number;
@@ -81,4 +84,38 @@ export const determineMapTypeProps = (mapType?: string) => {
       break;
   }
   return { staticMode, classModifier, mapTypeProps };
+};
+
+export const normaliseGeojsonData = (
+  data: DprBoundaryGeojson | null,
+): Feature | FeatureCollection | null => {
+  if (!data) {
+    return null;
+  }
+
+  let geojson: Feature | FeatureCollection | undefined;
+
+  if (
+    "type" in data &&
+    (data.type === "Feature" || data.type === "FeatureCollection")
+  ) {
+    geojson = data;
+  } else if (typeof data === "object") {
+    const espgData = data["EPSG:3857"] || data["EPSG:4326"];
+
+    if (espgData) {
+      geojson = espgData;
+    } else {
+      geojson = Object.values(data).find(
+        (value): value is Feature | FeatureCollection =>
+          !!value && typeof value === "object" && "type" in value,
+      );
+    }
+  }
+
+  if (!geojson) {
+    return null;
+  }
+
+  return geojson;
 };
