@@ -154,9 +154,11 @@ export const SpecialistCommentCard = ({
                   url={file?.url}
                   fileName={file?.name}
                   thumbnailUrl={file?.thumbnailUrl}
-                  contentType={file?.metadata?.mimeType}
                   fileSize={file.metadata?.size?.bytes}
-                  createdDate={file.metadata?.createdAt}
+                  uploadedAt={file.metadata?.createdAt}
+                  {...(file?.metadata?.mimeType !== undefined
+                    ? { mimeType: file?.metadata?.mimeType }
+                    : {})}
                 />
               ))}
             </div>
