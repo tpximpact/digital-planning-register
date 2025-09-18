@@ -27,6 +27,18 @@ export const ContentCommentsPreSubmission = ({
   const whatHappensToYourCommentsLink =
     councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
       ?.what_happens_to_your_comments_link;
+  const contactPlanningAdviceLink =
+    councilConfig?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.contact_planning_advice_link;
+  const corporatePrivacyLink =
+    councilConfig?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.corporate_privacy_statement_link;
+  const planningServicePrivacyStatementLink =
+    councilConfig?.pageContent
+      ?.council_reference_submit_comment_personal_details
+      ?.planning_service_privacy_statement_link;
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
@@ -107,7 +119,73 @@ export const ContentCommentsPreSubmission = ({
 
         <h2 className="govuk-heading-m">What happens to your comments</h2>
         <p className="govuk-body">
-          The case officer will take all comments which are{" "}
+          Your comments will be published online after being reviewed by the
+          planning team.{" "}
+          <strong>
+            We will not include your address, telephone number or email address
+            - but the name you give us may be published alongside your comment.
+          </strong>
+        </p>
+        <p className="govuk-body">
+          We&apos;ll make sure any other personal or sensitive information is
+          removed where needed, in line with the{" "}
+          <a
+            className="govuk-link govuk-link--no-visited-state"
+            href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-information-a-guide/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            General Data Protection Regulation (GDPR).
+          </a>{" "}
+          If you have concerns about any data you have sent being published,{" "}
+          {contactPlanningAdviceLink ? (
+            <a
+              className="govuk-link govuk-link--no-visited-state"
+              href={contactPlanningAdviceLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              contact the Planning Advice and Information Service.
+            </a>
+          ) : (
+            "contact the Planning Advice and Information Service."
+          )}
+        </p>
+        <p className="govuk-body">
+          Read our{" "}
+          {corporatePrivacyLink && (
+            <>
+              <a
+                className="govuk-link govuk-link--no-visited-state"
+                href={corporatePrivacyLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                corporate privacy statement
+              </a>
+              {planningServicePrivacyStatementLink && " and our "}
+            </>
+          )}
+          {planningServicePrivacyStatementLink && (
+            <>
+              <a
+                className="govuk-link govuk-link--no-visited-state"
+                href={planningServicePrivacyStatementLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                planning service statement
+              </a>
+            </>
+          )}{" "}
+          for more information.
+        </p>
+        <p className="govuk-body">
+          You will not receive a direct reply to your comment.
+        </p>
+        <p className="govuk-body">
+          When the case officer decides whether or not to approve the
+          application they will take into account all comments related to{" "}
           {whatHappensToYourCommentsLink ? (
             <a
               href={whatHappensToYourCommentsLink}
@@ -119,11 +197,9 @@ export const ContentCommentsPreSubmission = ({
             </a>
           ) : (
             "material considerations"
-          )}{" "}
-          into account when deciding whether or not to approve the application.
-          As part of this process, your comments will be posted online for the
-          public to see. The case officer will summarise their findings in the
-          officer&apos;s report and decision notice.
+          )}
+          . The case officer will summarise their findings in the officer&apos;s
+          report and decision notice.
         </p>
       </div>
     </div>

@@ -22,6 +22,7 @@ import { AppConfig } from "@/config/types";
 import { Details } from "../govukDpr/Details";
 import { Button } from "@/components/button";
 import { trackClient } from "@/lib/dprAnalytics";
+import Link from "next/link";
 
 type PersonalDetailKeys = keyof PersonalDetails;
 export interface PersonalDetails {
@@ -73,6 +74,9 @@ const CommentPersonalDetails = ({
     councilConfig?.pageContent
       ?.council_reference_submit_comment_personal_details
       ?.planning_service_privacy_statement_link;
+  const materialConsiderationsLink =
+    councilConfig?.pageContent?.council_reference_submit_comment_pre_submission
+      ?.what_happens_to_your_comments_link;
 
   useEffect(() => {
     const storedDetails = sessionStorage.getItem(
@@ -358,7 +362,11 @@ const CommentPersonalDetails = ({
           </div>
 
           <Details
-            summaryText={"How we handle your data"}
+            summaryText={
+              <>
+                How we handle your data <em>(shows more information below)</em>
+              </>
+            }
             text={
               <>
                 <p className="govuk-body">
@@ -369,8 +377,14 @@ const CommentPersonalDetails = ({
                   appealed.
                 </p>
                 <p className="govuk-body">
-                  Your comments will be made available online for the public to
-                  see.
+                  Your comments will be published online after being reviewed by
+                  the planning team.{" "}
+                  <strong>
+                    {" "}
+                    We will not include your address, telephone number or email
+                    address - but the name you give us may be published
+                    alongside your comment.
+                  </strong>
                 </p>
                 <p className="govuk-body">
                   We&apos;ll make sure any other personal or sensitive
@@ -425,6 +439,27 @@ const CommentPersonalDetails = ({
                     </>
                   )}{" "}
                   for more information.
+                </p>
+                <p className="govuk-body">
+                  You will not receive a direct reply to your comment.
+                </p>
+                <p className="govuk-body">
+                  When the case officer decides whether or not to approve the
+                  application they will take into account all comments related
+                  to{" "}
+                  {materialConsiderationsLink ? (
+                    <Link
+                      className="govuk-link"
+                      href={materialConsiderationsLink}
+                      target="_blank"
+                    >
+                      material considerations
+                    </Link>
+                  ) : (
+                    <span>material considerations</span>
+                  )}
+                  . The case officer will summarise their findings in the
+                  officer&apos;s report and decision notice.
                 </p>
               </>
             }
