@@ -574,4 +574,21 @@ const councils: Council[] = [
       },
     },
   },
+  {
+    name: "South Gloucestershire",
+    slug: "south-gloucestershire",
+    visibility: "public",
+    contact: "https://beta.southglos.gov.uk/contact-us/",
+    dataSource: "bops",
+    publicComments: true,
+    specialistComments: true,
+    features: {
+      logoInHeader: false,
+    },
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link: "https://beta.southglos.gov.uk/privacy-notice/",
+      },
+    },
+  },
 ];

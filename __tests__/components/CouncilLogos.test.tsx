@@ -25,6 +25,7 @@ import {
   LambethLogo,
   MedwayLogo,
   SouthwarkLogo,
+  SouthGloucestershireLogo,
   PublicCouncil1Logo,
   PublicCouncil2Logo,
   CavyshireBoroughLogo,
@@ -44,6 +45,11 @@ describe("CouncilLogos individual components", () => {
     { name: "LambethLogo", Component: LambethLogo, viewBox: "0 0 320 113" },
     { name: "MedwayLogo", Component: MedwayLogo, viewBox: "0 0 124 86" },
     { name: "SouthwarkLogo", Component: SouthwarkLogo, viewBox: "0 0 190 84" },
+    {
+      name: "SouthGloucestershireLogo",
+      Component: SouthGloucestershireLogo,
+      viewBox: "0 0 194 75",
+    },
     {
       name: "PublicCouncil1Logo",
       Component: PublicCouncil1Logo,
@@ -95,6 +101,7 @@ describe("councilLogos object", () => {
       "medway",
       "newcastle",
       "southwark",
+      "south-gloucestershire",
       "public-council-1",
       "public-council-2",
       "cavyshire-borough",
