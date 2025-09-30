@@ -16,7 +16,7 @@
  */
 
 import type { TopicAndComments } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
-import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PublicCommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/PublicCommentTopic.ts";
 
 /**
  * Goes through each topic and adds its comment text until
@@ -27,7 +27,7 @@ import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/p
 
 export function collapseTopicsByCharLimit(topics: TopicAndComments[]): Array<{
   originalIndex: number;
-  topic: CommentTopic;
+  topic: PublicCommentTopic;
   question: string;
   comment: string;
   truncated: boolean;

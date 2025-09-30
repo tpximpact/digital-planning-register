@@ -29,8 +29,8 @@ import {
 } from "@/lib/comments";
 import { PersonalDetails } from "../comment_personal_details";
 import { DprCommentSubmission } from "@/types";
-import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
-import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PublicCommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { PublicCommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/PublicCommentTopic.ts";
 import { trackClient } from "@/lib/dprAnalytics";
 
 const CommentCheckAnswer = ({
@@ -124,8 +124,8 @@ const CommentCheckAnswer = ({
           return `* ${topicLabel}: ${comment} `;
         })
         .join(" "),
-      summary_tag: sentiment as CommentSentiment,
-      tags: selectedTopics as CommentTopic[],
+      summary_tag: sentiment as PublicCommentSentiment,
+      tags: selectedTopics as PublicCommentTopic[],
     };
 
     try {

@@ -20,10 +20,10 @@ import {
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
-import { convertCommentBops } from "../converters/comments";
 import { handleBopsGetRequest } from "../requests";
 import { BopsV2PublicPlanningApplicationSpecialistComments } from "../types";
 import { defaultPagination } from "@/handlers/lib";
+import { convertBopsSpecialist } from "../converters/comments";
 
 /**
  * Get the details for an application
@@ -81,15 +81,18 @@ export async function specialistComments(
     };
   }
 
-  const { comments: bopsComments, summary, pagination } = request.data;
+  const {
+    data: { comments: bopsComments, summary },
+    pagination,
+  } = request.data;
 
-  const transformedComments = bopsComments.map(convertCommentBops);
+  const transformedComments = bopsComments.map(convertBopsSpecialist);
 
   return {
     ...request,
     data: {
-      comments: transformedComments,
       summary,
+      comments: transformedComments,
     },
     pagination: pagination,
   };

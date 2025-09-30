@@ -25,11 +25,10 @@
  * publicComments
  * specialistComments
  */
+import { SpecialistCommentsRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Comment.js";
 import { DprDocument, DprComment, DprApplication } from "./definitions";
-import type {
-  PublicCommentSummary,
-  SpecialistCommentSummary,
-} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
+import type { PublicCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
 /**
  * /api/search
@@ -80,7 +79,10 @@ export type DprPublicCommentsApiResponse = {
  * /api/comments/specialist
  * Specialist comments for a single application
  */
-export type DprSpecialistCommentsApiResponse = {
-  comments: DprComment[];
-  summary: SpecialistCommentSummary;
-};
+export type DprSpecialistCommentsApiResponse = SpecialistCommentsRedacted;
+
+/**
+ * /api/comments/specialist/specialistId
+ * Specialist comments for a single application
+ */
+export type DprSpecialistApiResponse = SpecialistRedacted;

@@ -19,36 +19,50 @@
 import { getAppConfig } from "@/config";
 import {
   ApiResponse,
-  DprComment,
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
 import type { SpecialistCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import {
   generateNResults,
-  generateComment,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
+import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
 const makeCommentSummary = (
-  comments: DprComment[],
+  specialists: SpecialistRedacted[],
 ): SpecialistCommentSummary => {
   return {
-    totalComments: comments.length,
-    totalConsulted: Math.max(0, comments.length - 5),
-    sentiment: comments.reduce(
-      (acc, comment) => {
-        if (comment.sentiment === "supportive") {
-          acc.approved++;
-        } else if (comment.sentiment === "objection") {
-          acc.objected++;
-        } else if (comment.sentiment === "neutral") {
-          acc.amendmentsNeeded++;
-        }
-        return acc;
-      },
-      { approved: 0, objected: 0, amendmentsNeeded: 0 },
-    ),
+    totalComments: specialists
+      .map((specialist) => specialist.comments.length)
+      .reduce((a, b) => a + b, 0),
+    totalConsulted: specialists.length,
+    sentiment: specialists
+      .map((specialist) => {
+        return specialist.comments.reduce(
+          (acc, comment) => {
+            if (comment.sentiment === "approved") {
+              acc.approved++;
+            } else if (comment.sentiment === "objected") {
+              acc.objected++;
+            } else if (comment.sentiment === "amendmentsNeeded") {
+              acc.amendmentsNeeded++;
+            }
+            return acc;
+          },
+          { approved: 0, objected: 0, amendmentsNeeded: 0 },
+        );
+      })
+      .reduce(
+        (acc, curr) => {
+          acc.approved += curr.approved;
+          acc.objected += curr.objected;
+          acc.amendmentsNeeded += curr.amendmentsNeeded;
+          return acc;
+        },
+        { approved: 0, objected: 0, amendmentsNeeded: 0 },
+      ),
   };
 };
 
@@ -62,22 +76,22 @@ const response = (
     ? searchParams.resultsPerPage
     : appConfig.defaults.resultsPerPage;
 
-  const allComments = generateNResults<DprComment>(
+  const allSpecialists = generateNResults<SpecialistRedacted>(
     resultsPerPage * 10,
-    generateComment,
+    () => generateSpecialistComment(1, 2),
   );
-  let comments = allComments.slice(0, resultsPerPage);
-  let summary = makeCommentSummary(allComments);
+  let specialists = allSpecialists.slice(0, resultsPerPage);
+  let summary: SpecialistCommentSummary = makeCommentSummary(allSpecialists);
   let pagination = generatePagination(
     searchParams?.page ?? 1,
-    allComments.length,
-    allComments.length,
+    specialists.length,
+    allSpecialists.length,
     resultsPerPage,
   );
 
   if (reference === "APP-NULL") {
     // if the reference is APP-NULL, we return no comments
-    comments = [];
+    specialists = [];
     summary = makeCommentSummary([]);
     pagination = generatePagination(
       searchParams?.page ?? 1,
@@ -87,31 +101,9 @@ const response = (
     );
   }
 
-  // if we've done a search just rename the first result to match the query
-  if (searchParams?.query) {
-    if (searchParams?.query === "noresultsplease") {
-      comments = [];
-      pagination = generatePagination(
-        searchParams?.page ?? 1,
-        0,
-        allComments.length,
-        resultsPerPage,
-      );
-    } else {
-      comments = [generateComment()];
-      comments[0].comment = searchParams?.query;
-      pagination = generatePagination(
-        searchParams?.page ?? 1,
-        1,
-        allComments.length,
-        resultsPerPage,
-      );
-    }
-  }
-
   return {
     data: {
-      comments,
+      comments: specialists,
       summary,
     },
     pagination,

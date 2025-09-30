@@ -18,7 +18,7 @@
 import { capitaliseWord, formatDateTimeToDprDate } from "@/util";
 import "./PublicCommentCard.scss";
 import type {
-  PublicComment,
+  PublicCommentRedacted,
   TopicAndComments,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.ts";
 import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
@@ -27,7 +27,7 @@ import { collapseTopicsByCharLimit } from "./PublicCommentCard.utils";
 import { TextButton } from "../TextButton";
 
 export interface PublicCommentCardProps {
-  comment?: PublicComment;
+  comment?: PublicCommentRedacted;
   commentNumber?: number;
 }
 
@@ -53,13 +53,15 @@ export const PublicCommentCard = ({
     );
   }
 
-  const topicsAndComments: TopicAndComments[] = Array.isArray(comment.comment)
-    ? comment.comment
+  const topicsAndComments: TopicAndComments[] = Array.isArray(
+    comment.commentRedacted,
+  )
+    ? comment.commentRedacted
     : [
         {
           topic: "other",
           question: "",
-          comment: comment.comment as string,
+          comment: comment.commentRedacted as string,
         },
       ];
 

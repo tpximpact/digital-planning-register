@@ -16,8 +16,10 @@
  */
 
 import { DprComment } from "@/types";
-import { BopsComment } from "../types";
+import { BopsComment, BopsSpecialist } from "../types";
 import { convertDateTimeToUtc } from "@/util";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { CommentMetaData } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentMetaData.js";
 
 /**
  * Converts BOPS comments into our standard format (which RN is the same as BOPS!)
@@ -31,5 +33,58 @@ export const convertCommentBops = (comment: BopsComment): DprComment => {
     comment: comment.comment,
     receivedDate: convertDateTimeToUtc(comment.receivedAt),
     sentiment: comment.sentiment || "",
+  };
+};
+
+/**
+ * Converts BOPS Specialist into Specialist
+ * @todo some dates seem to be coming in without times!
+ * @param comment
+ * @returns
+ */
+export const convertBopsSpecialist = (
+  specialist: BopsSpecialist,
+): SpecialistRedacted => {
+  const { comments, ...rest } = specialist;
+
+  const convertedComments = Array.isArray(comments)
+    ? comments.map((comment) => {
+        // Build new metadata object with only available dates, pulling from previous if missing
+        const submittedAt =
+          comment.metadata?.submittedAt ??
+          comment.metadata?.validatedAt ??
+          comment.metadata?.publishedAt ??
+          "";
+        const validatedAt =
+          comment.metadata?.validatedAt ??
+          comment.metadata?.publishedAt ??
+          comment.metadata?.submittedAt ??
+          "";
+        const publishedAt =
+          comment.metadata?.publishedAt ??
+          comment.metadata?.validatedAt ??
+          comment.metadata?.submittedAt ??
+          "";
+
+        // Always provide all required fields
+        const metadata: Required<CommentMetaData> = {
+          submittedAt,
+          validatedAt,
+          publishedAt,
+        };
+
+        return {
+          ...comment,
+          metadata,
+        };
+      })
+    : [];
+
+  return {
+    ...rest,
+    comments: convertedComments,
+    name: {
+      singleLine: "Unknown",
+    },
   };
 };

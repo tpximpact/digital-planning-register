@@ -29,12 +29,10 @@ import {
 } from "@/types";
 import { AppConfig } from "@/config/types";
 
-import type {
-  CommentSentiment,
-  SpecialistCommentSentiment,
-} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
+import type { PublicCommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { getValueFromUnknownSearchParams } from "./search";
-import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PublicCommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/PublicCommentTopic.ts";
+import { COMMENT_SPECIALIST_SENTIMENT_OPTIONS } from "./specialistComments";
 
 /**
  * returns the type assuming its available in the config
@@ -124,7 +122,7 @@ export const COMMENT_ORDERBY_DEFAULT = COMMENT_ORDERBY_OPTIONS[0];
 // sentiment - public
 export const COMMENT_PUBLIC_SENTIMENT_OPTIONS: Array<{
   label: string;
-  value: CommentSentiment;
+  value: PublicCommentSentiment;
 }> = [
   {
     label: "Support",
@@ -137,26 +135,6 @@ export const COMMENT_PUBLIC_SENTIMENT_OPTIONS: Array<{
   {
     label: "Opposed",
     value: "objection",
-  },
-];
-
-// sentiment - specialist
-// @todo use SpecialistCommentSentiment not string for value when we have updated the schema
-export const COMMENT_SPECIALIST_SENTIMENT_OPTIONS: Array<{
-  label: string;
-  value: SpecialistCommentSentiment | string;
-}> = [
-  {
-    label: "Approved",
-    value: "approved",
-  },
-  {
-    label: "Amendments needed",
-    value: "amendmentsNeeded",
-  },
-  {
-    label: "Objected",
-    value: "objected",
   },
 ];
 
@@ -177,7 +155,7 @@ export const COMMENT_PUBLIC_TOPIC_OPTIONS: Array<{
   /**
    * The value of the topic
    */
-  value: CommentTopic;
+  value: PublicCommentTopic;
   /**
    * Description of the topic - used as the hint when entering text for a topic
    */
@@ -249,6 +227,12 @@ export const COMMENT_PUBLIC_TOPIC_OPTIONS: Array<{
   },
 ];
 
+/**
+ * @TODO split this into public/specialist but it works ok for now
+ * @param appConfig
+ * @param searchParams
+ * @returns
+ */
 export const validateSearchParams = (
   appConfig: AppConfig,
   searchParams?: UnknownSearchParams,

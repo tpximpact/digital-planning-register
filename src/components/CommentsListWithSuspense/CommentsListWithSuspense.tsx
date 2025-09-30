@@ -29,6 +29,7 @@ import {
   CommentsList,
   CommentsListSkeleton,
 } from "../CommentsList/CommentsList";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 async function fetchData({
   params,
   type,
@@ -116,7 +117,8 @@ async function CommentsListLoader({
     type,
   });
   const summary = response.data?.summary;
-  const loadedComments: DprComment[] = response.data?.comments || [];
+  const loadedComments: DprComment[] | SpecialistRedacted[] =
+    response.data?.comments || [];
   return (
     <CommentsList
       summary={summary}

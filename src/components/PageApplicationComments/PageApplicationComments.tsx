@@ -31,6 +31,9 @@ import { FormCommentsSort } from "@/components/FormCommentsSort";
 import { ContentNoResult } from "@/components/ContentNoResult";
 import { FormCommentsSearch } from "@/components/FormCommentsSearch";
 import { ContextSetterWithSuspense } from "@/components/ContextSetter";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { SpecialistCommentCard } from "../SpecialistCommentCard";
+import React from "react";
 
 export interface PageApplicationCommentsProps {
   params: {
@@ -39,7 +42,7 @@ export interface PageApplicationCommentsProps {
   };
   appConfig: AppConfig;
   application?: DprApplication;
-  comments: DprComment[] | null;
+  comments: SpecialistRedacted[] | DprComment[] | null;
   searchParams: SearchParamsComments;
   pagination?: DprPagination;
 }
@@ -104,7 +107,20 @@ export const PageApplicationComments = ({
 
             {comments && comments.length > 0 ? (
               comments.map((comment, i) => (
-                <CommentCard key={`${i}-${comment.id}`} comment={comment} />
+                <React.Fragment key={`${i}-${comment.id}`}>
+                  {type === "specialist" ? (
+                    <SpecialistCommentCard
+                      key={`${i}-${comment.id}`}
+                      params={params}
+                      specialist={comment as SpecialistRedacted}
+                    />
+                  ) : (
+                    <CommentCard
+                      key={`${i}-${comment.id}`}
+                      comment={comment as DprComment}
+                    />
+                  )}
+                </React.Fragment>
               ))
             ) : (
               <ContentNoResult
