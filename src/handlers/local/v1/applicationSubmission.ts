@@ -32,7 +32,6 @@ const responseQuery = (
   applicationApplication.reference = reference;
   return {
     data: {
-      application: applicationApplication,
       submission: generateApplicationSubmission,
     },
     status: {

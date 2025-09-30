@@ -21,8 +21,6 @@ import { ApiResponse } from "@/types";
 import { BopsV2PlanningApplicationsSubmission } from "@/handlers/bops/types";
 import { DprApplicationSubmissionApiResponse } from "@/types";
 import { handleBopsGetRequest } from "../requests";
-import { convertApplicationSubmissionBops } from "../converters/applicationSubmission";
-import { convertBopsApplicationToDpr } from "../converters/planningApplication";
 
 /**
  * GET /api/v2/planning_applications/{reference}/submission
@@ -35,29 +33,24 @@ export async function applicationSubmission(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprApplicationSubmissionApiResponse | null>> {
-  const url = `planning_applications/${reference}/submission`;
+  const url = `public/planning_applications/${reference}/submission`;
   const request = await handleBopsGetRequest<
     ApiResponse<BopsV2PlanningApplicationsSubmission | null>
   >(council, url);
 
-  if (request.data?.application) {
-    const application = convertBopsApplicationToDpr(request.data?.application);
-    const submission = request.data?.submission
-      ? convertApplicationSubmissionBops(request.data?.submission)
-      : null;
-
-    const convertedData = {
-      application: application,
-      submission: submission,
-    };
-
-    return { ...request, data: convertedData };
-  } else {
+  if (request.status.code !== 200) {
     return {
       data: null,
+      status: request.status,
+    };
+  } else {
+    return {
+      data: {
+        submission: request.data?.submission ? request.data?.submission : null,
+      },
       status: {
-        code: 404,
-        message: "Unable to return application information",
+        code: 200,
+        message: "OK",
       },
     };
   }

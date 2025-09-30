@@ -22,6 +22,7 @@ import { getAppConfig } from "@/config";
 import { PageMain } from "@/components/PageMain";
 import { ContentError } from "@/components/ContentError";
 import { PageApplicationSubmission } from "@/components/PageApplicationSubmission";
+import { ContentNotAccessible } from "@/components/ContentNotAccessible";
 
 interface ApplicationFormProps {
   params: {
@@ -42,7 +43,6 @@ async function fetchData({
     council,
     reference,
   );
-
   return response;
 }
 
@@ -76,6 +76,13 @@ export default async function ApplicationFormPage({
     response?.status?.code !== 200 ||
     appConfig.council === undefined
   ) {
+    if (response?.status?.code === 422) {
+      return (
+        <PageMain>
+          <ContentNotAccessible />
+        </PageMain>
+      );
+    }
     return (
       <PageMain>
         <ContentError />
@@ -83,14 +90,10 @@ export default async function ApplicationFormPage({
     );
   }
 
-  const submittedAt = response?.data?.submission?.metadata.submittedAt;
-  const applicationSubmissionData = response?.data?.submission?.data;
-
   return (
     <PageApplicationSubmission
       reference={reference}
-      submittedAt={submittedAt}
-      applicationSubmissionData={applicationSubmissionData}
+      applicationSubmissionData={response?.data?.submission}
       council={council}
     />
   );

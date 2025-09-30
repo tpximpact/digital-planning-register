@@ -15,17 +15,21 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./capitaliseFirstLetter";
-export * from "./capitaliseWord";
-export * from "./formatTag";
-export * from "./formatDates";
-export * from "./formatFileSize";
-export * from "./validation";
-export * from "./slugify";
-export * from "./concatenateFieldsInOrder";
-export * from "./flattenObject";
-export * from "./findItemByKey";
-export * from "./addCouncilToString";
-export * from "./splitStringOnOrBeforeMaxChars";
-export * from "./pascalToSentenceCase";
-export * from "./getUnknownValue";
+@import "src/styles/component-base";
+
+.dpr-application-form {
+  border: 1px solid govuk-colour("mid-grey");
+  // margin-left: 0;
+  // margin-right: 0;
+  // padding: 2em 1em 1em;
+  padding: 1.5em;
+
+  // add extra spacing between multiple <ul></ul><ul></ul>
+  ul + ul {
+    margin-top: govuk-spacing(8);
+  }
+
+  &__content {
+    word-break: break-word;
+  }
+}

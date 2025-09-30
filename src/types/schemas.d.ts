@@ -25,13 +25,7 @@
  * publicComments
  * specialistComments
  */
-import {
-  DprPlanningApplication,
-  DprDocument,
-  DprComment,
-  DprApplication,
-} from "./definitions";
-import { DprApplicationSubmissionData } from "./applicationSubmission";
+import { DprDocument, DprComment, DprApplication } from "./definitions";
 import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
@@ -60,8 +54,7 @@ export type DprDocumentsApiResponse = DprDocument[];
  * Documents for a single application
  */
 export interface DprApplicationSubmissionApiResponse {
-  application: DprPlanningApplication["application"];
-  submission: DprApplicationSubmissionData | null;
+  submission: unknown | null;
 }
 
 /**

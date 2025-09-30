@@ -16,39 +16,50 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { PageApplicationSubmission } from "./PageApplicationSubmission";
-import { generateApplicationSubmission } from "@mocks/dprApplicationSubmission";
+import { ContentNotAccessible } from "./ContentNotAccessible";
+import { getAppConfig } from "@/config";
 
 const meta = {
-  title: "Council pages/Application submission",
-  component: PageApplicationSubmission,
-  decorators: [
-    (Story) => {
-      // since this is a page we need to add a decorator to add the main element to make it look a bit more like a page
-      return (
-        <main className="govuk-width-container" id="main">
-          <Story />
-        </main>
-      );
-    },
-  ],
+  title: "Content/Not accessible",
+  component: ContentNotAccessible,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  // tags: ["autodocs"],
+  tags: ["autodocs"],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
-    nextjs: {
-      appDirectory: true,
+    docs: {
+      description: {
+        component: "Displayed when a page returns invalid data",
+      },
     },
   },
-  args: {
-    reference: "24-00135-HAPP",
-    council: "public-council-1",
-    applicationSubmissionData: generateApplicationSubmission,
-  },
-} satisfies Meta<typeof PageApplicationSubmission>;
+  args: {},
+} satisfies Meta<typeof ContentNotAccessible>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "Displays the default message when a page is not found",
+      },
+    },
+  },
+};
+
+export const WithinCouncilPages: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Displays a custom message when a page is not found with links to council pages based on council config",
+      },
+    },
+  },
+
+  args: {
+    councilConfig: getAppConfig("public-council-1").council,
+  },
+};
