@@ -45,6 +45,12 @@ export interface AppConfig {
      * This is used to disable certain filtering options in the document search until we have support for them
      */
     applicationSearchFields?: string[];
+
+    /**
+     * Array of specialist filtering options that are enabled
+     * This is used to disable certain filtering options in the document search until we have support for them
+     */
+    specialistSearchFields?: string[];
   };
   /**
    * All the council configuration options

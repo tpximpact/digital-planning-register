@@ -22,6 +22,7 @@ import {
   applicationSearchFields,
   commentSearchFields,
   documentSearchFields,
+  specialistSearchFields,
 } from "@/config/featureFlag";
 
 /**
@@ -68,6 +69,9 @@ export const getAppConfig = (council?: string): AppConfig => {
         : undefined,
       applicationSearchFields: applicationSearchFields
         ? applicationSearchFields
+        : undefined,
+      specialistSearchFields: specialistSearchFields
+        ? specialistSearchFields
         : undefined,
     },
     defaults: {
