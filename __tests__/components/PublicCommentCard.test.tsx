@@ -75,7 +75,7 @@ describe("PublicCommentCard", () => {
   it("renders an array-based comment and toggles expand/collapse", async () => {
     const comment = generatePublicComment(2);
     const longText = "ABCDEFGHIJKL";
-    (comment.comment as TopicAndComments[])[0].comment = longText;
+    (comment.commentRedacted as TopicAndComments[])[0].comment = longText;
 
     render(<PublicCommentCard comment={comment} />);
     expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
@@ -94,8 +94,8 @@ describe("PublicCommentCard", () => {
 
   it("renders a string-only comment correctly", async () => {
     const comment = generatePublicComment(1);
-    const original = (comment.comment as TopicAndComments[])[0].comment;
-    comment.comment = original;
+    const original = (comment.commentRedacted as TopicAndComments[])[0].comment;
+    comment.commentRedacted = original;
 
     render(<PublicCommentCard comment={comment} />);
     expect(screen.getByText(`Comment #${comment.id}`)).toBeInTheDocument();
