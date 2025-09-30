@@ -50,6 +50,9 @@ export const Editor = ({ submissionData }: EditorProps) => {
         EditorView.editable.of(false),
         EditorView.contentAttributes.of({ tabindex: "0" }),
         json(),
+        EditorView.contentAttributes.of({
+          "aria-label": "Application submission JSON data",
+        }),
       ],
     });
 
