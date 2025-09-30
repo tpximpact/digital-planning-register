@@ -87,7 +87,7 @@ export interface BopsV2PublicPlanningApplicationDocuments {
  */
 export interface BopsV2PlanningApplicationsSubmission {
   application: BopsApplicationOverview;
-  submission: BopsApplicationSubmissionData | null;
+  submission: unknown | null;
 }
 
 /**

@@ -15,19 +15,23 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "src/styles/component-base";
-// @todo theres a component now for this
-@import "node_modules/govuk-frontend/dist/govuk/components/summary-list/index";
+/**
+ * Utility function used when working with unknown
+ * objects to return values in a typesafe way
+ */
+export const getUnknownValue = <T = unknown>(
+  obj: unknown,
+  path: (string | number)[],
+): T | undefined => {
+  let current: unknown = obj;
 
-.faux-document {
-  border: 1px solid govuk-colour("mid-grey");
-  margin-left: 0;
-  margin-right: 0;
-  padding: 2em 1em 1em;
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  for (const key of path) {
+    if (typeof current === "object" && current !== null && key in current) {
+      current = (current as Record<string | number, unknown>)[key];
+    } else {
+      return undefined;
+    }
   }
-}
+
+  return current as T;
+};

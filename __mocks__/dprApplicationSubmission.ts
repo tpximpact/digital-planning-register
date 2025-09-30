@@ -15,493 +15,1636 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DprApplicationSubmissionData } from "@/types";
-
-export const generateApplicationSubmission: DprApplicationSubmissionData = {
-  data: [
+/**
+ * This is a valid application submission taken from the odp repo typed as unknown for testing purposes
+ */
+export const generateApplicationSubmission: unknown = {
+  applicationType: "pp.full.householder",
+  data: {
+    application: {
+      fee: {
+        calculated: 258,
+        payable: 258,
+        category: {
+          sixAndSeven: 258,
+        },
+        exemption: {
+          disability: false,
+          resubmission: false,
+        },
+        reduction: {
+          sports: false,
+          parishCouncil: false,
+          alternative: false,
+        },
+        reference: {
+          govPay: "sandbox-ref-456",
+        },
+      },
+      declaration: {
+        accurate: true,
+        connection: {
+          value: "none",
+        },
+      },
+    },
+    user: {
+      role: "proxy",
+    },
+    applicant: {
+      type: "individual",
+      name: {
+        first: "David",
+        last: "Bowie",
+      },
+      email: "ziggy@example.com",
+      phone: {
+        primary: "Not provided by agent",
+      },
+      address: {
+        sameAsSiteAddress: true,
+      },
+      siteContact: {
+        role: "proxy",
+      },
+      ownership: {
+        interest: "owner.sole",
+        certificate: "a",
+        agriculturalTenants: false,
+        declaration: {
+          accurate: true,
+        },
+      },
+      agent: {
+        name: {
+          first: "Ziggy",
+          last: "Stardust",
+        },
+        email: "ziggy@example.com",
+        phone: {
+          primary: "01100 0110 0011",
+        },
+        address: {
+          line1: "40 Stansfield Road",
+          line2: "Brixton",
+          town: "London",
+          county: "Greater London",
+          postcode: "SW9 9RZ",
+          country: "UK",
+        },
+      },
+    },
+    property: {
+      address: {
+        latitude: 51.4656522,
+        longitude: -0.1185926,
+        x: 530787,
+        y: 175754,
+        title: "40, STANSFIELD ROAD, LONDON",
+        singleLine: "40, STANSFIELD ROAD, LONDON, SW9 9RZ",
+        source: "Ordnance Survey",
+        uprn: "100021892955",
+        usrn: "21901294",
+        pao: "40",
+        street: "STANSFIELD ROAD",
+        town: "LONDON",
+        postcode: "SW9 9RZ",
+      },
+      ward: "Brixton North",
+      boundary: {
+        site: {
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-0.1186569035053321, 51.465703531871384],
+                [-0.1185938715934822, 51.465724418998775],
+                [-0.1184195280075143, 51.46552473766957],
+                [-0.11848390102387167, 51.4655038504508],
+                [-0.1186569035053321, 51.465703531871384],
+              ],
+            ],
+          },
+          properties: null,
+        },
+        area: {
+          hectares: 0.012592,
+          squareMetres: 125.92,
+        },
+      },
+      planning: {
+        sources: [
+          "https://api.editor.planx.dev/gis/lambeth?geom=POLYGON+%28%28-0.1186569035053321+51.465703531871384%2C+-0.1185938715934822+51.465724418998775%2C+-0.1184195280075143+51.46552473766957%2C+-0.11848390102387167+51.4655038504508%2C+-0.1186569035053321+51.465703531871384%29%29&analytics=false&sessionId=81bcaa0f-baf5-4573-ba0a-ea868c573faf",
+          "https://api.editor.planx.dev/roads?usrn=21901294",
+        ],
+        designations: [
+          {
+            value: "articleFour",
+            description: "Article 4 direction area",
+            intersects: false,
+          },
+          {
+            value: "articleFour.caz",
+            description: "Central Activities Zone (CAZ)",
+            intersects: false,
+          },
+          {
+            value: "tpo",
+            description: "Tree Preservation Order (TPO) or zone",
+            intersects: false,
+          },
+          {
+            value: "listed",
+            description: "Listed building",
+            intersects: false,
+          },
+          {
+            value: "monument",
+            description: "Site of a Scheduled Monument",
+            intersects: false,
+          },
+          {
+            value: "designated",
+            description: "Designated land",
+            intersects: false,
+          },
+          {
+            value: "nature.SAC",
+            description: "Special Area of Conservation (SAC)",
+            intersects: false,
+          },
+          {
+            value: "nature.ASNW",
+            description: "Ancient Semi-Natural Woodland (ASNW)",
+            intersects: false,
+          },
+          {
+            value: "nature.SSSI",
+            description: "Site of Special Scientific Interest (SSSI)",
+            intersects: false,
+          },
+          {
+            value: "nature.SPA",
+            description: "Special Protection Area (SPA)",
+            intersects: false,
+          },
+          {
+            value: "designated.WHS",
+            description: "UNESCO World Heritage Site (WHS)",
+            intersects: false,
+          },
+          {
+            value: "registeredPark",
+            description: "Registered parks and gardens",
+            intersects: false,
+          },
+          {
+            value: "designated.AONB",
+            description: "Area of Outstanding Natural Beauty (AONB)",
+            intersects: false,
+          },
+          {
+            value: "designated.nationalPark",
+            description: "National Park",
+            intersects: false,
+          },
+          {
+            value: "designated.conservationArea",
+            description: "Conservation area",
+            intersects: false,
+          },
+          {
+            value: "designated.nationalPark.broads",
+            description: "National Park - Broads",
+            intersects: false,
+          },
+          {
+            value: "road.classified",
+            description: "Classified road",
+            intersects: false,
+          },
+        ],
+      },
+      localAuthorityDistrict: ["Lambeth"],
+      region: "London",
+      type: "residential.dwelling.house.terrace",
+      titleNumber: {
+        known: "No",
+      },
+      EPC: {
+        known: "No",
+      },
+      parking: {
+        cars: {
+          count: 1,
+        },
+        cycles: {
+          count: 2,
+        },
+      },
+    },
+    proposal: {
+      projectType: ["extend.roof.dormer"],
+      description:
+        "Roof extension to the rear of the property, incorporating starship launchpad.",
+      boundary: {
+        site: {
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-0.1186569035053321, 51.465703531871384],
+                [-0.1185938715934822, 51.465724418998775],
+                [-0.1184195280075143, 51.46552473766957],
+                [-0.11848390102387167, 51.4655038504508],
+                [-0.1186569035053321, 51.465703531871384],
+              ],
+            ],
+          },
+          properties: null,
+        },
+        area: {
+          hectares: 0.012592,
+          squareMetres: 125.92,
+        },
+      },
+      date: {
+        start: "2024-05-01",
+        completion: "2024-05-02",
+      },
+      extend: {
+        area: {
+          squareMetres: 45,
+        },
+      },
+      parking: {
+        cars: {
+          count: 1,
+          difference: 0,
+        },
+        cycles: {
+          count: 2,
+          difference: 0,
+        },
+      },
+    },
+  },
+  responses: [
     {
-      subtopic: "Property",
-      value: [
+      question: "Is the property in Lambeth?",
+      responses: [
         {
-          description: "EPC",
-          value: "The property does not have one",
-        },
-        {
-          description: "Property type",
-          value: "Office",
-        },
-        {
-          description: "Region",
-          value: "London",
-        },
-        {
-          description: "Address",
-          value: [
-            {
-              description: "Address",
-              value: "5, PANCRAS SQUARE, LONDON, CAMDEN, N1C 4AG",
-            },
-            {
-              description: "Coordinates (lat, long)",
-              value: "51.533826, -0.1263839",
-            },
-            {
-              description: "UPRN",
-              value: "000005170230",
-            },
-            {
-              description: "USRN",
-              value: "20499403",
-            },
-          ],
-        },
-        {
-          description: "Boundary",
-          value: [
-            {
-              description: "Area",
-              value: "53825.63 m2 / 5.382562999999999 hectares",
-            },
-            {
-              description: "Property boundary",
-              map: {
-                type: "Feature",
-                geometry: {
-                  type: "MultiPolygon",
-                  coordinates: [
-                    [
-                      [
-                        [-0.124237, 51.531031],
-                        [-0.124254, 51.531035],
-                        [-0.124244, 51.531054],
-                        [-0.124446, 51.531106],
-                        [-0.124565, 51.531158],
-                        [-0.124635, 51.531202],
-                        [-0.124683, 51.531244],
-                        [-0.124781, 51.531343],
-                        [-0.124775, 51.531349],
-                        [-0.124788, 51.531355],
-                        [-0.124811, 51.531338],
-                        [-0.124865, 51.531429],
-                        [-0.124896, 51.531543],
-                        [-0.124894, 51.531634],
-                        [-0.124865, 51.531732],
-                        [-0.124797, 51.531839],
-                        [-0.124719, 51.531917],
-                        [-0.124597, 51.532002],
-                        [-0.124457, 51.532068],
-                        [-0.124494, 51.532107],
-                        [-0.124021, 51.533144],
-                        [-0.123962, 51.533228],
-                        [-0.123996, 51.533234],
-                        [-0.123958, 51.533346],
-                        [-0.123866, 51.533559],
-                        [-0.123878, 51.533561],
-                        [-0.123849, 51.533633],
-                        [-0.123838, 51.533632],
-                        [-0.123828, 51.533649],
-                        [-0.123735, 51.533896],
-                        [-0.123719, 51.533893],
-                        [-0.123666, 51.534007],
-                        [-0.12365, 51.534004],
-                        [-0.123635, 51.534034],
-                        [-0.123653, 51.534037],
-                        [-0.123623, 51.534095],
-                        [-0.123677, 51.534106],
-                        [-0.12365, 51.534157],
-                        [-0.123606, 51.534148],
-                        [-0.123544, 51.534275],
-                        [-0.123536, 51.534487],
-                        [-0.123522, 51.534486],
-                        [-0.123523, 51.534572],
-                        [-0.123534, 51.534572],
-                        [-0.123532, 51.534621],
-                        [-0.123521, 51.534621],
-                        [-0.123519, 51.534682],
-                        [-0.12353, 51.534682],
-                        [-0.123519, 51.534716],
-                        [-0.123512, 51.534873],
-                        [-0.123502, 51.534921],
-                        [-0.123345, 51.534946],
-                        [-0.123217, 51.534951],
-                        [-0.122522, 51.534949],
-                        [-0.122467, 51.534927],
-                        [-0.122456, 51.535373],
-                        [-0.122512, 51.535374],
-                        [-0.122503, 51.535356],
-                        [-0.123415, 51.535075],
-                        [-0.123556, 51.535053],
-                        [-0.123697, 51.53502],
-                        [-0.123726, 51.535072],
-                        [-0.123757, 51.535088],
-                        [-0.124405, 51.534933],
-                        [-0.124354, 51.534893],
-                        [-0.12429, 51.534875],
-                        [-0.124601, 51.534799],
-                        [-0.124647, 51.534873],
-                        [-0.125119, 51.534758],
-                        [-0.125126, 51.534769],
-                        [-0.125187, 51.534768],
-                        [-0.125556, 51.53468],
-                        [-0.125578, 51.534673],
-                        [-0.125576, 51.534646],
-                        [-0.126013, 51.534597],
-                        [-0.126301, 51.534589],
-                        [-0.126319, 51.534535],
-                        [-0.126391, 51.534543],
-                        [-0.126433, 51.534408],
-                        [-0.126391, 51.534522],
-                        [-0.126374, 51.534534],
-                        [-0.126286, 51.534533],
-                        [-0.126256, 51.534537],
-                        [-0.126092, 51.53458],
-                        [-0.125958, 51.534573],
-                        [-0.125882, 51.534589],
-                        [-0.125801, 51.534591],
-                        [-0.125686, 51.534621],
-                        [-0.125665, 51.534615],
-                        [-0.125617, 51.534548],
-                        [-0.126337, 51.534324],
-                        [-0.126352, 51.534341],
-                        [-0.126372, 51.534347],
-                        [-0.126432, 51.534332],
-                        [-0.126457, 51.534337],
-                        [-0.126478, 51.534283],
-                        [-0.126907, 51.534163],
-                        [-0.12697, 51.534171],
-                        [-0.126952, 51.534152],
-                        [-0.12723, 51.53408],
-                        [-0.127205, 51.534017],
-                        [-0.127103, 51.53388],
-                        [-0.125965, 51.532396],
-                        [-0.125932, 51.532382],
-                        [-0.125823, 51.532275],
-                        [-0.125679, 51.532172],
-                        [-0.125621, 51.532109],
-                        [-0.125598, 51.532059],
-                        [-0.125587, 51.532],
-                        [-0.125588, 51.531947],
-                        [-0.125612, 51.531845],
-                        [-0.125597, 51.531743],
-                        [-0.125689, 51.531714],
-                        [-0.12546, 51.531421],
-                        [-0.125364, 51.531449],
-                        [-0.125368, 51.531538],
-                        [-0.12535, 51.531652],
-                        [-0.124988, 51.531217],
-                        [-0.124875, 51.53111],
-                        [-0.124496, 51.53071],
-                        [-0.124406, 51.530741],
-                        [-0.124346, 51.530779],
-                        [-0.124335, 51.530811],
-                        [-0.12437, 51.530825],
-                        [-0.124351, 51.530855],
-                        [-0.124238, 51.530876],
-                        [-0.12421, 51.530891],
-                        [-0.124206, 51.531005],
-                        [-0.12421, 51.531024],
-                        [-0.124237, 51.531031],
-                      ],
-                      [
-                        [-0.125691, 51.532473],
-                        [-0.125971, 51.532593],
-                        [-0.126069, 51.532646],
-                        [-0.125906, 51.532761],
-                        [-0.125738, 51.53269],
-                        [-0.125729, 51.532666],
-                        [-0.125516, 51.532594],
-                        [-0.125691, 51.532473],
-                      ],
-                      [
-                        [-0.12646, 51.533391],
-                        [-0.126251, 51.53349],
-                        [-0.125836, 51.53315],
-                        [-0.125897, 51.533136],
-                        [-0.126001, 51.533088],
-                        [-0.126063, 51.533086],
-                        [-0.126253, 51.53321],
-                        [-0.126371, 51.533305],
-                        [-0.12646, 51.533391],
-                      ],
-                      [
-                        [-0.12464, 51.534639],
-                        [-0.124109, 51.53477],
-                        [-0.124218, 51.534156],
-                        [-0.124171, 51.534152],
-                        [-0.124177, 51.534117],
-                        [-0.124224, 51.53412],
-                        [-0.124287, 51.533759],
-                        [-0.124362, 51.533597],
-                        [-0.124431, 51.533573],
-                        [-0.124432, 51.533566],
-                        [-0.124669, 51.533493],
-                        [-0.124746, 51.533597],
-                        [-0.124698, 51.533603],
-                        [-0.124765, 51.533819],
-                        [-0.124815, 51.533813],
-                        [-0.124814, 51.533827],
-                        [-0.124861, 51.533829],
-                        [-0.124795, 51.534221],
-                        [-0.124868, 51.534227],
-                        [-0.125021, 51.534214],
-                        [-0.125114, 51.534522],
-                        [-0.12464, 51.534639],
-                      ],
-                    ],
-                  ],
-                },
-                properties: {
-                  name: "",
-                  entity: 12000514271,
-                  prefix: "title-boundary",
-                  dataset: "title-boundary",
-                  "end-date": "",
-                  typology: "geography",
-                  reference: "54173614",
-                  "entry-date": "2024-05-06",
-                  "start-date": "2012-05-29",
-                  "organisation-entity": "13",
-                },
-              },
-              value: null,
-            },
-          ],
+          value: "Yes",
         },
       ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "The property",
+      },
     },
     {
-      subtopic: "Proposal",
-      value: [
+      question: "What type of property is it?",
+      responses: [
         {
-          description: "Construction dates",
-          value: "01 Aug 2024 to 01 Sep 2024",
-        },
-        {
-          description: "Extension size",
-          value: "15 m2",
-        },
-        {
-          description: "Boundary",
-          value: [
-            {
-              description: "Proposed area",
-              value: "53825.63 m2 / 5.382562999999999 hectares",
-            },
-            {
-              description: "Proposed property boundary",
-              map: {
-                type: "Feature",
-                geometry: {
-                  type: "MultiPolygon",
-                  coordinates: [
-                    [
-                      [
-                        [-0.124237, 51.531031],
-                        [-0.124254, 51.531035],
-                        [-0.124244, 51.531054],
-                        [-0.124446, 51.531106],
-                        [-0.124565, 51.531158],
-                        [-0.124635, 51.531202],
-                        [-0.124683, 51.531244],
-                        [-0.124781, 51.531343],
-                        [-0.124775, 51.531349],
-                        [-0.124788, 51.531355],
-                        [-0.124811, 51.531338],
-                        [-0.124865, 51.531429],
-                        [-0.124896, 51.531543],
-                        [-0.124894, 51.531634],
-                        [-0.124865, 51.531732],
-                        [-0.124797, 51.531839],
-                        [-0.124719, 51.531917],
-                        [-0.124597, 51.532002],
-                        [-0.124457, 51.532068],
-                        [-0.124494, 51.532107],
-                        [-0.124021, 51.533144],
-                        [-0.123962, 51.533228],
-                        [-0.123996, 51.533234],
-                        [-0.123958, 51.533346],
-                        [-0.123866, 51.533559],
-                        [-0.123878, 51.533561],
-                        [-0.123849, 51.533633],
-                        [-0.123838, 51.533632],
-                        [-0.123828, 51.533649],
-                        [-0.123735, 51.533896],
-                        [-0.123719, 51.533893],
-                        [-0.123666, 51.534007],
-                        [-0.12365, 51.534004],
-                        [-0.123635, 51.534034],
-                        [-0.123653, 51.534037],
-                        [-0.123623, 51.534095],
-                        [-0.123677, 51.534106],
-                        [-0.12365, 51.534157],
-                        [-0.123606, 51.534148],
-                        [-0.123544, 51.534275],
-                        [-0.123536, 51.534487],
-                        [-0.123522, 51.534486],
-                        [-0.123523, 51.534572],
-                        [-0.123534, 51.534572],
-                        [-0.123532, 51.534621],
-                        [-0.123521, 51.534621],
-                        [-0.123519, 51.534682],
-                        [-0.12353, 51.534682],
-                        [-0.123519, 51.534716],
-                        [-0.123512, 51.534873],
-                        [-0.123502, 51.534921],
-                        [-0.123345, 51.534946],
-                        [-0.123217, 51.534951],
-                        [-0.122522, 51.534949],
-                        [-0.122467, 51.534927],
-                        [-0.122456, 51.535373],
-                        [-0.122512, 51.535374],
-                        [-0.122503, 51.535356],
-                        [-0.123415, 51.535075],
-                        [-0.123556, 51.535053],
-                        [-0.123697, 51.53502],
-                        [-0.123726, 51.535072],
-                        [-0.123757, 51.535088],
-                        [-0.124405, 51.534933],
-                        [-0.124354, 51.534893],
-                        [-0.12429, 51.534875],
-                        [-0.124601, 51.534799],
-                        [-0.124647, 51.534873],
-                        [-0.125119, 51.534758],
-                        [-0.125126, 51.534769],
-                        [-0.125187, 51.534768],
-                        [-0.125556, 51.53468],
-                        [-0.125578, 51.534673],
-                        [-0.125576, 51.534646],
-                        [-0.126013, 51.534597],
-                        [-0.126301, 51.534589],
-                        [-0.126319, 51.534535],
-                        [-0.126391, 51.534543],
-                        [-0.126433, 51.534408],
-                        [-0.126391, 51.534522],
-                        [-0.126374, 51.534534],
-                        [-0.126286, 51.534533],
-                        [-0.126256, 51.534537],
-                        [-0.126092, 51.53458],
-                        [-0.125958, 51.534573],
-                        [-0.125882, 51.534589],
-                        [-0.125801, 51.534591],
-                        [-0.125686, 51.534621],
-                        [-0.125665, 51.534615],
-                        [-0.125617, 51.534548],
-                        [-0.126337, 51.534324],
-                        [-0.126352, 51.534341],
-                        [-0.126372, 51.534347],
-                        [-0.126432, 51.534332],
-                        [-0.126457, 51.534337],
-                        [-0.126478, 51.534283],
-                        [-0.126907, 51.534163],
-                        [-0.12697, 51.534171],
-                        [-0.126952, 51.534152],
-                        [-0.12723, 51.53408],
-                        [-0.127205, 51.534017],
-                        [-0.127103, 51.53388],
-                        [-0.125965, 51.532396],
-                        [-0.125932, 51.532382],
-                        [-0.125823, 51.532275],
-                        [-0.125679, 51.532172],
-                        [-0.125621, 51.532109],
-                        [-0.125598, 51.532059],
-                        [-0.125587, 51.532],
-                        [-0.125588, 51.531947],
-                        [-0.125612, 51.531845],
-                        [-0.125597, 51.531743],
-                        [-0.125689, 51.531714],
-                        [-0.12546, 51.531421],
-                        [-0.125364, 51.531449],
-                        [-0.125368, 51.531538],
-                        [-0.12535, 51.531652],
-                        [-0.124988, 51.531217],
-                        [-0.124875, 51.53111],
-                        [-0.124496, 51.53071],
-                        [-0.124406, 51.530741],
-                        [-0.124346, 51.530779],
-                        [-0.124335, 51.530811],
-                        [-0.12437, 51.530825],
-                        [-0.124351, 51.530855],
-                        [-0.124238, 51.530876],
-                        [-0.12421, 51.530891],
-                        [-0.124206, 51.531005],
-                        [-0.12421, 51.531024],
-                        [-0.124237, 51.531031],
-                      ],
-                      [
-                        [-0.125691, 51.532473],
-                        [-0.125971, 51.532593],
-                        [-0.126069, 51.532646],
-                        [-0.125906, 51.532761],
-                        [-0.125738, 51.53269],
-                        [-0.125729, 51.532666],
-                        [-0.125516, 51.532594],
-                        [-0.125691, 51.532473],
-                      ],
-                      [
-                        [-0.12646, 51.533391],
-                        [-0.126251, 51.53349],
-                        [-0.125836, 51.53315],
-                        [-0.125897, 51.533136],
-                        [-0.126001, 51.533088],
-                        [-0.126063, 51.533086],
-                        [-0.126253, 51.53321],
-                        [-0.126371, 51.533305],
-                        [-0.12646, 51.533391],
-                      ],
-                      [
-                        [-0.12464, 51.534639],
-                        [-0.124109, 51.53477],
-                        [-0.124218, 51.534156],
-                        [-0.124171, 51.534152],
-                        [-0.124177, 51.534117],
-                        [-0.124224, 51.53412],
-                        [-0.124287, 51.533759],
-                        [-0.124362, 51.533597],
-                        [-0.124431, 51.533573],
-                        [-0.124432, 51.533566],
-                        [-0.124669, 51.533493],
-                        [-0.124746, 51.533597],
-                        [-0.124698, 51.533603],
-                        [-0.124765, 51.533819],
-                        [-0.124815, 51.533813],
-                        [-0.124814, 51.533827],
-                        [-0.124861, 51.533829],
-                        [-0.124795, 51.534221],
-                        [-0.124868, 51.534227],
-                        [-0.125021, 51.534214],
-                        [-0.125114, 51.534522],
-                        [-0.12464, 51.534639],
-                      ],
-                    ],
-                  ],
-                },
-                properties: {
-                  name: "",
-                  entity: 12000514271,
-                  prefix: "title-boundary",
-                  dataset: "title-boundary",
-                  "end-date": "",
-                  typology: "geography",
-                  reference: "54173614",
-                  "entry-date": "2024-05-06",
-                  "start-date": "2012-05-29",
-                  planx_user_action: "Accepted the title boundary",
-                  "organisation-entity": "13",
-                },
-              },
-              value: null,
-            },
-          ],
-        },
-        {
-          description: "Description",
-          value: "123",
+          value: "House",
         },
       ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "The property",
+      },
+    },
+    {
+      question: "What type of house it is?",
+      responses: [
+        {
+          value: "Terrace",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "The property",
+      },
+    },
+    {
+      question: "Is the property in a flood zone?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "The property",
+      },
+    },
+    {
+      question: "What type of property is it?",
+      responses: [
+        {
+          value: "House",
+          metadata: {
+            flags: ["Listed building consent / Not required"],
+          },
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "List the changes involved in the project",
+      responses: [
+        {
+          value: "Add a roof extension",
+          metadata: {
+            flags: ["Listed building consent / Not required"],
+          },
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Have works already started?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Is the property in a flood zone?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "What type of changes does the project involve?",
+      responses: [
+        {
+          value: "Extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Is the project to add an outbuilding?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "How much new floor area is being added to the house?",
+      responses: [
+        {
+          value: "Less than 100m²",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question:
+        "How much exactly is the internal floor area of the property increasing by?",
+      responses: [
+        {
+          value: "45",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question:
+        "Does the project involve creating any new bedrooms or bathrooms?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the wall materials of the existing house",
+      responses: [
+        {
+          value: "London stock brick",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the wall materials of the new extension",
+      responses: [
+        {
+          value: "Metallic cladding, reflective. Multiple colours.",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the material of the roof of the existing house",
+      responses: [
+        {
+          value: "Grey slate",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the material for the new roof of the extension",
+      responses: [
+        {
+          value: "Zinc panels",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the window materials of the existing house",
+      responses: [
+        {
+          value: "Wooden sash windows, painted white",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the window materials of the extension",
+      responses: [
+        {
+          value: "Brushed steel.",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the door materials of the existing house",
+      responses: [
+        {
+          value: "Wood, painted.",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Describe the door materials of the extension",
+      responses: [
+        {
+          value: "No door present",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question:
+        "Are there any trees that could fall within the property or the areas affected by the project (the previously drawn outline)?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Does the project involve any of these?",
+      responses: [
+        {
+          value: "No, none of these",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Is the property in Greater London?",
+      responses: [
+        {
+          value: "Yes",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Does the site include more than one property?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Do you know the title number of the property?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question:
+        "Does the property have an Energy Performance Certificate (EPC)?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "What type of application is this?",
+      responses: [
+        {
+          value: "Planning permission for a home",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "When will the works start?",
+      responses: [
+        {
+          value: "2024-05-01",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "When will the works be completed?",
+      responses: [
+        {
+          value: "2024-05-02",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Does the site include parking spaces for any of these?",
+      responses: [
+        {
+          value: "Cars",
+        },
+        {
+          value: "Bicycles",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Total number of car parking spaces before",
+      responses: [
+        {
+          value: "1",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Total number of car parking spaces after",
+      responses: [
+        {
+          value: "1",
+        },
+      ],
+      metadata: {
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "What types of car parking space are present?",
+      responses: [
+        {
+          value: "Off-street parking for residents only",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Off-street, residents-only car spaces before",
+      responses: [
+        {
+          value: "1",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Off-street, residents-only car spaces after",
+      responses: [
+        {
+          value: "1",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "What type of bicycle parking is there?",
+      responses: [
+        {
+          value: "Off-street cycle parking",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Off-street bicycle spaces before",
+      responses: [
+        {
+          value: "2",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Off-street bicycle spaces after",
+      responses: [
+        {
+          value: "2",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "Greater London Authority Act 1999",
+            url: "https://www.legislation.gov.uk/ukpga/1999/29/section/346",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Is the property on designated land?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Does the property include any of these?",
+      responses: [
+        {
+          value: "None of these",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended",
+            url: "http://www.legislation.gov.uk/uksi/2015/595/article/7/made",
+          },
+        ],
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Heritage Statement needed?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "Is the property in a flood zone?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About the project",
+      },
+    },
+    {
+      question: "What type of application is it?",
+      responses: [
+        {
+          value: "Apply for planning permission",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Your contact details",
+      responses: [
+        {
+          value: "Mx Ziggy Stardust 01100 0110 0011 ziggy@example.com",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Is this a test?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Are you applying on behalf of someone else?",
+      responses: [
+        {
+          value: "Yes",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Which of these best describes you?",
+      responses: [
+        {
+          value: "Friend or relative",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Your contact address",
+      responses: [
+        {
+          value:
+            "40 Stansfield Road, Brixton, London, Greater London, SW9 9RZ, UK",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Which of these best describes the applicant?",
+      responses: [
+        {
+          value: "Private individual",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Applicant's title",
+      responses: [
+        {
+          value: "Mr",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Do you want to provide an email address for the applicant?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Do you want to provide a telephone number for the applicant?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question:
+        "Is the applicant's contact address the same as the property address?",
+      responses: [
+        {
+          value: "Yes",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Which of these best describes you?",
+      responses: [
+        {
+          value: "Friend or relative",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About you",
+      },
+    },
+    {
+      question:
+        "We may need to visit your site to assess your application. If we do, who should we contact to arrange the visit?",
+      responses: [
+        {
+          value: "Me",
+        },
+      ],
+      metadata: {
+        sectionName: "About you",
+      },
+    },
+    {
+      question: "Which of these best describes you?",
+      responses: [
+        {
+          value: "Friend or relative acting on the applicant's behalf",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About you",
+      },
+    },
+    {
+      question:
+        "Which of these best describes the applicant's interest in the land?",
+      responses: [
+        {
+          value: "Sole owner",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Development Management Procedure) (England) Order 2015",
+            url: "https://www.legislation.gov.uk/uksi/2015/595/article/39/made",
+          },
+        ],
+        sectionName: "About you",
+      },
+    },
+    {
+      question:
+        "Did you get any pre-application advice from the council before making this application?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What type of planning application are you making?",
+      responses: [
+        {
+          value: "Full planning permission",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is the property a home?",
+      responses: [
+        {
+          value: "Yes",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What types of changes does the application relate to?",
+      responses: [
+        {
+          value: "Extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What type of extension is it?",
+      responses: [
+        {
+          value: "Roof extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "List the changes involved in the roof extension",
+      responses: [
+        {
+          value: "Add dormer",
+        },
+      ],
+      metadata: {
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Is the purpose of the project to support the needs of a disabled resident?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012, Regulation 14",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/regulation/14",
+          },
+          {
+            text: "UK Statutory Instruments 2012 No. 2920 Regulation 4",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made",
+          },
+          {
+            text: "Equalities Act 2010, Section 6",
+            url: "https://www.legislation.gov.uk/ukpga/2010/15/section/6",
+          },
+          {
+            text: "Children Act 1989, Part 3",
+            url: "https://www.legislation.gov.uk/ukpga/1989/41/part/III",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is it a prior approval application?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is the property a home?",
+      responses: [
+        {
+          value: "Yes",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What works does the project involve?",
+      responses: [
+        {
+          value: "Extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is this application a resubmission?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012, Regulation 9",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/regulation/9",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Does the application qualify for a disability exemption?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Does the application qualify for a resubmission exemption?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is the site a sports field?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Chapter 2, Paragraph 3",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/schedule/1",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Is the application being made by (or on behalf of) a parish or community council?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 - Regulation 11",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/regulation/11",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Are you also submitting another proposal for the same site today?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Chapter 2, Paragraph 10",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/schedule/1",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Does the application qualify for the sports club fee reduction?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Does the application qualify for the parish council reduction?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 - Regulation 11",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/regulation/11",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question:
+        "Does the application qualify for the alternative application reduction?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Chapter 2, Paragraph 10",
+            url: "https://www.legislation.gov.uk/uksi/2012/2920/schedule/1",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What type of application is it?",
+      responses: [
+        {
+          value: "Full planning permission",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "What does the project involve?",
+      responses: [
+        {
+          value: "Extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "How much new floor area is being created?",
+      responses: [
+        {
+          value: "Less than 100m²",
+          metadata: {
+            flags: ["Community infrastructure levy / Not liable"],
+          },
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Community Infrastructure Levy Regulations 2010, Regulation 42",
+            url: "https://www.legislation.gov.uk/uksi/2010/948/regulation/42",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Is this a householder planning application?",
+      responses: [
+        {
+          value: "Yes",
+          metadata: {
+            flags: ["Community infrastructure levy / Not liable"],
+          },
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        policyRefs: [
+          {
+            text: "The Community Infrastructure Levy Regulations 2010, Regulation 42",
+            url: "https://www.legislation.gov.uk/uksi/2010/948/regulation/42",
+          },
+        ],
+        sectionName: "About this application",
+      },
+    },
+    {
+      question: "Have the works already started?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Upload drawings",
+      },
+    },
+    {
+      question: "What changes does the project involve?",
+      responses: [
+        {
+          value: "Extension",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Upload drawings",
+      },
+    },
+    {
+      question: "Is the project to add an outbuilding?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Upload drawings",
+      },
+    },
+    {
+      question: "Which Local Planning authority is it?",
+      responses: [
+        {
+          value: "Lambeth",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Check",
+      },
+    },
+    {
+      question: "Connections with London Borough of Lambeth",
+      responses: [
+        {
+          value: "None of the above apply to me",
+        },
+      ],
+      metadata: {
+        sectionName: "Check",
+      },
+    },
+    {
+      question: "I confirm that:",
+      responses: [
+        {
+          value:
+            "The information contained in this application is truthful, accurate and complete, to the best of my knowledge",
+        },
+      ],
+      metadata: {
+        sectionName: "Check",
+      },
+    },
+    {
+      question: "Does the application qualify for a disability exemption?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Pay and send",
+      },
+    },
+    {
+      question: "Does the application qualify for a resubmission exemption?",
+      responses: [
+        {
+          value: "No",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Pay and send",
+      },
+    },
+    {
+      question: "Which Local Planning authority is it?",
+      responses: [
+        {
+          value: "Lambeth",
+        },
+      ],
+      metadata: {
+        autoAnswered: true,
+        sectionName: "Pay and send",
+      },
+    },
+  ],
+  files: [
+    {
+      name: "https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf",
+      type: ["roofPlan.existing", "roofPlan.proposed"],
+    },
+    {
+      name: "https://api.editor.planx.dev/file/private/5w5v8s8z/other.pdf",
+      type: ["sitePlan.existing", "sitePlan.proposed"],
+    },
+    {
+      name: "https://api.editor.planx.dev/file/private/7nrefxnn/elevations.pdf",
+      type: ["elevations.existing", "elevations.proposed"],
+    },
+    {
+      name: "https://api.editor.planx.dev/file/private/311w2id6/floor_plans.pdf",
+      type: ["floorPlan.existing", "floorPlan.proposed"],
     },
   ],
   metadata: {
-    submittedAt: "2024-07-02T11:30:37.913Z",
-    raw: "",
+    organisation: "LBH",
+    id: "81bcaa0f-baf5-4573-ba0a-ea868c573faf",
+    source: "PlanX",
+    service: {
+      flowId: "01e38c5d-e701-4e44-acdc-4d6b5cc3b854",
+      url: "https://www.editor.planx.dev/lambeth/apply-for-planning-permission/preview",
+      files: {
+        required: [
+          "roofPlan.existing",
+          "roofPlan.proposed",
+          "sitePlan.existing",
+          "sitePlan.proposed",
+          "elevations.existing",
+          "elevations.proposed",
+        ],
+        recommended: ["floorPlan.existing", "floorPlan.proposed"],
+        optional: [],
+      },
+      fee: {
+        category: {
+          sixAndSeven: [
+            {
+              description:
+                "The fee to apply for planning permission to alter or extend a single home is £258.",
+              policyRefs: [
+                {
+                  text: "UK Statutory Instruments 2023 No. 1197",
+                  url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
+                },
+              ],
+            },
+          ],
+        },
+        calculated: [
+          {
+            description:
+              "The fee to apply for planning permission to alter or extend a single home is £258.",
+            policyRefs: [
+              {
+                text: "UK Statutory Instruments 2023 No. 1197",
+                url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
+              },
+            ],
+          },
+        ],
+        payable: [
+          {
+            description:
+              "The fee to apply for planning permission to alter or extend a single home is £258.",
+            policyRefs: [
+              {
+                text: "UK Statutory Instruments 2023 No. 1197",
+                url: "https://www.legislation.gov.uk/uksi/2023/1197/made",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    submittedAt: "2024-02-18T15:54:30.821Z",
+    schema:
+      "https://theopensystemslab.github.io/digital-planning-data-schemas/@next/schemas/prototypeApplication.json",
   },
 };

@@ -63,7 +63,9 @@ export async function handleBopsGetRequest<T>(
           status: {
             code: response.status,
             message: response.statusText,
-            detail: errorData,
+            detail: errorData?.error?.detail
+              ? errorData.error.detail
+              : errorData,
           },
         } as T;
       }
