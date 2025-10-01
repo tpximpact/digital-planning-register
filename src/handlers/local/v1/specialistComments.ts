@@ -30,39 +30,36 @@ import {
 import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
-const makeCommentSummary = (
+export const makeCommentSummary = (
   specialists: SpecialistRedacted[],
 ): SpecialistCommentSummary => {
+  // Count all comments for totalComments
+  const totalComments = specialists
+    .map((specialist) => specialist.comments.length)
+    .reduce((a, b) => a + b, 0);
+
+  // Only count the latest comment's sentiment for each specialist
+  const sentiment = specialists.reduce(
+    (acc, specialist) => {
+      const latest = specialist.comments[0];
+      if (latest) {
+        if (latest.sentiment === "approved") {
+          acc.approved++;
+        } else if (latest.sentiment === "objected") {
+          acc.objected++;
+        } else if (latest.sentiment === "amendmentsNeeded") {
+          acc.amendmentsNeeded++;
+        }
+      }
+      return acc;
+    },
+    { approved: 0, objected: 0, amendmentsNeeded: 0 },
+  );
+
   return {
-    totalComments: specialists
-      .map((specialist) => specialist.comments.length)
-      .reduce((a, b) => a + b, 0),
+    totalComments,
     totalConsulted: specialists.length,
-    sentiment: specialists
-      .map((specialist) => {
-        return specialist.comments.reduce(
-          (acc, comment) => {
-            if (comment.sentiment === "approved") {
-              acc.approved++;
-            } else if (comment.sentiment === "objected") {
-              acc.objected++;
-            } else if (comment.sentiment === "amendmentsNeeded") {
-              acc.amendmentsNeeded++;
-            }
-            return acc;
-          },
-          { approved: 0, objected: 0, amendmentsNeeded: 0 },
-        );
-      })
-      .reduce(
-        (acc, curr) => {
-          acc.approved += curr.approved;
-          acc.objected += curr.objected;
-          acc.amendmentsNeeded += curr.amendmentsNeeded;
-          return acc;
-        },
-        { approved: 0, objected: 0, amendmentsNeeded: 0 },
-      ),
+    sentiment,
   };
 };
 
@@ -97,6 +94,18 @@ const response = (
       searchParams?.page ?? 1,
       0,
       0,
+      resultsPerPage,
+    );
+  }
+
+  if (searchParams?.query === "noresultsplease") {
+    // if the query is noresultsplease, we return no specialists
+    specialists = [];
+    summary = makeCommentSummary([]);
+    pagination = generatePagination(
+      searchParams?.page ?? 1,
+      0,
+      allSpecialists.length,
       resultsPerPage,
     );
   }
