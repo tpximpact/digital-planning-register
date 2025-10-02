@@ -20,18 +20,7 @@ import {
   DprSpecialistApiResponse,
   SearchParamsSpecialistComments,
 } from "@/types";
-import { handleBopsGetRequest } from "../requests";
-import {
-  BopsSpecialist,
-  BopsV2PublicPlanningApplicationSpecialistComments,
-} from "../types";
-import { defaultPagination } from "@/handlers/lib";
-import {
-  SpecialistCommentRedacted,
-  SpecialistRedacted,
-} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
-import { convertBopsSpecialist } from "../converters/comments";
-import { paginateArray } from "@/util/paginate-array";
+import { getAppConfig } from "@/config";
 
 /**
  * Get the details for an application
@@ -51,88 +40,51 @@ export async function specialist(
   specialistId: string,
   searchParams: SearchParamsSpecialistComments,
 ): Promise<ApiResponse<DprSpecialistApiResponse | null>> {
-  let page = searchParams?.page ?? 1;
-  const resultsPerPage = searchParams?.resultsPerPage ?? 10;
-  let findSpecialist: BopsSpecialist | undefined = undefined;
-  let foundSpecialist: SpecialistRedacted | undefined = undefined;
-  let lastRequest:
-    | ApiResponse<BopsV2PublicPlanningApplicationSpecialistComments | null>
-    | undefined;
-  let totalPages = 1;
+  let url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications/${reference}/specialistComments/${specialistId}`;
 
-  // Paginate through comments until we find the specialistId or run out of pages
-  do {
-    let url = `public/planning_applications/${reference}/comments/specialist`;
+  if (searchParams) {
     const params = new URLSearchParams({
-      page: page.toString(),
-      resultsPerPage: resultsPerPage.toString(),
+      page: searchParams?.page?.toString(),
+      resultsPerPage: searchParams?.resultsPerPage?.toString() ?? "10",
     });
 
-    if (searchParams?.query) params.append("query", searchParams.query);
-    if (searchParams?.sortBy) params.append("sortBy", searchParams.sortBy);
-    if (searchParams?.orderBy) params.append("orderBy", searchParams.orderBy);
-
-    url = `${url}?${params.toString()}`;
-
-    const request = await handleBopsGetRequest<
-      ApiResponse<BopsV2PublicPlanningApplicationSpecialistComments | null>
-    >(council, url);
-
-    lastRequest = request;
-
-    if (!request.data) {
-      return {
-        ...request,
-        data: null,
-        pagination: defaultPagination,
-      };
+    if (searchParams.query) {
+      params.append("query", searchParams.query);
     }
-
-    const {
-      data: { comments: bopsComments },
-      pagination,
-    } = request.data;
-
-    findSpecialist =
-      bopsComments.find(
-        (comment) =>
-          String(comment.id).toLowerCase() ===
-          String(specialistId).toLowerCase(),
-      ) ?? undefined;
-
-    foundSpecialist = findSpecialist
-      ? convertBopsSpecialist(findSpecialist)
-      : undefined;
-
-    // Determine total pages from pagination info if available
-    totalPages = pagination?.totalPages ?? totalPages;
-
-    if (foundSpecialist) break;
-    page += 1;
-  } while (page <= totalPages);
-
-  if (!foundSpecialist) {
-    return {
-      ...lastRequest!,
-      data: null,
-      pagination: defaultPagination,
-    };
+    if (searchParams.sortBy) {
+      params.append("sortBy", searchParams.sortBy);
+    }
+    if (searchParams.orderBy) {
+      params.append("orderBy", searchParams.orderBy);
+    }
+    url = `${url}?${params.toString()}`;
   }
 
-  const { comments, ...rest } = foundSpecialist;
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
 
-  const { data, pagination } = paginateArray<SpecialistCommentRedacted>(
-    comments,
-    page,
-    resultsPerPage,
-    comments.length,
-  );
-  return {
-    ...lastRequest!,
-    data: {
-      ...rest,
-      comments: data,
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
     },
-    pagination,
-  };
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
+
+  if (!response.ok) {
+    return {
+      data: null,
+      status: {
+        code: 500,
+        message: "Something went wrong fetching from the backend",
+      },
+    };
+  }
+  const data = await response.json();
+
+  console.log(data);
+  return data;
 }

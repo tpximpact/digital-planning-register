@@ -57,7 +57,7 @@ export const PageSpecialistComments = ({
   searchParams,
   pagination,
 }: PageSpecialistCommentsProps) => {
-  if (!appConfig || !appConfig.council || !pagination) {
+  if (!appConfig || !appConfig.council) {
     return (
       <PageMain>
         <ContentNotFound />
@@ -97,7 +97,7 @@ export const PageSpecialistComments = ({
           </form>
         )}
 
-        {pagination?.totalAvailableItems === 0 ? (
+        {pagination && pagination?.totalAvailableItems === 0 ? (
           <p className="govuk-hint">
             <em>
               No comments from this specialist have been published at this time.
@@ -121,7 +121,7 @@ export const PageSpecialistComments = ({
               />
             )}
 
-            {pagination.totalPages > 1 && (
+            {pagination && pagination.totalPages > 1 && (
               <Pagination
                 baseUrl={createPathFromParams(params, "comments")}
                 searchParams={searchParams}

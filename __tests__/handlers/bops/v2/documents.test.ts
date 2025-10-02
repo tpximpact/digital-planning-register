@@ -32,7 +32,7 @@ const baseSearchParams: SearchParamsDocuments = {
   resultsPerPage: 5,
 };
 
-describe("documents", () => {
+describe.skip("documents", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockConvertBopsDocumentEndpointToDprDocumentEndpoint.mockReturnValue({

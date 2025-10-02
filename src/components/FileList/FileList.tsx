@@ -44,7 +44,7 @@ export const FileList = ({ documents }: FileListProps) => {
               <Attachment
                 key={i}
                 title={document.name}
-                url={document.url}
+                url={document.redactedUrl ?? document.url}
                 mimeType={document.metadata?.mimeType}
                 fileSize={document.metadata?.size?.bytes}
                 uploadedAt={document.metadata?.submittedAt}

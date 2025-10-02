@@ -150,7 +150,7 @@ export const SpecialistCommentCard = ({
                     <Attachment
                       key={`${featuredSpecialComment?.id}-file-${i}`}
                       title={file?.name}
-                      url={file?.url}
+                      url={file?.redactedUrl ?? file?.url}
                       fileName={file?.name}
                       thumbnailUrl={file?.thumbnailUrl}
                       fileSize={file.metadata?.size?.bytes}

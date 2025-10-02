@@ -26,7 +26,7 @@
  * specialistComments
  */
 import { SpecialistCommentsRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Comment.js";
-import { DprDocument, DprComment, DprApplication } from "./definitions";
+import { DprDocument, DprApplication } from "./definitions";
 import type { PublicCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
@@ -71,7 +71,7 @@ export type DprApplicationPostCommentApiResponse = {
  */
 
 export type DprPublicCommentsApiResponse = {
-  comments: DprComment[];
+  comments: PublicCommentRedacted[];
   summary: PublicCommentSummary;
 };
 

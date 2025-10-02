@@ -20,10 +20,7 @@ import {
   DprPublicCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
-import { handleBopsGetRequest } from "../requests";
-import { BopsV2PublicPlanningApplicationPublicComments } from "../types";
-import { convertCommentBops } from "../converters/comments";
-import { defaultPagination } from "@/handlers/lib";
+import { getAppConfig } from "@/config";
 
 /**
  * Get the details for an application
@@ -42,7 +39,7 @@ export async function publicComments(
   reference: string,
   searchParams: SearchParamsComments,
 ): Promise<ApiResponse<DprPublicCommentsApiResponse | null>> {
-  let url = `public/planning_applications/${reference}/comments/public`;
+  let url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications/${reference}/publicComments`;
 
   if (searchParams) {
     const params = new URLSearchParams({
@@ -72,27 +69,30 @@ export async function publicComments(
     url = `${url}?${params.toString()}`;
   }
 
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationPublicComments | null>
-  >(council, url);
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
 
-  if (!request.data) {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
+    },
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
+
+  if (!response.ok) {
     return {
-      ...request,
       data: null,
-      pagination: defaultPagination,
+      status: {
+        code: 500,
+        message: "Something went wrong fetching from the backend",
+      },
     };
   }
+  const data = await response.json();
 
-  const { comments: bopsComments, summary, pagination } = request.data;
-  const transformedComments = bopsComments.map(convertCommentBops);
-
-  return {
-    ...request,
-    data: {
-      comments: transformedComments,
-      summary,
-    },
-    pagination: pagination,
-  };
+  return data;
 }

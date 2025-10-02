@@ -18,19 +18,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationComments } from "./PageApplicationComments";
 import {
-  generateComment,
   generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
 import {
   generateDprApplication,
+  generatePublicComment,
   generateSpecialistComment,
 } from "@mocks/dprNewApplicationFactory";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { PublicCommentRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 
-const comments = generateNResults<DprComment>(10, generateComment);
+const comments = generateNResults<PublicCommentRedacted>(
+  10,
+  generatePublicComment,
+);
 
 const specialists = generateNResults<SpecialistRedacted>(10, () =>
   generateSpecialistComment(1, Math.ceil(Math.random() * 10)),

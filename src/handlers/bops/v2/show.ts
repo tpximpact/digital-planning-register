@@ -17,15 +17,13 @@
 
 "use server";
 
-import { ApiResponse, DprApplication, DprShowApiResponse } from "@/types";
-import { BopsV2PublicPlanningApplicationDetail } from "@/handlers/bops/types";
-import { handleBopsGetRequest } from "../requests";
-import { convertBopsToDpr } from "../converters/planningApplication";
-import {
-  convertToDprApplication,
-  isDprApplication,
-} from "@/lib/planningApplication/converter";
+import { ApiResponse, DprShowApiResponse } from "@/types";
 import { getDecisionNoticeUrl } from "../actions/getDecisionNoticeUrl";
+import { getAppConfig } from "@/config";
+import {
+  getApplicationDprDecisionSummary,
+  getApplicationDprStatusSummary,
+} from "@/lib/planningApplication";
 
 /**
  * Get the details for an application
@@ -38,36 +36,50 @@ export async function show(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprShowApiResponse | null>> {
-  try {
-    const request = await handleBopsGetRequest<
-      ApiResponse<BopsV2PublicPlanningApplicationDetail | null>
-    >(council, `public/planning_applications/${reference}`);
+  const url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications/${reference}`;
 
-    if (!request?.data) {
-      return { ...request, data: null };
-    }
-    const convertedData = convertBopsToDpr(request.data, council);
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
 
-    const decisionNoticeUrl = await getDecisionNoticeUrl(council, reference);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
+    },
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
 
-    const convertedApplication: DprApplication = isDprApplication(convertedData)
-      ? convertedData
-      : convertToDprApplication(convertedData, { decisionNoticeUrl });
-
-    return { ...request, data: convertedApplication };
-  } catch (error) {
-    console.error("Error fetching or converting application data:", error);
-    let detail = "Unknown error";
-    if (error instanceof Error) {
-      detail = error.message;
-    }
+  if (!response.ok) {
     return {
       data: null,
       status: {
         code: 500,
-        message: "Internal server error",
-        detail,
+        message: "Something went wrong fetching from the backend",
       },
     };
   }
+
+  const data = await response.json();
+
+  const application = data.data;
+
+  const decisionNoticeUrl = await getDecisionNoticeUrl(council, reference);
+
+  if (decisionNoticeUrl) {
+    application.data.assessment.decisionNotice = { url: decisionNoticeUrl };
+  }
+  const applicationDecisionSummary =
+    getApplicationDprDecisionSummary(application);
+  const applicationStatusSummary = getApplicationDprStatusSummary(application);
+
+  const convertedApplication = {
+    ...application,
+    applicationStatusSummary,
+    applicationDecisionSummary,
+  };
+
+  return { ...data, data: convertedApplication };
 }

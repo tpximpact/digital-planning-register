@@ -14,16 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
-import {
-  DprApplication,
-  DprComment,
-  DprPagination,
-  SearchParamsComments,
-} from "@/types";
+import { DprApplication, DprPagination, SearchParamsComments } from "@/types";
 import { BackButton } from "@/components/BackButton";
 import { Pagination } from "@/components/govuk/Pagination";
 import { AppConfig } from "@/config/types";
-import { CommentCard } from "@/components/CommentCard";
 import { ContentNotFound } from "@/components/ContentNotFound";
 import { PageMain } from "@/components/PageMain";
 import { createPathFromParams } from "@/lib/navigation";
@@ -34,6 +28,8 @@ import { ContextSetterWithSuspense } from "@/components/ContextSetter";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 import { SpecialistCommentCard } from "../SpecialistCommentCard";
 import React from "react";
+import { PublicCommentCard } from "../PublicCommentCard";
+import { PublicCommentRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 
 export interface PageApplicationCommentsProps {
   params: {
@@ -42,7 +38,7 @@ export interface PageApplicationCommentsProps {
   };
   appConfig: AppConfig;
   application?: DprApplication;
-  comments: SpecialistRedacted[] | DprComment[] | null;
+  comments: SpecialistRedacted[] | PublicCommentRedacted[] | null;
   searchParams: SearchParamsComments;
   pagination?: DprPagination;
 }
@@ -115,9 +111,9 @@ export const PageApplicationComments = ({
                       specialist={comment as SpecialistRedacted}
                     />
                   ) : (
-                    <CommentCard
+                    <PublicCommentCard
                       key={`${i}-${comment.id}`}
-                      comment={comment as DprComment}
+                      comment={comment as PublicCommentRedacted}
                     />
                   )}
                 </React.Fragment>

@@ -18,9 +18,8 @@
 "use server";
 
 import { ApiResponse } from "@/types";
-import { BopsV2PlanningApplicationsSubmission } from "@/handlers/bops/types";
 import { DprApplicationSubmissionApiResponse } from "@/types";
-import { handleBopsGetRequest } from "../requests";
+import { getAppConfig } from "@/config";
 
 /**
  * GET /api/v2/planning_applications/{reference}/submission
@@ -33,25 +32,35 @@ export async function applicationSubmission(
   council: string,
   reference: string,
 ): Promise<ApiResponse<DprApplicationSubmissionApiResponse | null>> {
-  const url = `public/planning_applications/${reference}/submission`;
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PlanningApplicationsSubmission | null>
-  >(council, url);
+  const url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications/${reference}`;
 
-  if (request.status.code !== 200) {
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
+    },
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
+
+  if (!response.ok) {
     return {
       data: null,
-      status: request.status,
-    };
-  } else {
-    return {
-      data: {
-        submission: request.data?.submission ? request.data?.submission : null,
-      },
       status: {
-        code: 200,
-        message: "OK",
+        code: 500,
+        message: "Something went wrong fetching from the backend",
       },
     };
   }
+
+  const data = await response.json();
+
+  const submission = data.data.submission;
+
+  return { ...data, data: submission };
 }

@@ -19,20 +19,15 @@
 
 import {
   ApiResponse,
-  DprPagination,
   DprApplication,
-  DprPlanningApplication,
   DprSearchApiResponse,
   SearchParamsApplication,
 } from "@/types";
-import { BopsV2PublicPlanningApplicationsSearch } from "@/handlers/bops/types";
-import { handleBopsGetRequest } from "@/handlers/bops/requests";
-import { defaultPagination } from "@/handlers/lib";
-import { convertBopsToDpr } from "@/handlers/bops/converters/planningApplication";
+import { getAppConfig } from "@/config";
 import {
-  convertToDprApplication,
-  isDprApplication,
-} from "@/lib/planningApplication/converter";
+  getApplicationDprDecisionSummary,
+  getApplicationDprStatusSummary,
+} from "@/lib/planningApplication";
 
 /**
  * Get list of public applications, also used for search
@@ -47,7 +42,7 @@ export async function search(
   council: string,
   searchParams?: SearchParamsApplication,
 ): Promise<ApiResponse<DprSearchApiResponse | null>> {
-  let url = `public/planning_applications/search`;
+  let url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications`;
 
   if (searchParams) {
     const params = new URLSearchParams({
@@ -133,49 +128,43 @@ export async function search(
     url = `${url}?${params.toString()}`;
   }
 
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationsSearch | null>
-  >(council, url);
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
 
-  const { data: planningApplications = [] } = request.data || {};
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
+    },
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
 
-  const convertedApplications = planningApplications.map((application) =>
-    convertBopsToDpr(application, council),
-  );
-
-  const errors: {
-    app: DprPlanningApplication;
-    reference: string;
-    error: unknown;
-  }[] = [];
-
-  const dprApplications: DprApplication[] = convertedApplications
-    .map((application) => {
-      try {
-        return isDprApplication(application)
-          ? application
-          : convertToDprApplication(application);
-      } catch (error) {
-        console.error("Error converting application:", error);
-        errors.push({
-          app: application,
-          reference: application.application.reference,
-          error,
-        });
-        return null;
-      }
-    })
-    .filter((app): app is DprApplication => app !== null);
-
-  if (errors.length > 0) {
-    console.warn("Some applications failed to convert:", errors);
+  if (!response.ok) {
+    return {
+      data: null,
+      status: {
+        code: 500,
+        message: "Something went wrong fetching from the backend",
+      },
+    };
   }
-  const pagination: DprPagination =
-    request.data?.pagination || defaultPagination;
+  const data = await response.json();
 
-  return {
-    ...request,
-    data: dprApplications.length > 0 ? dprApplications : null,
-    pagination,
-  };
+  const applications = data.data;
+
+  const convertedApplications = applications.map((app: DprApplication) => {
+    const applicationDecisionSummary = getApplicationDprDecisionSummary(app);
+    const applicationStatusSummary = getApplicationDprStatusSummary(app);
+    const application = {
+      ...app,
+      applicationStatusSummary,
+      applicationDecisionSummary,
+    } as DprApplication;
+    return application;
+  });
+
+  return { ...data, data: convertedApplications };
 }

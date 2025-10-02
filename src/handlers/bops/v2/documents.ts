@@ -22,16 +22,14 @@ import {
   DprDocumentsApiResponse,
   SearchParamsDocuments,
 } from "@/types";
-import { BopsV2PublicPlanningApplicationDocuments } from "@/handlers/bops/types";
-import { convertBopsDocumentEndpointToDprDocumentEndpoint } from "@/handlers/bops/converters/documents";
-import { handleBopsGetRequest } from "../requests";
+import { getAppConfig } from "@/config";
 
 export async function documents(
   council: string,
   reference: string,
   searchParams: SearchParamsDocuments,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
-  let url = `public/planning_applications/${reference}/documents`;
+  let url = `${process.env.DPR_BACKEND_URL}/api/@next/public/applications/${reference}/documents`;
 
   if (searchParams) {
     const params = new URLSearchParams({
@@ -58,21 +56,30 @@ export async function documents(
     url = `${url}?${params.toString()}`;
   }
 
-  const request = await handleBopsGetRequest<
-    ApiResponse<BopsV2PublicPlanningApplicationDocuments | null>
-  >(council, url);
+  const config = getAppConfig(council);
+  const revalidateConfig = config.defaults.revalidate;
 
-  const { status } = request;
-  const bopsDocuments = request.data?.files || [];
-  const bopsPagination = request.data?.metadata || { totalResults: 0 };
-  const totalResults = bopsPagination.totalResults;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "x-client": council,
+      "x-service": "DPR frontend bops handler",
+    },
+    next: {
+      revalidate: revalidateConfig,
+    },
+  });
 
-  const documents = convertBopsDocumentEndpointToDprDocumentEndpoint(
-    bopsDocuments,
-    totalResults,
-    searchParams,
-    status,
-  );
+  if (!response.ok) {
+    return {
+      data: null,
+      status: {
+        code: 500,
+        message: "Something went wrong fetching from the backend",
+      },
+    };
+  }
+  const data = await response.json();
 
-  return documents;
+  return data;
 }

@@ -179,7 +179,7 @@ describe("Render ApplicationCard", () => {
     const councilDecisionDate =
       planningOfficerDetermined.data?.assessment?.planningOfficerDecisionDate;
     if (councilDecisionDate) {
-      const formattedDate = formatDateTimeToDprDate(councilDecisionDate);
+      const formattedDate = formatDateToDprDate(councilDecisionDate);
       const decisionDateEl = screen.getByTestId(
         "application-data-field-council-decision-date",
       );

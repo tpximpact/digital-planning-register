@@ -26,7 +26,6 @@ import {
   generatePagination,
 } from "../../../../__mocks__/dprApplicationFactory";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
-import { totalmem } from "os";
 
 jest.mock("@/config");
 jest.mock("../../../../__mocks__/dprApplicationFactory");

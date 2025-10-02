@@ -135,6 +135,23 @@ export const formatDateTimeToDprDate = (dateString: string): string => {
 
 /**
  *
+ * 2024-07-02T11:37:35.069Z > 02 Jul 2024
+ * Formats UTC ISO8601 datetime strings into the Dpr "D MMM YYYY" format.
+ *
+ * @param {string} dateString - The date string to be formatted.
+ * @returns {string} - The formatted date string.
+ *
+ */
+export const formatToDprDate = (dateString: string): string => {
+  const date: Dayjs = dayjs.utc(dateString);
+  if (!date.isValid()) {
+    return "Invalid Date";
+  }
+  return date.format(dateFormat);
+};
+
+/**
+ *
  * 2024-07-02T11:37:35.069Z > 02 Jul 2024 11:37 AM
  * Formats UTC ISO8601 datetime strings into the Dpr "DD MMM YYYY hh:mm A" format.
  *
