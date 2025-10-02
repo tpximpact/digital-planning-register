@@ -20,18 +20,20 @@
 import { getAppConfig } from "@/config";
 import {
   ApiResponse,
-  DprComment,
   DprPublicCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
 import type { PublicCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import {
   generateNResults,
-  generateComment,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
+import { generatePublicComment } from "@mocks/dprNewApplicationFactory";
+import { PublicCommentRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 
-const makeCommentSummary = (comments: DprComment[]): PublicCommentSummary => {
+const makeCommentSummary = (
+  comments: PublicCommentRedacted[],
+): PublicCommentSummary => {
   return {
     totalComments: comments.length,
     sentiment: comments.reduce(
@@ -60,9 +62,9 @@ const response = (
     ? searchParams.resultsPerPage
     : appConfig.defaults.resultsPerPage;
 
-  const allComments = generateNResults<DprComment>(
+  const allComments = generateNResults(
     resultsPerPage * 10,
-    generateComment,
+    generatePublicComment,
   );
   let comments = allComments.slice(0, resultsPerPage);
   let summary = makeCommentSummary(allComments);
@@ -96,8 +98,8 @@ const response = (
         resultsPerPage,
       );
     } else {
-      comments = [generateComment()];
-      comments[0].comment = searchParams?.query;
+      comments = [generatePublicComment()];
+      comments[0].commentRedacted = searchParams?.query;
       pagination = generatePagination(
         searchParams?.page ?? 1,
         1,

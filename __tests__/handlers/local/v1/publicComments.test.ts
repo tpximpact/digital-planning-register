@@ -103,7 +103,7 @@ describe("publicComments", () => {
       query: "hello",
     });
     expect(result.data?.comments).toHaveLength(1);
-    expect(result.data!.comments![0].comment).toBe("hello");
+    expect(result.data!.comments![0].commentRedacted).toBe("hello");
     expect(result.data?.summary.totalComments).toBe(20); // still based on allComments
     expect(result.pagination).toEqual({
       currentPage: 1,

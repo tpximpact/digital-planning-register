@@ -107,7 +107,8 @@ export const PublicCommentCard = ({
             <p className="govuk-body">{capitaliseWord(comment.sentiment)}</p>
           </div>
         )}
-        <div id={`public-comment-${commentId}`} aria-expanded={isExpanded}>
+        {/* aria-expanded={isExpanded} */}
+        <div id={`public-comment-${commentId}`}>
           {displayedTopicsAndComments.map((topicObj) => {
             const option = COMMENT_PUBLIC_TOPIC_OPTIONS.find(
               (o) => o.value === topicObj.topic,

@@ -63,17 +63,30 @@ export async function show(
   }
 
   const data = await response.json();
-
+  console.log(data);
   const application = data.data;
 
   const decisionNoticeUrl = await getDecisionNoticeUrl(council, reference);
 
   if (decisionNoticeUrl) {
-    application.data.assessment.decisionNotice = { url: decisionNoticeUrl };
+    if (application?.data && application?.data?.assessment) {
+      application.data.assessment.decisionNotice = { url: decisionNoticeUrl };
+    }
   }
-  const applicationDecisionSummary =
-    getApplicationDprDecisionSummary(application);
-  const applicationStatusSummary = getApplicationDprStatusSummary(application);
+
+  let applicationStatusSummary:
+    | ReturnType<typeof getApplicationDprStatusSummary>
+    | undefined;
+  let applicationDecisionSummary:
+    | ReturnType<typeof getApplicationDprDecisionSummary>
+    | undefined;
+
+  if (application?.data && application?.data?.assessment) {
+    applicationDecisionSummary = getApplicationDprDecisionSummary(application);
+  }
+  if (application?.data && application?.data?.application) {
+    applicationStatusSummary = getApplicationDprStatusSummary(application);
+  }
 
   const convertedApplication = {
     ...application,
