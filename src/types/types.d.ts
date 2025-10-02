@@ -131,7 +131,7 @@ export interface SearchParamsComments extends SearchParams {
   publishedAtFrom?: string;
   publishedAtTo?: string;
 }
-export type DprCommentSortBy = "receivedAt";
+export type DprCommentSortBy = "publishedAt";
 export type DprCommentOrderBy = "asc" | "desc";
 
 // Comment specific search params

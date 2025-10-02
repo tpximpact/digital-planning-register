@@ -50,12 +50,12 @@ export const FormCommentsSort = ({
   const commentSortByOrderByOptions = [
     {
       label: "Most recent to oldest",
-      sortBy: "receivedAt",
+      sortBy: "publishedAt",
       orderBy: "desc",
     },
     {
       label: "Oldest to most recent",
-      sortBy: "receivedAt",
+      sortBy: "publishedAt",
       orderBy: "asc",
     },
   ];
