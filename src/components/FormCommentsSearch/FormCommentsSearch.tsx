@@ -18,13 +18,13 @@ import {
   COMMENT_PUBLIC_SENTIMENT_OPTIONS,
   COMMENT_PUBLIC_TOPIC_OPTIONS,
   COMMENT_RESULTSPERPAGE_OPTIONS,
-  COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
 } from "@/lib/comments";
 import { SearchParamsComments } from "@/types";
 import "./FormCommentsSearch.scss";
 import { FormFieldFromTo } from "../FormFieldFromTo";
 import { Button } from "../button";
 import { AppConfig } from "@/config/types";
+import { COMMENT_SPECIALIST_SENTIMENT_OPTIONS } from "@/lib/specialistComments";
 
 export interface FormCommentsSearchProps {
   searchParams: SearchParamsComments;

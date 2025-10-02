@@ -31,7 +31,7 @@ import type { GeoBoundary } from "digital-planning-data-schemas/types/shared/Bou
 import type { PostSubmissionPublishedApplication } from "digital-planning-data-schemas/types/schemas/postSubmissionPublishedApplication/index.ts";
 import { DprStatusSummary, DprDecisionSummary } from "@/types";
 import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
-import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PublicCommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/PublicCommentTopic.ts";
 import type { PrototypeApplication } from "digital-planning-data-schemas/types/schemas/prototypeApplication.ts";
 import type { CommentType } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentType.ts";
 import type { PostSubmissionFile } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/File.ts";
@@ -234,7 +234,7 @@ export type DprCommentSubmission = {
   // telephone?: string;
   response: string;
   summary_tag: CommentSentiment;
-  tags: CommentTopic[];
+  tags: PublicCommentTopic[];
 };
 
 /**

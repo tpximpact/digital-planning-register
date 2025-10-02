@@ -23,11 +23,13 @@ import type {
   PublicCommentSummary,
   SpecialistCommentSummary,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { SpecialistCommentCard } from "@/components/SpecialistCommentCard";
 
 export interface CommentsListProps {
   councilSlug: string;
   reference: string;
-  comments: DprComment[] | null;
+  comments: DprComment[] | SpecialistRedacted[] | null;
   type?: DprCommentTypes;
   resultsPerPage?: number;
   summary?: PublicCommentSummary | SpecialistCommentSummary;
@@ -48,7 +50,7 @@ export const CommentsList = ({
   summary,
 }: CommentsListProps) => {
   const displayedComments = comments?.slice(0, resultsPerPage);
-  const totalComments = summary?.totalComments ?? "";
+  const totalComments = summary?.totalComments ?? comments?.length ?? 0;
   return (
     <section
       aria-labelledby={
@@ -72,15 +74,23 @@ export const CommentsList = ({
       {comments && displayedComments && displayedComments.length > 0 ? (
         <>
           <div className="govuk-grid-row grid-row-extra-bottom-margin">
-            {displayedComments.map((comment, i) => (
-              <CommentCard
-                key={i}
-                comment={comment}
-                commentNumber={comment?.id}
-              />
-            ))}
+            {displayedComments.map((comment, i) => {
+              return type === "specialist" ? (
+                <SpecialistCommentCard
+                  key={i}
+                  params={{ council: councilSlug, reference }}
+                  specialist={comment as SpecialistRedacted}
+                />
+              ) : (
+                <CommentCard
+                  key={i}
+                  comment={comment as DprComment}
+                  commentNumber={(comment as DprComment)?.id}
+                />
+              );
+            })}
           </div>
-          {comments.length >= 3 && (
+          {comments && comments.length >= 3 && (
             <div className="govuk-grid-row grid-row-extra-bottom-margin">
               <div className="govuk-grid-column-full">
                 <p className="govuk-hint">
@@ -91,12 +101,12 @@ export const CommentsList = ({
                   <Button
                     variant="information"
                     element="link"
-                    href={`/${councilSlug}/${reference}/comments?type=${type}`}
+                    href={`/${councilSlug}/${reference}/comments${type ? `?type=${type}` : ""}`}
                   >
-                    {`Show all ${totalComments} ${
+                    {`Show all${totalComments ? ` ${totalComments}` : ""}${
                       type === "specialist"
-                        ? "professional consultee"
-                        : "neighbour"
+                        ? " professional consultee"
+                        : " neighbour"
                     } comments`}
                   </Button>
                 )}

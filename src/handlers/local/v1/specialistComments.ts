@@ -19,36 +19,52 @@
 import { getAppConfig } from "@/config";
 import {
   ApiResponse,
-  DprComment,
   DprSpecialistCommentsApiResponse,
   SearchParamsComments,
 } from "@/types";
 import type { SpecialistCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
 import {
   generateNResults,
-  generateComment,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
+import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
+/**
+ * @TODO exporting this for the test somehow breaks it 🤯
+ * @param specialists
+ * @returns
+ */
 const makeCommentSummary = (
-  comments: DprComment[],
+  specialists: SpecialistRedacted[],
 ): SpecialistCommentSummary => {
-  return {
-    totalComments: comments.length,
-    totalConsulted: Math.max(0, comments.length - 5),
-    sentiment: comments.reduce(
-      (acc, comment) => {
-        if (comment.sentiment === "supportive") {
+  // Count all comments for totalComments
+  const totalComments = specialists
+    .map((specialist) => specialist.comments.length)
+    .reduce((a, b) => a + b, 0);
+
+  // Only count the latest comment's sentiment for each specialist
+  const sentiment = specialists.reduce(
+    (acc, specialist) => {
+      const latest = specialist.comments[0];
+      if (latest) {
+        if (latest.sentiment === "approved") {
           acc.approved++;
-        } else if (comment.sentiment === "objection") {
+        } else if (latest.sentiment === "objected") {
           acc.objected++;
-        } else if (comment.sentiment === "neutral") {
+        } else if (latest.sentiment === "amendmentsNeeded") {
           acc.amendmentsNeeded++;
         }
-        return acc;
-      },
-      { approved: 0, objected: 0, amendmentsNeeded: 0 },
-    ),
+      }
+      return acc;
+    },
+    { approved: 0, objected: 0, amendmentsNeeded: 0 },
+  );
+
+  return {
+    totalComments,
+    totalConsulted: specialists.length,
+    sentiment,
   };
 };
 
@@ -62,22 +78,22 @@ const response = (
     ? searchParams.resultsPerPage
     : appConfig.defaults.resultsPerPage;
 
-  const allComments = generateNResults<DprComment>(
+  const allSpecialists = generateNResults<SpecialistRedacted>(
     resultsPerPage * 10,
-    generateComment,
+    () => generateSpecialistComment(1, 2),
   );
-  let comments = allComments.slice(0, resultsPerPage);
-  let summary = makeCommentSummary(allComments);
+  let specialists = allSpecialists.slice(0, resultsPerPage);
+  let summary: SpecialistCommentSummary = makeCommentSummary(allSpecialists);
   let pagination = generatePagination(
     searchParams?.page ?? 1,
-    allComments.length,
-    allComments.length,
+    specialists.length,
+    allSpecialists.length,
     resultsPerPage,
   );
 
   if (reference === "APP-NULL") {
     // if the reference is APP-NULL, we return no comments
-    comments = [];
+    specialists = [];
     summary = makeCommentSummary([]);
     pagination = generatePagination(
       searchParams?.page ?? 1,
@@ -87,31 +103,21 @@ const response = (
     );
   }
 
-  // if we've done a search just rename the first result to match the query
-  if (searchParams?.query) {
-    if (searchParams?.query === "noresultsplease") {
-      comments = [];
-      pagination = generatePagination(
-        searchParams?.page ?? 1,
-        0,
-        allComments.length,
-        resultsPerPage,
-      );
-    } else {
-      comments = [generateComment()];
-      comments[0].comment = searchParams?.query;
-      pagination = generatePagination(
-        searchParams?.page ?? 1,
-        1,
-        allComments.length,
-        resultsPerPage,
-      );
-    }
+  if (searchParams?.query === "noresultsplease") {
+    // if the query is noresultsplease, we return no specialists
+    specialists = [];
+    summary = makeCommentSummary([]);
+    pagination = generatePagination(
+      searchParams?.page ?? 1,
+      0,
+      allSpecialists.length,
+      resultsPerPage,
+    );
   }
 
   return {
     data: {
-      comments,
+      comments: specialists,
       summary,
     },
     pagination,

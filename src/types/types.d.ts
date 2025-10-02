@@ -18,7 +18,7 @@
 import type { AssessmentDecision } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/AssessmentDecision.ts";
 import type { CommentSentiment } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import { DprCommentTypes } from "@/types/definitions";
-import type { CommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentTopic.ts";
+import type { PublicCommentTopic } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/PublicCommentTopic.ts";
 import type { PrototypeFileType } from "digital-planning-data-schemas/types/schemas/prototypeApplication/enums/FileType.ts";
 
 /**
@@ -127,12 +127,20 @@ export interface SearchParamsComments extends SearchParams {
   sortBy?: DprCommentSortBy;
   orderBy?: DprCommentOrderBy;
   sentiment?: CommentSentiment | SpecialistCommentSentiment;
-  topic?: CommentTopic;
+  topic?: PublicCommentTopic;
   publishedAtFrom?: string;
   publishedAtTo?: string;
 }
 export type DprCommentSortBy = "receivedAt";
 export type DprCommentOrderBy = "asc" | "desc";
+
+// Comment specific search params
+export interface SearchParamsSpecialistComments extends SearchParams {
+  sortBy?: DprSpecialistCommentsSortBy;
+  orderBy?: DprSpecialistCommentsOrderBy;
+}
+export type DprSpecialistCommentsSortBy = "publishedAt";
+export type DprSpecialistCommentsOrderBy = "asc" | "desc";
 /**
  *
  *

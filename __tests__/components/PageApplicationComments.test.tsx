@@ -45,10 +45,8 @@ jest.mock("@/components/FormCommentsSort", () => ({
   FormCommentsSort: jest.fn(() => <div data-testid="FormCommentsSort" />),
 }));
 
-jest.mock("@/components/CommentCard", () => ({
-  CommentCard: jest.fn(({ comment }) => (
-    <div data-testid="CommentCard">{comment.receivedDate}</div>
-  )),
+jest.mock("@/components/PublicCommentCard", () => ({
+  PublicCommentCard: jest.fn(() => <div data-testid="PublicCommentCard"></div>),
 }));
 
 jest.mock("@/components/govuk/Pagination", () => ({
@@ -98,8 +96,8 @@ describe("PageApplicationComments", () => {
     expect(screen.getByTestId("FormCommentsSearch")).toBeInTheDocument();
     expect(screen.getByTestId("FormCommentsSort")).toBeInTheDocument();
 
-    // Check if CommentCard is rendered for each comment
-    const commentCards = screen.getAllByTestId("CommentCard");
+    // Check if PublicCommentCard is rendered for each comment
+    const commentCards = screen.getAllByTestId("PublicCommentCard");
     expect(commentCards).toHaveLength(10);
 
     // Check if Pagination is rendered

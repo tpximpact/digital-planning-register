@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
 export interface BopsComment {
   id?: number;
@@ -21,6 +22,8 @@ export interface BopsComment {
   receivedAt: string;
   sentiment?: string;
 }
+
+export type BopsSpecialist = Omit<SpecialistRedacted, "name">;
 
 /**
  * Another one that goes along with the soon to be deprecated endpoint

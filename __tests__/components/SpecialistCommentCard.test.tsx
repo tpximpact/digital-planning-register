@@ -46,6 +46,12 @@ jest.mock("@/components/govukDpr/Attachment", () => ({
   )),
 }));
 
+const params = {
+  council: "public-council-1",
+  reference: "12345",
+  specialistId: 1,
+};
+
 describe("SpecialistCommentCard", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -53,7 +59,7 @@ describe("SpecialistCommentCard", () => {
 
   it("renders skeleton placeholders when no specialist is provided", () => {
     const { container } = render(
-      <SpecialistCommentCard specialist={undefined} />,
+      <SpecialistCommentCard specialist={undefined} params={params} />,
     );
     expect(
       container.querySelector(".dpr-specialist-comment-card__skeleton--item"),
@@ -94,7 +100,9 @@ describe("SpecialistCommentCard", () => {
     ] as SpecialistComment["files"];
     specialistData.comments[0].commentRedacted = "This is a short comment.";
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     expect(screen.getByText("Organisation or specialism")).toBeInTheDocument();
     expect(screen.getByText("Mock Org")).toBeInTheDocument();
@@ -152,7 +160,9 @@ describe("SpecialistCommentCard", () => {
       },
     ];
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     expect(screen.getByText("Reason for consultation")).toBeInTheDocument();
     expect(screen.getByText("Area Viridis I")).toBeInTheDocument();
@@ -172,7 +182,9 @@ describe("SpecialistCommentCard", () => {
       },
     ];
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     expect(screen.getByText("Reason for consultation")).toBeInTheDocument();
     expect(screen.getByText("Flumen Zona Tres A")).toBeInTheDocument();
@@ -184,7 +196,9 @@ describe("SpecialistCommentCard", () => {
     specialistData.reason = "Constraint";
     specialistData.constraints = [];
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     expect(screen.getByText("Reason for consultation")).toBeInTheDocument();
     expect(screen.getByText("Constraint")).toBeInTheDocument();
@@ -194,7 +208,12 @@ describe("SpecialistCommentCard", () => {
   it("truncates long comments and allows expansion/minimization", async () => {
     const specialistLongComment = generateSpecialistComment(1000);
 
-    render(<SpecialistCommentCard specialist={specialistLongComment} />);
+    render(
+      <SpecialistCommentCard
+        specialist={specialistLongComment}
+        params={params}
+      />,
+    );
     const expandButton = screen.getByText("Read the rest of this comment");
     expect(expandButton).toBeInTheDocument();
 
@@ -208,7 +227,9 @@ describe("SpecialistCommentCard", () => {
     const specialistData = generateSpecialistComment(1);
     specialistData.comments[0].commentRedacted = shortComment;
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     expect(screen.getByText(shortComment)).toBeInTheDocument();
     expect(
@@ -223,10 +244,12 @@ describe("SpecialistCommentCard", () => {
     const specialistData = generateSpecialistComment(1);
     specialistData.comments[0].files = [];
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
-    expect(screen.getByText("Files")).toBeInTheDocument();
-    expect(screen.getByText("No files")).toBeInTheDocument();
+    expect(screen.queryByText("Files")).not.toBeInTheDocument();
+    expect(screen.queryByText("No files")).not.toBeInTheDocument();
     expect(screen.queryByTestId("mock-attachment")).not.toBeInTheDocument();
   });
 
@@ -236,7 +259,9 @@ describe("SpecialistCommentCard", () => {
     specialistData.comments[0].commentRedacted = "Comment 1";
     specialistData.comments[1].commentRedacted = "Comment 2";
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
 
     const viewAllButton = screen.getByText(
       `View all responses (${specialistData.comments.length})`,
@@ -247,7 +272,25 @@ describe("SpecialistCommentCard", () => {
   it("does not render 'View all responses' button when only one comment exists", () => {
     const specialistData = generateSpecialistComment(1);
 
-    render(<SpecialistCommentCard specialist={specialistData} />);
+    render(
+      <SpecialistCommentCard specialist={specialistData} params={params} />,
+    );
+
+    expect(
+      screen.queryByRole("button", { name: /view all responses/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not render 'View all responses' button when given a comment to show", () => {
+    const specialistData = generateSpecialistComment(1);
+
+    render(
+      <SpecialistCommentCard
+        specialist={specialistData}
+        comment={specialistData.comments[0]}
+        params={params}
+      />,
+    );
 
     expect(
       screen.queryByRole("button", { name: /view all responses/i }),

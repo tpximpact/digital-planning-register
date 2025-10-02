@@ -1,5 +1,6 @@
 export function splitCommentText(commentText: string): string[] {
   const maxChars = 500;
+  if (!commentText) commentText = "";
 
   const sentences = commentText.match(/[^.!?]+[.!?]+/g) || [commentText];
   let currentText = "";

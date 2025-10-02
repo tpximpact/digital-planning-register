@@ -131,3 +131,14 @@ export const applicationSearchFields = handleFeatureFlags(
   APPLICATION_SEARCH_FIELDS,
   process.env.APPLICATION_FILTERING_DISABLED,
 );
+
+/**
+ * Specialist Search Fields
+ */
+export const SPECIALIST_SEARCH_FIELDS = ["sortBy"] as const;
+
+export const specialistSearchFields = handleFeatureFlags(
+  "Specialist",
+  SPECIALIST_SEARCH_FIELDS,
+  process.env.SPECIALIST_FILTERING_DISABLED,
+);

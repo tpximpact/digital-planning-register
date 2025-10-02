@@ -29,6 +29,10 @@ const meta = {
     layout: "fullscreen",
   },
   args: {
+    params: {
+      council: "public-council-1",
+      reference: "12345",
+    },
     specialist: {
       ...generateSpecialistComment(1),
       comments: [
@@ -77,25 +81,16 @@ export const LongSpecialistComment: Story = {
 export const MultipleComments: Story = {
   args: {
     specialist: {
-      ...generateSpecialistComment(3),
-      comments: [
-        {
-          ...generateSpecialistComment(3).comments[0],
-          commentRedacted:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        },
-        {
-          ...generateSpecialistComment(3).comments[1],
-          commentRedacted:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        },
-        {
-          ...generateSpecialistComment(3).comments[2],
-          commentRedacted:
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-        },
-      ],
+      ...generateSpecialistComment(3, 3),
     },
+  },
+};
+
+const singularSpecialist = generateSpecialistComment(3, 3);
+export const SingularComment: Story = {
+  args: {
+    specialist: singularSpecialist,
+    comment: singularSpecialist.comments[2],
   },
 };
 
@@ -159,7 +154,7 @@ export const Constraint: Story = {
   args: {
     specialist: {
       ...generateSpecialistComment(1),
-      reason: "Constraint",
+      reason: "constraint",
       constraints: [
         {
           value: "articleFour",

@@ -49,16 +49,14 @@ import type {
   BaseApplicant,
 } from "digital-planning-data-schemas/types/schemas/prototypeApplication/data/Applicant.ts";
 import type { CaseOfficerBase } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CaseOfficer.ts";
-import {
-  COMMENT_PUBLIC_TOPIC_OPTIONS,
-  COMMENT_SPECIALIST_SENTIMENT_OPTIONS,
-} from "@/lib/comments";
+import { COMMENT_PUBLIC_TOPIC_OPTIONS } from "@/lib/comments";
+import { COMMENT_SPECIALIST_SENTIMENT_OPTIONS } from "@/lib/specialistComments";
 import type {
-  CommentSentiment,
+  PublicCommentSentiment,
   SpecialistCommentSentiment,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/enums/CommentSentiment.ts";
 import {
-  PublicComment,
+  PublicCommentRedacted,
   TopicAndComments,
 } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 import {
@@ -210,7 +208,7 @@ export const generateAllPossibleDates = (
  */
 export const generatePublicComment = (
   numberOfTopics: number = 1,
-): PublicComment => {
+): PublicCommentRedacted => {
   const selectedOptions = faker.helpers.arrayElements(
     COMMENT_PUBLIC_TOPIC_OPTIONS,
     numberOfTopics,
@@ -224,15 +222,15 @@ export const generatePublicComment = (
     }),
   );
 
-  const sentiment = faker.helpers.arrayElement<CommentSentiment>([
+  const sentiment = faker.helpers.arrayElement<PublicCommentSentiment>([
     "objection",
     "neutral",
     "supportive",
   ]);
-  const baseComment: PublicComment = {
+  const baseComment: PublicCommentRedacted = {
     id: faker.number.int({ min: 1, max: 1000 }).toString(),
     sentiment,
-    comment: topicsAndComments,
+    commentRedacted: topicsAndComments,
     author: { name: { singleLine: faker.person.fullName() } },
     metadata: {
       submittedAt: faker.date.past().toISOString(),
@@ -245,6 +243,7 @@ export const generatePublicComment = (
 
 export const generateSpecialistComment = (
   paragraphCount: number = 1,
+  commentsCount: number = 1,
 ): SpecialistRedacted => {
   const specialistSentimentValues = COMMENT_SPECIALIST_SENTIMENT_OPTIONS.map(
     (opt) => opt.value,
@@ -289,7 +288,8 @@ export const generateSpecialistComment = (
     jobTitle: faker.person.jobTitle(),
     reason: faker.helpers.arrayElement(["Constraint", "Other"]),
     firstConsultedAt: faker.date.past({ years: 1 }).toISOString(),
-    comments: [generatedComment],
+    comments: Array.from({ length: commentsCount }, () => generatedComment),
+    name: { singleLine: faker.person.fullName() },
   };
 
   return specialist;

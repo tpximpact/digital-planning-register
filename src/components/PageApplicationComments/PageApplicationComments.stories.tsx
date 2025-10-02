@@ -18,15 +18,26 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PageApplicationComments } from "./PageApplicationComments";
 import {
-  generateComment,
   generateNResults,
   generatePagination,
 } from "@mocks/dprApplicationFactory";
-import { DprComment } from "@/types";
 import { createAppConfig } from "@mocks/appConfigFactory";
-import { generateDprApplication } from "@mocks/dprNewApplicationFactory";
+import {
+  generateDprApplication,
+  generatePublicComment,
+  generateSpecialistComment,
+} from "@mocks/dprNewApplicationFactory";
+import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
+import { PublicCommentRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/PublicComment.js";
 
-const comments = generateNResults<DprComment>(10, generateComment);
+const comments = generateNResults<PublicCommentRedacted>(
+  10,
+  generatePublicComment,
+);
+
+const specialists = generateNResults<SpecialistRedacted>(10, () =>
+  generateSpecialistComment(1, Math.ceil(Math.random() * 10)),
+);
 
 const meta = {
   title: "Council pages/Application comments",
@@ -83,7 +94,7 @@ export const NoComments: Story = {
     pagination: generatePagination(1, 0, 0, 10),
   },
 };
-export const SearchResults: Story = {
+export const PublicSearchResults: Story = {
   args: {
     comments: [comments[0]],
     searchParams: {
@@ -95,13 +106,49 @@ export const SearchResults: Story = {
     pagination: generatePagination(1, 1, comments.length * 5, 10),
   },
 };
-export const SearchNoResults: Story = {
+export const PublicSearchNoResults: Story = {
   args: {
     comments: [],
     searchParams: {
       page: 1,
       resultsPerPage: 10,
       type: "public",
+      query: "Test Comment",
+    },
+    pagination: generatePagination(1, 0, comments.length * 5, 10),
+  },
+};
+
+export const Specialist: Story = {
+  args: {
+    comments: specialists,
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
+    },
+    pagination: generatePagination(1, 1, comments.length * 5, 10),
+  },
+};
+export const SpecialistSearchResults: Story = {
+  args: {
+    comments: [specialists[0]],
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
+      query: "Test Comment",
+    },
+    pagination: generatePagination(1, 1, comments.length * 5, 10),
+  },
+};
+export const SpecialistSearchNoResults: Story = {
+  args: {
+    comments: [],
+    searchParams: {
+      page: 1,
+      resultsPerPage: 10,
+      type: "specialist",
       query: "Test Comment",
     },
     pagination: generatePagination(1, 0, comments.length * 5, 10),

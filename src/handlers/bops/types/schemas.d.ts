@@ -22,12 +22,11 @@ import {
   BopsPlanningApplication,
   BopsSearchMetadata,
 } from "./definitions/application";
-import { BopsComment } from "./definitions/comment";
+import { BopsComment, BopsSpecialist } from "./definitions/comment";
 import { BopsDocumentsMetadata, BopsFile } from "./definitions/document";
-import type {
-  PublicCommentSummary,
-  SpecialistCommentSummary,
-} from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
+import type { PublicCommentSummary } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/CommentSummary.ts";
+import { SpecialistCommentsRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/Comment.js";
+import { OffsetPagination } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/implementation/Pagination.js";
 
 /**
  * GET /api/v2/public/planning_applications/search
@@ -111,7 +110,8 @@ export type BopsV2PublicPlanningApplicationPublicComments = {
  * GET /api/v2/public/planning_applications/{reference}/comments/specialist
  */
 export type BopsV2PublicPlanningApplicationSpecialistComments = {
-  pagination: DprPagination;
-  comments: BopsComment[];
-  summary: SpecialistCommentSummary;
+  data: SpecialistCommentsRedacted & {
+    comments: BopsSpecialist[];
+  };
+  pagination: OffsetPagination;
 };

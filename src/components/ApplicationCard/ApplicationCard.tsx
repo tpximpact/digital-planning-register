@@ -204,7 +204,7 @@ export const ApplicationCard = ({
                 {councilDecisionDate && (
                   <ApplicationDataField
                     title="Council decision date"
-                    value={formatDateTimeToDprDate(councilDecisionDate)}
+                    value={formatDateToDprDate(councilDecisionDate)}
                   />
                 )}
 

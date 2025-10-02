@@ -19,6 +19,7 @@ import {
   generateComment,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
+import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
 
 const meta = {
   title: "DPR Components/CommentsList",
@@ -77,5 +78,19 @@ export const FirstPage: Story = {
 export const NoSummarySupport: Story = {
   args: {
     summary: undefined,
+  },
+};
+
+export const SpecialistComments: Story = {
+  args: {
+    comments: generateNResults(30, () => generateSpecialistComment(1, 2)),
+    type: "specialist",
+  },
+};
+
+export const SpecialistNoComments: Story = {
+  args: {
+    comments: generateNResults(30, () => generateSpecialistComment(1, 0)),
+    type: "specialist",
   },
 };

@@ -93,7 +93,7 @@ export default async function ApplicationFormPage({
   return (
     <PageApplicationSubmission
       reference={reference}
-      applicationSubmissionData={response?.data?.submission}
+      applicationSubmissionData={response?.data}
       council={council}
     />
   );

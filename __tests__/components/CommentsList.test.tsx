@@ -23,6 +23,8 @@ import {
   generateComment,
   generateNResults,
 } from "@mocks/dprApplicationFactory";
+import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
+import type { SpecialistCommentCardProps } from "@/components/SpecialistCommentCard";
 
 jest.mock("@/components/CommentCard", () => ({
   CommentCard: ({ comment, commentNumber }: CommentCardProps) => (
@@ -30,6 +32,18 @@ jest.mock("@/components/CommentCard", () => ({
       <p>comment number: {commentNumber}</p>
       <p>comment sentiment: {comment?.sentiment}</p>
       <p>comment: {comment?.comment}</p>
+    </div>
+  ),
+}));
+
+jest.mock("@/components/SpecialistCommentCard", () => ({
+  SpecialistCommentCard: ({
+    params,
+    specialist,
+    comment,
+  }: SpecialistCommentCardProps) => (
+    <div data-testid="specialist-comment-card">
+      <p>comment number: {specialist?.comments[0].id}</p>
     </div>
   ),
 }));
@@ -74,11 +88,16 @@ describe("CommentsList", () => {
   });
 
   it("shows correct specialist comments results", () => {
-    const comments = generateNResults(10, () => generateComment());
-    const firstCommentId = comments[0].id;
-    const secondCommentId = comments[1].id;
+    const specialists = generateNResults(10, () =>
+      generateSpecialistComment(1, 2),
+    );
+    const firstCommentId = specialists[0]?.comments[0].id;
+    const secondCommentId = specialists[1]?.comments[0].id;
     const summary = {
-      totalComments: comments.length,
+      totalComments: specialists.reduce(
+        (acc, curr) => acc + curr.comments.length,
+        0,
+      ),
       totalConsulted: 6,
       sentiment: {
         supportive: 3,
@@ -91,14 +110,15 @@ describe("CommentsList", () => {
         type="specialist"
         councilSlug="public-council-1"
         reference="12345"
-        comments={comments}
+        comments={specialists}
         summary={summary}
       />,
     );
-    expect(screen.getByRole("heading")).toHaveTextContent(
+
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
       "Specialist Comments",
     );
-    expect(screen.getAllByTestId("comment-card")).toHaveLength(10);
+    expect(screen.getAllByTestId("specialist-comment-card")).toHaveLength(10);
     expect(
       screen.getByText(`comment number: ${firstCommentId}`),
     ).toBeInTheDocument();
@@ -106,10 +126,10 @@ describe("CommentsList", () => {
       screen.getByText(`comment number: ${secondCommentId}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Showing\s*10\s*of\s*10\s*comments/),
+      screen.getByText(/Showing\s*10\s*of\s*20\s*comments/),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Show all 10 professional consultee comments"),
+      screen.getByText(/Show all 20 professional consultee comments/),
     ).toBeInTheDocument();
   });
 
@@ -159,7 +179,9 @@ describe("CommentsList", () => {
         comments={comments}
       />,
     );
-    expect(screen.getByText("Showing 10 comments")).toBeInTheDocument();
-    expect(screen.getByText("Show all neighbour comments")).toBeInTheDocument();
+    expect(screen.getByText("Showing 10 of 10 comments")).toBeInTheDocument();
+    expect(
+      screen.getByText("Show all 10 neighbour comments"),
+    ).toBeInTheDocument();
   });
 });
