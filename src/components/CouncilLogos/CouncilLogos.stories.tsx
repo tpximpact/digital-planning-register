@@ -70,3 +70,6 @@ export const Newcastle: Story = {
 export const Southwark: Story = {
   render: () => <>{councilLogos.southwark}</>,
 };
+export const SouthGloucestershire: Story = {
+  render: () => <>{councilLogos["south-gloucestershire"]}</>,
+};

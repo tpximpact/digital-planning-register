@@ -578,4 +578,53 @@ const councils: Council[] = [
       },
     },
   },
+  {
+    name: "South Gloucestershire",
+    slug: "south-gloucestershire",
+    visibility: "public",
+    contact:
+      "https://beta.southglos.gov.uk/planning-and-development/planning-applications/",
+    dataSource: "bops",
+    publicComments: true,
+    specialistComments: true,
+    features: {
+      logoInHeader: false,
+    },
+    pageContent: {
+      privacy_policy: {
+        privacy_policy_link: "https://beta.southglos.gov.uk/privacy-notice/",
+      },
+      council_reference_submit_comment_pre_submission: {
+        what_happens_to_your_comments_link:
+          "https://beta.southglos.gov.uk/search-planning-applications/",
+      },
+      council_reference_submit_comment_personal_details: {
+        contact_planning_advice_link:
+          "https://beta.southglos.gov.uk/planning-and-development/planning-applications/",
+        corporate_privacy_statement_link:
+          "https://beta.southglos.gov.uk/privacy-notice/",
+        planning_service_privacy_statement_link:
+          "https://beta.southglos.gov.uk/search-planning-applications/",
+      },
+      help: {
+        planning_process: {
+          council_local_plan_link:
+            "https://beta.southglos.gov.uk/new-local-plan/",
+        },
+        concerns: {
+          parking_link:
+            "https://beta.southglos.gov.uk/wp-content/uploads/Residential-Parking-Standards-SPD.pdf",
+          building_control_link:
+            "https://beta.southglos.gov.uk/report-a-derelict-or-dangerous-building/",
+          street_issues_link: "https://beta.southglos.gov.uk/report/",
+          abandoned_vehicles_link: "https://beta.southglos.gov.uk/report/",
+          fly_tipping_link: "https://beta.southglos.gov.uk/report/",
+          noise_link: "https://beta.southglos.gov.uk/report/",
+          licensing_link: "https://beta.southglos.gov.uk/report/",
+          apply_for_building_control_regularisation_link:
+            "https://beta.southglos.gov.uk/planning-and-development/building-control/",
+        },
+      },
+    },
+  },
 ];
