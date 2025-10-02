@@ -41,7 +41,7 @@ export const OldestFirst: Story = {
   args: {
     searchParams: {
       type: "public",
-      sortBy: "receivedAt",
+      sortBy: "publishedAt",
       orderBy: "asc",
       resultsPerPage: 10,
       page: 1,

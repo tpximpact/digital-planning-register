@@ -112,7 +112,7 @@ export const COMMENT_RESULTSPERPAGE_OPTIONS = [10, 25, 50];
 export const COMMENT_RESULTSPERPAGE_DEFAULT = COMMENT_RESULTSPERPAGE_OPTIONS[0];
 
 // sortBy
-export const COMMENT_SORTBY_OPTIONS: DprCommentSortBy[] = ["receivedAt"];
+export const COMMENT_SORTBY_OPTIONS: DprCommentSortBy[] = ["publishedAt"];
 export const COMMENT_SORTBY_DEFAULT = COMMENT_SORTBY_OPTIONS[0];
 
 // orderBy

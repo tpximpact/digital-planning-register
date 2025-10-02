@@ -84,10 +84,10 @@ describe("FormCommentsSort", () => {
 
     // Select a new sorting option
     const select = screen.getByLabelText(/Sort by/i);
-    fireEvent.change(select, { target: { value: "receivedAt_asc" } });
+    fireEvent.change(select, { target: { value: "publishedAt_asc" } });
 
     // Check if the select value is updated
-    expect(select).toHaveValue("receivedAt_asc");
+    expect(select).toHaveValue("publishedAt_asc");
   });
 
   it("includes hidden inputs for sortBy and orderBy in the form", () => {
@@ -106,10 +106,10 @@ describe("FormCommentsSort", () => {
 
     // Select a new sorting option
     const select = screen.getByLabelText(/Sort by/i);
-    fireEvent.change(select, { target: { value: "receivedAt_asc" } });
+    fireEvent.change(select, { target: { value: "publishedAt_asc" } });
 
     // Check if the hidden inputs are updated
-    const sortByInput = screen.getByDisplayValue("receivedAt");
+    const sortByInput = screen.getByDisplayValue("publishedAt");
     const orderByInput = screen.getByDisplayValue("asc");
 
     expect(sortByInput).toHaveAttribute("name", "sortBy");

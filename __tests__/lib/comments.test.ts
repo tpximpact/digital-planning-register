@@ -248,7 +248,7 @@ describe("validateSearchParams", () => {
   describe("sortBy, orderBy", () => {
     it("parses valid sortBy and orderBy values", () => {
       const searchParams = {
-        sortBy: "receivedAt",
+        sortBy: "publishedAt",
         orderBy: "asc",
       };
 
@@ -258,7 +258,7 @@ describe("validateSearchParams", () => {
         page: 1,
         resultsPerPage: 10,
         type: "public",
-        sortBy: "receivedAt",
+        sortBy: "publishedAt",
         orderBy: "asc",
       });
     });
