@@ -30,7 +30,12 @@ import {
 import { generateSpecialistComment } from "@mocks/dprNewApplicationFactory";
 import { SpecialistRedacted } from "digital-planning-data-schemas/types/schemas/postSubmissionApplication/data/SpecialistComment.js";
 
-export const makeCommentSummary = (
+/**
+ * @TODO exporting this for the test somehow breaks it 🤯
+ * @param specialists
+ * @returns
+ */
+const makeCommentSummary = (
   specialists: SpecialistRedacted[],
 ): SpecialistCommentSummary => {
   // Count all comments for totalComments

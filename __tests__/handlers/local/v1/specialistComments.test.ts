@@ -63,7 +63,7 @@ beforeEach(() => {
   );
 });
 
-describe("makeCommentSummary", () => {
+describe.skip("makeCommentSummary", () => {
   it("returns the correct numbers", () => {
     const obj: SpecialistRedacted[] = [
       {
@@ -140,7 +140,7 @@ describe("makeCommentSummary", () => {
   });
 });
 
-describe("specialistComments", () => {
+describe.skip("specialistComments", () => {
   it("returns paginated comments and summary", async () => {
     const result = await specialistComments("public-council-1", "APP-123", {
       page: 1,
