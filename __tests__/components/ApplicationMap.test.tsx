@@ -22,6 +22,7 @@ import {
   handleScroll,
 } from "@/components/ApplicationMap/ApplicationMap";
 import { DprBoundaryGeojson } from "@/types";
+import type { GeoJSON } from "geojson";
 
 jest.mock("@opensystemslab/map", () => ({}), { virtual: true });
 
@@ -37,7 +38,6 @@ jest.mock("@/components/ApplicationMap/ApplicationMap.utils", () => ({
     classModifier: "default",
     mapTypeProps: { foo: "bar" },
   })),
-  normaliseGeojsonData: jest.fn((data) => data),
 }));
 
 describe("ApplicationMap", () => {
@@ -119,7 +119,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={{} as DprBoundaryGeojson} // Empty geojson
+        mapData={{} as GeoJSON} // Empty geojson
         description={description}
       />,
     );
