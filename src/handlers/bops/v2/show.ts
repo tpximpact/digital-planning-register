@@ -63,7 +63,6 @@ export async function show(
   }
 
   const data = await response.json();
-  console.log(data);
   const application = data.data;
 
   const decisionNoticeUrl = await getDecisionNoticeUrl(council, reference);

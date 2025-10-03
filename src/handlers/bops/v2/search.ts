@@ -51,7 +51,7 @@ export async function search(
     });
 
     if (searchParams?.query) {
-      params.append("q", searchParams?.query);
+      params.append("query", searchParams?.query);
     }
     if (searchParams.sortBy) {
       params.append("sortBy", searchParams.sortBy);
