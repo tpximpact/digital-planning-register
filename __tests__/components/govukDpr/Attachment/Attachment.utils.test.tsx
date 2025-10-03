@@ -17,10 +17,14 @@
 import { mapMimeToAttachmentContentType } from "@/components/govukDpr/Attachment/Attachment.utils";
 
 describe("mapMimeToAttachmentContentType", () => {
+  it("returns the correct types for types BOPS supports", () => {
+    expect(mapMimeToAttachmentContentType("application/pdf")).toBe("pdf");
+    expect(mapMimeToAttachmentContentType("image/png")).toBe("document");
+    expect(mapMimeToAttachmentContentType("image/jpeg")).toBe("document");
+  });
+
   it("returns 'pdf' for PDF mime types", () => {
     expect(mapMimeToAttachmentContentType("application/pdf")).toBe("pdf");
-    expect(mapMimeToAttachmentContentType("PDF")).toBe("pdf");
-    expect(mapMimeToAttachmentContentType("application/x-pdf")).toBe("pdf");
   });
 
   it("returns 'document' for Word mime types", () => {
@@ -32,10 +36,7 @@ describe("mapMimeToAttachmentContentType", () => {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ),
     ).toBe("document");
-    expect(mapMimeToAttachmentContentType("application/doc")).toBe("document");
-    expect(mapMimeToAttachmentContentType("application/docx")).toBe("document");
-    expect(mapMimeToAttachmentContentType("foo.doc")).toBe("document");
-    expect(mapMimeToAttachmentContentType("foo.docx")).toBe("document");
+    expect(mapMimeToAttachmentContentType("image/png")).toBe("document");
   });
 
   it("returns 'spreadsheet' for Excel mime types", () => {
@@ -47,34 +48,25 @@ describe("mapMimeToAttachmentContentType", () => {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       ),
     ).toBe("spreadsheet");
-    expect(mapMimeToAttachmentContentType("application/xls")).toBe(
-      "spreadsheet",
-    );
-    expect(mapMimeToAttachmentContentType("application/xlsx")).toBe(
-      "spreadsheet",
-    );
-    expect(mapMimeToAttachmentContentType("foo.xls")).toBe("spreadsheet");
-    expect(mapMimeToAttachmentContentType("foo.xlsx")).toBe("spreadsheet");
-    expect(mapMimeToAttachmentContentType("spreadsheet")).toBe("spreadsheet");
-    expect(mapMimeToAttachmentContentType("excel")).toBe("spreadsheet");
   });
 
   it("returns 'html' for HTML mime types", () => {
     expect(mapMimeToAttachmentContentType("text/html")).toBe("html");
-    expect(mapMimeToAttachmentContentType("application/html")).toBe("html");
-    expect(mapMimeToAttachmentContentType("foo.html")).toBe("html");
   });
 
-  it("returns 'external' for 'external' mime type", () => {
+  // there is currently nothing assigned to 'external', we've swapped
+  // out the logic now to support mimeType and directly contentType
+  it.skip("returns 'external' for 'external' mime type", () => {
     expect(mapMimeToAttachmentContentType("external")).toBe("external");
   });
 
   it("returns 'generic' for unknown or undefined mime types", () => {
     expect(mapMimeToAttachmentContentType("application/zip")).toBe("generic");
-    expect(mapMimeToAttachmentContentType("image/png")).toBe("generic");
     expect(mapMimeToAttachmentContentType("")).toBe("generic");
-    expect(mapMimeToAttachmentContentType(undefined)).toBe("generic");
-    expect(mapMimeToAttachmentContentType(null as unknown as undefined)).toBe(
+    expect(mapMimeToAttachmentContentType(undefined as unknown as string)).toBe(
+      "generic",
+    );
+    expect(mapMimeToAttachmentContentType(null as unknown as string)).toBe(
       "generic",
     );
   });
