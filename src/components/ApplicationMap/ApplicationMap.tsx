@@ -16,14 +16,14 @@
  */
 
 "use client";
-import { DprBoundaryGeojson } from "@/types";
+import { GeoJSON } from "geojson";
 import { useState, useEffect } from "react";
 import { determineMapTypeProps } from "./ApplicationMap.utils";
 import { trackClient } from "@/lib/dprAnalytics";
 
 export interface ApplicationMapProps {
   reference: string;
-  mapData: DprBoundaryGeojson;
+  mapData: GeoJSON;
   description: string;
   mapType?: string;
   isStatic?: boolean;
@@ -97,6 +97,13 @@ export const ApplicationMap = ({
     };
   }, []);
 
+  if (
+    !mapData ||
+    (typeof mapData === "object" && !Object.keys(mapData).length)
+  ) {
+    return null;
+  }
+
   const { staticMode, classModifier, mapTypeProps } =
     determineMapTypeProps(mapType);
 
@@ -125,11 +132,6 @@ export const ApplicationMap = ({
     };
   }
 
-  const geojsonData = JSON.stringify(mapData);
-  if (!geojsonData || geojsonData === "{}") {
-    return null;
-  }
-
   if (!isClient) return null;
 
   return (
@@ -141,7 +143,7 @@ export const ApplicationMap = ({
     >
       <my-map
         role="application"
-        geojsonData={geojsonData}
+        geojsonData={JSON.stringify(mapData)}
         geojsonColor={"#ff0000"}
         geojsonFill={"#ff0000"}
         aria-label={description ?? "An interactive map"}

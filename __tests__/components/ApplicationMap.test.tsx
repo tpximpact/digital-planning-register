@@ -22,6 +22,7 @@ import {
   handleScroll,
 } from "@/components/ApplicationMap/ApplicationMap";
 import { DprBoundaryGeojson } from "@/types";
+import type { GeoJSON } from "geojson";
 
 jest.mock("@opensystemslab/map", () => ({}), { virtual: true });
 
@@ -41,11 +42,22 @@ jest.mock("@/components/ApplicationMap/ApplicationMap.utils", () => ({
 
 describe("ApplicationMap", () => {
   const reference = "ref-123";
-  const mapData: DprBoundaryGeojson = {
+
+  const description = "Test map description";
+  const emptyMapData: DprBoundaryGeojson = {
     type: "FeatureCollection",
     features: [],
   };
-  const description = "Test map description";
+  const validMapData: DprBoundaryGeojson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [0, 0] },
+        properties: {},
+      },
+    ],
+  };
 
   beforeEach(() => {
     jest.restoreAllMocks();
@@ -59,7 +71,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData} // Empty geojson
+        mapData={emptyMapData} // Empty geojson
         description={description}
       />,
     );
@@ -80,7 +92,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
       />,
     );
@@ -107,7 +119,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={{} as DprBoundaryGeojson} // Empty geojson
+        mapData={{} as GeoJSON} // Empty geojson
         description={description}
       />,
     );
@@ -128,13 +140,13 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
       />,
     );
 
     const myMap = screen.getByRole("application");
-    expect(myMap).toHaveAttribute("geojsondata", JSON.stringify(mapData));
+    expect(myMap).toHaveAttribute("geojsondata", JSON.stringify(validMapData));
     expect(myMap).toHaveAttribute("aria-label", description);
 
     useStateSpy.mockRestore();
@@ -148,7 +160,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
         osMapProxyUrl="https://proxy.example.com"
       />,
@@ -177,7 +189,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
         isStatic={true}
       />,
@@ -198,7 +210,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
         isStatic={false}
       />,
@@ -219,7 +231,7 @@ describe("ApplicationMap", () => {
     render(
       <ApplicationMap
         reference={reference}
-        mapData={mapData}
+        mapData={validMapData}
         description={description}
         osMapProxyUrl="https://proxy.example.com"
         isStatic={true} // Should be ignored in favor of osMapProxyUrl
@@ -263,7 +275,7 @@ describe("ApplicationMap", () => {
       ({ unmount } = render(
         <ApplicationMap
           reference={reference}
-          mapData={mapData}
+          mapData={validMapData}
           description={description}
         />,
       ));
