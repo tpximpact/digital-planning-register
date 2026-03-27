@@ -59,20 +59,6 @@ async function fetchData({
   return response;
 }
 
-export async function generateMetadata({ params, searchParams }: HomeProps) {
-  const { council } = params;
-  const appConfig = getAppConfig(council);
-  const validSearchParams = validateSearchParams(appConfig, searchParams);
-  const response = await fetchData({ params, searchParams: validSearchParams });
-
-  if (!response.data) {
-    return {
-      title: "Error",
-      description: "An error occurred",
-    };
-  }
-}
-
 export default async function PlanningApplicationSearch({
   params,
   searchParams,
