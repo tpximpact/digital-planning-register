@@ -131,7 +131,7 @@ const testCookiePolicy = async (page: Page) => {
 const testNonExistantPage = async (page: Page) => {
   await page.goto(`/non-existant-page`);
 
-  await expect(page).toHaveTitle("Error | Digital Planning Register");
+  await expect(page).toHaveTitle("Not Found | Digital Planning Register");
   await expect(
     page.getByRole("heading", {
       name: "Page not found",
