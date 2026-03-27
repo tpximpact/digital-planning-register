@@ -250,22 +250,19 @@ describe("ApplicationMap", () => {
   });
 
   it("adds and removes wheel event listener on my-map element", async () => {
-    // Create a fake my-map element with spies
-    const addEventListener = jest.fn();
-    const removeEventListener = jest.fn();
-    const fakeMyMap = document.createElement("my-map");
-    fakeMyMap.addEventListener = addEventListener;
-    fakeMyMap.removeEventListener = removeEventListener;
+    // Spy on Element.prototype so we intercept the call on the real rendered
+    // <my-map> element (the component now queries via mapContainerRef, not
+    // document.querySelector, so a document spy would not intercept it).
+    const addEventListenerSpy = jest.spyOn(
+      Element.prototype,
+      "addEventListener",
+    );
+    const removeEventListenerSpy = jest.spyOn(
+      Element.prototype,
+      "removeEventListener",
+    );
 
-    // Mock document.querySelector to return our fake element
-    const querySelectorSpy = jest
-      .spyOn(document, "querySelector")
-      .mockImplementation((selector) => {
-        if (selector === "my-map") return fakeMyMap;
-        return null;
-      });
-
-    // Simulate client-side rendering by mocking useState/useEffect
+    // Simulate client-side rendering by mocking useState
     const useStateSpy = jest.spyOn(React, "useState");
     useStateSpy.mockImplementationOnce(() => [true, jest.fn()]);
 
@@ -281,22 +278,23 @@ describe("ApplicationMap", () => {
       ));
     });
 
-    // The wheel event should be added
-    expect(addEventListener).toHaveBeenCalledWith(
-      "wheel",
-      expect.any(Function),
+    // The wheel event should be added to the my-map element
+    const wheelAddCalls = addEventListenerSpy.mock.calls.filter(
+      ([event]) => event === "wheel",
     );
+    expect(wheelAddCalls.length).toBeGreaterThan(0);
 
     // Unmount and check cleanup
     await act(async () => {
       unmount();
     });
-    expect(removeEventListener).toHaveBeenCalledWith(
-      "wheel",
-      expect.any(Function),
+    const wheelRemoveCalls = removeEventListenerSpy.mock.calls.filter(
+      ([event]) => event === "wheel",
     );
+    expect(wheelRemoveCalls.length).toBeGreaterThan(0);
 
-    querySelectorSpy.mockRestore();
+    addEventListenerSpy.mockRestore();
+    removeEventListenerSpy.mockRestore();
     useStateSpy.mockRestore();
   });
 });
