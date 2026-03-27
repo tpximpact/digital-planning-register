@@ -136,7 +136,7 @@ export const buildApplicationProgress = (
     )?.content;
     progressData.push({
       title: "Council decision made",
-      date: formatDateTimeToDprDate(councilDecisionDate),
+      date: formatDateToDprDate(councilDecisionDate),
       content: councilDecisionMadeContent ?? <></>,
     });
   }
