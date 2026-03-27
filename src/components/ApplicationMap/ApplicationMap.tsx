@@ -17,7 +17,7 @@
 
 "use client";
 import { GeoJSON } from "geojson";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { determineMapTypeProps } from "./ApplicationMap.utils";
 import { trackClient } from "@/lib/dprAnalytics";
 
@@ -72,30 +72,36 @@ export const ApplicationMap = ({
   osMapProxyUrl,
 }: ApplicationMapProps) => {
   const [isClient, setIsClient] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
+  // Load the map library once; setting isClient triggers the render of <my-map>
   useEffect(() => {
     let didCancel = false;
-
-    async function fetchData() {
+    async function loadMap() {
       await import("@opensystemslab/map");
-      if (didCancel) return;
-      setIsClient(true);
-      const myMapElement = document.querySelector("my-map");
-      if (myMapElement) {
-        myMapElement.addEventListener("wheel", handleScroll);
-      }
+      if (!didCancel) setIsClient(true);
     }
-
-    fetchData();
-
+    loadMap();
     return () => {
       didCancel = true;
-      const myMapElement = document.querySelector("my-map");
+    };
+  }, []);
+
+  // Attach the scroll listener after <my-map> is in the DOM (isClient = true)
+  useEffect(() => {
+    if (!isClient) return;
+    const container = mapContainerRef.current;
+    const myMapElement = container?.querySelector("my-map");
+    if (myMapElement) {
+      myMapElement.addEventListener("wheel", handleScroll);
+    }
+    return () => {
+      const myMapElement = container?.querySelector("my-map");
       if (myMapElement) {
         myMapElement.removeEventListener("wheel", handleScroll);
       }
     };
-  }, []);
+  }, [isClient]);
 
   if (
     !mapData ||
@@ -136,12 +142,14 @@ export const ApplicationMap = ({
 
   return (
     <div
+      ref={mapContainerRef}
       role="region"
       aria-label={`Map showing application ${reference}`}
       id={`${reference}-map-test`}
       className={`dpr-application-map dpr-application-map--${classModifier}`}
     >
       <my-map
+        key={reference}
         role="application"
         geojsonData={JSON.stringify(mapData)}
         geojsonColor={"#ff0000"}
