@@ -15,27 +15,35 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Documentation, SearchParamsDocuments } from "@/types";
+import { Documentation, UnknownSearchParams } from "@/types";
 import { documents } from "./documents";
 import { CouncilDataSourceExtended } from "@/config/types";
+import { validateSearchParams } from "@/lib/documents";
+import { getAppConfig } from "@/config";
 
 export const documentation: Documentation = {
   url: `/docs/json?handler=ApiV1&method=documents`,
   file: `src/actions/api/v1/documents.ts`,
   description: "documents",
-  arguments: ["source", "council", "reference", "searchParams"],
+  arguments: ["source", "council", "reference", "page", "resultsPerPage"],
   run: async (
-    args: [CouncilDataSourceExtended, string, string, SearchParamsDocuments],
+    args: [CouncilDataSourceExtended, string, string, string, string],
   ) => {
-    return await documents(...args);
+    const searchObj: UnknownSearchParams = {
+      page: args[3],
+      resultsPerPage: args[4],
+    };
+    const appConfig = getAppConfig(args[1]);
+    const validSearchParams = validateSearchParams(appConfig, searchObj);
+    return await documents(args[0], args[1], args[2], validSearchParams);
   },
   examples: [
     {
-      url: `/docs/json?handler=ApiV1&method=documents&source=bops&council=camden&reference=24-00129-HAPP`,
+      url: `/docs/json?handler=ApiV1&method=documents&source=bops&council=camden&reference=24-00129-HAPP&page=1&resultsPerPage=10`,
       description: "documents has documents",
     },
     {
-      url: `/docs/json?handler=ApiV1&method=documents&source=bops&council=camden&reference=doesnotexist`,
+      url: `/docs/json?handler=ApiV1&method=documents&source=bops&council=camden&reference=doesnotexist&page=1&resultsPerPage=10`,
       description: "documents doesn't have documents",
     },
   ],
