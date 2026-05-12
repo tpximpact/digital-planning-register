@@ -46,6 +46,8 @@ npm run dev
 
 This will start the Next.js development server at `http://localhost:3000`. Open your browser and navigate to this URL to see the application.
 
+To connect with data from the back office [BOPS](https://github.com/unboxed/bops) project run the [digital-planning-register-tools](https://github.com/tpximpact/digital-planning-register-tools) project and set `DPR_BACKEND_URL` in your `.env` file to point to this service.
+
 ### Building for Production
 
 To build the application for production, run the following command:
