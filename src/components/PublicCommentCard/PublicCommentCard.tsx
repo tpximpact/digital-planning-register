@@ -120,7 +120,7 @@ export const PublicCommentCard = ({
                 className="dpr-public-comment-card__topic-section"
               >
                 <div className="govuk-heading-s">{title}</div>
-                <div className="govuk-body">
+                <div className="govuk-body" style={{ whiteSpace: "pre-line" }}>
                   {topicObj.comment}
                   {!isExpanded && topicObj.truncated && "…"}
                 </div>
@@ -130,9 +130,13 @@ export const PublicCommentCard = ({
 
           {hasOverflow && (
             <TextButton
-              aria-controls={`public-comment-${commentId}`}
-              onClick={() => setIsExpanded(!isExpanded)}
+              ariaControls={`public-comment-${commentId}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsExpanded((prev) => !prev);
+              }}
               className="govuk-link govuk-link--no-visited-state dpr-public-comment-card--toggle-button"
+              scroll={false}
             >
               {isExpanded
                 ? "Minimise this comment"

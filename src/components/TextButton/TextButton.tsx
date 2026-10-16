@@ -29,6 +29,9 @@ interface TextButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   variant?: TextButtonVariant;
   ariaLabel?: string;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  scroll?: boolean;
 }
 
 export const TextButton = ({
@@ -39,6 +42,9 @@ export const TextButton = ({
   onClick,
   variant = "default",
   ariaLabel,
+  ariaControls,
+  ariaExpanded,
+  scroll,
 }: TextButtonProps) => (
   <Button
     element={element}
@@ -47,6 +53,9 @@ export const TextButton = ({
     onClick={onClick}
     ariaLabel={ariaLabel}
     variant="text-only"
+    ariaControls={ariaControls}
+    ariaExpanded={ariaExpanded}
+    scroll={scroll}
   >
     {children}
   </Button>
