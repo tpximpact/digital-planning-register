@@ -49,6 +49,9 @@ interface ButtonProps {
   variant?: ButtonVariant;
   value?: string;
   name?: string;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
+  scroll?: boolean;
 }
 
 export const Button = ({
@@ -62,6 +65,9 @@ export const Button = ({
   variant = "default",
   value,
   name,
+  ariaControls,
+  ariaExpanded,
+  scroll,
 }: ButtonProps) => {
   const getVariantClass = (variant: ButtonVariant) => {
     switch (variant) {
@@ -87,8 +93,11 @@ export const Button = ({
 
   const optionalProps = {
     ...(ariaLabel && { "aria-label": ariaLabel }),
+    ...(ariaControls && { "aria-controls": ariaControls }),
+    ...(ariaExpanded !== undefined && { "aria-expanded": ariaExpanded }),
     ...(value && { value }),
     ...(name && { name }),
+    ...(scroll && { scroll }),
   };
 
   if (element === "link" && href) {

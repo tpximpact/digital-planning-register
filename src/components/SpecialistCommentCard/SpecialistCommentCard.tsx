@@ -172,7 +172,9 @@ export const SpecialistCommentCard = ({
               <div className="dpr-specialist-comment-card__topic-section">
                 <div className="govuk-body">
                   {isExpanded ? (
-                    <p>{featuredSpecialComment?.commentRedacted}</p>
+                    <p style={{ whiteSpace: "pre-line" }}>
+                      {featuredSpecialComment?.commentRedacted}
+                    </p>
                   ) : (
                     `${collapsedText}${truncated ? "…" : ""}`
                   )}
@@ -180,10 +182,14 @@ export const SpecialistCommentCard = ({
               </div>
               {hasOverflow && (
                 <TextButton
-                  aria-expanded={isExpanded}
-                  aria-controls={`specialist-comment-${specialist?.id}`}
-                  onClick={() => setIsExpanded(!isExpanded)}
+                  ariaExpanded={isExpanded}
+                  ariaControls={`specialist-comment-${specialist?.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded((prev) => !prev);
+                  }}
                   className="govuk-link govuk-link--no-visited-state dpr-specialist-comment-card--toggle-button"
+                  scroll={false}
                 >
                   {isExpanded
                     ? "Minimise this comment"
