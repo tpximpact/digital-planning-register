@@ -123,7 +123,7 @@ export const PageSearch = ({
       </form>
 
       <Suspense fallback={<div>Loading...</div>}>
-        {response.data !== null ? (
+        {response.data && response.data.length > 0 ? (
           <>
             {response.data.map((application) => (
               <ApplicationCard
