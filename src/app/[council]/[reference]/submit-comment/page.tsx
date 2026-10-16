@@ -140,12 +140,8 @@ const Comment = ({ params }: Props) => {
       try {
         const appConfig = await getAppConfigClientSide(council);
         setAppConfig(appConfig);
-        const response = await ApiV1.show(
-          appConfig?.council?.dataSource ?? "none",
-          council,
-          reference,
-        );
-        if (response?.status?.code !== 200) {
+        const response = await ApiV1.show(council, reference);
+        if (response?.status?.code !== 200 || !response.data) {
           setError(response?.status?.message || "An unexpected error occurred");
         } else {
           const application = response.data;

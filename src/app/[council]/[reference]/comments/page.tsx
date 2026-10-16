@@ -52,21 +52,16 @@ async function fetchCommentData({
   searchParams,
   type,
 }: PlanningApplicationDetailsCommentsFetchProps): Promise<
-  ApiResponse<DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse>
+  ApiResponse<
+    DprPublicCommentsApiResponse | DprSpecialistCommentsApiResponse | null
+  >
 > {
   const { council, reference } = params;
-  const appConfig = getAppConfig(council);
   const apiComments =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
-  const dataSource = appConfig.council?.dataSource ?? "none";
 
   // fetch (filtered) comments
-  const response = await apiComments(
-    dataSource,
-    council,
-    reference,
-    searchParams,
-  );
+  const response = await apiComments(council, reference, searchParams);
 
   return response;
 }

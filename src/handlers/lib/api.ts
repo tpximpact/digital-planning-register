@@ -17,15 +17,37 @@
 
 import { ApiResponse } from "@/types";
 
-export function apiReturnError(detail: string): ApiResponse<null> {
+/**
+ * Builds an error response. `detail` is only included when there is one.
+ */
+export function apiError(
+  code: number,
+  message: string,
+  detail?: unknown,
+): ApiResponse<null> {
   return {
     data: null,
     status: {
-      code: 400,
-      message: "Bad request",
-      ...(detail && { detail }),
+      code,
+      message,
+      ...(detail ? { detail } : {}),
     },
-  };
+  } as ApiResponse<null>;
+}
+
+/**
+ * 400 Bad request
+ */
+export function apiReturnError(detail: string): ApiResponse<null> {
+  return apiError(400, "Bad request", detail);
+}
+
+/**
+ * Turns whatever an upstream put in `detail` (string or object) into a string.
+ */
+export function detailMessage(detail: unknown, fallback: string): string {
+  if (!detail) return fallback;
+  return typeof detail === "string" ? detail : JSON.stringify(detail);
 }
 
 /**

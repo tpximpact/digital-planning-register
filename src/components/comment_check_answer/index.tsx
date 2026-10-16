@@ -131,7 +131,6 @@ const CommentCheckAnswer = ({
     try {
       if (councilConfig) {
         const response = await ApiV1.postComment(
-          councilConfig?.dataSource ?? "none",
           councilConfig?.slug,
           reference,
           apiData,

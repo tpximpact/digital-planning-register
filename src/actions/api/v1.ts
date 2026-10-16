@@ -15,9 +15,30 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./schemas";
-export * from "./definitions/application";
-export * from "./definitions/boundary-geojson";
-export * from "./definitions/document";
-export * from "./definitions/comment";
-export * from "./definitions/application-submission";
+import {
+  applicationSubmission,
+  documents,
+  postComment,
+  publicComments,
+  search,
+  show,
+  specialist,
+  specialistComments,
+} from "./v1.actions";
+
+/**
+ * Access to the planning data, whatever the council's source is. Safe to import
+ * from server and client components, each method is a server action.
+ *
+ *   const { data, pagination, status } = await ApiV1.search(council, searchParams);
+ */
+export const ApiV1 = {
+  search,
+  show,
+  applicationSubmission,
+  documents,
+  publicComments,
+  specialistComments,
+  specialist,
+  postComment,
+};

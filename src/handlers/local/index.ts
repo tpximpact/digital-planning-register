@@ -15,4 +15,45 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from "./v1";
+import type {
+  SearchParamsComments,
+  SearchParamsDocuments,
+  SearchParamsSpecialistComments,
+} from "@/types";
+import type { ApiHandler } from "../types";
+import { applicationSubmission } from "./v1/applicationSubmission";
+import { documents } from "./v1/documents";
+import { postComment } from "./v1/postComment";
+import { publicComments } from "./v1/publicComments";
+import { search } from "./v1/search";
+import { show } from "./v1/show";
+import { specialist } from "./v1/specialist";
+import { specialistComments } from "./v1/specialistComments";
+
+/**
+ * Generated example data, used for councils whose dataSource is "local".
+ */
+export const localHandler: ApiHandler = {
+  search: (_council, searchParams) => search(searchParams),
+  show,
+  applicationSubmission,
+  // the mocks read their params with `?.`, so a missing one is fine at runtime
+  documents: (council, reference, searchParams) =>
+    documents(council, reference, searchParams as SearchParamsDocuments),
+  publicComments: (council, reference, searchParams) =>
+    publicComments(council, reference, searchParams as SearchParamsComments),
+  specialistComments: (council, reference, searchParams) =>
+    specialistComments(
+      council,
+      reference,
+      searchParams as SearchParamsComments,
+    ),
+  specialist: (council, reference, specialistId, searchParams) =>
+    specialist(
+      council,
+      reference,
+      specialistId,
+      searchParams as SearchParamsSpecialistComments,
+    ),
+  postComment,
+};

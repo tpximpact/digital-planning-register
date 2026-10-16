@@ -16,7 +16,6 @@
  */
 
 import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
 import { ApiResponse, DprDocument, DprDocumentsApiResponse } from "@/types";
 import { Suspense } from "react";
 import {
@@ -29,17 +28,10 @@ async function fetchData(
   reference: string,
   documentsToShow: number,
 ): Promise<ApiResponse<DprDocumentsApiResponse | null>> {
-  const appConfig = getAppConfig(councilSlug);
-
-  const response = await ApiV1.documents(
-    appConfig.council?.dataSource ?? "none",
-    councilSlug,
-    reference,
-    {
-      page: 1,
-      resultsPerPage: documentsToShow,
-    },
-  );
+  const response = await ApiV1.documents(councilSlug, reference, {
+    page: 1,
+    resultsPerPage: documentsToShow,
+  });
 
   return response;
 }

@@ -47,24 +47,17 @@ async function fetchSpecialistCommentData({
   params,
   searchParams,
 }: PlanningApplicationDetailsCommentsFetchProps): Promise<
-  ApiResponse<DprSpecialistApiResponse>
+  ApiResponse<DprSpecialistApiResponse | null>
 > {
   const { council, reference, specialistId } = params;
   const appConfig = getAppConfig(council);
-  const dataSource = appConfig.council?.dataSource ?? "none";
 
   // fetch (filtered) comments
-  const response = await ApiV1.specialist(
-    dataSource,
-    council,
-    reference,
-    specialistId,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-    },
-  );
+  const response = await ApiV1.specialist(council, reference, specialistId, {
+    ...searchParams,
+    page: searchParams?.page ?? 1,
+    resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+  });
 
   return response;
 }

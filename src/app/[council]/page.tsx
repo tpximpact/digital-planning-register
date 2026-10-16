@@ -46,15 +46,11 @@ async function fetchData({
   const { council } = params;
   const appConfig = getAppConfig(council);
 
-  const response = await ApiV1.search(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
-    },
-  );
+  const response = await ApiV1.search(council, {
+    ...searchParams,
+    page: searchParams?.page ?? 1,
+    resultsPerPage: appConfig.defaults.resultsPerPage ?? 10,
+  });
 
   return response;
 }

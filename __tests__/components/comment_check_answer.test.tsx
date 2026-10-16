@@ -159,7 +159,6 @@ describe("CommentCheckAnswer", () => {
 
     await waitFor(() => {
       expect(ApiV1.postComment).toHaveBeenCalledWith(
-        "local",
         "public-council-1",
         "REF-001",
         expect.any(Object),

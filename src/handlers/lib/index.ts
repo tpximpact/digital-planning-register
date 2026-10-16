@@ -15,4 +15,6 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Only the client-safe helpers are re-exported here. `request` and `query` are
+// server-only, import them by path (`@/handlers/lib/request`).
 export * from "./api";

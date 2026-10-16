@@ -60,14 +60,14 @@ const ContextSetterLoader = async ({
   reference,
   showFeedbackBlurb = false,
 }: ContextSetterProps) => {
-  const response = await ApiV1.show("appConfig", councilSlug, reference);
+  const response = await ApiV1.show(councilSlug, reference);
   const application = response.data;
 
   return (
     <ContextSetter
       councilSlug={councilSlug}
       reference={reference}
-      application={application}
+      application={application ?? undefined}
       showFeedbackBlurb={showFeedbackBlurb}
     />
   );

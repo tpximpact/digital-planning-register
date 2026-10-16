@@ -37,12 +37,7 @@ async function fetchData({
   ApiResponse<DprApplicationSubmissionApiResponse | null>
 > {
   const { reference, council } = params;
-  const appConfig = getAppConfig(council);
-  const response = await ApiV1.applicationSubmission(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-  );
+  const response = await ApiV1.applicationSubmission(council, reference);
   return response;
 }
 

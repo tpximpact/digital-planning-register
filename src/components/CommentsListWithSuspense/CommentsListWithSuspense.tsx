@@ -16,7 +16,6 @@
  */
 
 import { ApiV1 } from "@/actions/api";
-import { getAppConfig } from "@/config";
 import {
   ApiResponse,
   DprPublicCommentsApiResponse,
@@ -42,16 +41,11 @@ async function fetchData({
   >;
 }> {
   const { reference, councilSlug } = params;
-  const appConfig = getAppConfig(councilSlug);
 
   const commentsApi =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
 
-  const response = await commentsApi(
-    appConfig.council?.dataSource ?? "none",
-    councilSlug,
-    reference,
-  );
+  const response = await commentsApi(councilSlug, reference);
 
   return { response };
 }

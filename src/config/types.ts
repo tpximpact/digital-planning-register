@@ -96,7 +96,7 @@ export interface AppConfig {
 
 export type CouncilVisibility = "public" | "private" | "unlisted";
 
-export type CouncilDataSource = "bops" | "local";
+export type CouncilDataSource = "bops" | "local" | "external";
 
 export type CouncilDataSourceExtended =
   | CouncilDataSource
