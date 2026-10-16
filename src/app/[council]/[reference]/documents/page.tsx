@@ -37,10 +37,8 @@ interface PlanningApplicationDetailsDocumentsProps {
   searchParams?: UnknownSearchParams;
 }
 
-interface PlanningApplicationDetailsDocumentsFetchProps extends Omit<
-  PlanningApplicationDetailsDocumentsProps,
-  "searchParams"
-> {
+interface PlanningApplicationDetailsDocumentsFetchProps
+  extends Omit<PlanningApplicationDetailsDocumentsProps, "searchParams"> {
   searchParams: SearchParamsDocuments;
 }
 

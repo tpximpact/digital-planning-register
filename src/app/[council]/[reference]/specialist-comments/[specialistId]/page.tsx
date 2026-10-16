@@ -38,10 +38,8 @@ interface PlanningApplicationDetailsCommentsProps {
   searchParams?: UnknownSearchParams;
 }
 
-interface PlanningApplicationDetailsCommentsFetchProps extends Omit<
-  PlanningApplicationDetailsCommentsProps,
-  "searchParams"
-> {
+interface PlanningApplicationDetailsCommentsFetchProps
+  extends Omit<PlanningApplicationDetailsCommentsProps, "searchParams"> {
   searchParams: SearchParamsSpecialistComments;
 }
 

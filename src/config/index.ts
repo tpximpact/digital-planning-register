@@ -247,7 +247,7 @@ const councils: Council[] = [
     slug: "buckinghamshire",
     visibility: "public",
     contact: "https://www.buckinghamshire.gov.uk/your-council/contact-us/",
-    dataSource: "bops",
+    dataSource: "external",
     publicComments: true,
     specialistComments: true,
     pageContent: {
@@ -270,7 +270,7 @@ const councils: Council[] = [
     slug: "camden",
     visibility: "public",
     contact: "https://www.camden.gov.uk/contact-camden",
-    dataSource: "bops",
+    dataSource: "external",
     publicComments: true,
     specialistComments: true,
     features: {

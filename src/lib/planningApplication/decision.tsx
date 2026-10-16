@@ -138,7 +138,8 @@ export const getApplicationDprDecisionSummary = (
     return undefined;
   }
   const assessment = application.data.assessment as
-    PostSubmissionAssessment | PriorApprovalAssessment;
+    | PostSubmissionAssessment
+    | PriorApprovalAssessment;
 
   const decision =
     assessment?.planningOfficerDecision || assessment?.committeeDecision;
