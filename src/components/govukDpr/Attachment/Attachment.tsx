@@ -29,12 +29,7 @@ import { Details } from "../Details";
 import { mapMimeToAttachmentContentType } from "./Attachment.utils";
 
 export type AttachmentContentType =
-  | "pdf"
-  | "document"
-  | "spreadsheet"
-  | "html"
-  | "external"
-  | "generic";
+  "pdf" | "document" | "spreadsheet" | "html" | "external" | "generic";
 
 export interface AttachmentProps {
   title?: string;

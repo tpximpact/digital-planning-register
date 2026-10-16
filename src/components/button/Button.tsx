@@ -22,12 +22,7 @@ import Link from "next/link";
 // The types for the Button component are defined here
 type ButtonElement = "button" | "link" | "span" | "div";
 type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "default"
-  | "information"
-  | "warning"
-  | "text-only";
+  "primary" | "secondary" | "default" | "information" | "warning" | "text-only";
 
 type LinkHref =
   | string

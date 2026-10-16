@@ -75,12 +75,13 @@ async function CommentsSummaryLoader({
   const apiComments =
     type === "specialist" ? ApiV1.specialistComments : ApiV1.publicComments;
 
-  const response = await apiComments("appConfig", council, reference, {
+  const response = await apiComments(council, reference, {
     page: 1,
     resultsPerPage: 0, // We only need the summary, not the full list of comments
     type,
   });
 
   const summary = response?.data?.summary;
+  if (!summary) return null;
   return <CommentsSummary params={params} type={type} summary={summary} />;
 }

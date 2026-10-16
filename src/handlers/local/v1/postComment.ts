@@ -15,27 +15,22 @@
  * along with Digital Planning Register. If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use server";
-
-import {
+import type {
   ApiResponse,
   DprApplicationPostCommentApiResponse,
-  // DprCommentSubmission,
 } from "@/types";
 
 /**
- * @todo this needs to be made more Dpr specific
- * @param council
- * @param applicationId
- * @returns
+ * Pretends to post a comment. Set `simulateError` to true to test the error path.
  */
-const responseQuery = (
+const simulateError = false;
+
+export const postComment = (
   council: string,
-  applicationId: number,
-  error: boolean,
-): ApiResponse<DprApplicationPostCommentApiResponse> => {
-  if (error) {
-    return {
+  reference: string,
+): Promise<ApiResponse<DprApplicationPostCommentApiResponse | null>> => {
+  if (simulateError) {
+    return Promise.resolve({
       data: null,
       status: {
         code: 400,
@@ -43,29 +38,11 @@ const responseQuery = (
         detail:
           "Validation failed: Name can't be blank, Response can't be blank, Summary tag can't be blank",
       },
-    };
-  } else {
-    return {
-      data: {
-        id: applicationId.toString(),
-        message: "Response submitted",
-      },
-      status: {
-        code: 200,
-        message: "",
-      },
-    };
+    });
   }
-};
 
-export const postComment = (
-  council: string,
-  applicationId: number,
-  // apiData: DprCommentSubmission,
-): Promise<ApiResponse<DprApplicationPostCommentApiResponse | null>> => {
-  // console.log("apiData", apiData);
-  const error = false;
-  // uncomment for testing
-  // error = true;
-  return Promise.resolve(responseQuery(council, applicationId, error));
+  return Promise.resolve({
+    data: { id: reference, message: "Response submitted" },
+    status: { code: 200, message: "" },
+  });
 };

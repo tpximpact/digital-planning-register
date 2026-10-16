@@ -37,8 +37,10 @@ interface PlanningApplicationDetailsDocumentsProps {
   searchParams?: UnknownSearchParams;
 }
 
-interface PlanningApplicationDetailsDocumentsFetchProps
-  extends Omit<PlanningApplicationDetailsDocumentsProps, "searchParams"> {
+interface PlanningApplicationDetailsDocumentsFetchProps extends Omit<
+  PlanningApplicationDetailsDocumentsProps,
+  "searchParams"
+> {
   searchParams: SearchParamsDocuments;
 }
 
@@ -49,13 +51,7 @@ async function fetchData({
   ApiResponse<DprDocumentsApiResponse | null>
 > {
   const { reference, council } = params;
-  const appConfig = getAppConfig(council);
-  const response = await ApiV1.documents(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-    searchParams,
-  );
+  const response = await ApiV1.documents(council, reference, searchParams);
   return response;
 }
 

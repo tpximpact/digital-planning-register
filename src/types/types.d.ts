@@ -104,11 +104,7 @@ export type DprApplicationDateType =
   | "councilDecisionDate"
   | "appealDecisionDate";
 export type DprApplicationDateRange =
-  | "week"
-  | "month"
-  | "quarter"
-  | "year"
-  | "fixed";
+  "week" | "month" | "quarter" | "year" | "fixed";
 // Document specific search params
 export interface SearchParamsDocuments extends SearchParams {
   sortBy?: DprDocumentSortBy;

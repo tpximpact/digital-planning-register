@@ -38,12 +38,7 @@ async function fetchData({
   ApiResponse<DprShowApiResponse | null>
 > {
   const { reference, council } = params;
-  const appConfig = getAppConfig(council);
-  const applicationResponse = await ApiV1.show(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    reference,
-  );
+  const applicationResponse = await ApiV1.show(council, reference);
   return applicationResponse;
 }
 

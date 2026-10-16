@@ -47,16 +47,13 @@ async function fetchData({
   const council = setCouncil({ searchParams });
   const appConfig = getAppConfig(council);
 
-  const response = await ApiV1.search(
-    appConfig.council?.dataSource ?? "none",
-    council,
-    {
-      ...searchParams,
-      page: searchParams?.page ?? 1,
-      resultsPerPage:
-        searchParams?.resultsPerPage ?? appConfig.defaults.resultsPerPage,
-    },
-  );
+  const response = await ApiV1.search(council, {
+    ...searchParams,
+    type: "simple",
+    page: searchParams?.page ?? 1,
+    resultsPerPage:
+      searchParams?.resultsPerPage ?? appConfig.defaults.resultsPerPage,
+  });
 
   return response;
 }
